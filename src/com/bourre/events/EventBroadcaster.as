@@ -1,0 +1,244 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @author Francis Bourre
+ * @version 1.0
+ */
+
+package com.bourre.events
+{
+	import com.bourre.collection.*;
+	import com.bourre.commands.Delegate;
+	import com.bourre.error.UnsupportedOperationException;
+	import com.bourre.log.*;
+
+	import flash.events.Event;
+	import flash.utils.getQualifiedClassName;
+
+	public class EventBroadcaster
+	{
+		private var _oTarget : Object;
+		private var _mAll : WeakCollection;
+		private var _mType : HashMap;
+		private var _mEventListener : HashMap;
+		
+		public function EventBroadcaster( target : Object = null )
+		{
+			_oTarget = ( target == null ) ? this : target;
+			
+			_mAll = new WeakCollection();
+			_mType = new HashMap();
+			_mEventListener = new HashMap();
+		}
+		
+		public function hasListenerCollection( type : String ) : Boolean
+		{
+			return _mType.containsKey( type );
+		}
+		
+		public function getListenerCollection( type : String ) : WeakCollection
+		{
+			return _mType.get( type );
+		}
+		
+		public function removeListenerCollection( type : String ) : void
+		{
+			_mType.remove( type );
+		}
+		
+		public function isRegistered( listener : Object, type : String = null ) : Boolean
+		{
+			if (type == null)
+			{
+				return _mAll.contains( listener );
+				
+				
+			} else
+			{
+				if ( hasListenerCollection( type ) )
+				{
+					return getListenerCollection( type ).contains( listener );
+				} else
+				{
+					return false;
+				}
+			}
+		}
+		
+		public function addListener( listener : Object ) : void
+		{
+			if ( _mAll.add( listener ) ) _flushRef( listener );
+		}
+		
+		public function removeListener( listener : Object ) : void
+		{
+			_flushRef( listener );
+			_mAll.remove( listener );
+		}
+		
+		public function addEventListener( type : String, listener : Object, ...rest ) : void
+		{
+			if (listener is Function)
+			{
+				var d : Delegate = new Delegate( listener as Function );
+				if ( rest != null ) d.setArgumentsArray( rest );
+				listener = d;
+				
+			} else
+			{
+				try
+				{
+					listener[type] is Function;
+					
+				} catch ( e : Error )
+				{
+					try
+					{
+						listener.handleEvent is Function;
+						
+					} catch ( e : Error )
+					{
+						var msg : String;
+						msg = "EventBroadcaster.addEventListener() failed, you must implement '" 
+						+ type + "' method or 'handleEvent' method in '" + 
+						getQualifiedClassName(listener) + "' class";
+									
+						Logger.ERROR( msg, PixlibDebug.CHANNEL );
+						throw( new ArgumentError( msg ) );
+					}
+				}
+			}
+			
+			if ( !(isRegistered(listener)) )
+			{
+				if ( !(hasListenerCollection(type)) ) _mType.put( type, new WeakCollection() );
+				if ( getListenerCollection(type).add( listener ) ) _storeRef( type, listener );
+			}
+			
+		}
+		
+		public function removeEventListener( type : String, listener : Object ) : void
+		{
+			if ( hasListenerCollection( type ) )
+			{
+				var a : WeakCollection = getListenerCollection( type );
+				if ( a.remove( listener ) )
+				{
+					_removeRef( type, listener );
+					if ( a.isEmpty() ) removeListenerCollection( type );
+				}
+			}
+		}
+		
+		public function removeAllListeners() : void
+		{
+			_mAll.clear();
+			_mType.clear();
+			_mEventListener.clear();
+		}
+		
+		public function isEmpty() : Boolean
+		{
+			return _mAll.isEmpty() && _mType.isEmpty();
+		}
+		
+		public function dispatchEvent( o : Object ) : void
+		{
+			var e : DynBasicEvent = new DynBasicEvent( o["type"] );
+			for ( var p : String in o ) if (p != "type") e[p] = o[p];
+			broadcastEvent( e );
+		}
+		
+		public function broadcastEvent( e : Event ) : void
+		{
+			var m : WeakCollection = getListenerCollection( e.type );
+			if (hasListenerCollection(e.type)) _broadcastEvent( getListenerCollection(e.type), e );
+			if ( !(_mAll.isEmpty()) ) _broadcastEvent( _mAll, e );
+		}
+		
+		public function _broadcastEvent( collection : WeakCollection, e : Event ) : void
+		{
+			var type : String = e.type;
+			
+			var a : Array = collection.toArray();
+			var l : Number = a.length;
+			
+			while ( --l > -1 ) 
+			{
+				var listener : Object = a[l];
+
+				try
+				{
+					if (listener.handleEvent is Function) listener.handleEvent(e);
+					
+				} catch ( err0 : Error )
+				{
+					try
+					{
+						listener[type].call( null, e );
+						
+					} catch( err1 : Error )
+					{
+						var msg : String;
+						msg = "EventBroadcaster.broadcastEvent() failed, you must implement '" 
+						+ type + "' method or 'handleEvent' method in '" + 
+						getQualifiedClassName(listener) + "' class";
+						
+						Logger.ERROR( msg, PixlibDebug.CHANNEL );
+						throw( new UnsupportedOperationException( msg ) );
+					}
+				}
+			}
+		}
+		
+		/**
+		 * Returns the string representation of this instance.
+		 * @return the string representation of this instance
+		 */
+		public function toString() : String 
+		{
+			return PixlibStringifier.stringify( this );
+		}
+		
+		//
+		private function _storeRef( type : String, listener : Object ) : void
+		{
+			if ( !(_mEventListener.containsKey( listener )) ) _mEventListener.put( listener, new HashMap() );
+			_mEventListener.get( listener ).put( type, listener );
+		}
+		
+		private function _removeRef( type : String, listener : Object ) : void
+		{
+			var m : HashMap = _mEventListener.get( listener );
+			m.remove( type );
+			if ( m.isEmpty() ) _mEventListener.remove( listener );
+			
+		}
+		
+		private function _flushRef( listener : Object ) : void
+		{
+			var m : HashMap = _mEventListener.get( listener );
+			if ( m != null )
+			{
+				var a : Array = m.getKeys();
+				var l : Number = a.length;
+				while( --l > -1 ) removeEventListener( a[l], listener );
+				_mEventListener.remove( listener );
+			}
+		}
+	}
+}
