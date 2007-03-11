@@ -11,7 +11,7 @@ package com.bourre.structures
 			_r = new Range ( 10, 150 ); 
 		}
 		
-		public function testInstanciate () : void
+		public function testConstruct () : void
 		{
 			assertNotNull ( "Range constructor return null - test1 failed", _r ); 
 		}
