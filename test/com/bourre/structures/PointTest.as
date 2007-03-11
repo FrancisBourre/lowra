@@ -12,7 +12,7 @@ package com.bourre.structures
 			_p = new Point();
 		}
 				
-		public function testInstanciate () : void 
+		public function testConstruct () : void 
 		{
 			assertNotNull ( "Point constructor returns null - test1 failed", _p );
 		}

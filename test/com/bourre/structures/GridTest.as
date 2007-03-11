@@ -17,7 +17,7 @@ package com.bourre.structures
    		*  Test functions
    		*-------------------------------------------------------------------*/
    		
-   		public function testInstanciate () : void
+   		public function testConstruct () : void
    		{
    			assertNotNull ( "Grid constructor returns null - test1 failed", _g );
    		}
@@ -211,15 +211,14 @@ package com.bourre.structures
    		{
    			var a : Array = [ 15, 15, 15, "15", "15", "15", this, this, this ];
    			
-   			_g.setContent( a );
-   			
-   			assertTrue ( _g + ".contains failed to find an object added in constructor - test1 failed", _g.contains( 15 ) );
+   			assertTrue ( _g + ".setContent() failed to change the grid - test1 failed", _g.setContent( a ) );
+   			assertTrue ( _g + ".contains failed to find an object added in constructor - test2 failed", _g.contains( 15 ) );
    			
    			_g.clear()
    			
-   			assertFalse ( _g + ".contains() allready find a value after a clear() call - test2 failed", _g.contains( 15 ) );
-   			assertFalse ( _g + ".contains() allready find a value after a clear() call - test3 failed", _g.contains( "15" ) );
-   			assertFalse ( _g + ".contains() allready find a value after a clear() call - test4 failed", _g.contains( this ) );
+   			assertFalse ( _g + ".contains() allready find a value after a clear() call - test3 failed", _g.contains( 15 ) );
+   			assertFalse ( _g + ".contains() allready find a value after a clear() call - test4 failed", _g.contains( "15" ) );
+   			assertFalse ( _g + ".contains() allready find a value after a clear() call - test5 failed", _g.contains( this ) );
    		}
    		
    		public function testIsEmpty() : void

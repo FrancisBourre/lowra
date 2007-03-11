@@ -10,6 +10,7 @@ package com.bourre.structures
 	import flash.errors.IllegalOperationError;
 	import flash.utils.Dictionary;
 	import com.bourre.error.NullPointerException;
+	import com.bourre.collection.TypedArray;
 
 	/** 
 	 * A <code>Grid</code> is basically a two dimensionnal data structure based on the <code>Collection</code>
@@ -45,6 +46,7 @@ package com.bourre.structures
 		protected var _vSize : Point;
 		protected var _aContent : Array;
 		protected var _oDefaultValue : Object;
+		protected var _cType : Class;
 		
 		/**
 		 * Create a new grid of size <code>x * y</code>.
@@ -61,7 +63,7 @@ package com.bourre.structures
 		 * @param 	dV 	The default value for null elements.
 		 * @throws	ArgumentError	Invalid size passed in Grid constructor.
 		 */
-		public function Grid ( x : uint = 0, y : uint = 0, a : Array = null, dV : Object = null )
+		public function Grid ( x : uint = 0, y : uint = 0, a : Array = null, dV : Object = null, t : Class = null )
 		{
 			if( isNaN ( x ) || isNaN ( y ) )
 			{
@@ -71,6 +73,7 @@ package com.bourre.structures
 			
 			_vSize = new Point ( x, y );
 			_oDefaultValue = dV;
+			_cType = t != null ? t : Object;
 			
 			initContent();
 			 
@@ -485,7 +488,7 @@ package com.bourre.structures
 			
 			
 			_aContent [ p.x ][ p.y ] = o;
-			return true
+			return true;
 		}
 		
 		/**
@@ -506,11 +509,11 @@ package com.bourre.structures
 				return false;
 			}
 			var l : Number = a.length;
-			
+			var b : Boolean = false;
 			while (--l-(-1))
 			{
 				var p : Point = getCoordinates ( l );
-				setVal ( p, a[ l ] );
+				b = setVal ( p, a[ l ] ) || b;
 			}
 			
 			return true;

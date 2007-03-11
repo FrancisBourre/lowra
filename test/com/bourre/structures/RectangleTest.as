@@ -11,7 +11,7 @@ package com.bourre.structures
 			_r = new Rectangle( 10, 10, 20, 15);
 		}	
 		
-		public function testInstanciate () : void
+		public function testConstruct () : void
 		{
 			assertNotNull ( "Rectangle constructor return null - test1failed", _r );
 		}	
