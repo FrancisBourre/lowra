@@ -1,0 +1,52 @@
+import flexunit.framework.TestSuite;
+
+import com.bourre.commands.*;
+import com.bourre.collection.*;
+import com.bourre.events.*;
+import com.bourre.load.*;
+import com.bourre.log.*;
+import com.bourre.utils.*;
+
+private function onCreationComplete():void
+{
+	Logger.getInstance().setLevel( LogLevel.ALL );
+	Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
+	Logger.getInstance().addLogListener( SosLayout.getInstance(), PixlibDebug.CHANNEL );
+	
+	testRunner.test = createSuite();
+	testRunner.startTest();	
+}
+
+private function createSuite() : TestSuite
+{
+	var ts:TestSuite = new TestSuite();
+	
+	// com.bourre.collection
+	ts.addTestSuite( HashMapTest );
+	ts.addTestSuite( WeakCollectionTest );
+	
+	// com.bourre.commands
+	ts.addTestSuite( DelegateTest );
+	
+	// com.bourre.events
+	ts.addTestSuite( ChannelBroadcasterTest );
+	ts.addTestSuite( EventBroadcasterTest );
+	ts.addTestSuite( EventChannelTest );
+	
+	// com.bourre.load
+	ts.addTestSuite( AbstractLoadTest );
+	ts.addTestSuite( GraphicLoadTest );
+	ts.addTestSuite( XMLLoadTest );
+	
+	// com.bourre.log
+	ts.addTestSuite( BasicStringifierTest );
+	ts.addTestSuite( LogEventTest );
+	ts.addTestSuite( LoggerTest );
+	ts.addTestSuite( LogLevelTest );
+	
+	// com.bourre.utils
+	ts.addTestSuite( FlashInspectorLayoutTest );
+	ts.addTestSuite( SosLayoutTest );
+	
+	return ts;
+}
