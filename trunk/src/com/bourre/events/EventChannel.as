@@ -27,21 +27,21 @@ package com.bourre.events
 	
 	public class EventChannel 
 	{
-		private var _s : String;
+		private var _sChannelName : String;
 		
-		public function EventChannel()
+		public function EventChannel( channelName : String = null )
 		{
-			var s : String = getQualifiedClassName( this );
-			if ( s == "com.bourre.events::EventChannel" )
-				throw new ProtectedConstructorException( "Instantiation failed. " + s 
+			var qualifiedClassName : String = getQualifiedClassName( this );
+			if ( qualifiedClassName == "com.bourre.events::EventChannel" )
+				throw new ProtectedConstructorException( "Instantiation failed. " + qualifiedClassName 
 				+ " is an abstract class, you must extend it before using it" );
 			
-			_s =  s;
+			_sChannelName =  channelName ? channelName : qualifiedClassName;
 		}
 		
 		public function toString() : String
 		{
-			return _s;
+			return _sChannelName;
 		}
 	}
 }
