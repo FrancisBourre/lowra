@@ -36,15 +36,18 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( EventChannelTest );
 	
 	// com.bourre.load
-	ts.addTestSuite( AbstractLoadTest );
-	ts.addTestSuite( GraphicLoadTest );
-	ts.addTestSuite( XMLLoadTest );
+	ts.addTestSuite( AbstractLoaderTest );
+	//ts.addTestSuite( GraphicLoaderTest );
+	ts.addTestSuite( XMLLoaderTest );
 	
 	// com.bourre.log
 	ts.addTestSuite( BasicStringifierTest );
 	ts.addTestSuite( LogEventTest );
 	ts.addTestSuite( LoggerTest );
 	ts.addTestSuite( LogLevelTest );
+	
+	// com.bourre.plugin
+	//ts.addTestSuite( PixlibDebugTest );
 	
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
