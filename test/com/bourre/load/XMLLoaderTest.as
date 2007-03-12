@@ -23,13 +23,13 @@ package com.bourre.load
 {
 	import flexunit.framework.TestCase;
 	
-	public class GraphicLoadTest 
+	public class XMLLoaderTest 
 		extends TestCase
 	{
 		public function testConstruct() : void
 		{
-			var o : GraphicLoad = new GraphicLoad();
-			assertNotNull( "GraphicLoad constructor returns null", o );
+			var o : XMLLoader = new XMLLoader();
+			assertNotNull( "XMLLoader constructor returns null", o );
 		}
 	}
 }

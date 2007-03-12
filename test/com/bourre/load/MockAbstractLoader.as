@@ -21,15 +21,12 @@
 
 package com.bourre.load
 {
-	import flexunit.framework.TestCase;
-	
-	public class XMLLoadTest 
-		extends TestCase
+	public class MockAbstractLoader 
+		extends AbstractLoader
 	{
-		public function testConstruct() : void
+		public function MockAbstractLoader()
 		{
-			var o : XMLLoad = new XMLLoad();
-			assertNotNull( "XMLLoad constructor returns null", o );
+			//
 		}
 	}
 }
