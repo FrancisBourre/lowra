@@ -2,15 +2,16 @@
 package com.bourre.structures
 {
 	import com.bourre.collection.Collection;
+	import com.bourre.collection.ITypedContainer;
 	import com.bourre.collection.Iterator;
+	import com.bourre.collection.TypedArray;
+	import com.bourre.error.NullPointerException;
 	import com.bourre.error.UnsupportedOperationException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.errors.IllegalOperationError;
 	import flash.utils.Dictionary;
-	import com.bourre.error.NullPointerException;
-	import com.bourre.collection.TypedArray;
 
 	/** 
 	 * A <code>Grid</code> is basically a two dimensionnal data structure based on the <code>Collection</code>
@@ -19,6 +20,8 @@ package com.bourre.structures
 	 * <p>By default a <code>Grid</code> object is an untyped collection that allow duplicate 
 	 * and <code>null</code> elements. You can set your own default value instead
 	 * of <code>null</code> by passing it to the grid constructor.</p>
+	 * 
+	 * <p>Its also possible to restrict the type of grid elements in the constructor.</p>
 	 * 
 	 * <p>The <code>Grid</code> class don't support all the methods of the <code>Collection</code>
 	 * interface. Here the list of the unsupported methods : 
@@ -40,7 +43,7 @@ package com.bourre.structures
 	 * @version 1.0
 	 */
 	public class Grid 
-		implements Collection
+		implements Collection, ITypedContainer
 	{
 	
 		protected var _vSize : Point;
@@ -63,7 +66,11 @@ package com.bourre.structures
 		 * @param 	dV 	The default value for null elements.
 		 * @throws	ArgumentError	Invalid size passed in Grid constructor.
 		 */
-		public function Grid ( x : uint = 0, y : uint = 0, a : Array = null, dV : Object = null, t : Class = null )
+		public function Grid ( x : uint = 1, 
+							   y : uint = 1, 
+							   a : Array = null, 
+							   dV : Object = null, 
+							   t : Class = null )
 		{
 			if( isNaN ( x ) || isNaN ( y ) )
 			{
@@ -355,7 +362,29 @@ package com.bourre.structures
 		 * Grid specific API
 		 */
 		
-		
+		/**
+		 * Verify if the passed-in object can be inserted in the
+		 * current <code>Grid</code>.
+		 * 
+		 * @param	o	Object to verify
+		 * @return 	<code>true</code> if the object can be inserted in
+		 * the <code>Grid</code>, either <code>false</code>.
+		 */
+		public function isType( o : * ) : Boolean
+	    {
+	    	return ( o is _cType || o == null );
+	    }
+	    
+	    /**
+	     * Return the current type allowed in the <code>Grid</code>
+	     * 
+	     * @return <code>Class</code> used to type checking.
+	     */
+	    public function getType () : Class
+	    {
+	    	return _cType;
+	    }
+	    
 		/**
 		 * @private
 		 */
@@ -363,7 +392,7 @@ package com.bourre.structures
 		{
 			_aContent  = new Array( _vSize.x );
 			for ( var x : Number = 0; x < _vSize.x; x++ ) 
-				_aContent[ x ] = new Array( _vSize.y );
+				_aContent[ x ] = new TypedArray( _cType, _vSize.y );
 		}
 		
 		/**
