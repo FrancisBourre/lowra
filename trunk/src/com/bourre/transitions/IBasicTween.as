@@ -1,11 +1,12 @@
 package com.bourre.transitions
 {
-	import com.bourre.commands.ISyncCommand;
+	import com.bourre.commands.ASyncCommand;
 	
-	public interface IBasicTween extends ISyncCommand
+	public interface IBasicTween 
+		extends ASyncCommand
 	{
-		public function setEasing(f:Function) : Void;
-		public function start() :Void;
-		public function stop() :Void;
+		public function setEasing( f : Function ) : void;
+		public function start() :void;
+		public function stop() :void;
 	}
 }
