@@ -22,13 +22,13 @@
 package com.bourre.commands
 {
 	import com.bourre.log.*;
-	import com.bourre.transitions.IFrameListener;
+	import com.bourre.transitions.FrameListener;
 	
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
 	
 	public class Delegate 
-		implements Command, IFrameListener
+		implements Command, FrameListener
 	{
 		private var _f : Function;
 		private var _a : Array;
