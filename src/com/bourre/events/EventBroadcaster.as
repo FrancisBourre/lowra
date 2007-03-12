@@ -32,7 +32,7 @@ package com.bourre.events
 	public class EventBroadcaster
 	{
 		private var _oTarget : Object;
-		private var _mAll : WeakCollection;
+		private var _mAll : Collection;
 		private var _mType : HashMap;
 		private var _mEventListener : HashMap;
 		
@@ -50,7 +50,7 @@ package com.bourre.events
 			return _mType.containsKey( type );
 		}
 		
-		public function getListenerCollection( type : String ) : WeakCollection
+		public function getListenerCollection( type : String ) : Collection
 		{
 			return _mType.get( type );
 		}
@@ -135,11 +135,11 @@ package com.bourre.events
 		{
 			if ( hasListenerCollection( type ) )
 			{
-				var a : WeakCollection = getListenerCollection( type );
-				if ( a.remove( listener ) )
+				var c : Collection = getListenerCollection( type );
+				if ( c.remove( listener ) )
 				{
 					_removeRef( type, listener );
-					if ( a.isEmpty() ) removeListenerCollection( type );
+					if ( c.isEmpty() ) removeListenerCollection( type );
 				}
 			}
 		}
@@ -165,16 +165,15 @@ package com.bourre.events
 		
 		public function broadcastEvent( e : Event ) : void
 		{
-			var m : WeakCollection = getListenerCollection( e.type );
 			if (hasListenerCollection(e.type)) _broadcastEvent( getListenerCollection(e.type), e );
 			if ( !(_mAll.isEmpty()) ) _broadcastEvent( _mAll, e );
 		}
 		
-		public function _broadcastEvent( collection : WeakCollection, e : Event ) : void
+		public function _broadcastEvent( c : Collection, e : Event ) : void
 		{
 			var type : String = e.type;
 			
-			var a : Array = collection.toArray();
+			var a : Array = c.toArray();
 			var l : Number = a.length;
 			
 			while ( --l > -1 ) 
