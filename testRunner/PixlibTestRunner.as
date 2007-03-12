@@ -6,6 +6,7 @@ import com.bourre.events.*;
 import com.bourre.load.*;
 import com.bourre.log.*;
 import com.bourre.utils.*;
+import com.bourre.structures.*;
 
 private function onCreationComplete():void
 {
@@ -24,6 +25,7 @@ private function createSuite() : TestSuite
 	// com.bourre.collection
 	ts.addTestSuite( HashMapTest );
 	ts.addTestSuite( WeakCollectionTest );
+	ts.addTestSuite( TypedArrayTest );
 	
 	// com.bourre.commands
 	ts.addTestSuite( DelegateTest );
@@ -47,6 +49,12 @@ private function createSuite() : TestSuite
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
 	ts.addTestSuite( SosLayoutTest );
+	
+	// com.bourre.structures
+	ts.addTestSuite( PointTest );
+	ts.addTestSuite( RectangleTest );
+	ts.addTestSuite( RangeTest );
+	ts.addTestSuite( GridTest );
 	
 	return ts;
 }
