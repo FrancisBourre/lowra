@@ -9,7 +9,7 @@
 
  
 
-|| Bench condition || Array || Dictionnary ||
+|| *Bench condition* || *Array* || *Dictionnary* ||
 || 10000 iterations with 20 elements || 7 ms || 25ms ||
-
-
+|| 1000 iterations with 200 elements || 8 ms || 23ms ||
+|| 1000 iterations with 2000 elements || 50 ms || 208ms ||
