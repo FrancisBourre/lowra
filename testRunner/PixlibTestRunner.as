@@ -29,6 +29,7 @@ private function createSuite() : TestSuite
 	
 	// com.bourre.commands
 	ts.addTestSuite( DelegateTest );
+	ts.addTestSuite( BatchTest );
 	
 	// com.bourre.events
 	ts.addTestSuite( ChannelBroadcasterTest );
