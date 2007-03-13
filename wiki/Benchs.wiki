@@ -6,10 +6,11 @@
 
 ==Comparison Array Vs Dictionnary==
 
-
- 
-
-|| *Bench condition* || *Array* || *Dictionnary* ||
-|| 10000 iterations with 20 elements || 7 ms || 25ms ||
-|| 1000 iterations with 200 elements || 8 ms || 23ms ||
-|| 1000 iterations with 2000 elements || 50 ms || 208ms ||
+|| *Bench topic* || *Bench condition* || *Array* || *Dictionnary* ||
+|| *loop in object* || 10000 iterations with 20 elements || 7 ms || 25ms ||
+|| *loop in object* || 1000 iterations with 200 elements || 8 ms || 23ms ||
+|| *loop in object* || 1000 iterations with 2000 elements || 50 ms || 208ms ||
+|| *search in object* || 10000 iterations with 20 elements || 8 ms || 9ms ||
+|| *search in object* || 10000 iterations with 200 elements || 44 ms || 45ms ||
+|| *search in object* || 10000 iterations with 2000 elements || 203 ms || 204ms ||
+|| *search in object* || 10000 iterations with 2000 elements || 2153 ms || 2154ms ||
