@@ -2,7 +2,7 @@ package com.bourre.commands
 {
 	public interface MacroCommand extends Command
 	{
-		public function addCommand( oCommand : Command ) : Boolean;
-		public function removeCommand( oCommand : Command ) : Boolean;
+		function addCommand( oCommand : Command ) : Boolean;
+		function removeCommand( oCommand : Command ) : Boolean;
 	}
 }

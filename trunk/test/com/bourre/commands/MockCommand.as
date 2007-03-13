@@ -4,8 +4,21 @@ package com.bourre.commands
 
 	public class MockCommand implements Command
 	{
-		public function execute( e : Event = null : void
+		public var called : Boolean;
+		public var callCount : Number;
+		
+		public function MockCommand ()
 		{
+			callCount = 0;
+			called = false;
 		}
+		
+		public function execute( e : Event = null ) : void
+		{
+			called = true;
+			callCount++;
+		}
+		
+		
 	}
 }
