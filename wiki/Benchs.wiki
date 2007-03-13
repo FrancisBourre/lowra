@@ -1,0 +1,15 @@
+#summary Benchs comparison of AS3 objects
+#labels Featured
+
+
+= Details =
+
+==Comparison Array Vs Dictionnary==
+
+
+ 
+
+|| Bench condition || Array || Dictionnary ||
+|| 10000 iterations with 20 elements || 7 ms || 25ms ||
+
+
