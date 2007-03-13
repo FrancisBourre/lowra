@@ -22,15 +22,14 @@ package com.bourre.commands
 		public function removeCommand( oCommand : Command ) : Boolean
 		{
 			var id : Number = _aCommands.indexOf( oCommand ); 
-			if( id == -1 )
-			{
-				return false;
-			}
-			else
+			
+			if ( id == -1 ) return false;
+			
+			while ( ( id = _aCommands.indexOf( oCommand ) ) != -1 )
 			{
 				_aCommands.splice( id, 1 );
-				return true;
 			}
+			return true;
 		}
 		
 		public function execute( e : Event = null ) : void
