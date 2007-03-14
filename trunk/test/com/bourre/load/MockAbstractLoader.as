@@ -21,12 +21,14 @@
 
 package com.bourre.load
 {
+	import com.bourre.load.strategy.URLLoaderStrategy;
+	
 	public class MockAbstractLoader 
 		extends AbstractLoader
 	{
 		public function MockAbstractLoader()
 		{
-			super ( abstractConstructorAccess );
+			super ( abstractConstructorAccess, new URLLoaderStrategy() );
 		}
 	}
 }
