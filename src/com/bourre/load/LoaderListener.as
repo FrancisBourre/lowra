@@ -23,6 +23,7 @@ package com.bourre.load
 
 	public interface LoaderListener 
 	{
+		function onLoadStart( e : LoaderEvent ) : void;
 		function onLoadInit( e : LoaderEvent ) : void;
 		function onLoadProgress( e : LoaderEvent ) : void;
 		function onLoadTimeOut( e : LoaderEvent ) : void;

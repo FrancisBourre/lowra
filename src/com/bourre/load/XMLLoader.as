@@ -22,13 +22,14 @@ package com.bourre.load
 	 */
 
 	import com.bourre.log.*;
+	import com.bourre.load.strategy.URLLoaderStrategy;
 	
 	public class XMLLoader 
 		extends AbstractLoader
 	{
 		public function XMLLoader()
 		{
-			//
+			super( abstractConstructorAccess, new URLLoaderStrategy() );
 		}
 		
 		/**

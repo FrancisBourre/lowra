@@ -28,6 +28,7 @@ package com.bourre.load
 	public class LoaderEvent 
 		extends Event
 	{
+		public static const onLoadStartEVENT : String = "onLoadStart";
 		public static const onLoadInitEVENT : String = "onLoadInit";
 		public static const onLoadProgressEVENT : String = "onLoadProgress";
 		public static const onLoadTimeOutEVENT : String = "onLoadTimeOut";
