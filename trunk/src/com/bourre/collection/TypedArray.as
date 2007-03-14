@@ -27,7 +27,7 @@ package com.bourre.collection
 	 * </listing>
 	 */
 	dynamic final public class TypedArray extends Proxy
-						 implements ITypedContainer
+						 implements TypedContainer
 	{
 		private var _a : Array;
 		private var _t : Class;
