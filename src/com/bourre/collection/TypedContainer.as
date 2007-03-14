@@ -1,6 +1,6 @@
 package com.bourre.collection
 {
-	public interface ITypedContainer
+	public interface TypedContainer
 	{
 		function isType ( o : * ) : Boolean;
 		function getType () : Class;

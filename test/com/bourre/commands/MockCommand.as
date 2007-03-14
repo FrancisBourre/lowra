@@ -6,6 +6,7 @@ package com.bourre.commands
 	{
 		public var called : Boolean;
 		public var callCount : Number;
+		public var event : Event;
 		
 		public function MockCommand ()
 		{
@@ -16,9 +17,8 @@ package com.bourre.commands
 		public function execute( e : Event = null ) : void
 		{
 			called = true;
+			event = e;
 			callCount++;
 		}
-		
-		
 	}
 }

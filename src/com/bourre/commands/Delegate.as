@@ -97,7 +97,7 @@ package com.bourre.commands
 			{
 				_f.apply( null, _a.length>0?[e].concat(_a):[e] );
 				
-			} catch( err : Error )
+			}catch( err : Error )
 			{
 
 				var msg : String;

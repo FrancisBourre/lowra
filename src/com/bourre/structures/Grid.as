@@ -2,7 +2,7 @@
 package com.bourre.structures
 {
 	import com.bourre.collection.Collection;
-	import com.bourre.collection.ITypedContainer;
+	import com.bourre.collection.TypedContainer;
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.TypedArray;
 	import com.bourre.error.NullPointerException;
@@ -43,7 +43,7 @@ package com.bourre.structures
 	 * @version 1.0
 	 */
 	public class Grid 
-		implements Collection, ITypedContainer
+		implements Collection, TypedContainer
 	{
 	
 		protected var _vSize : Point;
