@@ -25,18 +25,18 @@ package com.bourre.load
 	import com.bourre.log.*;
 	import com.bourre.error.ProtectedConstructorException;
 	import com.bourre.events.EventBroadcaster;
-	
-	import flash.events.Event;
-	import flash.utils.getQualifiedClassName;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
-	import flash.events.ProgressEvent;
-	import flash.utils.getTimer;
+	import com.bourre.load.strategy.LoadStrategy;
+
 	import flash.display.DisplayObject;
+	import flash.events.*;
+	import flash.net.*;
+	import flash.utils.*;
 
 	public class AbstractLoader 
-		implements Loader
+		implements com.bourre.load.Loader
 	{
+		protected var abstractConstructorAccess : AbstractConstructorAccess = new AbstractConstructorAccess();
+
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
@@ -44,18 +44,16 @@ package com.bourre.load
 		private var _bAntiCache : Boolean;
 		private var _sPrefixURL : String;
 		
-		private var _oLoader : URLLoader;
+		private var _loadStrategy : LoadStrategy;
 		private var _oContent : DisplayObject
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
 
-		public function AbstractLoader()
+		public function AbstractLoader( access : AbstractConstructorAccess, strategy : LoadStrategy = null )
 		{
-			var qualifiedClassName : String = getQualifiedClassName( this );
-			if ( qualifiedClassName == "com.bourre.loading::AbstractLoader" )
-				throw new ProtectedConstructorException( "Instantiation failed. " + qualifiedClassName 
-				+ " is an abstract class, you must extend it before using it" );
-				
+			_loadStrategy = strategy;
+			_loadStrategy.setOwner( this );
+
 			_oEB = new EventBroadcaster( this );
 			_nTimeOut = 10000;
 			_bAntiCache = false;
@@ -75,40 +73,31 @@ package com.bourre.load
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
-				
-				//CommandManagerMS.getInstance().remove(_dOnLoadProgress);
-				//CommandManagerMS.getInstance().push( _dOnLoadProgress, 50);
-				
-				var request : URLRequest = new URLRequest( getURL() ) ;
-			
-				_oLoader = new URLLoader();
-				_oLoader.addEventListener( ProgressEvent.PROGRESS, _onProgress );
-				_oLoader.addEventListener( Event.COMPLETE, _onComplete );
-				_oLoader.load( request ) ;
-				
+				_loadStrategy.load( getURL() );
+
 			} else
 			{
 				PixlibDebug.ERROR( this + ".load() can't retrieve file url." );
 			}
 		}
 		
-		public function onLoadInit() : void
+		protected function onLoadInit() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 			fireEventType( LoaderEvent.onLoadInitEVENT );
 		}
 		
-		public function getBytesLoaded() : uint
+		final public function getBytesLoaded() : uint
 		{
-			return _oLoader.bytesLoaded;
+			return _loadStrategy.getBytesLoaded();
 		}
 		
-		public function getBytesTotal() : uint
+		final public function getBytesTotal() : uint
 		{
-			return _oLoader.bytesTotal;
+			return _loadStrategy.getBytesTotal();
 		}
 
-		public function getPerCent() : Number
+		final public function getPerCent() : Number
 		{
 			var n : Number = Math.min( 100, Math.ceil( getBytesLoaded() / ( getBytesTotal() / 100 ) ) );
 			return ( isNaN(n) ) ? 0 : n;
@@ -153,11 +142,6 @@ package com.bourre.load
 		{
 			_oEB.removeEventListener( type, listener );
 		}
-		
-		public function fireEventType( type : String ) : void
-		{
-			_oEB.broadcastEvent( getLoaderEvent( type ) );
-		}
 
 		public function getName() : String
 		{
@@ -184,19 +168,19 @@ package com.bourre.load
 			_sPrefixURL = sURL;
 		}
 
-		public function getTimeOut() : Number
+		final public function getTimeOut() : Number
 		{
 			return _nTimeOut;
 		}
 
-		public function setTimeOut( n : Number ) : void
+		final public function setTimeOut( n : Number ) : void
 		{
 			_nTimeOut = Math.max( 1000, n );
 		}
 		
 		public function release() : void
 		{
-			_oLoader.close();
+			_loadStrategy.release();
 		}
 		
 		public function getContent() : DisplayObject
@@ -209,7 +193,27 @@ package com.bourre.load
 			_oContent = o;
 		}
 		
-		public function fireCommandEndEvent() : void
+		final public function fireOnLoadProgressEvent() : void
+		{
+			fireEventType( LoaderEvent.onLoadProgressEVENT );
+		}
+		
+		final public function fireOnLoadInitEvent() : void
+		{
+			onLoadInit();
+		}
+		
+		final public function fireOnLoadStartEvent() : void
+		{
+			fireEventType( LoaderEvent.onLoadStartEVENT );
+		}
+		
+		final public function fireOnLoadErrorEvent() : void
+		{
+			fireEventType( LoaderEvent.onLoadErrorEVENT );
+		}
+		
+		final public function fireCommandEndEvent() : void
 		{
 			
 		}
@@ -224,29 +228,22 @@ package com.bourre.load
 		}
 
 		//
-		virtual protected function getLoaderEvent( type : String ) : LoaderEvent
+		protected function fireEventType( type : String ) : void
+		{
+			_oEB.broadcastEvent( getLoaderEvent( type ) );
+		}
+
+		protected function getLoaderEvent( type : String ) : LoaderEvent
 		{
 			return new LoaderEvent( type, this );
 		}
-		
+
+		//
 		private function _getStringTimeStamp() : String
 		{
 			var d : Date = new Date();
 			return String( d.getTime() );
 		}
-		
-		private function _onProgress( event : ProgressEvent ) : void
-		{
-			trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
-		}
-		
-		private function _onComplete( event : Event ) : void 
-		{
-            trace("completeHandler: " + _oLoader.data);
-    
-            //var vars:URLVariables = new URLVariables(loader.data);
-            //trace("The answer is " + vars.answer);
-        }
         
         private function _checkTimeOut( nLastBytesLoaded : Number, nTime : Number ) : void 
 		{
@@ -264,3 +261,5 @@ package com.bourre.load
 		}
 	}
 }
+
+internal class AbstractConstructorAccess {}
