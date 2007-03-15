@@ -24,8 +24,25 @@ package com.bourre.commands
 	public interface ASyncCommand 
 		extends Command
 	{
+		
+		/**
+		 * 
+		 * @param listener
+		 * 
+		 */
 		function addASyncCommandListener( listener : ASyncCommandListener ) : void;
+		
+		/**
+		 * 
+		 * @param listener
+		 * 
+		 */
 		function removeASyncCommandListener( listener : ASyncCommandListener ) : void;
+		
+		/**
+		 * 
+		 * 
+		 */
 		function fireCommandEndEvent() : void;
 	}
 }

@@ -22,26 +22,16 @@
 package com.bourre.events
 {
 	import com.bourre.log.*;
+	import flash.events.Event;
 	
-	public class BasicEvent
+	public class BasicEvent extends Event
 	{
-		protected var _sType : String;
 		protected var _oTarget : Object;
 		
 		public function BasicEvent( sType : String, oTarget : Object = null )
 		{
-			_sType = sType;
+			super( sType );
 			_oTarget = oTarget;
-		}
-		
-		public function getType() : String
-		{ 
-			return _sType; 
-		}
-		
-		public function setType( sType : String ) : void 
-		{ 
-			_sType = sType; 
 		}
 		
 		public function getTarget() : Object
@@ -58,7 +48,7 @@ package com.bourre.events
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		public override function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}
