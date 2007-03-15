@@ -24,7 +24,7 @@ package com.bourre.log
 	import flash.events.EventDispatcher;
 	import com.bourre.events.ChannelBroadcaster;
 	import com.bourre.events.EventChannel;
-	
+
 	public class Logger
 	{
 		private static var _oI : Logger = null;

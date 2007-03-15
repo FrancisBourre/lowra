@@ -102,8 +102,7 @@ package com.bourre.commands
 
 				var msg : String;
 				msg = "Delegate.handleEvent() failed, incorrect number of arguments passed";
-							
-				Logger.ERROR( msg, PixlibDebug.CHANNEL );
+				PixlibDebug.ERROR( msg );
 				throw( new ArgumentError( msg ) );
 			}
 		}
