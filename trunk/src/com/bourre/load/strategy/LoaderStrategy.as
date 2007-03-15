@@ -35,13 +35,11 @@ package com.bourre.load.strategy
 	{
 		private var _owner : AbstractLoader;
 		private var _loader : Loader;
-		private var _target : DisplayObjectContainer;
 		private var _bytesLoaded : uint;
 		private var _bytesTotal : uint;
 
-		public function LoaderStrategy( target : DisplayObjectContainer )
+		public function LoaderStrategy()
 		{
-			_target = target;
 			_bytesLoaded = 0;
 			_bytesTotal = 0;
 		}
