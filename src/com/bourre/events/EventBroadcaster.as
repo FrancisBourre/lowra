@@ -79,18 +79,28 @@ package com.bourre.events
 			}
 		}
 		
-		public function addListener( listener : Object ) : void
+		public function addListener( listener : Object ) : Boolean
 		{
-			if ( _mAll.add( listener ) ) _flushRef( listener );
+			if ( _mAll.add( listener ) ) 
+			{
+				_flushRef( listener );
+				return true;
+
+			} else
+			{
+				return false;
+			}
 		}
 		
-		public function removeListener( listener : Object ) : void
+		public function removeListener( listener : Object ) : Boolean
 		{
-			_flushRef( listener );
+			var b : Boolean = _flushRef( listener );
+			b = b || _mAll.contains( listener );
 			_mAll.remove( listener );
+			return b;
 		}
 		
-		public function addEventListener( type : String, listener : Object, ...rest ) : void
+		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
 			if (listener is Function)
 			{
@@ -117,7 +127,7 @@ package com.bourre.events
 						+ type + "' method or 'handleEvent' method in '" + 
 						getQualifiedClassName(listener) + "' class";
 									
-						Logger.ERROR( msg, PixlibDebug.CHANNEL );
+						PixlibDebug.ERROR( msg );
 						throw( new ArgumentError( msg ) );
 					}
 				}
@@ -126,12 +136,17 @@ package com.bourre.events
 			if ( !(isRegistered(listener)) )
 			{
 				if ( !(hasListenerCollection(type)) ) _mType.put( type, new WeakCollection() );
-				if ( getListenerCollection(type).add( listener ) ) _storeRef( type, listener );
+				if ( getListenerCollection(type).add( listener ) ) 
+				{
+					_storeRef( type, listener );
+					return true;
+				} 
 			}
 			
+			return false;
 		}
 		
-		public function removeEventListener( type : String, listener : Object ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			if ( hasListenerCollection( type ) )
 			{
@@ -140,7 +155,16 @@ package com.bourre.events
 				{
 					_removeRef( type, listener );
 					if ( c.isEmpty() ) removeListenerCollection( type );
+					return true;
+
+				} else
+				{
+					return false;
 				}
+
+			} else
+			{
+				return false;
 			}
 		}
 		
@@ -197,7 +221,7 @@ package com.bourre.events
 						+ type + "' method or 'handleEvent' method in '" + 
 						getQualifiedClassName(listener) + "' class";
 						
-						Logger.ERROR( msg, PixlibDebug.CHANNEL );
+						PixlibDebug.ERROR( msg );
 						throw( new UnsupportedOperationException( msg ) );
 					}
 				}
@@ -228,16 +252,18 @@ package com.bourre.events
 			
 		}
 		
-		private function _flushRef( listener : Object ) : void
+		private function _flushRef( listener : Object ) : Boolean
 		{
+			var b : Boolean = false;
 			var m : HashMap = _mEventListener.get( listener );
 			if ( m != null )
 			{
 				var a : Array = m.getKeys();
 				var l : Number = a.length;
-				while( --l > -1 ) removeEventListener( a[l], listener );
+				while( --l > -1 ) b = removeEventListener( a[l], listener ) || b;
 				_mEventListener.remove( listener );
 			}
+			return b;
 		}
 	}
 }
