@@ -7,6 +7,11 @@ package com.bourre.utils
 	
 	public class ClassUtils
 	{
+		public function ClassUtils( access : PrivateConstructorAccess )
+		{
+			
+		}
+		
 		/**
 		 * Use the <code>isImplemented</code> function to check if a virtual method of an abstract
 		 * class is really implemented by children classes.
@@ -49,3 +54,5 @@ package com.bourre.utils
 		} 
 	}
 }
+
+internal class PrivateConstructorAccess {}
