@@ -159,7 +159,7 @@ internal class Channel1
 	
 	public function Channel1()
 	{
-		super();
+		super( abstractConstructorAccess );
 	}
 }
 
@@ -170,6 +170,6 @@ internal class Channel2
 	
 	public function Channel2()
 	{
-		super();
+		super( abstractConstructorAccess );
 	}
 }

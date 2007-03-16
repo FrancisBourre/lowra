@@ -22,18 +22,15 @@ package com.bourre.log
 	 */
 
 	import com.bourre.events.EventChannel;
-	import com.bourre.error.PrivateConstructorException;
-	import flash.utils.*;
-	
+
 	public class PixlibDebug 
-		extends EventChannel
 	{
 		public static var isOn : Boolean = true;
 		private static var _CHANNEL : EventChannel;
 		
 		public function PixlibDebug()
 		{
-			super();
+			
 		}
 		
 		public static function get CHANNEL() : EventChannel
@@ -48,7 +45,7 @@ package com.bourre.log
 		}
 		
 		public static function INFO( o : * ) : void
-		{	trace(o);
+		{
 			if (PixlibDebug.isOn) Logger.INFO( o, PixlibDebug.CHANNEL );
 		}
 		
@@ -73,4 +70,9 @@ import com.bourre.events.EventChannel;
 
 internal class PixlibDebugChannel 
 	extends EventChannel
-{}
+{
+	public function PixlibDebugChannel()
+	{
+		super( abstractConstructorAccess );
+	}
+}
