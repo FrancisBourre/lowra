@@ -18,6 +18,10 @@ package com.bourre.utils
 	 */
 	public class SharedObjectUtils
 	{
+		public function SharedObjectUtils( access : PrivateConstructorAccess )
+		{
+			
+		}
 		
 		/**
 		 * Get a value stored in a local SharedObject.
@@ -91,3 +95,5 @@ package com.bourre.utils
 		}
 	}
 }
+
+internal class PrivateConstructorAccess {}
