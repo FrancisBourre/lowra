@@ -120,6 +120,7 @@ package com.bourre.events
 		public function broadcastEvent( e : Event, channel : EventChannel = null ) : void
 		{
 			getChannelDispatcher( channel ).broadcastEvent( e );
+			if ( channel ) getChannelDispatcher().broadcastEvent( e );
 		}
 		
 		/**
@@ -142,6 +143,6 @@ internal class DefaultChannel
 	
 	public function DefaultChannel()
 	{
-		super();
+		super( abstractConstructorAccess );
 	}
 }
