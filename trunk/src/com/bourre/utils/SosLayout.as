@@ -52,7 +52,7 @@ package com.bourre.utils
 		
 		private static var _oI : SosLayout = null;
 		
-		public function SosLayout( o : ConstructorAccess )
+		public function SosLayout( access : PrivateConstructorAccess )
 		{
 			_aBuffer = new Array();
 			_buildColorKeys();
@@ -72,7 +72,7 @@ package com.bourre.utils
 		{
 			if ( !(SosLayout._oI is SosLayout) ) 
 			{
-				SosLayout._oI = new SosLayout( new ConstructorAccess() );
+				SosLayout._oI = new SosLayout( new PrivateConstructorAccess() );
 			}
 			return SosLayout._oI;
 		}
@@ -196,4 +196,4 @@ package com.bourre.utils
 	}
 }
 
-internal class ConstructorAccess {}
+internal class PrivateConstructorAccess {}
