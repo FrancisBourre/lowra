@@ -34,7 +34,7 @@ package com.bourre.utils
 		
 		private var _lc : LocalConnection;
 		
-		public function FlashInspectorLayout( o : ConstructorAccess )
+		public function FlashInspectorLayout( access : PrivateConstructorAccess )
 		{
 			_lc = new LocalConnection();
 			_lc.addEventListener( StatusEvent.STATUS, onStatus);
@@ -45,7 +45,7 @@ package com.bourre.utils
 		{
 			if ( !(FlashInspectorLayout._oI is FlashInspectorLayout) ) 
 			{
-				FlashInspectorLayout._oI = new FlashInspectorLayout( new ConstructorAccess() );
+				FlashInspectorLayout._oI = new FlashInspectorLayout( new PrivateConstructorAccess() );
 			}
 			return FlashInspectorLayout._oI;
 		}
@@ -87,4 +87,4 @@ package com.bourre.utils
 	}
 }
 
-internal class ConstructorAccess {}
+internal class PrivateConstructorAccess {}
