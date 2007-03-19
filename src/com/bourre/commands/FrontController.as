@@ -37,26 +37,26 @@ package com.bourre.commands
 
 		public function FrontController( owner : IPlugin = null, eb : EventBroadcaster = null ) 
 		{
-			setOwner( owner ? owner : NullPlugin.getInstance() );
+			setOwner( owner );
 			_mEventList = new HashMap();
 		}
 
-		final public function setOwner( owner : IPlugin ) : Boolean
+		final public function setOwner( owner : IPlugin ) : void
 		{
-			if ( _owner != owner )
+			if ( _oEB ) _oEB.removeListener( this );
+
+			if ( owner )
 			{
-				if ( _oEB ) _oEB.removeListener( this );
-
 				_owner = owner;
-				_oEB = (owner == NullPlugin.getInstance()) ? EventBroadcaster.getInstance() : new EventBroadcaster( getOwner() );
-				_oEB.addListener( this );
-
-				return true;
-
+				_oEB = new EventBroadcaster( getOwner() );
+				
 			} else
 			{
-				return false;
+				_owner = NullPlugin.getInstance();
+				_oEB = EventBroadcaster.getInstance();
 			}
+			
+			_oEB.addListener( this );
 		}
 
 		final public function getOwner() : IPlugin

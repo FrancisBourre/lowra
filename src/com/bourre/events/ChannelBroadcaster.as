@@ -143,6 +143,6 @@ internal class DefaultChannel
 	
 	public function DefaultChannel()
 	{
-		super( abstractConstructorAccess );
+		super( eventChannelConstructorAccess );
 	}
 }

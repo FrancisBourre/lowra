@@ -136,7 +136,7 @@ package com.bourre.events
 						getQualifiedClassName(listener) + "' class";
 									
 						PixlibDebug.ERROR( msg );
-						throw( new ArgumentError( msg ) );
+						throw( new UnsupportedOperationException( msg ) );
 					}
 				}
 			}

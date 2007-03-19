@@ -38,7 +38,6 @@ package com.bourre.plugin
 		function firePrivateEvent( e : Event ) : void;
 		
 		function getChannel() : EventChannel;
-		function getController() : FrontController;
 		function getLogger() : PluginDebug;
 
 		function getModelLocator() : ModelLocator;

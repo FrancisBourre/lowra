@@ -7,21 +7,22 @@ package com.bourre.plugin
 	import com.bourre.view.ViewLocator;
 
 	import flash.events.Event;
+	import com.bourre.log.PixlibDebug;
 
 	public class NullPlugin 
 		implements IPlugin
 	{
-		private var _fc : FrontController;
-		private static var NULL : NullPlugin = new NullPlugin();
+		private static var _oI : NullPlugin = new NullPlugin();
 
 		public function NullPlugin()
 		{
-			_fc = new FrontController( this );
+			
 		}
 
 		public static function getInstance() : NullPlugin
 		{
-			return NullPlugin.NULL;
+			if ( !(NullPlugin._oI is NullPlugin) ) NullPlugin._oI = new NullPlugin();
+			return NullPlugin._oI;
 		}
 
 		public function onInitPlugin() : void
@@ -51,12 +52,7 @@ package com.bourre.plugin
 
 		public function getChannel() : EventChannel
 		{
-			return new NullPluginChannel;
-		}
-		
-		public function getController() : FrontController
-		{
-			return _fc;
+			return null;
 		}
 		
 		public function getLogger() : PluginDebug
@@ -75,23 +71,12 @@ package com.bourre.plugin
 
 		public function getModelLocator() : ModelLocator
 		{
-			return ModelLocator.getInstance();
+			return ModelLocator.getInstance( this );
 		}
 		
 		public function getViewLocator() : ViewLocator
 		{
-			return ViewLocator.getInstance();
+			return ViewLocator.getInstance( this );
 		}
-	}
-}
-
-import com.bourre.events.EventChannel;
-
-internal class NullPluginChannel 
-	extends EventChannel
-{	
-	public function NullPluginChannel()
-	{
-		super( abstractConstructorAccess );
 	}
 }
