@@ -7,7 +7,7 @@ package com.bourre.commands
 	{
 		public function MockAbstractSyncCommand()
 		{
-			super( abstractConstructorAccess );
+			super( abstractSyncCommandConstructorAccess );
 		}
 		
 		public function isRegistered ( o : ASyncCommandListener ) : Boolean

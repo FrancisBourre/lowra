@@ -39,7 +39,7 @@ package com.bourre.commands
 		 */
 		public function ASyncCommandSequencer ( nTimeout : int = -1 )
 		{
-			super( abstractConstructorAccess );
+			super( abstractSyncCommandConstructorAccess );
 			_nStep = 0;
 			_aCommands = new Array();
 			

@@ -26,7 +26,6 @@ package com.bourre.utils
 			var x : XML = describeType( o );
 			var declaredBy : String = x..method.(@name == f).@declaredBy;
 			return ( declaredBy == getQualifiedClassName( o ) );
-			
 		}
 		
 		/**
@@ -44,11 +43,13 @@ package com.bourre.utils
 		public static function isImplementedAll ( o : Object, c : Collection ) : Boolean
 		{
 			var i : Iterator = c.iterator();
-			
+			var b : Boolean = true;
+			var x : XML = describeType( o );
+			var s : String = getQualifiedClassName( o );
 			while ( i.hasNext() )
 			{
-				if( !isImplemented ( o, i.next() ) )
-					return false;
+				var declaredBy : String = x..method.(@name == i.next() ).@declaredBy;
+				if( !( declaredBy == s ) ) return false;
 			}
 			return true;
 		} 
