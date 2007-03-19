@@ -231,7 +231,7 @@ package com.bourre.events
 			try
 			{
 				_oEB.addEventListener( "onNoCallback", this );
-			} catch ( e : ArgumentError )
+			} catch ( e : UnsupportedOperationException )
 			{
 				b = true;
 			}
