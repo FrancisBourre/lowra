@@ -72,7 +72,7 @@ package com.bourre.plugin
 		{
 			return PixlibStringifier.stringify( this );
 		}
-/*
+
 		public function getModelLocator() : ModelLocator
 		{
 			return ModelLocator.getInstance();
@@ -82,7 +82,6 @@ package com.bourre.plugin
 		{
 			return ViewLocator.getInstance();
 		}
-*/
 	}
 }
 

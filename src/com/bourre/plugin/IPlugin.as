@@ -40,9 +40,8 @@ package com.bourre.plugin
 		function getChannel() : EventChannel;
 		function getController() : FrontController;
 		function getLogger() : PluginDebug;
-		/*
+
 		function getModelLocator() : ModelLocator;
 		function getViewLocator() : ViewLocator;
-		*/
 	}
 }

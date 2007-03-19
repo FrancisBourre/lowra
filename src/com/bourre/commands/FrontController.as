@@ -34,18 +34,29 @@ package com.bourre.commands
 		protected var _oEB : EventBroadcaster;
 		protected var _owner : IPlugin;
 		protected var _mEventList : HashMap;
-		
-		public function FrontController( owner : IPlugin = null ) 
+
+		public function FrontController( owner : IPlugin = null, eb : EventBroadcaster = null ) 
 		{
 			setOwner( owner ? owner : NullPlugin.getInstance() );
 			_mEventList = new HashMap();
-			_oEB = new EventBroadcaster( getOwner() );
-			_oEB.addListener( this );
 		}
-		
-		final public function setOwner( owner : IPlugin ) : void
+
+		final public function setOwner( owner : IPlugin ) : Boolean
 		{
-			_owner = owner;
+			if ( _owner != owner )
+			{
+				if ( _oEB ) _oEB.removeListener( this );
+
+				_owner = owner;
+				_oEB = (owner == NullPlugin.getInstance()) ? EventBroadcaster.getInstance() : new EventBroadcaster( getOwner() );
+				_oEB.addListener( this );
+
+				return true;
+
+			} else
+			{
+				return false;
+			}
 		}
 
 		final public function getOwner() : IPlugin
