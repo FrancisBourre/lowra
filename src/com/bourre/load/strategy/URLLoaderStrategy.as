@@ -22,7 +22,7 @@ package com.bourre.load.strategy
 	 */
 
 	import com.bourre.load.AbstractLoader;
-	import com.bourre.load.LoaderEvent;
+	import com.bourre.load.*;
 	import com.bourre.log.PixlibStringifier;
 
 	import flash.events.*;
@@ -31,7 +31,7 @@ package com.bourre.load.strategy
 	public class URLLoaderStrategy 
 		implements LoadStrategy
 	{
-		private var _owner : AbstractLoader
+		private var _owner : Loader
 		private var _loader : URLLoader;
 		private var _bytesLoaded : uint;
 		private var _bytesTotal : uint;
@@ -67,7 +67,7 @@ package com.bourre.load.strategy
 			return _bytesTotal;
 		}
 
-		public function setOwner( owner : AbstractLoader ) : void
+		public function setOwner( owner : Loader ) : void
 		{
 			_owner = owner;
 		}

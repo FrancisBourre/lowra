@@ -22,6 +22,7 @@ package com.bourre.load
 	 */
 
 	import com.bourre.commands.ASyncCommand;
+	import flash.display.*;
 	
 	public interface Loader 
 		extends ASyncCommand
@@ -36,5 +37,11 @@ package com.bourre.load
 		function addListener( listener : LoaderListener ) : void;
 		function removeListener( listener : LoaderListener ) : void;
 		function setAntiCache( b : Boolean ) : void;
+		
+		function setContent( content : DisplayObject ) : void;
+		function fireOnLoadProgressEvent() : void;
+	    function fireOnLoadInitEvent() : void;
+	    function fireOnLoadStartEvent() : void;
+		function fireOnLoadErrorEvent() : void;
 	}
 }

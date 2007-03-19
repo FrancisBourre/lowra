@@ -33,7 +33,7 @@ package com.bourre.load.strategy
 	public class LoaderStrategy 
 		implements LoadStrategy
 	{
-		private var _owner : AbstractLoader;
+		private var _owner : com.bourre.load.Loader;
 		private var _loader : Loader;
 		private var _bytesLoaded : uint;
 		private var _bytesTotal : uint;
@@ -71,7 +71,7 @@ package com.bourre.load.strategy
 			return _bytesTotal;
 		}
 
-		public function setOwner( owner : AbstractLoader ) : void
+		public function setOwner( owner : com.bourre.load.Loader ) : void
 		{
 			_owner = owner;
 		}
