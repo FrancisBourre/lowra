@@ -31,6 +31,8 @@ package com.bourre.events
 
 	public class EventBroadcaster
 	{
+		private static var _oI : EventBroadcaster = null;
+		
 		private var _oTarget : Object;
 		private var _mAll : Collection;
 		private var _mType : HashMap;
@@ -43,6 +45,12 @@ package com.bourre.events
 			_mAll = new WeakCollection();
 			_mType = new HashMap();
 			_mEventListener = new HashMap();
+		}
+		
+		public static function getInstance() : EventBroadcaster
+		{
+			if ( !(EventBroadcaster._oI is EventBroadcaster) ) EventBroadcaster._oI = new EventBroadcaster();
+			return EventBroadcaster._oI;
 		}
 		
 		public function hasListenerCollection( type : String ) : Boolean
