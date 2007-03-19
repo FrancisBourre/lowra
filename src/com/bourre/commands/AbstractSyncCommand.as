@@ -16,22 +16,21 @@ package com.bourre.commands
 	 * 
 	 * @author Cédric Néhémie
 	 */
-	public class AbstractSyncCommand /*extends AbstractCommand*/ implements ASyncCommand
+	public class AbstractSyncCommand extends AbstractCommand implements ASyncCommand
 	{	
-		protected var abstractConstructorAccess : ConstructorAccess = new ConstructorAccess();
-		
-		
 		protected var _oEB : EventBroadcaster;
 		protected var _eOnCommandEnd : ASyncCommandEvent;
 		
+		protected var abstractSyncCommandConstructorAccess : AbsractSyncCommandConstructorAccess = new AbsractSyncCommandConstructorAccess ();
 		/**
 		 * 
 		 * @param o
 		 * @return 
 		 * 
 		 */
-		public function AbstractSyncCommand ( o : ConstructorAccess )
+		public function AbstractSyncCommand ( o : AbsractSyncCommandConstructorAccess )
 		{
+			super( super.abstractCommandConstructorAccess );
 			_oEB = new EventBroadcaster ( this );
 			_eOnCommandEnd = new ASyncCommandEvent ( ASyncCommandEvent.onCommandEndEVENT, this );
 		}
@@ -70,7 +69,7 @@ package com.bourre.commands
 		 * @param e
 		 * 
 		 */
-		public /*override*/ function execute( e : Event = null) : void
+		public override function execute( e : Event = null) : void
 		{
 			fireCommandEndEvent();
 		}
@@ -80,11 +79,10 @@ package com.bourre.commands
 		 * 
 		 * @return the string representation of the object
 		 */
-		public /*override*/ function toString():String
+		public override function toString():String
 		{
 			return PixlibStringifier.stringify( this );
 		}
 	}
 }
-
-internal class ConstructorAccess {}
+internal class AbsractSyncCommandConstructorAccess {}

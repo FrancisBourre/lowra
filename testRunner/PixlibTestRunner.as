@@ -2,11 +2,13 @@ import flexunit.framework.TestSuite;
 
 import com.bourre.commands.*;
 import com.bourre.collection.*;
+import com.bourre.core.*;
 import com.bourre.events.*;
 import com.bourre.load.*;
 import com.bourre.log.*;
 import com.bourre.utils.*;
 import com.bourre.structures.*;
+import com.bourre.transitions.*;
 
 private function onCreationComplete():void
 {
@@ -32,6 +34,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BatchTest );
 	ts.addTestSuite( AbstractSyncCommandTest );
 	ts.addTestSuite( ASyncCommandSequencerTest );
+	
+	// com.bourre.core
+	ts.addTestSuite( AccessorTest );
 	
 	// com.bourre.events
 	ts.addTestSuite( ChannelBroadcasterTest );

@@ -6,10 +6,11 @@ package com.bourre.commands
 	{
 		public function MockFailureASyncCommand ()
 		{
-			super( abstractConstructorAccess );
+			super( abstractSyncCommandConstructorAccess );
 		}
-		public override function execute(e:Event=null):void
+		public override function execute( e : Event = null ) : void
 		{
+			
 		}
 	}
 }

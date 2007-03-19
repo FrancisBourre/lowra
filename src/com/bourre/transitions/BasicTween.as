@@ -6,7 +6,7 @@ package com.bourre.transitions
 		extends ASyncCommand
 	{
 		function setEasing( f : Function ) : void;
-		function start() :void;
-		function stop() :void;
+		function start() : void;
+		function stop() : void;
 	}
 }
