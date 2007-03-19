@@ -73,6 +73,6 @@ internal class PixlibDebugChannel
 {
 	public function PixlibDebugChannel()
 	{
-		super( abstractConstructorAccess );
+		super( eventChannelConstructorAccess );
 	}
 }

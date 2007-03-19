@@ -34,8 +34,17 @@ package com.bourre.plugin
 		
 		public function PluginDebug(  access : PrivateConstructorAccess, owner : IPlugin = null ) 
 		{
-			_owner = owner ? owner : NullPlugin.getInstance();
-			_channel = _owner.getChannel();
+			if ( owner )
+			{
+				PixlibDebug.INFO( "owner" );
+				_owner = owner;
+				_channel = owner.getChannel();
+			} else
+			{
+				PixlibDebug.INFO( "!owner" );
+				_owner = NullPlugin.getInstance();
+				_channel = null;
+			}
 		}
 		
 		public function getOwner() : IPlugin
@@ -56,27 +65,27 @@ package com.bourre.plugin
 		
 		public function debug( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.LOG( o, LogLevel.DEBUG, _channel );
+			if (PluginDebug.isOn) Logger.DEBUG( o, _channel );
 		}
 		
 		public function info( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.LOG( o, LogLevel.INFO, _channel );
+			if (PluginDebug.isOn) Logger.INFO( o, _channel );
 		}
 		
 		public function warn( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.LOG( o, LogLevel.WARN, _channel );
+			if (PluginDebug.isOn) Logger.WARN( o, _channel );
 		}
 		
 		public function error( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.LOG( o, LogLevel.ERROR, _channel );
+			if (PluginDebug.isOn) Logger.ERROR( o, _channel );
 		}
 		
 		public function fatal( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.LOG( o, LogLevel.FATAL, _channel );
+			if (PluginDebug.isOn) Logger.FATAL( o, _channel );
 		}
 		
 		/**

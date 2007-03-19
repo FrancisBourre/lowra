@@ -27,17 +27,12 @@ package com.bourre.events
 	
 	public class EventChannel 
 	{
-		protected var abstractConstructorAccess : AbstractConstructorAccess = new AbstractConstructorAccess();
+		protected var eventChannelConstructorAccess : EventChannelConstructorAccess = new EventChannelConstructorAccess();
 		private var _sChannelName : String;
 		
-		public function EventChannel(  access : AbstractConstructorAccess, channelName : String = null )
+		public function EventChannel(  access : EventChannelConstructorAccess, channelName : String = null )
 		{
-			var qualifiedClassName : String = getQualifiedClassName( this );
-			if ( qualifiedClassName == "com.bourre.events::EventChannel" )
-				throw new ProtectedConstructorException( "Instantiation failed. " + qualifiedClassName 
-				+ " is an abstract class, you must extend it before using it" );
-			
-			_sChannelName =  channelName ? channelName : qualifiedClassName;
+			_sChannelName =  channelName ? channelName : getQualifiedClassName( this );
 		}
 		
 		public function toString() : String
@@ -47,4 +42,4 @@ package com.bourre.events
 	}
 }
 
-internal class AbstractConstructorAccess {}
+internal class EventChannelConstructorAccess {}

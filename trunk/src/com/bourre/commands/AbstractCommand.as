@@ -25,6 +25,8 @@ package com.bourre.commands
 	import com.bourre.plugin.*;
 
 	import flash.events.Event;
+	import com.bourre.model.ModelLocator;
+	import com.bourre.view.ViewLocator;
 	//import com.bourre.model.ModelLocator;
 	//import com.bourre.view.ViewLocator;
 
@@ -58,7 +60,7 @@ package com.bourre.commands
 		{
 			return PluginDebug.getInstance( getOwner() );
 		}
-/*
+
 		public function getModelLocator() : ModelLocator
 		{
 			return getOwner().getModelLocator();
@@ -68,7 +70,7 @@ package com.bourre.commands
 		{
 			return getOwner().getViewLocator();
 		}
-*/
+
 
 		/**
 		 * Returns the string representation of this instance.
