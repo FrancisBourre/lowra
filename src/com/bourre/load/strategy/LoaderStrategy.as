@@ -44,9 +44,8 @@ package com.bourre.load.strategy
 			_bytesTotal = 0;
 		}
 
-		public function load( url : String ) : void
+		public function load( request : URLRequest = null ) : void
 		{
-			var request : URLRequest = new URLRequest( url ) ;
 			_loader = new Loader();
 	
 			_loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, _onProgress );

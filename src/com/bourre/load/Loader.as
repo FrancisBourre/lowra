@@ -22,14 +22,16 @@ package com.bourre.load
 	 */
 
 	import com.bourre.commands.ASyncCommand;
+
 	import flash.display.*;
+	import flash.net.URLRequest;
 	
 	public interface Loader 
 		extends ASyncCommand
 	{
-		function load( url : String = null ) : void;
-		function getURL() : String;
-		function setURL( url : String ) : void;
+		function load( url : URLRequest = null ) : void;
+		function getURL() : URLRequest;
+		function setURL( url : URLRequest ) : void;
 		function prefixURL( prefixURL : String ) : void;
 		function getName() : String;
 		function setName( name : String ) : void;

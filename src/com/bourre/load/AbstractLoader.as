@@ -35,12 +35,12 @@ package com.bourre.load
 	public class AbstractLoader 
 		implements com.bourre.load.Loader
 	{
-		protected var abstractConstructorAccess : AbstractConstructorAccess = new AbstractConstructorAccess();
+		protected var abstractLoaderConstructorAccess : AbstractLoaderConstructorAccess = new AbstractLoaderConstructorAccess();
 
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
-		private var _sURL : String;
+		private var _oURL : URLRequest;
 		private var _bAntiCache : Boolean;
 		private var _sPrefixURL : String;
 		
@@ -49,7 +49,7 @@ package com.bourre.load
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
 
-		public function AbstractLoader( access : AbstractConstructorAccess, strategy : LoadStrategy = null )
+		public function AbstractLoader( access : AbstractLoaderConstructorAccess, strategy : LoadStrategy = null )
 		{
 			_loadStrategy = strategy;
 			_loadStrategy.setOwner( this );
@@ -65,7 +65,7 @@ package com.bourre.load
 			load();
 		}
 		
-		public function load( url : String = null ) : void
+		public function load( url : URLRequest = null ) : void
 		{
 			if ( url ) setURL( url );
 
@@ -103,14 +103,14 @@ package com.bourre.load
 			return ( isNaN(n) ) ? 0 : n;
 		}
 
-		public function getURL() : String
+		public function getURL() : URLRequest
 		{
-			return _bAntiCache ? _sPrefixURL + _sURL + "?nocache=" + _getStringTimeStamp() : _sPrefixURL + _sURL;
+			return _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
 		}
 
-		public function setURL( sURL : String ) : void
+		public function setURL( url : URLRequest ) : void
 		{
-			_sURL = sURL;
+			_oURL = url;
 		}
 		
 		final public function addASyncCommandListener( listener : ASyncCommandListener ) : void
@@ -262,4 +262,4 @@ package com.bourre.load
 	}
 }
 
-internal class AbstractConstructorAccess {}
+internal class AbstractLoaderConstructorAccess {}

@@ -25,7 +25,7 @@ package com.bourre.load
 	import com.bourre.log.*;
 
 	import flash.display.*;
-	import flash.utils.*;
+	import flash.net.URLRequest;
 
 	public class GraphicLoader 
 		extends AbstractLoader
@@ -37,7 +37,7 @@ package com.bourre.load
 	
 		public function GraphicLoader( target : DisplayObjectContainer, index : int = -1, bAutoShow : Boolean = true )
 		{
-			super( abstractConstructorAccess, new LoaderStrategy() );
+			super( abstractLoaderConstructorAccess, new LoaderStrategy() );
 			
 			_target = target;
 			_index = -1;
@@ -50,7 +50,7 @@ package com.bourre.load
 			return new GraphicLoaderEvent( type, this );
 		}
 		
-		public override function load( url : String = null ) : void
+		public override function load( url : URLRequest = null ) : void
 		{
 			release();
 
@@ -58,7 +58,7 @@ package com.bourre.load
 		}
 		
 		protected override function onLoadInit() : void
-		{	trace( "onLoadInit" );
+		{
 			if ( getName() ) 
 			{
 				if ( !(GraphicLoaderLocator.getInstance().isRegistered(getName())) )
