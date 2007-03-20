@@ -53,9 +53,9 @@ package com.bourre.load
 			return new XMLLoaderEvent( type, this );
 		}
 		
-		public function getData() : XML
+		public function getXML() : XML
 		{
-			return null;
+			return getContent() as XML;
 		}
 
 		public override function load( url : URLRequest = null ) : void

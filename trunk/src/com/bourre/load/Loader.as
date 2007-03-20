@@ -40,7 +40,7 @@ package com.bourre.load
 		function removeListener( listener : LoaderListener ) : void;
 		function setAntiCache( b : Boolean ) : void;
 		
-		function setContent( content : DisplayObject ) : void;
+		function setContent( content : Object ) : void;
 		function fireOnLoadProgressEvent() : void;
 	    function fireOnLoadInitEvent() : void;
 	    function fireOnLoadStartEvent() : void;
