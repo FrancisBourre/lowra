@@ -8,12 +8,12 @@ package com.bourre.commands
 		public var commandEndCalled : Boolean;
 		public var commandTimeoutCalled : Boolean;
 		
-		public function onCommandEnd( e : Event ) : void
+		public function onCommandEnd( e : ASyncCommandEvent ) : void
 		{
 			commandEndCalled = true;
 		}
 		
-		public function onCommandTimeout( e : Event ) : void
+		public function onCommandTimeout( e : ASyncCommandEvent ) : void
 		{
 			commandTimeoutCalled = true;
 		}
