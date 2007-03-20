@@ -36,8 +36,10 @@ package com.bourre.load
 		function getName() : String;
 		function setName( name : String ) : void;
 		function getPerCent() : Number;
-		function addListener( listener : LoaderListener ) : void;
-		function removeListener( listener : LoaderListener ) : void;
+		function addListener( listener : LoaderListener ) : Boolean;
+		function removeListener( listener : LoaderListener ) : Boolean;
+		function addEventListener( type : String, listener : Object, ...rest ) : Boolean
+		function removeEventListener( type : String, listener : Object ) : Boolean
 		function setAntiCache( b : Boolean ) : void;
 		
 		function setContent( content : Object ) : void;
