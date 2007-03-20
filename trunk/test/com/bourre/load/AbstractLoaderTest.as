@@ -22,6 +22,7 @@ package com.bourre.load
 	 */
 
 	import flexunit.framework.TestCase;
+	import flash.net.URLRequest;
 	
 	public class AbstractLoaderTest 
 		extends TestCase
@@ -40,7 +41,7 @@ package com.bourre.load
 
 		public function testGetSetURL() : void
 		{
-			var url : String = "http://www.tweenpix.net";
+			var url : URLRequest = new URLRequest("http://www.tweenpix.net");
 			_l.setURL( url );
 			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL", url, _l.getURL() );
 		}
@@ -62,11 +63,11 @@ package com.bourre.load
 		public function testPrefixURL() : void
 		{
 			var prefix : String = "http://www.tweenpix.net/";
-			var url : String = "blog";
+			var url : URLRequest = new URLRequest( "blog" );
 			
 			_l.setURL( url );
 			_l.prefixURL( prefix );
-			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL and AbstractLoader.prefixURL", prefix+url, _l.getURL());
+			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL and AbstractLoader.prefixURL", prefix+url.url, _l.getURL());
 		}
 	}
 }
