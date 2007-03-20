@@ -43,7 +43,7 @@ package com.bourre.load
 		{
 			var url : URLRequest = new URLRequest("http://www.tweenpix.net");
 			_l.setURL( url );
-			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL", url, _l.getURL() );
+			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL", url.url, _l.getURL().url );
 		}
 
 		public function testGetSetTimeOut() : void
@@ -67,7 +67,7 @@ package com.bourre.load
 			
 			_l.setURL( url );
 			_l.prefixURL( prefix );
-			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL and AbstractLoader.prefixURL", prefix+url.url, _l.getURL());
+			assertEquals( "AbstractLoader.getURL doesn't return value passed to AbstractLoader.setURL and AbstractLoader.prefixURL", prefix+url.url, _l.getURL().url);
 		}
 	}
 }
