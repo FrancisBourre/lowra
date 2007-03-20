@@ -123,24 +123,24 @@ package com.bourre.load
 			return _oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
 
-		public function addListener( listener : LoaderListener ) : void
+		public function addListener( listener : LoaderListener ) : Boolean
 		{
-			_oEB.addListener( listener );
+			return _oEB.addListener( listener );
 		}
 
-		public function removeListener( listener : LoaderListener ) : void
+		public function removeListener( listener : LoaderListener ) : Boolean
 		{
-			_oEB.removeListener( listener );
+			return _oEB.removeListener( listener );
 		}
 		
-		public function addEventListener( type : String, listener : Object, ...rest ) : void
+		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-			_oEB.addEventListener.apply( _oEB, [type, listener, rest] );
+			return _oEB.addEventListener.apply( _oEB, [type, listener, rest] );
 		}
 		
-		public function removeEventListener( type : String, listener : Object ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_oEB.removeEventListener( type, listener );
+			return _oEB.removeEventListener( type, listener );
 		}
 
 		public function getName() : String
