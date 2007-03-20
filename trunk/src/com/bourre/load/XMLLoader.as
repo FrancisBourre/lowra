@@ -15,7 +15,7 @@ package com.bourre.load
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -23,22 +23,53 @@ package com.bourre.load
 
 	import com.bourre.log.*;
 	import com.bourre.load.strategy.URLLoaderStrategy;
+
+	import flash.net.URLRequest;
 	
 	public class XMLLoader 
 		extends AbstractLoader
 	{
-		public function XMLLoader()
+		private var _oDeserializer : XMLLoaderDeserializer;
+
+		public function XMLLoader( deserializer : XMLLoaderDeserializer = null )
 		{
-			super( abstractConstructorAccess, new URLLoaderStrategy() );
+			super( abstractLoaderConstructorAccess, new URLLoaderStrategy() );
+			if ( deserializer ) setDeserializer ( deserializer );
+		}
+
+		public function setDeserializer ( deserializer : XMLLoaderDeserializer ) : void
+		{
+			deserializer.setOwner( this );
+			_oDeserializer = deserializer;
+		}
+
+		public function getDeserializer () : XMLLoaderDeserializer 
+		{
+			return _oDeserializer;
+		}
+
+		protected override function getLoaderEvent( type : String ) : LoaderEvent
+		{
+			return new XMLLoaderEvent( type, this );
 		}
 		
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public override function toString() : String 
+		public function getData() : XML
 		{
-			return PixlibStringifier.stringify( this );
+			return null;
+		}
+
+		public override function load( url : URLRequest = null ) : void
+		{
+			release();
+
+			super.load( url );
+		}
+
+		public override function release() : void
+		{
+			//
+
+			super.release();
 		}
 	}
 }
