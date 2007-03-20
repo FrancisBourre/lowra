@@ -4,6 +4,7 @@ package com.bourre.utils
 	import flash.utils.getQualifiedClassName;
 	import com.bourre.collection.Collection;
 	import com.bourre.collection.Iterator;
+	import com.bourre.log.PixlibDebug;
 	
 	public class ClassUtils
 	{
@@ -21,11 +22,11 @@ package com.bourre.utils
 		 * @return 	<code>true</code> if the method is implemented
 		 * 			by the child class, either <code>false</code>
 		 */
-		public static function isImplemented ( o : Object, f : String ) : Boolean
+		public static function isImplemented ( o : Object, classPath : String, f : String ) : Boolean
 		{
 			var x : XML = describeType( o );
 			var declaredBy : String = x..method.(@name == f).@declaredBy;
-			return ( declaredBy == getQualifiedClassName( o ) );
+			return ( declaredBy != classPath);
 		}
 		
 		/**
@@ -40,16 +41,15 @@ package com.bourre.utils
 		 * 			failed and return immediatly.
 		 * @see		#isImplemented()
 		 */
-		public static function isImplementedAll ( o : Object, c : Collection ) : Boolean
+		public static function isImplementedAll ( o : Object, classPath : String, ... rest ) : Boolean
 		{
-			var i : Iterator = c.iterator();
+			var i : Number = rest.length-1;
 			var b : Boolean = true;
 			var x : XML = describeType( o );
-			var s : String = getQualifiedClassName( o );
-			while ( i.hasNext() )
+			while ( --i -(-1) )
 			{
-				var declaredBy : String = x..method.(@name == i.next() ).@declaredBy;
-				if( !( declaredBy == s ) ) return false;
+				var declaredBy : String = x..method.(@name == rest[ i ] ).@declaredBy;
+				if( declaredBy == classPath ) return false;
 			}
 			return true;
 		} 

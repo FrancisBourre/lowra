@@ -30,14 +30,14 @@ package com.bourre.commands
 		 * @param listener
 		 * 
 		 */
-		function addASyncCommandListener( listener : ASyncCommandListener ) : void;
+		function addASyncCommandListener( listener : ASyncCommandListener ) : Boolean;
 		
 		/**
 		 * 
 		 * @param listener
 		 * 
 		 */
-		function removeASyncCommandListener( listener : ASyncCommandListener ) : void;
+		function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean;
 		
 		/**
 		 * 
