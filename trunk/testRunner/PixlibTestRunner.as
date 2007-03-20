@@ -1,4 +1,4 @@
-import flexunit.framework.TestSuite;
+﻿import flexunit.framework.TestSuite;
 
 import com.bourre.commands.*;
 import com.bourre.collection.*;
@@ -28,6 +28,8 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( HashMapTest );
 	ts.addTestSuite( WeakCollectionTest );
 	ts.addTestSuite( TypedArrayTest );
+	ts.addTestSuite( StackTest );
+	ts.addTestSuite( QueueTest );
 	
 	// com.bourre.commands
 	ts.addTestSuite( DelegateTest );
