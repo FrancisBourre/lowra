@@ -594,5 +594,30 @@ package com.bourre.collection
 	    {
 	    	_a = a;
 	    }
+	    
+	    
+	    /**
+	     * Return a copy of the internal untyped Array <code>TypedArray</code>
+	     * 
+	     * @return a copy of type Array.
+	     */
+	    public function toArray():Array
+	    {
+	    	return _a.concat()
+	    }
+	    
+	   /*override flash_proxy function nextNameIndex (index:int):int
+	    {
+	    	
+	    }
+	    
+		override flash_proxy function nextName(index:int):String
+	    {
+	    	
+    	}
+    	
+    	override flash_proxy function nextValue(index:int):*
+    	{
+    	}*/
 	}
 }
