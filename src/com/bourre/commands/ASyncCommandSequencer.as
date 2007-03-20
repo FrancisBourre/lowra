@@ -112,7 +112,7 @@ package com.bourre.commands
 		 * @param e
 		 * 
 		 */
-		public function onCommandEnd(e:Event):void
+		public function onCommandEnd( e : ASyncCommandEvent):void
 		{
 			if ( _nStep + 1 < getLength() )
 			{

@@ -25,6 +25,6 @@ package com.bourre.commands
 
 	public interface ASyncCommandListener
 	{
-		function onCommandEnd( e : Event ) : void;
+		function onCommandEnd( e : ASyncCommandEvent ) : void;
 	}
 }
