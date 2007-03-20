@@ -45,7 +45,7 @@ package com.bourre.load
 		private var _sPrefixURL : String;
 		
 		private var _loadStrategy : LoadStrategy;
-		private var _oContent : DisplayObject
+		private var _oContent : Object
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
 
@@ -113,14 +113,14 @@ package com.bourre.load
 			_oURL = url;
 		}
 		
-		final public function addASyncCommandListener( listener : ASyncCommandListener ) : void
+		public function addASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			_oEB.addEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.addEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
 
-		final public function removeASyncCommandListener( listener : ASyncCommandListener ) : void
+		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			_oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
 
 		public function addListener( listener : LoaderListener ) : void
@@ -185,12 +185,12 @@ package com.bourre.load
 		
 		public function getContent() : DisplayObject
 		{
-			return _oContent;
+			return _oContent as DisplayObject;
 		}
 		
-		public function setContent( o : DisplayObject ) : void
+		public function setContent( content : Object ) : void
 		{
-			_oContent = o;
+			_oContent = content;
 		}
 		
 		final public function fireOnLoadProgressEvent() : void
