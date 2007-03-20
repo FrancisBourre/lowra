@@ -8,9 +8,8 @@ package com.bourre.commands
 		{
 			super( abstractSyncCommandConstructorAccess );
 		}
+		
 		public override function execute( e : Event = null ) : void
-		{
-			
-		}
+		{}
 	}
 }

@@ -31,6 +31,8 @@ package com.bourre.core
 		private var _sf : Function;
 		private var _gf : Function;
 		
+		private var _value : Number;
+		
 		public function MethodAccessor ( o : Object, setter : String, getter : String  )
 		{
 			if( o == null )
@@ -57,11 +59,12 @@ package com.bourre.core
 		
 		public function getValue():Number
 		{
-			return _gf();
+			return _gf == null ? _value : _gf();
 		}	
 		
 		public function setValue( value : Number ) : void
 		{
+			if ( _gf == null ) _value = value;
 			_sf( value );
 		}
 		

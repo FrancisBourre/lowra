@@ -67,5 +67,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( RangeTest );
 	ts.addTestSuite( GridTest );
 	
+	// com.bourre.transitions
+	ts.addTestSuite( AbstractTweenTest );
+	//ts.addTestSuite( AbstractMultiTweenTest );
+	
 	return ts;
 }

@@ -2,12 +2,12 @@ package com.bourre.core
 {
 	public class MultiAccessor implements AccessorComposer
 	{
-		private var _o : *;
+		private var _o : Object;
 		private var _aGet : Array;
 		private var _aSet : Array;
 		private var _a : Array;
 		
-		public function MultiAccessor ( t : *, setter : Array, getter : Array = null ) 
+		public function MultiAccessor ( t : Object, setter : Array, getter : Array = null ) 
 		{
 			_a = new Array();
 			_o = t;
@@ -15,8 +15,8 @@ package com.bourre.core
 			_aGet = getter;
 			
 			var l : Number = setter.length;
-			var isMultiTarget : Boolean = ( t is Array);
-			for ( var i : Number = 0; i < l; i++ ) _a.push( AccessorFactory.getAccessor( isMultiTarget ?_o[ i ] : t , _aSet[ i ], _aGet[ i ] ) );
+			var isMultiTarget : Boolean = t is Array;
+			for ( var i : Number = 0; i < l; i++ ) _a.push( AccessorFactory.getAccessor( isMultiTarget ?_o[ i ] : t , _aSet[ i ], _aGet ? _aGet[ i ] : null ) );
 		}
 		
 		public function getSetterHelper():Array
@@ -47,6 +47,5 @@ package com.bourre.core
 			var l : Number = _a.length;
 			for ( var i : Number = 0; i < l; i++ ) Accessor( _a[i] ).setValue( values[i] );
 		}
-		
 	}
 }

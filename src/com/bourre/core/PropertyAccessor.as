@@ -63,6 +63,10 @@ package com.bourre.core
 		{
 			return _p;
 		}
+		public function getProperty() : String
+		{
+			return _p;
+		}
 		
 		public function toString () : String
 		{

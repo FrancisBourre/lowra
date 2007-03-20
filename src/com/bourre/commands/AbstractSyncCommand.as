@@ -40,9 +40,9 @@ package com.bourre.commands
 		 * @param listener
 		 * 
 		 */
-		public function addASyncCommandListener( listener : ASyncCommandListener ) : void
+		public function addASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			_oEB.addEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.addEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
 		
 		/**
@@ -50,9 +50,9 @@ package com.bourre.commands
 		 * @param listener
 		 * 
 		 */
-		public function removeASyncCommandListener( listener : ASyncCommandListener ) : void
+		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			_oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
 		
 		/**
