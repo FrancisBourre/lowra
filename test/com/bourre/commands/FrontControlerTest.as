@@ -74,14 +74,13 @@ package com.bourre.commands
 			var errorOccure : Boolean = false
 			try
 			{
-				_oFC.handleEvent (evt)
-			}catch(e : Event)
+				_oFC.handleEvent (evt);
+			}
+			catch(e : Event)
 			{
 				errorOccure = true
 			}
 			assertFalse("Failed to handle event with an empty Front controler", errorOccure)
-			
-			
 		}
 		
 		public function testRemove() : void
@@ -144,7 +143,7 @@ internal class MockPlugin implements IPlugin
 		public function onReleasePlugin() : void
 		{}
 		
-		public function fireExternalEvent( e : Event, channel : String ) : void
+		public function fireExternalEvent( e : Event, channel : EventChannel ) : void
 		{}
 		
 		public function firePublicEvent( e : Event ) : void
