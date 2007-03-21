@@ -36,6 +36,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BatchTest );
 	ts.addTestSuite( AbstractSyncCommandTest );
 	ts.addTestSuite( ASyncCommandSequencerTest );
+	ts.addTestSuite( FrontControlerTest );
 	
 	// com.bourre.core
 	ts.addTestSuite( AccessorTest );
