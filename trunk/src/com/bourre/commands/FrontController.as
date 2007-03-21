@@ -98,7 +98,7 @@ package com.bourre.commands
 	
 		protected function _executeCommand( e : Event ) : void
 		{
-			if( _mEventList.containsKey( e.toString() ) )
+			if( _mEventList.containsKey( e.type ) )
 				_getCommand( e.type ).execute( e );
 		}
 		
