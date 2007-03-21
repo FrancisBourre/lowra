@@ -35,7 +35,7 @@ package com.bourre.commands
 		protected var _owner : IPlugin;
 		protected var _mEventList : HashMap;
 
-		public function FrontController( owner : IPlugin = null, eb : EventBroadcaster = null ) 
+		public function FrontController( owner : IPlugin = null) 
 		{
 			setOwner( owner );
 			_mEventList = new HashMap();
