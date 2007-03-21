@@ -67,7 +67,7 @@ package com.bourre.transitions
 		{
 			super ( abstractSyncCommandConstructorAccess );
 			
-			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions:AbstractTween", "isMotionFinished", "onUpdate" ) )
+			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions:AbstractMultiTween", "isMotionFinished", "onUpdate" ) )
 			{
 				PixlibDebug.ERROR ( this + " have to implements virtual methods : isMotionFinished & onUpdate" );
 				throw new UnimplementedVirtualMethodException ( this + " have to implements virtual methods : isMotionFinished & onUpdate" );
