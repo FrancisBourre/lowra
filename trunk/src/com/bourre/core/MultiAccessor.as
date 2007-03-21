@@ -1,5 +1,7 @@
 package com.bourre.core
 {
+	import com.bourre.log.PixlibDebug;
+	
 	public class MultiAccessor implements AccessorComposer
 	{
 		private var _o : Object;
@@ -16,7 +18,10 @@ package com.bourre.core
 			
 			var l : Number = setter.length;
 			var isMultiTarget : Boolean = t is Array;
-			for ( var i : Number = 0; i < l; i++ ) _a.push( AccessorFactory.getAccessor( isMultiTarget ?_o[ i ] : t , _aSet[ i ], _aGet ? _aGet[ i ] : null ) );
+			for ( var i : Number = 0; i < l; i++ ) 
+			{
+				_a.push( AccessorFactory.getAccessor( isMultiTarget ? _o[ i ] : _o , _aSet[ i ], _aGet != null ? _aGet[ i ] : null ) );
+			}
 		}
 		
 		public function getSetterHelper():Array
@@ -32,7 +37,7 @@ package com.bourre.core
 			return a;
 		}
 		
-		public function getTarget():*
+		public function getTarget() : Object
 		{
 			return _o;
 		}
