@@ -33,7 +33,7 @@ package com.bourre.plugin
 		function onInitPlugin() : void;
 		function onReleasePlugin() : void;
 		
-		function fireExternalEvent( e : Event, channel : String ) : void;
+		function fireExternalEvent( e : Event, channel : EventChannel ) : void;
 		function firePublicEvent( e : Event ) : void;
 		function firePrivateEvent( e : Event ) : void;
 		

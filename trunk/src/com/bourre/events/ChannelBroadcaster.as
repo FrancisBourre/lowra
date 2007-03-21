@@ -83,7 +83,7 @@ package com.bourre.events
 			}
 		}
 		
-		public function getChannelDispatcher( oChannel : EventChannel = null ) : EventBroadcaster
+		public function getChannelDispatcher( oChannel : EventChannel = null, owner : Object = null ) : EventBroadcaster
 		{
 			if ( hasChannelDispatcher( oChannel ) )
 			{
@@ -91,12 +91,12 @@ package com.bourre.events
 				
 			} else
 			{
-				var eb : EventBroadcaster = new EventBroadcaster();
+				var eb : EventBroadcaster = new EventBroadcaster( owner );
 				_mChannel.put( oChannel, eb );
 				return eb;
 			}
 		}
-		
+
 		public function addListener( o : Object, oChannel : EventChannel = null ) : void
 		{
 			getChannelDispatcher( oChannel ).addListener( o );
