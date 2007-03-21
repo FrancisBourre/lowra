@@ -21,7 +21,7 @@ package com.bourre.core
 
 		function setValue( values : Array ) : void;
 	
-		function getTarget() : *;
+		function getTarget() : Object;
 		
 		function getGetterHelper() : Array;
 		

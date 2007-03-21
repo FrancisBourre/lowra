@@ -47,8 +47,8 @@ package com.bourre.commands
 			assertTrue ( _s + ".addCommand() failed to add the command", _s.addCommand( _c1 ) );
 			assertTrue ( _s + ".addCommand() failed to add the command", _s.addCommand( _c2 ) );
 			
-			var o : Timer = new Timer ( 20, 1 );
-			o.addEventListener( TimerEvent.TIMER_COMPLETE, addAsync ( _onTimeOut, 30 ) );
+			var o : Timer = new Timer ( 50, 1 );
+			o.addEventListener( TimerEvent.TIMER_COMPLETE, addAsync ( _onTimeOut, 100 ) );
 			o.start();
 			
 			_s.execute();

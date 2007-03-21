@@ -21,7 +21,7 @@ package com.bourre.core
 			_o = new MockAccessor();
 			_pa = AccessorFactory.getAccessor( _o, "prop" );
 			_ma = AccessorFactory.getAccessor( _o, "setProp", "getProp" );
-			_ac = AccessorFactory.getMultiAccessor ( _o, [ "setProp", "prop" ],[ "setProp" ] );
+			_ac = AccessorFactory.getMultiAccessor ( _o, [ "setProp", "prop" ],[ "getProp" ] );
 		}
 
 		public function testConstruct () : void

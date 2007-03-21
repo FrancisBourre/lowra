@@ -36,14 +36,14 @@ package com.bourre.core
 			if( !t.hasOwnProperty( setter ) )
 			{
 				PixlibDebug.ERROR(  t + " doesn't own any properties named " + setter );
-				throw new ArgumentError ( t + " doesn't own any properties named "+ setter );
+				throw new ReferenceError ( t + " doesn't own any properties named "+ setter );
 			}
-			if( t[ setter ] is Function )
+			else if( t[ setter ] is Function )
 			{
 				if( !t.hasOwnProperty( getter ) )
 				{
-					PixlibDebug.ERROR(  t + " doesn't own any properties named " + getter );
-					throw new ArgumentError ( t + " doesn't own any properties named "+ setter );
+					PixlibDebug.ERROR(  t + " doesn't own any getter method named " + getter );
+					throw new ReferenceError ( t + " doesn't own any getter method named "+ getter );
 				}
 				return new MethodAccessor ( t, setter, getter );
 			}
@@ -60,7 +60,6 @@ package com.bourre.core
 				PixlibDebug.ERROR( t + " isn't a valid target for an accessor." );
 				throw new ArgumentError ( t + " isn't a valid target for an accessor." );
 			}
-			
 			return new MultiAccessor ( t, setter, getter );
 
 		}
