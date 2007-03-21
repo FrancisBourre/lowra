@@ -90,7 +90,7 @@ package com.bourre.commands
 		}
 		
 		protected function _getCommand( eventName : String ) : Command
-		{
+		{			
 			var cmd : Command = new ( _mEventList.get( eventName.toString() ) as Class )();
 			if ( cmd is AbstractCommand ) ( cmd as AbstractCommand ).setOwner( getOwner() );
 			return cmd;
@@ -98,7 +98,8 @@ package com.bourre.commands
 	
 		protected function _executeCommand( e : Event ) : void
 		{
-			_getCommand( e.type ).execute( e );
+			if( _mEventList.containsKey( e.toString() ) )
+				_getCommand( e.type ).execute( e );
 		}
 		
 		/**
