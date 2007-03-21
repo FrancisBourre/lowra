@@ -197,14 +197,13 @@ package com.bourre.events
 		
 		public function broadcastEvent( e : Event ) : void
 		{
-			if (hasListenerCollection(e.type)) _broadcastEvent( getListenerCollection(e.type), e );
+			if ( hasListenerCollection(e.type) ) _broadcastEvent( getListenerCollection(e.type), e );
 			if ( !(_mAll.isEmpty()) ) _broadcastEvent( _mAll, e );
 		}
 		
 		public function _broadcastEvent( c : Collection, e : Event ) : void
 		{
 			var type : String = e.type;
-			
 			var a : Array = c.toArray();
 			var l : Number = a.length;
 			
@@ -220,7 +219,7 @@ package com.bourre.events
 				{
 					try
 					{
-						listener[type].call( null, e );
+						listener[type].call( listener, e );
 						
 					} catch( err1 : Error )
 					{

@@ -35,7 +35,7 @@ package com.bourre.plugin
 			
 		}
 
-		public function fireExternalEvent( e : Event, channel : String ) : void
+		public function fireExternalEvent( e : Event, channel : EventChannel ) : void
 		{
 			
 		}
