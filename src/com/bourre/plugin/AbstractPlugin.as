@@ -29,11 +29,11 @@ package com.bourre.plugin
 			_oController = new FrontController( this );
 			_oModelLocator = ModelLocator.getInstance( this );
 			_oViewLocator = ViewLocator.getInstance( this );
-			
+				
 			_oABExternal = ApplicationBroadcaster.getInstance();
 			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
 			_oEBPrivate = getController().getBroadcaster();
-			
+				
 			_oEBPublic.addListener( this );
 		}
 		
