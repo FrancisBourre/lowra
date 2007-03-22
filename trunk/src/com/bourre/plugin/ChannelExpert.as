@@ -8,6 +8,7 @@ package com.bourre.plugin
 	public class ChannelExpert
 	{
 		private static var _oI : ChannelExpert;
+		private static var _N : uint = 0;
 		private var _m : HashMap;
 		
 		/**
@@ -26,21 +27,24 @@ package com.bourre.plugin
 		
 		public function getChannel( o : Object ) : EventChannel
 		{
-			if ( _m.containsKey( o ) )
+			if ( _m.containsKey( ChannelExpert._N ) )
 			{
-				return _m.get( o ) as EventChannel;
+				var channel : EventChannel = _m.get( ChannelExpert._N ) as EventChannel;
+				ChannelExpert._N++;
+				return channel;
 	
 			} else
 			{
 				PluginDebug.getInstance().debug( this + ".getChannel() failed on " + o );
-				registerChannel( o, ApplicationBroadcaster.NO_CHANNEL );
-				return null;
+				registerChannel( ApplicationBroadcaster.NO_CHANNEL );
+				ChannelExpert._N++;
+				return ApplicationBroadcaster.NO_CHANNEL;
 			}
 		}
 		
-		public function registerChannel( target : Object, channel : EventChannel ) : void
+		public function registerChannel( channel : EventChannel ) : void
 		{
-			_m.put( target, channel );
+			_m.put( ChannelExpert._N, channel );
 		}
 		
 		/**
