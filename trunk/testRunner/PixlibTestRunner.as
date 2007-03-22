@@ -39,6 +39,8 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( AbstractSyncCommandTest );
 	ts.addTestSuite( ASyncCommandSequencerTest );
 	ts.addTestSuite( FrontControlerTest );
+	ts.addTestSuite( CommandMSTest );
+	ts.addTestSuite( CommandFPSTest );
 	
 	// com.bourre.core
 	ts.addTestSuite( AccessorTest );
