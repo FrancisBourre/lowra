@@ -5,7 +5,9 @@ import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
 import com.bourre.load.*;
+import com.bourre.load.strategy.*;
 import com.bourre.log.*;
+import com.bourre.plugin.*;
 import com.bourre.utils.*;
 import com.bourre.structures.*;
 import com.bourre.transitions.*;
@@ -48,6 +50,7 @@ private function createSuite() : TestSuite
 	
 	// com.bourre.load
 	ts.addTestSuite( AbstractLoaderTest );
+	ts.addTestSuite( LoaderStrategyTest );
 	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
 	
@@ -58,7 +61,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( LogLevelTest );
 	
 	// com.bourre.plugin
-	//ts.addTestSuite( PixlibDebugTest );
+	//ts.addTestSuite( PixlibDebugTest );	
+	ts.addTestSuite( NullPluginTest );
+
 	
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
