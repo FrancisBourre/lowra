@@ -5,7 +5,10 @@ package com.bourre.load.strategy
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.load.*;
 	import com.bourre.load.strategy.*;
+	
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.Logger;
+	import com.bourre.utils.FlashInspectorLayout;
 	
 	import flash.events.Event;
 	import flash.display.DisplayObject;
@@ -39,6 +42,7 @@ package com.bourre.load.strategy
 			implements Loader
 	{
 		private var _ls 			: LoaderStrategy;
+		private var _ls2 			: LoaderStrategy;		
 		private var _urlRqt 		: URLRequest;
 		
 		private var _bOnStart 		: Boolean;
@@ -49,10 +53,13 @@ package com.bourre.load.strategy
 
 		public override function setUp() : void
 		{
+			Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
+			
 			_ls = new LoaderStrategy();
 			_urlRqt = new URLRequest();			
+			
 			_bOnStart 		= false;
-	    	_bOnProgress 	= false;	
+	    	_bOnProgress    = false;	
 	    	_bOnComplete 	= false;
 	    	_bOnInit 		= false;	
 	    	_bOnError 		= false;
@@ -61,48 +68,79 @@ package com.bourre.load.strategy
 		public function testConstruct() : void
 		{
 			assertNotNull( "LoaderStrategyTest constructor returns null", _ls );
+			assertEquals("LoaderStrategy.getBytesLoaded() doesn't be at 0 before the first loading", _ls.getBytesLoaded(), 0);
+			assertEquals("LoaderStrategy.getBytesTotal() doesn't be at 0 before the first loading", _ls.getBytesTotal(), 0);			
 		}	
 		
 		public function testOnStart() : void
 		{
-			var urlOk  : String = "./ricochets1024_768.jpg";
-			var urlBad : String= "../ricochets1024_768";
-			_urlRqt.url = urlOk;
-			
+			_urlRqt.url = "./ricochets1024_768.jpg";
 			_ls.setOwner(this);
-			assertEquals("LoaderStrategy.getBytesLoaded() doesn't be at 0 before the first loading", _ls.getBytesLoaded(), 0);
-			assertEquals("LoaderStrategy.getBytesTotal() doesn't be at 0 before the first loading", _ls.getBytesTotal(), 0);
 			_ls.load( _urlRqt );
 			
-			var t1 : Timer = new Timer( 1000, 1 );
-			t1.addEventListener( TimerEvent.TIMER, addAsync( _onStart, 1000 ) );
-			t1.start();
-			
-			var t2 : Timer = new Timer( 1000, 1 );
-			t2.addEventListener( TimerEvent.TIMER, addAsync( _onProgress, 1000 ) );
-			t2.start();	
-
-			var t3 : Timer = new Timer( 1000, 1 );
-			t3.addEventListener( TimerEvent.TIMER, addAsync( _onComplete, 1000 ) );
-			t3.start();				
-			
-			var t4 : Timer = new Timer( 1000, 1 );
-			t4.addEventListener( TimerEvent.TIMER, addAsync( _onInit, 1000 ) );
-			t4.start();	
-			
-			_urlRqt.url = urlBad;
-			_ls.load( _urlRqt );
-			var t5 : Timer = new Timer( 2000, 1 );
-			t5.addEventListener( TimerEvent.TIMER, addAsync( _onError, 2000 ) );
-			t5.start();
-			
-			_urlRqt.url = urlOk;
+			var t : Timer = new Timer( 100, 1 );
+			t.addEventListener( TimerEvent.TIMER, addAsync( _onStart, 100 ) );
+			t.start();			
 		}
+		public function testOnProgress() : void
+		{
+			_urlRqt.url = "./ricochets1024_768.jpg";
+			_ls.setOwner(this);
+			_ls.load( _urlRqt );
+						
+			var t : Timer = new Timer( 100, 1 );
+			t.addEventListener( TimerEvent.TIMER, addAsync( _onProgress, 100 ) );
+			t.start();				
+		}	
+	
+		public function testOnComplete() : void
+		{
+			_urlRqt.url = "./ricochets1024_768.jpg";
+			_ls.setOwner(this);
+			_ls.load( _urlRqt );
+						
+			var t : Timer = new Timer( 1000, 1 );
+			t.addEventListener( TimerEvent.TIMER, addAsync( _onComplete, 1000 ) );
+			t.start();				
+		}			
+		
+		public function testOnInit() : void
+		{
+			_urlRqt.url = "./ricochets1024_768.jpg";
+			_ls.setOwner(this);
+			_ls.load( _urlRqt );
+						
+			var t : Timer = new Timer( 1000, 1 );
+			t.addEventListener( TimerEvent.TIMER, addAsync( _onInit, 1000 ) );
+			t.start();				
+		}
+
+		public function testOnError() : void
+		{
+			_urlRqt.url =  "../ricochets1024_768" ;
+			_ls.setOwner(this);
+			_ls.load( _urlRqt );
+
+			var t : Timer = new Timer( 100, 1 );
+			t.addEventListener( TimerEvent.TIMER, addAsync( _onError, 100 ) );
+			t.start();			
+		}
+		
+		private function testRelease():void
+		{
+			_urlRqt.url = "./ricochets1024_768.jpg";
+			_ls.load( _urlRqt );
+			_ls.release();
+
+			var t : Timer = new Timer( 100, 1 );			
+			t.addEventListener( TimerEvent.TIMER, addAsync( _onLoadWithLoadStrategyRelease, 100 ) );			
+			t.start();
+		}
+				
 		
 		private function _onStart( event : TimerEvent ) : void
 		{
 			assertTrue( "LoaderStrategy didn't call fireOnLoadStartEvent() on its _owner", _bOnStart );
-			_bOnStart = false;
 		}
 		
 		private function _onProgress( event : TimerEvent ) : void
@@ -123,7 +161,6 @@ package com.bourre.load.strategy
 		private function _onError( event : TimerEvent ) : void
 		{
 			assertTrue( "LoaderStrategy didn't call fireOnLoadErrorEvent() on its _owner", _bOnError );
-			_onReleaseLS();
 		}		
 		
 		private function _onLoadWithLoadStrategyRelease( event : TimerEvent ) : void
@@ -131,15 +168,7 @@ package com.bourre.load.strategy
 			assertFalse( "LoaderStrategy release() but can be load again", _bOnStart );
 		}	
 		
-		private function _onReleaseLS():void
-		{
-			_ls.load( _urlRqt );
-			_ls.release();
-
-			var t7 : Timer = new Timer( 1000, 1 );			
-			t7.addEventListener( TimerEvent.TIMER, addAsync( _onLoadWithLoadStrategyRelease, 1000 ) );			
-			t7.start();
-		}		
+		
 		
 		
 		// méthodes implémentés (Loader)
@@ -148,7 +177,6 @@ package com.bourre.load.strategy
 		{
 			_bOnComplete = true;
 		}
-		
 			    
 	    public function fireOnLoadStartEvent() : void
 	    {
@@ -156,16 +184,18 @@ package com.bourre.load.strategy
 	    }
 		public function fireOnLoadProgressEvent() : void
 		{
-			_bOnProgress = true;
+			_bOnProgress = true ;
 		}
 	    public function fireOnLoadInitEvent() : void
-	    {    	
+	    {    
 			_bOnInit = true;   	
 	    }
 		public function fireOnLoadErrorEvent() : void
 		{ 				
 			_bOnError = true;		
 		}
+
+		
 		
 		// inutiles pour les tests mais obligatiores ("implements Loader")
 		public function load( url : URLRequest = null  ) : void
