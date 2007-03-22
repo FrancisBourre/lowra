@@ -68,6 +68,7 @@ package com.bourre.commands
 			assertTrue("Failed to execute a command", this.isExecuted)
 			assertEquals("Failed to get good command owner", _oPlugin, this.commandOwner)
 		}
+		
 		public function testRunCommandWithEmptyFC() : void
 		{
 			var evt : Event = new Event("anEvent")
