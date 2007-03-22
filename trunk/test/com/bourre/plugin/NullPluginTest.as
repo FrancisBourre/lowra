@@ -28,10 +28,14 @@ package com.bourre.plugin
 		public override function setUp() : void
 		{
 			_nP = NullPlugin.getInstance();
+		}
+		
+		public function testConstruct() : void
+		{
 			assertNotNull( "NullPlugin getInstance() return null", _nP );
 			assertTrue( "NullPlugin getInstance() not return an object 'NullPlugin'", _nP is NullPlugin );
 			assertStrictlyEquals( "NullPlugin getInstance() not return an object 'NullPlugin'", _nP, NullPlugin.getInstance() );			
-		}
+		}		
 		
 		public function testGetLogger() : void
 		{
