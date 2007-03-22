@@ -20,7 +20,11 @@ package com.bourre.plugin
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	 	
+	 
+	 /**
+	 * @author Steve Lombard
+	 * @version 1.0
+	 */		
 	public class NullPluginTest
 		extends TestCase
 	{
