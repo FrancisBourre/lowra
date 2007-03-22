@@ -4,19 +4,17 @@ package com.bourre.load.strategy
 	
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.load.*;
-	import com.bourre.load.strategy.*;
+	import com.bourre.load.strategy.*;	
 	
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.Logger;
 	import com.bourre.utils.FlashInspectorLayout;		
 	
 	import flash.events.Event;
-	import flash.display.DisplayObject;
-	import flash.net.URLRequest;
-	
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
-	
+	import flash.net.URLRequest;	
+		
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -38,48 +36,46 @@ package com.bourre.load.strategy
 	 * @version 1.0
 	 */		
 
-	public class LoaderStrategyTest 
+	public class URLLoaderStrategyTest
 		extends TestCase
-			implements Loader
+		implements Loader
 	{
-		private var _ls 			: LoaderStrategy;		
+		
+		private var _URLls 			: URLLoaderStrategy;	
 		private var _urlRqt 		: URLRequest;
 		
 		private var _bOnStart 		: Boolean;
 		private var _bOnProgress	: Boolean;
 		private var _bOnComplete	: Boolean;
-		private var _bOnInit		: Boolean;
 		private var	_bOnError		: Boolean;
 
 		public override function setUp() : void
 		{
 			Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
 			
-			_ls = new LoaderStrategy();
+			_URLls = new URLLoaderStrategy();
 			_urlRqt = new URLRequest();			
 			
 			_bOnStart 		= false;
 	    	_bOnProgress    = false;	
-	    	_bOnComplete 	= false;
-	    	_bOnInit 		= false;	
+	    	_bOnComplete 	= false;	
 	    	_bOnError 		= false;
 		}
 		
 		public function testConstruct() : void
 		{
-			assertNotNull( "LoaderStrategy constructor returns null", _ls );
-			assertEquals("LoaderStrategy.getBytesLoaded() doesn't be at 0 before the first loading", _ls.getBytesLoaded(), 0);
-			assertEquals("LoaderStrategy.getBytesTotal() doesn't be at 0 before the first loading", _ls.getBytesTotal(), 0);
-			assertTrue("LoaderStrategy.getBytesLoaded() doesn't return a type 'uint'", _ls.getBytesLoaded() is uint);
-			assertTrue("LoaderStrategy.getBytesTotal() doesn't return a type 'uint'", _ls.getBytesTotal() is uint);							
+			assertNotNull( "URLLoaderStrategy constructor returns null", _URLls );
+			assertEquals("URLLoaderStrategy.getBytesLoaded() doesn't be at 0 before the first loading", _URLls.getBytesLoaded(), 0);
+			assertEquals("URLLoaderStrategy.getBytesTotal() doesn't be at 0 before the first loading", _URLls.getBytesTotal(), 0);
+			assertTrue("URLLoaderStrategy.getBytesLoaded() doesn't return a type 'uint'", _URLls.getBytesLoaded() is uint);
+			assertTrue("URLLoaderStrategy.getBytesTotal() doesn't return a type 'uint'", _URLls.getBytesTotal() is uint);							
 		}	
 		
 		public function testOnStart() : void
 		{
-			PixlibDebug.FATAL("testOnStart");
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
-			_ls.setOwner(this);
-			_ls.load( _urlRqt );
+			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_URLls.setOwner(this);
+			_URLls.load( _urlRqt );
 			
 			var t : Timer = new Timer( 100, 1 );
 			t.addEventListener( TimerEvent.TIMER, addAsync( _onStart, 100 ) );
@@ -87,9 +83,9 @@ package com.bourre.load.strategy
 		}
 		public function testOnProgress() : void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
-			_ls.setOwner(this);
-			_ls.load( _urlRqt );
+			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_URLls.setOwner(this);
+			_URLls.load( _urlRqt );
 						
 			var t : Timer = new Timer( 100, 1 );
 			t.addEventListener( TimerEvent.TIMER, addAsync( _onProgress, 100 ) );
@@ -98,31 +94,20 @@ package com.bourre.load.strategy
 	
 		public function testOnComplete() : void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
-			_ls.setOwner(this);
-			_ls.load( _urlRqt );
+			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_URLls.setOwner(this);
+			_URLls.load( _urlRqt );
 						
 			var t : Timer = new Timer( 1000, 1 );
 			t.addEventListener( TimerEvent.TIMER, addAsync( _onComplete, 1000 ) );
 			t.start();				
 		}			
-		
-		public function testOnInit() : void
-		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
-			_ls.setOwner(this);
-			_ls.load( _urlRqt );
-						
-			var t : Timer = new Timer( 1000, 1 );
-			t.addEventListener( TimerEvent.TIMER, addAsync( _onInit, 1000 ) );
-			t.start();				
-		}
 
 		public function testOnError() : void
 		{
-			_urlRqt.url =  "../ricochets1024_768" ;
-			_ls.setOwner(this);
-			_ls.load( _urlRqt );
+			_urlRqt.url =  "../URLLoaderStrategyTest" ;
+			_URLls.setOwner(this);
+			_URLls.load( _urlRqt );
 
 			var t : Timer = new Timer( 100, 1 );
 			t.addEventListener( TimerEvent.TIMER, addAsync( _onError, 100 ) );
@@ -131,9 +116,9 @@ package com.bourre.load.strategy
 		
 		private function testRelease():void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
-			_ls.load( _urlRqt );
-			_ls.release();
+			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_URLls.load( _urlRqt );
+			_URLls.release();
 
 			var t : Timer = new Timer( 100, 1 );			
 			t.addEventListener( TimerEvent.TIMER, addAsync( _onLoadWithLoadStrategyRelease, 100 ) );			
@@ -143,48 +128,36 @@ package com.bourre.load.strategy
 		
 		private function _onStart( event : TimerEvent ) : void
 		{
-			PixlibDebug.FATAL("_onStart");
-			assertTrue( "LoaderStrategy didn't call fireOnLoadStartEvent() on its _owner", _bOnStart );
+			assertTrue( "URLLoaderStrategy didn't call fireOnLoadStartEvent() on its _owner", _bOnStart );
 		}
 		
 		private function _onProgress( event : TimerEvent ) : void
 		{
-			assertTrue( "LoaderStrategy didn't call fireOnLoadProgressEvent() on its _owner ", _bOnProgress );
+			assertTrue( "URLLoaderStrategy didn't call fireOnLoadProgressEvent() on its _owner ", _bOnProgress );
 		}		
 
 		private function _onComplete( event : TimerEvent ) : void
 		{
-			assertTrue( "LoaderStrategy didn't call setContent( _loader.content ) on its _owner", _bOnComplete );	
-		}			
-
-		private function _onInit( event : TimerEvent ) : void
-		{
-			assertTrue( "LoaderStrategy didn't call fireOnLoadInitEvent() on its _owner", _bOnInit );
-		}	
+			assertTrue( "URLLoaderStrategy didn't call setContent( _loader.content ) on its _owner", _bOnComplete );	
+		}				
 			
 		private function _onError( event : TimerEvent ) : void
 		{
-			assertTrue( "LoaderStrategy didn't call fireOnLoadErrorEvent() on its _owner", _bOnError );
+			assertTrue( "URLLoaderStrategy didn't call fireOnLoadErrorEvent() on its _owner", _bOnError );
 		}		
 		
 		private function _onLoadWithLoadStrategyRelease( event : TimerEvent ) : void
 		{
-			assertFalse( "LoaderStrategy release() but can be load again", _bOnStart );
+			assertFalse( "URLLoaderStrategy release() but can be load again", _bOnStart );
 		}	
+
 		
-		
-		
-		
+
+	
 		// méthodes implémentés (Loader)
-		// utiles pour les tests	
-		public function setContent( content : Object ) : void
-		{
-			_bOnComplete = true;
-		}
-			    
+		// utiles pour les tests				    
 	    public function fireOnLoadStartEvent() : void
 	    {
-	    	PixlibDebug.FATAL("fireOnLoadStartEvent");
 	    	_bOnStart = true;	    		    	
 	    }
 		public function fireOnLoadProgressEvent() : void
@@ -193,7 +166,7 @@ package com.bourre.load.strategy
 		}
 	    public function fireOnLoadInitEvent() : void
 	    {    
-			_bOnInit = true;   	
+			_bOnComplete = true;   	
 	    }
 		public function fireOnLoadErrorEvent() : void
 		{ 				
@@ -203,6 +176,10 @@ package com.bourre.load.strategy
 		
 		
 		// inutiles pour les tests mais obligatiores ("implements Loader")
+		public function setContent( content : Object ) : void
+		{
+		}		
+		
 		public function load( url : URLRequest = null  ) : void
 		{
 		}
@@ -276,7 +253,7 @@ package com.bourre.load.strategy
 		// méthodes implémentés (Command)	
 		public function execute( e : Event = null ) : void
 		{
-		}
-		
+		}		
+				
 	}
 }
