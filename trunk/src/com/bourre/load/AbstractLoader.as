@@ -183,13 +183,13 @@ package com.bourre.load
 			_loadStrategy.release();
 		}
 		
-		public function getContent() : DisplayObject
+		public function getContent() : Object
 		{
-			return _oContent as DisplayObject;
+			return _oContent;
 		}
 		
 		public function setContent( content : Object ) : void
-		{
+		{	
 			_oContent = content;
 		}
 		

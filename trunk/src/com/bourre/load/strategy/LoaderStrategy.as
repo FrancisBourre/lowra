@@ -56,7 +56,7 @@ package com.bourre.load.strategy
 			_loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, _onIOError );
 	        _loader.contentLoaderInfo.addEventListener( Event.INIT, _onInit );
 	        _loader.contentLoaderInfo.addEventListener( Event.UNLOAD, _onUnLoad );
-	        
+
 			_loader.load( request );
 		}
 
@@ -102,7 +102,7 @@ package com.bourre.load.strategy
 		protected function _onComplete( e : Event ) : void 
 		{
 			// trace( "_onComplete: " + e );
-			if ( _owner ) _owner.setContent( _loader.content );
+			
 	    }
 
 	    protected function _onOpen( e : Event ) : void
@@ -131,7 +131,11 @@ package com.bourre.load.strategy
 	    protected function _onInit( e : Event ) : void 
 	    {
 			// trace( "_onInit: " + e );
-			if ( _owner ) _owner.fireOnLoadInitEvent();
+			if ( _owner ) 
+			{
+				_owner.setContent( _loader.content );
+				_owner.fireOnLoadInitEvent();
+			}
 		}
 
 	    protected function _onUnLoad( e : Event ) : void 

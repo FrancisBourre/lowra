@@ -25,10 +25,12 @@ package com.bourre.load
 	import com.bourre.load.strategy.URLLoaderStrategy;
 
 	import flash.net.URLRequest;
+	import flash.utils.describeType;
 	
 	public class XMLLoader 
 		extends AbstractLoader
 	{
+		private var _oContent : XML;
 		private var _oDeserializer : XMLLoaderDeserializer;
 
 		public function XMLLoader( deserializer : XMLLoaderDeserializer = null )
@@ -55,7 +57,7 @@ package com.bourre.load
 		
 		public function getXML() : XML
 		{
-			return getContent() as XML;
+			return XML( getContent() );
 		}
 
 		public override function load( url : URLRequest = null ) : void

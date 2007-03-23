@@ -27,6 +27,7 @@ package com.bourre.load.strategy
 
 	import flash.events.*;
 	import flash.net.*;
+	import flash.utils.describeType;
 
 	public class URLLoaderStrategy 
 		implements LoadStrategy
