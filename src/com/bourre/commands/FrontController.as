@@ -35,7 +35,7 @@ package com.bourre.commands
 		protected var _owner : IPlugin;
 		protected var _mEventList : HashMap;
 
-		public function FrontController( owner : IPlugin = null) 
+		public function FrontController( owner : IPlugin = null ) 
 		{
 			setOwner( owner );
 			_mEventList = new HashMap();
@@ -84,22 +84,16 @@ package com.bourre.commands
 			_mEventList.remove( eventName.toString() );
 		}
 		
-		final public function handleEvent( e : Event ) : void
+		final public function handleEvent( event : Event ) : void
 		{
-			_executeCommand( e );
-		}
-		
-		protected function _getCommand( eventName : String ) : Command
-		{			
-			var cmd : Command = new ( _mEventList.get( eventName.toString() ) as Class )();
-			if ( cmd is AbstractCommand ) ( cmd as AbstractCommand ).setOwner( getOwner() );
-			return cmd;
-		}
-	
-		protected function _executeCommand( e : Event ) : void
-		{
-			if( _mEventList.containsKey( e.type ) )
-				_getCommand( e.type ).execute( e );
+			var type : String = event.type.toString();
+			
+			if( _mEventList.containsKey( type ) )
+			{
+				var cmd : Command = new ( _mEventList.get( type ) as Class )();
+				if ( cmd is AbstractCommand ) ( cmd as AbstractCommand ).setOwner( getOwner() );
+				cmd.execute( event );
+			}
 		}
 		
 		/**

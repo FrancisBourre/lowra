@@ -81,22 +81,22 @@ package com.bourre.load
 		{
 			if ( _index != -1 )
 			{
-				_target.addChildAt( getContent(), _index );
+				_target.addChildAt( getContent() as DisplayObject, _index );
 				
 			} else
 			{
-				_target.addChild( getContent() );
+				_target.addChild( getContent() as DisplayObject );
 			}
 		}
 		
 		public function hide() : void
 		{
-			_target.removeChild( getContent() );
+			_target.removeChild( getContent() as DisplayObject );
 		}
 		
 		public function isVisible() : Boolean
 		{
-			return _target.contains( getContent() );
+			return _target.contains( getContent() as DisplayObject );
 		}
 		
 		public function set autoShow( b : Boolean ) : void
@@ -106,7 +106,7 @@ package com.bourre.load
 
 		public override function release() : void
 		{
-			if ( getContent() && _target.contains( getContent() ) )_target.removeChild( getContent() );
+			if ( getContent() && _target.contains( getContent() as DisplayObject ) )_target.removeChild( getContent() as DisplayObject );
 
 			if ( _bMustUnregister ) 
 			{
