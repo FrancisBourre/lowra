@@ -234,7 +234,7 @@ package com.bourre.transitions
 		
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-			return _oEB.addEventListener.apply( _oEB, [type, listener, rest] );
+			return _oEB.addEventListener.apply( _oEB, [type, listener].concat( rest ) );
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : Boolean
@@ -258,9 +258,10 @@ package com.bourre.transitions
 		{
 			_bP = false;
 			_oBeacon.removeFrameListener( this );
-			_oSetter.setValue( _aE );
 			
 			_update();
+			_oSetter.setValue( _aE );
+			
 			fireCommandEndEvent();
 			_oEB.broadcastEvent( _eOnMotionFinished );
 		}
