@@ -85,7 +85,7 @@ package com.bourre.transitions
 	
 		public override function onUpdate( sV : Number, eV : Number ) : Number
 		{
-			return _fE( _nCurrentMS, sV, eV - sV, _nRate );
+			return _fE( getTimer() - _nCurrentMS, sV, eV - sV, _nRate );
 		}
 	}
 }
