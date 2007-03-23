@@ -59,7 +59,7 @@ package com.bourre.transitions
 		}
 		public override function resume() : void
 		{
-			_nCurrentMS = getTimer() - (_nM - _nT);
+			_nCurrentMS = getTimer() - (_nM - _nCurrentMS);
 			super.resume();
 		}
 		public override function stop() : void
@@ -85,7 +85,7 @@ package com.bourre.transitions
 	
 		public override function onUpdate( sV : Number, eV : Number ) : Number
 		{
-			return _fE( _nCurrentFPS, sV, eV - sV, _nRate );
+			return _fE( _nCurrentMS, sV, eV - sV, _nRate );
 		}
 	}
 }

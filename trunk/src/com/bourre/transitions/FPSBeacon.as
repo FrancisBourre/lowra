@@ -46,11 +46,15 @@ package com.bourre.transitions
 		
 		public function addFrameListener( listener : FrameListener ) : void
 		{
+			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
+				start();
 			_oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
 		}
 		public function removeFrameListener( listener : FrameListener ) : void
 		{
 			_oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
+			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
+				stop();
 		}
 		
 		public function enterFrameHandler ( e : Event = null ) : void

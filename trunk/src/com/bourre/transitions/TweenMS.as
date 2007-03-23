@@ -17,8 +17,10 @@
 package com.bourre.transitions 
 { 
 	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.PixlibDebug;
 	import flash.events.Event;
 	import flash.utils.getTimer;
+	
 	
 	public class TweenMS extends AbstractTween
 		implements FrameListener
@@ -59,7 +61,7 @@ package com.bourre.transitions
 		}
 		public override function resume() : void
 		{
-			_nCurrentMS = getTimer() - (_nM - _nT);
+			_nCurrentMS = getTimer() - (_nM - _nCurrentMS );
 			super.resume();
 		}
 		public override function stop() : void
