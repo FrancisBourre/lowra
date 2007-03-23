@@ -14,14 +14,14 @@ package com.bourre.transitions
 		private static var _oInstance : MSBeacon;
 		
 		private var _oTimer : Timer; 
-		private var _nFrameRate : Number;
+		private var _nFramerate : Number;
 		private var _bIP : Boolean;
 		private var _oED : EventDispatcher;
 		
 		public function MSBeacon ( o : PrivateMSBeaconConstructorAccess )
 		{
-			_nFrameRate = 1000/40
-			_oTimer = new Timer( _nFrameRate );
+			_nFramerate = 1000/40
+			_oTimer = new Timer( _nFramerate, 0 );
 			_oTimer.addEventListener( TimerEvent.TIMER , timeHandler );
 			_bIP = false;
 			_oED = new EventDispatcher ();
@@ -52,11 +52,15 @@ package com.bourre.transitions
 		
 		public function addFrameListener( listener : FrameListener ) : void
 		{
+			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
+				start();
 			_oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
 		}
 		public function removeFrameListener( listener : FrameListener ) : void
 		{
 			_oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
+			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
+				stop();
 		}
 		
 		public function timeHandler ( e : TimerEvent = null ) : void
@@ -85,13 +89,13 @@ package com.bourre.transitions
 		} 
 		public function getFPS () : Number
 		{
-			return Math.round(1000/_nFrameRate);
+			return Math.round(1000/_nFramerate);
 		}
 		
 		public static function release () : void
 		{
 			_oInstance.stop();
-			_oTimer.removeEventListener( TimerEvent.TIMER , timeHandler );
+			_oInstance._oTimer.removeEventListener( TimerEvent.TIMER , _oInstance.timeHandler );
 			_oInstance = null;
 		}
 		public function toString() : String 

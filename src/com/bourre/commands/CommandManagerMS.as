@@ -1,8 +1,9 @@
 package com.bourre.commands
 {
+
 	public class CommandManagerMS extends CommandMS
 	{
-		private static var _oInstance:CommandManagerFPS;
+		private static var _oInstance:CommandManagerMS;
 	
 		public static function getInstance() : CommandManagerMS
 		{
@@ -13,10 +14,10 @@ package com.bourre.commands
 			_oInstance = new CommandManagerMS( new PrivateCommandManagerMSConstructorAccess() );
 			return _oInstance;
 		}
-		public static function release() : Void
+		public static function release() : void
 		{
 			_oInstance.removeAll();
-			delete _oInstance;
+			_oInstance = null;
 		}
 		public function CommandManagerMS ( o : PrivateCommandManagerMSConstructorAccess )
 		{}

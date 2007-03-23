@@ -80,6 +80,7 @@ private function createSuite() : TestSuite
 	// com.bourre.transitions
 	ts.addTestSuite( AbstractTweenTest );
 	ts.addTestSuite( AbstractMultiTweenTest );
+	ts.addTestSuite( TweenMSTest );
 	
 	return ts;
 }

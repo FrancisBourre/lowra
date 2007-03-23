@@ -1,5 +1,7 @@
 package com.bourre.commands
 {
+	import com.bourre.transitions.FPSBeacon;
+	
 	public class CommandManagerFPS extends CommandFPS
 	{
 		private static var _oInstance:CommandManagerFPS;
@@ -13,10 +15,10 @@ package com.bourre.commands
 			_oInstance = new CommandManagerFPS( new PrivateCommandManagerFPSConstructorAccess() );
 			return _oInstance;
 		}
-		public static function release() : Void
+		public static function release() : void
 		{
 			FPSBeacon.getInstance().removeFrameListener( _oInstance );
-			delete _oInstance;
+			_oInstance = null;
 		}
 		public function CommandManagerFPS ( o : PrivateCommandManagerFPSConstructorAccess )
 		{}

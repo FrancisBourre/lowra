@@ -131,7 +131,6 @@ package com.bourre.transitions
 		public function start() : void
 		{
 			execute();
-			_oEB.broadcastEvent( _eOnStart );
 		}
 		
 		public function yoyo() : void
@@ -171,6 +170,7 @@ package com.bourre.transitions
 				_nE = _nRE;
 				_bP = true;
 				_oBeacon.addFrameListener(this);
+				_oEB.broadcastEvent( _eOnStart );
 			}
 		}
 		
@@ -254,7 +254,7 @@ package com.bourre.transitions
 		
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-			return _oEB.addEventListener.apply( _oEB, [type, listener, rest] );
+			return _oEB.addEventListener.apply( _oEB, [ type, listener ].concat( rest ) );
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : Boolean
@@ -278,9 +278,10 @@ package com.bourre.transitions
 		{
 			_bP = false;
 			_oBeacon.removeFrameListener( this );
-			_oSetter.setValue( _nE );
 			
 			onUpdate();
+			_oSetter.setValue( _nE );
+			
 			fireCommandEndEvent();
 			_oEB.broadcastEvent( _eOnMotionFinished );
 		}
