@@ -93,7 +93,7 @@ package com.bourre.collection
 		 * @return 	the previous element in the list.
 		 * @throws	NoSuchElementException if the iteration has no previous element.
 		 */
-		function previous () : Object;
+		function previous () : *;
 		
 		/**
 		 * Returns the index of the element that would be returned

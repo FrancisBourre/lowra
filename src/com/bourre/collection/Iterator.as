@@ -14,17 +14,57 @@
  * limitations under the License.
  */
 
-/**
- * @author Francis Bourre
- * @version 1.0
- */
+
 
 package com.bourre.collection
 {
+	/**
+	 * An iterator over a collection.<br/>
+	 * Iterators differ from enumerations in two ways :
+	 * <ul>
+     * <li>Iterators allow the caller to remove elements
+     * from the underlying collection during the
+     * iteration with well-defined semantics.
+     * <li>Method names have been improved.
+     * </ul> 
+     * 
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	public interface Iterator
 	{
+		/**
+		 * Returns true if the iteration has more elements.
+		 * (In other words, returns true if next would return
+		 * an element rather than throwing an exception.)
+		 * 
+		 * @return true if the iterator has more elements.
+		 */
 		function hasNext() : Boolean;
+		
+ 		/**
+ 		 * Returns the next element in the iteration. Calling this method
+ 		 * repeatedly until the hasNext() method returns false will return
+ 		 * each element in the underlying collection exactly once.
+ 		 * 
+ 		 * @return the next element in the iteration.
+ 		 * @throws NoSuchElementException iteration has no more elements.
+ 		 */
  		function next() : *;
+ 		
+        /**
+         * Removes from the underlying collection the last element returned
+         * by the iterator (optional operation). This method can be called
+         * only once per call to next. The behavior of an iterator is unspecified
+         * if the underlying collection is modified while the iteration is in
+         * progress in any way other than by calling this method.
+         * 
+         * @throws UnsupportedOperationException if the remove  operation is not
+         *         supported by this Iterator.
+         * @throws IllegalStateException - if the next method has not yet been called,
+         *         or the remove method has already been called after the last
+         *         call to the next  method.
+         */
         function remove() : void;
 	}
 }

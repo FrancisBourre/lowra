@@ -101,7 +101,7 @@ package com.bourre.collection
 			stack2.add ('bugOrYes')
 			stack2.add(50)
 			
-			assertTrue (_oQ + ".containsAll() failled to return  true", _oQ.containsAll (new Stack()) )
+			assertTrue (_oQ + ".containsAll() failled to return  true", _oQ.containsAll (new Queue()) )
 			assertFalse (_oQ + ".containsAll() failled to return false [2]", _oQ.containsAll (stack2) )
 			stack2.add(10)
 			assertFalse (_oQ + ".containsAll() failled to return false [3]", _oQ.containsAll (stack2) )
@@ -137,7 +137,7 @@ package com.bourre.collection
 		
 		public function testAddAll() : void
 		{
-			var Queue2 : Stack = new Stack ()
+			var Queue2 : Queue = new Queue ()
 			Queue2.add (12)
 			Queue2.add ('bugOrBug')
 			Queue2.add ("hello")

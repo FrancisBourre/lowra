@@ -15,7 +15,6 @@
  */
 package com.bourre.collection
 {
-	
 	/**
 	 * An ordered collection (also known as a sequence). 
 	 * The user of this interface has precise control over where
@@ -25,7 +24,7 @@ package com.bourre.collection
 	 * 
 	 * <p>Unlike sets, lists typically allow duplicate elements.
 	 * More formally, lists typically allow pairs of elements
-	 * e1 and e2 such that e1.equals(e2), and they typically
+	 * e1 and e2 such that e1 === e2, and they typically
 	 * allow multiple null elements if they allow null elements
 	 * at all. It is not inconceivable that someone might wish
 	 * to implement a list that prohibits duplicates, by throwing
@@ -89,19 +88,19 @@ package com.bourre.collection
 		 * currently at that position (if any) and any subsequent
 		 * elements to the right (adds one to their indices).
 		 * 
-		 * @param 	index	index at which the specified element
-		 * 					is to be inserted.
-		 * @param 	o 		element to be inserted.
-		 * @throws 	UnsupportedOperationException - if the add method is not
-		 * 		   	supported by this list.
-		 * @throws 	ClassCastException if the class of the specified
-		 * 		   	element prevents it from being added to this list.
-		 * @throws	NullPointerException if the specified element
-		 * 			is null and this list does not support null elements.
-		 * @throws	IllegalArgumentException if some aspect of the specified
-		 * 			element prevents it from being added to this list.
-		 * @throws	IndexOutOfBoundsException if the index is out of range
-		 * 			(index < 0 || index > size()).
+		 * @param index index at which the specified element
+		 * 		   		is to be inserted.
+		 * @param  o element to be inserted.
+		 * @throws UnsupportedOperationException if the add method is not
+		 * 		   supported by this list.
+		 * @throws ClassCastException if the class of the specified
+		 * 		   element prevents it from being added to this list.
+		 * @throws NullPointerException if the specified element
+		 * 		   is null and this list does not support null elements.
+		 * @throws IllegalArgumentException if some aspect of the specified
+		 * 		   element prevents it from being added to this list.
+		 * @throws IndexOutOfBoundsException if the index is out of range
+		 * 		   (index < 0 || index > size()).
 		 */
 		function addAt ( index : uint, o : Object ) : void;
 		
@@ -117,30 +116,30 @@ package com.bourre.collection
 		 * is in progress. (Note that this will occur if the specified
 		 * collection is this list, and it's nonempty.)
 		 * 
-		 * @param 	index	index at which to insert first element
-		 * 					from the specified collection.
-		 * @return 	c		elements to be inserted into this list.
-		 * @throws	UnsupportedOperationException if the addAll method
-		 * 			is not supported by this list.
-		 * @throws	ClassCastException if the class of an element in the
-		 * 			specified collection prevents it from being added to this list.
-		 * @throws	NullPointerException if the specified collection contains
-		 * 			one or more null elements and this list does not support null
-		 * 			elements, or if the specified collection is null.
-		 * @throws	IllegalArgumentException if some aspect of an element in the
-		 * 			specified collection prevents it from being added to this list.
-		 * @throws	IndexOutOfBoundsException if the index is out of range
-		 * 			(index < 0 || index > size()).
+		 * @param index	index at which to insert first element
+		 * 		  		from the specified collection.
+		 * @return c elements to be inserted into this list.
+		 * @throws UnsupportedOperationException if the addAll method
+		 * 		   is not supported by this list.
+		 * @throws ClassCastException if the class of an element in the
+		 * 		   specified collection prevents it from being added to this list.
+		 * @throws NullPointerException if the specified collection contains
+		 * 		   one or more null elements and this list does not support null
+		 * 		   elements, or if the specified collection is null.
+		 * @throws IllegalArgumentException if some aspect of an element in the
+		 * 		   specified collection prevents it from being added to this list.
+		 * @throws IndexOutOfBoundsException if the index is out of range
+		 * 		   (index < 0 || index > size()).
 		 */
 		function addAllAt ( index : uint, c : Collection ) : Boolean
 		
 		/**
 		 * Returns the element at the specified position in this list.
 		 * 
-		 * @param 	index	index of element to return.
-		 * @return 	the element at the specified position in this list.
-		 * @throws	IndexOutOfBoundsException if the index is out of range
-		 * 			(index < 0 || index >= size()).
+		 * @param index	index of element to return.
+		 * @return the element at the specified position in this list.
+		 * @throws IndexOutOfBoundsException if the index is out of range
+		 * 		   (index < 0 || index >= size()).
 		 */
 		function get ( index : uint ) : Object;
 		
@@ -151,14 +150,14 @@ package com.bourre.collection
 		 * index i such that (o==null ? get(i)==null : o.equals(get(i))),
 		 * or -1 if there is no such index.
 		 * 
-		 * @param	o	element to search for.
-		 * @return 	the index in this list of the first occurrence of
-		 * 			the specified element, or -1 if this list does not
-		 * 			contain this element.
-		 * @throws	ClassCastException if the type of the specified
-		 * 			element is incompatible with this list (optional).
-		 * @throws	NullPointerException if the specified element is
-		 * 			null and this list does not support null elements (optional).
+		 * @param o	element to search for.
+		 * @return the index in this list of the first occurrence of
+		 * 		   the specified element, or -1 if this list does not
+		 * 		   contain this element.
+		 * @throws ClassCastException if the type of the specified
+		 * 		   element is incompatible with this list (optional).
+		 * @throws NullPointerException if the specified element is
+		 * 		   null and this list does not support null elements (optional).
 		 */
 		function indexOf ( o : Object ) : int;
 		
@@ -169,15 +168,15 @@ package com.bourre.collection
 		 * (o==null ? get(i)==null : o.equals(get(i))), or -1 if
 		 * there is no such index.
 		 * 
-		 * @param	o	element to search for.
-		 * @return 	the index in this list of the last occurrence of the
-		 * 			specified element, or -1 if this list does not
-		 * 			contain this element.
-		 * @throws	ClassCastException if the type of the specified
-		 * 			element is incompatible with this list (optional).
-		 * @throws	NullPointerException if the specified element
-		 * 			is null and this list does not support null
-		 * 			elements (optional).
+		 * @param o element to search for.
+		 * @return the index in this list of the last occurrence of the
+		 * 		   specified element, or -1 if this list does not
+		 * 		   contain this element.
+		 * @throws ClassCastException if the type of the specified
+		 * 		   element is incompatible with this list (optional).
+		 * @throws NullPointerException if the specified element
+		 * 		   is null and this list does not support null
+		 * 		   elements (optional).
 		 */
 		function lastIndexOf ( o : Object ) : int;
 		
@@ -189,13 +188,13 @@ package com.bourre.collection
 		 * next method. An initial call to the previous method would
 		 * return the element with the specified index minus one.
 		 * 
-		 * @param	index	index of first element to be returned
-		 * 			from the list iterator (by a call to the next method).
-		 * @return 	a list iterator of the elements in this list
-		 * 			(in proper sequence), starting at the specified
-		 * 			position in this list.
-		 * @throws	IndexOutOfBoundsException if the index is out of
-		 * 			range (index < 0 || index > size()).
+		 * @param index index of first element to be returned
+		 * 		  from the list iterator (by a call to the next method).
+		 * @return a list iterator of the elements in this list
+		 * 		   (in proper sequence), starting at the specified
+		 * 		   position in this list.
+		 * @throws IndexOutOfBoundsException if the index is out of
+		 * 		   range (index < 0 || index > size()).
 		 */
 		function listIterator( index : uint = 0 ) : ListIterator;
 		
@@ -205,12 +204,12 @@ package com.bourre.collection
 		 * to the left (subtracts one from their indices). Returns
 		 * the element that was removed from the list.
 		 * 
-		 * @param	index	the index of the element to removed.
-		 * @return	the element previously at the specified position.
-		 * @throws	UnsupportedOperationException if the remove method
-		 * 			is not supported by this list.
-		 * @throws	IndexOutOfBoundsException if the index is out of range
-		 * 			(index < 0 || index >= size()).
+		 * @param index	the index of the element to removed.
+		 * @return the element previously at the specified position.
+		 * @throws UnsupportedOperationException if the remove method
+		 * 		   is not supported by this list.
+		 * @throws IndexOutOfBoundsException if the index is out of range
+		 * 		   (index < 0 || index >= size()).
 		 */
 		function removeAt ( index : uint ) : Boolean;
 		
@@ -218,19 +217,19 @@ package com.bourre.collection
 		 * Replaces the element at the specified position in this
 		 * list with the specified element (optional operation).
 		 * 
-		 * @param 	index	index of element to replace.
-		 * @param 	o		element to be stored at the specified position.
-		 * @return  the element previously at the specified position.
-		 * @throws	UnsupportedOperationException if the set method is
-		 * 			not supported by this list.
-		 * @throws	ClassCastException if the class of the specified
-		 * 			element prevents it from being added to this list.
-		 * @throws	NullPointerException if the specified element is
-		 * 			null and this list does not support null elements.
-		 * @throws	IllegalArgumentException if some aspect of the
-		 * 			specified element prevents it from being added to this list.
-		 * @throws	IndexOutOfBoundsException if the index is out of range
-		 * 			(index < 0 || index >= size()).
+		 * @param index	index of element to replace.
+		 * @param o element to be stored at the specified position.
+		 * @return the element previously at the specified position.
+		 * @throws UnsupportedOperationException if the set method is
+		 * 		   not supported by this list.
+		 * @throws ClassCastException if the class of the specified
+		 * 		   element prevents it from being added to this list.
+		 * @throws NullPointerException if the specified element is
+		 * 		   null and this list does not support null elements.
+		 * @throws IllegalArgumentException if some aspect of the
+		 * 		   specified element prevents it from being added to this list.
+		 * @throws IndexOutOfBoundsException if the index is out of range
+		 * 		   (index < 0 || index >= size()).
 		 */
 		function set ( index : uint, o : Object ) : Object;
 		
@@ -262,11 +261,11 @@ package com.bourre.collection
 		 * otherwise perturb it in such a fashion that iterations in progress
 		 * may yield incorrect results.)</p>
 		 * 
-		 * @param 	fromIndex	low endpoint (inclusive) of the subList.
-		 * @param 	toIndex		high endpoint (exclusive) of the subList.
-		 * @return 	a view of the specified range within this list.
-		 * @throws	IndexOutOfBoundsException for an illegal endpoint index
-		 * 			value (fromIndex < 0 || toIndex > size || fromIndex > toIndex).
+		 * @param fromIndex low endpoint (inclusive) of the subList.
+		 * @param toIndex high endpoint (exclusive) of the subList.
+		 * @return a view of the specified range within this list.
+		 * @throws IndexOutOfBoundsException for an illegal endpoint index
+		 * 		   value (fromIndex < 0 || toIndex > size || fromIndex > toIndex).
 		 */
 		function subList ( fromIndex : uint, toIndex : uint ) : List;
 	}
