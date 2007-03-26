@@ -30,8 +30,8 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( HashMapTest );
 	ts.addTestSuite( WeakCollectionTest );
 	ts.addTestSuite( TypedArrayTest );
-	ts.addTestSuite( StackTest );
 	ts.addTestSuite( QueueTest );
+	ts.addTestSuite( StackTest );
 	
 	// com.bourre.commands
 	ts.addTestSuite( DelegateTest );
@@ -51,6 +51,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( EventChannelTest );
 	
 	// com.bourre.load
+	
 	ts.addTestSuite( AbstractLoaderTest );
 	ts.addTestSuite( LoaderStrategyTest );
 	//ts.addTestSuite( GraphicLoaderTest );
@@ -81,6 +82,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( AbstractTweenTest );
 	ts.addTestSuite( AbstractMultiTweenTest );
 	ts.addTestSuite( TweenMSTest );
+	ts.addTestSuite( MultiTweenMSTest );
 	
 	return ts;
 }
