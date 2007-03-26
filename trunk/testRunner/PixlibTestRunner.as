@@ -1,5 +1,9 @@
 ﻿import flexunit.framework.TestSuite;
 
+import mx.core.Application;
+
+import com.bourre.TestSettings;
+
 import com.bourre.commands.*;
 import com.bourre.collection.*;
 import com.bourre.core.*;
@@ -17,6 +21,9 @@ private function onCreationComplete():void
 	Logger.getInstance().setLevel( LogLevel.ALL );
 	Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
 	Logger.getInstance().addLogListener( SosLayout.getInstance(), PixlibDebug.CHANNEL );
+	
+	if( Application.application.parameters.testBinPath != null )
+		TestSettings.getInstance().testBinPath = Application.application.parameters.testBinPath;
 	
 	testRunner.test = createSuite();
 	testRunner.startTest();	
@@ -51,9 +58,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( EventChannelTest );
 	
 	// com.bourre.load
-	
-	ts.addTestSuite( AbstractLoaderTest );
 	ts.addTestSuite( LoaderStrategyTest );
+	ts.addTestSuite( URLLoaderStrategyTest );	
+	ts.addTestSuite( AbstractLoaderTest );
 	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
 	
