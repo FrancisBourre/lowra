@@ -2,6 +2,7 @@ package com.bourre.load.strategy
 {
 	import flexunit.framework.TestCase;
 	
+	import com.bourre.TestSettings;		
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.load.*;
 	import com.bourre.load.strategy.*;
@@ -44,6 +45,7 @@ package com.bourre.load.strategy
 	{
 		private var _ls 			: LoaderStrategy;		
 		private var _urlRqt 		: URLRequest;
+		private var _testBinPath	: String;		
 		
 		private var _bOnStart 		: Boolean;
 		private var _bOnProgress	: Boolean;
@@ -56,7 +58,8 @@ package com.bourre.load.strategy
 			Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
 			
 			_ls = new LoaderStrategy();
-			_urlRqt = new URLRequest();			
+			_urlRqt = new URLRequest();	
+			_testBinPath = TestSettings.getInstance().testBinPath;					
 			
 			_bOnStart 		= false;
 	    	_bOnProgress    = false;	
@@ -76,8 +79,7 @@ package com.bourre.load.strategy
 		
 		public function testOnStart() : void
 		{
-			PixlibDebug.FATAL("testOnStart");
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
+			_urlRqt.url = _testBinPath+"/LoaderStrategyTest.jpg";
 			_ls.setOwner(this);
 			_ls.load( _urlRqt );
 			
@@ -87,7 +89,7 @@ package com.bourre.load.strategy
 		}
 		public function testOnProgress() : void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
+			_urlRqt.url = _testBinPath+"/LoaderStrategyTest.jpg";
 			_ls.setOwner(this);
 			_ls.load( _urlRqt );
 						
@@ -98,7 +100,7 @@ package com.bourre.load.strategy
 	
 		public function testOnComplete() : void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
+			_urlRqt.url = _testBinPath+"/LoaderStrategyTest.jpg";
 			_ls.setOwner(this);
 			_ls.load( _urlRqt );
 						
@@ -109,7 +111,7 @@ package com.bourre.load.strategy
 		
 		public function testOnInit() : void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
+			_urlRqt.url = _testBinPath+"/LoaderStrategyTest.jpg";
 			_ls.setOwner(this);
 			_ls.load( _urlRqt );
 						
@@ -131,7 +133,7 @@ package com.bourre.load.strategy
 		
 		private function testRelease():void
 		{
-			_urlRqt.url = "./LoaderStrategyTest.jpg";
+			_urlRqt.url = _testBinPath+"/LoaderStrategyTest.jpg";
 			_ls.load( _urlRqt );
 			_ls.release();
 
@@ -143,7 +145,6 @@ package com.bourre.load.strategy
 		
 		private function _onStart( event : TimerEvent ) : void
 		{
-			PixlibDebug.FATAL("_onStart");
 			assertTrue( "LoaderStrategy didn't call fireOnLoadStartEvent() on its _owner", _bOnStart );
 		}
 		
@@ -184,7 +185,6 @@ package com.bourre.load.strategy
 			    
 	    public function fireOnLoadStartEvent() : void
 	    {
-	    	PixlibDebug.FATAL("fireOnLoadStartEvent");
 	    	_bOnStart = true;	    		    	
 	    }
 		public function fireOnLoadProgressEvent() : void
