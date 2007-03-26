@@ -1,10 +1,11 @@
 package com.bourre.load.strategy
 {
 	import flexunit.framework.TestCase;
-	
+
+	import com.bourre.TestSettings;	
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.load.*;
-	import com.bourre.load.strategy.*;	
+	import com.bourre.load.strategy.*;
 	
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.Logger;
@@ -43,6 +44,7 @@ package com.bourre.load.strategy
 		
 		private var _URLls 			: URLLoaderStrategy;	
 		private var _urlRqt 		: URLRequest;
+		private var _testBinPath	: String;
 		
 		private var _bOnStart 		: Boolean;
 		private var _bOnProgress	: Boolean;
@@ -55,6 +57,7 @@ package com.bourre.load.strategy
 			
 			_URLls = new URLLoaderStrategy();
 			_urlRqt = new URLRequest();			
+			_testBinPath = TestSettings.getInstance().testBinPath;
 			
 			_bOnStart 		= false;
 	    	_bOnProgress    = false;	
@@ -73,7 +76,7 @@ package com.bourre.load.strategy
 		
 		public function testOnStart() : void
 		{
-			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_urlRqt.url = _testBinPath+"/URLLoaderStrategyTest.xml";
 			_URLls.setOwner(this);
 			_URLls.load( _urlRqt );
 			
@@ -83,7 +86,7 @@ package com.bourre.load.strategy
 		}
 		public function testOnProgress() : void
 		{
-			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_urlRqt.url = _testBinPath+"/URLLoaderStrategyTest.xml";
 			_URLls.setOwner(this);
 			_URLls.load( _urlRqt );
 						
@@ -94,7 +97,7 @@ package com.bourre.load.strategy
 	
 		public function testOnComplete() : void
 		{
-			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_urlRqt.url = _testBinPath+"/URLLoaderStrategyTest.xml";
 			_URLls.setOwner(this);
 			_URLls.load( _urlRqt );
 						
@@ -116,7 +119,7 @@ package com.bourre.load.strategy
 		
 		private function testRelease():void
 		{
-			_urlRqt.url = "./URLLoaderStrategyTest.xml";
+			_urlRqt.url = _testBinPath+"/URLLoaderStrategyTest.xml";
 			_URLls.load( _urlRqt );
 			_URLls.release();
 
