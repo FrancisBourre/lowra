@@ -36,9 +36,9 @@ package com.bourre.plugin
 			} else
 			{
 				PluginDebug.getInstance().debug( this + ".getChannel() failed on " + o );
-				registerChannel( ApplicationBroadcaster.NO_CHANNEL );
+				registerChannel( ApplicationBroadcaster.getInstance().NO_CHANNEL );
 				ChannelExpert._N++;
-				return ApplicationBroadcaster.NO_CHANNEL;
+				return ApplicationBroadcaster.getInstance().NO_CHANNEL;
 			}
 		}
 		
