@@ -6,8 +6,8 @@ package com.bourre.events
 		extends ChannelBroadcaster
 	{
 		private static var _oI : ApplicationBroadcaster;
-		public static const NO_CHANNEL : EventChannel = new NoChannel();
-		public static const SYSTEM_CHANNEL : EventChannel = new SystemChannel();
+		public const NO_CHANNEL : EventChannel = new NoChannel();
+		public const SYSTEM_CHANNEL : EventChannel = new SystemChannel();
 		
 		/**
 		 * @return singleton instance of ApplicationBroadcaster
@@ -20,12 +20,12 @@ package com.bourre.events
 		
 		public function ApplicationBroadcaster( access : PrivateConstructorAccess )
 		{
-			super( ApplicationBroadcaster.SYSTEM_CHANNEL );
+			super( SYSTEM_CHANNEL );
 		}
 		
 		public override function getChannelDispatcher( channel : EventChannel = null, owner : Object = null ) : EventBroadcaster
 		{
-			return ( channel != ApplicationBroadcaster.NO_CHANNEL ) ? super.getChannelDispatcher( channel, owner ) : null;
+			return ( channel != NO_CHANNEL ) ? super.getChannelDispatcher( channel, owner ) : null;
 		}
 	}
 }

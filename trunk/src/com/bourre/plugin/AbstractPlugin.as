@@ -7,6 +7,7 @@ package com.bourre.plugin
 	import com.bourre.view.ViewLocator;
 
 	import flash.events.Event;
+	import com.bourre.log.PixlibDebug;
 
 	public class AbstractPlugin
 		implements IPlugin
@@ -34,7 +35,7 @@ package com.bourre.plugin
 			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
 			_oEBPrivate = getController().getBroadcaster();
 				
-			_oEBPublic.addListener( this );
+			if( _oEBPublic ) _oEBPublic.addListener( this );
 		}
 		
 		public function onInitPlugin() : void
@@ -87,7 +88,8 @@ package com.bourre.plugin
 		
 		public function firePublicEvent( e : Event ) : void
 		{
-			_oEBPublic.broadcastEvent( e );
+			if( _oEBPublic ) _oEBPublic.broadcastEvent( e );
+			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
 		}
 		
 		public function firePrivateEvent( e : Event ) : void
@@ -97,22 +99,26 @@ package com.bourre.plugin
 		
 		public function addListener( listener : PluginListener ) : void
 		{
-			_oEBPublic.addListener( listener );
+			if( _oEBPublic ) _oEBPublic.addListener( listener );
+			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
 		}
 		
 		public function removeListener( listener : PluginListener ) : void
 		{
-			_oEBPublic.removeListener( listener );
+			if( _oEBPublic ) _oEBPublic.removeListener( listener );
+			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
 		}
 		
 		public function addEventListener( type : String, listener : Object ) : void
 		{
-			_oEBPublic.addEventListener.apply( _oEBPublic, arguments );
+			if( _oEBPublic ) _oEBPublic.addEventListener.apply( _oEBPublic, arguments );
+			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : void
 		{
-			_oEBPublic.removeEventListener( type, listener );
+			if( _oEBPublic ) _oEBPublic.removeEventListener( type, listener );
+			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
 		}
 		
 		/**

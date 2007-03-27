@@ -78,12 +78,12 @@ package com.bourre.view
 			_getBroadcaster().broadcastEvent( e );
 		}
 		
-		public function registerGraphicLib( glName : String, name : String ) : void
+		public function registerGraphicLib( glName : String, name : String = null ) : void
 		{
 			_initMovieClipHelperView( glName, null, (( name && (name != getName()) ) ? name : null) );
 		}
 		
-		public function registerView( mc : DisplayObjectContainer, name : String ) : void
+		public function registerView( mc : DisplayObjectContainer, name : String = null ) : void
 		{
 			_initMovieClipHelperView( getName(), mc, (( name && (name != getName()) ) ? name : null) );
 		}
