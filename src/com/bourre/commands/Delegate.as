@@ -33,7 +33,7 @@ package com.bourre.commands
 		private var _f : Function;
 		private var _a : Array;
 		
-		public static function create( scope : Object, method : Function ) : Function 
+		public static function create( scope : Object, method : Function, ... rest ) : Function 
 		{
 			var f : * = function() : *
 			{    
@@ -46,7 +46,7 @@ package com.bourre.commands
 				
 			f.s = scope ;
 			f.m = method ;
-			f.a = arguments.splice(2);
+			f.a = rest;
 			return f;
 		} 
 		
