@@ -49,8 +49,8 @@ package com.bourre.view
 		{
 			_oEB = new EventBroadcaster( this );
 			
-			if ( owner ) setOwner( owner );
-			if ( name ) _initMovieClipHelperView( name, mc, null );
+			if ( owner != null ) setOwner( owner );
+			if ( name != null ) _initMovieClipHelperView( name, mc, null );
 		}
 		
 		protected function onInit() : void
@@ -207,8 +207,8 @@ package com.bourre.view
 		public function setName( name : String ) : void
 		{
 			var vl : ViewLocator = ViewLocator.getInstance( getOwner() );
-			
-			if ( !( vl.isRegistered( name ) ) )
+
+			if ( name != null && !( vl.isRegistered( name ) ) )
 			{
 				if ( vl.isRegistered( getName() ) ) vl.unregisterMovieClipHelper( getName() );
 				if ( vl.registerView( name, this ) ) _sName = name;
@@ -230,24 +230,26 @@ package com.bourre.view
 		
 		//
 		private function _initMovieClipHelperView( glName : String, oView : DisplayObjectContainer, mvhName : String ) : void
-		{
-			if ( oView )
+		{	
+			if ( oView != null )
 			{
 				this.view = oView;
-				
-			} else
+			} 
+			else
 			{
-				_gl = GraphicLoaderLocator.getInstance().getGraphicLoader( glName );
-				if ( _gl )
+				if( GraphicLoaderLocator.getInstance().isRegistered( glName ) )
 				{
-					this.view = _gl.getView();
-				} else
-				{
-					getLogger().error( "Invalid arguments for " + this + " constructor." );
-					return;
+					_gl = GraphicLoaderLocator.getInstance().getGraphicLoader( glName );
+					if ( _gl )
+					{
+						this.view = _gl.getView();
+					} else
+					{
+						getLogger().error( "Invalid arguments for " + this + " constructor." );
+						return;
+					}
 				}
 			}
-			
 			setName( mvhName?mvhName:glName );
 			onInit();
 		}
