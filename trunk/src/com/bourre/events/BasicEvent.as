@@ -27,11 +27,31 @@ package com.bourre.events
 	public class BasicEvent extends Event
 	{
 		protected var _oTarget : Object;
+		protected var _sType : String;
 		
 		public function BasicEvent( sType : String, oTarget : Object = null )
 		{
-			super( sType );
+			super ( sType );
+			_sType = sType;
 			_oTarget = oTarget;
+		}
+		
+		public function set type( en : String ) : void
+		{
+			_sType = en;
+		}
+		public override function get type():String
+		{
+			return _sType;
+		}
+		
+		public function setType( en : String ) : void
+		{
+			_sType = en;
+		}
+		public function getType():String
+		{
+			return _sType;
 		}
 		
 		public function getTarget() : Object
@@ -40,6 +60,16 @@ package com.bourre.events
 		}
 		
 		public function setTarget( oTarget : Object ) : void 
+		{ 
+			_oTarget = oTarget; 
+		}
+		
+		public override function get target() : Object
+		{ 
+			return _oTarget; 
+		}
+		
+		public function set target( oTarget : Object ) : void 
 		{ 
 			_oTarget = oTarget; 
 		}

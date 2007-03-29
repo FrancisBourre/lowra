@@ -24,9 +24,10 @@ package com.bourre.load
 	import com.bourre.log.*;
 	import flash.events.Event;
 	import flash.display.DisplayObjectContainer;
+	import com.bourre.events.BasicEvent;
 
 	public class LoaderEvent 
-		extends Event
+		extends BasicEvent
 	{
 		public static const onLoadStartEVENT : String = "onLoadStart";
 		public static const onLoadInitEVENT : String = "onLoadInit";
@@ -38,7 +39,7 @@ package com.bourre.load
 		
 		public function LoaderEvent( type : String, load : AbstractLoader )
 		{
-			super( type );
+			super( type, load );
 			_load = load;
 		}
 		
