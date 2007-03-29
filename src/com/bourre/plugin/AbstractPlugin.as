@@ -85,7 +85,7 @@ package com.bourre.plugin
 			
 			}
 		}
-		public function handleEvent ( e : Event ):void
+		public function handleEvent ( e : Event = null ):void
 		{
 			
 		}

@@ -27,6 +27,7 @@ package com.bourre.view
 	import com.bourre.plugin.*;
 
 	import flash.display.MovieClip;
+	import com.bourre.error.NullPointerException;
 
 	public class ViewLocator 
 		implements Locator
@@ -65,17 +66,26 @@ package com.bourre.view
 	
 		public function locate( key : String ) : Object
 		{
-			if ( !(isRegistered( key )) ) getLogger().error( "Can't locate MovieClipHelper instance with '" + key + "' name in " + this );
+			if ( !(isRegistered( key )) ) getLogger().error( "Can't locate AbstractView instance with '" + key + "' name in " + this );
 			return _m.get( key );
 		}
 		
 		public function getView( key : String ) : AbstractView
 		{
-			return locate( key ) as AbstractView;
+			var v : Object = locate( key ) ;
+			
+			if( v == null ) 
+				throw new NullPointerException ( "Can't locate AbstractView instance with '" + key + "' name in " + this );
+			return v as AbstractView;
 		}
 		
 		public function registerView( key : String, o : AbstractView ) : Boolean
 		{
+			if( key == null ) 
+				throw new NullPointerException ( "Cannot register a view with a null name" );
+			if( o == null ) 
+				throw new NullPointerException ( "Cannot register a null view" );
+					
 			if ( isRegistered( key ) )
 			{
 				getLogger().fatal( "MovieClipHelper instance is already registered with '" + key + "' name in " + this );
