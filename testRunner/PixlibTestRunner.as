@@ -59,6 +59,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( NumberEventTest) ;
 	ts.addTestSuite( StringEventTest) ;
 	ts.addTestSuite( BooleanEventTest);
+	ts.addTestSuite( BasicEventTest) ;
 	
 	// com.bourre.load
 	ts.addTestSuite( LoaderStrategyTest );
