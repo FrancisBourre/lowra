@@ -85,7 +85,10 @@ package com.bourre.plugin
 			
 			}
 		}
-		
+		public function handleEvent ( e : Event ):void
+		{
+			
+		}
 		public function firePublicEvent( e : Event ) : void
 		{
 			if( _oEBPublic ) _oEBPublic.broadcastEvent( e );
