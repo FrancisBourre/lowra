@@ -278,5 +278,10 @@ package com.bourre.load.strategy
 		{
 		}
 		
+		public function getStrategy() : LoadStrategy
+		{
+			return _ls;
+		}
+		
 	}
 }

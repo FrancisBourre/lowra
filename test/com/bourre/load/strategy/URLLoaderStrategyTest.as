@@ -257,6 +257,11 @@ package com.bourre.load.strategy
 		public function execute( e : Event = null ) : void
 		{
 		}		
+		
+		public function getStrategy() : LoadStrategy
+		{
+			return _URLls;
+		}
 				
 	}
 }
