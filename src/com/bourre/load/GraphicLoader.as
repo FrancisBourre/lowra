@@ -103,7 +103,6 @@ package com.bourre.load
 		{
 			_bAutoShow = b;
 		}
-
 		public override function release() : void
 		{
 			if ( getContent() && _target.contains( getContent() as DisplayObject ) )_target.removeChild( getContent() as DisplayObject );

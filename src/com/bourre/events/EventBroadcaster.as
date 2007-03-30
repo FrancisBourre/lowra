@@ -28,6 +28,7 @@ package com.bourre.events
 
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
+	import com.bourre.plugin.PluginDebug;
 
 	public class EventBroadcaster
 	{
@@ -110,6 +111,7 @@ package com.bourre.events
 		
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
+			PixlibDebug.DEBUG( "addlistener "+ listener + " on " + this +" for "+ type );
 			if (listener is Function)
 			{
 				var d : Delegate = new Delegate( listener as Function );
@@ -207,10 +209,28 @@ package com.bourre.events
 			var a : Array = c.toArray();
 			var l : Number = a.length;
 			
+			trace( "broadcast "+ type + " on " + a  );
+			
 			while ( --l > -1 ) 
 			{
 				var listener : Object = a[l];
-
+				
+				if( listener.hasOwnProperty( "handleEvent" ) )
+					listener.handleEvent(e);
+				else if( listener.hasOwnProperty( type ) )
+					listener[type](e);
+				else
+				{
+					var msg : String;
+					msg = "EventBroadcaster.broadcastEvent() failed, you must implement '" 
+					+ type + "' method or 'handleEvent' method in '" + 
+					getQualifiedClassName(listener) + "' class";
+					
+					PixlibDebug.ERROR( msg );
+					throw( new UnsupportedOperationException( msg ) );
+				}
+				
+				/*
 				try
 				{
 					if (listener.handleEvent is Function) listener.handleEvent(e);
@@ -231,7 +251,7 @@ package com.bourre.events
 						PixlibDebug.ERROR( msg );
 						throw( new UnsupportedOperationException( msg ) );
 					}
-				}
+				}*/
 			}
 		}
 		
