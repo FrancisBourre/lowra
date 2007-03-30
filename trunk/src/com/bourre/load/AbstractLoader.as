@@ -64,7 +64,10 @@ package com.bourre.load
 		{
 			load();
 		}
-		
+		public function getStrategy () : LoadStrategy
+		{
+			return _loadStrategy;
+		}
 		public function load( url : URLRequest = null ) : void
 		{
 			if ( url ) setURL( url );

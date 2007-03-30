@@ -59,12 +59,14 @@ package com.bourre.load.strategy
 
 			_loader.load( request );
 		}
-
 		public function getBytesLoaded() : uint
 		{
 			return _bytesLoaded;
 		}
-
+		public function getContentLoaderInfo () : LoaderInfo
+	  	{
+	  		return _loader.contentLoaderInfo;
+	  	}
 		public function getBytesTotal() : uint
 		{
 			return _bytesTotal;

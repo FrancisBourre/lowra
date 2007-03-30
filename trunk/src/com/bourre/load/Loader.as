@@ -25,6 +25,7 @@ package com.bourre.load
 
 	import flash.display.*;
 	import flash.net.URLRequest;
+	import com.bourre.load.strategy.LoadStrategy;
 	
 	public interface Loader 
 		extends ASyncCommand
@@ -36,6 +37,7 @@ package com.bourre.load
 		function getName() : String;
 		function setName( name : String ) : void;
 		function getPerCent() : Number;
+		function getStrategy() : LoadStrategy;
 		function addListener( listener : LoaderListener ) : Boolean;
 		function removeListener( listener : LoaderListener ) : Boolean;
 		function addEventListener( type : String, listener : Object, ...rest ) : Boolean
