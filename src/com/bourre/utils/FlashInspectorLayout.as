@@ -33,12 +33,15 @@ package com.bourre.utils
 		private const LOCALCONNECTION_ID : String = "_luminicbox_log_console";
 		
 		private var _lc : LocalConnection;
-		
+		private var _sID : String;
+
 		public function FlashInspectorLayout( access : PrivateConstructorAccess )
 		{
 			_lc = new LocalConnection();
 			_lc.addEventListener( StatusEvent.STATUS, onStatus);
             _lc.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+
+			_sID = String( ( new Date()).getTime() );
 		}
 		
 		public static function getInstance() : FlashInspectorLayout
@@ -53,10 +56,11 @@ package com.bourre.utils
 		public function onLog( e : LogEvent ) : void
 		{
 			var o:Object = new Object();
-			o.loggerId = null;
+			o.loggerId = _sID;
 			o.levelName = e.level.getName();
 			o.time = new Date();
-			
+			o.version = .15;
+
 			var data : Object = new Object();
 			data.type = "string";
 			data.value = e.message.toString();
