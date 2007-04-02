@@ -23,7 +23,8 @@ package com.bourre.request
 
 	public interface DataRequestListener
 	{
-		function onDataResult() : void;
-		function onDataError() : void;
+		function onDataResult( event : DataRequestEvent) : void;
+		function onDataError( event : DataRequestEvent) : void;
 	}
 }
+
