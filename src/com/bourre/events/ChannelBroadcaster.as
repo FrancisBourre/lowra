@@ -140,9 +140,4 @@ internal class DefaultChannel
 	extends EventChannel
 {
 	public static const CHANNEL : DefaultChannel = new DefaultChannel();
-	
-	public function DefaultChannel()
-	{
-		super( eventChannelConstructorAccess );
-	}
 }

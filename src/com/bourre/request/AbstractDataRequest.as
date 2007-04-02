@@ -32,16 +32,12 @@ package com.bourre.request
 		extends AbstractSyncCommand
 		implements DataRequest
 	{
-		protected var absractDataRequestConstructorAccess : AbsractDataRequestConstructorAccess = new AbsractDataRequestConstructorAccess ();
-		
 		protected var _oResult : Object;
 		private var _eResult : DataRequestEvent;
 		private var _eError : DataRequestEvent;
 		
 		public function AbstractDataRequest() 
 		{
-			super( abstractSyncCommandConstructorAccess );
-
 			_eResult = new DataRequestEvent( DataRequestEvent.onDataResultEVENT, this );
 			_eError = new DataRequestEvent( DataRequestEvent.onDataErrorEVENT, this );
 		}
@@ -85,5 +81,3 @@ package com.bourre.request
 		}
 	}
 }
-
-internal class AbsractDataRequestConstructorAccess {}

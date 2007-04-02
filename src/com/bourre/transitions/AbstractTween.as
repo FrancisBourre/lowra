@@ -34,8 +34,6 @@ package com.bourre.transitions
 		//-------------------------------------------------------------------------
 		// Private properties
 		//-------------------------------------------------------------------------
-		protected var abstractTweenConstructorAccess : AbstractTweenConstructorAccess = new AbstractTweenConstructorAccess ();	
-		
 		protected var _nS:Number; 
 		protected var _nE:Number;
 		protected var _nRS:Number;
@@ -56,8 +54,7 @@ package com.bourre.transitions
 		// Private implementation
 		//-------------------------------------------------------------------------
 		
-		public function AbstractTween( o : AbstractTweenConstructorAccess, 
-									   oT : Object, 
+		public function AbstractTween( oT : Object, 
 									   sP : String, 
 									   nE : Number, 
 									   nRate : Number, 
@@ -287,5 +284,3 @@ package com.bourre.transitions
 		}
 	}
 }
-
-internal class AbstractTweenConstructorAccess {}

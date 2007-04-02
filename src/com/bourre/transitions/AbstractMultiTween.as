@@ -34,8 +34,6 @@ package com.bourre.transitions
 		//-------------------------------------------------------------------------
 		// Private properties
 		//-------------------------------------------------------------------------
-		protected var abstractMultiTweenConstructorAccess : AbstractMultiTweenConstructorAccess = new AbstractMultiTweenConstructorAccess ();	
-		
 		protected var _aS:Array; 
 		protected var _aE:Array;
 		protected var _aRS:Array;
@@ -56,17 +54,15 @@ package com.bourre.transitions
 		// Private implementation
 		//-------------------------------------------------------------------------
 		
-		public function AbstractMultiTween( o : AbstractMultiTweenConstructorAccess, 
-									   oT : Object, 
-									   sP : Array, 
-									   aE : Array, 
-									   nRate : Number, 
-									   aS : Array = null, 
-									   fE : Function = null,
-									   gP : Array = null )
+		public function AbstractMultiTween( 
+									   		oT : Object, 
+									   		sP : Array, 
+									   		aE : Array, 
+									   		nRate : Number, 
+									   		aS : Array = null, 
+									   		fE : Function = null,
+									   		gP : Array = null )
 		{
-			super ( abstractSyncCommandConstructorAccess );
-			
 			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions:AbstractMultiTween", "isMotionFinished", "onUpdate" ) )
 			{
 				PixlibDebug.ERROR ( this + " have to implements virtual methods : isMotionFinished & onUpdate" );
@@ -267,5 +263,3 @@ package com.bourre.transitions
 		}
 	}
 }
-
-internal class AbstractMultiTweenConstructorAccess {}

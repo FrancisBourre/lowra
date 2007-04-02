@@ -27,10 +27,9 @@ package com.bourre.events
 	
 	public class EventChannel 
 	{
-		protected var eventChannelConstructorAccess : EventChannelConstructorAccess = new EventChannelConstructorAccess();
 		private var _sChannelName : String;
 		
-		public function EventChannel(  access : EventChannelConstructorAccess, channelName : String = null )
+		public function EventChannel( channelName : String = null )
 		{
 			_sChannelName =  channelName ? channelName : getQualifiedClassName( this );
 		}
@@ -41,5 +40,3 @@ package com.bourre.events
 		}
 	}
 }
-
-internal class EventChannelConstructorAccess {}

@@ -34,8 +34,6 @@ package com.bourre.view
 
 	public class AbstractView 
 	{
-		protected var abstractViewConstructorAccess : AbstractViewConstructorAccess = new AbstractViewConstructorAccess();
-		
 		public static var onInitEVENT : String = "onInit";
 		
 		public var view : DisplayObjectContainer;
@@ -45,7 +43,7 @@ package com.bourre.view
 		protected var _oEB:EventBroadcaster;
 		protected var _owner : IPlugin;
 		
-		public function AbstractView( access : AbstractViewConstructorAccess, owner : IPlugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
+		public function AbstractView( owner : IPlugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
 			
@@ -265,5 +263,3 @@ package com.bourre.view
 		}
 	}
 }
-
-internal class AbstractViewConstructorAccess {}

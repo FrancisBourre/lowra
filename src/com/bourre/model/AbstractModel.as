@@ -32,15 +32,13 @@ package com.bourre.model
 	
 	public class AbstractModel 
 	{
-		protected var abstractModelConstructorAccess : AbstractModelConstructorAccess = new AbstractModelConstructorAccess();
-		
 		public static const onInitEVENT : String = "onInit";
 		
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _owner : IPlugin;
 		
-		public function AbstractModel(  access : AbstractModelConstructorAccess, owner : IPlugin = null, name : String = null ) 
+		public function AbstractModel( owner : IPlugin = null, name : String = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
 			
@@ -141,5 +139,3 @@ package com.bourre.model
 		}
 	}
 }
-
-internal class AbstractModelConstructorAccess {}

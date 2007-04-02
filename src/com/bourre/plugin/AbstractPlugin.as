@@ -12,8 +12,6 @@ package com.bourre.plugin
 	public class AbstractPlugin
 		implements IPlugin
 	{
-		protected var abstractPluginConstructorAccess : AbstractPluginConstructorAccess = new AbstractPluginConstructorAccess();
-		
 		private var _oABExternal : ApplicationBroadcaster;
 		private var _oEBPublic : EventBroadcaster;
 		private var _oEBPrivate : EventBroadcaster;
@@ -25,7 +23,7 @@ package com.bourre.plugin
 		public static const onInitEVENT : String = "onInit";
 		public static const onReleaseEVENT : String = "onRelease";
 
-		public function AbstractPlugin( access : AbstractPluginConstructorAccess ) 
+		public function AbstractPlugin() 
 		{
 			_oController = new FrontController( this );
 			_oModelLocator = ModelLocator.getInstance( this );
@@ -134,5 +132,3 @@ package com.bourre.plugin
 		}
 	}
 }
-
-internal class AbstractPluginConstructorAccess {}
