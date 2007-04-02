@@ -5,11 +5,6 @@ package com.bourre.commands
 
 	public class MockAbstractSyncCommand extends AbstractSyncCommand implements ASyncCommand
 	{
-		public function MockAbstractSyncCommand()
-		{
-			super( abstractSyncCommandConstructorAccess );
-		}
-		
 		public function isRegistered ( o : ASyncCommandListener ) : Boolean
 		{
 			return _oEB.isRegistered( o, ASyncCommandEvent.onCommandEndEVENT );

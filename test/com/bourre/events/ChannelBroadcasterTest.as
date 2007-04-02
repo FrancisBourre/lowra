@@ -137,6 +137,5 @@ internal class OtherChannel
 	
 	public function OtherChannel()
 	{
-		super( eventChannelConstructorAccess );
 	}
 }

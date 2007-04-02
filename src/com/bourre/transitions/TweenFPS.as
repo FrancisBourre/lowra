@@ -43,7 +43,7 @@ package com.bourre.transitions
 									fE:Function = null, 
 									gP : String = null)
 		{
-			super( abstractTweenConstructorAccess, oT, sP, nE, nRate, nS, fE, gP );
+			super( oT, sP, nE, nRate, nS, fE, gP );
 			_oBeacon = FPSBeacon.getInstance();
 		}
 

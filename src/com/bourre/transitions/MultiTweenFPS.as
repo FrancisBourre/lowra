@@ -39,7 +39,7 @@ package com.bourre.transitions
 										f : Function = null,
 										gP : Array = null )
 		{
-			super( abstractMultiTweenConstructorAccess, t, p, e, n, s, f, gP );
+			super( t, p, e, n, s, f, gP );
 			_oBeacon = FPSBeacon.getInstance();
 		}
 		

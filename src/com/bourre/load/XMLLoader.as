@@ -35,7 +35,7 @@ package com.bourre.load
 
 		public function XMLLoader( deserializer : XMLLoaderDeserializer = null )
 		{
-			super( abstractLoaderConstructorAccess, new URLLoaderStrategy() );
+			super( new URLLoaderStrategy() );
 			if ( deserializer ) setDeserializer ( deserializer );
 		}
 
