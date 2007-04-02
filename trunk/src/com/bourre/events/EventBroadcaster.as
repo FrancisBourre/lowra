@@ -211,11 +211,15 @@ package com.bourre.events
 			{
 				var listener : Object = a[l];
 				
-				if( listener.hasOwnProperty( "handleEvent" ) )
+				if ( listener.hasOwnProperty( "handleEvent" ) )
+				{
 					listener.handleEvent(e);
-				else if( listener.hasOwnProperty( type ) )
+					
+				} else if ( listener.hasOwnProperty( type ) )
+				{
 					listener[type](e);
-				else
+					
+				} else
 				{
 					var msg : String;
 					msg = "EventBroadcaster.broadcastEvent() failed, you must implement '" 
@@ -225,29 +229,6 @@ package com.bourre.events
 					PixlibDebug.ERROR( msg );
 					throw( new UnsupportedOperationException( msg ) );
 				}
-				
-				/*
-				try
-				{
-					if (listener.handleEvent is Function) listener.handleEvent(e);
-					
-				} catch ( err0 : Error )
-				{
-					try
-					{
-						listener[type].call( listener, e );
-						
-					} catch( err1 : Error )
-					{
-						var msg : String;
-						msg = "EventBroadcaster.broadcastEvent() failed, you must implement '" 
-						+ type + "' method or 'handleEvent' method in '" + 
-						getQualifiedClassName(listener) + "' class";
-						
-						PixlibDebug.ERROR( msg );
-						throw( new UnsupportedOperationException( msg ) );
-					}
-				}*/
 			}
 		}
 		

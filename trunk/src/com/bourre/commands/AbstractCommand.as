@@ -27,16 +27,13 @@ package com.bourre.commands
 	import flash.events.Event;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.view.ViewLocator;
-	//import com.bourre.model.ModelLocator;
-	//import com.bourre.view.ViewLocator;
 
 	public class AbstractCommand 
 		implements Command
 	{
-		protected var abstractCommandConstructorAccess : AbstractCommandConstructorAccess = new AbstractCommandConstructorAccess();
 		protected var _owner : IPlugin;
 
-		public function AbstractCommand( access : AbstractCommandConstructorAccess ) 
+		public function AbstractCommand() 
 		{
 
 		}
@@ -88,5 +85,3 @@ package com.bourre.commands
 		}
 	}
 }
-
-internal class AbstractCommandConstructorAccess {}

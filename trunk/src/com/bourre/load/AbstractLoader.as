@@ -35,8 +35,6 @@ package com.bourre.load
 	public class AbstractLoader 
 		implements com.bourre.load.Loader
 	{
-		protected var abstractLoaderConstructorAccess : AbstractLoaderConstructorAccess = new AbstractLoaderConstructorAccess();
-
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
@@ -49,7 +47,7 @@ package com.bourre.load
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
 
-		public function AbstractLoader( access : AbstractLoaderConstructorAccess, strategy : LoadStrategy = null )
+		public function AbstractLoader( strategy : LoadStrategy = null )
 		{
 			_loadStrategy = strategy;
 			_loadStrategy.setOwner( this );
@@ -264,5 +262,3 @@ package com.bourre.load
 		}
 	}
 }
-
-internal class AbstractLoaderConstructorAccess {}

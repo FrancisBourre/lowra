@@ -21,16 +21,14 @@ package com.bourre.commands
 		protected var _oEB : EventBroadcaster;
 		protected var _eOnCommandEnd : ASyncCommandEvent;
 		
-		protected var abstractSyncCommandConstructorAccess : AbsractSyncCommandConstructorAccess = new AbsractSyncCommandConstructorAccess ();
 		/**
 		 * 
 		 * @param o
 		 * @return 
 		 * 
 		 */
-		public function AbstractSyncCommand ( o : AbsractSyncCommandConstructorAccess )
+		public function AbstractSyncCommand ()
 		{
-			super( super.abstractCommandConstructorAccess );
 			_oEB = new EventBroadcaster ( this );
 			_eOnCommandEnd = new ASyncCommandEvent ( ASyncCommandEvent.onCommandEndEVENT, this );
 		}
@@ -85,4 +83,3 @@ package com.bourre.commands
 		}
 	}
 }
-internal class AbsractSyncCommandConstructorAccess {}

@@ -71,8 +71,5 @@ import com.bourre.events.EventChannel;
 internal class PixlibDebugChannel 
 	extends EventChannel
 {
-	public function PixlibDebugChannel()
-	{
-		super( eventChannelConstructorAccess );
-	}
+	
 }

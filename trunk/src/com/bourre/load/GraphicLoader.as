@@ -37,7 +37,7 @@ package com.bourre.load
 	
 		public function GraphicLoader( target : DisplayObjectContainer, index : int = -1, bAutoShow : Boolean = true )
 		{
-			super( abstractLoaderConstructorAccess, new LoaderStrategy() );
+			super( new LoaderStrategy() );
 			
 			_target = target;
 			_index = -1;
