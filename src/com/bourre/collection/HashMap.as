@@ -23,6 +23,7 @@ package com.bourre.collection
 {
 	import flash.utils.Dictionary;
 	import com.bourre.log.*;
+	import com.bourre.error.IllegalArgumentException;
 	
 	public class HashMap 
 	{
@@ -64,12 +65,19 @@ package com.bourre.collection
 		
 		public function put ( key : *, value : * ) : void
 		{
-			if ( containsKey( key ) ) remove( key );
-			
-			_n++;
-			var count : uint = _oValueDico[ value ];
-			_oValueDico[ value ] = (count > 0) ? count+1 : 1;
-			_oKeyDico[ key ] = value;
+			if (key)
+			{
+				if ( containsKey( key ) ) remove( key );
+				
+				_n++;
+				var count : uint = _oValueDico[ value ];
+				_oValueDico[ value ] = (count > 0) ? count+1 : 1;
+				_oKeyDico[ key ] = value;
+			}
+			else
+			{
+				throw new IllegalArgumentException( this + ".put() failed. key can't be null" );
+			}
 		}
 		
 		public function get ( key : * ) : *
