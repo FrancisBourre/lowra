@@ -5,7 +5,7 @@ package com.bourre
 		private static var _instance : TestSettings;
 		
 		[Bindable]
-		public var testBinPath : String = "./../../lowra/testBin";
+		public var testBinPath : String = "http://lowra.googlecode.com/svn/trunk/testBin";
 		
 		public function TestSettings( acess : TestSettingsConstructorAccess )
 		{
