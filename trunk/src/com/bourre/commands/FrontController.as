@@ -88,6 +88,8 @@ package com.bourre.commands
 		{
 			var type : String = event.type.toString();
 			
+			//getLogger().debug( "in handleEvent, type = " + type );
+			
 			if( _mEventList.containsKey( type ) )
 			{
 				var cmd : Command = new ( _mEventList.get( type ) as Class )();

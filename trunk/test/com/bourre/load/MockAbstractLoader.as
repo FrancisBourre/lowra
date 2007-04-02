@@ -28,7 +28,7 @@ package com.bourre.load
 	{
 		public function MockAbstractLoader()
 		{
-			super ( abstractLoaderConstructorAccess, new URLLoaderStrategy() );
+			super ( new URLLoaderStrategy() );
 		}
 	}
 }

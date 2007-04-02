@@ -124,11 +124,6 @@ internal class MockCommand extends AbstractCommand
 {
 	public static var testclass : FrontControlerTest
 	
-	public function MockCommand()
-	{
-		super(super.abstractCommandConstructorAccess)
-	}
-	
 	override public function execute( e : Event= null ) : void 
 	{
 		testclass.isExecuted = true
@@ -178,7 +173,6 @@ internal  class AChannel extends EventChannel
 {
 	function AChannel()
 	{
-		super(eventChannelConstructorAccess)
 	}
 }
 
