@@ -28,7 +28,6 @@ package com.bourre.events
 
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
-	import com.bourre.plugin.PluginDebug;
 
 	public class EventBroadcaster
 	{
@@ -111,7 +110,6 @@ package com.bourre.events
 		
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-			PixlibDebug.DEBUG( "addlistener "+ listener + " on " + this +" for "+ type );
 			if (listener is Function)
 			{
 				var d : Delegate = new Delegate( listener as Function );
@@ -208,8 +206,6 @@ package com.bourre.events
 			var type : String = e.type;
 			var a : Array = c.toArray();
 			var l : Number = a.length;
-			
-			trace( "broadcast "+ type + " on " + a  );
 			
 			while ( --l > -1 ) 
 			{
