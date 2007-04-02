@@ -8,6 +8,7 @@ import com.bourre.commands.*;
 import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
+import com.bourre.ioc.bean.*;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
@@ -61,12 +62,17 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BooleanEventTest);
 	ts.addTestSuite( BasicEventTest) ;
 	
+	// com.bourre.ioc
+	ts.addTestSuite( BeanFactoryTest);
+	ts.addTestSuite( BeanEventTest) ;
+	
 	// com.bourre.load
 	ts.addTestSuite( LoaderStrategyTest );
 	ts.addTestSuite( URLLoaderStrategyTest );	
 	ts.addTestSuite( AbstractLoaderTest );
 	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
+	ts.addTestSuite(XMLToObjectTest) ;
 	
 	// com.bourre.log
 	ts.addTestSuite( BasicStringifierTest );
