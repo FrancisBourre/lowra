@@ -9,6 +9,7 @@ import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
 import com.bourre.ioc.bean.*;
+import com.bourre.ioc.assembler.property.*;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
@@ -62,9 +63,12 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BooleanEventTest);
 	ts.addTestSuite( BasicEventTest) ;
 	
-	// com.bourre.ioc
+	// com.bourre.ioc.bean
 	ts.addTestSuite( BeanFactoryTest);
 	ts.addTestSuite( BeanEventTest) ;
+	//com.bourre.ioc.assembler.property
+	ts.addTestSuite( PropertyEventTest) ;
+	ts.addTestSuite(PropertyExpertTest) ;
 	
 	// com.bourre.load
 	ts.addTestSuite( LoaderStrategyTest );
