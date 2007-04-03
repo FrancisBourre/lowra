@@ -2,33 +2,32 @@ package com.bourre.ioc.bean
 {
 	import com.bourre.events.BasicEvent;
 	import com.bourre.log.*;
-	//import com.bourre.core.HashCodeFactory;
 
-	public class BeanEvent extends BasicEvent
+	public class BeanEvent 
+		extends BasicEvent
 	{
 		private var _sID	: String ;
-		private var _o 		: Object ;
+		private var _oBean 	: Object ;
 		
-		public function BeanEvent(sType : String, sID : String, o : Object)
+		public function BeanEvent( type : String, id : String, bean : Object )
 		{
-			super(sType, o) ;
-			_sID = sID ;
-			_o = o ;
+			super( type, bean );
+			_sID = id;
+			_oBean = bean;
 		}
 		
-		public function getID():String
+		public function getID() : String
 		{
 			return _sID ;
 		}
 		
-		public function getBean():Object
+		public function getBean() : Object
 		{
-			return _o ;
+			return _oBean ;
 		}
 		
 		public override function toString():String
 		{
-			//return 'BeanEvent' + HashCodeFactory.getKey( this );
 			return PixlibStringifier.stringify( this );
 		}
 		

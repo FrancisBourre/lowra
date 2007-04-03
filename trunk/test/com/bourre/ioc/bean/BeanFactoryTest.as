@@ -23,27 +23,19 @@ package com.bourre.ioc.bean
 		
 		public function testAddAndRemoveListener():void
 		{
-			var obj:Object ;
-			var obj2:Object ;
-			var obj3:Object ;
+			var obj:Object = new Object() ;
+
 			var str:String = "lalala" ;
 
-			
-			obj = new Object() ;
-			obj2 = new Object() ;
-			obj3 = new Object() ;
-			
 			assertTrue("Listener not added", _oBF.addListener(_oL));
 
-			assertTrue ("EventListener 1 not added", _oBF.addEventListener("onRegisterBean", obj));
-			assertTrue ("EventListener 2 not added", _oBF.addEventListener("onUnregisterBean", obj3));
 
-			assertTrue("Bean registration failed", _oBF.register(str, obj2));
+			assertTrue("Bean registration failed", _oBF.register(str, obj));
 
 			assertTrue("Event [bean registered] not called", _oL.registerCalled) ;
 
 			assertTrue ("Key not registered", _oBF.isRegistered(str)) ; 
-			assertTrue ("Bean not registered", _oBF.isBeanRegistered(obj2)) ;
+			assertTrue ("Bean not registered", _oBF.isBeanRegistered(obj)) ;
 			assertNotNull("Key not located", _oBF.locate(str)) ;
 
 			assertTrue("Bean unregistration failed", _oBF.unregister(str));

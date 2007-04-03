@@ -107,6 +107,11 @@ package com.bourre.commands
 			}
 		}
 		
+		public function callFunction() : *
+		{
+			return _f.apply( null, _a );
+		}
+		
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
