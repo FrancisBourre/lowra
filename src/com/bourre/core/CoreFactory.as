@@ -2,19 +2,19 @@ package com.bourre.core
 {
 	import com.bourre.log.PixlibDebug;
 	import flash.utils.getDefinitionByName;
-	
+
 	public class CoreFactory
 	{
 		private static var _A : Array = [	_build0,_build1,_build2,_build3,_build4,_build5,_build6,_build7,_build8,_build9,
 											_build10,_build11,_build12,_build13,_build14,_build15,_build16,_build17,_build18,_build19,
 											_build20,_build21,_build22,_build23,_build24,_build25,_build26,_build27,_build28,_build29,
 											_build30];
-											
+							
 		public function CoreFactory( access : PrivateCoreFactoryAccess )
 		{
 			
 		}
-		
+
 		public static function buildInstance( qualifiedClassName : String, aArgs : Array = null, factoryMethod : String = null, singletonAccess : String = null ) : Object
 		{
 			var clazz : Class = getDefinitionByName( qualifiedClassName ) as Class;
@@ -23,7 +23,7 @@ package com.bourre.core
 				PixlibDebug.FATAL( clazz + "' class is not available in current domain" );
 				return null;
 			}
-			
+
 			var o : Object;
 	
 			if ( factoryMethod )

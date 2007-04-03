@@ -110,38 +110,33 @@ package com.bourre.events
 		
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-			if (listener is Function)
-			{
+
+			if ( listener is Function)
+			{ 
 				var d : Delegate = new Delegate( listener as Function );
-				if ( rest != null ) d.setArgumentsArray( rest );
+				if ( rest ) d.setArgumentsArray( rest );
 				listener = d;
 				
+			} else if ( listener.hasOwnProperty( type ) && ( listener[type] is Function ) )
+			{
+				//
+					
+			} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+			{
+				//
+			
 			} else
 			{
-				try
-				{
-					listener[type] is Function;
-					
-				} catch ( e : Error )
-				{
-					try
-					{
-						listener.handleEvent is Function;
-						
-					} catch ( e : Error )
-					{
-						var msg : String;
-						msg = "EventBroadcaster.addEventListener() failed, you must implement '" 
-						+ type + "' method or 'handleEvent' method in '" + 
-						getQualifiedClassName(listener) + "' class";
+				var msg : String;
+				msg = "EventBroadcaster.addEventListener() failed, you must implement '" 
+				+ type + "' method or 'handleEvent' method in '" + 
+				getQualifiedClassName(listener) + "' class";
 									
-						PixlibDebug.ERROR( msg );
-						throw( new UnsupportedOperationException( msg ) );
-					}
-				}
+				PixlibDebug.ERROR( msg );
+				throw( new UnsupportedOperationException( msg ) );
 			}
 			
-			if ( !(isRegistered(listener)) )
+			if ( !( isRegistered( listener ) ) )
 			{
 				if ( !(hasListenerCollection(type)) ) _mType.put( type, new WeakCollection() );
 				if ( getListenerCollection(type).add( listener ) ) 
@@ -211,13 +206,13 @@ package com.bourre.events
 			{
 				var listener : Object = a[l];
 				
-				if ( listener.hasOwnProperty( "handleEvent" ) )
-				{
-					listener.handleEvent(e);
-					
-				} else if ( listener.hasOwnProperty( type ) )
+				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
 				{
 					listener[type](e);
+					
+				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+				{
+					listener.handleEvent(e);
 					
 				} else
 				{
