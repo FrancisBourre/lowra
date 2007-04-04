@@ -46,6 +46,11 @@ package com.bourre.model
 			if ( name ) setName( name );
 		}
 		
+		public function handleEvent( e : Event ) : void
+		{
+			
+		}
+		
 		protected function onInit() : void
 		{
 			notifyChanged( new StringEvent( AbstractModel.onInitEVENT, getName() ) );
