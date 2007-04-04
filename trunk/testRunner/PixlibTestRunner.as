@@ -67,8 +67,8 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BeanFactoryTest);
 	ts.addTestSuite( BeanEventTest) ;
 	//com.bourre.ioc.assembler.property
-	ts.addTestSuite( PropertyEventTest) ;
-	ts.addTestSuite(PropertyExpertTest) ;
+	//ts.addTestSuite( PropertyEventTest) ;
+	//ts.addTestSuite(PropertyExpertTest) ;
 	
 	// com.bourre.load
 	ts.addTestSuite( LoaderStrategyTest );
