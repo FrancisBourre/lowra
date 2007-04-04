@@ -1,9 +1,8 @@
 package com.bourre.ioc.control
 {
-	import com.bourre.plugin.ChannelExpert;
 	import com.bourre.core.CoreFactory;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.plugin.PluginChannel;
+	import com.bourre.log.*;
+	import com.bourre.plugin.*;
 	
 	public class BuildInstance 
 		implements IBuilder
@@ -19,6 +18,11 @@ package com.bourre.ioc.control
 			var o : * = CoreFactory.buildInstance( qualifiedClassName, args, factory, singleton );
 			if ( o == null ) PixlibDebug.FATAL( this + ".build(" + qualifiedClassName + ") failed." );
 			return o;
+		}
+		
+		public function toString() : String 
+		{
+			return PixlibStringifier.stringify( this );
 		}
 	}
 }
