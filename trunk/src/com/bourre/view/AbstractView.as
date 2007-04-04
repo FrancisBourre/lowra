@@ -51,6 +51,11 @@ package com.bourre.view
 			if ( name != null ) _initMovieClipHelperView( name, mc, null );
 		}
 		
+		public function handleEvent( e : Event ) : void
+		{
+			
+		}
+		
 		protected function onInit() : void
 		{
 			//notifyChanged( new StringEvent( AbstractMovieClipHelper.onInitEVENT, getName() ) );
