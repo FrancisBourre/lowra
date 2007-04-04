@@ -157,6 +157,16 @@ package com.bourre.structures
 		}
 		
 		/**
+		 * 
+		 * @return 
+		 * 
+		 */
+		public function size() : Number
+		{
+			return max-min;
+		}
+		
+		/**
 		 * Returns the string representation of this instance.
 		 * 
 		 * @return <code>String</code> representation of this instance
