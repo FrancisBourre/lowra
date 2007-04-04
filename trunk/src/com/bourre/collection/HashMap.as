@@ -65,7 +65,7 @@ package com.bourre.collection
 		
 		public function put ( key : *, value : * ) : void
 		{
-			if (key)
+			if (key != null)
 			{
 				if ( containsKey( key ) ) remove( key );
 				

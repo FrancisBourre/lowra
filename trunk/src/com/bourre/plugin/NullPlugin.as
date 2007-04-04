@@ -8,20 +8,21 @@ package com.bourre.plugin
 
 	import flash.events.Event;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.events.ApplicationBroadcaster;
 
 	public class NullPlugin 
 		implements IPlugin
 	{
-		private static var _oI : NullPlugin = new NullPlugin();
+		private static var _oI : NullPlugin =null;
 
-		public function NullPlugin()
+		public function NullPlugin(access : PrivateConstructorAccess )
 		{
 			
 		}
 
 		public static function getInstance() : NullPlugin
 		{
-			if ( !(NullPlugin._oI is NullPlugin) ) NullPlugin._oI = new NullPlugin();
+			if ( !(NullPlugin._oI is NullPlugin) ) NullPlugin._oI = new NullPlugin(new PrivateConstructorAccess() );
 			return NullPlugin._oI;
 		}
 
@@ -52,7 +53,7 @@ package com.bourre.plugin
 
 		public function getChannel() : EventChannel
 		{
-			return null;
+			return ApplicationBroadcaster.getInstance().NO_CHANNEL
 		}
 		
 		public function getLogger() : PluginDebug
@@ -80,3 +81,4 @@ package com.bourre.plugin
 		}
 	}
 }
+internal class PrivateConstructorAccess {}

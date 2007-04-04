@@ -36,15 +36,16 @@ package com.bourre.model
 		protected var _owner : IPlugin;
 		protected var _m : HashMap;
 		
-		public function ModelLocator( owner : IPlugin = null ) 
+		public function ModelLocator( access : PrivateConstructorAccess, owner : IPlugin = null ) 
 		{
-			_owner = owner ? owner : NullPlugin.getInstance();
+			_owner = owner;
 			_m = new HashMap();
 		}
 		
 		public static function getInstance( owner : IPlugin = null ) : ModelLocator
 		{
-			if ( !(ModelLocator._M.containsKey( owner )) ) ModelLocator._M.put( owner, new ModelLocator(owner) );
+			if(owner==null) owner = NullPlugin.getInstance()
+			if ( !(ModelLocator._M.containsKey( owner )) ) ModelLocator._M.put( owner, new ModelLocator(new PrivateConstructorAccess() , owner) );
 			return ModelLocator._M.get( owner );
 		}
 		
@@ -103,3 +104,4 @@ package com.bourre.model
 		}
 	}
 }
+internal class PrivateConstructorAccess {}

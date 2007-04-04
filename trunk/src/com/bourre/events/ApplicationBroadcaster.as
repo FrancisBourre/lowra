@@ -14,11 +14,11 @@ package com.bourre.events
 		 */
 		public static function getInstance() : ApplicationBroadcaster 
 		{
-			if (!_oI) _oI = new ApplicationBroadcaster();
+			if (!_oI) _oI = new ApplicationBroadcaster(new PrivateConstructorAccess());
 			return _oI;
 		}
 		
-		public function ApplicationBroadcaster()
+		public function ApplicationBroadcaster(access : PrivateConstructorAccess)
 		{
 			super( SYSTEM_CHANNEL );
 		}
@@ -48,3 +48,5 @@ internal class SystemChannel
 	{
 	}
 }
+
+internal class PrivateConstructorAccess {}
