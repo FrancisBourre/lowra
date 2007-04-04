@@ -37,15 +37,16 @@ package com.bourre.view
 		protected var _owner : IPlugin;
 		protected var _m : HashMap;
 		
-		public function ViewLocator( owner : IPlugin = null ) 
+		public function ViewLocator( access : PrivateConstructorAccess, owner : IPlugin = null ) 
 		{
-			_owner = owner? owner : new NullPlugin();
+			_owner = owner;
 			_m = new HashMap();
 		}
 		
 		public static function getInstance( owner : IPlugin = null ) : ViewLocator
 		{
-			if ( !(ViewLocator._M.containsKey( owner )) ) ViewLocator._M.put( owner, new ViewLocator(owner) );
+			if(owner==null) owner = NullPlugin.getInstance()
+			if ( !(ViewLocator._M.containsKey( owner )) ) ViewLocator._M.put( owner, new ViewLocator(new PrivateConstructorAccess(), owner) );
 			return ViewLocator._M.get( owner );
 		}
 		
@@ -113,3 +114,4 @@ package com.bourre.view
 		}
 	}
 }
+internal class PrivateConstructorAccess {}

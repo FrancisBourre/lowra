@@ -25,30 +25,32 @@ package com.bourre.plugin
 
 		public function AbstractPlugin() 
 		{
-			_oController = new FrontController( this );
-			_oModelLocator = ModelLocator.getInstance( this );
-			_oViewLocator = ViewLocator.getInstance( this );
+			_oController = new FrontController( this )
+			_oModelLocator = ModelLocator.getInstance( this )
+			_oViewLocator = ViewLocator.getInstance( this )
 				
-			_oABExternal = ApplicationBroadcaster.getInstance();
-			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
-			_oEBPrivate = getController().getBroadcaster();
-				
-			if( _oEBPublic ) _oEBPublic.addListener( this );
+			_oABExternal = ApplicationBroadcaster.getInstance()
+			
+			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this )
+			
+			_oEBPrivate = getController().getBroadcaster()
+			
+			if( _oEBPublic )_oEBPublic.addListener( this )
 		}
 		
 		public function onInitPlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onInitEVENT ) );
+			firePublicEvent( new Event( AbstractPlugin.onInitEVENT ) )
 		}
 		
 		public function onReleasePlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onReleaseEVENT ) );
+			firePublicEvent( new Event( AbstractPlugin.onReleaseEVENT ) )
 		}
 		
 		public function getChannel() : EventChannel
 		{
-			return ChannelExpert.getInstance().getChannel( this );
+			return ChannelExpert.getInstance().getChannel( this )
 		}
 		
 		public function getController() : FrontController

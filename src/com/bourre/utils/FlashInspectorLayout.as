@@ -81,7 +81,7 @@ package com.bourre.utils
 		//
 		private function onStatus( event : StatusEvent ) : void 
 		{
-            trace( "onStatus( " + event + ")" );
+         //   trace( "onStatus( " + event + ")" );
         }
 
         private function onSecurityError( event : SecurityErrorEvent ) : void 

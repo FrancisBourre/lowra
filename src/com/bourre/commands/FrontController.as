@@ -45,7 +45,7 @@ package com.bourre.commands
 		{
 			if ( _oEB ) _oEB.removeListener( this );
 
-			if ( owner )
+			if ( owner!= null )
 			{
 				_owner = owner;
 				_oEB = new EventBroadcaster( getOwner() );
@@ -55,7 +55,6 @@ package com.bourre.commands
 				_owner = NullPlugin.getInstance();
 				_oEB = EventBroadcaster.getInstance();
 			}
-			
 			_oEB.addListener( this );
 		}
 

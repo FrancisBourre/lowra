@@ -27,6 +27,7 @@ package com.bourre.plugin
 		
 		public function getChannel( o : Object ) : EventChannel
 		{
+			trace(o,arguments.caller)
 			if ( _m.containsKey( ChannelExpert._N ) )
 			{
 				var channel : EventChannel = _m.get( ChannelExpert._N ) as EventChannel;

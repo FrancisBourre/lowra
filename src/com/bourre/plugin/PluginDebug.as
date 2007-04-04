@@ -34,17 +34,17 @@ package com.bourre.plugin
 		
 		public function PluginDebug(  access : PrivateConstructorAccess, owner : IPlugin = null ) 
 		{
-			if ( owner )
-			{
-				PixlibDebug.INFO( "owner" );
+		//if ( owner )
+			//{
+				//PixlibDebug.INFO( "owner" );
 				_owner = owner;
 				_channel = owner.getChannel();
-			} else
-			{
-				PixlibDebug.INFO( "!owner" );
-				_owner = NullPlugin.getInstance();
-				_channel = null;
-			}
+			//} else
+			//{
+			//	PixlibDebug.INFO( "!owner" );
+			//	_owner = NullPlugin.getInstance();
+			//	_channel = null;
+			//}
 		}
 		
 		public function getOwner() : IPlugin
@@ -59,6 +59,7 @@ package com.bourre.plugin
 	
 		public static function getInstance( owner : IPlugin = null ) : PluginDebug
 		{
+			if(owner==null) owner = NullPlugin.getInstance()
 			if ( !(PluginDebug._M.containsKey( owner )) ) PluginDebug._M.put( owner, new PluginDebug( new PrivateConstructorAccess(), owner ) );
 			return PluginDebug._M.get( owner );
 		}
