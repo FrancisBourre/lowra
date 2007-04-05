@@ -9,7 +9,7 @@ import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
 import com.bourre.ioc.bean.*;
-import com.bourre.ioc.assembler.property.*;
+//import com.bourre.ioc.assembler.property.*;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
@@ -41,6 +41,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( TypedArrayTest );
 	ts.addTestSuite( QueueTest );
 	ts.addTestSuite( StackTest );
+	ts.addTestSuite( SetTest) ;
 	
 	// com.bourre.commands
 	ts.addTestSuite( DelegateTest );
