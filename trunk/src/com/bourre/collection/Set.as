@@ -90,9 +90,8 @@ package com.bourre.collection
 		{
 			if(isValidObject(o))
 			{
-				if (push(o) == o)
-					return true;
-				else return false ;
+				_aSet.splice( _aSet.length, 0, o );
+				return true ;
 			}else
 			{
 				return false ;
