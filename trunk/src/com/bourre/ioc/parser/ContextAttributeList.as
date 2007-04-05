@@ -22,7 +22,7 @@ package com.bourre.ioc.parser
 		private static var CHANNEL 				: String = "channel";
 		private static var DELAY 				: String = "delay";
 		
-		public function ContextAttributeList()
+		public function ContextAttributeList( access : PrivateConstructorAccess )
 		{
 			//
 		}
@@ -118,3 +118,5 @@ package com.bourre.ioc.parser
 		}		
 	}
 }
+
+internal class PrivateConstructorAccess{}
