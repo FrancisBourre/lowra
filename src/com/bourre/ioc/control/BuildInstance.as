@@ -28,7 +28,7 @@ package com.bourre.ioc.control
 	public class BuildInstance 
 		implements IBuilder
 	{
-		
+
 		public function build ( qualifiedClassName : String = null, 
 								args : Array = null, 
 								factory : String = null, 
@@ -36,7 +36,7 @@ package com.bourre.ioc.control
 								channel : String = null		) : *
 		{
 			var o : Object = null;
-			
+
 			if ( channel ) ChannelExpert.getInstance().registerChannel( new PluginChannel( channel ) );
 			if ( qualifiedClassName ) o = CoreFactory.buildInstance( qualifiedClassName, args, factory, singleton );
 			if ( o == null ) PixlibDebug.FATAL( this + ".build(" + qualifiedClassName + ") failed." );
