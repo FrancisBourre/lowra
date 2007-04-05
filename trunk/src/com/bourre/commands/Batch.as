@@ -19,7 +19,7 @@ package com.bourre.commands
 	 */
 	public class Batch implements MacroCommand
 	{
-		private var _aCommands : Array;
+		protected var _aCommands : Array;
 		
 		
 		/**
