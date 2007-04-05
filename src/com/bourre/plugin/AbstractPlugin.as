@@ -20,8 +20,8 @@ package com.bourre.plugin
 		private var _oModelLocator : ModelLocator;
 		private var _oViewLocator : ViewLocator;
 
-		public static const onInitEVENT : String = "onInit";
-		public static const onReleaseEVENT : String = "onRelease";
+		public static const onInitPluginEVENT : String = "onInitPlugin";
+		public static const onReleasePluginEVENT : String = "onReleasePlugin";
 
 		public function AbstractPlugin() 
 		{
@@ -38,14 +38,14 @@ package com.bourre.plugin
 			if( _oEBPublic )_oEBPublic.addListener( this )
 		}
 		
-		public function onInitPlugin() : void
+		public function fireOnInitPlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onInitEVENT ) )
+			firePublicEvent( new Event( AbstractPlugin.onInitPluginEVENT ) )
 		}
 		
-		public function onReleasePlugin() : void
+		public function fireOnReleasePlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onReleaseEVENT ) )
+			firePublicEvent( new Event( AbstractPlugin.onReleasePluginEVENT ) )
 		}
 		
 		public function getChannel() : EventChannel

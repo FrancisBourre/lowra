@@ -26,12 +26,12 @@ package com.bourre.plugin
 			return NullPlugin._oI;
 		}
 
-		public function onInitPlugin() : void
+		public function fireOnInitPlugin() : void
 		{
 			
 		}
 
-		public function onReleasePlugin() : void
+		public function fireOnReleasePlugin() : void
 		{
 			
 		}

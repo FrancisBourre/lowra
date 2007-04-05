@@ -5,6 +5,6 @@ package com.bourre.plugin
 	public interface PluginListener
 	{
 		function onInitPlugin( e : Event ) : void;
-		function onDestroyPlugin( e : Event ) : void;
+		function onReleasePlugin( e : Event ) : void;
 	}
 }

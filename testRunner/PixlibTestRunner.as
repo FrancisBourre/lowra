@@ -88,7 +88,10 @@ private function createSuite() : TestSuite
 	// com.bourre.plugin
 	//ts.addTestSuite( PixlibDebugTest );	
 	ts.addTestSuite( NullPluginTest );
-
+	ts.addTestSuite( AbstractPluginTest )
+	
+	//com.bourre.request
+	ts.addTestSuite(AbstractDataRequestTest)
 	
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
