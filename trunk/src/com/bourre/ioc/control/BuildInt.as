@@ -21,19 +21,29 @@ package com.bourre.ioc.control
 	 * @version 1.0
 	 */
 
-	import com.bourre.log.*;
-
-	public class BuildNull 
+	public class BuildInt
 		implements IBuilder
 	{
+		import com.bourre.log.*;
 
-		public function build ( type : String = null, 
-								args : Array = null, 
-								factory : String = null, 
-								singleton : String = null, 
-								channel : String = null		) : *
+		public function build ( type 		: String 	= null, 
+								args 		: Array 	= null, 
+								factory 	: String 	= null, 
+								singleton 	: String 	= null, 
+								channel 	: String 	= null		) : *
 		{
-			return null;
+			var n : Number = NaN;
+			if ( args != null && args.length > 0 ) n = parseInt( ( args[0] ).toString() );
+			
+			if ( !isNaN(n) && n <= uint.MAX_VALUE && n >= uint.MIN_VALUE ) 
+			{
+				return new uint( n );
+				
+			} else
+			{
+				PixlibDebug.FATAL( this + ".build(" + n + ") failed." );
+				return 0;
+			}
 		}
 
 		public function toString() : String 
