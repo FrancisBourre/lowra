@@ -26,8 +26,7 @@ package com.bourre.ioc.control
 	{
 		import com.bourre.log.*;
 
-		public function build ( type : String = null, 
-								args : Array = null, 
+		public function build ( args : Array = null, 
 								factory : String = null, 
 								singleton : String = null, 
 								channel : String = null		) : *

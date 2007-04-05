@@ -12,14 +12,20 @@ package com.bourre.ioc.assembler.property
 		public var ref : String;
 		public var method : String;
 		
-		public function Property(ownerID : String, name : String = null, value : String = null, type : String = null, ref : String = null, method : String = null )
+		public function Property( 	ownerID : String, 
+									name 	: String = null, 
+									value 	: String = null, 
+									type 	: String = null, 
+									ref 	: String = null, 
+									method 	: String = null 
+								)
 		{
-			ownerID = ownerID;
-			name = name;
-			type = type;
-			ref = ref;
-			value = value;
-			method = method;
+			this.ownerID = ownerID;
+			this.name = name;
+			this.value = value;
+			this.type = type;
+			this.ref = ref;
+			this.method = method;
 		}
 		
 	/**

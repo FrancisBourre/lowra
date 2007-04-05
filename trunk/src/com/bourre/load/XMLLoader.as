@@ -54,7 +54,7 @@ package com.bourre.load
 		{
 			return new XMLLoaderEvent( type, this );
 		}
-		
+
 		public function getXML() : XML
 		{
 			return XML( getContent() );
