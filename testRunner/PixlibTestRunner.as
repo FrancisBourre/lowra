@@ -8,6 +8,7 @@ import com.bourre.commands.*;
 import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
+import com.bourre.ioc.assembler.* ;
 import com.bourre.ioc.bean.*;
 //import com.bourre.ioc.assembler.property.*;
 import com.bourre.load.*;
@@ -51,6 +52,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( FrontControlerTest );
 	ts.addTestSuite( CommandMSTest );
 	ts.addTestSuite( CommandFPSTest );
+	ts.addTestSuite( ReversedBatchTest ) ;
 	
 	// com.bourre.core
 	ts.addTestSuite( AccessorTest );
@@ -63,6 +65,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( StringEventTest) ;
 	ts.addTestSuite( BooleanEventTest);
 	ts.addTestSuite( BasicEventTest) ;
+	
+	// com.bourre.ioc.assembler
+	ts.addTestSuite (DepthManagerTest ) ;
 	
 	// com.bourre.ioc.bean
 	ts.addTestSuite( BeanFactoryTest);
