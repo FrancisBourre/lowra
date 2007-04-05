@@ -132,10 +132,10 @@ internal class MockCommand extends AbstractCommand
 
 internal class MockPlugin implements IPlugin
 {
-		public function onInitPlugin() : void
+		public function  fireOnInitPlugin() : void
 		{}
 		
-		public function onReleasePlugin() : void
+		public function  fireOnReleasePlugin() : void
 		{}
 		
 		public function fireExternalEvent( e : Event, channel : EventChannel ) : void

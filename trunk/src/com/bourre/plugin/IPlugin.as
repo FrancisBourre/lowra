@@ -30,8 +30,9 @@ package com.bourre.plugin
 
 	public interface IPlugin 
 	{
-		function onInitPlugin() : void;
-		function onReleasePlugin() : void;
+		function  fireOnInitPlugin() : void;
+		function  fireOnReleasePlugin() : void;
+		
 		
 		function fireExternalEvent( e : Event, channel : EventChannel ) : void;
 		function firePublicEvent( e : Event ) : void;
