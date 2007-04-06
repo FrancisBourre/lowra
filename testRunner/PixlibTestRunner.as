@@ -10,11 +10,13 @@ import com.bourre.core.*;
 import com.bourre.events.*;
 import com.bourre.ioc.assembler.* ;
 import com.bourre.ioc.bean.*;
+import com.bourre.ioc.parser.*;
 //import com.bourre.ioc.assembler.property.*;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
 import com.bourre.plugin.*;
+import com.bourre.request.*;
 import com.bourre.utils.*;
 import com.bourre.structures.*;
 import com.bourre.transitions.*;
@@ -75,6 +77,9 @@ private function createSuite() : TestSuite
 	//com.bourre.ioc.assembler.property
 	//ts.addTestSuite( PropertyEventTest) ;
 	//ts.addTestSuite(PropertyExpertTest) ;
+	
+	//com.bourre.parser
+	ts.addTestSuite( ContextNodeNameListTest ) ;
 	
 	// com.bourre.load
 	ts.addTestSuite( LoaderStrategyTest );
