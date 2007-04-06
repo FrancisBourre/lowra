@@ -9,6 +9,7 @@ import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
 import com.bourre.ioc.assembler.* ;
+import com.bourre.ioc.assembler.channel.* ;
 import com.bourre.ioc.bean.*;
 import com.bourre.ioc.parser.*;
 import com.bourre.ioc.assembler.property.*;
@@ -70,6 +71,9 @@ private function createSuite() : TestSuite
 	
 	// com.bourre.ioc.assembler
 	ts.addTestSuite (DepthManagerTest ) ;
+	
+	// com.bourre.assembler.channel
+	ts.addTestSuite (ChannelListenerExpertTest) ;
 	
 	// com.bourre.ioc.bean
 	ts.addTestSuite( BeanFactoryTest);
