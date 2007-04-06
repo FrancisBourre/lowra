@@ -9,6 +9,7 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.ioc.parser.ContextTypeList ;
 	import com.bourre.log.PixlibStringifier 
 	import com.bourre.ioc.control.BuildFactory;
+	import com.bourre.utils.ObjectUtils;
 
 	public class PropertyExpert 
 		implements BeanFactoryListener
@@ -37,11 +38,6 @@ package com.bourre.ioc.assembler.property
 			//addListener( IDExpert.getInstance() );
 		}
 
-		public function getType( p : Property ) : String
-		{
-			return p.type;
-		}
-
 		public function setPropertyValue( p : Property, target : Object ) : void
 		{
 			target[ p.name ] = getValue( p ) ;
@@ -57,24 +53,19 @@ package com.bourre.ioc.assembler.property
 			} else if ( p.ref )
 			{
 				var ref : String = p.ref;
-				return BeanFactory.getInstance().locate( p.ref );
-				
-				/*
+
 				if ( ref.indexOf(".") == -1 )
 				{
 					return BeanFactory.getInstance().locate( p.ref );
 					
-				} 
-				//TODO change "eval"
-				else
+				} else
 				{
-					var a : Array = ref.split(".");
-					var oRef = BeanFactory.getInstance().locate( String(a.shift()) );
-					return eval( oRef + "." + (a.join(".")) );
-				}*/
-				
-			} 
-			else
+					var args : Array = ref.split(".");
+					var oRef : Object = BeanFactory.getInstance().locate( String( args.shift() ) );
+					return ObjectUtils.evalFromTarget( oRef, args.join(".") );
+				}
+
+			} else
 			{
 				var type : String = p.type ? p.type : ContextTypeList.STRING;
 				return BuildFactory.getInstance().getBuilder( type ).build( type, [p.value] );
