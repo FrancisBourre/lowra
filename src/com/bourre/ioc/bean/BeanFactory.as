@@ -120,6 +120,11 @@ package com.bourre.ioc.bean
 		{
 			return PixlibStringifier.stringify( this );
 		}
+		
+		public static function release():void
+		{
+			if ( BeanFactory._oI is BeanFactory ) BeanFactory._oI = null;
+		}
 	}
 }
 
