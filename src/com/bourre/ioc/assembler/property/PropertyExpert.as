@@ -17,10 +17,15 @@ package com.bourre.ioc.assembler.property
 		private var _oEB : EventBroadcaster;
 		private var _mProperty : HashMap;
 
-		public static function getInstance():PropertyExpert
+		public static function getInstance() : PropertyExpert
 		{
 			if ( !( _oI is PropertyExpert ) ) _oI = new PropertyExpert( new PrivateConstructorAccess() );
 			return _oI;
+		}
+		
+		public static function release() : void
+		{
+			if ( PropertyExpert._oI is PropertyExpert ) PropertyExpert._oI = null;
 		}
 
 		public function PropertyExpert( o : PrivateConstructorAccess )
