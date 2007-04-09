@@ -6,8 +6,8 @@ package com.bourre.ioc.parser
 		public static var DEFAULT 	: String = "Default";
 		public static var STRING 	: String = "String";
 		public static var NUMBER 	: String = "Number";
-		public static var INT 		: String = "Int";
-		public static var UINT 		: String = "Uint";
+		public static var INT 		: String = "int";
+		public static var UINT 		: String = "uint";
 		public static var BOOLEAN 	: String = "Boolean";
 		public static var ARRAY 	: String = "Array";
 		public static var OBJECT 	: String = "Object";

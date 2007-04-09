@@ -1,5 +1,27 @@
 package com.bourre.ioc.bean
 {
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	
+	/**
+	 * @author Francis Bourre
+	 * @author Olympe Dignat
+	 * @version 1.0
+	 */
+
 	import com.bourre.core.Locator;
 	import com.bourre.collection.HashMap ;
 	import com.bourre.events.EventBroadcaster;	
@@ -14,8 +36,8 @@ package com.bourre.ioc.bean
 		private var _oEB : EventBroadcaster ;
 		private var _m : HashMap ;
 		
-		public static var onRegisterBeanEVENT:String = "onRegisterBean" ;
-		public static var onUnregisterBeanEVENT:String = "onUnregisterBean" ;
+		public static const onRegisterBeanEVENT:String = "onRegisterBean" ;
+		public static const onUnregisterBeanEVENT:String = "onUnregisterBean" ;
 		
 		public static function getInstance() : BeanFactory
 		{
@@ -23,9 +45,14 @@ package com.bourre.ioc.bean
 			return BeanFactory._oI;
 		}
 		
+		public static function release():void
+		{
+			if ( BeanFactory._oI is BeanFactory ) BeanFactory._oI = null;
+		}
+		
 		public function BeanFactory( access : PrivateConstructorAccess )
 		{
-			_oEB = new EventBroadcaster(this) ;
+			_oEB = new EventBroadcaster( this ) ;
 			_m = new HashMap() ;
 		}
 		
@@ -55,10 +82,10 @@ package com.bourre.ioc.bean
 		
 		public function register ( key : String, bean : Object ) : Boolean
 		{
-			if (!(isRegistered(key)) && !(isBeanRegistered(bean)))
+			if ( !( isRegistered( key ) ) && !( isBeanRegistered( bean ) ) )
 			{
-				_m.put(key, bean) ;
-				_oEB.broadcastEvent(new BeanEvent(BeanFactory.onRegisterBeanEVENT, key, bean)) ;
+				_m.put( key, bean ) ;
+				_oEB.broadcastEvent( new BeanEvent( BeanFactory.onRegisterBeanEVENT, key, bean ) ) ;
 				return true ;
 
 			} else
@@ -67,7 +94,7 @@ package com.bourre.ioc.bean
 				
 				if ( isRegistered( key ) )
 				{
-					msg = this+".register("+key+", "+bean+") fails, key is already registered." ;
+					msg += this+".register(" + key + ", " + bean + ") fails, key is already registered." ;
 				}
 				
 				if ( isBeanRegistered( bean ) )
@@ -75,7 +102,7 @@ package com.bourre.ioc.bean
 					msg += this + ".register(" + key + ", " + bean + ") fails, bean is already registered.";
 				}
 				
-				PixlibDebug.ERROR(msg) ;
+				PixlibDebug.ERROR( msg ) ;
 				throw( new UnsupportedOperationException( msg ) );
 				return false ;
 				
@@ -84,10 +111,10 @@ package com.bourre.ioc.bean
 		
 		public function unregister ( key : String ) : Boolean
 		{
-			if (isRegistered(key))
+			if ( isRegistered( key ) )
 			{
-				_m.remove(key) ;
-				_oEB.broadcastEvent(new BeanEvent(BeanFactory.onUnregisterBeanEVENT, key, null)) ;
+				_m.remove( key ) ;
+				_oEB.broadcastEvent( new BeanEvent( BeanFactory.onUnregisterBeanEVENT, key, null ) ) ;
 				return true ;
 			}
 			else
@@ -119,11 +146,6 @@ package com.bourre.ioc.bean
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
-		}
-		
-		public static function release():void
-		{
-			if ( BeanFactory._oI is BeanFactory ) BeanFactory._oI = null;
 		}
 	}
 }
