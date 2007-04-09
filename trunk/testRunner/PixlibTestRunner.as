@@ -83,7 +83,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite(PropertyExpertTest) ;
 	
 	//com.bourre.parser
-	ts.addTestSuite( ContextNodeNameListTest ) ;
+	ts.addTestSuite( ContextNodeNameListTest );
+	ts.addTestSuite( AbstractParserTest );
+	ts.addTestSuite( ObjectParserTest );
 	
 	// com.bourre.load
 	//ts.addTestSuite( LoaderStrategyTest );
