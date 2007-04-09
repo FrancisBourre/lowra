@@ -23,7 +23,7 @@ package com.bourre.ioc.assembler.channel
 		}
 		
 		public function testBuildChannelListener():void
-		{
+		{/*
 			var listen:String = "listen" ;
 			var att:Object = new Object() ;
 			att = {channel:"channel"} ;
@@ -35,7 +35,7 @@ package com.bourre.ioc.assembler.channel
 			BeanFactory.getInstance().register(listen, obj) ;
 			_oCL.buildChannelListener(listen, obj) ;
 			_oCL.assignAllChannelListeners() ;
-			
+		*/
 		}
 	}
 }
