@@ -86,9 +86,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( ContextNodeNameListTest ) ;
 	
 	// com.bourre.load
-	ts.addTestSuite( LoaderStrategyTest );
-	ts.addTestSuite( URLLoaderStrategyTest );	
-	ts.addTestSuite( AbstractLoaderTest );
+	//ts.addTestSuite( LoaderStrategyTest );
+	//ts.addTestSuite( URLLoaderStrategyTest );	
+	//ts.addTestSuite( AbstractLoaderTest );
 	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
 	ts.addTestSuite(XMLToObjectTest) ;
