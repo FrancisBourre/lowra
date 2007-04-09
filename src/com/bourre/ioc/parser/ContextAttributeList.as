@@ -1,120 +1,142 @@
 package com.bourre.ioc.parser
 {
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	 
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+
 	public class ContextAttributeList
 	{
 	
-		private static var ID 					: String = "id";
-		private static var TYPE 				: String = "type";
-		private static var NAME 				: String = "name";
-		private static var REF 					: String = "ref";
-		private static var VALUE 				: String = "value";
-		private static var FACTORY 				: String = "factory";
-		private static var URL 					: String = "url";
-		private static var DEPTH 				: String = "depth";
-		private static var VISIBLE 				: String = "visible";
-		private static var SINGLETON_ACCESS 	: String = "singleton-access";
-		private static var METHOD 				: String = "method";
-		private static var PROGRESS_CALLBACK	: String = "progress-callback";
-		private static var NAME_CALLBACK 		: String = "name-callback";
-		private static var TIMEOUT_CALLBACK 	: String = "timeout-callback";	
-		private static var BUILT_CALLBACK 		: String = "built-callback";	
-		private static var INIT_CALLBACK 		: String = "init-callback";	
-		private static var CHANNEL 				: String = "channel";
-		private static var DELAY 				: String = "delay";
+		public static const ID 					: String = "id";
+		public static const TYPE 				: String = "type";
+		public static const NAME 				: String = "name";
+		public static const REF 				: String = "ref";
+		public static const VALUE 				: String = "value";
+		public static const FACTORY 			: String = "factory";
+		public static const URL 				: String = "url";
+		public static const DEPTH 				: String = "depth";
+		public static const VISIBLE 			: String = "visible";
+		public static const SINGLETON_ACCESS 	: String = "singleton-access";
+		public static const METHOD 				: String = "method";
+		public static const PROGRESS_CALLBACK	: String = "progress-callback";
+		public static const NAME_CALLBACK 		: String = "name-callback";
+		public static const TIMEOUT_CALLBACK 	: String = "timeout-callback";	
+		public static const BUILT_CALLBACK 		: String = "built-callback";	
+		public static const INIT_CALLBACK 		: String = "init-callback";	
+		public static const CHANNEL 			: String = "channel";
+		public static const DELAY 				: String = "delay";
 		
 		public function ContextAttributeList( access : PrivateConstructorAccess )
 		{
 			//
 		}
 
-		public static function getID( nodeAttribute : Object ) : String
+		public static function getID( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.ID ];
+			return xml.attribute( ContextAttributeList.ID );
 		}
 		
-		public static function getType( nodeAttribute : Object ) : String
+		public static function getType( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.TYPE ];
+			var type : String = xml.attribute( ContextAttributeList.TYPE );
+			return type ? type : ContextTypeList.STRING;
 		}
 		
-		public static function getName( nodeAttribute : Object ) : String
+		public static function getName( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.NAME ];
+			return xml.attribute( ContextAttributeList.NAME );
 		}
 		
-		public static function getRef( nodeAttribute : Object ) : String
+		public static function getRef( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.REF ];
+			return xml.attribute( ContextAttributeList.REF );
 		}
 		
-		public static function getValue( nodeAttribute : Object ) : String
+		public static function getValue( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.VALUE ];
+			return xml.attribute( ContextAttributeList.VALUE );
 		}
 		
-		public static function getFactoryMethod( nodeAttribute : Object ) : String
+		public static function getURL( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.FACTORY ];
+			return xml.attribute( ContextAttributeList.URL );
 		}
 		
-		public static function getURL( nodeAttribute : Object ) : String
+		public static function getDepth( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.URL ];
+			return xml.attribute( ContextAttributeList.DEPTH );
 		}
 		
-		public static function getDepth( nodeAttribute : Object ) : String
+		public static function getVisible( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.DEPTH ];
+			return xml.attribute( ContextAttributeList.VISIBLE );
 		}
 		
-		public static function getVisible( nodeAttribute : Object ) : String
+		public static function getFactoryMethod( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.VISIBLE ];
+			return xml.attribute( ContextAttributeList.FACTORY );
 		}
 		
-		public static function getSingletonAccess( nodeAttribute : Object ) : String
+		public static function getSingletonAccess( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.SINGLETON_ACCESS ];
+			return xml.attribute( ContextAttributeList.SINGLETON_ACCESS );
 		}
 		
-		public static function getMethod( nodeAttribute : Object ) : String
+		public static function getChannel( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.METHOD ];
+			return xml.attribute( ContextAttributeList.CHANNEL );
 		}
 		
-		public static function getProgressCallback( nodeAttribute : Object ) : String
+		public static function getMethod( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.PROGRESS_CALLBACK ];
+			return xml.attribute( ContextAttributeList.METHOD );
 		}
 		
-		public static function getNameCallback( nodeAttribute : Object ) : String
+		public static function getProgressCallback( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.NAME_CALLBACK ];
+			return xml.attribute( ContextAttributeList.PROGRESS_CALLBACK );
 		}
 		
-		public static function getTimeoutCallback( nodeAttribute : Object ) : String
+		public static function getNameCallback( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.TIMEOUT_CALLBACK ];
+			return xml.attribute( ContextAttributeList.NAME_CALLBACK );
 		}
 		
-		public static function getBuiltCallback( nodeAttribute : Object ) : String
+		public static function getTimeoutCallback( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.BUILT_CALLBACK ];
+			return xml.attribute( ContextAttributeList.TIMEOUT_CALLBACK );
 		}
 		
-		public static function getInitCallback( nodeAttribute : Object ) : String
+		public static function getBuiltCallback( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.INIT_CALLBACK ];
+			return xml.attribute( ContextAttributeList.BUILT_CALLBACK );
 		}
 		
-		public static function getChannel( nodeAttribute : Object ) : String
+		public static function getInitCallback( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.CHANNEL ];
+			return xml.attribute( ContextAttributeList.INIT_CALLBACK );
 		}
 		
-		public static function getDelay( nodeAttribute : Object ) : String
+		public static function getDelay( xml : XML ) : String
 		{
-			return nodeAttribute[ ContextAttributeList.DELAY ];
+			return xml.attribute( ContextAttributeList.DELAY );
 		}		
 	}
 }
