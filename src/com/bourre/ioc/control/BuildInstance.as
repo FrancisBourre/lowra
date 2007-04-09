@@ -33,11 +33,11 @@ package com.bourre.ioc.control
 								args : Array = null, 
 								factory : String = null, 
 								singleton : String = null, 
-								channel : String = null		) : *
+								channelName : String = null		) : *
 		{
 			var o : Object = null;
 
-			if ( channel ) ChannelExpert.getInstance().registerChannel( new PluginChannel( channel ) );
+			if ( channelName ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( channelName ) );
 			if ( qualifiedClassName ) o = CoreFactory.buildInstance( qualifiedClassName, args, factory, singleton );
 			if ( o == null ) PixlibDebug.FATAL( this + ".build(" + qualifiedClassName + ") failed." );
 			return o;
