@@ -3,7 +3,7 @@ package com.bourre.ioc.assembler.channel
 	import com.bourre.events.* ;
 	import com.bourre.ioc.bean.BeanFactory ;
 	import com.bourre.ioc.parser.ContextAttributeList ;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.*;
 	
 	public class ChannelListenerExpert 
 	{
@@ -19,7 +19,12 @@ package com.bourre.ioc.assembler.channel
 			return ChannelListenerExpert._oI;
 		}
 		
-		public function ChannelListenerExpert(access:PrivateConstructorAccess)
+		public static function release():void
+		{
+			if ( ChannelListenerExpert._oI is ChannelListenerExpert ) ChannelListenerExpert._oI = null ;
+		}
+		
+		public function ChannelListenerExpert( access : PrivateConstructorAccess )
 		{
 			_oEB = new EventBroadcaster( this );
 			_aChannelListener = new Array();
@@ -33,8 +38,8 @@ package com.bourre.ioc.assembler.channel
 		
 		public function assignChannelListener( o : ChannelListener ) : void
 		{
-			var listener:Object = BeanFactory.getInstance().locate( o._sListenerID);
-			ApplicationBroadcaster.getInstance().addListener( o._sChannel, listener as EventChannel );
+			var listener : Object = BeanFactory.getInstance().locate( o.listenerID );
+			ApplicationBroadcaster.getInstance().addListener( o.channel, listener as EventChannel );
 		}
 		
 		public function buildChannelListener( listenerID : String, channel:* ) : void
@@ -85,11 +90,6 @@ package com.bourre.ioc.assembler.channel
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
-		}
-		
-		public static function release():void
-		{
-			if (ChannelListenerExpert._oI is ChannelListenerExpert) ChannelListenerExpert._oI = null ;
 		}
 	}
 }

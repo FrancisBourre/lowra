@@ -1,21 +1,22 @@
 package com.bourre.ioc.assembler.channel
 {
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.events.*;
+	import com.bourre.log.*;
 
-	public class ChannelListenerEvent extends BasicEvent
+	public class ChannelListenerEvent 
+		extends BasicEvent
 	{
-		public static var onBuildChannelListenerEVENT : String = "onBuildChannelListener" ;
+		public static const onBuildChannelListenerEVENT : String = "onBuildChannelListener";
 		private var _oChannelListener : ChannelListener;
 		
-		public function ChannelListenerEvent(channelListener : ChannelListener)
+		public function ChannelListenerEvent( channelListener : ChannelListener )
 		{
-			super (ChannelListenerEvent.onBuildChannelListenerEVENT);
+			super ( ChannelListenerEvent.onBuildChannelListenerEVENT );
 			
 			_oChannelListener = channelListener ;
 		}
 		
-		public function getChannelListener () : ChannelListener
+		public function getChannelListener() : ChannelListener
 		{
 			return _oChannelListener ;
 		}
