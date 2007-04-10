@@ -27,7 +27,7 @@ package com.bourre.plugin
 	public class PluginChannel
 		extends EventChannel
 	{
-		private static var _M : HashMap;
+		private static var _M : HashMap = new HashMap();
 		
 		public function PluginChannel( access : PrivateConstructorAccess, channelName : String )
 		{
