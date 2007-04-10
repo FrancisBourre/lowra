@@ -109,6 +109,7 @@ private function createSuite() : TestSuite
 	//ts.addTestSuite( PixlibDebugTest );	
 	ts.addTestSuite( NullPluginTest );
 	ts.addTestSuite( AbstractPluginTest )
+	ts.addTestSuite( PluginChannelTest );
 
 	//com.bourre.request
 	ts.addTestSuite( AbstractDataRequestTest );
