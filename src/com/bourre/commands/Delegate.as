@@ -83,7 +83,9 @@ package com.bourre.commands
 
 		public function execute( e : Event = null ) : void
 		{
-			_f.apply( null, _a );
+			var a : Array = new Array();
+			if ( e != null ) a.push( e );
+			_f.apply( null, ( _a.length > 0 ) ? a.concat( _a ) : ((a.length > 0 ) ? a : null) );
 		}
 		
 		public function onEnterFrame( e : Event = null ) : void
@@ -93,18 +95,7 @@ package com.bourre.commands
 		
 		public function handleEvent( e : Event ) : void
 		{
-			try
-			{
-				_f.apply( null, _a.length>0?[e].concat(_a):[e] );
-				
-			} catch( err : Error )
-			{
-
-				var msg : String;
-				msg = "Delegate.handleEvent() failed, incorrect number of arguments passed";
-				PixlibDebug.ERROR( msg );
-				throw( new ArgumentError( msg ) );
-			}
+			this.execute( e );
 		}
 		
 		public function callFunction() : *
