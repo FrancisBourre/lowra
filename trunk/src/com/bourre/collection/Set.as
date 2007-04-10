@@ -390,13 +390,6 @@ package com.bourre.collection
 			isValidIndex ( index );
 			return _aSet.splice( index, 1, o )[0];
 		}
-
-
-		public function push (item : Object) : Object
-		{
-			_aSet.push(item);
-			return item;
-		}
 		
  		 /**
 		 * Test an index which must be inferior to the size of the set 
@@ -451,10 +444,7 @@ package com.bourre.collection
 		{				
 			if (isValidType(o))
 			{
-				if (_aSet.indexOf(o)!=-1)
-					return false ;
-				else
-					return true ;
+				return ( _aSet.indexOf(o)==-1 );
 			}
 			else 
 				return false ;
