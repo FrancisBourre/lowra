@@ -25,6 +25,7 @@ package com.bourre.ioc.parser
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.plugin.PluginDebug;
 	import com.bourre.ioc.error.*;
+	import com.bourre.ioc.core.IDExpert;
 
 	public class ObjectParser
 		extends AbstractParser
@@ -51,9 +52,9 @@ package com.bourre.ioc.parser
 				PluginDebug.getInstance().fatal( msg );
 				throw( new NullIDException( msg ) );
 			}
-/*
+
 			IDExpert.getInstance().register( id );
-*/
+
 			// Build object.
 			var type : String = ContextAttributeList.getType( xml );
 			var factory : String = ContextAttributeList.getFactoryMethod( xml );

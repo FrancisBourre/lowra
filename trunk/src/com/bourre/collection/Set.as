@@ -168,19 +168,30 @@ package com.bourre.collection
 		{
 			var fromIndex : int = 0;
 			var find :Boolean = false;
-			
-			/*while( ( fromIndex = search ( o ) ) != -1 )
-			{
-				find = removeAt( fromIndex ) || find;
-			}
-			return find;*/
-			PixlibDebug.DEBUG("remove valid ?"+isValidObject(o)) ;
+
 			if (contains(o))
 			{
 				_aSet.splice( _aSet.indexOf(o), 1 );
 				find = true ;
 			}
 			return find ;
+		}
+		
+		/**
+		 * Removes the element at the specified position in this <code>Set</code>.
+		 * Shifts any subsequent elements to the right (subtracts one from
+		 * their indices).
+		 * 
+		 * @param index index at which to remove an element from the specified collection.
+		 * @return true if the object have been removed, false otherwise.
+		 * @throws IndexOutOfBoundsException index is out of range
+		 * 		   (index < 0 || index > size()).
+		 */
+		public function removeAt( index : uint ) : Boolean
+		{
+			isValidIndex ( index );
+			_aSet.splice( index, 1 );
+			return true;			
 		}
 
 	 /**
@@ -204,14 +215,7 @@ package com.bourre.collection
 			if (isValidCollection( c ))
 			{
 				var iter : Iterator = c.iterator();
-				
-				while( iter.hasNext() )
-				{
-					//if (iter.next() != null)
-						find = remove( iter.next() ) || find;
-					//else
-						//throw new NullPointerException(this) ;
-				}
+				while( iter.hasNext() ) find = remove( iter.next() ) || find;
 			}
 			return find;
 		}
@@ -341,11 +345,6 @@ package com.bourre.collection
 			return _aSet.indexOf(o);
 		}
 
-		/*public function lastIndexOf( o : Object ) : int
-		{
-			return _aSet.lastIndexOf(o);
-		}*/
-
 	 /**
      * Removes all of the elements from this set (optional operation).
      * This set will be empty after this call returns (unless it throws an
@@ -368,12 +367,6 @@ package com.bourre.collection
 			return new SetIterator(this);
 		}
 
-		/*public function listIterator( index : uint = 0 ) : ListIterator
-		{
-			isValidIndex ( index );
-			
-			return new SetIterator ( this, index );
-		}*/
    /**
      * Returns the number of elements in this set (its cardinality).  If this
      * set contains more than <tt>Integer.MAX_VALUE</tt> elements, returns
@@ -456,10 +449,6 @@ package com.bourre.collection
 		 */
 		public function isValidObject (o:Object):Boolean
 		{				
-			/*if (getType()!=null && isType(o))
-			{
-				throw new IllegalArgumentException(this.toString()) ;
-			}*/
 			if (isValidType(o))
 			{
 				if (_aSet.indexOf(o)!=-1)
