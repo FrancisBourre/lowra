@@ -103,6 +103,22 @@ package com.bourre.commands
 			assertNull("Failed to get good command owner", this.commandOwner)
 			
 		}
+		
+		public function testRunDelegate() : void
+		{
+			var o : Object = {};
+			var e : Event = new Event( "onTest" );
+			_oFC.pushCommandInstance( "onTest", new Delegate( onTestRunDelegate, o ) );
+			_oFC.getBroadcaster().broadcastEvent( e );
+			assertEquals( "", 5, o.n );
+			assertStrictlyEquals( "", e, o.e );
+		}
+		
+		public function onTestRunDelegate( e : Event, o : Object ) : void
+		{
+			o.e = e;
+			o.n = 5;
+		}
 
 	}
 	
