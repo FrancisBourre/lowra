@@ -79,14 +79,14 @@ package com.bourre.ioc.parser
 /*	
 			// register each object to system channel.
 			_oAssembler.buildChannelListener( id, PixiocSystemChannel.CHANNEL );
-			
+*/
 			// Build property.
-			var propertyNode = xml[ContextNodeNameList.PROPERTY];
+			/*var propertyNode = xml[ContextNodeNameList.PROPERTY];
 			if ( propertyNode )
-			_oAssembler.buildProperty( id, propertyNode );
-	
+			getAssembler().buildProperty( id, propertyNode );*/
+
 			// Build method call.
-			var methodCallNode = xml[ContextNodeNameList.METHOD_CALL];
+			/*var methodCallNode = xml[ContextNodeNameList.METHOD_CALL];
 			if ( methodCallNode )
 			_oAssembler.buildMethodCall( id, methodCallNode );*/
 			

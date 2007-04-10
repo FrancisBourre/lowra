@@ -64,7 +64,7 @@ package com.bourre.ioc.core
 			if ( nRef > nOwner )
 			{
 				_c.removeAt( nRef );
-				_c.addAt( nOwner-1, refID );
+				_c.addAt( nOwner, refID );
 			}
 		}
 
@@ -84,7 +84,7 @@ package com.bourre.ioc.core
 			} else
 			{
 				_d[ id ] = true;
-				_c.push( id );
+				_c.add( id );
 				return true;
 			}
 		}
