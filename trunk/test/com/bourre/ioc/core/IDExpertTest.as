@@ -1,8 +1,7 @@
 package com.bourre.ioc.core
 {
 	import flexunit.framework.TestCase;
-	import com.bourre.ioc.assembler.property.PropertyEvent;
-	import com.bourre.ioc.assembler.property.Property;
+	import com.bourre.ioc.assembler.property.*;
 
 	public class IDExpertTest 
 		extends TestCase
