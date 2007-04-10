@@ -55,6 +55,11 @@ package com.bourre.commands
 			_e = e;
 		}
 		
+		public function callbackNoArgs() : void
+		{
+			_e = null;
+		}
+		
 		public function eventCallbackArgs( e : Event, n : int ) : void
 		{
 			_e = e;
@@ -113,6 +118,14 @@ package com.bourre.commands
 			var d : Delegate = new Delegate( standardCallback, 0 );
 			d.execute();
 			assertEquals( "Delegate.execute() failed", _n, 0 );
+		}
+		
+		public function testExecuteWithoutArguments() : void
+		{
+			var d : Delegate = new Delegate( callbackNoArgs );
+			_e = new Event("test" );
+			d.execute();
+			assertNull( "Delegate.execute() without arguments failed", _e );
 		}
 		
 		public function testHandleEventWithoutArguments() : void
