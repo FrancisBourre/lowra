@@ -23,6 +23,8 @@ import com.bourre.request.*;
 import com.bourre.utils.*;
 import com.bourre.structures.*;
 import com.bourre.transitions.*;
+import com.bourre.request.*
+import com.bourre.ioc.control.*
 
 private function onCreationComplete():void
 {
@@ -72,14 +74,10 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BasicEventTest );
 
 	// com.bourre.ioc.assembler
-<<<<<<< .mine
 	ts.addTestSuite (DepthManagerTest ) ;
 	ts.addTestSuite (ConstructorTest) ;
-	
-=======
 	ts.addTestSuite (DepthManagerTest );
 
->>>>>>> .r175
 	// com.bourre.assembler.channel
 	ts.addTestSuite (ChannelListenerExpertTest );
 
@@ -92,7 +90,10 @@ private function createSuite() : TestSuite
 
 	// com.bourre.ioc.core
 	ts.addTestSuite ( IDExpertTest ) ;
-
+	
+	//com.bourre.ioc.control
+	ts.addTestSuite( BuildFactoryTest );
+	
 	//com.bourre.parser
 	ts.addTestSuite( ContextNodeNameListTest );
 	ts.addTestSuite( AbstractParserTest );

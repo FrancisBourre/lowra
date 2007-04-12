@@ -35,14 +35,13 @@ package com.bourre.ioc.control
 			var value : String = "";
 			if ( args != null && args.length > 0 ) value = ( args[0] ).toString();
 
-			if ( value.length <= 0 ) 
+			if ( value.length <= 0 || Number(value)==0) 
 			{
 				PixlibDebug.WARN( this + ".build(" + value + ") failed." );
 				return false;
-
 			} else
 			{
-				return new Boolean( value == "true" );
+				return new Boolean( value == "true" || !isNaN(Number(value))&&Number(value)!=0 );
 			}
 		}
 
