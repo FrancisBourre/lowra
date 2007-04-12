@@ -20,12 +20,10 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import flash.xml.XMLNode;
 	
 	public interface XMLLoaderDeserializer
 	{
 		function setOwner( owner : XMLLoader ) : void;
-		function deserialize( target : Object, node : XMLNode ) : void;
+		function deserialize( target : Object, xml : XML ) : void;
 	}
 }
