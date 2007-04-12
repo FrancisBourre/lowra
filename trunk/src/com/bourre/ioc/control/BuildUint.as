@@ -35,9 +35,9 @@ package com.bourre.ioc.control
 			var n : Number = NaN;
 			if ( args != null && args.length > 0 ) n = parseInt( ( args[0] ).toString() );
 			
-			if ( !isNaN(n) && n <= int.MAX_VALUE && n >= int.MIN_VALUE ) 
+			if ( !isNaN(n) && n <= uint.MAX_VALUE && n >= uint.MIN_VALUE ) 
 			{
-				return int( n );
+				return uint( n );
 				
 			} else
 			{

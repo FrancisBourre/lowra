@@ -18,9 +18,7 @@ package com.bourre.plugin
 			this._oChanel = new MockEventChannel();
 			ChannelExpert.getInstance().registerChannel(_oChanel);
 			this._oPlug =  new MockPlugin();
-			
 		}
-		
 		
 		public function test_Constructor() : void
 		{
