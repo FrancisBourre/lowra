@@ -85,8 +85,9 @@ private function createSuite() : TestSuite
 	// com.bourre.ioc.bean
 	ts.addTestSuite( BeanFactoryTest );
 	ts.addTestSuite( BeanEventTest );
+	
 	//com.bourre.ioc.assembler.property
-	//ts.addTestSuite( PropertyEventTest) ;
+	ts.addTestSuite( PropertyEventTest) ;
 	ts.addTestSuite( PropertyExpertTest ) ;
 
 	// com.bourre.ioc.core
@@ -115,7 +116,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( LogLevelTest );
 
 	// com.bourre.plugin
-	//ts.addTestSuite( PixlibDebugTest );	
+	ts.addTestSuite( PluginDebugTest );	
 	ts.addTestSuite( NullPluginTest );
 	ts.addTestSuite( AbstractPluginTest )
 	ts.addTestSuite( PluginChannelTest );

@@ -15,7 +15,7 @@ package com.bourre.ioc.assembler.property
 			_sOwner = "lala" ;
 			_sRef = "pouet" ;
 			_oProp = new Property(_sOwner, "name", "value", "string", _sRef, "method") ;
-			_oPE = new PropertyEvent(_oProp, _sOwner, _sRef);
+			_oPE = new PropertyEvent(_oProp, _sOwner, _sRef) ;
 		}
 		
 		public function testConstruct() :void
