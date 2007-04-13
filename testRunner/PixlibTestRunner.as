@@ -18,6 +18,7 @@ import com.bourre.ioc.assembler.constructor.* ;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
+import com.bourre.media.sound.*;
 import com.bourre.plugin.*;
 import com.bourre.request.*;
 import com.bourre.utils.*;
@@ -75,7 +76,7 @@ private function createSuite() : TestSuite
 
 	// com.bourre.ioc.assembler
 	ts.addTestSuite (DepthManagerTest ) ;
-	ts.addTestSuite (ConstructorTest) ;
+	//ts.addTestSuite (ConstructorTest) ;
 
 	ts.addTestSuite (DepthManagerTest );
 
@@ -115,6 +116,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( LoggerTest );
 	ts.addTestSuite( LogLevelTest );
 
+	//com.bourre.media.sound
+	ts.addTestSuite( SoundFactoryTest );
+	
 	// com.bourre.plugin
 	ts.addTestSuite( PluginDebugTest );	
 	ts.addTestSuite( NullPluginTest );
