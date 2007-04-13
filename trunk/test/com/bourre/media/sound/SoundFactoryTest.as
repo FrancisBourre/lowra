@@ -17,7 +17,7 @@ package com.bourre.media.sound
 	
 	public class SoundFactoryTest extends TestCase
 	{
-		[Embed(source="./../../../../../testBin/SoundFactory.swf", mimeType="application/octet-stream")]
+		[Embed(source="./../../../testBin/SoundFactory.swf", mimeType="application/octet-stream")]
 		private static var SWFBytes : Class;	
 			
 		private static var _sF 			: SoundFactory = new SoundFactory();
