@@ -23,7 +23,6 @@ package com.bourre.load
 	
 	public interface XMLLoaderDeserializer
 	{
-		function setOwner( owner : XMLLoader ) : void;
-		function deserialize( target : Object, xml : XML ) : void;
+		function deserialize( target : Object, xml : XML ) : Object;
 	}
 }
