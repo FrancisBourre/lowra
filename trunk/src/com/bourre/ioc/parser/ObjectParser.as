@@ -26,6 +26,7 @@ package com.bourre.ioc.parser
 	import com.bourre.plugin.PluginDebug;
 	import com.bourre.ioc.error.*;
 	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.log.PixlibDebug;
 
 	public class ObjectParser
 		extends AbstractParser
@@ -57,38 +58,36 @@ package com.bourre.ioc.parser
 
 			// Build object.
 			var type : String = ContextAttributeList.getType( xml );
+			var args : Array = _getArguments( xml, type );
 			var factory : String = ContextAttributeList.getFactoryMethod( xml );
 			var singleton : String = ContextAttributeList.getSingletonAccess( xml );
 			var channel : String = ContextAttributeList.getChannel( xml );
-			
-			var args : Array = new Array();
-			var argList : XMLList = xml[ ContextNodeNameList.ARGUMENT ];
-			var length : int = argList.length();
 
-			if ( length > 0 )
-			{
-				for ( var i : int = 0; i < length; i++ ) args.push( argList[ i ] );
-
-			} else
-			{
-				var value : String = ContextAttributeList.getValue( xml );
-				if ( value != null ) args.push( { type:type, value:value } );
-			}
-			
 			getAssembler().buildObject( id, type, args, factory, singleton, channel );
 /*	
 			// register each object to system channel.
 			_oAssembler.buildChannelListener( id, PixiocSystemChannel.CHANNEL );
 */
 			// Build property.
-			/*var propertyNode = xml[ContextNodeNameList.PROPERTY];
-			if ( propertyNode )
-			getAssembler().buildProperty( id, propertyNode );*/
+			for each ( var property : XML in xml[ ContextNodeNameList.PROPERTY ] )
+			{
+				getAssembler().buildProperty( 	id, 
+												ContextAttributeList.getName( property ),
+												ContextAttributeList.getValue( property ),
+												ContextAttributeList.getType( property ),
+												ContextAttributeList.getRef( property ),
+												ContextAttributeList.getMethod( property ) );
+			}
+			
+
 
 			// Build method call.
-			/*var methodCallNode = xml[ContextNodeNameList.METHOD_CALL];
-			if ( methodCallNode )
-			_oAssembler.buildMethodCall( id, methodCallNode );*/
+			for each ( var method : XML in xml[ ContextNodeNameList.METHOD_CALL ] )
+			{
+				getAssembler().buildMethodCall( id, 
+												ContextAttributeList.getName( method ),
+												_getArguments( method ) );
+			}
 			
 			// Build channel listener.
 			for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
@@ -107,5 +106,34 @@ package com.bourre.ioc.parser
 			}
 		}
 
+		private function _getArguments( xml : XML, type : String = null ) : Array
+		{
+			var args : Array = new Array();
+			var argList : XMLList = xml.child( ContextNodeNameList.ARGUMENT );
+			var length : int = argList.length();
+
+			if ( length > 0 )
+			{
+				for ( var i : int = 0; i < length; i++ ) 
+				{
+					var x : XMLList = argList[ i ].attributes();
+					var l : int = x.length();
+
+					if ( l > 0 )
+					{
+						var o : Object = {};
+						for ( var j : int = 0; j < l; j++ ) o[ String( x[j].name() ) ]=x[j];
+						args.push( o );
+					}
+				}
+
+			} else
+			{
+				var value : String = ContextAttributeList.getValue( xml );
+				if ( value != null ) args.push( { type:type, value:value } );
+			}
+			
+			return args;
+		}
 	}
 }

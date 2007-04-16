@@ -71,7 +71,7 @@ package com.bourre.ioc.parser
 		
 		public static function getValue( xml : XML ) : String
 		{
-			return xml.attribute( ContextAttributeList.VALUE );
+			return xml.attribute( ContextAttributeList.VALUE ) || null;
 		}
 		
 		public static function getURL( xml : XML ) : String
@@ -91,17 +91,17 @@ package com.bourre.ioc.parser
 		
 		public static function getFactoryMethod( xml : XML ) : String
 		{
-			return xml.attribute( ContextAttributeList.FACTORY );
+			return xml.attribute( ContextAttributeList.FACTORY ) || null;
 		}
 		
 		public static function getSingletonAccess( xml : XML ) : String
 		{
-			return xml.attribute( ContextAttributeList.SINGLETON_ACCESS );
+			return xml.attribute( ContextAttributeList.SINGLETON_ACCESS ) || null;
 		}
 		
 		public static function getChannel( xml : XML ) : String
 		{
-			return xml.attribute( ContextAttributeList.CHANNEL );
+			return xml.attribute( ContextAttributeList.CHANNEL ) || null;
 		}
 		
 		public static function getMethod( xml : XML ) : String
