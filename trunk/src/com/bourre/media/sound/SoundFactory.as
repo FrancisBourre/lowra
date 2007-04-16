@@ -24,10 +24,12 @@ package com.bourre.media.sound
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Delegate;	
 	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.transitions.MSBeacon;	
 
 	import flash.media.Sound;	
 	import flash.media.SoundChannel;
 	import flash.system.ApplicationDomain;
+	import flash.media.SoundTransform;
 	
 	
 	/**
@@ -35,8 +37,9 @@ package com.bourre.media.sound
 	 */		 
 	public class SoundFactory
 	{				
-		private var _mSounds 		: HashMap;	// Contains all Sound
-		private var _mChannels		: HashMap;	// Contains SoundChannel corresponding to its Sound
+		private var _mSounds 		: HashMap;	// Contains all Sound : idSound => ObjectSound
+		private var _aChannelsSounds: Array;	// Contains ChannelSoundInfo objects of sounds playing(ChannelSoundInfo.id, ChannelSoundInfo.soundChannel, ChannelSoundInfo.loop)
+		private var _aResumeSounds	: Array;	// Contains ReumeSoundInfo objects of sounds to resume(ResumeSoundInfo.id, ReumeSoundInfo.position, ReumeSoundInfo.loop, ReumeSoundInfo.SoundTransform )
 		
 		private var _bIsOn 			: Boolean;		// SoundFactory instance state : sound(s) playing
 		private var _bIsInitialized : Boolean;		// SoundFactory instance is ready	
@@ -49,8 +52,9 @@ package com.bourre.media.sound
 		public function SoundFactory() 
 		{
 			_mSounds = new HashMap();
-			_mChannels = new HashMap();
-			
+			_aChannelsSounds = new Array();
+			_aResumeSounds = new Array();
+						
 			_bIsInitialized = false;
 			_bIsOn = true;
 		}
@@ -80,10 +84,17 @@ package com.bourre.media.sound
 		 */
 		public function addSound( id : String ) : void
 		{
-			if( !_bIsInitialized ) init();
-			var clazz : Class = _appliDomain.getDefinition( id ) as Class;
-			var sound : Sound = new clazz() ;
-			_mSounds.put( id, sound );
+			if( !_bIsInitialized )	init();
+			if( !_mSounds.containsKey(id) )
+			{				
+				var clazz : Class = _appliDomain.getDefinition( id ) as Class;
+				var sound : Sound = new clazz() ;
+				_mSounds.put( id, sound );
+			}
+			else
+			{
+				// this sound already exist
+			}
 		}
 		
 		/**
@@ -141,7 +152,8 @@ package com.bourre.media.sound
 				{
 					throw new Error("id sound unexpected") ;
 				}
-			} else
+			}
+			else
 			{
 				return null;
 			}
@@ -172,8 +184,30 @@ package com.bourre.media.sound
 		 */
 		public function removeSound( id:String ) : void
 		{
-			_mSounds.remove( id );
-			_mChannels.remove( id );
+			var i : uint = _aChannelsSounds.length ;
+			if( i > 0 )
+			{
+				while ( -- i > - 1 )
+				{
+					if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+					{
+						(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+						_aChannelsSounds.splice( i,1 );
+					}
+				}
+			}
+			i = _aResumeSounds.length ;
+			if( i > 0 )
+			{
+				while ( -- i > - 1 )
+				{
+					if( ( _aResumeSounds[i] as ChannelSoundInfo ).id == id)
+					{
+						_aResumeSounds.splice( i,1 );
+					}
+				}
+			}			
+			_mSounds.remove( id );			
 		}
 			
 		/**
@@ -183,6 +217,7 @@ package com.bourre.media.sound
 		{
 			goOff();
 			_mSounds.clear();
+			_aResumeSounds = new Array();			
 			_appliDomain = null;			
 			_bIsInitialized = false;
 		}		
@@ -225,10 +260,9 @@ package com.bourre.media.sound
 		public function goOff() : void 
 		{ 
 			_bIsOn = false;
-			var a : Array = _mChannels.getValues();
-			var l : int = a.length;
-			while ( -- l > - 1 ) ( a[ l ] as SoundChannel ).stop();
-			_mChannels.clear();
+			var i : uint = _aChannelsSounds.length;
+			while ( -- i > - 1 ) ( _aChannelsSounds[ i ] as ChannelSoundInfo ).soundChannel.stop();
+			_aChannelsSounds = new Array();	
 		}
 
 
@@ -237,12 +271,13 @@ package com.bourre.media.sound
 		 *	Play a sound simply
 		 * @param id {@code String} Class identifier in the library ( applicationDomain )
 		 */
-		public function playSound( id:String ) : void
+		public function playSound( id : String, position : int = 0, soundTransform : SoundTransform = null ) : void
 		{
 			if( _bIsOn )
 			{
-				var channel : SoundChannel =  getSound( id ).play();
-				_mChannels.put( id, channel);
+				var soundChannel : SoundChannel =  getSound( id ).play( position, 0, soundTransform );
+				var CSI : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, false);
+				_aChannelsSounds.push( CSI );
 			}
 		}
 		
@@ -250,21 +285,88 @@ package com.bourre.media.sound
 		 *	Play a sound in loop ( 65535 times )
 		 * @param id {@code String} Class identifier in the library ( applicationDomain )
 		 */		
-		public function playSoundLoop( id:String ) : void
+		public function playSoundLoop( id:String, position : int = 0, soundTransform : SoundTransform = null ) : void
 		{
-			if( _bIsOn ) getSound( id ).play(0,65535);
+			if( _bIsOn )
+			{
+				var soundChannel : SoundChannel =  getSound( id ).play( position, 65535, soundTransform );
+				var CSI : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, true);
+				_aChannelsSounds.push( CSI );			
+			}
 		}
 		
+	
 		/**
-		 *	Stop a sound
+		 *	Stop all channel for a sound
 		 * @param id {@code String} Class identifier in the library ( applicationDomain )
 		 */			
 		public function stopSound( id:String ) : void
 		{
-			if( _bIsOn ) (_mChannels.get( id ) as SoundChannel).stop();
-		}			
+			if( _bIsOn )
+			{
+				var i : uint = _aChannelsSounds.length ;
+				if( i > 0 )
+				{
+					while ( -- i > - 1 )
+					{
+						if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+						{
+							(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+							_aChannelsSounds.splice( i,1 );
+						}
+					}
+				}
+			}
+		}
+		
+		/**
+		 * Pause all sounds
+		 */
+		 public function pause () : void
+		 {
+			var i : uint = _aChannelsSounds.length ;
+			if( i > 0 )
+			{
+				while ( -- i > - 1 )
+				{
+					var id : String = (_aChannelsSounds[i] as ChannelSoundInfo).id ;
+					var position : int = (_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.position ;
+					var loop : Boolean = (_aChannelsSounds[i] as ChannelSoundInfo).loop ;
+					var soundTransform : SoundTransform = (_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.soundTransform ;
+					var RSI : ResumeSoundInfo = new ResumeSoundInfo( id, position, loop, soundTransform ) ;
+					_aResumeSounds.push( RSI ) ;
+				}
+			}			
+			 goOff();
+		 }		
 
-
+		/**
+		 * Resume sound stop with pause()
+		 */
+		 public function resume () : void 
+		 {
+		 	goOn();
+			var i : uint = _aResumeSounds.length ;
+			if( i > 0 )
+			{
+				while ( -- i > - 1 )
+				{
+					var id : String = (_aResumeSounds[i] as ResumeSoundInfo).id;
+					var position : int = (_aResumeSounds[i] as ResumeSoundInfo).position;
+					var loop : Boolean = (_aResumeSounds[i] as ResumeSoundInfo).loop;
+					var soundTransform : SoundTransform = (_aResumeSounds[i] as ResumeSoundInfo).soundTransform;
+					if( ! loop )
+					{	
+						playSound( id, position, soundTransform );
+					}
+					else
+					{
+						playSoundLoop( id, position, soundTransform );					
+					}
+				}
+			}		 	
+		 	_aResumeSounds = new Array();	
+		 }
 
 		/**
 		 * Returns the string representation of this instance.
@@ -277,4 +379,39 @@ package com.bourre.media.sound
 		
 	}
 		
+}
+
+import flash.media.SoundTransform;
+import flash.media.SoundChannel;
+
+
+internal class ResumeSoundInfo
+{
+	public var id : String;
+	public var position : int;
+	public var loop : Boolean;
+	public var soundTransform : SoundTransform;
+	
+	public function ResumeSoundInfo(id : String, position : int , loop : Boolean , soundTransform : SoundTransform) 
+	{
+		this.id = id;
+		this.position = position;
+		this.loop = loop;	
+		this.soundTransform = soundTransform;
+	}	
+}
+
+internal class ChannelSoundInfo 
+{
+	
+	public var id : String;
+	public var soundChannel : SoundChannel;
+	public var loop : Boolean;
+	
+	public function ChannelSoundInfo( id : String, soundChannel : SoundChannel, loop : Boolean )
+	{
+		this.id = id;
+		this.soundChannel = soundChannel;
+		this.loop = loop;
+	}
 }
