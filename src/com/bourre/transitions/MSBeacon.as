@@ -18,7 +18,7 @@ package com.bourre.transitions
 		private var _bIP : Boolean;
 		private var _oED : EventDispatcher;
 		
-		public function MSBeacon ( o : PrivateMSBeaconConstructorAccess )
+		public function MSBeacon ()
 		{
 			_nFramerate = 1000/40
 			_oTimer = new Timer( _nFramerate, 0 );
@@ -71,7 +71,7 @@ package com.bourre.transitions
 		
 		public static function getInstance() : MSBeacon
 		{
-			if( !_oInstance ) _oInstance = new MSBeacon( new PrivateMSBeaconConstructorAccess () );
+			if( !_oInstance ) _oInstance = new MSBeacon();
 			return _oInstance;
 		}
 		public function setFramerate ( n : Number = 25 ) : void 
@@ -85,7 +85,7 @@ package com.bourre.transitions
 		}
 		public function setFPS ( n : Number = 40 ) : void
 		{
-			_nFramerate = Math.round( 1000/n );
+			setFramerate ( Math.round( 1000/n ) );
 		} 
 		public function getFPS () : Number
 		{
