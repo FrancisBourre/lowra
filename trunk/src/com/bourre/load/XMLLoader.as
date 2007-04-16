@@ -41,7 +41,6 @@ package com.bourre.load
 
 		public function setDeserializer ( deserializer : XMLLoaderDeserializer ) : void
 		{
-			deserializer.setOwner( this );
 			_oDeserializer = deserializer;
 		}
 
