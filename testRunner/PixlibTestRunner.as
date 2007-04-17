@@ -15,6 +15,7 @@ import com.bourre.ioc.core.*;
 import com.bourre.ioc.parser.*;
 import com.bourre.ioc.assembler.property.*;
 import com.bourre.ioc.assembler.constructor.* ;
+import com.bourre.ioc.assembler.method.* ;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
@@ -78,7 +79,9 @@ private function createSuite() : TestSuite
 	ts.addTestSuite (DepthManagerTest ) ;
 	//ts.addTestSuite (ConstructorTest) ;
 
-	ts.addTestSuite (DepthManagerTest );
+	// com.bourre.assembler.method
+	ts.addTestSuite(MethodEventTest) ;
+	ts.addTestSuite(MethodExpertTest) ;
 
 	// com.bourre.assembler.channel
 	ts.addTestSuite (ChannelListenerExpertTest );
