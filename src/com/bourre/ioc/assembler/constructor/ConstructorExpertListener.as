@@ -1,6 +1,6 @@
 package com.bourre.ioc.assembler.constructor
 {
-	public class ConstructorExpertListener
+	interface class ConstructorExpertListener
 	{
 		public function onBuildConstructor( e : ConstructorEvent ) : void;
 	}
