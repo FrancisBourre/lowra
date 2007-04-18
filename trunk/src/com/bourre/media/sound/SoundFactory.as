@@ -38,15 +38,15 @@ package com.bourre.media.sound
 	 */		 
 	public class SoundFactory
 	{				
-		private var _mSounds 		: HashMap;	// Contains all Sound : idSound => ObjectSound
-		protected var _mSoundTransform: HashMap;
-		private var _aChannelsSounds: Array;	// Contains ChannelSoundInfo objects of sounds playing(ChannelSoundInfo.id, ChannelSoundInfo.soundChannel, ChannelSoundInfo.loop)
-		private var _aResumeSounds	: Array;	// Contains ReumeSoundInfo objects of sounds to resume(ResumeSoundInfo.id, ReumeSoundInfo.position, ReumeSoundInfo.loop, ReumeSoundInfo.SoundTransform )
+		private var _mSounds 			: HashMap;	// Contains all Sound : idSound => ObjectSound
+		protected var _mSoundTransform	: HashMap;
+		private var _aChannelsSounds	: Array;	// Contains ChannelSoundInfo objects of sounds playing(ChannelSoundInfo.id, ChannelSoundInfo.soundChannel, ChannelSoundInfo.loop)
+		private var _aResumeSounds		: Array;	// Contains ReumeSoundInfo objects of sounds to resume(ResumeSoundInfo.id, ReumeSoundInfo.position, ReumeSoundInfo.loop, ReumeSoundInfo.SoundTransform )
 		
-		private var _bIsOn 			: Boolean;		// SoundFactory instance state : sound(s) playing
-		private var _bIsInitialized : Boolean;		// SoundFactory instance is ready	
+		private var _bIsOn 				: Boolean;		// SoundFactory instance state : sound(s) playing
+		private var _bIsInitialized 	: Boolean;		// SoundFactory instance is ready	
 	
-		private var _appliDomain	: ApplicationDomain;	
+		private var _appliDomain		: ApplicationDomain;	
 		
 		/**
 		 * Constructs a new {@code SoundFactory} instance.
@@ -93,7 +93,7 @@ package com.bourre.media.sound
 				var clazz : Class = _appliDomain.getDefinition( id ) as Class;
 				var sound : Sound = new clazz() ;
 				_mSounds.put( id, sound );
-				_mSoundTransform.put( id, new SoundTransform() );
+				_mSoundTransform.put( id, new SoundTransformInfo() );
 			}
 			else
 			{
@@ -190,31 +190,39 @@ package com.bourre.media.sound
 		 */
 		public function removeSound( id:String ) : void
 		{
-			var i : uint = _aChannelsSounds.length ;
-			if( i > 0 )
+			if ( _mSounds.containsKey( id ) )
 			{
-				while ( -- i > - 1 )
+				var i : uint = _aChannelsSounds.length ;
+				if( i > 0 )
 				{
-					if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+					while ( -- i > - 1 )
 					{
-						(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
-						_aChannelsSounds.splice( i,1 );
+						if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+						{
+							(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+							_aChannelsSounds.splice( i,1 );
+						}
 					}
 				}
+				i = _aResumeSounds.length ;
+				if( i > 0 )
+				{
+					while ( -- i > - 1 )
+					{
+						if( ( _aResumeSounds[i] as ChannelSoundInfo ).id == id)
+						{
+							_aResumeSounds.splice( i,1 );
+						}
+					}
+				}			
+				_mSounds.remove( id );	
+				_mSoundTransform.remove( id );
 			}
-			i = _aResumeSounds.length ;
-			if( i > 0 )
+			else
 			{
-				while ( -- i > - 1 )
-				{
-					if( ( _aResumeSounds[i] as ChannelSoundInfo ).id == id)
-					{
-						_aResumeSounds.splice( i,1 );
-					}
-				}
+				PixlibDebug.ERROR("SoundFactory.removeSound("+id+") : this id doesn't exist");					
+				throw new NoSuchElementException("SoundFactory.removeSound("+id+") : this id doesn't exist") ;
 			}			
-			_mSounds.remove( id );	
-			_mSoundTransform.remove( id );
 		}
 			
 		/**
@@ -282,7 +290,7 @@ package com.bourre.media.sound
 		{
 			if( _bIsOn )
 			{
-				var soundChannel : SoundChannel =  getSound( id ).play( 0, 0, (_mSoundTransform.get(id) as SoundTransform) );
+				var soundChannel : SoundChannel =  getSound( id ).play( 0, 0, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
 				var CSI : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, false);
 				_aChannelsSounds.push( CSI );
 			}
@@ -296,7 +304,7 @@ package com.bourre.media.sound
 		{
 			if( _bIsOn )
 			{
-				var soundChannel : SoundChannel =  getSound( id ).play( 0, 65535, (_mSoundTransform.get(id) as SoundTransform) );
+				var soundChannel : SoundChannel =  getSound( id ).play( 0, 65535, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
 				var CSI : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, true);
 				_aChannelsSounds.push( CSI );			
 			}
@@ -311,17 +319,25 @@ package com.bourre.media.sound
 		{
 			if( _bIsOn )
 			{
-				var i : uint = _aChannelsSounds.length ;
-				if( i > 0 )
-				{
-					while ( -- i > - 1 )
+				if ( _mSounds.containsKey( id ) )
+				{				
+					var i : uint = _aChannelsSounds.length ;
+					if( i > 0 )
 					{
-						if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+						while ( -- i > - 1 )
 						{
-							(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
-							_aChannelsSounds.splice( i,1 );
+							if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+							{
+								(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+								_aChannelsSounds.splice( i,1 );
+							}
 						}
 					}
+				}
+				else
+				{
+					PixlibDebug.ERROR("SoundFactory.stopSound("+id+") : this id doesn't exist");					
+					throw new NoSuchElementException("SoundFactory.stopSound("+id+") : this id doesn't exist") ;					
 				}
 			}
 		}
@@ -365,13 +381,13 @@ package com.bourre.media.sound
 					var loop : Boolean = (_aResumeSounds[i] as ResumeSoundInfo).loop;
 					if( ! loop )
 					{	
-						soundChannel =  getSound( id ).play( position, 0, (_mSoundTransform.get(id) as SoundTransform) );
+						soundChannel =  getSound( id ).play( position, 0, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
 						CSI = new ChannelSoundInfo(id, soundChannel, true);
 						_aChannelsSounds.push( CSI );
 					}
 					else
 					{
-						soundChannel =  getSound( id ).play( position, 65535, (_mSoundTransform.get(id) as SoundTransform) );
+						soundChannel =  getSound( id ).play( position, 65535, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
 						CSI = new ChannelSoundInfo(id, soundChannel, true);
 						_aChannelsSounds.push( CSI );			
 					}
@@ -394,21 +410,57 @@ package com.bourre.media.sound
 
 import flash.media.SoundTransform;
 import flash.media.SoundChannel;
+import flash.media.Sound;
 
-
-internal class ResumeSoundInfo
+internal class SoundTransformInfo
 {
-	public var id : String;
-	public var position : int;
-	public var loop : Boolean;
+
+	private var _sd		: SoundTransform;
+	private var _gain 	: Number;
 	
-	public function ResumeSoundInfo(id : String, position : int , loop : Boolean ) 
+	public function SoundTransformInfo( gain : Number =1 )
 	{
-		this.id = id;
-		this.position = position;
-		this.loop = loop;	
+		_sd = new SoundTransform();
+		_gain = gain;
+	}
+	
+	public function getSoundTransform() : SoundTransform
+	{
+		return _sd;	
+	}
+	
+	public function getGain() : Number
+	{
+		return _gain;
+	}
+	
+	public function setGain( n : Number ) : void
+	{
+		_gain = n;
+	}
+	
+	public function getVolume() : Number
+	{
+		return _sd.volume;
+	}
+
+	public function setVolume( n : Number) : void
+	{
+		_sd.volume = n;
+	}
+	
+	public function getPan() : Number
+	{
+		return _sd.pan;
 	}	
+
+	public function setPan( n : Number ) : void
+	{
+		_sd.pan = n;
+	}		
+
 }
+
 
 internal class ChannelSoundInfo 
 {
@@ -423,4 +475,18 @@ internal class ChannelSoundInfo
 		this.soundChannel = soundChannel;
 		this.loop = loop;
 	}
+}
+
+internal class ResumeSoundInfo
+{
+	public var id : String;
+	public var position : int;
+	public var loop : Boolean;
+	
+	public function ResumeSoundInfo(id : String, position : int , loop : Boolean ) 
+	{
+		this.id = id;
+		this.position = position;
+		this.loop = loop;	
+	}	
 }
