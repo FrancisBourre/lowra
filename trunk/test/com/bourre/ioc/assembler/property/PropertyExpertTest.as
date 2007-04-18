@@ -81,9 +81,24 @@ package com.bourre.ioc.assembler.property
 			assertTrue( "PropertyExpert.getInstance().setPropertyValue() type mismatches.", prop.x is Number );
 		}
 		
+		public function testOnRegisterBeanCallback() : void
+		{
+			this.prop = {};
+			_oPE.addProperty( "test", "x", "27", "Number" );
+			_oPE.addProperty( "test", "s", "hello", "String" );
+
+			_oBF.register( "test", this.prop );
+
+			assertEquals( "PropertyExpert.getInstance().getValue() value mismatches.", 27, prop.x );
+			assertTrue( "PropertyExpert.getInstance().getValue() type mismatches.", prop.x is Number );
+			
+			assertEquals( "PropertyExpert.getInstance().getValue() value mismatches.", "hello", prop.s );
+			assertTrue( "PropertyExpert.getInstance().getValue() type mismatches.", prop.s is String );
+		}
+		
 		public function testDeserializeArguments() : void
 		{
-			//
+			
 		}
 	}
 }

@@ -70,17 +70,30 @@ package com.bourre.commands
 		{
 			var arg1 : int = 1;
 			var arg2 : String = "a";
-			var f : * = function() : *;
-			f = Delegate.create( this, _methodDelegate, arg1, arg2);
-	
-			assertStrictlyEquals("Delegate.create(scope, function, arg1, arg2) doesn't return the same scope transmitted", f.s, this);
-			assertStrictlyEquals("Delegate.create(scope, function, arg1, arg2) doesn't return the same function transmitted", f.m, _methodDelegate);
-			assertEquals("Delegate.create(scope, function, arg1, arg2) doesn't return the same arg1 transmitted", f.a[0], 1);
-			assertEquals("Delegate.create(scope, function, arg1, arg2) doesn't return the same arg1 transmitted", f.a[1], "a");	
+			var f : Function;
+			f = Delegate.create( _methodDelegate );
 			
-			f();
+			f( arg1, arg2 );
 			assertEquals("f = Delegate.create(scope, function, arg1, arg2) ; f() => function doesn't receive arg1 ", _arg1, 1);
-			assertEquals("f = Delegate.create(scope, function, arg1, arg2) ; f() => function doesn't receive arg2 ", _arg2, "a");				
+			assertEquals("f = Delegate.create(scope, function, arg1, arg2) ; f() => function doesn't receive arg2 ", _arg2, "a");
+			
+			_arg1 = 0;
+			_arg2 = null;
+			f = Delegate.create( _methodDelegate );
+			
+			var bIsErrorCaught : Boolean = false;
+			try
+			{
+				f( 127 );
+
+			} catch ( e : ArgumentError )
+			{
+				bIsErrorCaught = true;
+			}
+
+			assertTrue( "f = Delegate.create( function, arg1 ) ; f() => function didn't catch the error", bIsErrorCaught );
+			assertEquals( "f = Delegate.create( function, arg1 ) ; f() => function didn't catch the error", _arg1, 0 );
+			assertNull( "f = Delegate.create( function, arg1 ) ; f() => function didn't catch the error", _arg2 );
 		}
 		
 		private function _methodDelegate( arg1:int, arg2:String ) : void
