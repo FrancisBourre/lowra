@@ -1,5 +1,9 @@
 package com.bourre.ioc.assembler
 {
+	import com.bourre.ioc.assembler.property.*;
+	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
+	//import com.bourre.ioc.assembler.constructor.ConstructorExpert;
+
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
 	{
@@ -15,27 +19,49 @@ package com.bourre.ioc.assembler
 										ref 	: String = null, 
 										method 	: String = null	) : void
 		{
-			//
+			PropertyExpert.getInstance().addProperty( ownerID, name, value, type, ref, method );
 		}
 
-		public function buildObject( 	id 			: String, 
+		public function buildObject( 	ownerID 	: String, 
 										type 		: String 	= null, 
 										args 		: Array 	= null, 
 										factory 	: String 	= null, 
 										singleton 	: String 	= null, 
 										channelName : String 	= null 	) : void
 		{
-			//
+			if ( args != null )
+			{
+				var l : int = args.length;
+				for ( var i : int; i < l; i++ )
+				{
+					var o : Object = args[ i ];
+					var p : Property = new Property( o.id, o.name, o.value, o.type, o.ref, o.method );
+					args[ i ] = p;
+				}
+			}
+			
+			//ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton, channelName );
 		}
-		
-		public function buildMethodCall( id : String, methodCallName : String, args : Array = null ) : void
+
+		public function buildMethodCall( ownerID : String, methodCallName : String, args : Array = null ) : void
 		{
-			//
+			if ( args != null )
+			{
+				var l : int = args.length;
+				for ( var i : int; i < l; i++ )
+				{
+					var o : Object = args[ i ];
+					var p : Property = new Property( o.id, o.name, o.value, o.type, o.ref, o.method );
+					args[ i ] = p;
+				}
+			}
+
+			// MethodExpert.getInstance().addMethod( ownerID, methodCallName, args );
 		}
-		
-		public function buildChannelListener( id : String, channelName : String ) : void
+
+		public function buildChannelListener( ownerID : String, channelName : String ) : void
 		{
-			//
+			ChannelListenerExpert.getInstance().addChannelListener( ownerID, channelName );
 		}
 	}
 }

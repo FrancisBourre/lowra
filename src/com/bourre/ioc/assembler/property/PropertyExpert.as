@@ -10,6 +10,8 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.log.PixlibStringifier 
 	import com.bourre.ioc.control.BuildFactory;
 	import com.bourre.utils.ObjectUtils;
+	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.log.PixlibDebug;
 
 	public class PropertyExpert 
 		implements BeanFactoryListener
@@ -35,7 +37,7 @@ package com.bourre.ioc.assembler.property
 			_mProperty = new HashMap();
 
 			BeanFactory.getInstance().addListener( this );
-			//addListener( IDExpert.getInstance() );
+			addListener( IDExpert.getInstance() );
 		}
 
 		public function setPropertyValue( p : Property, target : Object ) : void
@@ -82,6 +84,29 @@ package com.bourre.ioc.assembler.property
 			for ( var i : Number = 0; i < l; i++ ) r.push( getValue( a[i] ) );
 			
 			return r;
+		}
+		
+		public function addProperty( 	ownerID : String, 
+										name 	: String = null, 
+										value 	: String = null, 
+										type 	: String = null, 
+										ref 	: String = null, 
+										method 	: String = null  ) : Property
+		{
+			var p : Property = new Property( ownerID, name, value, type, ref, method );
+			
+			if ( _mProperty.containsKey( ownerID ) )
+			{
+				( _mProperty.get( ownerID ) as Array ).push( p );
+
+			} else
+			{
+				var a : Array = new Array();
+				a.push( p );
+				_mProperty.put( ownerID, a );
+			}
+
+			return p;
 		}
 /*
 		public function getPropertyVO( ownerID : String, property ) : Array
@@ -158,21 +183,23 @@ package com.bourre.ioc.assembler.property
 		 * IBeanFactoryListener callbacks
 		 */
 		public function onRegisterBean( e : BeanEvent ) : void
-		{/*
+		{
+			PixlibDebug.INFO( e.getID() + " -> onRegisterBean:" + e.getBean() );
 			var id : String = e.getID();
-			var o = e.getBean();
-			
+			var bean : Object = e.getBean();
+
 			if ( _mProperty.containsKey( id ) )
 			{
 				var props : Array = _mProperty.get( id );
 				var l : Number = props.length;
-				while( -- l > - 1 ) setPropertyValue( props[l], o );
-			}*/
+				PixlibDebug.INFO( id + ":" + bean + ":" + l );
+				while( -- l > - 1 ) setPropertyValue( props[ l ], bean );
+			}
 		}
 
 		public function onUnregisterBean( e : BeanEvent ) : void
 		{
-			
+			//
 		}
 	}
 }
