@@ -33,21 +33,20 @@ package com.bourre.commands
 		private var _f : Function;
 		private var _a : Array;
 		
-		public static function create( scope : Object, method : Function, ... rest ) : Function 
+		public static function create( method : Function, ... args ) : Function 
 		{
-			var f : * = function() : *
-			{    
-				var o : * = arguments.callee ;
-				var s : Object = o.s ;
-				var m : Function = o.m ;
-				var a : Array = arguments.concat(o.a) ;
-				return m.apply(s, a) ;
+			return function( ... rest ) : *
+			{
+				try
+				{
+					return method.apply( null, rest.length>0? (args.length>0?args.concat(rest):rest) : (args.length>0?args:null) );
+
+				} catch( e : Error )
+				{
+					// do whatever you want
+					return null;
+				}
 			};
-				
-			f.s = scope ;
-			f.m = method ;
-			f.a = rest;
-			return f;
 		} 
 		
 		public function Delegate( f : Function, ... rest )

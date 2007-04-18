@@ -35,13 +35,13 @@ package com.bourre.ioc.parser
 		{
 			super( assembler );
 		}
-		
+
 		public override function parse( xml : * ) : void
 		{
 			for each ( var node : XML in xml.* ) _parseNode( node );
 		}
-	
-		private function _parseNode( xml : XML ) : void
+
+		protected function _parseNode( xml : XML ) : void
 		{
 			var msg : String;
 			
@@ -58,7 +58,7 @@ package com.bourre.ioc.parser
 
 			// Build object.
 			var type : String = ContextAttributeList.getType( xml );
-			var args : Array = _getArguments( xml, type );
+			var args : Array = getArguments( xml, type );
 			var factory : String = ContextAttributeList.getFactoryMethod( xml );
 			var singleton : String = ContextAttributeList.getSingletonAccess( xml );
 			var channel : String = ContextAttributeList.getChannel( xml );
@@ -78,7 +78,7 @@ package com.bourre.ioc.parser
 												ContextAttributeList.getRef( property ),
 												ContextAttributeList.getMethod( property ) );
 			}
-			
+	
 
 
 			// Build method call.
@@ -86,9 +86,9 @@ package com.bourre.ioc.parser
 			{
 				getAssembler().buildMethodCall( id, 
 												ContextAttributeList.getName( method ),
-												_getArguments( method ) );
+												getArguments( method ) );
 			}
-			
+
 			// Build channel listener.
 			for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
 			{
@@ -104,36 +104,6 @@ package com.bourre.ioc.parser
 					throw( new NullChannelException( msg ) );
 				}
 			}
-		}
-
-		private function _getArguments( xml : XML, type : String = null ) : Array
-		{
-			var args : Array = new Array();
-			var argList : XMLList = xml.child( ContextNodeNameList.ARGUMENT );
-			var length : int = argList.length();
-
-			if ( length > 0 )
-			{
-				for ( var i : int = 0; i < length; i++ ) 
-				{
-					var x : XMLList = argList[ i ].attributes();
-					var l : int = x.length();
-
-					if ( l > 0 )
-					{
-						var o : Object = {};
-						for ( var j : int = 0; j < l; j++ ) o[ String( x[j].name() ) ]=x[j];
-						args.push( o );
-					}
-				}
-
-			} else
-			{
-				var value : String = ContextAttributeList.getValue( xml );
-				if ( value != null ) args.push( { type:type, value:value } );
-			}
-			
-			return args;
 		}
 	}
 }

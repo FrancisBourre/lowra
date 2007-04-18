@@ -41,5 +41,35 @@ package com.bourre.ioc.parser
 		{
 			//
 		}
+		
+		public final function getArguments( xml : XML, type : String = null ) : Array
+		{
+			var args : Array = new Array();
+			var argList : XMLList = xml.child( ContextNodeNameList.ARGUMENT );
+			var length : int = argList.length();
+
+			if ( length > 0 )
+			{
+				for ( var i : int = 0; i < length; i++ ) 
+				{
+					var x : XMLList = argList[ i ].attributes();
+					var l : int = x.length();
+
+					if ( l > 0 )
+					{
+						var o : Object = {};
+						for ( var j : int = 0; j < l; j++ ) o[ String( x[j].name() ) ]=x[j];
+						args.push( o );
+					}
+				}
+
+			} else
+			{
+				var value : String = ContextAttributeList.getValue( xml );
+				if ( value != null ) args.push( { type:type, value:value } );
+			}
+			
+			return args;
+		}
 	}
 }

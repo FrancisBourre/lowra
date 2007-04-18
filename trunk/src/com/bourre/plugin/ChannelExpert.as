@@ -90,7 +90,6 @@ package com.bourre.plugin
 		public function registerChannel( channel : EventChannel ) : void
 		{
 			_m.put( ChannelExpert._N, channel );
-			
 		}
 		
 		/**
