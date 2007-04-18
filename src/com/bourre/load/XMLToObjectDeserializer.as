@@ -24,13 +24,13 @@ package com.bourre.load
 		{
 			_m = new HashMap() ;
 			
-			addType("number", this, getNumber);
-			addType("string", this, getString);
-			addType("array", this, getArray);
-			addType("boolean", this, getBoolean);
-			addType("class", this, getInstance);
-			addType("point", this, getPoint);
-			addType("", this, getObject);
+			addType("number", getNumber);
+			addType("string", getString);
+			addType("array", getArray);
+			addType("boolean", getBoolean);
+			addType("class", getInstance);
+			addType("point", getPoint);
+			addType("", getObject);
 			
 			pushInArray = XMLToObjectDeserializer.PUSHINARRAY_IDENTICAL_NODE_NAMES;
 			deserializeAttributes = XMLToObjectDeserializer.DESERIALIZE_ATTRIBUTES;
@@ -85,7 +85,7 @@ package com.bourre.load
 		/**
 	 	* Add new type to deserializer
 	 	*/
-		public function addType( type : String, scopeMethod:*, parsingMethod : Function ) : void
+		public function addType( type : String, parsingMethod : Function ) : void
 		{
 			_m.put( type, parsingMethod) ;
 		}
@@ -296,10 +296,10 @@ package com.bourre.load
 			{
 				if ( b )
 				{
-					addType( "", this, getObjectWithAttributes );
+					addType( "", getObjectWithAttributes );
 				} else
 				{
-					addType( "", this, getObject );
+					addType( "", getObject );
 				}
 			}
 		}
