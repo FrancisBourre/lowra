@@ -41,10 +41,11 @@ package com.bourre.commands
 				{
 					return method.apply( null, rest.length>0? (args.length>0?args.concat(rest):rest) : (args.length>0?args:null) );
 
-				} catch( e : Error )
+				} catch( e : ArgumentError )
 				{
-					// do whatever you want
-					return null;
+					var msg : String = this + " execution failed, you passed incorrect number of arguments or wrong type";
+					PixlibDebug.FATAL( msg );
+					throw new ArgumentError( msg );
 				}
 			};
 		} 
@@ -84,7 +85,17 @@ package com.bourre.commands
 		{
 			var a : Array = new Array();
 			if ( e != null ) a.push( e );
-			_f.apply( null, ( _a.length > 0 ) ? a.concat( _a ) : ((a.length > 0 ) ? a : null) );
+			
+			try
+			{
+				_f.apply( null, ( _a.length > 0 ) ? a.concat( _a ) : ((a.length > 0 ) ? a : null) );
+
+			} catch( e : ArgumentError )
+			{
+				var msg : String = this + ".execute() failed, you passed incorrect number of arguments or wrong type";
+				PixlibDebug.FATAL( msg );
+				throw new ArgumentError( msg );
+			}
 		}
 		
 		public function onEnterFrame( e : Event = null ) : void
