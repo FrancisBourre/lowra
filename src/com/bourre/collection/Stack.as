@@ -38,9 +38,19 @@ package com.bourre.collection
 		 * 
 		 * @param type A Class instance used as type for elements
 		 */
-		public function Stack (type : Class = null)
+		public function Stack (type : Class = null, content : Array = null )
 		{
 			this._aStack = new TypedArray( type );
+			
+			if( content )
+			{
+				var l : Number = content.length;
+				
+				for( var i : Number = 0; i < l ; i++ )
+				{
+					add ( content[ i ] );
+				}
+			}
 		}
 		
 		/**
@@ -52,7 +62,7 @@ package com.bourre.collection
 		 * @throws ClassCastException if the class of the specified
 		 * 		   element prevents it from being added to this list.
 		 */
-		public function add( o : Object) : Boolean
+		public function add( o : Object ) : Boolean
 		{
 			push(o);
 			return true;
