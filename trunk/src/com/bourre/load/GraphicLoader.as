@@ -35,7 +35,7 @@ package com.bourre.load
 		private var _bAutoShow : Boolean;
 		private var _bMustUnregister : Boolean;
 	
-		public function GraphicLoader( target : DisplayObjectContainer, index : int = -1, bAutoShow : Boolean = true )
+		public function GraphicLoader( target : DisplayObjectContainer = null, index : int = -1, bAutoShow : Boolean = true )
 		{
 			super( new LoaderStrategy() );
 			
@@ -43,6 +43,14 @@ package com.bourre.load
 			_index = -1;
 			_bAutoShow = bAutoShow;
 			_bMustUnregister = false;
+		}
+		
+		public function setTarget(target:DisplayObjectContainer):void
+		{
+			var b:Boolean = isVisible() ;
+			hide();
+			_target = target ;
+			if (b) show () ;
 		}
 
 		protected override function getLoaderEvent( type : String ) : LoaderEvent
@@ -79,19 +87,25 @@ package com.bourre.load
 		
 		public function show() : void
 		{
-			if ( _index != -1 )
+			if (_target != null)
 			{
-				_target.addChildAt( getContent() as DisplayObject, _index );
-				
-			} else
-			{
-				_target.addChild( getContent() as DisplayObject );
+				if ( _index != -1 )
+				{
+					_target.addChildAt( getContent() as DisplayObject, _index );
+					
+				} else
+				{
+					_target.addChild( getContent() as DisplayObject );
+				}
 			}
+			else
+				PixlibDebug.DEBUG(this+".show() failed. No specified target.") ;
 		}
 		
 		public function hide() : void
 		{
-			_target.removeChild( getContent() as DisplayObject );
+			if (_target != null && _target.contains(getContent() as DisplayObject)) 
+				_target.removeChild( getContent() as DisplayObject );
 		}
 		
 		public function isVisible() : Boolean
