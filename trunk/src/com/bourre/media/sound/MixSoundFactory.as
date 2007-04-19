@@ -1,13 +1,16 @@
 package com.bourre.media.sound
 {
 	import flash.media.SoundTransform;
+	
 	import com.bourre.collection.HashMap;
+	import com.bourre.error.NoSuchElementException;
 	
-	private var _nVolume	: Number;
-
-	
+	import com.bourre.log.PixlibDebug;	
+		
 	public class MixSoundFactory extends SoundFactory
 	{
+		private var _nVolume	: Number;
+		
 		public function MixSoundFactory()
 		{
 		}
@@ -154,7 +157,7 @@ package com.bourre.media.sound
 		private function _adjustVolume( id : String ) : void
 		{
 			var v:Number = _calculVolume( getGain( id ) );
-			_mSoundTransform( id ).setVolume( v );
+			_mSoundTransform.get( id ).setVolume( v );
 		}
 		
 		private function _calculVolume( nGain : Number ): Number
