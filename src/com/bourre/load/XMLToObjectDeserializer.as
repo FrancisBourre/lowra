@@ -24,12 +24,12 @@ package com.bourre.load
 		{
 			_m = new HashMap() ;
 			
-			addType("number", getNumber);
-			addType("string", getString);
-			addType("array", getArray);
-			addType("boolean", getBoolean);
-			addType("class", getInstance);
-			addType("point", getPoint);
+			addType("Number", getNumber);
+			addType("String", getString);
+			addType("Array", getArray);
+			addType("Boolean", getBoolean);
+			addType("Class", getInstance);
+			addType("Point", getPoint);
 			addType("", getObject);
 			
 			pushInArray = XMLToObjectDeserializer.PUSHINARRAY_IDENTICAL_NODE_NAMES;
