@@ -1,47 +1,101 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */	
+
 package com.bourre.media.sound
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */	
-	 
-	/**
-	 * @author Francis Bourre (Pixlib.com.bourre.media.sound.SoundFactory), Steve Lombard (rewrite for lowRa)
-	 * @version 1.0
-	 */
-	
 	import com.bourre.collection.HashMap;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.error.IllegalArgumentException;		
 	import com.bourre.log.PixlibStringifier;	
 
-	import flash.media.Sound;	
+	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.system.ApplicationDomain;
 	import flash.media.SoundTransform;
 	
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.collection.TypedArray;
+	import com.bourre.error.IllegalStateException;
+	import com.bourre.error.ClassCastException;
 	
 	/**
-	 * Constructs a new {@code SoundFactory} instance.
-	 */		 
+	 * <pre>
+	 * The SoundFactory class is a collection of sounds. 
+	 * All sounds put in , must be in the library of one swf and linked with a className.
+	 * You can define the ApplicationDomain which contains your sounds, by default the ApplicationDomain is the current.
+	 * 
+	 * You can add, get, remove, play (simple or loop), stop a sound and know if it is registered, is playing thanks to it's className.
+	 * The same sound can be played several times at same time.
+	 * If you stop a sound, all channels wich play it are stopped.
+	 * You can make a pause : it make a pause on all channels.
+	 * You can make a resume : all channels paused resume to their default behaviors.
+	 * </pre>
+	 * 
+	 * @example
+	 * <pre>
+	 * import com.bourre.media.sound.SoundFactory;
+	 * import com.bourre.media.load.GraphicLoader; 
+	 * import com.bourre.media.load.GraphicLoaderEvent;
+	 * 
+	 * public class MaClasse
+	 * { 
+	 * 		private var _myLoader 		: GraphicLoader ;
+	 * 		private static var _sF 		: SoundFactory ; 
+	 * 		...
+	 * 		private function init( url : String ) : void
+	 * 		{
+	 *	 		var myUrlLoader : URLRequest = new URLRequest(url);	// url = "mylibSound1.swf"
+	 * 			_myLoader = new GraphicLoader();
+	 * 			_myLoader.addEventListener( GraphicLoaderEvent.onLoadInitEVENT ,callBack );
+	 * 			_myLoader.load( myUrlLoader );
+	 * 		}
+	 *
+	 * 		public function callBack( e : Event)
+	 * 		{
+	 * 			_sF = new SoundFactory();
+	 * 			_sF.init(_myLoader.getContentLoaderInfo().applicationDomain);
+	 * 
+	 * 			_sF.addSound("sound1");
+	 * 			_sF.isRegistered("sound1");	// => true
+	 * 			_sF.isRegistered("sound2");	// => false
+	 * 
+	 * 			var sound : Sound = _sF.getSound("sound1");
+	 * 			var soundChannel : SoundChannel = sound.play( sound.length/2, 2 );
+	 * 			_sF.stopSound("sound1"); 	// the sound is not stopped
+	 * 			soundChannel.stop(); 		// the sound is stopped
+	 * 
+	 * 			_sF.play("sound1");
+	 * 			_sF.play("sound1"); 		// 2 channels play the "sound1"
+	 * 			_sF.stop("sound1"); 		// the 2 channels are stopped
+	 * 			...
+	 * 		}
+	 * }
+	 * </pre>
+	 * 
+	 * @author Francis Bourre (Pixlib.com.bourre.media.sound.SoundFactory), Steve Lombard (rewrite for lowRa)
+	 * @version 1.0
+	 */		
+	 	 
 	public class SoundFactory
 	{				
-		private var _mSounds 			: HashMap;	// Contains all Sound : idSound => ObjectSound
 		protected var _mSoundTransform	: HashMap;
-		private var _aChannelsSounds	: Array;	// Contains ChannelSoundInfo objects of sounds playing(ChannelSoundInfo.id, ChannelSoundInfo.soundChannel, ChannelSoundInfo.loop)
-		private var _aResumeSounds		: Array;	// Contains ReumeSoundInfo objects of sounds to resume(ResumeSoundInfo.id, ReumeSoundInfo.position, ReumeSoundInfo.loop, ReumeSoundInfo.SoundTransform )
+		protected var _aChannelsSounds	: TypedArray;	// Contains ChannelSoundInfo objects of sounds playing(ChannelSoundInfo.id, ChannelSoundInfo.soundChannel, ChannelSoundInfo.loop)		
+		
+		private var _mSounds 			: HashMap;	// Contains all Sound : idSound => ObjectSound
+		private var _aResumeSounds		: TypedArray;	// Contains ReumeSoundInfo objects of sounds to resume(ResumeSoundInfo.id, ReumeSoundInfo.position, ReumeSoundInfo.loop, ReumeSoundInfo.SoundTransform )
 		
 		private var _bIsOn 				: Boolean;		// SoundFactory instance state : sound(s) playing
 		private var _bIsInitialized 	: Boolean;		// SoundFactory instance is ready	
@@ -49,125 +103,325 @@ package com.bourre.media.sound
 		private var _appliDomain		: ApplicationDomain;	
 		
 		/**
-		 * Constructs a new {@code SoundFactory} instance.
+		 * Constructs a new SoundFactory instance.
 		 */
 		public function SoundFactory() 
 		{
 			_mSounds = new HashMap();
 			_mSoundTransform = new HashMap();			
-			_aChannelsSounds = new Array();
-			_aResumeSounds = new Array();
+			_aChannelsSounds = new TypedArray( ChannelSoundInfo );
+			_aResumeSounds = new TypedArray( ResumeSoundInfo );
 						
 			_bIsInitialized = false;
 			_bIsOn = true;
 		}
 
 		/**
-		 * Defines passed-in {@code applicationDomain} as the sound library's applicationDomain.
-		 * @param applicationDomain (optional) {@code ApplicationDomain} instance
+		 * Defines passed-in applicationDomain as the sound library's applicationDomain.
+		 * It can be check with Loader.contentLoaderInfo.applicationDomain.
+		 * To use only if your sounds are in an external swf.
+		 * 
+		 * @param by default it's ApplicationDomain.currentDomain
+		 * 
+		 * @throws if your SoundFactory instance is already initialised : an IllegalStateException instance is return
+		 * 
+		 * @example 
+		 * <pre>
+		 * embed method :
+		 * 
+		 * import com.bourre.media.sound.SoundFactory;
+		 * import flash.display.Loader;
+		 * 
+		 * public class MaClasse
+		 * { 
+		 * 		[Embed(source="./../../../testBin/SoundFactory.swf", mimeType="application/octet-stream")]
+		 * 		private static var _SWFBytes 	: Class;	
+		 * 		private static var _sF 			: SoundFactory = new SoundFactory();
+		 * 		private static var _loader		: Loader;
+		 * 		private static var _apliDomain	: ApplicationDomain;
+		 * 
+		 * 		MaClasse._loader = new Loader();
+		 * 		MaClasse._loader.loadBytes( new MaClasse._SWFBytes() );
+		 * 		MaClasse._apliDomain = MaClasse._loader.contentLoaderInfo.applicationDomain;
+		 * 		try
+		 * 		{
+		 * 			MaClasse._sF.init( MaClasse._apliDomain );
+		 * 			MaClasse._sF.init( ApplicationDomain.currentDomain ); // generate a IllegalStateException
+		 * 		}
+		 * 		catch ( e : IllegalStateException)
+		 * 		{
+		 * 			trace(e.message); //=>instanceSoundFactory.init() failed, SoundFactory can't be initialized twice
+		 * 		}
+		 * 
+		 * 		...
+		 * }
+		 * 
+		 * loaded method :
+		 * 
+		 * import com.bourre.media.sound.SoundFactory;
+		 * import com.bourre.media.load.GraphicLoader; 
+		 * import com.bourre.media.load.GraphicLoaderEvent;
+		 * 
+		 * public class MaClasse
+		 * { 
+		 * 		private var _myLoader 		: GraphicLoader ;
+		 * 		private var _sF 			: SoundFactory ; 
+		 * 		...
+		 * 		private function init( url : String ) : void
+		 * 		{
+		 *	 		var myUrlLoader : URLRequest = new URLRequest(url);	// url = "mylibSound1.swf"
+		 * 			_myLoader = new GraphicLoader();
+ 		 * 			_myLoader.addEventListener( GraphicLoaderEvent.onLoadInitEVENT ,callBack );
+		 * 			_myLoader.load( myUrlLoader );
+		 * 		}
+		 *
+		 * 		public function callBack( e : Event)
+		 * 		{
+		 * 			_sF = new SoundFactory();
+		 * 			try
+		 * 			{
+		 * 				_sF.init( _myLoader.getContentLoaderInfo.applicationDomain );
+		 * 				_sF.init( ApplicationDomain.currentDomain ); // generate a IllegalStateException
+		 * 			}
+		 * 			catch ( e : IllegalStateException )
+		 * 			{
+		 * 				trace(e.message); //=>instanceSoundFactory.init() failed, SoundFactory can't be initialized twice
+		 * 			}
+		 * 		}
+		 * }
+		 * </pre>
 		 */
 		public function init( applicationDomain : ApplicationDomain = null ) : void 
 		{ 
-			_appliDomain = ( applicationDomain == null ) ? ApplicationDomain.currentDomain : applicationDomain;
-			_bIsInitialized = true;	
-		}
+			if ( !_bIsInitialized )
+			{
+				_appliDomain = ( applicationDomain is ApplicationDomain ) ? applicationDomain : ApplicationDomain.currentDomain;
+				_bIsInitialized = true;
 
+			} else
+			{
+				PixlibDebug.ERROR(this + ".init() failed, SoundFactory can't be initialized twice");
+				throw( new IllegalStateException( this + ".init() failed, SoundFactory can't be initialized twice" ) );
+			}
+		}
+		
+		
+		/**
+		 * Check if a sound is already register
+		 * 
+		 * @param sound's class identifier in the library
+		 * 
+		 * @return true : is registered / false : is not registered 
+		 * 
+		 * @see #getRegisteredId()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *	_sF.addSound("sound1");
+		 *	_sF.isRegistered("sound1");	// => true
+		 *	_sF.isRegistered("sound2");	// => false
+		 * </pre>
+		 * 
+		 */
+		public function isRegistered( id : String ) : Boolean
+		{
+			return _mSounds.containsKey( id );
+		}
+		
+		/**
+		 * Get all sound's class identifier use
+		 * 
+		 * @return an Array of sound's class identifier use
+		 * 
+		 * @see #isRegistered()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *	_sF.addSound("sound1");
+		 *	_sF.addSound("sound2");
+		 *	_sF.addSound("sound3");
+		 *  _sF.getRegisteredId(); // => ["sound3", "sound2", "sound1"] NO ORDER GUARANTED !
+		 * </pre>
+		 */
+		public function getRegisteredId() : Array
+		{
+			return _mSounds.getKeys();
+		}
 	
 		/**
-		 * Adds new sound to factory.
+		 * Add a new sound.
 		 * 
-		 * <p>Example
-		 * <code>
-		 *   var sf : SoundFactory = new SoundFactory();
-		 *   sf.addSound("Sound1");	// "Sound1" is a class identifier in the library
-		 *   sf.addSound("Sound2"); // "Sound1" is an another class identifier in the library
-		 * </code>
+		 * @param sound's class identifier in the library
 		 * 
-		 * @param id {@code String} Class identifier in the library ( applicationDomain )
+		 * @throws if sound's class identifier is already use : an IllegalArgumentException instance is return
+		 * @throws if sound's class not found in specified SoundFactory application domain : an ClassCastException instance is return
+		 * 
+		 * @see #getSound()
+		 * @see #removeSound()
+		 * 
+		 * @example
+		 * <pre>
+		 *  var _sf : SoundFactory = new SoundFactory();
+		 *  try
+		 *  {
+		 * 		_sF.addSound("sound1");
+		 *  	_sF.addSound("sound1");  // generate an IllegalArgumentException : it's already added
+		 * 		_sF.addSound("badSound");// generate a ClassCastException : this sound's class identifier in the library doesn't exist
+		 *  }
+		 *  catch( e : IllegalArgumentException )
+		 *  {
+		 * 		trace(e.message); //=>instanceSoundFactory.addSound( sound1 ) failed, 'sound1' id sound is already use
+		 *  }
+		 *  catch( e : ClassCastException )
+		 *  {
+		 * 		trace(e.message); //=>instanceSoundFactory.addSound( badSound ) failed, 'badSound' class can't be found in specified SoundFactory application domain
+		 *  }
+		 * </pre>
+		 * 
 		 */
 		public function addSound( id : String ) : void
 		{
 			if( !_bIsInitialized )	init();
-			if( !_mSounds.containsKey(id) )
+			if( !isRegistered(id) )
 			{				
-				var clazz : Class = _appliDomain.getDefinition( id ) as Class;
+				var clazz : Class;
+				try
+				{
+					clazz = _appliDomain.getDefinition( id ) as Class;
+				} catch ( e : Error )
+				{
+					PixlibDebug.ERROR(this+".addSound("+id+") failed, '" + id + "' class can't be found in specified SoundFactory application domain");
+					throw new ClassCastException(this+".addSound("+id+") failed, '" + id + "' class can't be found in specified SoundFactory application domain") ;
+				}
+				
 				var sound : Sound = new clazz() ;
 				_mSounds.put( id, sound );
 				_mSoundTransform.put( id, new SoundTransformInfo() );
 			}
 			else
 			{
-				PixlibDebug.ERROR("SoundFactory.addSound("+id+") : this id sound is already use");
-				throw new IllegalArgumentException("SoundFactory.addSound("+id+") : this id sound is already use") ;				
+				PixlibDebug.ERROR(this+".addSound("+id+") failed, '" + id + "' id sound is already use");
+				throw new IllegalArgumentException(this+".addSound("+id+") failed, '" + id + "' id sound is already use") ;				
 			}
 		}
 		
 		/**
-		 * Adds sounds id list to factory.
+		 * Adds a list of sounds. Add all sounds except for IllegalArgumentException and ClassCastException.
 		 * 
-		 * <p>Example
-		 * <code>
-		 *   var sf : SoundFactory = new SoundFactory();
-		 *   var aSndList : Array = new Array("Sound1", "Sound2"); // contains class identifier
-		 *   
-		 *   sf.addSounds( aSndList );
-		 * </code>
+		 * @param an array of sound's class identifier (in the library)
 		 * 
-		 * @param a {@code Array} Sounds identifier class list
+		 * @throws if sound's class identifier is already use : an IllegalArgumentException instance is return
+		 * @throws if sound's class not found in specified SoundFactory application domain : an ClassCastException instance is return
+		 * 
+		 * @see #getAllSounds()
+		 * @see #clear()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *   var aSndList : Array = new Array("Sound1", "Sound2", "Sound2","BadSound"); // class identifiers in the library except "BadSound"
+		 * 	 try
+		 * 	 {
+		 *   	_sf.addSounds( aSndList );
+		 * 	 }
+		 * 	 catch( e : IllegalArgumentException )
+		 * 	 {
+		 * 		trace(e.message); //=>instanceSoundFactory.addSounds( ["Sound1", "Sound2", "Sound2","BadSound"] ) failed, 'Sound2' id has been already added
+		 * 	 }
+		 * 	 catch( e : ClassCastException )
+		 * 	 {
+		 * 		trace(e.message); //=>instanceSoundFactory.addSounds( ["Sound1", "Sound2", "Sound2","BadSound"] ) failed, 'BadSound' class can't be found in specified SoundFactory application domain
+		 * 	 }
+		 * </pre>
 		 */
 		public function addSounds( a:Array ) : void
 		{
-			var l:Number = a.length;
-			for (var c:Number=0; c<l ; c++) addSound(a[c]);
+			var l:int = a.length;
+
+			while( -- l > -1 ) 
+			{
+				try
+				{
+					addSound(a[l]);
+				} catch ( e : IllegalArgumentException )
+				{
+					e.message = this+".addSounds(" + a + ") failed, '" + a[l] + "' id has been already added";
+					PixlibDebug.ERROR(e.message);	
+					throw( e );
+				} catch ( e : ClassCastException )
+				{
+					e.message = this+".addSounds(" + a + ") failed, '" + a[l] + "' class can't be found in specified SoundFactory application domain" ;
+					PixlibDebug.ERROR(e.message);					
+					throw( e );
+				}
+			}
 		}
 			
 		/**
-		 * Returns {@code Sound} instance stored under passed-in 
-		 * {@code id} class identifier.
+		 * Returns Sound instance stored under passed-in sound's class identifier.
 		 * 
-		 * <p>Example
-		 * <code>
-		 *   var sf : SoundFactory = new SoundFactory();
-		 *   sf.addSound("Sound1");
-		 *   sf.addSound("Sound2");
+		 * @param sound's class identifier in the library
+		 * 
+		 * @return Sound instance. If no sound is found, a NullSound is returned.
+		 * 
+		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * 
+		 * @see #addSound()
+		 * @see #removeSound()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
 		 *   
 		 *	try
 		 * 	{
-		 *   	var o : Sound = sf.getSound("Sound3");
+		 *  	_sf.addSound("Sound1");
+		 *   	_sf.addSound("Sound2");
+		 *   	_sf.getSound("Sound3"); // not been added
 		 *  {
-		 * 	catch (e)
+		 * 	catch (e : NoSuchElementException)
 		 *  {
-		 * 		trace(e);// if idSound not exist
+		 * 		trace(e.message);//=> instanceSoundFactory.getSound(Sound3) : 'Sound3' doesn't exist
 		 *  }
-		 * </code>
-		 * 
-		 * @param id {@code String} Class identifier in the library ( applicationDomain )
-		 * @return {@code Sound} instance. If no sound is found, an empty
-		 * {@code Sound} is returned.
+		 * </pre>
 		 */
 		public function getSound( id:String ) : Sound 
 		{ 
 			if (_bIsOn )
 			{
-				if ( _mSounds.containsKey( id ) )
+				if ( isRegistered( id ) )
 				{
 					return _mSounds.get( id ) as Sound;
 				}
 				else
 				{
-					PixlibDebug.ERROR("SoundFactory.getSound("+id+") : this id doesn't exist");					
-					throw new NoSuchElementException("SoundFactory.getSound("+id+") : this id doesn't exist") ;
+					PixlibDebug.ERROR(this+".getSound("+id+") : '"+id+"' doesn't exist");					
+					throw new NoSuchElementException(this+".getSound("+id+") : '"+id+"' doesn't exist") ;
 				}
 			}
 			else
 			{
-				return null;
+				return new NullSound();
 			}
 		}
 				
 		/**
-		 * Returns an {@code Array} list of stored sounds.
-		 * @return {@code Array} instance
+	 	 * Get all Sound instances stored under passed-in sound's class identifier.
+	 	 * 
+		 * @return Get all Sound instances stored under passed-in sound's class identifier.
+		 * 
+		 * @see #addSounds()
+		 * @see #clear()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *   _sf.addSounds(new Array("sound2","sound3","sound4"));
+		 *   _sf.addSound("sound1");
+		 *   _sf.getAllSounds(); //=> ["sound2","sound4","sound1","sound3"] NO ORDER GUARANTED !
+		 * </pre>
 		 */
 		public function getAllSounds() : Array
 		{
@@ -175,67 +429,74 @@ package com.bourre.media.sound
 		}
 		
 		/**
-		 * Removes {@code Sound} instance stored under passed-in 
-		 * {@code id} identifier from factory.
+		 * Removes Sound instance stored under passed-in sound's class identifier.
 		 * 
-		 * <p>Example
-		 * <code>
-		 *   var sf : SoundFactory = new SoundFactory();
-		 *   sf.addSound("sound_1");
-		 *   sf.addSound("sound_2");
+		 * @param sound's class identifier in the library
+		 * 
+		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * 
+		 * @see #addSound()
+		 * @see #getSound()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *   _sf.addSound("sound_1");
+		 *   _sf.addSound("sound_2");
 		 *   
-		 *   sf.removeSound("sound_1");
-		 * </code>
-		 * @param id {@code String} Class identifier in the library ( applicationDomain )
+		 *	try
+		 * 	{
+		 *   	var o : Sound = _sf.getSound("Sound3"); // "Sound3" doesn't exist in your factory, but in the library
+		 *  {
+		 * 	catch (e : NoSuchElementException)
+		 *  {
+		 * 		trace(e);//=> instanceSoundFactory.removeSound(Sound3) : 'Sound3' doesn't exist
+		 *  }
+		 * </pre>
 		 */
 		public function removeSound( id:String ) : void
 		{
-			if ( _mSounds.containsKey( id ) )
+			if ( isRegistered( id ) )
 			{
 				var i : uint = _aChannelsSounds.length ;
-				if( i > 0 )
+				while ( -- i > - 1 )
 				{
-					while ( -- i > - 1 )
+					if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
 					{
-						if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
-						{
-							(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
-							_aChannelsSounds.splice( i,1 );
-						}
+						(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+						_aChannelsSounds.splice( i,1 );
 					}
 				}
+
 				i = _aResumeSounds.length ;
-				if( i > 0 )
-				{
-					while ( -- i > - 1 )
-					{
-						if( ( _aResumeSounds[i] as ChannelSoundInfo ).id == id)
-						{
-							_aResumeSounds.splice( i,1 );
-						}
-					}
-				}			
+				while ( -- i > - 1 )
+					if( ( _aResumeSounds[i] as ChannelSoundInfo ).id == id)
+						_aResumeSounds.splice( i,1 );
+			
 				_mSounds.remove( id );	
 				_mSoundTransform.remove( id );
 			}
 			else
 			{
-				PixlibDebug.ERROR("SoundFactory.removeSound("+id+") : this id doesn't exist");					
-				throw new NoSuchElementException("SoundFactory.removeSound("+id+") : this id doesn't exist") ;
+				PixlibDebug.ERROR(this+".removeSound("+id+") : '"+id+"' doesn't exist");					
+				throw new NoSuchElementException(this+".removeSound("+id+") : '"+id+"' doesn't exist") ;
 			}			
 		}
 			
 		/**
-		 * Stops all sounds, clears sounds lists and reset event listeners.
+		 * Stops all sounds, clears sounds lists and reset : you must reinitialise it after with @see #init().
 		 */
 		public function clear() : void
 		{
 			goOff();
 			_mSounds.clear();
-			_aResumeSounds = new Array();			
+			_mSoundTransform.clear();
+			_aResumeSounds = new TypedArray();			
 			_appliDomain = null;			
 			_bIsInitialized = false;
-		}		
+		}
+		
+			
 
 	
 	
@@ -243,17 +504,23 @@ package com.bourre.media.sound
 		/**
 		 * Toggles "playing" mode.
 		 * 
-		 * <p>Uses {@link #goOn} or {@link #goOff} methods to switch 
-		 * "playing" mode.
+		 * Uses @see #goOn() or @see #goOff() methods to switch "playing" mode.
 		 */
 		public function toggleOnOff() : void 
 		{ 
-			(_bIsOn) ? goOff() : goOn() ;
+			if ( _bIsOn )
+			{
+				goOff();
+				
+			} else 
+			{
+				goOn();
+			}
 		}
 		
 		/**
 		 * Checks if "playing" mode is enable or not.
-		 * @return {@code true} is "playing" mode is enable, either {@code false}
+		 * @return true is "playing" mode is enable, either false
 		 */
 		public function isOn() : Boolean 
 		{ 
@@ -262,7 +529,7 @@ package com.bourre.media.sound
 		
 		/**
 		 * Turns "playing" mode on.
-		 * <p>Sounds are not automatically played.
+		 * Sounds are not automatically played : it's just the state.
 		 */
 		public function goOn() : void 
 		{ 
@@ -277,67 +544,204 @@ package com.bourre.media.sound
 			_bIsOn = false;
 			var i : uint = _aChannelsSounds.length;
 			while ( -- i > - 1 ) ( _aChannelsSounds[ i ] as ChannelSoundInfo ).soundChannel.stop();
-			_aChannelsSounds = new Array();	
+			_aChannelsSounds = new TypedArray();	
 		}
 
 
+		/**
+		 * Without argument : it return a Boolean to indicate if there is at least one sound is playing
+		 * With argument : it return a Boolean to indicate if the id passed-in is playing
+		 * 
+		 * @param sound's class identifier in the library
+		 * 
+		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * 
+		 * @see #getActiveChannel()
+		 * @see #playSound()
+ 		 * @see #playSoundLoop()
+		 * @see #stopSound()
+		 * @see #pause()
+		 * @see #resume()
+		 * 
+		 * @example
+		 * <pre>
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *   _sf.addSound("sound_1");
+		 *   _sf.addSound("sound_2");
+		 * 	 _sf.play("sound_2");
+		 *   
+		 *	try
+		 * 	{
+		 *   	_sf.isPlaying() // => true
+		 * 		_sf.isPlaying("Sound3")// => generate a NoSuchElementException
+		 *  {
+		 * 	catch (e : NoSuchElementException)
+		 *  {
+		 * 		trace(e);//=> instanceSoundFactory.removeSound(Sound3) : 'Sound3' doesn't exist
+		 *  }
+		 * </pre>
+		 * 
+		 */
+		public function isPlaying( id : String = null ) : Boolean
+		{			
+			if( id == null )
+			{
+				return ( _aChannelsSounds.length > 0 );
+			}
+			
+			if ( isRegistered( id ) )	
+			{
+				var i : uint = _aChannelsSounds.length;
+
+				while ( -- i > - 1 )
+					if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id) return true;
+	
+				return false;
+
+			} else
+			{
+				PixlibDebug.ERROR(this+".isPlaying("+id+") : '"+id+"' doesn't exist");					
+				throw new NoSuchElementException(this+".isPlaying("+id+") : '"+id+"' doesn't exist") ;
+			}
+		}
 		
 		/**
-		 *	Play a sound simply
-		 * @param id {@code String} Class identifier in the library ( applicationDomain )
+		 * Return an Array of all SoundChannel instances use by the id passed-in
+		 *
+		 * @param sound's class identifier in the library
+		 * 
+		 * @return an Array of all SoundChannel instances use by the id passed-in
+		 * 
+		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return		 * 
+		 * 
+		 * @see #isPlaying()
+		 * @see #playSound()
+ 		 * @see #playSoundLoop()
+		 * @see #stopSound()
+		 * @see #pause()
+		 * @see #resume()
+		 * 
+		 * @example
+		 *   var _sf : SoundFactory = new SoundFactory();
+		 *   _sf.addSound("sound_1");
+		 *   _sf.addSound("sound_2");
+		 *   _sf.play("sound_2");	//SoundChannel1
+		 *   _sf.playSoundLoop("sound_2");	//SoundChannel2
+		 *   
+		 *	try
+		 * 	{
+		 *   	_sf.getActiveChannel("sound_2") // => [SoundChannel2,SoundChannel1] inverse order
+		 * 		_sf.getActiveChannel("Sound3") // => generate a NoSuchElementException
+		 *  {
+		 * 	catch (e : NoSuchElementException)
+		 *  {
+		 * 		trace(e);//=> instanceSoundFactory.removeSound(Sound3) : 'Sound3' doesn't exist
+		 *  }
+		 */
+		public function getActiveChannel( id : String ) : Array
+		{
+			var a : Array = new Array();
+			if ( isRegistered( id ) )	
+			{
+				var i : uint = _aChannelsSounds.length ;
+				while ( -- i > - 1 )
+				{
+					if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+					{
+						a.push( ( _aChannelsSounds[i] as ChannelSoundInfo ).soundChannel );
+					}
+				}
+
+				return a;
+			}
+			else
+			{
+				PixlibDebug.ERROR("SoundFactory.getPlaying("+id+") : '"+id+"' doesn't exist");					
+				throw new NoSuchElementException("SoundFactory.getPlaying("+id+") : '"+id+"' doesn't exist") ;
+			}				
+		}
+			
+
+		
+		/**
+		 * Play a sound simply according to its Class identifier in the library : only if @see isOn() = true
+		 * 
+		 * @param Class identifier in the library
+		 * 
+ 		 * @see #playSoundLoop()
+		 * @see #isPlaying()
+		 * @see #getActiveChannel()
+		 * @see #stopSound()
+		 * @see #pause()
+		 * @see #resume()
 		 */
 		public function playSound( id : String ) : void
 		{
 			if( _bIsOn )
 			{
 				var soundChannel : SoundChannel =  getSound( id ).play( 0, 0, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
-				var CSI : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, false);
-				_aChannelsSounds.push( CSI );
+				var csi : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, false);
+				_aChannelsSounds.push( csi );
 			}
 		}
 		
 		/**
-		 *	Play a sound in loop ( 65535 times )
-		 * @param id {@code String} Class identifier in the library ( applicationDomain )
+		 * Play a sound in loop ( uint.MAX_VALUE times ) according to its Class identifier in the library : only if @see #isOn() = true
+		 * 
+		 * @param Class identifier in the library
+		 * 
+ 		 * @see #playSound()
+		 * @see #isPlaying()
+		 * @see #getActiveChannel()
+		 * @see #stopSound()
+		 * @see #pause()
+		 * @see #resume()
 		 */		
 		public function playSoundLoop( id:String ) : void
 		{
 			if( _bIsOn )
 			{
-				var soundChannel : SoundChannel =  getSound( id ).play( 0, 65535, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
-				var CSI : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, true);
-				_aChannelsSounds.push( CSI );			
+				var soundChannel : SoundChannel =  getSound( id ).play( 0, int.MAX_VALUE, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
+				var csi : ChannelSoundInfo = new ChannelSoundInfo(id, soundChannel, true);
+				_aChannelsSounds.push( csi );			
 			}
 		}
 		
 	
 		/**
-		 *	Stop all channel for a sound
-		 * @param id {@code String} Class identifier in the library ( applicationDomain )
+		 *	Stop all channel for a sound according to its Class identifier in the library : only if @see isOn() = true
+		 * 
+		 * @param Class identifier in the library
+		 * 
+		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * 
+ 		 * @see #playSound()
+ 		 * @see #playSoundLoop()
+		 * @see #isPlaying()
+		 * @see #getActiveChannel()
+		 * @see #pause()
+		 * @see #resume()
 		 */			
 		public function stopSound( id:String ) : void
 		{
 			if( _bIsOn )
 			{
-				if ( _mSounds.containsKey( id ) )
+				if ( isRegistered( id ) )
 				{				
 					var i : uint = _aChannelsSounds.length ;
-					if( i > 0 )
+					while ( -- i > - 1 )
 					{
-						while ( -- i > - 1 )
+						if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
 						{
-							if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
-							{
-								(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
-								_aChannelsSounds.splice( i,1 );
-							}
+							(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+							_aChannelsSounds.splice( i,1 );
 						}
 					}
 				}
 				else
 				{
-					PixlibDebug.ERROR("SoundFactory.stopSound("+id+") : this id doesn't exist");					
-					throw new NoSuchElementException("SoundFactory.stopSound("+id+") : this id doesn't exist") ;					
+					PixlibDebug.ERROR(this+".stopSound("+id+") : '"+id+"' doesn't exist");					
+					throw new NoSuchElementException(this+".stopSound("+id+") : '"+id+"' doesn't exist") ;					
 				}
 			}
 		}
@@ -348,52 +752,48 @@ package com.bourre.media.sound
 		 public function pause () : void
 		 {
 			var i : uint = _aChannelsSounds.length ;
-			if( i > 0 )
+
+			while ( -- i > - 1 )
 			{
-				while ( -- i > - 1 )
-				{
-					var id : String = (_aChannelsSounds[i] as ChannelSoundInfo).id ;
-					var position : int = (_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.position ;
-					var loop : Boolean = (_aChannelsSounds[i] as ChannelSoundInfo).loop ;
-					var RSI : ResumeSoundInfo = new ResumeSoundInfo( id, position, loop ) ;
-					_aResumeSounds.push( RSI ) ;
-				}
-			}			
+				var id : String = (_aChannelsSounds[i] as ChannelSoundInfo).id ;
+				var position : int = (_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.position ;
+				var loop : Boolean = (_aChannelsSounds[i] as ChannelSoundInfo).loop ;
+				var RSI : ResumeSoundInfo = new ResumeSoundInfo( id, position, loop ) ;
+				_aResumeSounds.push( RSI ) ;
+			}
+			
 			 goOff();
 		 }		
 
 		/**
-		 * Resume sound stop with pause()
+		 * Resume all sounds stopped with pause()
 		 */
 		 public function resume () : void 
 		 {
 		 	goOn();
 			var i : uint = _aResumeSounds.length ;
-			if( i > 0 )
+
+			while ( -- i > - 1 )
 			{
-				while ( -- i > - 1 )
-				{
-					var soundChannel : SoundChannel;
-					var CSI : ChannelSoundInfo;
-					
-					var id : String = (_aResumeSounds[i] as ResumeSoundInfo).id;
-					var position : int = (_aResumeSounds[i] as ResumeSoundInfo).position;
-					var loop : Boolean = (_aResumeSounds[i] as ResumeSoundInfo).loop;
-					if( ! loop )
-					{	
-						soundChannel =  getSound( id ).play( position, 0, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
-						CSI = new ChannelSoundInfo(id, soundChannel, true);
-						_aChannelsSounds.push( CSI );
-					}
-					else
-					{
-						soundChannel =  getSound( id ).play( position, 65535, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
-						CSI = new ChannelSoundInfo(id, soundChannel, true);
-						_aChannelsSounds.push( CSI );			
-					}
-				}
-			}		 	
-		 	_aResumeSounds = new Array();	
+				var soundChannel : SoundChannel;
+				var csi : ChannelSoundInfo;
+				var rsi : ResumeSoundInfo = _aResumeSounds[i] as ResumeSoundInfo;
+				
+				var id : String = rsi.id;
+				var position : int = rsi.position;
+				var loop : Boolean = rsi.loop;
+
+				soundChannel = loop ?
+					getSound( id ).play( position, uint.MAX_VALUE, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() )
+					: getSound( id ).play( position, 0, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
+
+				
+				csi = new ChannelSoundInfo(id, soundChannel, true);
+				_aChannelsSounds.push( csi );	
+
+			}
+	 	
+		 	_aResumeSounds = new TypedArray();	
 		 }
 
 		/**
@@ -411,6 +811,8 @@ package com.bourre.media.sound
 import flash.media.SoundTransform;
 import flash.media.SoundChannel;
 import flash.media.Sound;
+import flash.net.URLRequest;
+import flash.media.SoundLoaderContext;
 
 internal class SoundTransformInfo
 {
@@ -489,4 +891,19 @@ internal class ResumeSoundInfo
 		this.position = position;
 		this.loop = loop;	
 	}	
+}
+
+internal class NullSound 
+	extends Sound
+{
+	public override function play( startTime:Number = 0, loops:int = 0, sndTransform:SoundTransform = null ) : SoundChannel
+	{
+		// do nothing
+		return null;
+	}
+	
+	public override function load( stream:URLRequest, context:SoundLoaderContext = null ) : void
+	{
+		// do nothing
+	}
 }
