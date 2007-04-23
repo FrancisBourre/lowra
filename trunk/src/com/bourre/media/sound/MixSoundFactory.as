@@ -9,8 +9,8 @@ package com.bourre.media.sound
 		
 	public class MixSoundFactory extends SoundFactory
 	{
-		private var _nVolume	: Number;
-		
+		private var _nVolume : Number = 1;
+				
 		public function MixSoundFactory()
 		{
 		}
@@ -41,7 +41,29 @@ package com.bourre.media.sound
 			}								
 		}
 		
-		
+		/**
+		 * Add sound
+		 */
+		 public override function addSound( id : String ) : void
+		 {
+		 	super.addSound( id  );
+		 	_adjustVolume( id );
+		 }
+		 
+		/**
+		 * Add an array of sound
+		 */
+		 public override function addSounds( a:Array ) : void
+		 {
+		 	super.addSounds( a );
+			var a : Array = _mSoundTransform.getKeys();		
+			var i : uint = a.length;
+			while( --i > -1 )
+			{
+				_adjustVolume( a[i] );
+			}
+		 }
+		  
 		/**
 		 * Gain : volume of each sound
 		 */ 		
@@ -127,6 +149,7 @@ package com.bourre.media.sound
 					n =	 1;
 				}
 				_mSoundTransform.get( id ).setPan( n );
+				_updateChannel( id );
 			}		
 			else
 			{
@@ -134,6 +157,8 @@ package com.bourre.media.sound
 				throw new NoSuchElementException("MixSoundFactory.getPan("+id+") : this id doesn't exist") ;					
 			}			
 		}
+		
+		
 		public function setAllPan( n : Number ) : void
 		{		
 			if( n < -1 )
@@ -150,6 +175,7 @@ package com.bourre.media.sound
 			while( --i > -1 )
 			{
 				_mSoundTransform.get( a[i] ).setPan( n );
+				_updateChannel( a[i] );
 			}	
 		}
 		
@@ -158,11 +184,24 @@ package com.bourre.media.sound
 		{
 			var v:Number = _calculVolume( getGain( id ) );
 			_mSoundTransform.get( id ).setVolume( v );
+			_updateChannel( id );
 		}
 		
 		private function _calculVolume( nGain : Number ): Number
 		{
 			return (nGain*100 / 100) * _nVolume;
+		}
+		
+		private function _updateChannel( id : String ) : void
+		{		
+			var i : uint = _aChannelsSounds.length;
+			while( --i > -1 )
+			{
+				if( _aChannelsSounds[i].id == id )
+				{
+					_aChannelsSounds[i].soundChannel.soundTransform = _mSoundTransform.get( id ).getSoundTransform();
+				}
+			}			
 		}		
 
 		
