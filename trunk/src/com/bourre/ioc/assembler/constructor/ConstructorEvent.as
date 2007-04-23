@@ -1,6 +1,7 @@
 package com.bourre.ioc.assembler.constructor
 {
 	import com.bourre.events.BasicEvent;
+	import com.bourre.log.PixlibStringifier;
 	
 	public class ConstructorEvent extends BasicEvent
 	{
@@ -13,8 +14,7 @@ package com.bourre.ioc.assembler.constructor
 			
 			_oConstructor = constructor;
 		}
-		
-		
+
 		public function getConstructor() : Constructor
 		{
 			return _oConstructor;
@@ -24,7 +24,7 @@ package com.bourre.ioc.assembler.constructor
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		override public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}

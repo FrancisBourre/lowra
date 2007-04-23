@@ -12,7 +12,7 @@ package com.bourre.ioc.assembler.property
 		private var _sOwnerID : String;
 		private var _sRefID : String;
 		
-		public function PropertyEvent( o : Property, ownerID : String, refID : String )
+		public function PropertyEvent( o : Property, ownerID : String, refID : String = null )
 		{
 			super( PropertyEvent.onBuildPropertyEVENT.type );
 			

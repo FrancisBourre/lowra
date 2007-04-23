@@ -27,6 +27,7 @@ import com.bourre.structures.*;
 import com.bourre.transitions.*;
 import com.bourre.request.*
 import com.bourre.ioc.control.*
+import com.bourre.ioc.assembler.constructor.*
 
 private function onCreationComplete():void
 {
@@ -93,6 +94,11 @@ private function createSuite() : TestSuite
 	//com.bourre.ioc.assembler.property
 	ts.addTestSuite( PropertyEventTest) ;
 	ts.addTestSuite( PropertyExpertTest ) ;
+	
+	//com.bourre.ioc.assembler.constructor
+	ts.addTestSuite ( ConstructorEventTest ) ;
+	ts.addTestSuite ( ConstructorExpertTest ) ;
+	ts.addTestSuite ( ConstructorTest ) ;
 
 	// com.bourre.ioc.core
 	ts.addTestSuite ( IDExpertTest ) ;
