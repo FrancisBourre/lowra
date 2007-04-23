@@ -4,27 +4,27 @@ package com.bourre.ioc.assembler.constructor
 	
 	public class Constructor
 	{
-		public var 		ID 		: String;
-		public var 		Type 		: String;
-		public var 		Arguments : Array;
-		public var 		Factory 	: String;
-		public var 		Singleton : String;
-		public var 		Channel 	: String;
+		public var 		id 		: String;
+		public var 		type 		: String;
+		public var 		arguments : Array;
+		public var 		factory 	: String;
+		public var 		singleton : String;
+		public var 		channel 	: String;
 
 		
 		public function Constructor(	id : String, 
-										type : String, 
-										args : Array, 
-										factory : String, 
-										singleton : String,
-										channel : String ) //access:PrivateConstructorAccess)
+										type : String = null, 
+										args : Array = null, 
+										factory : String = null, 
+										singleton : String = null,
+										channel : String = null) //access:PrivateConstructorAccess)
 		{
-			ID = id;
-			Type = type;
-			Arguments = args;
-			Factory = factory;
-			Singleton = singleton;
-			Channel = channel;
+			this.id = id;
+			this.type = type;
+			this.arguments = args;
+			this.factory = factory;
+			this.singleton = singleton;
+			this.channel = channel;
 		}
 		
 		/**

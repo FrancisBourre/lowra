@@ -5,33 +5,35 @@ package com.bourre.ioc.assembler.constructor
 	import com.bourre.ioc.control.MockInstance;
 	import com.bourre.ioc.assembler.property.PropertyEvent;
 	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.core.IDExpert;
 
 	public class ConstructorExpertTest extends TestCase
 	{
 		
-		_cstExpert : ConstructorExpert
+		private var _cstExpert : ConstructorExpert
 		
-		override public function () : void
+		override public function setUp () : void
 		{
-			_cstExpert = new ConstructorExpert.getInstance()
+			ConstructorExpert.release()
+			_cstExpert = ConstructorExpert.getInstance()
 		}
 		
 		public function testCreate() : void
 		{
-			assertNotNull('failed to create an instance of '+ConstructorExpert, _cstExpert)
+			assertNotNull('failed to create an instance of ConstructorExpert', _cstExpert)
 		}
 		
 		public function testBuildObjects() : void
 		{
-			var arg1 = new Property("ownerID", "x", "10", "int", "ref1", "do" )
-			var arg2 = new Property("ownerID", "y", "21", "uint", "ref1", "act" )
+			var arg1 : Property = new Property("ownerID", null, "10", "int" )
+			var arg2 : Property = new Property("ownerID", null, "21", "uint" )
 			
-			var cst : Constructor = _cstExpert.addConstructor("ownerID","com.bourre.ioc.control.MockInstance", [arg1, arg2], "factory","singleton","channel")
+			var cst : Constructor = _cstExpert.addConstructor("ownerID","com.bourre.ioc.control.MockInstance", [arg1, arg2] )
 			
-			var obj : * = _cstExpert.buildObject(cst)
-			
+			var obj : MockInstance = _cstExpert.buildObject(cst) as MockInstance
+			trace(obj)
 			assertNotNull("failed to create a Constructor", cst)
-			assertTrue(_cstExpert + ".buildObject()failed to creat the object of good type ",obj is MockInstance )
+			assertTrue(_cstExpert + ".buildObject()failed to create the object of good type ",obj is MockInstance )
 			assertEquals(_cstExpert + ".buildObject() failed to create object with good value", int(10), obj.arg1)
 			assertEquals(_cstExpert + ".buildObject() failed to create object with good value", uint(21), obj.arg2)
 			
@@ -40,28 +42,34 @@ package com.bourre.ioc.assembler.constructor
 		public function testBuildAllObjects() : void
 		{
 			IDExpert.release()
+			IDExpert.getInstance().register("ownerID")
+			//IDExpert.getInstance().onBuildProperty(propEvt2)
 		
-			var arg1 = new Property("ownerID", "x", "10", "int")
+			var arg1 : Property = new Property("ownerID", null, "10", "int")
 			//, "ref1", "do" )
-			var arg2 = new Property("ownerID", "y", "21", "uint")
+			var arg2 : Property = new Property("ownerID", null, "21", "uint")
 			//, "ref1", "act" )
 			
 			var cst : Constructor = _cstExpert.addConstructor("ownerID","com.bourre.ioc.control.MockInstance", [arg1, arg2])//, "factory","singleton","channel")
 			
-			var propEvt : PropertyEvent = new PropertyEvent (arg1, "ownerID")//, refID : String )
-			var propEvt2 : PropertyEvent = new PropertyEvent (arg2, "ownerID")//, refID : String )
-			
-			IDExpert.getInstance().onBuildProperty(propEvt)
-			IDExpert.getInstance().onBuildProperty(propEvt2)
+			//var propEvt2 : PropertyEvent = new PropertyEvent (arg2, "ownerID")//, refID : String )
 			
 			_cstExpert.buildAllObjects()
 			
-			var obj = BeanFactory.getInstance().locate("ownerID")
+			
+			try
+			{
+				var obj : * = BeanFactory.getInstance().locate("ownerID")
+			}
+			catch(e:Error){
+				
+			}
+			
 			
 			assertNotNull(_cstExpert+"::buildAllObjects() dont create Object ",obj)
 			assertTrue(_cstExpert+"::buildAllObjects() dont create Object of the good type",obj is  com.bourre.ioc.control.MockInstance)
-			assertEquals(_cstExpert+"::buildAllObjects() dont create Object with the good argument",arg1 , obj.arg1)
-			assertEquals(_cstExpert+"::buildAllObjects() dont create Object with the good argument",arg2 , obj.arg2)
+			assertEquals(_cstExpert+"::buildAllObjects() dont create Object with the good argument",int(10) , obj.arg1)
+			assertEquals(_cstExpert+"::buildAllObjects() dont create Object with the good argument",uint(21) , obj.arg2)
 		}
 		
 		public function testBuildConstructor() : void
@@ -70,15 +78,18 @@ package com.bourre.ioc.assembler.constructor
 			var cst : Constructor = _cstExpert.addConstructor("id","type", arg, "factory","singleton","channel")
 			
 			assertNotNull("failed to create a Constructor", cst)
-			assertEquals(cst+".ID failed to retrived the good value", "id", cst.ID)
-			assertEquals(cst+".Type failed to retrived the good value", "type", cst.Type)
-			assertEquals(cst+".Arguments failed to retrived the good value", arg, cst.Arguments)
-			assertEquals(cst+".Factory failed to retrived the good value", "factory", cst.Factory)
-			assertEquals(cst+".Singleton failed to retrived the good value", "singleton", cst.Singleton)
-			assertEquals(cst+".Channel failed to retrived the good value", "channel", cst.Channel)
+			assertEquals(cst+".ID failed to retrived the good value", "id", cst.id)
+			assertEquals(cst+".Type failed to retrived the good value", "type", cst.type)
+			assertEquals(cst+".Arguments failed to retrived the good value", arg, cst.arguments)
+			assertEquals(cst+".Factory failed to retrived the good value", "factory", cst.factory)
+			assertEquals(cst+".Singleton failed to retrived the good value", "singleton", cst.singleton)
+			assertEquals(cst+".Channel failed to retrived the good value", "channel", cst.channel)
 		}
 		
-		override function
+		/*override public function tearDown() : void
+		{
+			ConstructorExpert.release()
+		}*/
 		
 	}
 }

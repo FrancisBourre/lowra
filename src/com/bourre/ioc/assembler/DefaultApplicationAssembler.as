@@ -2,6 +2,7 @@ package com.bourre.ioc.assembler
 {
 	import com.bourre.ioc.assembler.property.*;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
+	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 	//import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 
 	public class DefaultApplicationAssembler 
@@ -40,7 +41,7 @@ package com.bourre.ioc.assembler
 				}
 			}
 			
-			//ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton, channelName );
+			ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton, channelName );
 		}
 
 		public function buildMethodCall( ownerID : String, methodCallName : String, args : Array = null ) : void
