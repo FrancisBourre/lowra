@@ -1,3 +1,19 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */	
+
 package com.bourre.media.sound
 {
 	import flash.media.SoundTransform;
@@ -7,6 +23,22 @@ package com.bourre.media.sound
 	
 	import com.bourre.log.PixlibDebug;	
 		
+	/**
+	 * <pre>
+	 * You can control the SoundFactory with :
+	 * 		a master volume
+	 * 		gain of a sound ( relative to the master volume)
+	 * 		pan of a sound
+	 * 
+	 * For instance, if the master volume is to 0.5 and the gain of a sound to 0.5
+	 * the real volume for this sound is 0.25.
+	 * </pre>
+	 * 
+	 * @author Francis Bourre 	(Pixlib.com.bourre.media.sound.MixSoundFactory)
+	 * @author Steve Lombard 	(rewrite for lowRa)
+	 * @version 1.0
+	 */
+	 
 	public class MixSoundFactory extends SoundFactory
 	{
 		private var _nVolume : Number = 1;
@@ -16,12 +48,23 @@ package com.bourre.media.sound
 		}
 		
 		/**
-		 * Master Volume 
+		 * 
+		 * Get Master Volume ( 0 to 1 ). By default master volume is set to 1.
+		 * 
+		 * @see #setVolume()
 		 */
 		public function getVolume() : Number
 		{		
 			return _nVolume;
 		}
+		
+		/**
+		 * Set Master Volume ( 0 to 1 ). By default master volume is set to 1.
+		 * 
+		 * @param 0 to 1
+		 * 
+		 * @see #getVolume()
+		 */		
 		public function setVolume(n : Number ) : void
 		{		
 			if( n < 0 )
@@ -42,7 +85,10 @@ package com.bourre.media.sound
 		}
 		
 		/**
-		 * Add sound
+		 * @inheritDoc
+		 * 
+		 * @see #addSounds()
+		 * @see com.bourre.media.sound.SoundFactory#addSound()
 		 */
 		 public override function addSound( id : String ) : void
 		 {
@@ -51,7 +97,10 @@ package com.bourre.media.sound
 		 }
 		 
 		/**
-		 * Add an array of sound
+		 * @inheritDoc
+		 * 
+		 * @see #addSound()
+		 * @see com.bourre.media.sound.SoundFactory#addSounds()
 		 */
 		 public override function addSounds( a:Array ) : void
 		 {
@@ -65,7 +114,12 @@ package com.bourre.media.sound
 		 }
 		  
 		/**
-		 * Gain : volume of each sound
+		 * Get gain : volume for a sound ( 0 to 1 ). By default all sounds gain is set to 1.
+		 * 
+		 * @param sound's class identifier in the library
+		 * 
+		 * @see #setGain()
+		 * @see #setAllGain()
 		 */ 		
 		public function getGain( id : String ) : Number
 		{
@@ -80,6 +134,15 @@ package com.bourre.media.sound
 			}
 		}
 		
+		/**
+		 * Set gain : volume for a sound ( 0 to 1 ). By default all sounds gain is set to 1.
+		 * 
+		 * @param sound's class identifier in the library
+		 * @param a number between 0 and 1 for its volume
+		 * 
+		 * @see #getGain()
+		 * @see #setAllGain()
+		 */ 
 		public function setGain( id : String, n : Number ) : void
 		{
 			if( _mSoundTransform.containsKey( id ) )
@@ -102,6 +165,14 @@ package com.bourre.media.sound
 			}			
 		}
 		
+		/**
+		 * Set the same gain for all sounds ( 0 to 1 ). By default all sounds gain is set to 1.
+		 * 
+		 * @param a number between 0 and 1 for its volume
+		 * 
+		 * @see #getGain()
+		 * @see #setGain()
+		 */ 		
 		public function setAllGain( n : Number ) : void
 		{
 			if( n < 0 )
@@ -122,7 +193,14 @@ package com.bourre.media.sound
 		}
 		
 		
-		
+		/**
+		 * Get Pan of a sound ( -1 to 1 ). By default all sounds pan is set 0 .
+		 * 
+		 * @param sound's class identifier in the library
+		 * 
+		 * @see #setPan()
+		 * @see #setAllPan()
+		 */ 
 		public function getPan( id : String ) : Number
 		{		
 			if( _mSoundTransform.containsKey( id ) )
@@ -136,6 +214,15 @@ package com.bourre.media.sound
 			}			
 		}
 		
+		/**
+		 * Set Pan of a sound ( -1 to 1 ). By default all sounds pan is set to 0.
+		 * 
+		 * @param sound's class identifier in the library
+		 * @param a number between -1 and 1 for its volume ( 0 is the center )
+		 * 
+		 * @see #getPan()
+		 * @see #setAllPan()
+		 */ 		
 		public function setPan( id : String, n : Number ) : void
 		{		
 			if( _mSoundTransform.containsKey( id ) )
@@ -158,7 +245,14 @@ package com.bourre.media.sound
 			}			
 		}
 		
-		
+		/**
+		 * Set the same pan for all sounds ( -1 to 1 ). By default all sounds pan is 0.
+		 * 
+		 * @param a number between -1 and 1 for its volume ( 0 is the center )
+		 * 
+		 * @see #getPan()
+		 * @see #setPan()
+		 */ 		
 		public function setAllPan( n : Number ) : void
 		{		
 			if( n < -1 )
@@ -178,7 +272,6 @@ package com.bourre.media.sound
 				_updateChannel( a[i] );
 			}	
 		}
-		
 		
 		private function _adjustVolume( id : String ) : void
 		{
