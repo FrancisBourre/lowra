@@ -114,7 +114,7 @@ package com.bourre.media.sound
 		 }
 		  
 		/**
-		 * Get gain : volume for a sound ( 0 to 1 ). By default all sounds gain is set to 1.
+		 * Get gain : volume for a sound ( 0 to n ). By default all sounds gain is set to 1 ( equals to 100% ).
 		 * 
 		 * @param sound's class identifier in the library
 		 * 
@@ -135,10 +135,10 @@ package com.bourre.media.sound
 		}
 		
 		/**
-		 * Set gain : volume for a sound ( 0 to 1 ). By default all sounds gain is set to 1.
+		 * Set gain : volume for a sound ( 0 to n ). By default all sounds gain is set to 1( equals to 100% ).
 		 * 
 		 * @param sound's class identifier in the library
-		 * @param a number between 0 and 1 for its volume
+		 * @param a number between 0 and n for this sound volume
 		 * 
 		 * @see #getGain()
 		 * @see #setAllGain()
@@ -147,14 +147,6 @@ package com.bourre.media.sound
 		{
 			if( _mSoundTransform.containsKey( id ) )
 			{
-				if( n < 0 )
-				{
-					n = 0;
-				}
-				else if( n > 1 )
-				{
-					n = 1;
-				}
 				_mSoundTransform.get( id ).setGain( n );
 				_adjustVolume( id );
 			}
@@ -166,23 +158,15 @@ package com.bourre.media.sound
 		}
 		
 		/**
-		 * Set the same gain for all sounds ( 0 to 1 ). By default all sounds gain is set to 1.
+		 * Set the same gain for all sounds ( 0 to n ). By default all sounds gain is set to 1 ( equals to 100% ).
 		 * 
-		 * @param a number between 0 and 1 for its volume
+		 * @param a number between 0 and n for all sound volume
 		 * 
 		 * @see #getGain()
 		 * @see #setGain()
 		 */ 		
 		public function setAllGain( n : Number ) : void
 		{
-			if( n < 0 )
-			{
-				n = 0;
-			}
-			else if( n > 1 )
-			{
-				n = 1;
-			}
 			var a : Array = _mSoundTransform.getKeys();		
 			var i : uint = a.length;
 			while( --i > -1 )
@@ -282,7 +266,9 @@ package com.bourre.media.sound
 		
 		private function _calculVolume( nGain : Number ): Number
 		{
-			return (nGain*100 / 100) * _nVolume;
+			var v : Number = nGain * _nVolume;
+			if( v > 1) v = 1;
+			return ;
 		}
 		
 		private function _updateChannel( id : String ) : void
