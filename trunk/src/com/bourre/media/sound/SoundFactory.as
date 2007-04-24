@@ -17,19 +17,19 @@
 package com.bourre.media.sound
 {
 	import com.bourre.collection.HashMap;
+	import com.bourre.collection.TypedArray;	
 	import com.bourre.error.NoSuchElementException;
-	import com.bourre.error.IllegalArgumentException;		
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.IllegalStateException;
+	import com.bourre.error.ClassCastException;			
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
 
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.system.ApplicationDomain;
 	import flash.media.SoundTransform;
-	
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.collection.TypedArray;
-	import com.bourre.error.IllegalStateException;
-	import com.bourre.error.ClassCastException;
+
 	
 	/**
 	 * <pre>
@@ -38,7 +38,7 @@ package com.bourre.media.sound
 	 * You can define the ApplicationDomain which contains your sounds, by default the ApplicationDomain is the current.
 	 * 
 	 * You can add, get, remove, play (simple or loop), stop a sound and know if it is registered, is playing thanks to it's className.
-	 * The same sound can be played several times at same time.
+	 * The same sound can be played several times at same time( several channel for the same sound).
 	 * If you stop a sound, all channels wich play it are stopped.
 	 * You can make a pause : it make a pause on all channels.
 	 * You can make a resume : all channels paused resume to their default behaviors.
@@ -74,27 +74,35 @@ package com.bourre.media.sound
 	 * 
 	 * 			var sound : Sound = _sF.getSound("sound1");
 	 * 			var soundChannel : SoundChannel = sound.play( sound.length/2, 2 );
-	 * 			_sF.stopSound("sound1"); 	// the sound is not stopped
+	 * 			_sF.stopSound("sound1"); 	// the sound is not stopped because it is playing outside of _sF
 	 * 			soundChannel.stop(); 		// the sound is stopped
 	 * 
 	 * 			_sF.play("sound1");
 	 * 			_sF.play("sound1"); 		// 2 channels play the "sound1"
 	 * 			_sF.stop("sound1"); 		// the 2 channels are stopped
-	 * 			...
+	 * 			_sF.clear();				// all sounds are moved
+	 *			...
 	 * 		}
 	 * }
 	 * </pre>
 	 * 
-	 * @author Francis Bourre (Pixlib.com.bourre.media.sound.SoundFactory), Steve Lombard (rewrite for lowRa)
+	 * @author Francis Bourre 	(Pixlib.com.bourre.media.sound.SoundFactory)
+	 * @author Steve Lombard 	(rewrite for lowRa)
 	 * @version 1.0
 	 */		
 	 	 
 	public class SoundFactory
-	{				
-		protected var _mSoundTransform	: HashMap;
+	{
+		/**
+		 * @private 
+		 */				
+		protected var _mSoundTransform	: HashMap;		// Contains SoundTransformInfo objects : one by sound added
+		/**
+		 * @private 
+		 */		
 		protected var _aChannelsSounds	: TypedArray;	// Contains ChannelSoundInfo objects of sounds playing(ChannelSoundInfo.id, ChannelSoundInfo.soundChannel, ChannelSoundInfo.loop)		
 		
-		private var _mSounds 			: HashMap;	// Contains all Sound : idSound => ObjectSound
+		private var _mSounds 			: HashMap;		// Contains all Sound : idSound => ObjectSound
 		private var _aResumeSounds		: TypedArray;	// Contains ReumeSoundInfo objects of sounds to resume(ResumeSoundInfo.id, ReumeSoundInfo.position, ReumeSoundInfo.loop, ReumeSoundInfo.SoundTransform )
 		
 		private var _bIsOn 				: Boolean;		// SoundFactory instance state : sound(s) playing
@@ -119,11 +127,12 @@ package com.bourre.media.sound
 		/**
 		 * Defines passed-in applicationDomain as the sound library's applicationDomain.
 		 * It can be check with Loader.contentLoaderInfo.applicationDomain.
-		 * To use only if your sounds are in an external swf.
+		 * To use, only if your sounds are in an external swf. If not, it's automatically initialized
+		 * to ApplicationDomain.currentDomain in your first sound addition.
 		 * 
-		 * @param by default it's ApplicationDomain.currentDomain
+		 * @param if null it's ApplicationDomain.currentDomain
 		 * 
-		 * @throws if your SoundFactory instance is already initialised : an IllegalStateException instance is return
+		 * @throws com.bourre.error.IllegalStateException if your SoundFactory instance is already initialised
 		 * 
 		 * @example 
 		 * <pre>
@@ -255,8 +264,8 @@ package com.bourre.media.sound
 		 * 
 		 * @param sound's class identifier in the library
 		 * 
-		 * @throws if sound's class identifier is already use : an IllegalArgumentException instance is return
-		 * @throws if sound's class not found in specified SoundFactory application domain : an ClassCastException instance is return
+		 * @throws com.bourre.error.IllegalArgumentException if sound's class identifier is already use.
+		 * @throws com.bourre.error.ClassCastException if sound's class not found in specified SoundFactory application domain.
 		 * 
 		 * @see #getSound()
 		 * @see #removeSound()
@@ -312,8 +321,8 @@ package com.bourre.media.sound
 		 * 
 		 * @param an array of sound's class identifier (in the library)
 		 * 
-		 * @throws if sound's class identifier is already use : an IllegalArgumentException instance is return
-		 * @throws if sound's class not found in specified SoundFactory application domain : an ClassCastException instance is return
+		 * @throws com.bourre.error.IllegalArgumentException if sound's class identifier is already use.
+		 * @throws com.bourre.error.ClassCastException if sound's class not found in specified SoundFactory application domain.
 		 * 
 		 * @see #getAllSounds()
 		 * @see #clear()
@@ -360,13 +369,15 @@ package com.bourre.media.sound
 		}
 			
 		/**
-		 * Returns Sound instance stored under passed-in sound's class identifier.
+		 * Returns a Sound instance stored under passed-in sound's class identifier : 
+		 * if your SoundFactory isOn() = true : return a Sound or throw a NoSuchElementException if it doesn't exist
+		 * if your SoundFactory isOn() = true : return a NullSound
 		 * 
 		 * @param sound's class identifier in the library
 		 * 
-		 * @return Sound instance. If no sound is found, a NullSound is returned.
+		 * @return a Sound instance.
 		 * 
-		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * @throws com.bourre.error.NoSuchElementException if sound's class identifier has not been used currently in your SoundFactory.
 		 * 
 		 * @see #addSound()
 		 * @see #removeSound()
@@ -433,7 +444,7 @@ package com.bourre.media.sound
 		 * 
 		 * @param sound's class identifier in the library
 		 * 
-		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * @throws com.bourre.error.NoSuchElementException if sound's class identifier has not been used currently in your SoundFactory .
 		 * 
 		 * @see #addSound()
 		 * @see #getSound()
@@ -484,7 +495,7 @@ package com.bourre.media.sound
 		}
 			
 		/**
-		 * Stops all sounds, clears sounds lists and reset : you must reinitialise it after with @see #init().
+		 * Stops all sounds, clears sounds lists and reset : you must reinitialise it after with init().
 		 */
 		public function clear() : void
 		{
@@ -504,7 +515,11 @@ package com.bourre.media.sound
 		/**
 		 * Toggles "playing" mode.
 		 * 
-		 * Uses @see #goOn() or @see #goOff() methods to switch "playing" mode.
+		 * Uses goOn() or goOff() methods to switch "playing" mode.
+		 * 
+		 * @see #isOn()
+		 * @see #goOn()
+		 * @see #goOff()
 		 */
 		public function toggleOnOff() : void 
 		{ 
@@ -520,7 +535,12 @@ package com.bourre.media.sound
 		
 		/**
 		 * Checks if "playing" mode is enable or not.
+		 * 
 		 * @return true is "playing" mode is enable, either false
+		 * 
+		 * @see #toggleOnOff()
+		 * @see #goOn()
+		 * @see #goOff()
 		 */
 		public function isOn() : Boolean 
 		{ 
@@ -530,6 +550,10 @@ package com.bourre.media.sound
 		/**
 		 * Turns "playing" mode on.
 		 * Sounds are not automatically played : it's just the state.
+		 * 
+		 * @see #toggleOnOff()
+		 * @see #isOn()
+		 * @see #goOff()
 		 */
 		public function goOn() : void 
 		{ 
@@ -538,23 +562,27 @@ package com.bourre.media.sound
 		
 		/**
 		 * Turns "playing" mode off and stops all currently played sounds.
+		 * 
+		 * @see #toggleOnOff()
+		 * @see #isOn()
+		 * @see #goOn()
 		 */
 		public function goOff() : void 
 		{ 
 			_bIsOn = false;
 			var i : uint = _aChannelsSounds.length;
 			while ( -- i > - 1 ) ( _aChannelsSounds[ i ] as ChannelSoundInfo ).soundChannel.stop();
-			_aChannelsSounds = new TypedArray();	
+			_aChannelsSounds = new TypedArray( ChannelSoundInfo );	
 		}
 
 
 		/**
-		 * Without argument : it return a Boolean to indicate if there is at least one sound is playing
+		 * Without argument : it return a Boolean to indicate if there is at least one sound is playing.
 		 * With argument : it return a Boolean to indicate if the id passed-in is playing
 		 * 
 		 * @param sound's class identifier in the library
 		 * 
-		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * @throws com.bourre.error.NoSuchElementException if sound's class identifier has not been used currently in your SoundFactory.
 		 * 
 		 * @see #getActiveChannel()
 		 * @see #playSound()
@@ -573,6 +601,7 @@ package com.bourre.media.sound
 		 *	try
 		 * 	{
 		 *   	_sf.isPlaying() // => true
+		 *   	_sf.isPlaying("sound_1") // => false
 		 * 		_sf.isPlaying("Sound3")// => generate a NoSuchElementException
 		 *  {
 		 * 	catch (e : NoSuchElementException)
@@ -612,7 +641,7 @@ package com.bourre.media.sound
 		 * 
 		 * @return an Array of all SoundChannel instances use by the id passed-in
 		 * 
-		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return		 * 
+		 * @throws com.bourre.error.NoSuchElementException if sound's class identifier has not been used currently in your SoundFactory. 
 		 * 
 		 * @see #isPlaying()
 		 * @see #playSound()
@@ -664,7 +693,7 @@ package com.bourre.media.sound
 
 		
 		/**
-		 * Play a sound simply according to its Class identifier in the library : only if @see isOn() = true
+		 * Play a sound simply according to its Class identifier in the library : only if isOn() = true
 		 * 
 		 * @param Class identifier in the library
 		 * 
@@ -686,7 +715,7 @@ package com.bourre.media.sound
 		}
 		
 		/**
-		 * Play a sound in loop ( uint.MAX_VALUE times ) according to its Class identifier in the library : only if @see #isOn() = true
+		 * Play a sound in loop ( int.MAX_VALUE times ) according to its Class identifier in the library : only if isOn() = true
 		 * 
 		 * @param Class identifier in the library
 		 * 
@@ -709,11 +738,13 @@ package com.bourre.media.sound
 		
 	
 		/**
-		 *	Stop all channel for a sound according to its Class identifier in the library : only if @see isOn() = true
+		 * Without argument it stop all channels of all sounds.
+		 * With argument it stop all channel for a sound according to its Class identifier in the library.
+		 * Only if your instance of SoundFactory isOn().
 		 * 
 		 * @param Class identifier in the library
 		 * 
-		 * @throws if sound's class identifier has not been used currently in your SoundFactory : a NoSuchElementException instance is return
+		 * @throws com.bourre.error.NoSuchElementException if sound's class identifier has not been used currently in your SoundFactory.
 		 * 
  		 * @see #playSound()
  		 * @see #playSoundLoop()
@@ -722,32 +753,47 @@ package com.bourre.media.sound
 		 * @see #pause()
 		 * @see #resume()
 		 */			
-		public function stopSound( id:String ) : void
+		public function stopSound( id : String = null ) : void
 		{
 			if( _bIsOn )
 			{
-				if ( isRegistered( id ) )
-				{				
-					var i : uint = _aChannelsSounds.length ;
+				var i : uint = _aChannelsSounds.length ;
+				var csi : ChannelSoundInfo ;
+				if( id == null )
+				{
 					while ( -- i > - 1 )
 					{
-						if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
-						{
-							(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
-							_aChannelsSounds.splice( i,1 );
-						}
+						(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
 					}
+					_aChannelsSounds = new TypedArray( ChannelSoundInfo );
 				}
 				else
 				{
-					PixlibDebug.ERROR(this+".stopSound("+id+") : '"+id+"' doesn't exist");					
-					throw new NoSuchElementException(this+".stopSound("+id+") : '"+id+"' doesn't exist") ;					
+					if ( isRegistered( id ) )
+					{				
+						while ( -- i > - 1 )
+						{
+							if( ( _aChannelsSounds[i] as ChannelSoundInfo ).id == id)
+							{
+								(_aChannelsSounds[i] as ChannelSoundInfo).soundChannel.stop();
+								_aChannelsSounds.splice( i,1 );
+							}
+						}
+					}
+					else
+					{
+						PixlibDebug.ERROR(this+".stopSound("+id+") : '"+id+"' doesn't exist");					
+						throw new NoSuchElementException(this+".stopSound("+id+") : '"+id+"' doesn't exist") ;					
+					}					
 				}
 			}
 		}
 		
 		/**
-		 * Pause all sounds
+		 * Pause all sounds.
+		 * Be careful : it make a goOff()
+		 * 
+		 * @see #resume()
 		 */
 		 public function pause () : void
 		 {
@@ -761,12 +807,14 @@ package com.bourre.media.sound
 				var RSI : ResumeSoundInfo = new ResumeSoundInfo( id, position, loop ) ;
 				_aResumeSounds.push( RSI ) ;
 			}
-			
 			 goOff();
 		 }		
 
 		/**
-		 * Resume all sounds stopped with pause()
+		 * Resume all sounds stopped with pause().
+		 * It make automaticly a goOn()
+		 * 
+		 * @see #resume()
 		 */
 		 public function resume () : void 
 		 {
@@ -784,7 +832,7 @@ package com.bourre.media.sound
 				var loop : Boolean = rsi.loop;
 
 				soundChannel = loop ?
-					getSound( id ).play( position, uint.MAX_VALUE, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() )
+					getSound( id ).play( position, int.MAX_VALUE, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() )
 					: getSound( id ).play( position, 0, (_mSoundTransform.get(id) as SoundTransformInfo).getSoundTransform() );
 
 				
