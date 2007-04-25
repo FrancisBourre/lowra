@@ -431,7 +431,7 @@ package com.bourre.media.sound
 		 *   var _sf : SoundFactory = new SoundFactory();
 		 *   _sf.addSounds(new Array("sound2","sound3","sound4"));
 		 *   _sf.addSound("sound1");
-		 *   _sf.getAllSounds(); //=> ["sound2","sound4","sound1","sound3"] NO ORDER GUARANTED !
+		 *   _sf.getAllSounds(); //=> [ instance of sound2 as Sound ,instance of sound4 as Sound,instance of sound1 as Sound,instance of sound3 as Sound] NO ORDER GUARANTED !
 		 * </pre>
 		 */
 		public function getAllSounds() : Array

@@ -268,7 +268,7 @@ package com.bourre.media.sound
 		{
 			var v : Number = nGain * _nVolume;
 			if( v > 1) v = 1;
-			return ;
+			return v;
 		}
 		
 		private function _updateChannel( id : String ) : void
