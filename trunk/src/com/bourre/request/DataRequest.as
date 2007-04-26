@@ -29,7 +29,7 @@ package com.bourre.request
 	{
 		function setURL( url : String ) : void;
 		function getResult() : Object;
-		function setArguments() : void;
+		function setArguments(...rest) : void;
 		function fireEvent( e : Event ) : void;
 		function addListener( listener : DataRequestListener ) : void;
 		function removeListener( listener : DataRequestListener ) : void;
