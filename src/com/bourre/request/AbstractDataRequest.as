@@ -33,8 +33,8 @@ package com.bourre.request
 		implements DataRequest
 	{
 		protected var _oResult : Object;
-		private var _eResult : DataRequestEvent;
-		private var _eError : DataRequestEvent;
+		protected var _eResult : DataRequestEvent;
+		protected var _eError : DataRequestEvent;
 		
 		public function AbstractDataRequest() 
 		{
@@ -70,7 +70,7 @@ package com.bourre.request
 			PixlibDebug.ERROR( this + ".setURL() must be implemented in concrete class." );
 		}
 		
-		public function setArguments() : void
+		public function setArguments(...rest) : void
 		{
 			PixlibDebug.ERROR( this + ".setArguments() must be implemented in concrete class." );
 		}

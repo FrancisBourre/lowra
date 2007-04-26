@@ -10,7 +10,7 @@ package com.bourre.request
 	
 		public function SharedObjectLoadRequest(cookieName : String, targetName : String )
 		{
-			super(this.abstractDataRequestConstructorAccess);
+			super();
 			
 			setURL( cookieName );
 			setArguments( targetName );
@@ -21,9 +21,9 @@ package com.bourre.request
 			_sCookieName = url;
 		}
 	
-		override public function setArguments( targetName : String ) : void
+		override public function setArguments( ...rest ) : void
 		{
-			_sTargetName = targetName;
+			_sTargetName = rest[0] as String;
 		}
 	
 		override public function execute( e : Event = null ) : void

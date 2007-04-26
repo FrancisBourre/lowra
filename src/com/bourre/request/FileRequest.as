@@ -1,52 +1,49 @@
 package com.bourre.request
 {
 	import com.bourre.load.FileLoader;
+	import flash.events.Event;
 	
 	
 	public class FileRequest extends AbstractDataRequest
 	{
 		private var _fl : FileLoader
 	
-		public function FileRequest(access:AbstractDataRequestConstructorAccess)
-		{
-			super(this.abstractDataRequestConstructorAccess);
-		}
-
 		public function FileRequest( url : String = null ) 
 		{
 			super()
 			_fl= new FileLoader(url)
 		}
 		
-		public function setURL( url : String = null ) : Void
+		override public function setURL( url : String  ) : void
 		{
-			_fl.setURL(url)
+			//_fl.setURL(url)
 		}
 		
-		public function setArguments( parser : IFileParser ) : Void
+		override public function setArguments( ...rest ) : void
 		{
 			//_fl.setParser( parser )
+			// IFileParser )
 		}
 		
-		public function execute( e : IEvent ) : Void
+		override public function execute( e : Event = null ) : void
 		{
 			_oResult = null
 			
 			_fl//.execute()
 		}
 		
-		public function loadError( e : ErrorEvent ) : Void
+		public function loadError( e : Event ) : void
 		{
 			fireEvent( _eError )
 		}
 		
-		public function loadComplet( e : Event ) : Void 
+		public function loadComplet( e : Event ) : void 
 		{
-			_oResult = FileLibEvent(e).getData()
+			//_oResult = FileLibEvent(e).getData()
 			fireEvent( _eResult )
 		}
 	
-		public function loadProgress( e : ProgressEvent ) : Void 
+		public function loadProgress( e : Event ) : void 
 		{
 			
 		}

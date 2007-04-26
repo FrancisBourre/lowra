@@ -137,7 +137,10 @@ private function createSuite() : TestSuite
 
 	//com.bourre.request
 	ts.addTestSuite( AbstractDataRequestTest );
-
+	//ts.addTestSuite( DataRequestTest );
+	//ts.addTestSuite( FileRequestTest );
+	//ts.addTestSuite( SharedObjectLoadRequestTest );
+	
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
 	ts.addTestSuite( SosLayoutTest );
