@@ -28,10 +28,9 @@ package com.bourre.request
 		extends ASyncCommand
 	{
 		function setURL( url : String ) : void;
-		function getResult() : Object;
-		function setArguments(...rest) : void;
 		function fireEvent( e : Event ) : void;
-		function addListener( listener : DataRequestListener ) : void;
-		function removeListener( listener : DataRequestListener ) : void;
+		function addListener( listener : DataRequestListener ) : Boolean;
+		function removeListener( listener : DataRequestListener ) : Boolean;
+		function request( e : DataRequestEvent ) : void;
 	}
 }

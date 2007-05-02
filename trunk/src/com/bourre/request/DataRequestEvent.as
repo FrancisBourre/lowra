@@ -22,6 +22,8 @@ package com.bourre.request
 	 */
 
 	import com.bourre.events.BasicEvent;
+	import com.bourre.collection.Set;
+	import com.bourre.collection.Collection;
 	
 	public class DataRequestEvent 
 		extends BasicEvent
@@ -29,6 +31,9 @@ package com.bourre.request
 		public static const onDataResultEVENT : String = "onDataResult";
 		public static const onDataErrorEVENT : String = "onDataError";
 		
+		private var _aRequestArgument : Array;
+		private var _oResult : Object;
+		private var _cListener : Set;
 		private var _oDataRequest : DataRequest;
 		
 		public function DataRequestEvent( type : String, dataRequest : DataRequest ) 
@@ -36,16 +41,47 @@ package com.bourre.request
 			super( type, dataRequest );
 			
 			_oDataRequest = dataRequest;
+			_cListener = new Set();
+		}
+		
+		public function setResult( result : Object ) : void
+		{
+			_oResult = result;
+		}
+		
+		public function getResult() : Object
+		{
+			return _oResult;
+		}
+
+		public function addRequestListener( listener : Object ) : void
+		{
+			_cListener.add( listener );
+		}
+		
+		public function removeRequestListener( listener : Object ) : void
+		{
+			_cListener.remove( listener );
+		}
+		
+		public function getRequestListener() : Collection
+		{
+			return _cListener;
+		}
+
+		public function setArguments( ... rest ) : void
+		{
+			_aRequestArgument = rest;
+		}
+		
+		public function getArguments() : Array
+		{
+			return _aRequestArgument;
 		}
 		
 		public function getDataRequest() : DataRequest
 		{
 			return _oDataRequest;
-		}
-		
-		public function getResult() : Object
-		{
-			return _oDataRequest.getResult();
 		}
 	}
 }
