@@ -78,7 +78,6 @@ package com.bourre.ioc.assembler.method
 			
 			_method 	= _oME.addMethod ("_test", 	"setPosition",	[i,j]) ;
 			_oME.callMethod(_method) ;
-			PixlibDebug.DEBUG("TEST CALLMETHOD "+_test.x) ;
 			assertTrue(	"MethodExpert callMethod doesn't call the method", _test.x != 0) ;
 		}
 		
