@@ -40,7 +40,7 @@ package com.bourre.load
 		private var _nTimeOut : Number;
 		private var _oURL : URLRequest;
 		private var _bAntiCache : Boolean;
-		private var _sPrefixURL : String;
+		protected var _sPrefixURL : String;
 		
 		private var _loadStrategy : LoadStrategy;
 		private var _oContent : Object
@@ -49,7 +49,7 @@ package com.bourre.load
 
 		public function AbstractLoader( strategy : LoadStrategy = null )
 		{
-			_loadStrategy = strategy;
+			_loadStrategy = (strategy != null) ? strategy : new NullLoadStrategy();
 			_loadStrategy.setOwner( this );
 
 			_oEB = new EventBroadcaster( this );
@@ -74,6 +74,7 @@ package com.bourre.load
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
+				
 				_loadStrategy.load( getURL() );
 
 			} else
@@ -106,6 +107,8 @@ package com.bourre.load
 
 		public function getURL() : URLRequest
 		{
+			/*var urlRQ:URLRequest = _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
+			PixlibDebug.DEBUG("getURL = "+urlRQ.url) ;*/
 			return _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
 		}
 
@@ -136,7 +139,7 @@ package com.bourre.load
 		
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-			return _oEB.addEventListener.apply( _oEB, [type, listener, rest] );
+			return _oEB.addEventListener.apply( _oEB, (rest.length>0?[type, listener].concat(rest):[type, listener]) );
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : Boolean
@@ -261,4 +264,32 @@ package com.bourre.load
 			}
 		}
 	}
+}
+	import com.bourre.load.strategy.LoadStrategy;
+	import flash.net.URLRequest;
+	import com.bourre.load.Loader;
+	
+
+internal class NullLoadStrategy implements LoadStrategy
+{
+		public function load( request : URLRequest = null ) : void
+		{
+			
+		}
+		public function getBytesLoaded() : uint
+		{
+			return 0 ;
+		}
+		public function getBytesTotal() : uint
+		{
+			return 0 ;
+		}
+		public function setOwner( owner : Loader ) : void
+		{
+			
+		}
+		public function release() : void
+		{
+			
+		}
 }
