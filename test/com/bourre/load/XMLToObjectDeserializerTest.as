@@ -17,17 +17,17 @@ package com.bourre.load
 		{
 			completeXml = 
 			<fr>
-				<url type="string" name="blog">
+				<url type="String" name="blog">
 					blabla
 				</url>
-				<film type="string">
+				<film type="String">
 					film0
 				</film>
-				<film type="string">
+				<film type="String">
 					film1
 				</film>
 				<dvds>
-					<film type="string">
+					<film type="String">
 						Lost Highway
 					</film>
 				</dvds>
@@ -45,7 +45,7 @@ package com.bourre.load
 		public function testDeserializeString():void
 		{
 			xml = 	<fr>
-						<url type="string">
+						<url type="String">
 							blabla
 						</url>
 					</fr> ;
@@ -62,7 +62,7 @@ package com.bourre.load
 		public function testDeserializeNumber() : void
 		{
 			xml = 	<fr>
-						<nb type="number">
+						<nb type="Number">
 							15
 						</nb>
 					</fr> ;
@@ -79,7 +79,7 @@ package com.bourre.load
 		public function testDeserializeArray():void
 		{
 			xml = 	<fr>
-						<liste type="array">
+						<liste type="Array">
 							'allo, tu es là ?', 15, "c'est moi, huhu !", 'hahah'
 						</liste>
 					</fr> ;
@@ -99,19 +99,19 @@ package com.bourre.load
 		public function testDeserializeBoolean():void
 		{
 			xml = 	<fr>
-						<bool type="boolean">
+						<bool type="Boolean">
 							true
 						</bool>
-						<bool2 type="boolean">
+						<bool2 type="Boolean">
 							false
 						</bool2>
-						<bool3 type="boolean">
+						<bool3 type="Boolean">
 							1
 						</bool3>
-						<bool4 type="boolean">
+						<bool4 type="Boolean">
 							0
 						</bool4>
-						<bool5 type="boolean">
+						<bool5 type="Boolean">
 							2
 						</bool5>
 					</fr> ;
@@ -137,7 +137,7 @@ package com.bourre.load
 		public function testDeserializeClass():void
 		{
 			xml = 	<fr>
-						<event type="class">
+						<event type="Class">
 						"com.bourre.events.BasicEvent", "onTest"
 						</event>
 					</fr> ;
@@ -164,7 +164,7 @@ package com.bourre.load
 		public function testDeserializePoint():void
 		{
 			xml = 	<fr>
-						<p type="point">
+						<p type="Point">
 							5,6
 						</p>
 					</fr> ;
@@ -194,7 +194,7 @@ package com.bourre.load
 		{
 			xml = 	<fr>
 						<dvds>
-							<film type="string">
+							<film type="String">
 								Lost Highway
 							</film>
 						</dvds>
@@ -216,21 +216,21 @@ package com.bourre.load
 		public function testComplexNode():void
 		{
 			xml = 	<fr>
-						<title type="string">blabla</title>
+						<title type="String">blabla</title>
 						<dvds>
-							<film type="string">Fight Club</film>
+							<film type="String">Fight Club</film>
 						</dvds>
-						<title type="string">pouet</title>
+						<title type="String">pouet</title>
 						<dvds>
-							<title type="string">hopla</title>
+							<title type="String">hopla</title>
 						</dvds>
 						<divx>
-							<film type="string">Au nom de la rose</film>
-							<film type="string">Dracula</film>
-							<liste type="array">123,"eryna", 456</liste>
+							<film type="String">Au nom de la rose</film>
+							<film type="String">Dracula</film>
+							<liste type="Array">123,"eryna", 456</liste>
 						</divx>
 						<dvds>
-							<film type="string">tralala</film>
+							<film type="String">tralala</film>
 						</dvds>
 					</fr> ;
 			
