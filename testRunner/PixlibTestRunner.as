@@ -16,6 +16,7 @@ import com.bourre.ioc.parser.*;
 import com.bourre.ioc.assembler.property.*;
 import com.bourre.ioc.assembler.constructor.* ;
 import com.bourre.ioc.assembler.method.* ;
+import com.bourre.ioc.assembler.displayobject.* ;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
@@ -27,7 +28,6 @@ import com.bourre.structures.*;
 import com.bourre.transitions.*;
 import com.bourre.request.*
 import com.bourre.ioc.control.*
-import com.bourre.ioc.assembler.constructor.*
 
 private function onCreationComplete():void
 {
@@ -87,6 +87,10 @@ private function createSuite() : TestSuite
 	// com.bourre.assembler.channel
 	ts.addTestSuite (ChannelListenerExpertTest );
 
+	// com.bourre.assembler.displayobject
+	ts.addTestSuite (DisplayObjectExpertTest) ;
+	ts.addTestSuite (DisplayObjectInfoTest) ;
+
 	// com.bourre.ioc.bean
 	ts.addTestSuite( BeanFactoryTest );
 	ts.addTestSuite( BeanEventTest );
@@ -94,11 +98,6 @@ private function createSuite() : TestSuite
 	//com.bourre.ioc.assembler.property
 	ts.addTestSuite( PropertyEventTest) ;
 	ts.addTestSuite( PropertyExpertTest ) ;
-	
-	//com.bourre.ioc.assembler.constructor
-	ts.addTestSuite ( ConstructorEventTest ) ;
-	ts.addTestSuite ( ConstructorExpertTest ) ;
-	ts.addTestSuite ( ConstructorTest ) ;
 
 	// com.bourre.ioc.core
 	ts.addTestSuite ( IDExpertTest ) ;
@@ -137,10 +136,7 @@ private function createSuite() : TestSuite
 
 	//com.bourre.request
 	ts.addTestSuite( AbstractDataRequestTest );
-	//ts.addTestSuite( DataRequestTest );
-	//ts.addTestSuite( FileRequestTest );
-	//ts.addTestSuite( SharedObjectLoadRequestTest );
-	
+
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
 	ts.addTestSuite( SosLayoutTest );
