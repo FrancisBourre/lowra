@@ -87,7 +87,7 @@ package com.bourre.load
 		
 		public function show() : void
 		{
-			if (_target != null)
+			if (_target != null )
 			{
 				if ( _index != -1 )
 				{
@@ -110,7 +110,16 @@ package com.bourre.load
 		
 		public function isVisible() : Boolean
 		{
-			return _target.contains( getContent() as DisplayObject );
+			var result:Boolean ;
+			try
+			{
+				result = _target.contains( getContent() as DisplayObject );
+			} 
+			catch(e:Error)
+			{
+				result = false;
+			}
+			return result ;
 		}
 		
 		public function set autoShow( b : Boolean ) : void
