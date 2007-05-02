@@ -4,7 +4,6 @@ package com.bourre.request
 	import com.bourre.request.AbstractDataRequest
 	import com.bourre.commands.AbstractSyncCommand
 	import com.bourre.request.DataRequestEvent
-	import com.bourre.request.*
 		
 	public class AbstractDataRequestTest extends TestCase
 	{
@@ -61,12 +60,12 @@ internal class MockRequest extends AbstractDataRequest
 		
 	}
 	
-	override public function setArguments(...args) : void
+	override public function setArguments(...rest) : void
 	{
 		
 	}
 	
-	override public function execute( e : Event = null ) : void
+	override public function request( e : DataRequestEvent ) : void
 	{
 		
 	}
