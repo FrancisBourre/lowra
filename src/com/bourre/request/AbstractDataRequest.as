@@ -27,14 +27,15 @@ package com.bourre.request
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.commands.ASyncCommandEvent;
 	import com.bourre.commands.AbstractSyncCommand;
+	import com.bourre.error.UnimplementedVirtualMethodException;
 	
 	public class AbstractDataRequest 
 		extends AbstractSyncCommand
 		implements DataRequest
 	{
 		protected var _oResult : Object;
-		protected var _eResult : DataRequestEvent;
-		protected var _eError : DataRequestEvent;
+		private var _eResult : DataRequestEvent;
+		private var _eError : DataRequestEvent;
 		
 		public function AbstractDataRequest() 
 		{
@@ -47,37 +48,48 @@ package com.bourre.request
 			return _oResult;
 		}
 		
-		public function addListener( listener : DataRequestListener ) : void
+		public function addListener( listener : DataRequestListener ) : Boolean
 		{
-			_oEB.addListener( listener );
+			return _oEB.addListener( listener );
 		}
 		
-		public function removeListener( listener : DataRequestListener ) : void
+		public function removeListener( listener : DataRequestListener ) : Boolean
 		{
-			_oEB.removeListener( listener );
+			return _oEB.removeListener( listener );
 		}
 		
 		public function fireEvent( e : Event ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
+		
+		public override function execute( e : Event = null ) : void
+		{
+			request( e as DataRequestEvent );
+		}
 
 		/*
 		 * virtual methods
 		 */
+		public function request( e : DataRequestEvent ) : void
+		{
+			var msg : String = this + ".request() must be implemented in concrete class.";
+			PixlibDebug.ERROR( msg );
+			throw( new UnimplementedVirtualMethodException( msg ) );
+		}
+
 		public function setURL( url : String ) : void
 		{
-			PixlibDebug.ERROR( this + ".setURL() must be implemented in concrete class." );
+			var msg : String = this + ".setURL() must be implemented in concrete class.";
+			PixlibDebug.ERROR( msg );
+			throw( new UnimplementedVirtualMethodException( msg ) );
 		}
 		
 		public function setArguments(...rest) : void
 		{
-			PixlibDebug.ERROR( this + ".setArguments() must be implemented in concrete class." );
-		}
-		
-		public override function execute( e : Event = null ) : void
-		{
-			PixlibDebug.ERROR( this + ".execute() must be implemented in concrete class." );
+			var msg : String = this + ".setArguments() must be implemented in concrete class.";
+			PixlibDebug.ERROR( msg );
+			throw( new UnimplementedVirtualMethodException( msg ) );
 		}
 	}
 }
