@@ -114,7 +114,7 @@ package com.bourre.plugin
 		
 		public function addEventListener( type : String, listener : Object ) : void
 		{
-			if( _oEBPublic ) _oEBPublic.addEventListener.apply( _oEBPublic, arguments );
+			if( _oEBPublic ) _oEBPublic.addEventListener.apply( null, arguments );
 			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
 		}
 		
