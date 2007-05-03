@@ -48,12 +48,12 @@ package com.bourre.request
 			return _oResult;
 		}
 		
-		public function addListener( listener : DataRequestListener ) : Boolean
+		public function addDataRequestListener( listener : DataRequestListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
 		
-		public function removeListener( listener : DataRequestListener ) : Boolean
+		public function removeDataRequestListener( listener : DataRequestListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
