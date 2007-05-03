@@ -29,8 +29,8 @@ package com.bourre.request
 	{
 		function setURL( url : String ) : void;
 		function fireEvent( e : Event ) : void;
-		function addListener( listener : DataRequestListener ) : Boolean;
-		function removeListener( listener : DataRequestListener ) : Boolean;
+		function addDataRequestListener( listener : DataRequestListener ) : Boolean;
+		function removeDataRequestListener( listener : DataRequestListener ) : Boolean;
 		function request( e : DataRequestEvent ) : void;
 	}
 }
