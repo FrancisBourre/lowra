@@ -15,10 +15,13 @@ package com.bourre.ioc.assembler.displayobject
 	public class DisplayObjectExpertTest extends TestCase
 	{
 		private var _oDOE:DisplayObjectExpert ;
+		private var _b:Boolean ;
 		
 		public override function setUp():void
 		{
 			DisplayObjectExpert.release() ;
+			BeanFactory.release() ;
+			_b = false ;
 			_oDOE = DisplayObjectExpert.getInstance() ;
 		}
 		
@@ -27,7 +30,25 @@ package com.bourre.ioc.assembler.displayobject
 			assertNotNull("DisplayObjectExpert constructor returns null", _oDOE) ;
 		}
 		
-		/*public function testBuildEmptyDisplayObject():void
+		public function testSetRootTarget():void
+		{
+			var mc:MovieClip = new MovieClip() ;
+			_oDOE.setRootTarget(mc) ;
+			
+			var clip:MovieClip = new MovieClip () ;
+			try
+			{
+				_oDOE.setRootTarget(clip) ;
+			}
+			catch (e:Error)
+			{
+				_b = true ;
+			}
+			assertTrue("DisplayObjectExpert.setRootTarget doesn't throw error when a root is already set",
+						_b) ;
+		}
+		
+		public function testBuildEmptyDisplayObject():void
 		{
 			var mc:MovieClip = new MovieClip() ;
 			_oDOE.setRootTarget(mc) ;
@@ -42,7 +63,7 @@ package com.bourre.ioc.assembler.displayobject
 							
 			assertTrue ("DisplayObjectExpert load doesn't cast movieclip", 
 						mc.getChildAt(0) is MovieClip) ;
-		}*/
+		}
 		
 		public function testBuildGraphicLoader():void
 		{
@@ -52,7 +73,7 @@ package com.bourre.ioc.assembler.displayobject
 			//GraphicLoaderLocator.getInstance().register("graphical", gl) ;
 			
 			_oDOE.buildEmptyDisplayObject("containerID") ;
-			_oDOE.buildGraphicLoader("containerID", 1, true, "photo","photo.jpg") ;
+			_oDOE.buildGraphicLoader("photo", "containerID", 1, true, "photo.jpg") ;
 			_oDOE.load() ;
 			
 			var t:Timer = new Timer(1000, 1) ;
@@ -64,17 +85,99 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			var mc : Sprite = _mc as Sprite;
 
-			assertTrue ("DisplayObjectExpert load doesn't build container", 
-						BeanFactory.getInstance().isRegistered("containerID")) ;
+			assertTrue (	"DisplayObjectExpert load doesn't build container", 
+							BeanFactory.getInstance().isRegistered("containerID")) ;
 						
-			assertTrue ("DisplayObjectExpert load doesn't load photo", 
-						BeanFactory.getInstance().isRegistered("photo")) ;
+			assertTrue (	"DisplayObjectExpert load doesn't load photo", 
+							BeanFactory.getInstance().isRegistered("photo")) ;
 						
 			assertEquals(	"DisplayObjectExpert load doesn't build root graphic child", 
 							"containerID", mc.getChildAt(0).name) ;
 							
-			assertTrue ("DisplayObjectExpert load doesn't cast sprite", 
-						mc.getChildAt(0) is Sprite) ;
+			assertTrue (	"DisplayObjectExpert load doesn't cast sprite", 
+							mc.getChildAt(0) is Sprite) ;
 		}
+		
+		public function testLoad():void
+		{
+			//when load queues are empty
+			_b = true ;
+			_oDOE.load() ;
+			var t:Timer = new Timer(200, 1) ;
+			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncEmptyLoadingQueue, 300)) ;
+			t.start() ;
+		}
+		public function AsyncEmptyLoadingQueue(e:Event):void
+		{
+			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty", 
+						_b) ;
+		}
+		
+		public function testDisplayObjectsTreatment():void
+		{
+			//creation of the root
+			var root:MovieClip = new MovieClip() ;
+			_oDOE.setRootTarget(root) ;
+			
+			//creation of the empty clips
+			_oDOE.buildEmptyDisplayObject("clip1",	DisplayObjectExpert.ROOT_KEY) ;
+			_oDOE.buildEmptyDisplayObject("clip2",	DisplayObjectExpert.ROOT_KEY) ;
+			_oDOE.buildEmptyDisplayObject("clip11",	"clip1") ;
+			_oDOE.buildEmptyDisplayObject("clip12",	"clip1") ;
+			_oDOE.buildEmptyDisplayObject("clip111","clip11") ;
+			_oDOE.buildEmptyDisplayObject("clip121","clip12") ;
+			_oDOE.buildEmptyDisplayObject("clip122","clip12",0,"Sprite") ;
+			
+			//photos loaded in two clips (=> bitmap objects)
+			_oDOE.buildGraphicLoader("photo1", "clip111", 1, true, "photo.jpg") ;
+			_oDOE.buildGraphicLoader("photo2", "clip122", 1, true, "photo.jpg") ;
+			
+			_oDOE.load() ;
+			
+			var t:Timer = new Timer(1000, 1) ;
+			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncHierarchyLoaded, 2000,root)) ;
+			t.start() ;
+		}
+		public function AsyncHierarchyLoaded(e:Event, mc:Object):void
+		{
+			var root:MovieClip = mc as MovieClip ;
+			var child:Sprite ;
+			
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on root clip", 
+						2, root.numChildren) ;
+			
+			child = root.getChildByName("clip1") as MovieClip ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip1 clip", 
+						2, child.numChildren) ;
+						
+			child = root.getChildByName("clip2") as Sprite ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip2 clip", 
+						0, child.numChildren) ;
+			assertTrue("DisplayObjectExpert.displayObjectsTreatment wrong type on clip2",
+						root.getChildByName("clip2") is Sprite) ;
+			
+			child = (root.getChildByName("clip1") as MovieClip).getChildByName("clip11") as MovieClip ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip11 clip", 
+						1, child.numChildren) ;
+						
+			child = (root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip12 clip", 
+						2, child.numChildren) ;
+			
+			child = ((root.getChildByName("clip1") as MovieClip).getChildByName("clip11") as MovieClip).getChildByName("clip111") as MovieClip ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip111 clip", 
+						1, child.numChildren) ;
+			
+			child = ((root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip).getChildByName("clip121") as MovieClip ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip121 clip", 
+						0, child.numChildren) ;
+						
+			child = ((root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip).getChildByName("clip122") as Sprite ;
+			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip122 clip", 
+						1, child.numChildren) ;
+			assertTrue("DisplayObjectExpert.displayObjectsTreatment wrong type on clip122",
+						((root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip).getChildByName("clip122") is Sprite) ;
+		}
+		
 	}
 }
