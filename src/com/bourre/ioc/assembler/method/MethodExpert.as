@@ -39,9 +39,8 @@ package com.bourre.ioc.assembler.method
 		
 		public function callMethod( m : Method ) : void
 		{
-			PixlibDebug.DEBUG("CALLMETHOD "+m) ;
 			var owner:Object = BeanFactory.getInstance().locate( m.ownerID );
-			PixlibDebug.DEBUG("OWNER "+owner+" // "+owner[m.name]) ;
+
 			var f : Function = owner[ m.name ];
 			
 			if (f != null)
