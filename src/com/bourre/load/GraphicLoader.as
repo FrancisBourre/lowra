@@ -40,7 +40,7 @@ package com.bourre.load
 			super( new LoaderStrategy() );
 			
 			_target = target;
-			_index = -1;
+			_index = index;
 			_bAutoShow = bAutoShow;
 			_bMustUnregister = false;
 		}
