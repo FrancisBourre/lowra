@@ -26,6 +26,7 @@ package com.bourre.load
 
 	import flash.display.*;
 	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
 
 	public class GraphicLoader 
 		extends AbstractLoader
@@ -142,6 +143,11 @@ package com.bourre.load
 		public function getView() : DisplayObjectContainer
 		{
 			return super.getContent() as DisplayObjectContainer;
+		}
+		
+		public function getApplicationDomain() : ApplicationDomain
+		{
+			return ( getStrategy() as LoaderStrategy ).getContentLoaderInfo().applicationDomain;
 		}
 	}
 }

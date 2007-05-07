@@ -25,6 +25,7 @@ package com.bourre.load
 	import com.bourre.core.Locator;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.*;
+	import flash.system.ApplicationDomain;
 	
 	public class GraphicLoaderLocator 
 		implements Locator
@@ -95,6 +96,11 @@ package com.bourre.load
 		public function getGraphicLoader( name : String ) : GraphicLoader
 		{
 			return locate( name ) as GraphicLoader;
+		}
+		
+		public function getApplicationDomain( name : String ) : ApplicationDomain
+		{
+			return getGraphicLoader( name ).getApplicationDomain();
 		}
 		
 		public function addListener( oL : GraphicLoaderLocatorListener ) : void
