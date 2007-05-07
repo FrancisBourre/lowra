@@ -23,6 +23,7 @@ package com.bourre.load
 
 	import flash.events.Event;
 	import flash.display.DisplayObjectContainer;
+	import flash.system.ApplicationDomain;
 	
 	public class GraphicLoaderEvent 
 		extends LoaderEvent
@@ -40,7 +41,17 @@ package com.bourre.load
 		
 		public function getView() : DisplayObjectContainer
 		{
-			return ( getLoader() as GraphicLoader ).getView();
+			return getGraphicLoader().getView();
+		}
+		
+		public function getGraphicLoader() : GraphicLoader
+		{
+			return getLoader() as GraphicLoader;
+		}
+		
+		public function getApplicationDomain() : ApplicationDomain
+		{
+			return getGraphicLoader().getApplicationDomain();
 		}
 	}
 }
