@@ -35,9 +35,14 @@ package com.bourre.load
 			super( type, xl );
 		}
 		
+		public function getXMLLoader() : XMLLoader
+		{
+			return getLoader() as XMLLoader;
+		}
+		
 		public function getXML() : XML
 		{
-			return ( getLoader() as XMLLoader ).getXML();
+			return getXMLLoader().getXML();
 		}
 	}
 }
