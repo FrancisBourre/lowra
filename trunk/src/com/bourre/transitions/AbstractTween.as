@@ -247,9 +247,9 @@ package com.bourre.transitions
 			return _oEB.removeListener( listener );
 		}
 		
-		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			return _oEB.addEventListener.apply( _oEB, [ type, listener ].concat( rest ) );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : Boolean

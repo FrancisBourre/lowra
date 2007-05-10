@@ -21,10 +21,10 @@ package com.bourre.plugin
 	 * @version 1.0
 	 */
 
+	import com.bourre.collection.*;
 	import com.bourre.events.*;
 	import com.bourre.log.*;
-	import com.bourre.collection.HashMap;
-	
+
 	public class PluginDebug
 	{
 		public static var isOn : Boolean = true;
@@ -34,17 +34,8 @@ package com.bourre.plugin
 		
 		public function PluginDebug(  access : PrivateConstructorAccess, owner : IPlugin = null ) 
 		{
-		//if ( owner )
-			//{
-				//PixlibDebug.INFO( "owner" );
 				_owner = owner;
 				_channel = owner.getChannel();
-			//} else
-			//{
-			//	PixlibDebug.INFO( "!owner" );
-			//	_owner = NullPlugin.getInstance();
-			//	_channel = null;
-			//}
 		}
 		
 		public function getOwner() : IPlugin

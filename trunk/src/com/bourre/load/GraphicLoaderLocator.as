@@ -103,12 +103,12 @@ package com.bourre.load
 			return getGraphicLoader( name ).getApplicationDomain();
 		}
 		
-		public function addListener( listener : LoaderListener ) : Boolean
+		public function addListener( listener : GraphicLoaderLocatorListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
 
-		public function removeListener( listener : LoaderListener ) : Boolean
+		public function removeListener( listener : GraphicLoaderLocatorListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}

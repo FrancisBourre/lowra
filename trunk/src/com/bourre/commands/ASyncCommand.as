@@ -31,7 +31,7 @@ package com.bourre.commands
 		 * @param listener
 		 * 
 		 */
-		function addASyncCommandListener( listener : ASyncCommandListener ) : Boolean;
+		function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean;
 		
 		/**
 		 * 

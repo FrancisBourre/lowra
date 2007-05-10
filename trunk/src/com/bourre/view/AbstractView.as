@@ -176,24 +176,24 @@ package com.bourre.view
 			_sName = null;
 		}
 		
-		public function addListener( listener : Object ) : void
+		public function addListener( listener : Object ) : Boolean
 		{
-			_getBroadcaster().addListener( listener );
+			return _oEB.addListener( listener );
+		}
+
+		public function removeListener( listener : Object ) : Boolean
+		{
+			return _oEB.removeListener( listener );
 		}
 		
-		public function removeListener( listener : Object ) : void
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			_getBroadcaster().removeListener( listener );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
-		public function addEventListener( e : String, listener : Object, f : Function ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_getBroadcaster().addEventListener.apply( _getBroadcaster(), arguments );
-		}
-		
-		public function removeEventListener( e : String, listener : Object ) : void
-		{
-			_getBroadcaster().removeEventListener( e, listener );
+			return _oEB.removeEventListener( type, listener );
 		}
 		
 		public function isVisible() : Boolean

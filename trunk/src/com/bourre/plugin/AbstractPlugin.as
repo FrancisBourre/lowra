@@ -100,30 +100,57 @@ package com.bourre.plugin
 			_oEBPrivate.broadcastEvent( e );
 		}
 		
-		public function addListener( listener : PluginListener ) : void
+		public function addListener( listener : PluginListener ) : Boolean
 		{
-			if( _oEBPublic ) _oEBPublic.addListener( listener );
-			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
+			if( _oEBPublic ) 
+			{
+				return _oEBPublic.addListener( listener );
+				
+			} else 
+			{
+				PixlibDebug.WARN( this + " doesn't have public dispatcher");
+				return false;
+			}
 		}
 		
-		public function removeListener( listener : PluginListener ) : void
+		public function removeListener( listener : PluginListener ) : Boolean
 		{
-			if( _oEBPublic ) _oEBPublic.removeListener( listener );
-			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
+			if( _oEBPublic ) 
+			{
+				return _oEBPublic.removeListener( listener );
+			} else 
+			{
+				PixlibDebug.WARN( this + " doesn't have public dispatcher");
+				return false;
+			}
 		}
 		
-		public function addEventListener( type : String, listener : Object ) : void
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			if( _oEBPublic ) _oEBPublic.addEventListener.apply( null, arguments );
-			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
+			if( _oEBPublic ) 
+			{
+				return _oEBPublic.addEventListener.apply( _oEBPublic, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
+			
+			} else 
+			{
+				PixlibDebug.WARN( this + " doesn't have public dispatcher");
+				return false;
+			}
 		}
 		
-		public function removeEventListener( type : String, listener : Object ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			if( _oEBPublic ) _oEBPublic.removeEventListener( type, listener );
-			else PixlibDebug.WARN( this + " doesn't have public dispatcher");
+			if( _oEBPublic ) 
+			{
+				return _oEBPublic.removeEventListener( type, listener );
+				
+			} else 
+			{
+				PixlibDebug.WARN( this + " doesn't have public dispatcher");
+				return false;
+			}
 		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

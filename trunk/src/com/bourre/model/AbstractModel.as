@@ -103,24 +103,24 @@ package com.bourre.model
 			_sName = null;
 		}
 	
-		public function addListener( oL : Object ) : void
+		public function addListener( listener : Object ) : Boolean
 		{
-			_getBroadcaster().addListener(oL);
+			return _oEB.addListener( listener );
+		}
+
+		public function removeListener( listener : Object ) : Boolean
+		{
+			return _oEB.removeListener( listener );
 		}
 		
-		public function removeListener( oL : Object ) : void
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			_getBroadcaster().removeListener( oL );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
-		public function addEventListener( e : String, oL : Object , f : Function ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_getBroadcaster().addEventListener.apply( _getBroadcaster(), arguments );
-		}
-		
-		public function removeEventListener( e : String,  oL : Object ) : void
-		{
-			_getBroadcaster().removeEventListener( e,  oL );
+			return _oEB.removeEventListener( type, listener );
 		}
 		
 		//

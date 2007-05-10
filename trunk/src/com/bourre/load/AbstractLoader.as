@@ -117,7 +117,7 @@ package com.bourre.load
 			_oURL = url;
 		}
 		
-		public function addASyncCommandListener( listener : ASyncCommandListener ) : Boolean
+		public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
