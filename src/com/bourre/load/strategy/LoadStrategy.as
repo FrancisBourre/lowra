@@ -25,10 +25,11 @@ package com.bourre.load.strategy
 	import com.bourre.load.Loader;
 	
 	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
 
 	public interface LoadStrategy
 	{
-		function load( request : URLRequest = null ) : void;
+		function load( request : URLRequest = null, context : LoaderContext = null ) : void;
 		function getBytesLoaded() : uint;
 		function getBytesTotal() : uint;
 		function setOwner( owner : Loader ) : void;

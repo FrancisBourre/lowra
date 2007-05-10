@@ -103,24 +103,24 @@ package com.bourre.load
 			return getGraphicLoader( name ).getApplicationDomain();
 		}
 		
-		public function addListener( oL : GraphicLoaderLocatorListener ) : void
+		public function addListener( listener : LoaderListener ) : Boolean
 		{
-			_oEB.addListener( oL );
+			return _oEB.addListener( listener );
+		}
+
+		public function removeListener( listener : LoaderListener ) : Boolean
+		{
+			return _oEB.removeListener( listener );
 		}
 		
-		public function removeListener( oL : GraphicLoaderLocatorListener ) : void
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			_oEB.removeListener( oL );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
-		public function addEventListener( e : String, listener : Object, f : Function ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_oEB.addEventListener.apply( _oEB, arguments );
-		}
-		
-		public function removeEventListener( e : String, listener : Object ) : void
-		{
-			_oEB.removeEventListener( e, listener );
+			return _oEB.removeEventListener( type, listener );
 		}
 		
 		/**

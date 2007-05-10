@@ -28,6 +28,8 @@ package com.bourre.load.strategy
 	import flash.events.*;
 	import flash.net.*;
 	import flash.utils.describeType;
+	import flash.system.LoaderContext;
+	import com.bourre.log.PixlibDebug;
 
 	public class URLLoaderStrategy 
 		implements LoadStrategy
@@ -43,7 +45,7 @@ package com.bourre.load.strategy
 			_bytesTotal = 0;
 		}
 
-		public function load( request : URLRequest = null ) : void
+		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			_loader = new URLLoader();
 
@@ -54,6 +56,7 @@ package com.bourre.load.strategy
 			_loader.addEventListener( HTTPStatusEvent.HTTP_STATUS, _onHttpStatus );
 			_loader.addEventListener( IOErrorEvent.IO_ERROR, _onIOError );
 
+			if ( context != null ) PixlibDebug.WARN( this + ".load() doesn't support LoaderContext argument." ); 
 			_loader.load( request ) ;
 		}
 
