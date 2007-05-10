@@ -18,6 +18,8 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.ioc.bean.BeanEvent;
 	import com.bourre.ioc.bean.BeanFactoryListener;
+	import com.bourre.ioc.parser.ContextNodeNameList;
+	import flash.events.Event;
 	
 	public class DisplayObjectExpert
 	{
@@ -27,16 +29,17 @@ package com.bourre.ioc.assembler.displayobject
 		private var _dllQueue 					: QueueLoader ;
 		private var _gfxQueue 					: QueueLoader ;
 		private var _mGraphicLoader				: HashMap ;
-		private var _mEmptyDisplayObject		: HashMap ;
 		private var _mDisplayObject				: HashMap ;
 		
-		public static var onLoadInitEVENT		: String = LoaderEvent.onLoadInitEVENT ; 
-		public static var onLoadProgressEVENT	: String = LoaderEvent.onLoadProgressEVENT ; 
-		public static var onTimeOutEVENT		: String = LoaderEvent.onLoadTimeOutEVENT ; 
+		public static var onLoadInitEVENT		: String = QueueLoaderEvent.onLoadInitEVENT ; 
+		public static var onLoadProgressEVENT	: String = QueueLoaderEvent.onLoadProgressEVENT ; 
+		public static var onTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT ; 
 		public static var onLoadCompleteEVENT	: String = QueueLoaderEvent.onLoadCompleteEVENT; 
-		public static const ROOT_KEY			: String = "root" ;
+		
+		public static const SPRITE : String = "Sprite";
+		public static const MOVIECLIP : String = "MovieClip";
 			
-		public static function getInstance():DisplayObjectExpert
+		public static function getInstance() : DisplayObjectExpert
 		{
 			if ( !(DisplayObjectExpert._oI is DisplayObjectExpert) ) 
 				DisplayObjectExpert._oI = new DisplayObjectExpert( new PrivateConstructorAccess() );
@@ -44,31 +47,28 @@ package com.bourre.ioc.assembler.displayobject
 			return DisplayObjectExpert._oI;
 		}
 		
-		public static function release():void
+		public static function release() : void
 		{
 			if ( DisplayObjectExpert._oI is DisplayObjectExpert ) DisplayObjectExpert._oI = null;
 		}
 		
-		public function setRootTarget (target:Sprite) : void
+		public function setRootTarget ( target : Sprite ) : void
 		{
-			if(_target is Sprite)
+			/*if(_target is Sprite)
 				throw (new Error()) ;
-			else
-				_target = target ;
-			
-			BeanFactory.getInstance().register(DisplayObjectExpert.ROOT_KEY, _target) ;
-			
-			var o:DisplayObjectInfo = new DisplayObjectInfo (DisplayObjectExpert.ROOT_KEY, null, 0, true, null, "Sprite") ;
-			_mDisplayObject.put(DisplayObjectExpert.ROOT_KEY, o) ;
+			else*/
+			_target = target ;
+			BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target ) ;
+			_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) ) ;
 		}
 		
 		public function DisplayObjectExpert(access:PrivateConstructorAccess)
 		{
 			_dllQueue = new QueueLoader();
 			_gfxQueue = new QueueLoader();
-			//_mEmptyMovieClip = new HashMap();
 			_mDisplayObject = new HashMap();
-			_oEB = EventBroadcaster.getInstance() ;
+
+			_oEB = new EventBroadcaster( this );
 		}
 		
 		/*public function buildDLL (url:String) : void
@@ -76,131 +76,130 @@ package com.bourre.ioc.assembler.displayobject
 			_dllQueue.add( new GraphicLoader(_level0, _dllQueue.length(), false),"DLL", url) ;
 		}*/
 		
-		public function buildGraphicLoader (name:String, parentID:String, depth:int, isVisible:Boolean, url:String, type:String="Movieclip") : void
+		public function buildGraphicLoader ( 	ID : String, 
+												url : String,
+												parentID : String = null, 
+												depth : int = -1, 
+												isVisible : Boolean = true, 
+												type : String="Movieclip" ) : void
 		{
-			var o:DisplayObjectInfo = new DisplayObjectInfo(name, parentID, depth, isVisible, url, type) ;
+			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, depth, isVisible, url, type );
 			
-			var gl:GraphicLoader = new GraphicLoader(null, depth, false) ;
-			
-			_gfxQueue.add(gl, name, new URLRequest(url)) ;
-			
-			_mDisplayObject.put(name, o) ;
-			if (_mDisplayObject.containsKey(parentID))
-				_mDisplayObject.get(parentID).addChild(o) ;
+			var gl:GraphicLoader = new GraphicLoader( null, depth, false );
+			_gfxQueue.add( gl, ID, new URLRequest( url ) ) ;
+
+			_mDisplayObject.put( ID, info ) ;
+
+			if ( _mDisplayObject.containsKey( parentID ) )
+				_mDisplayObject.get( parentID ).addChild( info ) ;
 		}
 		
-		public function buildEmptyDisplayObject(ID:String, parentID:String = null, depth:int=0,type:String="Movieclip"):void
+		public function buildEmptyDisplayObject( 	ID : String, 
+													parentID : String = null, 
+													depth : int = -1,
+													isVisible : Boolean = true, 
+													type:String = "Movieclip" ) : void
 		{
-			if (parentID == null)
-				parentID = DisplayObjectExpert.ROOT_KEY ;
+			if ( parentID == null ) parentID = ContextNodeNameList.ROOT ;
 				
-			var o:DisplayObjectInfo = new DisplayObjectInfo(ID, parentID, depth, false,null, type) ;
-			_mDisplayObject.put(ID, o) ;
+			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, depth, isVisible, null, type ) ;
+			_mDisplayObject.put( ID, info ) ;
 
-			if (_mDisplayObject.containsKey(parentID))
-				_mDisplayObject.get(parentID).addChild(o) ;
+			if ( _mDisplayObject.containsKey( parentID ) )
+				_mDisplayObject.get( parentID ).addChild( info );
 			
 		}
 		
 		public function load () : void
 		{
-			_loadDLLQueue() ;
+			_loadDisplayObjectQueue();
 		}
 		
-		private function _loadDLLQueue():void
+		/*private function _loadDLLQueue() : void
 		{
-			if (_dllQueue.size() > 0 )
+			if ( _dllQueue.size() > 0 )
 			{
-				_dllQueue.addEventListener(DisplayObjectExpert.onLoadInitEVENT, _onDLLLoad) ;
-				_dllQueue.addEventListener(DisplayObjectExpert.onLoadProgressEVENT, this) ;
-				_dllQueue.addEventListener(DisplayObjectExpert.onTimeOutEVENT, this) ;
-				_dllQueue.addEventListener(DisplayObjectExpert.onLoadCompleteEVENT, _loadDisplayObjectQueue) ;
+				_dllQueue.addEventListener( DisplayObjectExpert.onLoadInitEVENT, _onDLLLoad );
+				_dllQueue.addEventListener( DisplayObjectExpert.onLoadProgressEVENT, this );
+				_dllQueue.addEventListener( DisplayObjectExpert.onTimeOutEVENT, this );
+				_dllQueue.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, _loadDisplayObjectQueue );
 				_dllQueue.execute() ;
 			}
 			else
-				_loadDisplayObjectQueue() ;
+				_loadDisplayObjectQueue();
 		}
 		
-		private function _onDLLLoad(e:GraphicLoaderEvent):void
+		private function _onDLLLoad( e : GraphicLoaderEvent ) : void
 		{
-			_oEB.broadcastEvent(e) ;
-			GraphicLoaderLocator.getInstance().unregister(e.getName()) ;
-		}
+			_oEB.broadcastEvent( e );
+		}*/
 		
-		private function _loadDisplayObjectQueue():void
+		private function _loadDisplayObjectQueue() : void
 		{
-			if (_gfxQueue.size() >0)
+			if ( _gfxQueue.size() > 0 )
 			{
 				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadInitEVENT, this) ;
 				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadProgressEVENT, this) ;
 				_gfxQueue.addEventListener(DisplayObjectExpert.onTimeOutEVENT, this) ;
-				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadCompleteEVENT, onLoad) ;
+				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadCompleteEVENT, this) ;
 				_gfxQueue.execute() ;
 			}
 			else
-				onLoad(new LoaderEvent(DisplayObjectExpert.onLoadCompleteEVENT, _gfxQueue)) ;
-			
+			{
+				buildDisplayList();
+				_oEB.broadcastEvent( new QueueLoaderEvent( QueueLoaderEvent.onLoadCompleteEVENT, _gfxQueue ) );
+			}
 		}
 		
-		public function onLoad (e : LoaderEvent):void
+		protected function buildDisplayList() : void
 		{
-			if (_mDisplayObject.containsKey(DisplayObjectExpert.ROOT_KEY))
-			{
-				displayObjectsTreatment(DisplayObjectExpert.ROOT_KEY) ;
-			}
-			
-			_oEB.broadcastEvent(e) ;
+			displayObjectsTreatment( ContextNodeNameList.ROOT );
 		}
 
-		
-		private function displayObjectsTreatment(ID:String):void
+		private function displayObjectsTreatment( ID : String ) : void
 		{
-			var objInfo:DisplayObjectInfo = _mDisplayObject.get(ID) ;
+			var info : DisplayObjectInfo = _mDisplayObject.get( ID );
 			
-			if (ID != DisplayObjectExpert.ROOT_KEY)
+			if ( ID != ContextNodeNameList.ROOT )
 			{
-				if (objInfo.isEmptyDisplayObject())
+				if ( info.isEmptyDisplayObject() )
 				{
-					//catch the parent in the beanfactory
-					var oParent:DisplayObjectContainer = BeanFactory.getInstance().locate(objInfo.parentID) as DisplayObjectContainer;
-					//cast the object according to its type
-					var obj:Sprite ;
-					if (objInfo.type == "Movieclip")
-						obj = new MovieClip() ;
-					else
-						obj = new Sprite() ;
-					obj.name = ID ;
-					//add the object on its parent
-					oParent.addChild(obj) ;
-					//register the object in the beanfactory
-					BeanFactory.getInstance().register(ID, obj) ;
-					_oEB.broadcastEvent(new DisplayObjectEvent(obj)) ;
+					_buildEmptyDisplayObject( info );
 				}
 				else
 				{
-					//catch the object loaded
-					var GL:GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader(ID) ;
-					//catch the parent
-					var parent:DisplayObjectContainer = BeanFactory.getInstance().locate(objInfo.parentID)as DisplayObjectContainer ;
-					//attach the object loaded on its parent
-					GL.setTarget(parent) ;
-					//make the object visible if specified
-					if (objInfo.isVisible) GL.show() ;
-					//register the object in the beanfactory
-					BeanFactory.getInstance().register(ID, GL) ;
-					_oEB.broadcastEvent(new DisplayObjectEvent(GL.getView())) ;
+					_buildDisplayObject( info );
 				}
 			}
-			
-			
-			//if the object treated must have child(s), call back the function for each one
-			if (objInfo.hasChild())
+
+			// recursivity
+			if ( info.hasChild() )
 			{
-				var childs:Array = new Array () ;
-				childs = objInfo.getChild() ;
-				for (var i:int = 0 ; i < childs.length ; i++)
-					displayObjectsTreatment(childs[i].ID) ;
+				var aChild : Array = info.getChild();
+				var l : int = aChild.length;
+				for ( var i : int = 0 ; i < l ; i++ ) displayObjectsTreatment( aChild[i].ID );
 			}
+		}
+		
+		private function _buildEmptyDisplayObject( info : DisplayObjectInfo ) : void
+		{
+			var oParent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
+			var oDo : Sprite = ( info.type == "Movieclip" ) ? new MovieClip() : new Sprite();
+			oParent.addChild( oDo ) ;
+			BeanFactory.getInstance().register( info.ID, oDo ) ;
+PixlibDebug.INFO( "_buildEmptyDisplayObject(" + info.ID + ", " + oDo + ")" );
+			_oEB.broadcastEvent( new DisplayObjectEvent( oDo ) ) ;
+		}
+		
+		private function _buildDisplayObject( info : DisplayObjectInfo ) : void
+		{
+			var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID ) ;
+			var parent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
+			gl.setTarget( parent );
+			if ( info.isVisible ) gl.show();
+			BeanFactory.getInstance().register( info.ID, gl.getView() );
+
+			_oEB.broadcastEvent( new DisplayObjectEvent( gl.getView() ) ) ;
 		}
 		
 		public function onLoadInit( e : LoaderEvent ) : void
@@ -225,34 +224,33 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function onLoadComplete( e : LoaderEvent ) : void
 		{
-			//onLoad(e) ;
+			buildDisplayList();
 			_oEB.broadcastEvent( e );
 		}
-		
+
 		/**
 		 * Event system
 		 */
-		public function addListener( oL : DisplayObjectExpertListener ) : void
+		public function addListener( listener : DisplayObjectExpertListener ) : Boolean
 		{
-			_oEB.addListener( oL );
+			return _oEB.addListener( listener );
 		}
-	
-		public function removeListener( oL : DisplayObjectExpertListener ) : void
+
+		public function removeListener( listener : DisplayObjectExpertListener ) : Boolean
 		{
-			_oEB.removeListener( oL );
+			return _oEB.removeListener( listener );
 		}
-	
-		public function addEventListener( e : String, oL:*, f : Function ) : void
+
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			_oEB.addEventListener.apply( _oEB, arguments );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-	
-		public function removeEventListener( e : String, oL:* ) : void
+
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_oEB.removeEventListener( e, oL );
+			return _oEB.removeEventListener( type, listener );
 		}
-		
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

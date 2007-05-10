@@ -3,12 +3,30 @@ package com.bourre.ioc.assembler
 	import com.bourre.ioc.assembler.property.*;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
-	//import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
 	{
 		public function buildDLL( url : String ) : void
+		{
+			//
+		}
+		
+		public function buildEmptyDisplayObject( 	ID : String,
+													parentID : String,
+													depth : uint,
+													isVisible : Boolean,
+													type : String ) : void
+		{
+			
+		}
+
+		public function buildDisplayObject( ID 			: String,
+											parentID 	: String, 
+											url 		: String,
+											depth 		: uint, 
+											isVisible 	: Boolean, 
+											type : String ) : void
 		{
 			//
 		}
