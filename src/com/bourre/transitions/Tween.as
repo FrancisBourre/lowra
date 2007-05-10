@@ -34,14 +34,14 @@ package com.bourre.transitions
 		 * 
 		 * @param oL Listener object which implements {@link TweenListener} interface.
 		 */
-		function addListener( oL : TweenListener ) : Boolean;
+		function addListener( listener : TweenListener ) : Boolean;
 		
 		/**
 		 * Removes listener for receiving all events.
 		 * 
 		 * @param oL Listener object which implements {@link TweenListener} interface.
 		 */
-		function removeListener( oL : TweenListener ) : Boolean;
+		function removeListener( listener : TweenListener ) : Boolean;
 		
 		/**
 		 * Adds listener for specifical event.
@@ -49,7 +49,7 @@ package com.bourre.transitions
 		 * @param e Name of the Event.
 		 * @param oL Listener object.
 		 */
-		function addEventListener( e : String, oL : Object, ... rest ) : Boolean;
+		function addEventListener( type : String, listener : Object, ... rest ) : Boolean;
 		
 		/**
 		 * Removes listener for specifical event.
@@ -57,6 +57,6 @@ package com.bourre.transitions
 		 * @param e Name of the Event.
 		 * @param oL Listener object.
 		 */
-		function removeEventListener( e : String, oL : Object ) : Boolean;
+		function removeEventListener( type : String, listener : Object ) : Boolean;
 	}
 }
