@@ -74,7 +74,7 @@ package com.bourre.ioc.assembler
 			return d;
 		}
 		
-		public function suscribeDepth( mcID : String, parentID : String, depth : Number ) : *
+		public function suscribeDepth( mcID : String, parentID : String, depth : uint ) : *
 		{
 			if ( isNaN( depth ) )
 			{

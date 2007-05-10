@@ -25,31 +25,43 @@ package com.bourre.ioc.assembler
 	{
 		
 
-		//function buildEmptyMovieClip( parentID : String, name : String, depth : Number ) : void;
-		//function buildGraphicLib( parentID : String, depth : Number, isVisible : Boolean, name : String, url : String = null ) : void;
+		
 		//function buildGraphicProperty( id : String, propertyNode : * ) : void;
 		
-		function buildDLL( 				url 				: String 			) : void;
+		function buildEmptyDisplayObject( 	ID : String,
+											parentID : String,
+											depth : uint,
+											isVisible : Boolean,
+											type : String							) : void;
 		
-		function buildProperty( 		ownerID 			: String, 
-										name 				: String 	= null, 
-										value 				: String 	= null, 
-										type 				: String 	= null, 
-										ref 				: String 	= null, 
-										method 				: String 	= null	) : void;
+		function buildDisplayObject( 		ID 					: String,
+											parentID 			: String, 
+											url 				: String,
+											depth 				: uint, 
+											isVisible 			: Boolean,
+											type 				: String			) : void;
 
-		function buildObject( 			id 					: String, 
-										type 				: String 	= null, 
-										args 				: Array 	= null, 
-										factory 			: String 	= null, 
-										singleton 			: String 	= null, 
-										channelName 		: String 	= null 	) : void;
+		function buildDLL( 					url 				: String 			) : void;
+		
+		function buildProperty( 			ownerID 			: String, 
+											name 				: String 	= null, 
+											value 				: String 	= null, 
+											type 				: String 	= null, 
+											ref 				: String 	= null, 
+											method 				: String 	= null	) : void;
 
-		function buildMethodCall( 		id 					: String, 
-										methodCallName 		: String, 
-										args 				: Array 	= null 	) : void;
+		function buildObject( 				id 					: String, 
+											type 				: String 	= null, 
+											args 				: Array 	= null, 
+											factory 			: String 	= null, 
+											singleton 			: String 	= null, 
+											channelName 		: String 	= null 	) : void;
 
-		function buildChannelListener( 	id 					: String, 
-										channelName 		: String 			) : void;
+		function buildMethodCall( 			id 					: String, 
+											methodCallName 		: String, 
+											args 				: Array 	= null 	) : void;
+
+		function buildChannelListener( 		id 					: String, 
+											channelName 		: String 			) : void;
 	}
 }

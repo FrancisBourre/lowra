@@ -101,15 +101,15 @@ package com.bourre.ioc.assembler.channel
 		{
 			return _oEB.addListener( listener );
 		}
-		
+
 		public function removeListener( listener : ChannelListenerExpertListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
 		
-		public function addEventListener( type : String, listener : Object ) : Boolean
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			return _oEB.addEventListener( type, listener );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : Boolean

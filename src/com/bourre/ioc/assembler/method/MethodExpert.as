@@ -61,24 +61,24 @@ package com.bourre.ioc.assembler.method
 		/**
 		 * Event system
 		 */
-		public function addListener( oL : MethodExpertListener ) : void
+		public function addListener( listener : MethodExpertListener ) : Boolean
 		{
-			_oEB.addListener( oL );
+			return _oEB.addListener( listener );
+		}
+
+		public function removeListener( listener : MethodExpertListener ) : Boolean
+		{
+			return _oEB.removeListener( listener );
 		}
 		
-		public function removeListener( oL : MethodExpertListener ) : void
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			_oEB.removeListener( oL );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
-		public function addEventListener( e : String, oL:*, f : Function ) : void
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_oEB.addEventListener.apply( _oEB, arguments );
-		}
-		
-		public function removeEventListener( e : String, oL:* ) : void
-		{
-			_oEB.removeEventListener( e, oL );
+			return _oEB.removeEventListener( type, listener );
 		}
 		
 		public static function release() : void

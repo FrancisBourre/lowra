@@ -159,24 +159,24 @@ package com.bourre.ioc.assembler.property
 		/**
 		 * Event system
 		 */
-		public function addListener( listener : PropertyExpertListener ) : void
+		public function addListener( listener : PropertyExpertListener ) : Boolean
 		{
-			_oEB.addListener( listener );
+			return _oEB.addListener( listener );
 		}
 
-		public function removeListener( listener : PropertyExpertListener ) : void
+		public function removeListener( listener : PropertyExpertListener ) : Boolean
 		{
-			_oEB.removeListener( listener );
+			return _oEB.removeListener( listener );
 		}
-
-		public function addEventListener( type : String, listener : Object ) : void
+		
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			_oEB.addEventListener( type, listener );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-
-		public function removeEventListener( type : String, listener : Object ) : void
+		
+		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
-			_oEB.removeEventListener( type, listener );
+			return _oEB.removeEventListener( type, listener );
 		}
 
 		/**
