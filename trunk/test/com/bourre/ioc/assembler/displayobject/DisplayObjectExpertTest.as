@@ -10,8 +10,9 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import flash.events.Event;
+	import com.bourre.ioc.parser.ContextNodeNameList;
 
-
+	
 	public class DisplayObjectExpertTest extends TestCase
 	{
 		private var _oDOE:DisplayObjectExpert ;
@@ -21,48 +22,44 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			DisplayObjectExpert.release() ;
 			BeanFactory.release() ;
+
 			_b = false ;
 			_oDOE = DisplayObjectExpert.getInstance() ;
 		}
 		
-		public function testConstruct() :void
+		public function testConstruct() : void
 		{
 			assertNotNull("DisplayObjectExpert constructor returns null", _oDOE) ;
 		}
 		
 		public function testSetRootTarget():void
 		{
-			var mc:MovieClip = new MovieClip() ;
+			var mc:MovieClip = new MovieClip();
 			_oDOE.setRootTarget(mc) ;
-			
-			var clip:MovieClip = new MovieClip () ;
+
+			var b : Boolean = false;
 			try
 			{
-				_oDOE.setRootTarget(clip) ;
+				_oDOE.setRootTarget( new MovieClip () );
 			}
 			catch (e:Error)
 			{
-				_b = true ;
+				b = true ;
 			}
-			assertTrue("DisplayObjectExpert.setRootTarget doesn't throw error when a root is already set",
-						_b) ;
-		}
-		
-		public function testBuildEmptyDisplayObject():void
-		{
-			var mc:MovieClip = new MovieClip() ;
-			_oDOE.setRootTarget(mc) ;
-			_oDOE.buildEmptyDisplayObject("idEmpty", DisplayObjectExpert.ROOT_KEY, 1) ;
-			_oDOE.load() ;
-			
-			assertTrue ("DisplayObjectExpert load doesn't load emptyDisplayObject", 
-						BeanFactory.getInstance().isRegistered("idEmpty")) ;
 
-			assertEquals(	"DisplayObjectExpert load doesn't build root empty child", 
-							"idEmpty", mc.getChildAt(0).name) ;
-							
-			assertTrue ("DisplayObjectExpert load doesn't cast movieclip", 
-						mc.getChildAt(0) is MovieClip) ;
+			assertTrue("DisplayObjectExpert.setRootTarget doesn't throw an error when root target has been already set", b) ;
+		}
+
+		public function testBuildEmptyDisplayObject() : void
+		{
+			var mc : MovieClip = new MovieClip();
+			_oDOE.setRootTarget( mc );
+
+			_oDOE.buildEmptyDisplayObject( "idEmpty" );
+			_oDOE.load();
+			
+			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to register id with BeanFactory", BeanFactory.getInstance().isRegistered("idEmpty") ) ;				
+			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to add child with with Movieclip type", mc.getChildAt(0) is MovieClip) ;
 		}
 		
 		public function testBuildGraphicLoader():void
@@ -70,18 +67,18 @@ package com.bourre.ioc.assembler.displayobject
 			var mc:MovieClip = new MovieClip() ;
 			_oDOE.setRootTarget(mc) ;
 
-			//GraphicLoaderLocator.getInstance().register("graphical", gl) ;
-			
-			_oDOE.buildEmptyDisplayObject("containerID") ;
-			_oDOE.buildGraphicLoader("photo", "containerID", 1, true, "photo.jpg") ;
+			_oDOE.buildEmptyDisplayObject( "containerID" );
+			//_oDOE.buildGraphicLoader( "photo", "SoundFactory.swf", "containerID" );
 			_oDOE.load() ;
-			
-			var t:Timer = new Timer(1000, 1) ;
+
+			/*var t:Timer = new Timer(1000, 1) ;
 			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncGraphicLoaderLoaded, 2000,mc)) ;
-			t.start() ;
+			t.start() ;*/
+
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync, onTestBuildGraphicLoader, 5000, mc );
 		}
 		
-		public function AsyncGraphicLoaderLoaded(e : Event, _mc:Object):void
+		public function onTestBuildGraphicLoader( e : Event, _mc : Object ) : void
 		{
 			var mc : Sprite = _mc as Sprite;
 
@@ -90,15 +87,12 @@ package com.bourre.ioc.assembler.displayobject
 						
 			assertTrue (	"DisplayObjectExpert load doesn't load photo", 
 							BeanFactory.getInstance().isRegistered("photo")) ;
-						
-			assertEquals(	"DisplayObjectExpert load doesn't build root graphic child", 
-							"containerID", mc.getChildAt(0).name) ;
 							
 			assertTrue (	"DisplayObjectExpert load doesn't cast sprite", 
 							mc.getChildAt(0) is Sprite) ;
 		}
-		
-		public function testLoad():void
+
+		public function testLoad() : void
 		{
 			//when load queues are empty
 			_b = true ;
@@ -107,6 +101,7 @@ package com.bourre.ioc.assembler.displayobject
 			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncEmptyLoadingQueue, 300)) ;
 			t.start() ;
 		}
+
 		public function AsyncEmptyLoadingQueue(e:Event):void
 		{
 			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty", 
@@ -120,17 +115,17 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget(root) ;
 			
 			//creation of the empty clips
-			_oDOE.buildEmptyDisplayObject("clip1",	DisplayObjectExpert.ROOT_KEY) ;
-			_oDOE.buildEmptyDisplayObject("clip2",	DisplayObjectExpert.ROOT_KEY) ;
+			_oDOE.buildEmptyDisplayObject("clip1",	ContextNodeNameList.ROOT) ;
+			_oDOE.buildEmptyDisplayObject("clip2",	ContextNodeNameList.ROOT) ;
 			_oDOE.buildEmptyDisplayObject("clip11",	"clip1") ;
 			_oDOE.buildEmptyDisplayObject("clip12",	"clip1") ;
 			_oDOE.buildEmptyDisplayObject("clip111","clip11") ;
 			_oDOE.buildEmptyDisplayObject("clip121","clip12") ;
-			_oDOE.buildEmptyDisplayObject("clip122","clip12",0,"Sprite") ;
+			_oDOE.buildEmptyDisplayObject("clip122","clip12",0,true,"Sprite") ;
 			
 			//photos loaded in two clips (=> bitmap objects)
-			_oDOE.buildGraphicLoader("photo1", "clip111", 1, true, "photo.jpg") ;
-			_oDOE.buildGraphicLoader("photo2", "clip122", 1, true, "photo.jpg") ;
+			_oDOE.buildGraphicLoader( "photo1", "photo.jpg", "clip111", 1, true ) ;
+			_oDOE.buildGraphicLoader( "photo2", "photo.jpg", "clip122", 1, true ) ;
 			
 			_oDOE.load() ;
 			
