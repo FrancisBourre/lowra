@@ -27,7 +27,7 @@ package com.bourre.request
 			assertNull("failed to getResult as null befor first call", _absDR.getResult())
 			
 			var drl : MockDataRequestListener = new MockDataRequestListener()
-			_absDR.addListener(drl)
+			_absDR.addDataRequestListener(drl)
 			
 			var dre : DataRequestEvent = new DataRequestEvent( DataRequestEvent.onDataResultEVENT, _absDR )
 			assertNotNull("failed to create a new DataRequestEvent",dre)

@@ -74,11 +74,13 @@ package com.bourre.commands
 			f = Delegate.create( _methodDelegate );
 			
 			f( arg1, arg2 );
-			assertEquals("f = Delegate.create(scope, function, arg1, arg2) ; f() => function doesn't receive arg1 ", _arg1, 1);
-			assertEquals("f = Delegate.create(scope, function, arg1, arg2) ; f() => function doesn't receive arg2 ", _arg2, "a");
+			assertEquals("f = Delegate.create( function, arg1, arg2 ) ; f() => function doesn't receive arg1 ", _arg1, 1);
+			assertEquals("f = Delegate.create( function, arg1, arg2 ) ; f() => function doesn't receive arg2 ", _arg2, "a");
 			
 			_arg1 = 0;
 			_arg2 = null;
+			
+			//
 			f = Delegate.create( _methodDelegate );
 			
 			var bIsErrorCaught : Boolean = false;
@@ -92,8 +94,19 @@ package com.bourre.commands
 			}
 
 			assertTrue( "f = Delegate.create( function, arg1 ) ; f() => function didn't catch the error", bIsErrorCaught );
-			assertEquals( "f = Delegate.create( function, arg1 ) ; f() => function didn't catch the error", _arg1, 0 );
-			assertNull( "f = Delegate.create( function, arg1 ) ; f() => function didn't catch the error", _arg2 );
+			
+			_arg1 = 0;
+			_arg2 = null;
+			
+			//
+			f = Delegate.create( _methodDelegate, arg1 );
+			
+			f( arg2 );
+			assertEquals("f = Delegate.create( function, arg1 ) ; f( arg2 ) => function doesn't receive arg1 ", _arg1, 1);
+			assertEquals("f = Delegate.create( function, arg1 ) ; f( arg2 ) => function doesn't receive arg2 ", _arg2, "a");
+			
+			_arg1 = 0;
+			_arg2 = null;
 		}
 		
 		private function _methodDelegate( arg1:int, arg2:String ) : void
