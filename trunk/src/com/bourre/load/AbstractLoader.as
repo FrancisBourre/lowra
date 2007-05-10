@@ -137,9 +137,9 @@ package com.bourre.load
 			return _oEB.removeListener( listener );
 		}
 		
-		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
-			return _oEB.addEventListener.apply( _oEB, (rest.length>0?[type, listener].concat(rest):[type, listener]) );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
 		public function removeEventListener( type : String, listener : Object ) : Boolean
@@ -265,14 +265,15 @@ package com.bourre.load
 		}
 	}
 }
-	import com.bourre.load.strategy.LoadStrategy;
-	import flash.net.URLRequest;
-	import com.bourre.load.Loader;
-	
+
+import com.bourre.load.strategy.LoadStrategy;
+import flash.net.URLRequest;
+import com.bourre.load.Loader;
+import flash.system.LoaderContext;
 
 internal class NullLoadStrategy implements LoadStrategy
 {
-		public function load( request : URLRequest = null ) : void
+		public function load( request : URLRequest = null, context : LoaderContext = null  ) : void
 		{
 			
 		}

@@ -29,6 +29,7 @@ package com.bourre.load.strategy
 	import flash.display.*;
 	import flash.net.URLRequest;
 	import flash.utils.*;
+	import flash.system.LoaderContext;
 
 	public class LoaderStrategy 
 		implements LoadStrategy
@@ -44,29 +45,28 @@ package com.bourre.load.strategy
 			_bytesTotal = 0;
 		}
 
-		public function load( request : URLRequest = null ) : void
+		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			_loader = new Loader();
-	
-			_loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, _onProgress );
-			_loader.contentLoaderInfo.addEventListener( Event.COMPLETE, _onComplete );
-			_loader.contentLoaderInfo.addEventListener( Event.OPEN, _onOpen );
-			_loader.contentLoaderInfo.addEventListener( SecurityErrorEvent.SECURITY_ERROR, _onSecurityError );
-			_loader.contentLoaderInfo.addEventListener( HTTPStatusEvent.HTTP_STATUS, _onHttpStatus );
-			_loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, _onIOError );
-	        _loader.contentLoaderInfo.addEventListener( Event.INIT, _onInit );
-	        _loader.contentLoaderInfo.addEventListener( Event.UNLOAD, _onUnLoad );
-
+			_initLoaderStrategy();
 			_loader.load( request );
 		}
+
+		public function loadBytes( bytes : ByteArray, context : LoaderContext = null ) : void
+		{
+			_initLoaderStrategy();
+			_loader.loadBytes( bytes, context );
+		}
+
 		public function getBytesLoaded() : uint
 		{
 			return _bytesLoaded;
 		}
+
 		public function getContentLoaderInfo () : LoaderInfo
 	  	{
 	  		return _loader.contentLoaderInfo;
 	  	}
+
 		public function getBytesTotal() : uint
 		{
 			return _bytesTotal;
@@ -92,6 +92,19 @@ package com.bourre.load.strategy
 		}
 
 		//
+		protected function _initLoaderStrategy() : void
+		{
+			_loader = new Loader();
+			_loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, _onProgress );
+			_loader.contentLoaderInfo.addEventListener( Event.COMPLETE, _onComplete );
+			_loader.contentLoaderInfo.addEventListener( Event.OPEN, _onOpen );
+			_loader.contentLoaderInfo.addEventListener( SecurityErrorEvent.SECURITY_ERROR, _onSecurityError );
+			_loader.contentLoaderInfo.addEventListener( HTTPStatusEvent.HTTP_STATUS, _onHttpStatus );
+			_loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, _onIOError );
+	        _loader.contentLoaderInfo.addEventListener( Event.INIT, _onInit );
+	        _loader.contentLoaderInfo.addEventListener( Event.UNLOAD, _onUnLoad );
+		}
+
 		protected function _onProgress( e : ProgressEvent ) : void
 		{
 			// trace( "_onProgress: " + e );
@@ -104,7 +117,6 @@ package com.bourre.load.strategy
 		protected function _onComplete( e : Event ) : void 
 		{
 			// trace( "_onComplete: " + e );
-			
 	    }
 
 	    protected function _onOpen( e : Event ) : void
