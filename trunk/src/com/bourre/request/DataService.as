@@ -1,5 +1,7 @@
 package com.bourre.request
 {
+	import com.bourre.collection.Collection;
+	
 	public interface DataService
 	{
 		function setResult( result : Object ) : void;
@@ -9,5 +11,7 @@ package com.bourre.request
 		function getDataServiceListener() : Collection;
 		function setArguments( ... rest ) : void;
 		function getArguments() : Object;
+		function fireResult() : void;
+		function fireError() : void;
 	}
 }

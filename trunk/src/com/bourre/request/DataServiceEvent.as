@@ -34,10 +34,9 @@ package com.bourre.request
 		private var _oDataService 	: DataService;
 		private var _oConnector		: DataServiceConnector ;
 		
-		public function DataServiceEvent( type : String, dataService : DataService ) 
+		public function DataServiceEvent(type : String , dataService : DataService ) 
 		{
 			super( type, dataService );
-			
 			_oDataService = dataService;
 		}
 		
