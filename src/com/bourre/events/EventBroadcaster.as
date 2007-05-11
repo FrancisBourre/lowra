@@ -58,9 +58,9 @@ package com.bourre.events
 			return _mType.containsKey( type );
 		}
 		
-		public function getListenerCollection( type : String ) : Collection
+		public function getListenerCollection( type : String = null ) : Collection
 		{
-			return _mType.get( type );
+			return ( type != null ) ? _mType.get( type ) : _mAll;
 		}
 		
 		public function removeListenerCollection( type : String ) : void
@@ -116,7 +116,7 @@ package com.bourre.events
 				var d : Delegate = new Delegate( listener as Function );
 				if ( rest ) d.setArgumentsArray( rest );
 				listener = d;
-				
+
 			} else if ( listener.hasOwnProperty( type ) && ( listener[type] is Function ) )
 			{
 				//
@@ -206,13 +206,13 @@ package com.bourre.events
 			{
 				var listener : Object = a[l];
 				
-				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
-				{
-					listener[type](e);
-					
-				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+				if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
 				{
 					listener.handleEvent(e);
+
+				} else if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
+				{
+					listener[type](e);
 					
 				} else
 				{
