@@ -28,26 +28,35 @@ package com.bourre.request
 	import com.bourre.commands.ASyncCommandEvent;
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.error.UnimplementedVirtualMethodException;
+	import com.bourre.collection.Collection;
 	
 	public class AbstractDataServiceConnector 
 		implements DataServiceConnector
 	{
-		private var _url 		: String ;
-		private var _oService	: DataService ;
+		protected var _url 		: String ;
+		protected var _port 	: uint ;
+		
+		
+		
 		private var _oEB 		: EventBroadcaster ;
 		private var _oEBasync 	: EventBroadcaster ;
 		
-		public function AbstractDataServiceConnector()
+		public function AbstractDataServiceConnector(url : String)
 		{
+			setURL( url )
 			_oEB = new EventBroadcaster(this) ;
+			_oEBasync = new EventBroadcaster(this) ;
 		}
 		
 		public function setURL( url : String ) : void
 		{
-			_url = url ;
+			var tab:Array = url.split(":");
+			_url = tab[0];
+			_port = parseInt(tab[1]);
+			//_port = (isNaN(_port))? 80 : _port;
 		}
 		
-		public function fireEvent( e : Event ) : void
+		public function fireEvent( e : DataServiceEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
@@ -62,7 +71,7 @@ package com.bourre.request
 			return _oEB.removeListener( listener );
 		}
 		
-		public function request( e : DataServiceEvent ) : void
+		public function request( e : DataService ) : void
 		{
 			var msg : String = this + ".request() must be implemented in concrete class.";
 			PixlibDebug.ERROR( msg );
@@ -78,17 +87,19 @@ package com.bourre.request
 		
 		public function execute( e : Event = null ) : void
 		{
-			request(e as DataServiceEvent) ;
+			request((e as DataServiceEvent).getDataService()) ;
 		}
 		
-		public function addASyncCommandListener( listener : ASyncCommandListener ) : Boolean
+		public function addASyncCommandListener( listener : ASyncCommandListener, ...rest ) : Boolean
 		{
-			return _oEBasync.addListener( listener );
+			return _oEBasync.addEventListener.apply( _oEBasync, rest.length > 0 ? 
+												[ ASyncCommandEvent.onCommandEndEVENT, listener ].concat( rest )
+												: [ ASyncCommandEvent.onCommandEndEVENT, listener ] );
 		}
 
 		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			return _oEBasync.removeListener( listener );
+			return _oEBasync.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
 		}
 
 		public function fireCommandEndEvent() : void

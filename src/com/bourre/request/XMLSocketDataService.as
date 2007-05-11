@@ -1,6 +1,7 @@
 package com.bourre.request
 {
 	import com.bourre.events.EventBroadcaster;
+	import com.bourre.collection.Collection;
 	
 	public class XMLSocketDataService implements DataService
 	{
@@ -35,12 +36,12 @@ package com.bourre.request
 		
 		public function getResult():Object
 		{
-			return _oResult ;
+			return _oResult;
 		}
 		
 		public function setResult(result:Object):void
 		{
-			_oResult = result ;
+			_oResult = result;
 		}
 		
 		public function getDataServiceListener():Collection
@@ -48,5 +49,14 @@ package com.bourre.request
 			return _oEB.getListenerCollection() ;
 		}
 		
+		public function fireError() : void
+		{
+			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,this))
+		}
+		
+		public function fireResult() : void
+		{
+			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataResultEVENT,this))
+		}
 	}
 }

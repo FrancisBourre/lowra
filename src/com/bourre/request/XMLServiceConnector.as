@@ -3,17 +3,21 @@ package com.bourre.request
 	import flash.net.XMLSocket;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.events.DataEvent;
+	import flash.events.SecurityErrorEvent;
+	import flash.events.ProgressEvent;
 	
 	public class XMLServiceConnector extends AbstractDataServiceConnector
 	{
 		
 		private var _oXMLSocket : XMLSocket ;
+		private var _oDS : DataService;
 		
-		public function XMLServiceConnector()
+		public function XMLServiceConnector(url : String)
 		{
 			_oXMLSocket = new XMLSocket () ;
 			
-			super() ;
+			super(url);
 			
 			_oXMLSocket.addEventListener( Event.CLOSE, onClose );
             _oXMLSocket.addEventListener( Event.CONNECT, onConnect );
@@ -23,21 +27,20 @@ package com.bourre.request
             _oXMLSocket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
 		}
 		
-		public function request(e : DataService):void
+		override public function request(e : DataService):void
 		{
-			_oService = e ;
+			_oDS = e ;
+			
+			//_oDSEvent.setDataConnector(this) ;
+			
 			if (!_oXMLSocket.connected)
 			{
-				var url:String ;
-				var port:Number ;
-				
-				var tab:Array = getURL().split(":") ;
-				
-				url = tab[0] ;
-				port = tab[1]as Number ;
-				
-				_oXMLSocket.connect(url, port) ;
+				_oXMLSocket.connect(_url, _port) ;
+			}else
+			{
+				_oXMLSocket.send(_oDS.getArguments()) ;
 			}
+			
 		}
 		
 		public override function release():void
@@ -47,28 +50,43 @@ package com.bourre.request
 		
 		public function onConnect(event:Event):void
 		{
-			_oXMLSocket.send(_oService.getArguments()) ;
+			_oXMLSocket.send(_oDS.getArguments()) ;
+		}
+		
+		public function onClose(event:Event):void
+		{
+			trace(this,event)
+		}
+		
+		public function onProgress(event:Event):void
+		{
+			//fireEvent(event)
 		}
 		
 		public function onDataReceived(event : DataEvent):void
 		{
-			_oService.setResult(event.data) ;
-			(event as DataServiceEvent).setDataConnector(this) ;
-			fireOnDataResult() ;
+			_oDS.setResult(event.data);
+			_oDS.fireResult()
+			fireEvent(new DataServiceEvent(DataServiceEvent.onDataResultEVENT,_oDS)) ;
+			fireCommandEndEvent()
+			
 		}
 		
 		public function onIOError(event:IOErrorEvent):void
 		{
-			_oService.setResult(event) ;
-			(event as DataServiceEvent).setDataConnector(this) ;
-			fireOnDataError() ;
+			_oDS.setResult(event.text) ;
+			_oDS.fireError()
+			fireEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,_oDS));
+			fireCommandEndEvent()
 		}
 		
-		public function onSecurityError(event:SecurityErrorEvent)
+		public function onSecurityError(event:SecurityErrorEvent) : void
 		{
-			_oService.setResult(event);
-			(event as DataServiceEvent).setDataConnector(this) ;
-			fireOnDataError() ;
+			_oDS.setResult(event.text);
+			
+			_oDS.fireError()
+			fireEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,_oDS)) ;
+			fireCommandEndEvent()
 		}
 	}
 }
