@@ -79,7 +79,7 @@
 		}
 		
 		/**
-		 * Create and return a clone of the current <code>Rectangle</code> object. 
+		 * Creates and returns a clone of the current <code>Rectangle</code> object. 
 		 * 
 		 * @return <code>Rectangle</code> copy of the current object.
 		 */
@@ -99,7 +99,7 @@
 		}
 		
 		/**
-		 * Set the top left corner.
+		 * Sets the top left corner.
 		 * 
 		 * <p>Modifying a corner change the size of the rectangle, 
 		 * use <code>x</code> and <code>y</code> properties to align a rectangle
@@ -124,7 +124,7 @@
 		}
 		
 		/**
-		 * Set the top right corner.
+		 * Sets the top right corner.
 		 * 
 		 * <p>Modifying a corner change the size of the rectangle, 
 		 * use <code>x</code> and <code>y</code> properties to align a rectangle
@@ -149,7 +149,7 @@
 		}
 		
 		/**
-		 * Set the bottom left corner.
+		 * Sets the bottom left corner.
 		 * 
 		 * <p>Modifying a corner change the size of the rectangle, 
 		 * use <code>x</code> and <code>y</code> properties to align a rectangle
@@ -174,7 +174,7 @@
 		}
 		
 		/**
-		 * Set the bottom right corner.
+		 * Sets the bottom right corner.
 		 * 
 		 * <p>Modifying a corner change the size of the rectangle, 
 		 * use <code>x</code> and <code>y</code> properties to align a rectangle
@@ -209,7 +209,7 @@
 		}
 		
 		/**
-		 * Set the rectangle left border
+		 * Sets the rectangle left border
 		 * 
 		 * @param	n The new left border
 		 */
@@ -231,7 +231,7 @@
 		}
 		
 		/**
-		 * Set the rectangle right border
+		 * Sets the rectangle right border
 		 * 
 		 * @param	n The new right border
 		 */
@@ -251,7 +251,7 @@
 		}
 		
 		/**
-		 * Set the rectangle top border
+		 * Sets the rectangle top border
 		 * 
 		 * @param	n The new top border
 		 */
@@ -273,7 +273,7 @@
 		}
 		
 		/**
-		 * Set the rectangle bottom border
+		 * Sets the rectangle bottom border
 		 * 
 		 * @param	n The new bottom border
 		 */
@@ -283,7 +283,7 @@
 		}
 		
 		/**
-	     * Compare 2 rectangles each other.
+	     * Compares 2 rectangles each other.
 	     * 
 	     * <p>Rectangles are equals when size <b>and</b> position are
 	     * equals.
@@ -297,7 +297,7 @@
 		}
 		
 		/**
-		 * Return the area of the current <code>Rectangle</code> object.
+		 * Returns the area of the current <code>Rectangle</code> object.
 		 * 
 		 * @return <code>Number</code> of the <code>Rectangle</code> area.
 		 */
@@ -307,7 +307,7 @@
 		}
 		
 		/**
-		 * Return a <code>Point</code> object witch contain the size of the
+		 * Returns a <code>Point</code> object witch contain the size of the
 		 * current <code>Rectangle</code>.
 		 * 
 		 * @return A <code>Point</code> object
@@ -315,6 +315,33 @@
 		public function getSize () : Point
 		{
 			return new Point ( width, height );
+		}
+		
+		/**
+		 * 
+		 * @param rect
+		 * @return 
+		 * 
+		 */
+		public function intersect ( rect : Rectangle ) : Boolean
+		{
+			return( x < rect.x + rect.width &&
+					x + width > rect.x &&
+					y < rect.y + rect.height &&
+					y + height > rect.y );
+		}
+		
+		/**
+		 * 
+		 * @param p
+		 * @return 
+		 */
+		public function inside ( p : Point ) : Boolean
+		{
+			return ( 	p.x > getLeft() &&
+						p.x < getRight() &&
+						p.y > getTop() &&
+						p.y < getBottom() );
 		}
 		
 		/**
