@@ -4,7 +4,6 @@ package com.bourre.load
 	import flash.geom.Point ;
 	import com.bourre.log.PixlibDebug ;
 	import com.bourre.core.CoreFactory;
-	import mx.events.IndexChangedEvent;
 	import com.bourre.error.UnsupportedNodeAttributeException;
 	
 	public class XMLToObjectDeserializer implements XMLLoaderDeserializer
