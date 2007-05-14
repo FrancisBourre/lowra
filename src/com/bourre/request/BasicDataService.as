@@ -3,13 +3,13 @@ package com.bourre.request
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.collection.Collection;
 	
-	public class XMLSocketDataService implements DataService
+	public class BasicDataService implements DataService
 	{
 		private var _oResult:Object ;
 		private var _oDataServiceArgument:Object ;
 		private var _oEB:EventBroadcaster ; 
 		
-		public function XMLSocketDataService ()
+		public function BasicDataService ()
 		{
 			_oEB = new EventBroadcaster(this) ;
 		}

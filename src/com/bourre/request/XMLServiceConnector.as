@@ -27,7 +27,7 @@ package com.bourre.request
             _oXMLSocket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
 		}
 		
-		override public function request(e : DataService):void
+		override protected function doRequest(e : DataService):void
 		{
 			_oDS = e ;
 			
