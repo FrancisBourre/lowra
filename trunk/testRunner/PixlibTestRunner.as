@@ -135,7 +135,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( PluginChannelTest );
 
 	//com.bourre.request
-	ts.addTestSuite( AbstractDataRequestTest );
+	//ts.addTestSuite( AbstractDataRequestTest );
 
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
