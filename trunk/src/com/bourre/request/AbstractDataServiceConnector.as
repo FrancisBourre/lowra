@@ -35,8 +35,8 @@ package com.bourre.request
 	{
 		protected var _url 		: String ;
 		protected var _port 	: uint ;
-		
-		
+		private var _queue		: Array ;
+		private var _hasRequestRunning : Boolean;
 		
 		private var _oEB 		: EventBroadcaster ;
 		private var _oEBasync 	: EventBroadcaster ;
@@ -46,6 +46,8 @@ package com.bourre.request
 			setURL( url )
 			_oEB = new EventBroadcaster(this) ;
 			_oEBasync = new EventBroadcaster(this) ;
+			this._queue = new Array()
+			_hasRequestRunning = false
 		}
 		
 		public function setURL( url : String ) : void
@@ -70,12 +72,21 @@ package com.bourre.request
 		{
 			return _oEB.removeListener( listener );
 		}
+		protected function doRequest(e : DataService):void
+		{
+			var msg : String = this + ".doRequest() must be implemented in concrete class.";
+			PixlibDebug.ERROR( msg );
+			throw( new UnimplementedVirtualMethodException( msg ) );
+		}
 		
 		public function request( e : DataService ) : void
 		{
-			var msg : String = this + ".request() must be implemented in concrete class.";
-			PixlibDebug.ERROR( msg );
-			throw( new UnimplementedVirtualMethodException( msg ) );
+			store(e);
+			if ( !_hasRequestRunning )
+			{
+				_hasRequestRunning = true;
+				doRequest(this.unstore());
+			}
 		}
 		
 		public function release():void 
@@ -105,6 +116,51 @@ package com.bourre.request
 		public function fireCommandEndEvent() : void
 		{
 			_oEBasync.broadcastEvent(new ASyncCommandEvent(ASyncCommandEvent.onCommandEndEVENT, this)) ;
+		}
+		
+		protected function doNextRequest() : void
+		{
+			
+			if( hasRequest())
+			{
+				doRequest( unstore())
+			}
+			else
+			{
+				_hasRequestRunning = false;
+			}
+		}
+		
+		public function store ( dre : DataService ) : void
+		{
+			_queue.push(dre) ;
+		}
+		
+		public function hasRequest():Boolean
+		{
+		 	return _queue.length > 0 ;
+		}
+		
+		
+		public function unstore() : DataService
+		{
+			if(hasRequest())
+				return _queue.shift() as DataService ;
+			else 
+				return null
+		}
+		
+		/**
+		 
+		 * */
+		public function onDataResult( event : DataServiceEvent) : void
+		{
+			doNextRequest()
+		}
+		
+		public function onDataError( event : DataServiceEvent) : void
+		{
+			doNextRequest()
 		}
 	}
 }
