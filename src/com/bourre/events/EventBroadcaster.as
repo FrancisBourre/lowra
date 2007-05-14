@@ -206,15 +206,15 @@ package com.bourre.events
 			{
 				var listener : Object = a[l];
 				
-				if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
-				{
-					listener.handleEvent(e);
-
-				} else if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
+				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
 				{
 					listener[type](e);
 					
-				} else
+				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+				{
+					listener.handleEvent(e);
+
+				} else 
 				{
 					var msg : String;
 					msg = "EventBroadcaster.broadcastEvent() failed, you must implement '" 

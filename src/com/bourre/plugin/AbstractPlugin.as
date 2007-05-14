@@ -33,6 +33,8 @@ package com.bourre.plugin
 			
 			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this )
 			
+			getLogger().debug( "plugin dispatcher " + _oEBPublic );
+			
 			_oEBPrivate = getController().getBroadcaster()
 			
 			if( _oEBPublic )_oEBPublic.addListener( this )
