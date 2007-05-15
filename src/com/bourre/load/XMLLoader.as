@@ -26,6 +26,7 @@ package com.bourre.load
 
 	import flash.net.URLRequest;
 	import flash.utils.describeType;
+	import flash.system.LoaderContext;
 	
 	public class XMLLoader 
 		extends AbstractLoader
@@ -59,11 +60,11 @@ package com.bourre.load
 			return XML( getContent() );
 		}
 
-		public override function load( url : URLRequest = null ) : void
+		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			release();
 
-			super.load( url );
+			super.load( url, context );
 		}
 
 		public override function release() : void
