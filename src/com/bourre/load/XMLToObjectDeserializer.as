@@ -49,7 +49,7 @@ package com.bourre.load
 		
 		public function	deserializeNode (target:Object, node:XML):Object
 		{
-			var member:String = member = node.name();
+			var member:String = node.name();
 			var obj:Object = {} ;
 			
 			if (node.attribute("type").length()== 0 && !node.hasSimpleContent())
@@ -141,7 +141,7 @@ package com.bourre.load
 					aR.push( s == 'true' );
 				} else
 				{
-					if (s.charCodeAt(0) == 34 || s.charCodeAt(0) == 39)
+					if (s.charCodeAt(0) == 34 || s.charCodeAt(0) == 39) // " ou '
 					{
 						aR.push( s.substr(1, s.length-2) );
 					} else
