@@ -26,6 +26,7 @@ package com.bourre.load
 	import flash.events.Event;
 	import com.bourre.log.PixlibDebug;
 	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
 	
 	public class QueueLoader 
 		extends AbstractLoader 
@@ -44,7 +45,7 @@ package com.bourre.load
 			_q.clear();
 		}
 		
-		public function add( loader : Loader, name : String, url : URLRequest ) : Boolean
+		public function add( loader : Loader, name : String, url : URLRequest, context : LoaderContext = null ) : Boolean
 		{
 			if ( name ) 
 			{
@@ -53,7 +54,10 @@ package com.bourre.load
 				if ( url )
 				{
 					loader.setURL( url );
-
+					if( context )
+					{
+						loader.setContext( context );
+					}
 				} else if ( loader.getURL().url )
 				{
 					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
@@ -117,11 +121,11 @@ package com.bourre.load
 			return new QueueLoaderEvent( type, this );
 		}
 		
-		public override function load( url : URLRequest = null ) : void
+		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			release();
 
-			super.load( url );
+			super.load( url, context );
 		}
 		
 		public function loadNextEntry() : void

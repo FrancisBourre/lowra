@@ -26,11 +26,12 @@ package com.bourre.load
 	import flash.display.*;
 	import flash.net.URLRequest;
 	import com.bourre.load.strategy.LoadStrategy;
+	import flash.system.LoaderContext;
 	
 	public interface Loader 
 		extends ASyncCommand
 	{
-		function load( url : URLRequest = null ) : void;
+		function load( url : URLRequest = null, context : LoaderContext = null ) : void;
 		function getURL() : URLRequest;
 		function setURL( url : URLRequest ) : void;
 		function prefixURL( prefixURL : String ) : void;
@@ -43,6 +44,8 @@ package com.bourre.load
 		function addEventListener( type : String, listener : Object, ... rest ) : Boolean;
 		function removeEventListener( type : String, listener : Object ) : Boolean;
 		function setAntiCache( b : Boolean ) : void;
+		function setContext ( context : LoaderContext ):void;
+		function getContext () : LoaderContext;
 		
 		function setContent( content : Object ) : void;
 		function fireOnLoadProgressEvent() : void;

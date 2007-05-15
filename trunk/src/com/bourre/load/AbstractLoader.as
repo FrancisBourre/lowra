@@ -31,6 +31,7 @@ package com.bourre.load
 	import flash.events.*;
 	import flash.net.*;
 	import flash.utils.*;
+	import flash.system.LoaderContext;
 
 	public class AbstractLoader 
 		implements com.bourre.load.Loader
@@ -39,6 +40,7 @@ package com.bourre.load
 		private var _sName : String;
 		private var _nTimeOut : Number;
 		private var _oURL : URLRequest;
+		private var _oContext : LoaderContext;
 		private var _bAntiCache : Boolean;
 		protected var _sPrefixURL : String;
 		
@@ -66,16 +68,16 @@ package com.bourre.load
 		{
 			return _loadStrategy;
 		}
-		public function load( url : URLRequest = null ) : void
+		public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( url ) setURL( url );
-
+			if ( context ) setContext( context );
 			if ( getURL() )
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
 				
-				_loadStrategy.load( getURL() );
+				_loadStrategy.load( getURL(), getContext() );
 
 			} else
 			{
@@ -221,7 +223,17 @@ package com.bourre.load
 		{
 			
 		}
-
+		
+		final public function setContext ( context : LoaderContext ):void
+		{
+			_oContext = context;
+		}
+		
+		final public function getContext () : LoaderContext
+		{
+			return _oContext;
+		}
+		
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

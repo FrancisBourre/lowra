@@ -48,7 +48,7 @@ package com.bourre.load.strategy
 		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			_initLoaderStrategy();
-			_loader.load( request );
+			_loader.load( request, context );
 		}
 
 		public function loadBytes( bytes : ByteArray, context : LoaderContext = null ) : void
