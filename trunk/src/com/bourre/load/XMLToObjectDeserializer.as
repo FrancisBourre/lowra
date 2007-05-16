@@ -87,6 +87,7 @@ package com.bourre.load
 		public function addType( type : String, parsingMethod : Function ) : void
 		{
 			_m.put( type, parsingMethod) ;
+			//PixlibDebug.DEBUG( "added type '" + type + "':"+parsingMethod+" to "+ this );
 		}
 	
 	  	private function _getData( node:XML ):*
