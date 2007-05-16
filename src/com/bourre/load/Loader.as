@@ -44,8 +44,6 @@ package com.bourre.load
 		function addEventListener( type : String, listener : Object, ... rest ) : Boolean;
 		function removeEventListener( type : String, listener : Object ) : Boolean;
 		function setAntiCache( b : Boolean ) : void;
-		function setContext ( context : LoaderContext ):void;
-		function getContext () : LoaderContext;
 		
 		function setContent( content : Object ) : void;
 		function fireOnLoadProgressEvent() : void;

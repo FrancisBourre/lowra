@@ -36,7 +36,7 @@ package com.bourre.load
 		private var _index : int;
 		private var _bAutoShow : Boolean;
 		private var _bMustUnregister : Boolean;
-	
+		private var _oContext : LoaderContext;
 		public function GraphicLoader( target : DisplayObjectContainer = null, index : int = -1, bAutoShow : Boolean = true )
 		{
 			super( new LoaderStrategy() );
@@ -63,8 +63,10 @@ package com.bourre.load
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			release();
+			
+			if ( context ) setContext( context );
 
-			super.load( url, context );
+			super.load( url, getContext() );
 		}
 		
 		protected override function onLoadInit() : void
@@ -149,6 +151,16 @@ package com.bourre.load
 		public function getApplicationDomain() : ApplicationDomain
 		{
 			return ( getStrategy() as LoaderStrategy ).getContentLoaderInfo().applicationDomain;
+		}
+		
+		final public function setContext ( context : LoaderContext ):void
+		{
+			_oContext = context;
+		}
+		
+		final public function getContext () : LoaderContext
+		{
+			return _oContext;
 		}
 	}
 }

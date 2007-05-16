@@ -54,9 +54,9 @@ package com.bourre.load
 				if ( url )
 				{
 					loader.setURL( url );
-					if( context )
+					if( context && loader is GraphicLoader )
 					{
-						loader.setContext( context );
+						( loader as GraphicLoader ).setContext( context );
 					}
 				} else if ( loader.getURL().url )
 				{
