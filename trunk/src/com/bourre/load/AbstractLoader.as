@@ -40,7 +40,6 @@ package com.bourre.load
 		private var _sName : String;
 		private var _nTimeOut : Number;
 		private var _oURL : URLRequest;
-		private var _oContext : LoaderContext;
 		private var _bAntiCache : Boolean;
 		protected var _sPrefixURL : String;
 		
@@ -71,13 +70,13 @@ package com.bourre.load
 		public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( url ) setURL( url );
-			if ( context ) setContext( context );
+			
 			if ( getURL() )
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
 				
-				_loadStrategy.load( getURL(), getContext() );
+				_loadStrategy.load( getURL(), context );
 
 			} else
 			{
@@ -223,16 +222,7 @@ package com.bourre.load
 		{
 			
 		}
-		
-		final public function setContext ( context : LoaderContext ):void
-		{
-			_oContext = context;
-		}
-		
-		final public function getContext () : LoaderContext
-		{
-			return _oContext;
-		}
+
 		
 		/**
 		 * Returns the string representation of this instance.
