@@ -130,7 +130,8 @@ package com.bourre.load
 		{
 			_bAutoShow = b;
 		}
-		public override function release() : void
+		
+		override public function release() : void
 		{
 			if ( getContent() && _target.contains( getContent() as DisplayObject ) )_target.removeChild( getContent() as DisplayObject );
 
@@ -145,7 +146,16 @@ package com.bourre.load
 		
 		public function getView() : DisplayObjectContainer
 		{
-			return super.getContent() as DisplayObjectContainer;
+			var content : DisplayObject = getContent() as DisplayObject;
+
+			if ( content is Bitmap )
+			{
+				var mc : Sprite = new Sprite();
+				mc.addChild( content as Bitmap );
+				content = mc;
+			}
+			
+			return content as DisplayObjectContainer;
 		}
 		
 		public function getApplicationDomain() : ApplicationDomain
