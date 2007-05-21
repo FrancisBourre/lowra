@@ -32,12 +32,12 @@ package com.bourre.load
 		extends AbstractLoader 
 	{
 		private var _q : Queue;
-		private var _currentLoader:Loader ;
-		private static var _KEY:int=0 ;
+		private var _currentLoader : Loader;
+		private static var _KEY : int = 0 ;
 		
 		public function QueueLoader()
 		{
-			_q = new Queue();
+			_q = new Queue( Loader );
 		}
 		
 		public function clear() : void
@@ -54,10 +54,8 @@ package com.bourre.load
 				if ( url )
 				{
 					loader.setURL( url );
-					if( context && loader is GraphicLoader )
-					{
-						( loader as GraphicLoader ).setContext( context );
-					}
+					if ( context && loader is GraphicLoader ) ( loader as GraphicLoader ).setContext( context );
+
 				} else if ( loader.getURL().url )
 				{
 					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
@@ -130,20 +128,22 @@ package com.bourre.load
 		
 		public function loadNextEntry() : void
 		{
-			if (_currentLoader)
+			if ( _currentLoader )
 			{
-				_currentLoader.removeEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit) ;
-				_currentLoader.removeEventListener(LoaderEvent.onLoadProgressEVENT, onLoaderLoadProgress) ;
-				_currentLoader.removeEventListener(LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut) ;
-				_currentLoader.removeEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart) ;
+				_currentLoader.removeEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadProgressEVENT, onLoaderLoadProgress);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
 			}
+
 			_currentLoader = _q.poll() as Loader ;
-			if (_sPrefixURL)
-				_currentLoader.prefixURL(_sPrefixURL) ;
-			_currentLoader.addEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit) ;
-			_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress) ;
-			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut) ;
-			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart) ;
+
+			if ( _sPrefixURL ) _currentLoader.prefixURL( _sPrefixURL );
+
+			_currentLoader.addEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
+			_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress);
+			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
+			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
 			
 			_currentLoader.execute() ;
 		}
@@ -167,7 +167,7 @@ package com.bourre.load
 			
 			while( --l > -1 )
 			{
-				var loader: Loader = a[l];
+				var loader : Loader = a[l];
 				if ( !( loader.getURL() ) )
 				{
 					PixlibDebug.ERROR( this + " encounters Loader instance without url property, load fails." );

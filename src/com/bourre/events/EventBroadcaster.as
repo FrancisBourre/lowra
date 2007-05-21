@@ -32,12 +32,12 @@ package com.bourre.events
 	public class EventBroadcaster
 	{
 		private static var _oI : EventBroadcaster = null;
-		
+
 		private var _oTarget : Object;
 		private var _mAll : Collection;
 		private var _mType : HashMap;
 		private var _mEventListener : HashMap;
-		
+
 		public function EventBroadcaster( target : Object = null )
 		{
 			_oTarget = ( target == null ) ? this : target;
@@ -46,35 +46,34 @@ package com.bourre.events
 			_mType = new HashMap();
 			_mEventListener = new HashMap();
 		}
-		
+
 		public static function getInstance() : EventBroadcaster
 		{
 			if ( !(EventBroadcaster._oI is EventBroadcaster) ) EventBroadcaster._oI = new EventBroadcaster();
 			return EventBroadcaster._oI;
 		}
-		
+
 		public function hasListenerCollection( type : String ) : Boolean
 		{
 			return _mType.containsKey( type );
 		}
-		
+
 		public function getListenerCollection( type : String = null ) : Collection
 		{
 			return ( type != null ) ? _mType.get( type ) : _mAll;
 		}
-		
+
 		public function removeListenerCollection( type : String ) : void
 		{
 			_mType.remove( type );
 		}
-		
+
 		public function isRegistered( listener : Object, type : String = null ) : Boolean
 		{
 			if (type == null)
 			{
 				return _mAll.contains( listener );
-				
-				
+
 			} else
 			{
 				if ( hasListenerCollection( type ) )
@@ -86,7 +85,7 @@ package com.bourre.events
 				}
 			}
 		}
-		
+
 		public function addListener( listener : Object ) : Boolean
 		{
 			if ( _mAll.add( listener ) ) 
@@ -99,7 +98,7 @@ package com.bourre.events
 				return false;
 			}
 		}
-		
+
 		public function removeListener( listener : Object ) : Boolean
 		{
 			var b : Boolean = _flushRef( listener );
@@ -107,7 +106,7 @@ package com.bourre.events
 			_mAll.remove( listener );
 			return b;
 		}
-		
+
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
 
@@ -120,11 +119,11 @@ package com.bourre.events
 			} else if ( listener.hasOwnProperty( type ) && ( listener[type] is Function ) )
 			{
 				//
-					
+	
 			} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
 			{
 				//
-			
+
 			} else
 			{
 				var msg : String;
@@ -135,7 +134,7 @@ package com.bourre.events
 				PixlibDebug.ERROR( msg );
 				throw( new UnsupportedOperationException( msg ) );
 			}
-			
+
 			if ( !( isRegistered( listener ) ) )
 			{
 				if ( !(hasListenerCollection(type)) ) _mType.put( type, new WeakCollection() );
@@ -145,10 +144,10 @@ package com.bourre.events
 					return true;
 				} 
 			}
-			
+
 			return false;
 		}
-		
+
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			if ( hasListenerCollection( type ) )
@@ -170,38 +169,38 @@ package com.bourre.events
 				return false;
 			}
 		}
-		
+
 		public function removeAllListeners() : void
 		{
 			_mAll.clear();
 			_mType.clear();
 			_mEventListener.clear();
 		}
-		
+
 		public function isEmpty() : Boolean
 		{
 			return _mAll.isEmpty() && _mType.isEmpty();
 		}
-		
+
 		public function dispatchEvent( o : Object ) : void
 		{
 			var e : DynBasicEvent = new DynBasicEvent( o["type"] );
 			for ( var p : String in o ) if (p != "type") e[p] = o[p];
 			broadcastEvent( e );
 		}
-		
+
 		public function broadcastEvent( e : Event ) : void
 		{
 			if ( hasListenerCollection(e.type) ) _broadcastEvent( getListenerCollection(e.type), e );
 			if ( !(_mAll.isEmpty()) ) _broadcastEvent( _mAll, e );
 		}
-		
+
 		public function _broadcastEvent( c : Collection, e : Event ) : void
 		{
 			var type : String = e.type;
 			var a : Array = c.toArray();
 			var l : Number = a.length;
-			
+
 			while ( --l > -1 ) 
 			{
 				var listener : Object = a[l];
@@ -248,7 +247,6 @@ package com.bourre.events
 			var m : HashMap = _mEventListener.get( listener );
 			m.remove( type );
 			if ( m.isEmpty() ) _mEventListener.remove( listener );
-			
 		}
 		
 		private function _flushRef( listener : Object ) : Boolean
