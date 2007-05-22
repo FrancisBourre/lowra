@@ -57,6 +57,7 @@ package com.bourre.request
 		public function fireResult() : void
 		{
 			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataResultEVENT,this))
+			
 		}
 	}
 }
