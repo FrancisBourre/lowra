@@ -7,12 +7,13 @@ package com.bourre.request
 	import flash.events.SecurityErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.utils.getQualifiedClassName;
+	import com.bourre.log.PixlibDebug;
 	
 	public class XMLServiceConnector extends AbstractDataServiceConnector
 	{
 		
 		private var _oXMLSocket : XMLSocket ;
-		
+		public var isDebug : Boolean
 		
 		
 		public function XMLServiceConnector(url : String)
@@ -20,6 +21,7 @@ package com.bourre.request
 			super(url) ;
 			
 			_oXMLSocket = new XMLSocket () ;
+			isDebug = false
 			
 			_oXMLSocket.addEventListener( Event.CLOSE, onClose ) ;
             _oXMLSocket.addEventListener( Event.CONNECT, onConnect ) ;
@@ -50,11 +52,13 @@ package com.bourre.request
 		
 		public function onConnect(event:Event):void
 		{
+			if(isDebug) PixlibDebug.DEBUG("[XMLServiceConnector]::onConnect()")
 			_oXMLSocket.send(getDataService().getArguments()) ;
 		}
 		
 		public function onClose(event:Event):void
 		{
+			if(isDebug) PixlibDebug.DEBUG("[XMLServiceConnector]::onClose()")
 			doNextRequest() ;
 		}
 		
@@ -65,16 +69,19 @@ package com.bourre.request
 		
 		public function onDataReceived(event : DataEvent):void
 		{
+			if(isDebug) PixlibDebug.DEBUG("[XMLServiceConnector]::onDataReceived() " + event.data)
 			 this.fireResult( event.data, DataServiceEvent.onDataResultEVENT)
 		}
 		
 		public function onIOError(event:IOErrorEvent):void
 		{
+			if(isDebug) PixlibDebug.DEBUG("[XMLServiceConnector]::onIOError() " + event.text)
 			 this.fireResult( event.text, DataServiceEvent.onDataErrorEVENT)
 		}
 		
 		public function onSecurityError(event:SecurityErrorEvent) : void
 		{
+			if(isDebug) PixlibDebug.DEBUG("[XMLServiceConnector]::onSecurityError() " + event.text)
 			 this.fireResult( event.text, DataServiceEvent.onDataErrorEVENT)
 
 		}
