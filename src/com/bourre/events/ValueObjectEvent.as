@@ -29,7 +29,7 @@ package com.bourre.events
 		public function ValueObjectEvent( sType : String, oTarget : Object = null, o : ValueObject = null )
 		{
 			super( sType, oTarget );
-			_s = s;
+			_o = o;
 		}
 		
 		public function getValueObject() : ValueObject
