@@ -29,6 +29,7 @@ package com.bourre.request
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.collection.Collection;
+	import flash.utils.getQualifiedClassName;
 	
 	public class AbstractDataServiceConnector 
 		implements DataServiceConnector
@@ -40,6 +41,8 @@ package com.bourre.request
 		
 		private var _oEB 		: EventBroadcaster ;
 		private var _oEBasync 	: EventBroadcaster ;
+		
+		private var _oDS : DataService ;
 		
 		public function AbstractDataServiceConnector(url : String)
 		{
@@ -89,6 +92,17 @@ package com.bourre.request
 			}
 		}
 		
+		public function fireResult( result : Object, event : String ) : void
+		{
+			getDataService().setResult(result) ;
+			getDataService().fireResult() ;
+			fireEvent(new DataServiceEvent(event, _oDS)) ;
+			fireCommandEndEvent() ;
+			//to dont broadcast 
+			setDataService(null);
+			doNextRequest() ;
+		}
+		
 		public function release():void 
 		{
 			var msg : String = this + ".release() must be implemented in concrete class.";
@@ -120,10 +134,10 @@ package com.bourre.request
 		
 		protected function doNextRequest() : void
 		{
-			
 			if( hasRequest())
 			{
-				doRequest( unstore())
+				_hasRequestRunning = true;
+				doRequest( this.unstore())
 			}
 			else
 			{
@@ -150,17 +164,14 @@ package com.bourre.request
 				return null
 		}
 		
-		/**
-		 
-		 * */
-		public function onDataResult( event : DataServiceEvent) : void
+		public function getDataService() : DataService
 		{
-			doNextRequest()
+			return (_oDS == null)? new BasicDataService(): _oDS
 		}
 		
-		public function onDataError( event : DataServiceEvent) : void
+		public function setDataService(ds : DataService) : void
 		{
-			doNextRequest()
+			_oDS = ds
 		}
 	}
 }

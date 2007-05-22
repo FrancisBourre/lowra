@@ -6,41 +6,41 @@ package com.bourre.request
 	import flash.events.DataEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.events.ProgressEvent;
+	import flash.utils.getQualifiedClassName;
 	
 	public class XMLServiceConnector extends AbstractDataServiceConnector
 	{
 		
 		private var _oXMLSocket : XMLSocket ;
-		private var _oDS : DataService;
+		
+		
 		
 		public function XMLServiceConnector(url : String)
 		{
+			super(url) ;
+			
 			_oXMLSocket = new XMLSocket () ;
 			
-			super(url);
-			
-			_oXMLSocket.addEventListener( Event.CLOSE, onClose );
-            _oXMLSocket.addEventListener( Event.CONNECT, onConnect );
-            _oXMLSocket.addEventListener( DataEvent.DATA, onDataReceived );
-            _oXMLSocket.addEventListener( IOErrorEvent.IO_ERROR, onIOError );
-            _oXMLSocket.addEventListener( ProgressEvent.PROGRESS, onProgress );
-            _oXMLSocket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
+			_oXMLSocket.addEventListener( Event.CLOSE, onClose ) ;
+            _oXMLSocket.addEventListener( Event.CONNECT, onConnect ) ;
+            _oXMLSocket.addEventListener( DataEvent.DATA, onDataReceived ) ;
+            _oXMLSocket.addEventListener( IOErrorEvent.IO_ERROR, onIOError ) ;
+            _oXMLSocket.addEventListener( ProgressEvent.PROGRESS, onProgress ) ;
+            _oXMLSocket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError ) ;
 		}
 		
 		override protected function doRequest(e : DataService):void
 		{
-			_oDS = e ;
-			
-			//_oDSEvent.setDataConnector(this) ;
-			
+			setDataService( e );
 			if (!_oXMLSocket.connected)
 			{
 				_oXMLSocket.connect(_url, _port) ;
-			}else
-			{
-				_oXMLSocket.send(_oDS.getArguments()) ;
+				
 			}
-			
+			else
+			{
+				_oXMLSocket.send(getDataService().getArguments()) ;
+			}
 		}
 		
 		public override function release():void
@@ -50,12 +50,12 @@ package com.bourre.request
 		
 		public function onConnect(event:Event):void
 		{
-			_oXMLSocket.send(_oDS.getArguments()) ;
+			_oXMLSocket.send(getDataService().getArguments()) ;
 		}
 		
 		public function onClose(event:Event):void
 		{
-			trace(this,event)
+			doNextRequest() ;
 		}
 		
 		public function onProgress(event:Event):void
@@ -65,28 +65,18 @@ package com.bourre.request
 		
 		public function onDataReceived(event : DataEvent):void
 		{
-			_oDS.setResult(event.data);
-			_oDS.fireResult()
-			fireEvent(new DataServiceEvent(DataServiceEvent.onDataResultEVENT,_oDS)) ;
-			fireCommandEndEvent()
-			
+			 this.fireResult( event.data, DataServiceEvent.onDataResultEVENT)
 		}
 		
 		public function onIOError(event:IOErrorEvent):void
 		{
-			_oDS.setResult(event.text) ;
-			_oDS.fireError()
-			fireEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,_oDS));
-			fireCommandEndEvent()
+			 this.fireResult( event.text, DataServiceEvent.onDataErrorEVENT)
 		}
 		
 		public function onSecurityError(event:SecurityErrorEvent) : void
 		{
-			_oDS.setResult(event.text);
-			
-			_oDS.fireError()
-			fireEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,_oDS)) ;
-			fireCommandEndEvent()
+			 this.fireResult( event.text, DataServiceEvent.onDataErrorEVENT)
+
 		}
 	}
 }
