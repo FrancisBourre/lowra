@@ -31,7 +31,6 @@ package com.bourre.ioc.parser
 		public static const VALUE 				: String = "value";
 		public static const FACTORY 			: String = "factory";
 		public static const URL 				: String = "url";
-		public static const DEPTH 				: String = "depth";
 		public static const VISIBLE 			: String = "visible";
 		public static const SINGLETON_ACCESS 	: String = "singleton-access";
 		public static const METHOD 				: String = "method";
@@ -59,6 +58,12 @@ package com.bourre.ioc.parser
 			return type ? type : ContextTypeList.STRING;
 		}
 		
+		public static function getDisplayType( xml : XML ) : String
+		{
+			var type : String = xml.attribute( ContextAttributeList.TYPE );
+			return type ? type : ContextTypeList.SPRITE;
+		}
+		
 		public static function getName( xml : XML ) : String
 		{
 			return xml.attribute( ContextAttributeList.NAME );
@@ -68,22 +73,17 @@ package com.bourre.ioc.parser
 		{
 			return xml.attribute( ContextAttributeList.REF );
 		}
-		
+
 		public static function getValue( xml : XML ) : String
 		{
 			return xml.attribute( ContextAttributeList.VALUE ) || null;
 		}
-		
+
 		public static function getURL( xml : XML ) : String
 		{
 			return xml.attribute( ContextAttributeList.URL );
 		}
-		
-		public static function getDepth( xml : XML ) : String
-		{
-			return xml.attribute( ContextAttributeList.DEPTH );
-		}
-		
+
 		public static function getVisible( xml : XML ) : String
 		{
 			return xml.attribute( ContextAttributeList.VISIBLE );

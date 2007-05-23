@@ -5,6 +5,7 @@ package com.bourre.ioc.parser
 	import com.bourre.plugin.PluginDebug;
 	import com.bourre.ioc.error.NullIDException;
 	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.commands.ReversedBatch;
 
 	public class DisplayObjectParser
 		extends AbstractParser
@@ -16,7 +17,8 @@ package com.bourre.ioc.parser
 
 		public override function parse( xml : * ) : void
 		{
-			for each ( var node : XML in xml.* ) _parseNode( node );
+			xml = xml[ ContextNodeNameList.ROOT ];
+			for each ( var node : XML in xml.* ) _parseNode( node, ContextNodeNameList.ROOT );
 		}
 		
 		private function _parseNode( xml : XML, parentID : String = null ) : void
@@ -25,7 +27,7 @@ package com.bourre.ioc.parser
 			
 			// Debug missing ids.
 			var id : String = ContextAttributeList.getID( xml );
-			if ( id == null )
+			if ( !id )
 			{
 				msg = this + " encounters parsing error with '" + xml.name() + "' node. You must set an id attribute.";
 				PluginDebug.getInstance().fatal( msg );
@@ -37,27 +39,22 @@ package com.bourre.ioc.parser
 			// Filter reserved nodes (ex: attribute)
 			//if ( ContextNodeNameList.getInstance().nodeNameIsReserved( nodeName ) ) return;
 
-
 			if ( parentID )
 			{
 				var url : String = ContextAttributeList.getURL( xml );
-				var sDepth : String = ContextAttributeList.getDepth( xml );
 				var visible : String = ContextAttributeList.getVisible( xml );
 				var isVisible : Boolean = visible ? (visible == "true") : true;
-				var type : String = ContextAttributeList.getType( xml );
-				
-				// Evaluate depth with DepthManager providing context id information.
-				var depth : Number = DepthManager.getInstance().suscribeDepth( id, parentID, Number(sDepth) );
+				var type : String = ContextAttributeList.getDisplayType( xml );
 				
 				if ( url.length > 0 )
 				{
 					// If we need to load a swf file.
-					getAssembler().buildDisplayObject( id, parentID, url, depth, isVisible, type );
+					getAssembler().buildDisplayObject( id, parentID, url, isVisible, type );
 					
 				} else
 				{
 					// If we need to build an empty MovieClip.
-					getAssembler().buildEmptyDisplayObject( id, parentID, depth, isVisible, type );
+					getAssembler().buildEmptyDisplayObject( id, parentID, isVisible, type );
 				}
 			}
 			
@@ -71,8 +68,6 @@ package com.bourre.ioc.parser
 												ContextAttributeList.getRef( property ),
 												ContextAttributeList.getMethod( property ) );
 			}
-	
-
 
 			// Build method call.
 			for each ( var method : XML in xml[ ContextNodeNameList.METHOD_CALL ] )
@@ -87,7 +82,9 @@ package com.bourre.ioc.parser
 			for ( var p : String in nodeContent )
 			b.addCommand( new Delegate( this, _parseDisplayNode, p, nodeContent[p], id) );
 			b.execute();*/
-		
+
+			// recursivity
+			for each ( var node : XML in xml.* ) _parseNode( node, id );
 		}
 	}
 }
