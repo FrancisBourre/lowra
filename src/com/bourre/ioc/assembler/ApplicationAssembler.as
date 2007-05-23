@@ -30,14 +30,12 @@ package com.bourre.ioc.assembler
 		
 		function buildEmptyDisplayObject( 	ID : String,
 											parentID : String,
-											depth : uint,
 											isVisible : Boolean,
 											type : String							) : void;
 		
 		function buildDisplayObject( 		ID 					: String,
 											parentID 			: String, 
 											url 				: String,
-											depth 				: uint, 
 											isVisible 			: Boolean,
 											type 				: String			) : void;
 

@@ -47,7 +47,7 @@ package com.bourre.ioc.parser
 			
 			// Debug missing ids.
 			var id : String = ContextAttributeList.getID( xml );
-			if ( id == null )
+			if ( !id )
 			{
 				msg = this + " encounters parsing error with '" + xml.name() + "' node. You must set an id attribute.";
 				PluginDebug.getInstance().fatal( msg );

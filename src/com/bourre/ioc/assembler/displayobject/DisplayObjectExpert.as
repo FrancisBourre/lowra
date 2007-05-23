@@ -1,36 +1,27 @@
 package com.bourre.ioc.assembler.displayobject
 {
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.collection.HashMap;
-	import com.bourre.load.QueueLoader;
-	import com.bourre.load.GraphicLoader;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.MovieClip;
-	import com.bourre.ioc.bean.BeanFactory;
-	import flash.display.DisplayObject;
-	import com.bourre.load.LoaderEvent;
-	import com.bourre.load.GraphicLoaderLocator;
-	import com.bourre.load.GraphicLoaderEvent;
-	import flash.display.Sprite;
-	import com.bourre.load.QueueLoaderEvent;
-	import flash.net.URLRequest;
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.ioc.bean.BeanEvent;
-	import com.bourre.ioc.bean.BeanFactoryListener;
-	import com.bourre.ioc.parser.ContextNodeNameList;
+	import com.bourre.events.*;
+	import com.bourre.collection.*;
+	import com.bourre.load.*;
+	import com.bourre.log.*;
+	import com.bourre.ioc.bean.*;
+	import com.bourre.ioc.parser.*;
+
+	import flash.display.*;
 	import flash.events.Event;
-	
-	public class DisplayObjectExpert
+	import flash.net.URLRequest;
+
+	public class DisplayObjectExpert 
 	{
 		private static var _oI					: DisplayObjectExpert ;
+
 		private var _target						: Sprite ;
 		private var _oEB 						: EventBroadcaster ;
 		private var _dllQueue 					: QueueLoader ;
 		private var _gfxQueue 					: QueueLoader ;
 		private var _mGraphicLoader				: HashMap ;
 		private var _mDisplayObject				: HashMap ;
-		
+
 		public static var onLoadInitEVENT		: String = QueueLoaderEvent.onLoadInitEVENT ; 
 		public static var onLoadProgressEVENT	: String = QueueLoaderEvent.onLoadProgressEVENT ; 
 		public static var onTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT ; 
@@ -52,17 +43,19 @@ package com.bourre.ioc.assembler.displayobject
 			if ( DisplayObjectExpert._oI is DisplayObjectExpert ) DisplayObjectExpert._oI = null;
 		}
 		
-		public function setRootTarget ( target : Sprite ) : void
+		public function setRootTarget( target : Sprite ) : void
 		{
-			/*if(_target is Sprite)
-				throw (new Error()) ;
-			else*/
-			_target = target ;
-			BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target ) ;
-			_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) ) ;
+			_target = target;
+			BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
+			_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
 		}
 		
-		public function DisplayObjectExpert(access:PrivateConstructorAccess)
+		public function getRootTarget() : Sprite
+		{
+			return _target;
+		}
+		
+		public function DisplayObjectExpert( access : PrivateConstructorAccess )
 		{
 			_dllQueue = new QueueLoader();
 			_gfxQueue = new QueueLoader();
@@ -70,12 +63,12 @@ package com.bourre.ioc.assembler.displayobject
 
 			_oEB = new EventBroadcaster( this );
 		}
-		
+
 		/*public function buildDLL (url:String) : void
 		{
 			_dllQueue.add( new GraphicLoader(_level0, _dllQueue.length(), false),"DLL", url) ;
 		}*/
-		
+
 		public function buildGraphicLoader ( 	ID : String, 
 												url : String,
 												parentID : String = null, 
@@ -93,7 +86,7 @@ package com.bourre.ioc.assembler.displayobject
 			if ( _mDisplayObject.containsKey( parentID ) )
 				_mDisplayObject.get( parentID ).addChild( info ) ;
 		}
-		
+
 		public function buildEmptyDisplayObject( 	ID : String, 
 													parentID : String = null, 
 													depth : int = -1,
@@ -147,7 +140,7 @@ package com.bourre.ioc.assembler.displayobject
 			else
 			{
 				buildDisplayList();
-				_oEB.broadcastEvent( new QueueLoaderEvent( QueueLoaderEvent.onLoadCompleteEVENT, _gfxQueue ) );
+				_oEB.broadcastEvent( new QueueLoaderEvent( DisplayObjectExpert.onLoadCompleteEVENT, _gfxQueue ) );
 			}
 		}
 		
@@ -160,24 +153,27 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			var info : DisplayObjectInfo = _mDisplayObject.get( ID );
 			
-			if ( ID != ContextNodeNameList.ROOT )
+			if ( info != null )
 			{
-				if ( info.isEmptyDisplayObject() )
+				if ( ID != ContextNodeNameList.ROOT )
 				{
-					_buildEmptyDisplayObject( info );
+					if ( info.isEmptyDisplayObject() )
+					{
+						_buildEmptyDisplayObject( info );
+					}
+					else
+					{
+						_buildDisplayObject( info );
+					}
 				}
-				else
-				{
-					_buildDisplayObject( info );
-				}
-			}
 
-			// recursivity
-			if ( info.hasChild() )
-			{
-				var aChild : Array = info.getChild();
-				var l : int = aChild.length;
-				for ( var i : int = 0 ; i < l ; i++ ) displayObjectsTreatment( aChild[i].ID );
+				// recursivity
+				if ( info.hasChild() )
+				{
+					var aChild : Array = info.getChild();
+					var l : int = aChild.length;
+					for ( var i : int = 0 ; i < l ; i++ ) displayObjectsTreatment( aChild[i].ID );
+				}
 			}
 		}
 		
@@ -187,13 +183,14 @@ package com.bourre.ioc.assembler.displayobject
 			var oDo : Sprite = ( info.type == "Movieclip" ) ? new MovieClip() : new Sprite();
 			oParent.addChild( oDo ) ;
 			BeanFactory.getInstance().register( info.ID, oDo ) ;
-PixlibDebug.INFO( "_buildEmptyDisplayObject(" + info.ID + ", " + oDo + ")" );
+
 			_oEB.broadcastEvent( new DisplayObjectEvent( oDo ) ) ;
 		}
 		
 		private function _buildDisplayObject( info : DisplayObjectInfo ) : void
 		{
 			var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID ) ;
+
 			var parent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
 			gl.setTarget( parent );
 			if ( info.isVisible ) gl.show();
