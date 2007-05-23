@@ -11,8 +11,10 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.events.TimerEvent;
 	import flash.events.Event;
 	import com.bourre.ioc.parser.ContextNodeNameList;
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import com.bourre.load.QueueLoaderEvent;
 
-	
 	public class DisplayObjectExpertTest extends TestCase
 	{
 		private var _oDOE:DisplayObjectExpert ;
@@ -56,63 +58,56 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget( mc );
 
 			_oDOE.buildEmptyDisplayObject( "idEmpty" );
+			_oDOE.buildEmptyDisplayObject( "idEmptyChild", "idEmpty", -1, true, "Sprite" );
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync(onTestBuildEmptyDisplayObject, 5000, mc) );
 			_oDOE.load();
-			
-			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to register id with BeanFactory", BeanFactory.getInstance().isRegistered("idEmpty") ) ;				
+		}
+		
+		public function onTestBuildEmptyDisplayObject( e : Event, mc : Sprite ) : void
+		{
+			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to register 'idEmpty' id with BeanFactory", BeanFactory.getInstance().isRegistered("idEmpty") );				
+			var emptyMC : DisplayObjectContainer = mc.getChildAt(0) as DisplayObjectContainer;
 			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to add child with with Movieclip type", mc.getChildAt(0) is MovieClip) ;
+			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to register 'idEmptyChild' id with BeanFactory", BeanFactory.getInstance().isRegistered("idEmptyChild") );
+			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to add child with with Sprite type", emptyMC.getChildAt(0) is Sprite) ;
 		}
 		
 		public function testBuildGraphicLoader():void
 		{
-			var mc:MovieClip = new MovieClip() ;
-			_oDOE.setRootTarget(mc) ;
+			var mc : MovieClip = new MovieClip() ;
+			_oDOE.setRootTarget( mc ) ;
 
 			_oDOE.buildEmptyDisplayObject( "containerID" );
-			//_oDOE.buildGraphicLoader( "photo", "SoundFactory.swf", "containerID" );
+			_oDOE.buildGraphicLoader( "photo1", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner2.jpg", "containerID" );
+			_oDOE.buildGraphicLoader( "photo2", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner3.jpg", "containerID" );
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
 			_oDOE.load() ;
-
-			/*var t:Timer = new Timer(1000, 1) ;
-			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncGraphicLoaderLoaded, 2000,mc)) ;
-			t.start() ;*/
-
-			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync, onTestBuildGraphicLoader, 5000, mc );
 		}
 		
-		public function onTestBuildGraphicLoader( e : Event, _mc : Object ) : void
+		public function onTestBuildGraphicLoader( e : Event, mc : MovieClip ) : void
 		{
-			var mc : Sprite = _mc as Sprite;
-
-			assertTrue (	"DisplayObjectExpert load doesn't build container", 
-							BeanFactory.getInstance().isRegistered("containerID")) ;
-						
-			assertTrue (	"DisplayObjectExpert load doesn't load photo", 
-							BeanFactory.getInstance().isRegistered("photo")) ;
-							
-			assertTrue (	"DisplayObjectExpert load doesn't cast sprite", 
-							mc.getChildAt(0) is Sprite) ;
+			assertStrictlyEquals( "DisplayObjectExpert.getRootTarget() doesn't return expected value", mc, _oDOE.getRootTarget() );
+			assertTrue( "DisplayObjectExpert load() doesn't build 'container'", BeanFactory.getInstance().locate("containerID") is Sprite );
+			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo1'", BeanFactory.getInstance().locate("photo1") is Sprite );
+			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo2'", BeanFactory.getInstance().locate("photo2") is Sprite );		
 		}
 
-		public function testLoad() : void
+		public function testEmptyLoadingQueue() : void
 		{
-			//when load queues are empty
-			_b = true ;
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
 			_oDOE.load() ;
-			var t:Timer = new Timer(200, 1) ;
-			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncEmptyLoadingQueue, 300)) ;
-			t.start() ;
 		}
 
-		public function AsyncEmptyLoadingQueue(e:Event):void
+		public function onTestEmptyLoadingQueue( e : Event ) : void
 		{
-			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty", 
-						_b) ;
+			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty",  e is QueueLoaderEvent ) ;
 		}
-		
-		public function testDisplayObjectsTreatment():void
+
+		public function testDisplayObjectsTreatment() : void
 		{
 			//creation of the root
-			var root:MovieClip = new MovieClip() ;
-			_oDOE.setRootTarget(root) ;
+			var root : MovieClip = new MovieClip();
+			_oDOE.setRootTarget( root ) ;
 			
 			//creation of the empty clips
 			_oDOE.buildEmptyDisplayObject("clip1",	ContextNodeNameList.ROOT) ;
@@ -124,19 +119,17 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.buildEmptyDisplayObject("clip122","clip12",0,true,"Sprite") ;
 			
 			//photos loaded in two clips (=> bitmap objects)
-			_oDOE.buildGraphicLoader( "photo1", "photo.jpg", "clip111", 1, true ) ;
-			_oDOE.buildGraphicLoader( "photo2", "photo.jpg", "clip122", 1, true ) ;
+			_oDOE.buildGraphicLoader( "photo1", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner2.jpg", "clip111", 0, true ) ;
+			_oDOE.buildGraphicLoader( "photo2", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner3.jpg", "clip122", 0, true ) ;
 			
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync( onTestDisplayObjectsTreatment, 5000, root) );
 			_oDOE.load() ;
-			
-			var t:Timer = new Timer(1000, 1) ;
-			t.addEventListener(TimerEvent.TIMER_COMPLETE, addAsync(AsyncHierarchyLoaded, 2000,root)) ;
-			t.start() ;
 		}
-		public function AsyncHierarchyLoaded(e:Event, mc:Object):void
+
+		public function onTestDisplayObjectsTreatment( e:Event, mc:Object ) : void
 		{
-			var root:MovieClip = mc as MovieClip ;
-			var child:Sprite ;
+			var root : MovieClip = mc as MovieClip;
+			var child : Sprite;
 			
 			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on root clip", 
 						2, root.numChildren) ;

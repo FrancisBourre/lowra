@@ -5,7 +5,6 @@ package com.bourre.ioc.assembler
 	{
 		public function buildEmptyDisplayObject( 	ID : String,
 													parentID : String,
-													depth : uint,
 													isVisible : Boolean,
 													type : String ) : void
 		{
@@ -15,7 +14,6 @@ package com.bourre.ioc.assembler
 		public function buildDisplayObject( ID 			: String,
 											parentID 	: String, 
 											url 		: String,
-											depth 		: uint, 
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{
