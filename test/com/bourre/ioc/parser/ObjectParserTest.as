@@ -3,6 +3,7 @@ package com.bourre.ioc.parser
 	import flexunit.framework.TestCase;
 	import com.bourre.ioc.assembler.*;
 	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.ioc.error.NullIDException;
 
 	public class ObjectParserTest 
 		extends TestCase
@@ -21,6 +22,26 @@ package com.bourre.ioc.parser
 			_aChannelListener = new Array();
 			_aProperty = new Array();
 			_aMethod = new Array();
+		}
+		
+		public function testNoID() : void
+		{
+			var xml : XML = 
+			<beans>
+				<test />
+			</beans>;
+			
+			var b : Boolean = false;
+			try
+			{
+				_oParser.parse( xml );
+
+			} catch( e : NullIDException )
+			{
+				b = true;
+			}
+			
+			assertTrue( "ObjectParser.parse() didn't catch NullIDException", b );
 		}
 
 		public function testParseOneString() : void
@@ -257,7 +278,7 @@ package com.bourre.ioc.parser
 			//
 		}
 		
-		public function buildEmptyDisplayObject( 	ID : String,
+		public function buildEmptyDisplayObject( 	id : String,
 													parentID : String,
 													isVisible : Boolean,
 													type : String ) : void
@@ -265,7 +286,7 @@ package com.bourre.ioc.parser
 			
 		}
 
-		public function buildDisplayObject( ID 			: String,
+		public function buildDisplayObject( id 			: String,
 											parentID 	: String, 
 											url 		: String,
 											isVisible 	: Boolean, 
