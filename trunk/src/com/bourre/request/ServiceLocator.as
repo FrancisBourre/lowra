@@ -1,70 +1,87 @@
-
-import com.bourre.request.DataService;
-import com.bourre.collection.HashMap;
-import com.bourre.core.Locator;
-
-class ServiceLocator implements Locator
+package com.bourre.request
 {
-	protected static var _I : HashMap = new ServiceLocator();
-	protected var _owner : IPlugin;
-	protected var _m : HashMap;
+	import com.bourre.request.DataService;
+	import com.bourre.collection.HashMap;
+	import com.bourre.core.Locator;
+	import com.bourre.log.Logger;
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.error.ClassCastException;
 	
-	public function ServiceLocator()
+	public class ServiceLocator implements Locator
 	{
-		_m = new HashMap() ;
-	}
-	 
-	public static function getInstance(): ServiceLocator
-	{
-		return _I
-	}
-	
-	public function getService( serviceKey : DataService )
-	{
-			return locate( key ) as ServiceLocator;
-	}
-	
-	
-	public function isRegistered( key : String ) : Boolean 
-	{
-		return _m.containsKey( key );
-	}
-	
-	public function locate( key : String ) : Object
-	{
-		if ( !(isRegistered( key )) ) getLogger().error( "Can't locate model instance with '" + key + "' name in " + this );
-		return _m.get( key );
-	}
+		private static var _I : ServiceLocator;
+		protected var _m : HashMap;
 		
-		
-	public function registerService( serviceKey ) : Boolean
-	{
-		if ( isRegistered( key ) )
+		public function ServiceLocator( access : PrivateConstructorAccess )
 		{
-			getLogger().fatal( "model instance is already registered with '" + key + "' name in " + this );
-			return false;
+			_m = new HashMap() ;
 		}
-		else
+		 
+		public static function getInstance(): ServiceLocator
 		{
-			_m.put( key, o );
-			return true;
+			if( ! (ServiceLocator._I is ServiceLocator) )
+			{
+				ServiceLocator._I = new ServiceLocator( new PrivateConstructorAccess() );
+			}
+			return ServiceLocator._I;
 		}
-	}
-	
-	public function unregisterService( key : String ) : void
-	{
-		_m.remove( key );
-	}
 		
-	/**
-	 * Returns the string representation of this instance.
-	 * @return the string representation of this instance
-	 */
-	public function toString() : String 
-	{
-		return PixlibStringifier.stringify( this ) + (_owner?", owner: "+_owner:"No owner.");
-	}
-	
+		public function getService( key : String ) : DataService
+		{
+			return locate( key ) as DataService;
+		}
+		
+		
+		public function isRegistered( key : String ) : Boolean 
+		{
+			return _m.containsKey( key );
+		}
+		
+		public function locate( key : String ) : Object
+		{
+			if ( !(isRegistered( key )) ) Logger.ERROR( "Can't locate DataService instance with '" + key + "' name in " + this );
+			var service : Object = new (_m.get( key ) as Class)();
+			if ( service is DataService ) 
+			{
+				return service;
 
-
+			} else
+			{
+				PixlibDebug.DEBUG("[ServiceLocator]::locate() failed with '"+key+"', class associated doesn't implement DataService interface");
+				throw( new ClassCastException("[ServiceLocator]::locate() failed with '"+key+"', class associated doesn't implement DataService interface") );
+			}
+		}
+			
+			
+		public function registerService( key:String, service:Class ) : Boolean
+		{
+			if ( isRegistered( key ) )
+			{
+				Logger.FATAL( "DataService instance is already registered with '" + key + "' name in " + this );
+				return false;
+			}
+			else
+			{
+				_m.put( key, service );
+				return true;
+			}
+		}
+		
+		public function unregisterService( key : String ) : void
+		{
+			_m.remove( key );
+		}
+			
+		/**
+		 * Returns the string representation of this instance.
+		 * @return the string representation of this instance
+		 */
+		public function toString() : String 
+		{
+			return PixlibStringifier.stringify( this );
+		}
+	}	
 }
+
+internal class PrivateConstructorAccess {}
