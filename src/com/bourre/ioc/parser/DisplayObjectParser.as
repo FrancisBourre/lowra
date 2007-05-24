@@ -25,6 +25,9 @@ package com.bourre.ioc.parser
 		{
 			var msg : String;
 			
+			// Filter reserved nodes
+			if ( ContextNodeNameList.getInstance().nodeNameIsReserved( xml.name() ) ) return;
+			
 			// Debug missing ids.
 			var id : String = ContextAttributeList.getID( xml );
 			if ( !id )
@@ -35,9 +38,6 @@ package com.bourre.ioc.parser
 			}
 
 			IDExpert.getInstance().register( id );
-			
-			// Filter reserved nodes (ex: attribute)
-			//if ( ContextNodeNameList.getInstance().nodeNameIsReserved( nodeName ) ) return;
 
 			if ( parentID )
 			{
