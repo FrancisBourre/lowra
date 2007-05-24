@@ -1,11 +1,30 @@
 package com.bourre.ioc.parser
 {
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+
 	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.assembler.DepthManager;
-	import com.bourre.plugin.PluginDebug;
 	import com.bourre.ioc.error.NullIDException;
 	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.commands.ReversedBatch;
+	import com.bourre.plugin.PluginDebug;
 
 	public class DisplayObjectParser
 		extends AbstractParser
@@ -20,14 +39,14 @@ package com.bourre.ioc.parser
 			xml = xml[ ContextNodeNameList.ROOT ];
 			for each ( var node : XML in xml.* ) _parseNode( node, ContextNodeNameList.ROOT );
 		}
-		
+
 		private function _parseNode( xml : XML, parentID : String = null ) : void
 		{
 			var msg : String;
-			
+
 			// Filter reserved nodes
 			if ( ContextNodeNameList.getInstance().nodeNameIsReserved( xml.name() ) ) return;
-			
+
 			// Debug missing ids.
 			var id : String = ContextAttributeList.getID( xml );
 			if ( !id )
@@ -53,11 +72,11 @@ package com.bourre.ioc.parser
 					
 				} else
 				{
-					// If we need to build an empty MovieClip.
+					// If we need to build an empty DisplayObject.
 					getAssembler().buildEmptyDisplayObject( id, parentID, isVisible, type );
 				}
 			}
-			
+
 			// Build property.
 			for each ( var property : XML in xml[ ContextNodeNameList.PROPERTY ] )
 			{
@@ -76,11 +95,10 @@ package com.bourre.ioc.parser
 												ContextAttributeList.getName( method ),
 												getArguments( method ) );
 			}
-			
-			// recursivity
+
+			// reversed recursivity
 			/*var b : ReversedBatch = new ReversedBatch();
-			for ( var p : String in nodeContent )
-			b.addCommand( new Delegate( this, _parseDisplayNode, p, nodeContent[p], id) );
+			for each ( var node : XML in xml.* ) b.addCommand( new Delegate( _parseNode, node, id) );
 			b.execute();*/
 
 			// recursivity
