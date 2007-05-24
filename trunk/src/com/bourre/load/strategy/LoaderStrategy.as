@@ -128,7 +128,7 @@ package com.bourre.load.strategy
 	    protected function _onSecurityError( e : SecurityErrorEvent ) : void 
 	    {
 	    	// trace( "_onSecurityError: " + e );
-			if ( _owner ) _owner.fireOnLoadErrorEvent();
+			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
 
 	    protected function _onHttpStatus( e : HTTPStatusEvent ) : void 
@@ -139,7 +139,7 @@ package com.bourre.load.strategy
 	    protected function _onIOError( e : IOErrorEvent ) : void 
 	    {
 	    	// trace( "_onIOError: " + e );
-			if ( _owner ) _owner.fireOnLoadErrorEvent();
+			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
 
 	    protected function _onInit( e : Event ) : void 

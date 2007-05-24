@@ -49,6 +49,6 @@ package com.bourre.load
 		function fireOnLoadProgressEvent() : void;
 	    function fireOnLoadInitEvent() : void;
 	    function fireOnLoadStartEvent() : void;
-		function fireOnLoadErrorEvent() : void;
+		function fireOnLoadErrorEvent( message : String = null ) : void;
 	}
 }

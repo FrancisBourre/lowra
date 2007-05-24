@@ -23,7 +23,6 @@ package com.bourre.load
 
 	import com.bourre.commands.*;
 	import com.bourre.log.*;
-	import com.bourre.error.ProtectedConstructorException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.strategy.LoadStrategy;
 
@@ -53,7 +52,7 @@ package com.bourre.load
 			_loadStrategy = (strategy != null) ? strategy : new NullLoadStrategy();
 			_loadStrategy.setOwner( this );
 
-			_oEB = new EventBroadcaster( this );
+			_oEB = new EventBroadcaster( this, LoaderListener );
 			_nTimeOut = 10000;
 			_bAntiCache = false;
 			_sPrefixURL = "";
@@ -84,10 +83,15 @@ package com.bourre.load
 			}
 		}
 		
-		protected function onLoadInit() : void
+		protected function onInitialize() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 			fireEventType( LoaderEvent.onLoadInitEVENT );
+		}
+		
+		protected function setListenerType( type : Class ) : void
+		{
+			_oEB.setListenerType( type );
 		}
 		
 		final public function getBytesLoaded() : uint
@@ -108,8 +112,6 @@ package com.bourre.load
 
 		public function getURL() : URLRequest
 		{
-			/*var urlRQ:URLRequest = _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
-			PixlibDebug.DEBUG("getURL = "+urlRQ.url) ;*/
 			return _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
 		}
 
@@ -198,22 +200,22 @@ package com.bourre.load
 			_oContent = content;
 		}
 		
-		final public function fireOnLoadProgressEvent() : void
+		public function fireOnLoadProgressEvent() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 		}
 		
-		final public function fireOnLoadInitEvent() : void
+		public function fireOnLoadInitEvent() : void
 		{
-			onLoadInit();
+			onInitialize();
 		}
 		
-		final public function fireOnLoadStartEvent() : void
+		public function fireOnLoadStartEvent() : void
 		{
 			fireEventType( LoaderEvent.onLoadStartEVENT );
 		}
 		
-		final public function fireOnLoadErrorEvent() : void
+		public function fireOnLoadErrorEvent( message : String = null ) : void
 		{
 			fireEventType( LoaderEvent.onLoadErrorEVENT );
 		}
@@ -236,7 +238,12 @@ package com.bourre.load
 		//
 		protected function fireEventType( type : String ) : void
 		{
-			_oEB.broadcastEvent( getLoaderEvent( type ) );
+			fireEvent( getLoaderEvent( type ) );
+		}
+		
+		protected function fireEvent( e : Event ) : void
+		{
+			_oEB.broadcastEvent( e );
 		}
 
 		protected function getLoaderEvent( type : String ) : LoaderEvent

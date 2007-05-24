@@ -69,7 +69,7 @@ package com.bourre.load
 			super.load( url, getContext() );
 		}
 		
-		protected override function onLoadInit() : void
+		protected override function onInitialize() : void
 		{
 			if ( getName() ) 
 			{
@@ -85,7 +85,7 @@ package com.bourre.load
 				}
 			}
 			
-			super.onLoadInit();
+			super.onInitialize();
 			if ( _bAutoShow ) show();
 		}
 		
@@ -101,9 +101,10 @@ package com.bourre.load
 				{
 					_target.addChild( getContent() as DisplayObject );
 				}
+			} else
+			{
+				PixlibDebug.DEBUG( this + ".show() failed. No specified target." );
 			}
-			else
-				PixlibDebug.DEBUG(this+".show() failed. No specified target.") ;
 		}
 		
 		public function hide() : void
@@ -133,7 +134,7 @@ package com.bourre.load
 		
 		override public function release() : void
 		{
-			if ( getContent() && _target.contains( getContent() as DisplayObject ) )_target.removeChild( getContent() as DisplayObject );
+			if ( getContent() && _target.contains( getContent() as DisplayObject ) ) _target.removeChild( getContent() as DisplayObject );
 
 			if ( _bMustUnregister ) 
 			{
