@@ -8,15 +8,16 @@ import com.bourre.commands.*;
 import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.events.*;
-import com.bourre.ioc.assembler.* ;
+import com.bourre.ioc.control.*;
+import com.bourre.ioc.assembler.*;
 import com.bourre.ioc.assembler.channel.* ;
+import com.bourre.ioc.assembler.constructor.*;
+import com.bourre.ioc.assembler.displayobject.*;
+import com.bourre.ioc.assembler.property.*;
+import com.bourre.ioc.assembler.method.*;
 import com.bourre.ioc.bean.*;
 import com.bourre.ioc.core.*;
 import com.bourre.ioc.parser.*;
-import com.bourre.ioc.assembler.property.*;
-import com.bourre.ioc.assembler.constructor.* ;
-import com.bourre.ioc.assembler.method.* ;
-import com.bourre.ioc.assembler.displayobject.* ;
 import com.bourre.load.*;
 import com.bourre.load.strategy.*;
 import com.bourre.log.*;
@@ -26,8 +27,6 @@ import com.bourre.request.*;
 import com.bourre.utils.*;
 import com.bourre.structures.*;
 import com.bourre.transitions.*;
-import com.bourre.request.*
-import com.bourre.ioc.control.*
 
 private function onCreationComplete():void
 {
@@ -77,9 +76,10 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( BasicEventTest );
 
 	// com.bourre.ioc.assembler
-	ts.addTestSuite (DepthManagerTest ) ;
-	//ts.addTestSuite (ConstructorTest) ;
-
+	//ts.addTestSuite (ConstructorTest);
+	ts.addTestSuite ( DepthManagerTest );
+	ts.addTestSuite ( DisplayObjectParserTest );
+	
 	// com.bourre.assembler.method
 	ts.addTestSuite(MethodEventTest) ;
 	ts.addTestSuite(MethodExpertTest) ;
