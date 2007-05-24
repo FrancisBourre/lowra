@@ -74,10 +74,10 @@ package com.bourre.load
 			super.release();
 		}
 
-		protected override function onLoadInit() : void
+		protected override function onInitialize() : void
 		{
 			if ( getDeserializer() != null ) getDeserializer().deserialize( new Object(), getXML() );
-			super.onLoadInit();
+			super.onInitialize();
 		}
 		
 	}

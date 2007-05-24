@@ -113,17 +113,17 @@ package com.bourre.load.strategy
 
 	    protected function _onSecurityError( e : SecurityErrorEvent ) : void 
 	    {
-			if ( _owner ) _owner.fireOnLoadErrorEvent();
+			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
 
 	    protected function _onHttpStatus( e : HTTPStatusEvent ) : void 
 	    {
-			if ( _owner ) _owner.fireOnLoadErrorEvent();
+			//if ( _owner ) _owner.fireOnLoadErrorEvent();
 	    }
 
 	    protected function _onIOError( e : IOErrorEvent ) : void 
 	    {
-			if ( _owner ) _owner.fireOnLoadErrorEvent();
+			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
 	}
 }
