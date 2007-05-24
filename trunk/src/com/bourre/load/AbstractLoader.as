@@ -218,6 +218,7 @@ package com.bourre.load
 		public function fireOnLoadErrorEvent( message : String = null ) : void
 		{
 			fireEventType( LoaderEvent.onLoadErrorEVENT );
+			PixlibDebug.ERROR( message );
 		}
 		
 		final public function fireCommandEndEvent() : void
