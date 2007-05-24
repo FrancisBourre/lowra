@@ -2,8 +2,6 @@ package com.bourre.ioc.parser
 {
 	import flexunit.framework.TestCase;
 	import com.bourre.ioc.assembler.*;
-	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.log.PixlibDebug;
 	import com.bourre.ioc.error.NullIDException;
 
 	public class DisplayObjectParserTest 
@@ -232,7 +230,6 @@ package com.bourre.ioc.parser
 													isVisible : Boolean,
 													type : String ) : void
 		{
-			//PixlibDebug.DEBUG( "buildEmptyDisplayObject(" + id + ", " + parentID + ", " + isVisible + ", " + type + ")" );
 			_aEmptyDO.push( {id:id, parentID:parentID, isVisible:isVisible, type:type} );
 			
 		}
@@ -243,7 +240,6 @@ package com.bourre.ioc.parser
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{
-			//PixlibDebug.DEBUG( "buildDisplayObject(" + id + ", " + parentID + ", " + url + ", " + isVisible + ", " + type + ")" );
 			_aDO.push( {id:id, parentID:parentID, url:url, isVisible:isVisible, type:type} );
 		}
 

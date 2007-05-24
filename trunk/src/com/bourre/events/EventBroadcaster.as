@@ -23,7 +23,7 @@ package com.bourre.events
 {
 	import com.bourre.collection.*;
 	import com.bourre.commands.Delegate;
-	import com.bourre.error.UnsupportedOperationException;
+	import com.bourre.error.*;
 	import com.bourre.log.*;
 
 	import flash.events.Event;
@@ -37,14 +37,17 @@ package com.bourre.events
 		private var _mAll : Collection;
 		private var _mType : HashMap;
 		private var _mEventListener : HashMap;
+		private var _cType : Class;
 
-		public function EventBroadcaster( target : Object = null )
+		public function EventBroadcaster( target : Object = null, type : Class = null )
 		{
 			_oTarget = ( target == null ) ? this : target;
 			
 			_mAll = new WeakCollection();
 			_mType = new HashMap();
 			_mEventListener = new HashMap();
+			
+			setListenerType( type );
 		}
 
 		public static function getInstance() : EventBroadcaster
@@ -56,6 +59,11 @@ package com.bourre.events
 		public function hasListenerCollection( type : String ) : Boolean
 		{
 			return _mType.containsKey( type );
+		}
+
+		public function setListenerType( type : Class ) : void
+		{
+			_cType = type;
 		}
 
 		public function getListenerCollection( type : String = null ) : Collection
@@ -88,14 +96,25 @@ package com.bourre.events
 
 		public function addListener( listener : Object ) : Boolean
 		{
-			if ( _mAll.add( listener ) ) 
+			if ( _cType != null && !( listener is _cType ) )
 			{
-				_flushRef( listener );
-				return true;
+				var msg : String = "EventBroadcaster.addListener( " + listener
+				+ " ) failed, your listener must have '" + _cType + "' type";
+									
+				PixlibDebug.ERROR( msg );
+				throw( new IllegalArgumentException( msg ) );
 
 			} else
 			{
-				return false;
+				if ( _mAll.add( listener ) ) 
+				{
+					_flushRef( listener );
+					return true;
+	
+				} else
+				{
+					return false;
+				}
 			}
 		}
 
