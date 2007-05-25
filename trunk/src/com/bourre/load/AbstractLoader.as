@@ -94,12 +94,12 @@ package com.bourre.load
 			_oEB.setListenerType( type );
 		}
 		
-		final public function getBytesLoaded() : uint
+		public function getBytesLoaded() : uint
 		{
 			return _loadStrategy.getBytesLoaded();
 		}
 		
-		final public function getBytesTotal() : uint
+		public function getBytesTotal() : uint
 		{
 			return _loadStrategy.getBytesTotal();
 		}
@@ -217,8 +217,16 @@ package com.bourre.load
 		
 		public function fireOnLoadErrorEvent( message : String = null ) : void
 		{
-			fireEventType( LoaderEvent.onLoadErrorEVENT );
+			var e : LoaderEvent = getLoaderEvent( LoaderEvent.onLoadErrorEVENT );
+			e.setMessage( message );
+			fireEvent( e );
+
 			PixlibDebug.ERROR( message );
+		}
+		
+		public function fireOnLoadTimeOut() : void
+		{
+			fireEventType( LoaderEvent.onLoadTimeOutEVENT );
 		}
 		
 		final public function fireCommandEndEvent() : void
@@ -268,7 +276,7 @@ package com.bourre.load
 			}
 			else if ( nTime - _nTime  > _nTimeOut)
 			{
-				fireEventType( LoaderEvent.onLoadTimeOutEVENT );
+				fireOnLoadTimeOut();
 				release();
 				PixlibDebug.ERROR( this + " load timeout with url : '" + getURL() + "'." );
 			}
