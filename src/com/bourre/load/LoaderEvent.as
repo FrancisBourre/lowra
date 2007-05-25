@@ -36,6 +36,7 @@ package com.bourre.load
 		public static const onLoadErrorEVENT : String = "onLoadError";
 		
 		protected var _load : AbstractLoader;
+		protected var _sMessage : String;
 		
 		public function LoaderEvent( type : String, load : AbstractLoader )
 		{
@@ -56,6 +57,16 @@ package com.bourre.load
 		public function getName() : String
 		{
 			return getLoader().getName();
+		}
+		
+		public function setMessage( message : String ) : void
+		{
+			_sMessage = message;
+		}
+		
+		public function getMessage() : String
+		{
+			return _sMessage;
 		}
 	}
 }
