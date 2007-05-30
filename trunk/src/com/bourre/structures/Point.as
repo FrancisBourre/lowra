@@ -19,6 +19,8 @@ package com.bourre.structures
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.errors.IllegalOperationError;
+	import flash.geom.Point;
+	import flash.geom.Matrix;
 	
 	/**
 	 * <code>Point</code> data structure.
@@ -447,6 +449,44 @@ package com.bourre.structures
 		}
 		
 		/**
+		 * Rotates a vector around its origin as with the use of the
+		 * <code>flash.geom.Matrix</code> object.
+		 * 
+		 * <p>The current vector is modified, if you attempt to get a 
+		 * new vector use the <code>Point.rotateNew</code> method.</p>
+		 * 
+		 * @param a	<code>Number</code> of radians to rotate the vector.
+		 */
+		public function rotate ( a : Number ) : void
+		{
+			var m : Matrix = new Matrix();
+			m.rotate( a );
+			
+			fromFlashPoint( m.transformPoint( toFlashPoint() ) );
+		}
+		
+		/**
+		 * Fills the current point with value from a <code>flash.geom.Point</code>.
+		 * 
+		 * @param p	<code>flash.geom.Point</code> to copy in the current point.
+		 */
+		public function fromFlashPoint( p : flash.geom.Point ) : void
+		{
+			init( p.x, p.y );
+		}
+		
+		/**
+		 * Returns a new <code>flash.geom.Point</code> with values values
+		 * from the current object.
+		 * 
+		 * @return <code>flash.geom.Point</code> conversion of this point.
+		 */
+		public function toFlashPoint () : flash.geom.Point
+		{
+			return new flash.geom.Point( x, y );
+		}
+		
+		/**
 		 * Returns the string representation of this instance.
 		 * 
 		 * @return <code>String</code> representation of this instance
@@ -543,6 +583,60 @@ package com.bourre.structures
 		public static function absNew(p:Point) : Point 
 		{ 
 			return new Point( Math.abs(p.x), Math.abs(p.y) ); 
+		}
+		
+		/**
+		 * Returns a new <code>Point</code> object witch is the passed-in
+		 * <code>Point</code> multiply with the passed-in multiplier.
+		 * 
+		 * @param p		<code>Point</code> to multiply
+		 * @param mult	<code>Number</code> multiplier for the point.
+		 * @return 		<code>Point</code> results of the scalar multiplication.
+		 */
+		public static function scalarMultiplyNew ( p : Point, mult : Number ) : Point
+		{
+			return new Point ( p.x * mult, p.y * mult );
+		}
+		
+		/**
+		 * Returns a new <code>Point</code> object witch is the passed-in
+		 * <code>Point</code> rotated with the passed-in angle.
+		 * 
+		 * @param p		<code>Point</code> to multiply
+		 * @param mult	<code>Number</code> radians to rotate the vector.
+		 * @return 		<code>Point</code> results of the rotation.
+		 */
+		public static function rotateNew ( p : Point, a : Number ) : Point
+		{
+			var p2 : Point = p.clone();
+			p2.rotate( a );
+			return p2;
+		}
+		
+		/**
+		 * Returns a new <code>Point</code> with values contained in the
+		 * passed-in <code>flash.geom.Point</code>.
+		 * 
+		 * @param p	<code>flash.geom.Point</code> to convert.
+		 * @return  <code>Point</code> result of the conversion.
+		 */
+		public static function fromFlashPointNew ( p : flash.geom.Point ) : Point
+		{
+			var p1 : Point = new Point();
+			p1.fromFlashPoint( p );
+			return p1;
+		}
+		
+		/**
+		 * Returns a new <code>flash.geom.Point</code> with values contained in the
+		 * passed-in <code>Point</code>.
+		 * 
+		 * @param p	<code>Point</code> to convert.
+		 * @return  <code>flash.geom.Point</code> result of the conversion.
+		 */
+		public static function toFlashPointNew ( p : Point ) : flash.geom.Point
+		{
+			return p.toFlashPoint();
 		}
 	}
 }
