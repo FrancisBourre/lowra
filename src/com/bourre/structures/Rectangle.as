@@ -40,6 +40,8 @@
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.structures.Point;
 	
+	import flash.geom.Rectangle;
+	
 	public class Rectangle
 	{
 		//-------------------------------------------------------------------------
@@ -318,30 +320,66 @@
 		}
 		
 		/**
+		 * Returns <code>true</code> when and only when the current
+		 * rectangle and the passed-in rectangle intersect them-self.
 		 * 
-		 * @param rect
-		 * @return 
+		 * <p>Rectangles intersects if they have at least one coordinates
+		 * in common.</p>
+		 * 
+		 * @param rect <code>Rectangle</code> to compare to the current one.
+		 * @return <code>true</code> if the two rectangles are intersected, 
+		 * 		   <code>false</code> otherwise.
 		 * 
 		 */
-		public function intersect ( rect : Rectangle ) : Boolean
+		public function intersects ( rect : Rectangle ) : Boolean
 		{
-			return( x < rect.x + rect.width &&
-					x + width > rect.x &&
-					y < rect.y + rect.height &&
-					y + height > rect.y );
+			return( x <= rect.x + rect.width &&
+					x + width >= rect.x &&
+					y <= rect.y + rect.height &&
+					y + height >= rect.y );
 		}
 		
 		/**
+		 * Returns <code>true</code> if the passed-in point coordinates are contained
+		 * in the current rectangle.
 		 * 
-		 * @param p
-		 * @return 
+		 * @param p	<code>Point</code> to check.
+		 * @return <code>true</code> if the point is contained in the current rectangle,
+		 * 		   <code>false</code> otherwise.
 		 */
-		public function inside ( p : Point ) : Boolean
+		public function contains ( p : Point ) : Boolean
 		{
-			return ( 	p.x > getLeft() &&
-						p.x < getRight() &&
-						p.y > getTop() &&
-						p.y < getBottom() );
+			return ( 	p.x >= getLeft() &&
+						p.x <= getRight() &&
+						p.y >= getTop() &&
+						p.y <= getBottom() );
+		}
+		
+		/**
+		 * Fills the current <code>Rectangle</code> with values of the passed-in
+		 * <code>flash.geom.Rectangle</code>.
+		 * 
+		 * @param rect <code>flash.geom.Rectangle</code> to use as source for the
+		 * 			   current rectangle.
+		 */
+		public function fromFlashRectangle ( rect : flash.geom.Rectangle ) : void
+		{
+			x = rect.x;
+			y = rect.y;
+			width = rect.width;
+			height = rect.height;
+		}
+		
+		/**
+		 * Converts the current rectangle in a <code>flash.geom.Rectangle</code>
+		 * object.
+		 * 
+		 * @return <code>flash.geom.Rectangle</code> result of the conversion.
+		 * 
+		 */
+		public function toFlashRectangle () : flash.geom.Rectangle
+		{
+			return new flash.geom.Rectangle( x, y, width, height );
 		}
 		
 		/**
