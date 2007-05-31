@@ -33,5 +33,7 @@ package com.bourre.request
 		function removeServiceRequestListener( listener : DataServiceListener ) : Boolean;
 		function request( e : DataService ) : void;
 		function release():void ;
+		function addEventListener( type : String, listener : Object, ... rest ) : Boolean
+		function removeEventListener( type : String, listener : Object ) : Boolean
 	}
 }
