@@ -23,6 +23,7 @@ package com.bourre.load.strategy
 
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
+	import com.bourre.load.Loader;
 	import com.bourre.log.PixlibStringifier;
 
 	import flash.events.*;
@@ -35,7 +36,7 @@ package com.bourre.load.strategy
 		implements LoadStrategy
 	{
 		private var _owner : com.bourre.load.Loader;
-		private var _loader : Loader;
+		private var _loader : flash.display.Loader;
 		private var _bytesLoaded : uint;
 		private var _bytesTotal : uint;
 
@@ -94,7 +95,7 @@ package com.bourre.load.strategy
 		//
 		protected function _initLoaderStrategy() : void
 		{
-			_loader = new Loader();
+			_loader = new flash.display.Loader();
 			_loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, _onProgress );
 			_loader.contentLoaderInfo.addEventListener( Event.COMPLETE, _onComplete );
 			_loader.contentLoaderInfo.addEventListener( Event.OPEN, _onOpen );
