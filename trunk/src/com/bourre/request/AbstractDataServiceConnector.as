@@ -75,6 +75,18 @@ package com.bourre.request
 		{
 			return _oEB.removeListener( listener );
 		}
+		
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
+		{
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
+		}
+		
+		public function removeEventListener( type : String, listener : Object ) : Boolean
+		{
+			return _oEB.removeEventListener( type, listener );
+		}
+		
+		
 		protected function doRequest(e : DataService):void
 		{
 			var msg : String = this + ".doRequest() must be implemented in concrete class.";
