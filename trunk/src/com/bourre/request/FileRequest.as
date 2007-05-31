@@ -4,8 +4,9 @@ package com.bourre.request
 	import flash.events.Event;
 	
 	
-	public class FileRequest extends AbstractDataRequest
+	public class FileRequest /*extends AbstractDataServiceConnector*/
 	{
+		/*
 		private var _fl : FileLoader
 	
 		public function FileRequest( url : String = null ) 

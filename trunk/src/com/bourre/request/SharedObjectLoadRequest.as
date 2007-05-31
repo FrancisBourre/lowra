@@ -3,8 +3,9 @@ package com.bourre.request
 	import flash.events.Event;
 	import com.bourre.utils.SharedObjectUtils;
 	
-	public class SharedObjectLoadRequest extends AbstractDataRequest
+	public class SharedObjectLoadRequest /*extends AbstractDataServiceConnector*/
 	{
+		/*
 		private var _sCookieName : String;
 		private var _sTargetName : String;
 	
@@ -38,6 +39,6 @@ package com.bourre.request
 			{
 				fireEvent( _eError );
 			}
-		}
+		}*/
 	}
 }
