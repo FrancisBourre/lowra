@@ -129,7 +129,7 @@ package com.bourre.model
 			return _oEB;
 		}
 		
-		private function _firePrivateEvent( e : Event ) : void
+		protected function _firePrivateEvent( e : Event ) : void
 		{
 			getOwner().firePrivateEvent( e );
 		}
