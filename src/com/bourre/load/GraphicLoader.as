@@ -47,12 +47,12 @@ package com.bourre.load
 			_bMustUnregister = false;
 		}
 		
-		public function setTarget(target:DisplayObjectContainer):void
+		public function setTarget( target : DisplayObjectContainer ) : void
 		{
-			var b:Boolean = isVisible() ;
+			var b : Boolean = isVisible();
 			hide();
 			_target = target ;
-			if (b) show () ;
+			if (b) show();
 		}
 
 		protected override function getLoaderEvent( type : String ) : LoaderEvent
@@ -63,9 +63,7 @@ package com.bourre.load
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			release();
-			
 			if ( context ) setContext( context );
-
 			super.load( url, getContext() );
 		}
 		
@@ -85,8 +83,22 @@ package com.bourre.load
 				}
 			}
 			
-			super.onInitialize();
 			if ( _bAutoShow ) show();
+			super.onInitialize();
+		}
+		
+		override public function setContent( content : Object ) : void
+		{	
+			if ( content is Bitmap )
+			{
+				var mc : Sprite = new Sprite();
+				mc.addChild( content as Bitmap );
+				super.setContent( mc );
+
+			} else
+			{
+				super.setContent( content );
+			}
 		}
 		
 		public function show() : void
@@ -101,6 +113,7 @@ package com.bourre.load
 				{
 					_target.addChild( getContent() as DisplayObject );
 				}
+
 			} else
 			{
 				PixlibDebug.DEBUG( this + ".show() failed. No specified target." );
@@ -115,19 +128,19 @@ package com.bourre.load
 		
 		public function isVisible() : Boolean
 		{
-			var result:Boolean ;
+			var result : Boolean;
 			try
 			{
 				result = _target.contains( getContent() as DisplayObject );
 			} 
-			catch(e:Error)
+			catch( e : Error )
 			{
 				result = false;
 			}
 			return result ;
 		}
 		
-		public function set autoShow( b : Boolean ) : void
+		public function setAutoShow( b : Boolean ) : void
 		{
 			_bAutoShow = b;
 		}
@@ -147,16 +160,7 @@ package com.bourre.load
 		
 		public function getView() : DisplayObjectContainer
 		{
-			var content : DisplayObject = getContent() as DisplayObject;
-
-			if ( content is Bitmap )
-			{
-				var mc : Sprite = new Sprite();
-				mc.addChild( content as Bitmap );
-				content = mc;
-			}
-			
-			return content as DisplayObjectContainer;
+			return getContent() as DisplayObjectContainer;
 		}
 		
 		public function getApplicationDomain() : ApplicationDomain
