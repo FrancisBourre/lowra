@@ -20,6 +20,9 @@ package com.bourre.request
 		{
 			super(url) ;
 			
+			var a:Array = url.split(":");
+			Security.loadPolicyFile ("http://" + a[0] + "/crossdomain.xml");
+			
 			_oXMLSocket = new XMLSocket () ;
 			isDebug = false
 			
