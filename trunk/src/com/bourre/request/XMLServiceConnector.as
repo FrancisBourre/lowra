@@ -8,6 +8,7 @@ package com.bourre.request
 	import flash.events.ProgressEvent;
 	import flash.utils.getQualifiedClassName;
 	import com.bourre.log.PixlibDebug;
+	import flash.system.Security;
 	
 	public class XMLServiceConnector extends AbstractDataServiceConnector
 	{
