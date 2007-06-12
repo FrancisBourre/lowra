@@ -99,7 +99,7 @@ package com.bourre.view
 			}
 		}
 		
-		public function unregisterMovieClipHelper( key : String ) : void
+		public function unregisterView( key : String ) : void
 		{
 			_m.remove( key );
 		}

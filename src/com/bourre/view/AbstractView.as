@@ -34,7 +34,7 @@ package com.bourre.view
 
 	public class AbstractView 
 	{
-		public static var onInitEVENT : String = "onInit";
+		public static const onInitEVENT : String = "onInit";
 		
 		public var view : DisplayObjectContainer;
 		
@@ -48,7 +48,7 @@ package com.bourre.view
 			_oEB = new EventBroadcaster( this );
 			
 			if ( owner != null ) setOwner( owner );
-			if ( name != null ) _initMovieClipHelperView( name, mc, null );
+			if ( name != null ) _initAbstractView( name, mc, null );
 		}
 		
 		public function handleEvent( e : Event ) : void
@@ -58,7 +58,7 @@ package com.bourre.view
 		
 		protected function onInit() : void
 		{
-			//notifyChanged( new StringEvent( AbstractMovieClipHelper.onInitEVENT, getName() ) );
+			
 		}
 		
 		public function getOwner() : IPlugin
@@ -81,14 +81,14 @@ package com.bourre.view
 			_getBroadcaster().broadcastEvent( e );
 		}
 		
-		public function registerGraphicLib( glName : String, name : String = null ) : void
+		public function registerGraphicLoader( glName : String, name : String = null ) : void
 		{
-			_initMovieClipHelperView( glName, null, (( name && (name != getName()) ) ? name : null) );
+			_initAbstractView( glName, null, (( name && (name != getName()) ) ? name : null) );
 		}
 		
 		public function registerView( mc : DisplayObjectContainer, name : String = null ) : void
 		{
-			_initMovieClipHelperView( getName(), mc, (( name && (name != getName()) ) ? name : null) );
+			_initAbstractView( getName(), mc, (( name && (name != getName()) ) ? name : null) );
 		}
 		
 		public function setVisible( b : Boolean ) : void
@@ -169,7 +169,7 @@ package com.bourre.view
 		public function release() : void
 		{
 			_getBroadcaster().removeAllListeners();
-			ViewLocator.getInstance( getOwner() ).unregisterMovieClipHelper( getName() );
+			ViewLocator.getInstance( getOwner() ).unregisterView( getName() );
 			view.parent.removeChild( view );
 			view = null;
 			_gl.release();
@@ -213,7 +213,7 @@ package com.bourre.view
 
 			if ( name != null && !( vl.isRegistered( name ) ) )
 			{
-				if ( vl.isRegistered( getName() ) ) vl.unregisterMovieClipHelper( getName() );
+				if ( vl.isRegistered( getName() ) ) vl.unregisterView( getName() );
 				if ( vl.registerView( name, this ) ) _sName = name;
 				
 			} else
@@ -232,7 +232,7 @@ package com.bourre.view
 		}
 		
 		//
-		private function _initMovieClipHelperView( glName : String, oView : DisplayObjectContainer, mvhName : String ) : void
+		private function _initAbstractView( glName : String, oView : DisplayObjectContainer, mvhName : String ) : void
 		{	
 			if ( oView != null )
 			{
