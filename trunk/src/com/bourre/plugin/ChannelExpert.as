@@ -62,7 +62,7 @@ package com.bourre.plugin
 			_oRegistered = new Dictionary( true );
 		}
 		
-		public function getChannel( o : IPlugin ) : EventChannel
+		public function getChannel( o : Plugin ) : EventChannel
 		{
 			if( _oRegistered[o] == null )
 			{

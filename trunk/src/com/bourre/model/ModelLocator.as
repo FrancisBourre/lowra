@@ -24,7 +24,7 @@ package com.bourre.model
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.plugin.IPlugin;
+	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
 	import com.bourre.plugin.NullPlugin;
 	
@@ -33,23 +33,23 @@ package com.bourre.model
 	{
 		protected static var _M : HashMap = new HashMap();
 		
-		protected var _owner : IPlugin;
+		protected var _owner : Plugin;
 		protected var _m : HashMap;
 		
-		public function ModelLocator( access : PrivateConstructorAccess, owner : IPlugin = null ) 
+		public function ModelLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
 			_m = new HashMap();
 		}
 		
-		public static function getInstance( owner : IPlugin = null ) : ModelLocator
+		public static function getInstance( owner : Plugin = null ) : ModelLocator
 		{
 			if(owner==null) owner = NullPlugin.getInstance()
 			if ( !(ModelLocator._M.containsKey( owner )) ) ModelLocator._M.put( owner, new ModelLocator(new PrivateConstructorAccess() , owner) );
 			return ModelLocator._M.get( owner );
 		}
 		
-		public function getOwner() : IPlugin
+		public function getOwner() : Plugin
 		{
 			return _owner;
 		}

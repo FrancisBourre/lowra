@@ -11,7 +11,7 @@ package com.bourre.plugin
 	import com.bourre.events.ApplicationBroadcaster;
 
 	public class NullPlugin 
-		implements IPlugin
+		implements Plugin
 	{
 		private static var _oI : NullPlugin =null;
 
