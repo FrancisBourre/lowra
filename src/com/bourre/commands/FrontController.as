@@ -32,16 +32,16 @@ package com.bourre.commands
 	public class FrontController 
 	{
 		protected var _oEB : EventBroadcaster;
-		protected var _owner : IPlugin;
+		protected var _owner : Plugin;
 		protected var _mEventList : HashMap;
 
-		public function FrontController( owner : IPlugin = null ) 
+		public function FrontController( owner : Plugin = null ) 
 		{
 			setOwner( owner );
 			_mEventList = new HashMap();
 		}
 
-		final public function setOwner( owner : IPlugin ) : void
+		final public function setOwner( owner : Plugin ) : void
 		{
 			if ( _oEB ) _oEB.removeListener( this );
 
@@ -58,7 +58,7 @@ package com.bourre.commands
 			_oEB.addListener( this );
 		}
 
-		final public function getOwner() : IPlugin
+		final public function getOwner() : Plugin
 		{
 			return _owner;
 		}

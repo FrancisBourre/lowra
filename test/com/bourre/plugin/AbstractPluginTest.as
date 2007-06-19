@@ -189,7 +189,7 @@ package com.bourre.plugin
 	}
 }
 
-	import com.bourre.plugin.IPlugin;
+	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.AbstractPlugin;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.view.ViewLocator;

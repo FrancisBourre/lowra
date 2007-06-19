@@ -30,15 +30,15 @@ package com.bourre.plugin
 		public static var isOn : Boolean = true;
 		private static const _M : HashMap = new HashMap();
 		private var _channel : EventChannel;
-		private var _owner : IPlugin;
+		private var _owner : Plugin;
 		
-		public function PluginDebug(  access : PrivateConstructorAccess, owner : IPlugin = null ) 
+		public function PluginDebug(  access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 				_owner = owner;
 				_channel = owner.getChannel();
 		}
 		
-		public function getOwner() : IPlugin
+		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
@@ -48,7 +48,7 @@ package com.bourre.plugin
 			return _channel;
 		}
 	
-		public static function getInstance( owner : IPlugin = null ) : PluginDebug
+		public static function getInstance( owner : Plugin = null ) : PluginDebug
 		{
 			if(owner==null) owner = NullPlugin.getInstance()
 			if ( !(PluginDebug._M.containsKey( owner )) ) PluginDebug._M.put( owner, new PluginDebug( new PrivateConstructorAccess(), owner ) );

@@ -31,7 +31,7 @@ package com.bourre.commands
 	public class AbstractCommand 
 		implements Command
 	{
-		protected var _owner : IPlugin;
+		protected var _owner : Plugin;
 
 		public function AbstractCommand() 
 		{
@@ -43,12 +43,12 @@ package com.bourre.commands
 			getLogger().error( this + ".execute() must be implemented in concrete class." );
 		}
 
-		public function getOwner() : IPlugin
+		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
 		
-		public function setOwner( owner : IPlugin ) : void
+		public function setOwner( owner : Plugin ) : void
 		{
 			_owner = owner;
 		}

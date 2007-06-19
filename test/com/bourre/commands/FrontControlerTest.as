@@ -2,7 +2,7 @@ package com.bourre.commands
 {
 	import flexunit.framework.TestCase;
 	import flexunit.framework.AssertionFailedError;
-	import com.bourre.plugin.IPlugin;
+	import com.bourre.plugin.Plugin;
 	import com.bourre.events.EventChannel;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.events.EventBroadcaster;
@@ -12,9 +12,9 @@ package com.bourre.commands
 	{
 		private var _oFC : FrontController
 		private var _oFCOwner : FrontController
-		private var _oPlugin : IPlugin
+		private var _oPlugin : Plugin
 		public var isExecuted : Boolean
-		public var commandOwner : IPlugin
+		public var commandOwner : Plugin
 		
 		override public function setUp() : void
 		{
@@ -127,7 +127,7 @@ package com.bourre.commands
 
 import com.bourre.commands.AbstractCommand;
 import flash.events.Event;
-import com.bourre.plugin.IPlugin;
+import com.bourre.plugin.Plugin;
 import com.bourre.events.EventChannel;
 import com.bourre.plugin.PluginDebug;
 import com.bourre.model.ModelLocator;
@@ -146,7 +146,7 @@ internal class MockCommand extends AbstractCommand
 	}
 }
 
-internal class MockPlugin implements IPlugin
+internal class MockPlugin implements Plugin
 {
 		public function  fireOnInitPlugin() : void
 		{}

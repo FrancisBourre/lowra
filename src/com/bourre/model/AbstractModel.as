@@ -25,7 +25,7 @@ package com.bourre.model
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibStringifier;
 	import flash.events.Event;
-	import com.bourre.plugin.IPlugin;
+	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.events.StringEvent;
@@ -36,9 +36,9 @@ package com.bourre.model
 		
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
-		private var _owner : IPlugin;
+		private var _owner : Plugin;
 		
-		public function AbstractModel( owner : IPlugin = null, name : String = null ) 
+		public function AbstractModel( owner : Plugin = null, name : String = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
 			
@@ -71,12 +71,12 @@ package com.bourre.model
 			}
 		}
 		
-		public function getOwner() : IPlugin
+		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
 		
-		public function setOwner( owner : IPlugin ) : void
+		public function setOwner( owner : Plugin ) : void
 		{
 			_owner = owner ? owner : NullPlugin.getInstance();
 		}

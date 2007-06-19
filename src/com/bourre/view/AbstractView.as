@@ -26,7 +26,7 @@ package com.bourre.view
 	import com.bourre.load.GraphicLoaderLocator;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.structures.Point;
-	import com.bourre.plugin.IPlugin;
+	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
 
 	import flash.events.Event;
@@ -41,9 +41,9 @@ package com.bourre.view
 		protected var _gl : GraphicLoader;
 		protected var _sName:String;
 		protected var _oEB:EventBroadcaster;
-		protected var _owner : IPlugin;
+		protected var _owner : Plugin;
 		
-		public function AbstractView( owner : IPlugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
+		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
 			
@@ -61,12 +61,12 @@ package com.bourre.view
 			
 		}
 		
-		public function getOwner() : IPlugin
+		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
 		
-		public function setOwner( owner : IPlugin ) : void
+		public function setOwner( owner : Plugin ) : void
 		{
 			_owner = owner;
 		}

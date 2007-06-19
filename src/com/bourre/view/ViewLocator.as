@@ -34,23 +34,23 @@ package com.bourre.view
 	{
 		protected static var _M : HashMap = new HashMap();
 		
-		protected var _owner : IPlugin;
+		protected var _owner : Plugin;
 		protected var _m : HashMap;
 		
-		public function ViewLocator( access : PrivateConstructorAccess, owner : IPlugin = null ) 
+		public function ViewLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
 			_m = new HashMap();
 		}
 		
-		public static function getInstance( owner : IPlugin = null ) : ViewLocator
+		public static function getInstance( owner : Plugin = null ) : ViewLocator
 		{
 			if(owner==null) owner = NullPlugin.getInstance()
 			if ( !(ViewLocator._M.containsKey( owner )) ) ViewLocator._M.put( owner, new ViewLocator(new PrivateConstructorAccess(), owner) );
 			return ViewLocator._M.get( owner );
 		}
 		
-		public function getOwner() : IPlugin
+		public function getOwner() : Plugin
 		{
 			return _owner;
 		}

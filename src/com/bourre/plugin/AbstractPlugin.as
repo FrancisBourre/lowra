@@ -10,7 +10,7 @@ package com.bourre.plugin
 	import com.bourre.log.PixlibDebug;
 
 	public class AbstractPlugin
-		implements IPlugin
+		implements Plugin
 	{
 		private var _oABExternal : ApplicationBroadcaster;
 		private var _oEBPublic : EventBroadcaster;
