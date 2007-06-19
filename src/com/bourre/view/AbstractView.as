@@ -24,7 +24,6 @@ package com.bourre.view
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
-	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
@@ -174,7 +173,7 @@ package com.bourre.view
 
 				} else
 				{
-					PixlibDebug.ERROR( "AbstractView.resolveUI(" + label + ") failed." );
+					getLogger().error( "AbstractView.resolveUI(" + label + ") failed." );
 					return null;
 				}
 			}
