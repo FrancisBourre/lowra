@@ -24,13 +24,15 @@ package com.bourre.view
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.structures.Point;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-
-	import flash.events.Event;
+	import com.bourre.structures.Point;
+	
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.events.Event;
 
 	public class AbstractView 
 	{
@@ -153,17 +155,31 @@ package com.bourre.view
 		
 		public function canResolveUI ( label : String ) : Boolean
 		{
-			// TODO return ( (eval( view + "." + label )) != undefined );
-			return false;
+			return resolveUI( label ) is DisplayObject;
 		}
-		
-		public function resolveUI ( label : String ) : DisplayObjectContainer
+
+		public function resolveUI( label : String ) : DisplayObject 
 		{
-			// TODO var o = eval( view + "." + label );
-			// if ( !o ) getLogger().error( "Can't resolve '" + label + "' UI in " + this + ".view" );
-			// return o;
+			var target : DisplayObject = this.view;
 			
-			return null;
+			var a : Array = label.split( "." );
+			var l : int = a.length;
+
+			for ( var i : int = 0; i < l; i++ )
+			{
+				var name : String = a[ i ];
+				if ( target is DisplayObjectContainer && (target as DisplayObjectContainer).getChildByName( name ) != null )
+				{
+					target = (target as DisplayObjectContainer).getChildByName( name );
+
+				} else
+				{
+					PixlibDebug.ERROR( "AbstractView.resolveUI(" + label + ") failed." );
+					return null;
+				}
+			}
+
+			return target;
 		}
 		
 		public function release() : void
