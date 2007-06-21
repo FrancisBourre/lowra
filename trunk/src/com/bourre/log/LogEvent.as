@@ -29,9 +29,9 @@ package com.bourre.log
 		public static const onLogEVENT : String = "onLog";
 		
 		public var level : LogLevel;
-		public var message : String;
+		public var message : *;
 		
-		public function LogEvent( level : LogLevel, message : String = "" )
+		public function LogEvent( level : LogLevel, message : * = undefined )
 		{
 			super( LogEvent.onLogEVENT, false, false );
 

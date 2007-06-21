@@ -29,7 +29,7 @@ package com.bourre.log
 	
 	public class LoggerTest 
 		extends TestCase 
-		implements ILogListener
+		implements LogListener
 	{
 		private const CALL_TIMEOUT:int = 1000;
 		private var _e : LogEvent;

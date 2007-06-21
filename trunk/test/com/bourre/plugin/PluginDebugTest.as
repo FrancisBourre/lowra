@@ -57,11 +57,11 @@ package com.bourre.plugin
 		
 	}
 }
-	import com.bourre.log.ILogListener;
-	import com.bourre.log.LogEvent;
+import com.bourre.log.LogListener;
+import com.bourre.log.LogEvent;
 	
 
-class MockLogListener implements ILogListener
+class MockLogListener implements LogListener
 	{
 		public var evt : LogEvent
 		public var isCalled : Boolean
