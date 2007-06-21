@@ -28,7 +28,7 @@ package com.bourre.utils
     import com.bourre.log.*;
 	
 	public class SosLayout 
-		implements ILogListener
+		implements LogListener
 	{
 		private var _oXMLSocket : XMLSocket;
 		private var _bIsConnected : Boolean;

@@ -27,7 +27,7 @@ package com.bourre.utils
 	import com.bourre.log.*;
 
 	public class FlashInspectorLayout 
-		implements ILogListener
+		implements LogListener
 	{
 		private static var _oI : FlashInspectorLayout = null;
 		private const LOCALCONNECTION_ID : String = "_luminicbox_log_console";

@@ -21,7 +21,7 @@
 
 package com.bourre.log 
 {
-	public interface ILogListener 
+	public interface LogListener 
 	{
 		function onLog( e : LogEvent ) : void;
 	}

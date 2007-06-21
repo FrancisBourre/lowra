@@ -67,17 +67,17 @@ package com.bourre.log
 			}
 		}
 		
-		public function addLogListener( listener : ILogListener, oChannel : EventChannel = null ) : void
+		public function addLogListener( listener : LogListener, oChannel : EventChannel = null ) : void
 		{
 			_oCB.addEventListener( LogEvent.onLogEVENT, listener, oChannel );
 		}
 		
-		public function removeLogListener( listener : ILogListener, oChannel : EventChannel = null ) : void
+		public function removeLogListener( listener : LogListener, oChannel : EventChannel = null ) : void
 		{
 			_oCB.removeEventListener( LogEvent.onLogEVENT, listener, oChannel );
 		}
 		
-		public function isRegistered( listener : ILogListener, oChannel : EventChannel ) : Boolean
+		public function isRegistered( listener : LogListener, oChannel : EventChannel ) : Boolean
 		{
 			return _oCB.isRegistered( listener, LogEvent.onLogEVENT, oChannel );
 		}
@@ -104,7 +104,7 @@ package com.bourre.log
 		// static methods
 		public static function LOG( o : *, level : LogLevel, oChannel : EventChannel = null ) : Boolean
 		{
-			return Logger.getInstance().log( new LogEvent(level, o.toString() ), oChannel );
+			return Logger.getInstance().log( new LogEvent(level, o ), oChannel );
 		}
 		
 		public static function DEBUG( o : *, oChannel : EventChannel = null ) : Boolean
