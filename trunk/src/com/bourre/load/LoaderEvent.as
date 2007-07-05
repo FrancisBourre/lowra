@@ -35,10 +35,10 @@ package com.bourre.load
 		public static const onLoadTimeOutEVENT : String = "onLoadTimeOut";
 		public static const onLoadErrorEVENT : String = "onLoadError";
 		
-		protected var _load : AbstractLoader;
+		protected var _load : Loader;
 		protected var _sMessage : String;
 		
-		public function LoaderEvent( type : String, load : AbstractLoader )
+		public function LoaderEvent( type : String, load : Loader )
 		{
 			super( type, load );
 			_load = load;

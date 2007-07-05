@@ -45,9 +45,14 @@ package com.bourre.load
 			_q.clear();
 		}
 		
+		public function getCurrentLoader () : Loader
+		{
+			return _currentLoader;
+		}
+		
 		public function add( loader : Loader, name : String, url : URLRequest, context : LoaderContext = null ) : Boolean
 		{
-			if ( name ) 
+			if ( name != null ) 
 			{
 				loader.setName( name );
 				
@@ -56,12 +61,14 @@ package com.bourre.load
 					loader.setURL( url );
 					if ( context && loader is GraphicLoader ) ( loader as GraphicLoader ).setContext( context );
 
-				} else if ( loader.getURL().url )
+				} 
+				else if ( loader.getURL().url )
 				{
 					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
 				}
 
-			} else if( !(loader.getName()) )
+			} 
+			else if( !(loader.getName()) )
 			{
 				PixlibDebug.WARN( "You passed Loader argument without any name property in " + this + ".enqueue()." );
 			}
@@ -82,7 +89,8 @@ package com.bourre.load
 			fireEventType(LoaderEvent.onLoadInitEVENT) ;
 			if (isEmpty())
 			{
-				onLoaderLoadComplete(new LoaderEvent(LoaderEvent.onLoadInitEVENT, this)) ;
+				//new LoaderEvent( e.getType(), e.getLoader() );
+				onLoaderLoadComplete( new LoaderEvent(LoaderEvent.onLoadInitEVENT, this)) ;
 			}
 			else
 			{
@@ -92,7 +100,7 @@ package com.bourre.load
 		
 		public function onLoaderLoadProgress( e : LoaderEvent, ... rest ) : void
 		{
-			
+			fireEventType( e.type );
 		}
 		
 		public function onLoaderLoadComplete (e : LoaderEvent, ... rest ) : void
@@ -106,12 +114,12 @@ package com.bourre.load
 		
 		public function onLoaderLoadTimeOut( e : LoaderEvent, ... rest ) : void
 		{
-			
+			fireEventType( e.type );
 		}
 		
 		public function onLoaderLoadError( e : LoaderEvent, ... rest ) : void
 		{
-			
+			fireEventType( e.type );
 		}
 		
 		protected override function getLoaderEvent( type : String ) : LoaderEvent
@@ -175,9 +183,8 @@ package com.bourre.load
 				}
 			}
 			
-			_onLoadStart();
-
-			loadNextEntry() ;		
+			loadNextEntry() ;
+			_onLoadStart();		
 		}
 
 		public function isEmpty() : Boolean

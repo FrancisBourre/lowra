@@ -37,9 +37,24 @@ package com.bourre.load
 			super( type, ql );
 		}
 		
-		public function getQueue() : void
+		public function getQueue() : QueueLoader
 		{
-			//return ( getLoader() as GraphicLoader ).getView();
+			return super.getLoader() as QueueLoader;
+		}
+		
+		override public function getLoader() : Loader
+		{
+			return ( super.getLoader() as QueueLoader ).getCurrentLoader();
+		}
+		
+		override public function getName() : String
+		{
+			return getLoader().getName();
+		}
+		
+		override public function getPerCent():Number
+		{
+			return getLoader().getPerCent();
 		}
 	}
 }
