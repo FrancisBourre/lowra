@@ -23,12 +23,12 @@ package com.bourre.core
 		
 		static public function getNextKey () : String
 		{
-			return ( _nKEY++ ).toString();
+			return "KEY" + _nKEY++;
 		} 
 		
 		static public function previewNextKey () : String
 		{
-			return ( _nKEY ).toString();
+			return "KEY" + _nKEY;
 		}
 	}
 }
