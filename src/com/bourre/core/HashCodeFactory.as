@@ -6,7 +6,7 @@ package com.bourre.core
 	{
 		static protected const _oHashTable : Dictionary = new Dictionary( true );
 		
-		static private var _nKEY : Number;
+		static private var _nKEY : Number = 0;
 		
 		static public function getKey ( o : * ) : String
 		{
