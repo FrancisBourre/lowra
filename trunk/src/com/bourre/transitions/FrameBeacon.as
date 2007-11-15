@@ -23,8 +23,8 @@ package com.bourre.transitions
 
 	public interface FrameBeacon
 	{
-		function addFrameListener ( listener : FrameListener ) : void;
-		function removeFrameListener ( listener : FrameListener ) : void;
+		function addFrameListener ( listener : FrameListener ) : Boolean;
+		function removeFrameListener ( listener : FrameListener ) : Boolean;
 		function start () : void;
 		function stop () : void;
 		function isPlaying () : Boolean;
