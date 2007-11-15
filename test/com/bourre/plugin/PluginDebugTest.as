@@ -1,18 +1,19 @@
 package com.bourre.plugin
 {
-	import flexunit.framework.TestCase;
-	import com.bourre.log.Logger;
 	import com.bourre.log.LogLevel;
+	import com.bourre.log.Logger;
+	
+	import flexunit.framework.TestCase;
 
 	public class PluginDebugTest extends TestCase
 	{
-		private var _oPluginDebug : PluginDebug
-		private var _oLogListener : MockLogListener
+		private var _oPluginDebug : PluginDebug;
+		private var _oLogListener : MockLogListener;
 		
 		override public function setUp() : void
 		{
-			_oPluginDebug = PluginDebug.getInstance()
-			_oLogListener = new MockLogListener()
+			_oPluginDebug = PluginDebug.getInstance();
+			_oLogListener = new MockLogListener();
 			Logger.getInstance().addLogListener(_oLogListener)
 		}
 		
@@ -53,22 +54,20 @@ package com.bourre.plugin
 			assertEquals("error() failled message event's is not good",this.toString(),_oLogListener.evt.message)
 			assertEquals("error() failled level event's is not good",LogLevel.ERROR,_oLogListener.evt.level)
 		}
-		
-		
 	}
 }
-import com.bourre.log.LogListener;
+
 import com.bourre.log.LogEvent;
-	
+import com.bourre.log.LogListener;
 
 class MockLogListener implements LogListener
+{
+	public var evt : LogEvent
+	public var isCalled : Boolean
+	
+	public function onLog( e : LogEvent ) : void
 	{
-		public var evt : LogEvent
-		public var isCalled : Boolean
-		
-		public function onLog( e : LogEvent ) : void
-		{
-			isCalled = true
-			evt = e
-		}
+		isCalled = true
+		evt = e
 	}
+}

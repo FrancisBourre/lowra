@@ -1,16 +1,15 @@
 package com.bourre.media.sound
 {
-	import flexunit.framework.TestCase;
-	
-	import com.bourre.error.NoSuchElementException;
-	import com.bourre.error.IllegalArgumentException;	
-	import com.bourre.TestSettings;
-	
-	import flash.display.Loader;		
+	import flash.display.Loader;
 	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
+	import flash.utils.ByteArray;
 	
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.NoSuchElementException;
 	
+	import flexunit.framework.TestCase;
+
 	public class SoundFactoryTest extends TestCase
 	{
 		[Embed(source="./../../../testBin/SoundFactory.swf", mimeType="application/octet-stream")]
@@ -23,7 +22,7 @@ package com.bourre.media.sound
 		private static var _ms2			: Number;		
 		
 		SoundFactoryTest._loader = new Loader();
-		SoundFactoryTest._loader.loadBytes( new SoundFactoryTest.SWFBytes() );
+		SoundFactoryTest._loader.loadBytes( new SoundFactoryTest.SWFBytes( ) as ByteArray );
 		SoundFactoryTest._apliDomain = SoundFactoryTest._loader.contentLoaderInfo.applicationDomain;
 		
 		

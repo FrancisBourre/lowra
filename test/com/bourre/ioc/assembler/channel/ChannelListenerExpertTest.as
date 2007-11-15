@@ -1,11 +1,6 @@
 package com.bourre.ioc.assembler.channel
 {
 	import flexunit.framework.TestCase;
-	import com.bourre.ioc.bean.BeanFactory ;
-	import com.bourre.events.ApplicationBroadcaster 
-	import mx.messaging.events.ChannelEvent;
-	import com.bourre.events.EventChannel;
-	;
 
 	public class ChannelListenerExpertTest extends TestCase
 	{

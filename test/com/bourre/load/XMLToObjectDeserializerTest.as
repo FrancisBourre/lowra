@@ -1,10 +1,10 @@
 package com.bourre.load
 {
-	import flexunit.framework.TestCase;
-	import com.bourre.log.PixlibDebug 
-	import com.bourre.events.BasicEvent;
 	import flash.geom.Point;
-	;
+	
+	import com.bourre.events.BasicEvent;
+	
+	import flexunit.framework.TestCase;
 
 	public class XMLToObjectDeserializerTest extends TestCase
 	{

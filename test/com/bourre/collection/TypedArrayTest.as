@@ -1,7 +1,6 @@
 package com.bourre.collection
 {
 	import flexunit.framework.TestCase;
-	import mx.charts.AreaChart;
 
 	public class TypedArrayTest extends TestCase
 	{
