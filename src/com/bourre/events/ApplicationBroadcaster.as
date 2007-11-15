@@ -22,8 +22,6 @@ package com.bourre.events
 	 * @version 1.0
 	 */
 
-	import com.bourre.log.PixlibStringifier;
-	
 	public class ApplicationBroadcaster
 		extends ChannelBroadcaster
 	{
@@ -57,7 +55,7 @@ package com.bourre.events
 
 import com.bourre.events.EventChannel;
 
-internal class NoChannel extends EventChannel{};
-internal class SystemChannel extends EventChannel{};
+internal class NoChannel extends EventChannel{}
+internal class SystemChannel extends EventChannel{}
 
-internal class PrivateConstructorAccess {};
+internal class PrivateConstructorAccess {}

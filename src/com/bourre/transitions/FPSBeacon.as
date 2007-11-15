@@ -44,17 +44,18 @@ package com.bourre.transitions
 			return _bIP;
 		}
 		
-		public function addFrameListener( listener : FrameListener ) : void
+		public function addFrameListener( listener : FrameListener ) : Boolean
 		{
 			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
 				start();
-			_oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
+			return _oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
 		}
-		public function removeFrameListener( listener : FrameListener ) : void
+		public function removeFrameListener( listener : FrameListener ) : Boolean
 		{
-			_oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
+			var b : Boolean = _oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
 			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
 				stop();
+			return b;
 		}
 		
 		public function enterFrameHandler ( e : Event = null ) : void
