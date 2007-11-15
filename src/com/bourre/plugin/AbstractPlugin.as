@@ -1,13 +1,14 @@
 package com.bourre.plugin
 {
+	import flash.events.Event;
+	
 	import com.bourre.commands.FrontController;
 	import com.bourre.events.*;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.view.ViewLocator;
-
-	import flash.events.Event;
-	import com.bourre.log.PixlibDebug;
 
 	public class AbstractPlugin
 		implements Plugin
@@ -25,34 +26,30 @@ package com.bourre.plugin
 
 		public function AbstractPlugin() 
 		{
-			_oController = new FrontController( this )
-			_oModelLocator = ModelLocator.getInstance( this )
-			_oViewLocator = ViewLocator.getInstance( this )
+			_oController = new FrontController( this );
+			_oModelLocator = ModelLocator.getInstance( this );
+			_oViewLocator = ViewLocator.getInstance( this );
 				
-			_oABExternal = ApplicationBroadcaster.getInstance()
+			_oABExternal = ApplicationBroadcaster.getInstance();
+			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
+			_oEBPrivate = getController().getBroadcaster();
 			
-			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this )
-			
-			getLogger().debug( "plugin dispatcher " + _oEBPublic );
-			
-			_oEBPrivate = getController().getBroadcaster()
-			
-			if( _oEBPublic )_oEBPublic.addListener( this )
+			if( _oEBPublic ) _oEBPublic.addListener( this );
 		}
 		
 		public function fireOnInitPlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onInitPluginEVENT ) )
+			firePublicEvent( new Event( AbstractPlugin.onInitPluginEVENT ) );
 		}
 		
 		public function fireOnReleasePlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onReleasePluginEVENT ) )
+			firePublicEvent( new Event( AbstractPlugin.onReleasePluginEVENT ) );
 		}
 		
 		public function getChannel() : EventChannel
 		{
-			return ChannelExpert.getInstance().getChannel( this )
+			return ChannelExpert.getInstance().getChannel( this );
 		}
 		
 		public function getController() : FrontController
@@ -102,6 +99,24 @@ package com.bourre.plugin
 			_oEBPrivate.broadcastEvent( e );
 		}
 		
+		public function release() : void
+		{
+			
+			_oController.release( );
+			_oModelLocator.release( );
+			_oViewLocator.release();
+
+			BeanFactory.getInstance().unregisterBean( this );
+			fireOnReleasePlugin();
+			
+			_oEBPrivate.removeAllListeners();
+			_oEBPublic.removeAllListeners();
+
+			ApplicationBroadcaster.getInstance().releaseChannelDispatcher( getChannel() );
+			PluginDebug.release( this );
+			ChannelExpert.getInstance().releaseChannel( this );
+		}
+
 		public function addListener( listener : PluginListener ) : Boolean
 		{
 			if( _oEBPublic ) 

@@ -114,6 +114,11 @@ package com.bourre.commands
 				}
 			}
 		}
+		
+		public function release() : void
+		{
+			_mEventList.clear();
+		}
 
 		/**
 		 * Returns the string representation of this instance.

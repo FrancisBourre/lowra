@@ -34,7 +34,7 @@ package com.bourre.plugin
 		private static var _N : uint = 0;
 
 		private var _m : HashMap;
-		private var _oRegistered : Dictionary
+		private var _oRegistered : Dictionary;
 		
 		/**
 		 * @return singleton instance of ChannelExpert
@@ -76,7 +76,7 @@ package com.bourre.plugin
 				} else
 				{
 					PluginDebug.getInstance().debug( this + ".getChannel() failed on " + o );
-					_oRegistered[o] = ApplicationBroadcaster.getInstance().NO_CHANNEL
+					_oRegistered[o] = ApplicationBroadcaster.getInstance().NO_CHANNEL;
 					return ApplicationBroadcaster.getInstance().NO_CHANNEL;
 				}
 			}
@@ -84,7 +84,21 @@ package com.bourre.plugin
 			{
 				 return _oRegistered[o] as EventChannel;
 			}
-			
+		}
+		
+		public function releaseChannel( o : Plugin ) : Boolean
+		{
+			if( _oRegistered[o] )
+			{
+				if ( _m.containsKey( o.getChannel() ) ) _m.remove( o.getChannel() );
+				_oRegistered[o] = null;
+
+				return true;
+			}
+			else
+			{
+				 return false;
+			}
 		}
 		
 		public function registerChannel( channel : EventChannel ) : void

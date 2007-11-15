@@ -103,6 +103,14 @@ package com.bourre.view
 		{
 			_m.remove( key );
 		}
+		
+		public function release() : void
+		{
+			var a : Array = _m.getValues();
+			var l : uint = a.length;
+			while( -- l > - 1 ) ( a[ l ] as AbstractView ).release();
+			_m.clear();
+		}
 	
 		/**
 		 * Returns the string representation of this instance.

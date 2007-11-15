@@ -20,21 +20,21 @@ package com.bourre.events
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.collection.*;
-	
+	 
 	import flash.events.Event;
-	import com.bourre.log.*;
 	
+	import com.bourre.collection.*;
+	import com.bourre.log.*;
+
 	public class ChannelBroadcaster
 	{
 		private var _oDefaultChannel :EventChannel;
 		private var _mChannel : HashMap;
 		
-		public function ChannelBroadcaster( oChannel : EventChannel = null )
+		public function ChannelBroadcaster( channel : EventChannel = null )
 		{
 			empty();
-			setDefaultChannel( oChannel );
+			setDefaultChannel( channel );
 		}
 		
 		public function getDefaultDispatcher() : EventBroadcaster
@@ -47,9 +47,9 @@ package com.bourre.events
 			return _oDefaultChannel;
 		}
 		
-		public function setDefaultChannel( oChannel : EventChannel = null ) : void
+		public function setDefaultChannel( channel : EventChannel = null ) : void
 		{
-			_oDefaultChannel = (oChannel == null) ? DefaultChannel.CHANNEL : oChannel;
+			_oDefaultChannel = (channel == null) ? DefaultChannel.CHANNEL : channel;
 			getChannelDispatcher( getDefaultChannel() );
 		}
 		
@@ -61,21 +61,21 @@ package com.bourre.events
 			if ( channel != null ) getChannelDispatcher( channel );
 		}
 		
-		public function isRegistered( listener : Object, type : String, oChannel : EventChannel ) : Boolean
+		public function isRegistered( listener : Object, type : String, channel : EventChannel ) : Boolean
 		{
-			return getChannelDispatcher( oChannel ).isRegistered( listener, type );
+			return getChannelDispatcher( channel ).isRegistered( listener, type );
 		}
 		
-		public function hasChannelDispatcher( oChannel : EventChannel ) : Boolean
+		public function hasChannelDispatcher( channel : EventChannel ) : Boolean
 		{
-			return oChannel == null ? _mChannel.containsKey( _oDefaultChannel ) : _mChannel.containsKey( oChannel );
+			return channel == null ? _mChannel.containsKey( _oDefaultChannel ) : _mChannel.containsKey( channel );
 		}
 		
-		public function hasChannelListener( type : String, oChannel : EventChannel = null ) : Boolean
+		public function hasChannelListener( type : String, channel : EventChannel = null ) : Boolean
 		{
-			if ( hasChannelDispatcher( oChannel ) )
+			if ( hasChannelDispatcher( channel ) )
 			{
-				return getChannelDispatcher( oChannel ).hasListenerCollection( type );
+				return getChannelDispatcher( channel ).hasListenerCollection( type );
 				
 			} else
 			{
@@ -83,38 +83,54 @@ package com.bourre.events
 			}
 		}
 		
-		public function getChannelDispatcher( oChannel : EventChannel = null, owner : Object = null ) : EventBroadcaster
+		public function getChannelDispatcher( channel : EventChannel = null, owner : Object = null ) : EventBroadcaster
 		{
-			if ( hasChannelDispatcher( oChannel ) )
+			if ( hasChannelDispatcher( channel ) )
 			{
-				return oChannel == null ? _mChannel.get( _oDefaultChannel ) : _mChannel.get( oChannel );
+				return channel == null ? _mChannel.get( _oDefaultChannel ) : _mChannel.get( channel );
 				
 			} else
 			{
 				var eb : EventBroadcaster = new EventBroadcaster( owner );
-				_mChannel.put( oChannel, eb );
+				_mChannel.put( channel, eb );
 				return eb;
 			}
 		}
 
-		public function addListener( o : Object, oChannel : EventChannel = null ) : Boolean
+		public function releaseChannelDispatcher( channel : EventChannel ) : Boolean
 		{
-			return getChannelDispatcher( oChannel ).addListener( o );
+			if ( hasChannelDispatcher( channel ) )
+			{
+				var eb : EventBroadcaster = _mChannel.get( channel ) as EventBroadcaster;
+				eb.removeAllListeners();
+				_mChannel.remove( channel );
+
+				return true;
+
+			} else
+			{
+				return false;
+			}
+		}
+
+		public function addListener( o : Object, channel : EventChannel = null ) : Boolean
+		{
+			return getChannelDispatcher( channel ).addListener( o );
 		}
 		
-		public function removeListener( o : Object, oChannel : EventChannel = null ) : Boolean
+		public function removeListener( o : Object, channel : EventChannel = null ) : Boolean
 		{
-			return getChannelDispatcher( oChannel ).removeListener( o );
+			return getChannelDispatcher( channel ).removeListener( o );
 		}
 		
-		public function addEventListener( type : String, o : Object, oChannel : EventChannel = null ) : Boolean
+		public function addEventListener( type : String, o : Object, channel : EventChannel = null ) : Boolean
 		{
-			return getChannelDispatcher( oChannel ).addEventListener( type, o );
+			return getChannelDispatcher( channel ).addEventListener( type, o );
 		}
 		
-		public function removeEventListener( type : String, o : Object, oChannel : EventChannel = null ) : Boolean
+		public function removeEventListener( type : String, o : Object, channel : EventChannel = null ) : Boolean
 		{
-			return getChannelDispatcher( oChannel ).removeEventListener( type, o );
+			return getChannelDispatcher( channel ).removeEventListener( type, o );
 		}
 		
 		public function broadcastEvent( e : Event, channel : EventChannel = null ) : void
