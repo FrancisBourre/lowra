@@ -1,8 +1,7 @@
 package com.bourre.ioc.assembler.displayobject
 {
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.ioc.parser.ContextNodeNameList;
-	
+
 	public class DisplayObjectInfo
 	{
 		public var ID 		: String ;

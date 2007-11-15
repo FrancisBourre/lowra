@@ -21,13 +21,13 @@
 
 package com.bourre.events
 {
+	import flash.events.Event;
+	import flash.utils.getQualifiedClassName;
+
 	import com.bourre.collection.*;
 	import com.bourre.commands.Delegate;
 	import com.bourre.error.*;
 	import com.bourre.log.*;
-
-	import flash.events.Event;
-	import flash.utils.getQualifiedClassName;
 
 	public class EventBroadcaster
 	{
@@ -38,15 +38,16 @@ package com.bourre.events
 		private var _mType : HashMap;
 		private var _mEventListener : HashMap;
 		private var _cType : Class;
-
-		public function EventBroadcaster( target : Object = null, type : Class = null )
+		private var _mDelegate : HashMap;
+		public function EventBroadcaster( target : Object = null, type : Class = null )
 		{
 			_oTarget = ( target == null ) ? this : target;
-			
+
 			_mAll = new WeakCollection();
 			_mType = new HashMap();
 			_mEventListener = new HashMap();
-			
+			_mDelegate = new HashMap();
+
 			setListenerType( type );
 		}
 
@@ -63,6 +64,19 @@ package com.bourre.events
 
 		public function setListenerType( type : Class ) : void
 		{
+			var i : Iterator = _mAll.iterator();
+			while ( i.hasNext() )
+			{
+				if ( !(i.next() is type) )
+				{
+					var msg : String = this + ".setListenerType( " + type
+					+ " ) failed, your listener must be '" + _cType + "' typed";
+
+					PixlibDebug.ERROR( msg );
+					throw( new IllegalArgumentException( msg ) );
+				}
+			}
+
 			_cType = type;
 		}
 
@@ -98,11 +112,19 @@ package com.bourre.events
 		{
 			if ( _cType != null && !( listener is _cType ) )
 			{
-				var msg : String = "EventBroadcaster.addListener( " + listener
-				+ " ) failed, your listener must have '" + _cType + "' type";
-									
-				PixlibDebug.ERROR( msg );
-				throw( new IllegalArgumentException( msg ) );
+				var msg0 : String = this + ".addListener( " + listener
+				+ " ) failed, your listener must be '" + _cType + "' typed";
+			
+				PixlibDebug.ERROR( msg0 );
+				throw( new IllegalArgumentException( msg0 ) );
+
+			} else if ( listener is Function )
+			{
+				var msg1 : String = this + ".addListener( " + listener
+				+ " ) failed, your listener can't be Function typed";
+				
+				PixlibDebug.ERROR( msg1 );
+				throw( new IllegalArgumentException( msg1 ) );
 
 			} else
 			{
@@ -110,7 +132,7 @@ package com.bourre.events
 				{
 					_flushRef( listener );
 					return true;
-	
+
 				} else
 				{
 					return false;
@@ -120,51 +142,77 @@ package com.bourre.events
 
 		public function removeListener( listener : Object ) : Boolean
 		{
-			var b : Boolean = _flushRef( listener );
-			b = b || _mAll.contains( listener );
-			_mAll.remove( listener );
-			return b;
+			if ( listener is Function )
+			{
+				var msg : String = this + ".removeListener( " + listener
+				+ " ) failed, your listener can't be Function typed";
+
+				PixlibDebug.ERROR( msg );
+				throw( new IllegalArgumentException( msg ) );
+
+			} else
+			{
+				var b : Boolean = _flushRef( listener );
+				b = b || _mAll.contains( listener );
+				_mAll.remove( listener );
+				return b;
+			}
 		}
 
 		public function addEventListener( type : String, listener : Object, ...rest ) : Boolean
 		{
-
-			if ( listener is Function)
-			{ 
-				var d : Delegate = new Delegate( listener as Function );
-				if ( rest ) d.setArgumentsArray( rest );
-				listener = d;
-
-			} else if ( listener.hasOwnProperty( type ) && ( listener[type] is Function ) )
-			{
-				//
-	
-			} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
-			{
-				//
-
-			} else
-			{
-				var msg : String;
-				msg = "EventBroadcaster.addEventListener() failed, you must implement '" 
-				+ type + "' method or 'handleEvent' method in '" + 
-				getQualifiedClassName(listener) + "' class";
-									
-				PixlibDebug.ERROR( msg );
-				throw( new UnsupportedOperationException( msg ) );
-			}
-
 			if ( !( isRegistered( listener ) ) )
 			{
+
+				if ( listener is Function )
+				{
+					if ( _mDelegate.containsKey( listener ) ) 
+					{
+						return false;
+
+					} else
+					{
+						var d : Delegate = new Delegate( listener as Function );
+						if ( rest ) d.setArgumentsArray( rest );
+						_mDelegate.put( listener, d );
+						listener = d;
+					}
+
+				} else if ( listener.hasOwnProperty( type ) && ( listener[type] is Function ) )
+				{
+					//
+
+				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+				{
+					//
+
+				} else
+				{
+					var msg : String;
+					msg = this + ".addEventListener() failed, you must implement '" 
+					+ type + "' method or 'handleEvent' method in '" + 
+					getQualifiedClassName( listener ) + "' class";
+
+					PixlibDebug.ERROR( msg );
+					throw( new UnsupportedOperationException( msg ) );
+				}
+
 				if ( !(hasListenerCollection(type)) ) _mType.put( type, new WeakCollection() );
-				if ( getListenerCollection(type).add( listener ) ) 
+
+				if ( getListenerCollection( type ).add( listener ) ) 
 				{
 					_storeRef( type, listener );
 					return true;
-				} 
-			}
 
-			return false;
+				} else
+				{
+					return false;
+				}
+
+			} else
+			{
+				return false;
+			}
 		}
 
 		public function removeEventListener( type : String, listener : Object ) : Boolean
@@ -172,6 +220,9 @@ package com.bourre.events
 			if ( hasListenerCollection( type ) )
 			{
 				var c : Collection = getListenerCollection( type );
+
+				if ( listener is Function ) listener = _mDelegate.remove( listener );
+
 				if ( c.remove( listener ) )
 				{
 					_removeRef( type, listener );
@@ -194,6 +245,7 @@ package com.bourre.events
 			_mAll.clear();
 			_mType.clear();
 			_mEventListener.clear();
+			_mDelegate.clear();
 		}
 
 		public function isEmpty() : Boolean
@@ -223,11 +275,11 @@ package com.bourre.events
 			while ( --l > -1 ) 
 			{
 				var listener : Object = a[l];
-				
+
 				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
 				{
 					listener[type](e);
-					
+
 				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
 				{
 					listener.handleEvent(e);
@@ -235,16 +287,16 @@ package com.bourre.events
 				} else 
 				{
 					var msg : String;
-					msg = "EventBroadcaster.broadcastEvent() failed, you must implement '" 
+					msg = this + ".broadcastEvent() failed, you must implement '" 
 					+ type + "' method or 'handleEvent' method in '" + 
 					getQualifiedClassName(listener) + "' class";
-					
+
 					PixlibDebug.ERROR( msg );
 					throw( new UnsupportedOperationException( msg ) );
 				}
 			}
 		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
@@ -253,21 +305,21 @@ package com.bourre.events
 		{
 			return PixlibStringifier.stringify( this );
 		}
-		
+
 		//
 		private function _storeRef( type : String, listener : Object ) : void
 		{
 			if ( !(_mEventListener.containsKey( listener )) ) _mEventListener.put( listener, new HashMap() );
 			_mEventListener.get( listener ).put( type, listener );
 		}
-		
+
 		private function _removeRef( type : String, listener : Object ) : void
 		{
 			var m : HashMap = _mEventListener.get( listener );
 			m.remove( type );
 			if ( m.isEmpty() ) _mEventListener.remove( listener );
 		}
-		
+
 		private function _flushRef( listener : Object ) : Boolean
 		{
 			var b : Boolean = false;

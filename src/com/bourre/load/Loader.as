@@ -21,13 +21,12 @@ package com.bourre.load
 	 * @version 1.0
 	 */
 
-	import com.bourre.commands.ASyncCommand;
-
-	import flash.display.*;
 	import flash.net.URLRequest;
-	import com.bourre.load.strategy.LoadStrategy;
 	import flash.system.LoaderContext;
 	
+	import com.bourre.commands.ASyncCommand;
+	import com.bourre.load.strategy.LoadStrategy;
+
 	public interface Loader 
 		extends ASyncCommand
 	{
