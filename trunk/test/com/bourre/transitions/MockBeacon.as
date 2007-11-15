@@ -42,11 +42,11 @@ package com.bourre.transitions
 			return _bIP;
 		}
 		
-		public function addFrameListener( listener : FrameListener ) : void
+		public function addFrameListener( listener : FrameListener ) : Boolean
 		{
 			return _oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
 		}
-		public function removeFrameListener( listener : FrameListener ) : void
+		public function removeFrameListener( listener : FrameListener ) : Boolean
 		{
 			return _oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
 		}

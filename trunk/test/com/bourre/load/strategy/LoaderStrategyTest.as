@@ -17,7 +17,8 @@ package com.bourre.load.strategy
 	
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
-	
+	import flash.system.LoaderContext;
+
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -195,7 +196,7 @@ package com.bourre.load.strategy
 	    {    
 			_bOnInit = true;   	
 	    }
-		public function fireOnLoadErrorEvent() : void
+		public function fireOnLoadErrorEvent( message : String = null ) : void
 		{ 				
 			_bOnError = true;		
 		}
@@ -203,7 +204,7 @@ package com.bourre.load.strategy
 		
 		
 		// inutiles pour les tests mais obligatiores ("implements Loader")
-		public function load( url : URLRequest = null  ) : void
+		public function load( url : URLRequest = null, context : LoaderContext = null  ) : void
 		{
 		}
 		

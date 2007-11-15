@@ -14,8 +14,9 @@ package com.bourre.load.strategy
 	import flash.events.Event;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
-	import flash.net.URLRequest;	
-		
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;	
+
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -171,7 +172,7 @@ package com.bourre.load.strategy
 	    {    
 			_bOnComplete = true;   	
 	    }
-		public function fireOnLoadErrorEvent() : void
+		public function fireOnLoadErrorEvent( message : String = null ) : void
 		{ 				
 			_bOnError = true;		
 		}
@@ -183,7 +184,7 @@ package com.bourre.load.strategy
 		{
 		}		
 		
-		public function load( url : URLRequest = null  ) : void
+		public function load( url : URLRequest = null, context : LoaderContext = null  ) : void
 		{
 		}
 		
