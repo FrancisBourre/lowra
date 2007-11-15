@@ -94,6 +94,14 @@ package com.bourre.model
 			_m.remove( key );
 		}
 		
+		public function release() : void
+		{
+			var a : Array = _m.getValues();
+			var l : uint = a.length;
+			while( -- l > - 1 ) ( a[ l ] as AbstractModel ).release();
+			_m.clear();
+		}
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

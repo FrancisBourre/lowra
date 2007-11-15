@@ -1,12 +1,11 @@
 package com.bourre.ioc.core
 {
+	import flash.utils.Dictionary;
+	
 	import com.bourre.collection.*;
 	import com.bourre.ioc.assembler.property.*;
 	import com.bourre.log.*;
 	import com.bourre.plugin.*;
-
-	import flash.events.Event;
-	import flash.utils.Dictionary;
 
 	public class IDExpert
 		implements PropertyExpertListener
@@ -86,6 +85,21 @@ package com.bourre.ioc.core
 				_d[ id ] = true;
 				_c.add( id );
 				return true;
+			}
+		}
+		
+		public function unregister( id : String ) : Boolean
+		{
+			if (  _d[ id ] ) 
+			{
+				_d[ id ] = false;
+				_c.remove( id );
+				return true;
+
+			} else
+			{
+				PluginDebug.getInstance().fatal( this + ".unregister(" + id + ") failed." );
+				return false;
 			}
 		}
 

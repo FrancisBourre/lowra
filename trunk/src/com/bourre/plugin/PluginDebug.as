@@ -50,11 +50,24 @@ package com.bourre.plugin
 	
 		public static function getInstance( owner : Plugin = null ) : PluginDebug
 		{
-			if(owner==null) owner = NullPlugin.getInstance()
+			if ( owner == null ) owner = NullPlugin.getInstance();
 			if ( !(PluginDebug._M.containsKey( owner )) ) PluginDebug._M.put( owner, new PluginDebug( new PrivateConstructorAccess(), owner ) );
 			return PluginDebug._M.get( owner );
 		}
-		
+
+		public static function release( owner : Plugin ) : Boolean
+		{
+			if ( PluginDebug._M.containsKey( owner ) ) 
+			{
+				PluginDebug._M.remove( owner );
+				return true;
+
+			} else
+			{
+				return false;
+			}
+		}
+
 		public function debug( o : * ) : void
 		{
 			if (PluginDebug.isOn) Logger.DEBUG( o, _channel );

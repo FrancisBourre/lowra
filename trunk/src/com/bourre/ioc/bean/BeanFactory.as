@@ -15,19 +15,20 @@ package com.bourre.ioc.bean
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
 
+	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
-	import com.bourre.collection.HashMap ;
-	import com.bourre.events.EventBroadcaster;	
 	import com.bourre.error.*;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.log.*;
-	
+
 	public class BeanFactory 
 		implements Locator
 	{
@@ -114,6 +115,7 @@ package com.bourre.ioc.bean
 			if ( isRegistered( key ) )
 			{
 				_m.remove( key ) ;
+				IDExpert.getInstance().unregister( key );
 				_oEB.broadcastEvent( new BeanEvent( BeanFactory.onUnregisterBeanEVENT, key, null ) ) ;
 				return true ;
 			}
@@ -121,6 +123,25 @@ package com.bourre.ioc.bean
 			{
 				return false ;
 			}
+		}
+		
+		public function unregisterBean ( bean : Object ) : Boolean
+		{
+			var b : Boolean = isBeanRegistered( bean );
+
+			if ( b )
+			{
+				var a : Array = _m.getKeys();
+				var l : uint = a.length;
+
+				while( -- l > - 1 ) 
+				{
+					var key : String = a[ l ];
+					if ( locate( a[ l ] ) == bean ) unregister( key );
+				}
+			}
+
+			return b;
 		}
 		
 		public function addListener( listener : BeanFactoryListener ) : Boolean
