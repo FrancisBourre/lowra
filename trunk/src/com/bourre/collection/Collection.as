@@ -61,7 +61,7 @@ package com.bourre.collection
  * @since 1.0
  */
 
-	public interface Collection
+	public interface Collection extends Iterable
 	{
 		/**
 	     * Returns the number of elements in this collection.
