@@ -24,7 +24,7 @@ package com.bourre.core
 		static public function getNextKey () : String
 		{
 			return "KEY" + _nKEY++;
-		} 
+		}
 		
 		static public function previewNextKey () : String
 		{

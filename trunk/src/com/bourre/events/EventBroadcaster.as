@@ -94,13 +94,36 @@ package com.bourre.events
 		{
 			if (type == null)
 			{
-				return _mAll.contains( listener );
+				if( listener is Function )
+				{
+					if( _mDelegate.containsKey( listener ) )
+					{
+						return _mAll.contains( _mDelegate.get( listener ) );
+					}
+					else return false;
+				}
+				else
+				{
+					return _mAll.contains( listener );
+				}
 
 			} else
 			{
 				if ( hasListenerCollection( type ) )
 				{
-					return getListenerCollection( type ).contains( listener );
+					if( listener is Function )
+					{
+						if( _mDelegate.containsKey( listener ) )
+						{
+							return getListenerCollection( type ).contains( _mDelegate.get( listener ) );	
+						}
+						else return false;
+					}
+					else
+					{
+						return getListenerCollection( type ).contains( listener );
+					}
+					
 				} else
 				{
 					return false;
@@ -278,6 +301,7 @@ package com.bourre.events
 
 				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
 				{
+					//PixlibDebug.DEBUG( "is a real listener for type " + type );
 					listener[type](e);
 
 				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
