@@ -12,6 +12,7 @@ package com.bourre.commands
 	import com.bourre.transitions.FPSBeacon;
 	import com.bourre.transitions.FrameBeacon;
 	import com.bourre.transitions.FrameListener;
+	import com.bourre.log.PixlibDebug;
 
 	/**
 	 * @author Cédric Néhémie
@@ -23,7 +24,7 @@ package com.bourre.commands
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
 
 		static public const onLoopStartEVENT : String = "onLoopStart";
-		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT : String = "onLoopEnd";
+		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT : String = "onLoopEnd";		static public const onLoopAbortEVENT : String = "onLoopAbort";
 		
 		static public const onIterationEVENT : String = "onIteration";
 		
@@ -50,9 +51,44 @@ package com.bourre.commands
 		{
 			_oIterator = _oCommand.iterator();
 			_nIndex = 0;
-			_bIsPlaying = true;
 			
-			_oBeacon.addFrameListener( this );
+			start();
+		}
+		
+		public function abort () : void
+		{
+			stop();
+			
+			_oCommand.abort();
+			_oCommand = null;
+			_oIterator = null;
+			
+			fireOnLoopAbortEvent( _nIndex );
+		}			
+		
+		public function start() : void
+		{
+			if( !_oCommand )
+			{
+				PixlibDebug.WARN( "You're attempting to start a loop " +
+								  "without any IterationCommand in " + this );
+				return;
+			}
+				
+			if( !_bIsPlaying )
+			{
+				_oBeacon.addFrameListener( this );
+				_bIsPlaying = true;
+			}
+		}
+		
+		public function stop() : void
+		{
+			if( _bIsPlaying )
+			{
+				_oBeacon.removeFrameListener( this );
+				_bIsPlaying = false;
+			}
 		}
 		
 		public function onEnterFrame (e : Event = null) : void
@@ -63,15 +99,14 @@ package com.bourre.commands
 			while( time < _nIterationTimeLimit )
 			{
 				tmpTime = getTimer();
-				if(_oIterator.hasNext())
+				if( _oIterator.hasNext() )
 				{
 					fireOnIterationEvent( _nIndex, _oIterator.next() );
 					_nIndex++;
 				}
 				else
 				{
-					_oBeacon.removeFrameListener( this );
-					_bIsPlaying = false;
+					stop();
 					
 					fireOnLoopProgressEvent( _nIndex );
 					fireOnLoopEndEvent( _nIndex );
@@ -119,6 +154,10 @@ package com.bourre.commands
 		public function fireOnLoopProgressEvent ( n : Number ) : void
 		{
 			_oEB.broadcastEvent(  new LoopEvent( onLoopProgressEVENT, this, n ) );
+		}
+		public function fireOnLoopAbortEvent ( n : Number ) : void
+		{
+			_oEB.broadcastEvent(  new LoopEvent( onLoopAbortEVENT, this, n ) );
 		}
 		public function fireOnLoopEndEvent ( n : Number ) : void
 		{

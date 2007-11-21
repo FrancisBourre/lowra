@@ -5,6 +5,8 @@ package com.bourre.commands
 	import com.bourre.collection.Iterator;
 	
 	import flash.events.Event;
+	
+	import com.bourre.events.IterationEvent;
 
 	/**
 	 * @author Cédric Néhémie
@@ -31,6 +33,10 @@ package com.bourre.commands
 		public function setIterator ( i : Iterator ) : void
 		{
 			_oIterator = i;
+		}
+		
+		public function abort () : void
+		{
 		} 
 	}
 }
