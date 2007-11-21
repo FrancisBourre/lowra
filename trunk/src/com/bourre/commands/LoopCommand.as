@@ -1,19 +1,17 @@
 package com.bourre.commands 
 {
-	import com.bourre.commands.AbstractSyncCommand;
-	import com.bourre.commands.ASyncCommand;
-	
 	import flash.events.Event;
-	
-	import com.bourre.transitions.FrameListener;
-	import com.bourre.collection.Iterator;
-	import com.bourre.transitions.FrameBeacon;
-	import com.bourre.transitions.FPSBeacon;
-	import com.bourre.events.IterationEvent;
-	
 	import flash.utils.getTimer;
 	
+	import com.bourre.collection.Iterator;
+	import com.bourre.commands.ASyncCommand;
+	import com.bourre.commands.AbstractIterationCommand;
+	import com.bourre.commands.AbstractSyncCommand;
+	import com.bourre.events.IterationEvent;
 	import com.bourre.events.LoopEvent;
+	import com.bourre.transitions.FPSBeacon;
+	import com.bourre.transitions.FrameBeacon;
+	import com.bourre.transitions.FrameListener;
 
 	/**
 	 * @author Cédric Néhémie
