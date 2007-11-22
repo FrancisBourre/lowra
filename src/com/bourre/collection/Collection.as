@@ -92,16 +92,6 @@ package com.bourre.collection
 		function contains( o : Object ) : Boolean;
 		
 		/**
-	     * Returns an iterator over the elements in this collection.  There are no
-	     * guarantees concerning the order in which the elements are returned
-	     * (unless this collection is an instance of some class that provides a
-	     * guarantee).
-	     * 
-	     * @return an <tt>Iterator</tt> over the elements in this collection
-	     */
-		function iterator() : Iterator;
-		
-		/**
 	     * Returns an array containing all of the elements in this collection.  If
 	     * the collection makes any guarantees as to what order its elements are
 	     * returned by its iterator, this method must return the elements in the
