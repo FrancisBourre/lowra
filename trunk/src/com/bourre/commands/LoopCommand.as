@@ -1,3 +1,18 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.commands 
 {
 	import flash.events.Event;
@@ -5,7 +20,6 @@ package com.bourre.commands
 	
 	import com.bourre.collection.Iterator;
 	import com.bourre.commands.ASyncCommand;
-	import com.bourre.commands.AbstractIterationCommand;
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.events.IterationEvent;
 	import com.bourre.events.LoopEvent;
@@ -15,6 +29,7 @@ package com.bourre.commands
 	import com.bourre.log.PixlibDebug;
 
 	/**
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class LoopCommand extends AbstractSyncCommand 
@@ -22,11 +37,11 @@ package com.bourre.commands
 	{
 		static public const DEFAULT_ITERATION_TIME_LIMIT : Number = 15;
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
-
+		
 		static public const onLoopStartEVENT : String = "onLoopStart";
 		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT : String = "onLoopEnd";		static public const onLoopAbortEVENT : String = "onLoopAbort";
 		
-		static public const onIterationEVENT : String = "onIteration";
+		static protected const onIterationEVENT : String = "onIteration";
 		
 		protected var _oCommand : IterationCommand;
 		protected var _oIterator : Iterator;
@@ -35,6 +50,11 @@ package com.bourre.commands
 		protected var _nIndex : Number;
 		protected var _bIsPlaying : Boolean;
 
+		/**
+		 * 
+		 * @param command
+		 * @param iterationLimit
+		 */
 		public function LoopCommand ( command : IterationCommand, 
 									  iterationLimit : Number = DEFAULT_ITERATION_TIME_LIMIT )
 		{
@@ -47,6 +67,10 @@ package com.bourre.commands
 			_bIsPlaying = false;
 		}
 
+		/**
+		 * 
+		 * @param e
+		 */
 		override public function execute (e : Event = null) : void
 		{
 			_oIterator = _oCommand.iterator();
@@ -55,6 +79,9 @@ package com.bourre.commands
 			start();
 		}
 		
+		/**
+		 * 
+		 */
 		public function abort () : void
 		{
 			stop();
@@ -66,6 +93,9 @@ package com.bourre.commands
 			fireOnLoopAbortEvent( _nIndex );
 		}			
 		
+		/**
+		 * 
+		 */
 		public function start() : void
 		{
 			if( !_oCommand )
@@ -82,6 +112,9 @@ package com.bourre.commands
 			}
 		}
 		
+		/**
+		 * 
+		 */
 		public function stop() : void
 		{
 			if( _bIsPlaying )
@@ -91,6 +124,10 @@ package com.bourre.commands
 			}
 		}
 		
+		/**
+		 * 
+		 * @param e
+		 */
 		public function onEnterFrame (e : Event = null) : void
 		{
 			var time:Number = 0;
@@ -119,17 +156,29 @@ package com.bourre.commands
 			fireOnLoopProgressEvent( _nIndex );
 		}
 		
+		/**
+		 * 
+		 * @param e
+		 */
 		public function onCommandEnd ( e : ASyncCommandEvent ): void
 		{
 			(e.getTarget( ) as AbstractSyncCommand ).removeASyncCommandListener( this );
 			execute( e );
 		}
 		
+		/**
+		 * 
+		 * @return
+		 */
 		public function isPlaying () : Boolean
 		{
 			return _bIsPlaying;
 		}
-
+		
+		/**
+		 * 
+		 * @param beacon
+		 */
 		public function setFrameBeacon ( beacon : FrameBeacon ) : void
 		{
 			if( _bIsPlaying ) _oBeacon.removeFrameListener( this );
@@ -139,31 +188,56 @@ package com.bourre.commands
 			if( _bIsPlaying ) _oBeacon.addFrameListener( this );
 		}
 
+		/**
+		 * 
+		 * @param listener
+		 */
 		public function addLoopCommandListener ( listener : LoopCommandListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
+		
+		/**
+		 * 
+		 * @param listener
+		 */
 		public function removeLoopCommandListener ( listener : LoopCommandListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
-		public function fireOnLoopStartEvent () : void
+		
+		/**
+		 * 
+		 */
+		protected function fireOnLoopStartEvent () : void
 		{
 			_oEB.broadcastEvent( new LoopEvent( onLoopStartEVENT, this, 0 ) );
 		}
-		public function fireOnLoopProgressEvent ( n : Number ) : void
+		/**
+		 * 
+		 */
+		protected function fireOnLoopProgressEvent ( n : Number ) : void
 		{
 			_oEB.broadcastEvent(  new LoopEvent( onLoopProgressEVENT, this, n ) );
 		}
-		public function fireOnLoopAbortEvent ( n : Number ) : void
+		/**
+		 * 
+		 */
+		protected function fireOnLoopAbortEvent ( n : Number ) : void
 		{
 			_oEB.broadcastEvent(  new LoopEvent( onLoopAbortEVENT, this, n ) );
 		}
-		public function fireOnLoopEndEvent ( n : Number ) : void
+		/**
+		 * 
+		 */
+		protected function fireOnLoopEndEvent ( n : Number ) : void
 		{
 			_oEB.broadcastEvent(  new LoopEvent( onLoopEndEVENT, this, n ) );
 		}
-		public function fireOnIterationEvent ( i : Number, o : * ) : void
+		/**
+		 * 
+		 */
+		protected function fireOnIterationEvent ( i : Number, o : * ) : void
 		{
 			_oCommand.execute( new IterationEvent( onIterationEVENT, this, i, o ) );
 		}		
