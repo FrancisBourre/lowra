@@ -29,7 +29,7 @@ package com.bourre.load
 		public static const onLoadProgressEVENT : String = LoaderEvent.onLoadProgressEVENT;
 		public static const onLoadTimeOutEVENT : String = LoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
-		
+				public static const onLoaderLoadStartEVENT : String = "onLoaderLoadStart";		
 		public static const onLoadCompleteEVENT : String = "onLoadComplete";
 		
 		public function QueueLoaderEvent( type : String, ql : QueueLoader )

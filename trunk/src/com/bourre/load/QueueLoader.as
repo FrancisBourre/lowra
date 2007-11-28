@@ -81,7 +81,8 @@ package com.bourre.load
 		
 		public function onLoaderLoadStart( e : LoaderEvent, ... rest ) : void
 		{
-			
+			e.type = QueueLoaderEvent.onLoaderLoadStartEVENT;
+			fireEvent( e );
 		}
 		
 		public function onLoaderLoadInit( e : LoaderEvent, ... rest ) : void
@@ -109,6 +110,7 @@ package com.bourre.load
 			_currentLoader.removeEventListener  (LoaderEvent.onLoadProgressEVENT, 	onLoaderLoadProgress) ;
 			_currentLoader.removeEventListener  (LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut) ;
 			_currentLoader.removeEventListener  (LoaderEvent.onLoadStartEVENT, 		onLoaderLoadStart) ;
+			_currentLoader.removeEventListener	(LoaderEvent.onLoadErrorEVENT, 		onLoaderLoadError);
 			fireEventType						(QueueLoaderEvent.onLoadCompleteEVENT) ;
 		}
 		
@@ -142,6 +144,7 @@ package com.bourre.load
 				_currentLoader.removeEventListener(LoaderEvent.onLoadProgressEVENT, onLoaderLoadProgress);
 				_currentLoader.removeEventListener(LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut);
 				_currentLoader.removeEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadErrorEVENT, 	onLoaderLoadError);
 			}
 
 			_currentLoader = _q.poll() as Loader ;
@@ -152,6 +155,7 @@ package com.bourre.load
 			_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress);
 			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
 			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
+			_currentLoader.addEventListener(LoaderEvent.onLoadErrorEVENT,   onLoaderLoadError);
 			
 			_currentLoader.execute() ;
 		}
