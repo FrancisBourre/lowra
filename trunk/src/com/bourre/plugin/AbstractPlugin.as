@@ -26,6 +26,11 @@ package com.bourre.plugin
 
 		public function AbstractPlugin() 
 		{
+			_initialize();
+		}
+		
+		protected function _initialize() : void
+		{
 			_oController = new FrontController( this );
 			_oModelLocator = ModelLocator.getInstance( this );
 			_oViewLocator = ViewLocator.getInstance( this );
@@ -167,6 +172,7 @@ package com.bourre.plugin
 				return false;
 			}
 		}
+
 
 		/**
 		 * Returns the string representation of this instance.
