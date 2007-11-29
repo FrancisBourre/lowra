@@ -19,6 +19,7 @@ package com.bourre.load
 
 	/**
 	 * @author Francis Bourre
+	 * @author Cedric Nehemie
 	 * @version 1.0
 	 */
 
@@ -50,128 +51,16 @@ package com.bourre.load
 			return _currentLoader;
 		}
 		
-		public function add( loader : Loader, name : String, url : URLRequest, context : LoaderContext = null ) : Boolean
-		{
-			if ( name != null ) 
-			{
-				loader.setName( name );
-				
-				if ( url )
-				{
-					loader.setURL( url );
-					if ( context && loader is GraphicLoader ) ( loader as GraphicLoader ).setContext( context );
-
-				} 
-				else if ( loader.getURL().url )
-				{
-					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
-				}
-
-			} 
-			else if( !(loader.getName()) )
-			{
-				PixlibDebug.WARN( "You passed Loader argument without any name property in " + this + ".enqueue()." );
-			}
-			
-			if (loader.getName() == null) loader.setName( 'library' + QueueLoader._KEY++);
-			
-			_q.add(loader);
-			return loader.getName()!= null;
-		}
-		
-		public function onLoaderLoadStart( e : LoaderEvent, ... rest ) : void
-		{
-			e.type = QueueLoaderEvent.onLoaderLoadStartEVENT;
-			fireEvent( e );
-		}
-		
-		public function onLoaderLoadInit( e : LoaderEvent, ... rest ) : void
-		{
-			fireEventType(LoaderEvent.onLoadInitEVENT) ;
-			if (isEmpty())
-			{
-				//new LoaderEvent( e.getType(), e.getLoader() );
-				onLoaderLoadComplete( new LoaderEvent(LoaderEvent.onLoadInitEVENT, this)) ;
-			}
-			else
-			{
-				loadNextEntry() ;
-			}
-		}
-		
-		public function onLoaderLoadProgress( e : LoaderEvent, ... rest ) : void
-		{
-			fireEventType( e.type );
-		}
-		
-		public function onLoaderLoadComplete (e : LoaderEvent, ... rest ) : void
-		{
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadInitEVENT,		onLoaderLoadInit) ;
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadProgressEVENT, 	onLoaderLoadProgress) ;
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut) ;
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadStartEVENT, 		onLoaderLoadStart) ;
-			_currentLoader.removeEventListener	(LoaderEvent.onLoadErrorEVENT, 		onLoaderLoadError);
-			fireEventType						(QueueLoaderEvent.onLoadCompleteEVENT) ;
-		}
-		
-		public function onLoaderLoadTimeOut( e : LoaderEvent, ... rest ) : void
-		{
-			fireEventType( e.type );
-		}
-		
-		public function onLoaderLoadError( e : LoaderEvent, ... rest ) : void
-		{
-			fireEventType( e.type );
-		}
-		
-		protected override function getLoaderEvent( type : String ) : LoaderEvent
-		{
-			return new QueueLoaderEvent( type, this );
-		}
-		
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			release();
 
 			super.load( url, context );
 		}
-		
-		public function loadNextEntry() : void
-		{
-			if ( _currentLoader )
-			{
-				_currentLoader.removeEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
-				_currentLoader.removeEventListener(LoaderEvent.onLoadProgressEVENT, onLoaderLoadProgress);
-				_currentLoader.removeEventListener(LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut);
-				_currentLoader.removeEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
-				_currentLoader.removeEventListener(LoaderEvent.onLoadErrorEVENT, 	onLoaderLoadError);
-			}
-
-			_currentLoader = _q.poll() as Loader ;
-
-			if ( _sPrefixURL ) _currentLoader.prefixURL( _sPrefixURL );
-
-			_currentLoader.addEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
-			_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress);
-			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
-			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
-			_currentLoader.addEventListener(LoaderEvent.onLoadErrorEVENT,   onLoaderLoadError);
-			
-			_currentLoader.execute() ;
-		}
-		
 		public override function release() : void
 		{
-			//
-
 			super.release();
 		}
-		
-		private function _onLoadStart() : void
-		{
-			fireEventType( QueueLoaderEvent.onLoadStartEVENT );
-		}
-		
 		public override function execute( e : Event = null ) : void
 		{
 			var a : Array = _q.toArray();
@@ -206,5 +95,112 @@ package com.bourre.load
 			return _q.size();
 		}
 		
+		public function add( loader : Loader, name : String, url : URLRequest, context : LoaderContext = null ) : Boolean
+		{
+			if ( name != null ) 
+			{
+				loader.setName( name );
+				
+				if ( url )
+				{
+					loader.setURL( url );
+					if ( context && loader is GraphicLoader ) ( loader as GraphicLoader ).setContext( context );
+
+				} 
+				else if ( loader.getURL().url )
+				{
+					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
+				}
+
+			} 
+			else if( !(loader.getName()) )
+			{
+				PixlibDebug.WARN( "You passed Loader argument without any name property in " + this + ".enqueue()." );
+			}
+			
+			if (loader.getName() == null) loader.setName( 'library' + QueueLoader._KEY++);
+			
+			_q.add(loader);
+			return loader.getName()!= null;
+		}
+		
+		public function loadNextEntry() : void
+		{
+			if ( _currentLoader )
+			{
+				_currentLoader.removeEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadProgressEVENT, onLoaderLoadProgress);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
+				_currentLoader.removeEventListener(LoaderEvent.onLoadErrorEVENT, 	onLoaderLoadError);
+			}
+
+			_currentLoader = _q.poll() as Loader ;
+
+			if ( _sPrefixURL ) _currentLoader.prefixURL( _sPrefixURL );
+
+			_currentLoader.addEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
+			_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress);
+			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
+			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
+			_currentLoader.addEventListener(LoaderEvent.onLoadErrorEVENT,   onLoaderLoadError);
+			
+			_currentLoader.execute() ;
+		}
+		
+		public function onLoaderLoadStart( e : LoaderEvent, ... rest ) : void
+		{
+			e.type = QueueLoaderEvent.onLoaderLoadStartEVENT;
+			fireEvent( e );
+		}
+		
+		public function onLoaderLoadInit( e : LoaderEvent, ... rest ) : void
+		{
+			fireEventType( QueueLoaderEvent.onLoaderLoadInitEVENT ) ;
+			if (isEmpty())
+			{
+				_onLoadInit() ;
+			}
+			else
+			{
+				loadNextEntry() ;
+			}
+		}
+		
+		public function onLoaderLoadProgress( e : LoaderEvent, ... rest ) : void
+		{
+			fireEventType( e.type );
+		}
+				
+		public function onLoaderLoadTimeOut( e : LoaderEvent, ... rest ) : void
+		{
+			fireEventType( e.type );
+		}
+		
+		public function onLoaderLoadError( e : LoaderEvent, ... rest ) : void
+		{
+			fireEventType( e.type );
+		}
+		
+		protected override function getLoaderEvent( type : String ) : LoaderEvent
+		{
+			return new QueueLoaderEvent( type, this );
+		}
+				
+		private function _onLoadStart() : void
+		{
+			fireEventType( QueueLoaderEvent.onLoadStartEVENT );
+		}
+		
+		private function _onLoadInit () : void
+		{
+			_currentLoader.removeEventListener  (LoaderEvent.onLoadInitEVENT,		onLoaderLoadInit) ;
+			_currentLoader.removeEventListener  (LoaderEvent.onLoadProgressEVENT, 	onLoaderLoadProgress) ;
+			_currentLoader.removeEventListener  (LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut) ;
+			_currentLoader.removeEventListener  (LoaderEvent.onLoadStartEVENT, 		onLoaderLoadStart) ;
+			_currentLoader.removeEventListener	(LoaderEvent.onLoadErrorEVENT, 		onLoaderLoadError);
+			
+			fireEventType(  QueueLoaderEvent.onLoadInitEVENT );
+		}		
 	}
 }
