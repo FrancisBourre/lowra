@@ -25,8 +25,8 @@ package com.bourre.ioc.assembler.displayobject
 		public static var onLoadInitEVENT		: String = QueueLoaderEvent.onLoadInitEVENT ; 
 		public static var onLoadProgressEVENT	: String = QueueLoaderEvent.onLoadProgressEVENT ; 
 		public static var onTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT ; 
-		public static var onLoadCompleteEVENT	: String = QueueLoaderEvent.onLoadCompleteEVENT; 
-		
+		public static var onLoaderLoadInitEVENT	: String = QueueLoaderEvent.onLoaderLoadInitEVENT;
+
 		public static const SPRITE : String = "Sprite";
 		public static const MOVIECLIP : String = "MovieClip";
 			
@@ -112,10 +112,10 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			if ( _dllQueue.size() > 0 )
 			{
-				_dllQueue.addEventListener( DisplayObjectExpert.onLoadInitEVENT, _onDLLLoad );
+				_dllQueue.addEventListener( DisplayObjectExpert.onLoaderLoadInitEVENT, _onDLLLoad );
 				_dllQueue.addEventListener( DisplayObjectExpert.onLoadProgressEVENT, this );
 				_dllQueue.addEventListener( DisplayObjectExpert.onTimeOutEVENT, this );
-				_dllQueue.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, _loadDisplayObjectQueue );
+				_dllQueue.addEventListener( DisplayObjectExpert.onLoadInitEVENT, _loadDisplayObjectQueue );
 				_dllQueue.execute() ;
 			}
 			else
@@ -134,13 +134,13 @@ package com.bourre.ioc.assembler.displayobject
 				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadInitEVENT, this) ;
 				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadProgressEVENT, this) ;
 				_gfxQueue.addEventListener(DisplayObjectExpert.onTimeOutEVENT, this) ;
-				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadCompleteEVENT, this) ;
+				_gfxQueue.addEventListener(DisplayObjectExpert.onLoaderLoadInitEVENT, this );
 				_gfxQueue.execute() ;
 			}
 			else
 			{
 				buildDisplayList();
-				_oEB.broadcastEvent( new QueueLoaderEvent( DisplayObjectExpert.onLoadCompleteEVENT, _gfxQueue ) );
+				_oEB.broadcastEvent( new QueueLoaderEvent( DisplayObjectExpert.onLoadInitEVENT, _gfxQueue ) );
 			}
 		}
 		
@@ -202,6 +202,7 @@ package com.bourre.ioc.assembler.displayobject
 		public function onLoadInit( e : LoaderEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
+			buildDisplayList();
 		}
 	
 		public function onLoadProgress( e : LoaderEvent ) : void
@@ -219,9 +220,8 @@ package com.bourre.ioc.assembler.displayobject
 			_oEB.broadcastEvent( e );
 		}
 		
-		public function onLoadComplete( e : LoaderEvent ) : void
+		public function onLoaderLoadInit( e : LoaderEvent ) : void
 		{
-			buildDisplayList();
 			_oEB.broadcastEvent( e );
 		}
 
