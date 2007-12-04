@@ -24,6 +24,8 @@ package com.bourre.utils
 		protected static const OUT_SUFFIX : String = "_IN";
 		protected static const IN_SUFFIX : String = "_OUT";
 		
+		static protected var ALTERNATE_ID_IN : String = "";
+		
 		public static function getInstance () : AirLoggerLayout
 		{
 			if( _oI == null )
@@ -51,21 +53,54 @@ package com.bourre.utils
 		protected var _aLogStack : Array;
 		protected var _nPingRequest : Number;
 		
+		protected var _sName : String;
+		
 		public function AirLoggerLayout ( access : PrivateConstructorAccess )
 		{
-			_lcOut = new LocalConnection();
-			_lcOut.addEventListener( StatusEvent.STATUS, onStatus, false, 0, true);
-            _lcOut.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError, false, 0, true);
-            
-            _lcIn = new LocalConnection();
-            _lcIn.client = this;
-            _lcIn.allowDomain( "*" );
-            _lcIn.connect( _getInConnectionName() );
-            
-            _aLogStack = new Array();
-            
-            _bIdentified = false;
-			_bRequesting = false;
+            try
+            {
+            	_lcOut = new LocalConnection();
+				_lcOut.addEventListener( StatusEvent.STATUS, onStatus, false, 0, true);
+	            _lcOut.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError, false, 0, true);
+	            
+	            _lcIn = new LocalConnection();
+	            _lcIn.client = this;
+	            _lcIn.allowDomain( "*" );
+	            
+				connect();
+	            
+	            _aLogStack = new Array();
+	            
+	            _bIdentified = false;
+				_bRequesting = false;
+            }
+            catch ( e : Error )
+            {
+            	// TODO Notifier le AirLogger que le channel de requete est déja occupé
+            	// se reconnecter sur un autre
+            }
+		}
+		
+		protected function connect () : void
+		{
+			var b : Boolean = true;
+			
+			while( b )
+			{
+				try
+				{
+		           _lcIn.connect( _getInConnectionName( ALTERNATE_ID_IN ) );
+		           
+		           b = false;
+		           break;
+				}
+				catch ( e : Error )
+				{
+					_lcOut.send( _getOutConnectionName(), "mainConnectionAlreadyUsed", ALTERNATE_ID_IN );
+					
+					ALTERNATE_ID_IN += "_";
+				}
+			}
 		}
 		
 		public function close() : void
@@ -83,29 +118,51 @@ package com.bourre.utils
 			_send ( new AirLoggerEvent ( "clear" ) );
 		}
 		
-		public function setID ( id : String ) : void
+		public function setName ( s : String ) : void
 		{
-			clearInterval( _nPingRequest );
-			_sID = id;
+			_sName = s;
 			
-			_lcIn.close();
-			_lcIn.connect( _getInConnectionName( _sID ) );
-			
-			_bIdentified = true;
-			_bRequesting = false;
-			
-			var l : Number = _aLogStack.length
-			if( l != 0 )
+			if( _bIdentified )
 			{
-				for(var i : Number = 0; i < l; i++ )
-				{
-					_send( _aLogStack.shift() as AirLoggerEvent );
-				}
+				_lcOut.send( _getOutConnectionName( _sID ), "setTabName", _sName  );
 			}
 		}
+		
+		public function setID ( id : String ) : void
+		{
+			try
+			{
+				clearInterval( _nPingRequest );
+				_sID = id;
+				
+				_lcIn.close();
+				_lcIn.connect( _getInConnectionName( _sID ) );
+				
+				_lcOut.send( _getOutConnectionName() , "confirmID", id, _sName  )
+				
+				_bIdentified = true;
+				_bRequesting = false;
+				
+				var l : Number = _aLogStack.length
+				if( l != 0 )
+				{
+					for(var i : Number = 0; i < l; i++ )
+					{
+						_send( _aLogStack.shift() as AirLoggerEvent );
+					}
+				}
+			}
+			catch ( e : Error )
+			{
+				_lcIn.connect( _getInConnectionName( ALTERNATE_ID_IN ) );
+				
+				_lcOut.send( _getOutConnectionName() , "idAlreadyUsed", id );
+			} 
+		}
+		
 		public function pingRequest () : void
 		{
-			_lcOut.send( _getOutConnectionName() , "requestID"  );
+			_lcOut.send( _getOutConnectionName() , "requestID", ALTERNATE_ID_IN  );
 		}
 		
 		public function isRequesting () : Boolean
