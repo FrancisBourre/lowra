@@ -1,7 +1,5 @@
-package com.bourre.commands
-{
-	import flash.events.Event;
-	import flash.utils.Dictionary;
+package com.bourre.commands {
+	import flash.events.Event;	
 
 	/**
 	 * <code>Batch</code> object encapsulate a set of <code>Commands</code>

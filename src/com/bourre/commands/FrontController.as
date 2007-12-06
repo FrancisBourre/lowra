@@ -20,14 +20,12 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import flash.events.Event;
+	
 	import com.bourre.collection.HashMap;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.*;
-	import com.bourre.plugin.*;
-
-	import flash.utils.*;
-	import flash.events.Event;
+	import com.bourre.plugin.*;	
 
 	public class FrontController 
 	{
@@ -110,7 +108,7 @@ package com.bourre.commands
 						if ( acmd.getOwner() == null ) acmd.setOwner( getOwner() );
 					}
 
-					o.execute( event );
+					AbstractCommand(o).execute( event );
 				}
 			}
 		}

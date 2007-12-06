@@ -20,13 +20,10 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
 	import com.bourre.ioc.assembler.*;
-	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.plugin.PluginDebug;
-	import com.bourre.ioc.error.*;
 	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.log.PixlibDebug;
+	import com.bourre.ioc.error.*;
+	import com.bourre.plugin.PluginDebug;	
 
 	public class ObjectParser
 		extends AbstractParser

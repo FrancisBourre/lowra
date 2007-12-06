@@ -1,9 +1,8 @@
-package com.bourre.commands
-{
+package com.bourre.commands {
 	import flash.events.Event;
-	import com.bourre.log.PixlibDebug;
+	
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.PixlibStringifier;	
 
 	/*
 	 * Upgrade to IOC : 

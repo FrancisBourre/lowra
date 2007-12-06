@@ -20,9 +20,9 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	
-	import flash.events.Event;
 
+	
+	
 	public interface ASyncCommandListener
 	{
 		function onCommandEnd( e : ASyncCommandEvent ) : void;

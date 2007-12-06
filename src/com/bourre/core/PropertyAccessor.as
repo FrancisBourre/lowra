@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */	
-package com.bourre.core
-{
+package com.bourre.core {
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.utils.Proxy;
-	
+	import com.bourre.log.PixlibStringifier;	
+
 	public class PropertyAccessor implements Accessor
 	{
 		private var _o : Object;

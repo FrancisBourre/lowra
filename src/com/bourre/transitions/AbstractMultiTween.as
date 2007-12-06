@@ -13,21 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.transitions 
-{ 
+package com.bourre.transitions {
+	import flash.events.Event;
+	
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.core.AccessorComposer;
 	import com.bourre.core.AccessorFactory;
-	import com.bourre.core.MethodAccessor;
-	import com.bourre.core.MultiAccessor;
-	import com.bourre.core.PropertyAccessor;
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.utils.ClassUtils;
-	
-	import flash.events.Event;
-	
+	import com.bourre.utils.ClassUtils; 
+
 	public class AbstractMultiTween extends AbstractSyncCommand
 		implements Tween, FrameListener
 	{	

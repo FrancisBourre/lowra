@@ -1,8 +1,5 @@
-package com.bourre.request
-{
-	import flash.events.Event;
-	import com.bourre.utils.SharedObjectUtils;
-	
+package com.bourre.request {
+
 	public class SharedObjectLoadRequest /*extends AbstractDataServiceConnector*/
 	{
 		/*

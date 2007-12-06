@@ -1,13 +1,10 @@
-package com.bourre.ioc.assembler.method
-{
-	import com.bourre.ioc.parser.ContextAttributeList ;
-	import com.bourre.ioc.parser.ContextNodeNameList ;
-	import com.bourre.ioc.assembler.property.PropertyExpert ;
-	import com.bourre.ioc.bean.BeanFactory ;
-	import com.bourre.log.PixlibStringifier ;
-	import com.bourre.log.PixlibDebug ;
-	import com.bourre.events.EventBroadcaster ;
-	
+package com.bourre.ioc.assembler.method {
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.ioc.assembler.property.PropertyExpert;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;	
+
 	public class MethodExpert
 	{
 		private static var	_oI		: MethodExpert;

@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.structures
-{ 
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
+package com.bourre.structures {
 	import flash.errors.IllegalOperationError;
-	import flash.geom.Point;
 	import flash.geom.Matrix;
+	import flash.geom.Point;
 	
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier; 
+
 	/**
 	 * <code>Point</code> data structure.
 	 * 
@@ -298,7 +297,7 @@ package com.bourre.structures
 			else
 			{
 				PixlibDebug.WARN( this + ".normalize() was called on a zero-length vector!" );
-				throw new IllegalOperationError ( this + ".normalize() was called on a zero-length vector!" )
+				throw new IllegalOperationError ( this + ".normalize() was called on a zero-length vector!" );
 			}
 		}
 		
@@ -443,7 +442,8 @@ package com.bourre.structures
 			}
 			else
 			{
-				var p0:Point = p1.clone();
+				// TODO check if p0 is important
+//				var p0:Point = p1.clone();
 				return Math.abs( getDotProduct(p1) / n );
 			}
 		}

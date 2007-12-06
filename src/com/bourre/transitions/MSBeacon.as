@@ -1,14 +1,12 @@
-package com.bourre.transitions
-{
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.display.Shape;
+package com.bourre.transitions {
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	
+	import com.bourre.events.BasicEvent;
+	import com.bourre.log.PixlibStringifier;	
+
 	public class MSBeacon implements FrameBeacon
 	{
 		private static var _oInstance : MSBeacon;
@@ -20,7 +18,7 @@ package com.bourre.transitions
 		
 		public function MSBeacon ()
 		{
-			_nFramerate = 1000/40
+			_nFramerate = 1000/40;
 			_oTimer = new Timer( _nFramerate, 0 );
 			_oTimer.addEventListener( TimerEvent.TIMER , timeHandler );
 			_bIP = false;

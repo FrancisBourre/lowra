@@ -21,14 +21,12 @@ package com.bourre.ioc.assembler.channel
 	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
-
-	import com.bourre.events.* ;
-	import com.bourre.ioc.bean.BeanFactory ;
-	import com.bourre.ioc.parser.ContextAttributeList ;
-	import com.bourre.log.*;
-	import com.bourre.plugin.PluginChannel;
 	import com.bourre.collection.TypedArray;
-	
+	import com.bourre.events.*;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.log.*;
+	import com.bourre.plugin.PluginChannel;	
+
 	public class ChannelListenerExpert 
 	{
 		

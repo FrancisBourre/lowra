@@ -1,9 +1,7 @@
-package com.bourre.ioc.assembler.property
-{
+package com.bourre.ioc.assembler.property {
 	import com.bourre.events.BasicEvent;
 	import com.bourre.ioc.assembler.property.Property;
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class PropertyEvent extends BasicEvent
 	{

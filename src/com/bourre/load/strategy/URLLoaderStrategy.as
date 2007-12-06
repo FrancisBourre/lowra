@@ -20,21 +20,18 @@ package com.bourre.load.strategy
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.load.AbstractLoader;
-	import com.bourre.load.*;
-	import com.bourre.log.PixlibStringifier;
-
 	import flash.events.*;
 	import flash.net.*;
-	import flash.utils.describeType;
 	import flash.system.LoaderContext;
+	
+	import com.bourre.load.*;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class URLLoaderStrategy 
 		implements LoadStrategy
 	{
-		private var _owner : Loader
+		private var _owner : Loader;
 		private var _loader : URLLoader;
 		private var _bytesLoaded : uint;
 		private var _bytesTotal : uint;

@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */	
-package com.bourre.core
-{
+package com.bourre.core {
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class MethodAccessor implements Accessor
 	{

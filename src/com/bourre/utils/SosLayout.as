@@ -19,14 +19,13 @@
  * @version 1.0
  */
 
-package com.bourre.utils
-{
+package com.bourre.utils {
 	import flash.events.*;
-    import flash.net.XMLSocket;
-    
-    import com.bourre.collection.*;
-    import com.bourre.log.*;
+	import flash.net.XMLSocket;
 	
+	import com.bourre.collection.*;
+	import com.bourre.log.*;	
+
 	public class SosLayout 
 		implements LogListener
 	{
@@ -88,7 +87,8 @@ package com.bourre.utils
 		
 		public function output(  o : Object, level : LogLevel ) : void
 		{
-			var sLevel : String = level? _mFormat.get( level ) : SosLayout.DEBUG_FORMAT;
+			// TODO check if sLevel is important
+//			var sLevel : String = level? _mFormat.get( level ) : SosLayout.DEBUG_FORMAT;
 			
 			var s:String = getFoldMessage	(
 												unescape( String(o) ), 

@@ -1,14 +1,11 @@
-package com.bourre.plugin
-{
-	import com.bourre.commands.FrontController;
+package com.bourre.plugin {
+	import flash.events.Event;
+	
+	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.ModelLocator;
-	import com.bourre.view.ViewLocator;
-
-	import flash.events.Event;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.events.ApplicationBroadcaster;
+	import com.bourre.view.ViewLocator;	
 
 	public class NullPlugin 
 		implements Plugin
@@ -53,7 +50,7 @@ package com.bourre.plugin
 
 		public function getChannel() : EventChannel
 		{
-			return ApplicationBroadcaster.getInstance().NO_CHANNEL
+			return ApplicationBroadcaster.getInstance().NO_CHANNEL;
 		}
 		
 		public function getLogger() : PluginDebug

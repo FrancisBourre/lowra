@@ -20,11 +20,8 @@ package com.bourre.request
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.events.BasicEvent;	
 
-	import com.bourre.events.BasicEvent;
-	import com.bourre.collection.Set;
-	import com.bourre.collection.Collection;
-	
 	public class DataServiceEvent 
 		extends BasicEvent
 	{

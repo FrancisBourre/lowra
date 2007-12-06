@@ -1,11 +1,6 @@
-package com.bourre.utils
-{
-	import flash.utils.describeType;
-	import flash.utils.getQualifiedClassName;
-	import com.bourre.collection.Collection;
-	import com.bourre.collection.Iterator;
-	import com.bourre.log.PixlibDebug;
-	
+package com.bourre.utils {
+	import flash.utils.describeType;	
+
 	public class ClassUtils
 	{
 		public function ClassUtils( access : PrivateConstructorAccess )
@@ -44,7 +39,6 @@ package com.bourre.utils
 		public static function isImplementedAll ( o : Object, classPath : String, ... rest ) : Boolean
 		{
 			var i : Number = rest.length-1;
-			var b : Boolean = true;
 			var x : XML = describeType( o );
 			while ( --i -(-1) )
 			{

@@ -1,15 +1,13 @@
-package com.bourre.ioc.assembler.displayobject
-{
-	import com.bourre.events.*;
+package com.bourre.ioc.assembler.displayobject {
+	import flash.display.*;
+	import flash.net.URLRequest;
+	
 	import com.bourre.collection.*;
-	import com.bourre.load.*;
-	import com.bourre.log.*;
+	import com.bourre.events.*;
 	import com.bourre.ioc.bean.*;
 	import com.bourre.ioc.parser.*;
-
-	import flash.display.*;
-	import flash.events.Event;
-	import flash.net.URLRequest;
+	import com.bourre.load.*;
+	import com.bourre.log.*;	
 
 	public class DisplayObjectExpert 
 	{
@@ -19,7 +17,6 @@ package com.bourre.ioc.assembler.displayobject
 		private var _oEB 						: EventBroadcaster ;
 		private var _dllQueue 					: QueueLoader ;
 		private var _gfxQueue 					: QueueLoader ;
-		private var _mGraphicLoader				: HashMap ;
 		private var _mDisplayObject				: HashMap ;
 
 		public static var onLoadInitEVENT		: String = QueueLoaderEvent.onLoadInitEVENT ; 

@@ -1,10 +1,10 @@
-package com.bourre.ioc.load
-{
-	import com.bourre.load.*;
+package com.bourre.ioc.load {
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
+	
 	import com.bourre.ioc.context.ContextLoader;
-	import com.bourre.log.PixlibDebug;
+	import com.bourre.load.*;
+	import com.bourre.log.PixlibDebug;	
 
 	public class ApplicationLoader
 		extends AbstractLoader
@@ -82,12 +82,12 @@ package com.bourre.ioc.load
 
 		public function onLoadInit( e : LoaderEvent ) : void
 		{
-			fireOnLoadInitEvent()
+			fireOnLoadInitEvent();
 		}
 
 		public function onLoadProgress( e : LoaderEvent ) : void
 		{
-			fireOnLoadProgressEvent()
+			fireOnLoadProgressEvent();
 		}
 
 		public function onLoadTimeOut( e : LoaderEvent ) : void

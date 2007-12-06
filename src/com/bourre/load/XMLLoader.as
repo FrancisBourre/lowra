@@ -20,18 +20,16 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.log.*;
-	import com.bourre.load.strategy.URLLoaderStrategy;
-
 	import flash.net.URLRequest;
-	import flash.utils.describeType;
 	import flash.system.LoaderContext;
 	
+	import com.bourre.load.strategy.URLLoaderStrategy;	
+
 	public class XMLLoader 
 		extends AbstractLoader
 	{
-		private var _oContent : XML;
+		// TODO check _oContent is important
+//		private var _oContent : XML;
 		private var _oDeserializer : XMLLoaderDeserializer;
 
 		public function XMLLoader( deserializer : XMLLoaderDeserializer = null )

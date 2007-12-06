@@ -19,11 +19,9 @@
  * @version 1.0
  */
 
-package com.bourre.log
-{
-	import flash.events.EventDispatcher;
+package com.bourre.log {
 	import com.bourre.events.ChannelBroadcaster;
-	import com.bourre.events.EventChannel;
+	import com.bourre.events.EventChannel;	
 
 	public class Logger
 	{
@@ -31,7 +29,6 @@ package com.bourre.log
 		
 		private var _oCB : ChannelBroadcaster;
 		private var _oLevel : LogLevel;
-		private var _oChannel : EventChannel;
 		
 		public function Logger( o : ConstructorAccess )
 		{
