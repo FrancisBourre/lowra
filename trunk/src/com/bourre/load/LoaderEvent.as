@@ -20,11 +20,7 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.log.*;
-	import flash.events.Event;
-	import flash.display.DisplayObjectContainer;
-	import com.bourre.events.BasicEvent;
+	import com.bourre.events.BasicEvent;	
 
 	public class LoaderEvent 
 		extends BasicEvent

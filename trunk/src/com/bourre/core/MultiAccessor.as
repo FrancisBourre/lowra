@@ -1,7 +1,5 @@
-package com.bourre.core
-{
-	import com.bourre.log.PixlibDebug;
-	
+package com.bourre.core {
+
 	public class MultiAccessor implements AccessorComposer
 	{
 		private var _o : Object;

@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.commands 
-{
-	import com.bourre.commands.AbstractCommand;
-	import com.bourre.collection.Iterable;
-	import com.bourre.collection.Iterator;
-	
+package com.bourre.commands {
 	import flash.events.Event;
 	
-	import com.bourre.events.IterationEvent;
+	import com.bourre.collection.Iterator;
+	import com.bourre.commands.AbstractCommand;	
 
 	/**
 	 * @author Cédric Néhémie

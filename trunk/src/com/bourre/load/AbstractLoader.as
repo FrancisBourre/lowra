@@ -20,17 +20,15 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.commands.*;
-	import com.bourre.log.*;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.load.strategy.LoadStrategy;
-
-	import flash.display.DisplayObject;
 	import flash.events.*;
 	import flash.net.*;
-	import flash.utils.*;
 	import flash.system.LoaderContext;
+	import flash.utils.*;
+	
+	import com.bourre.commands.*;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.load.strategy.LoadStrategy;
+	import com.bourre.log.*;	
 
 	public class AbstractLoader 
 		implements com.bourre.load.Loader
@@ -43,7 +41,7 @@ package com.bourre.load
 		protected var _sPrefixURL : String;
 		
 		private var _loadStrategy : LoadStrategy;
-		private var _oContent : Object
+		private var _oContent : Object;
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
 
@@ -267,27 +265,29 @@ package com.bourre.load
 			return String( d.getTime() );
 		}
         
-        private function _checkTimeOut( nLastBytesLoaded : Number, nTime : Number ) : void 
-		{
-			if ( nLastBytesLoaded != _nLastBytesLoaded)
-			{
-				_nLastBytesLoaded = nLastBytesLoaded;
-				_nTime = nTime;
-			}
-			else if ( nTime - _nTime  > _nTimeOut)
-			{
-				fireOnLoadTimeOut();
-				release();
-				PixlibDebug.ERROR( this + " load timeout with url : '" + getURL() + "'." );
-			}
-		}
+        // TODO check if _checkTimeOut is important
+//        private function _checkTimeOut( nLastBytesLoaded : Number, nTime : Number ) : void 
+//		{
+//			if ( nLastBytesLoaded != _nLastBytesLoaded)
+//			{
+//				_nLastBytesLoaded = nLastBytesLoaded;
+//				_nTime = nTime;
+//			}
+//			else if ( nTime - _nTime  > _nTimeOut)
+//			{
+//				fireOnLoadTimeOut();
+//				release();
+//				PixlibDebug.ERROR( this + " load timeout with url : '" + getURL() + "'." );
+//			}
+//		}
 	}
 }
 
-import com.bourre.load.strategy.LoadStrategy;
 import flash.net.URLRequest;
-import com.bourre.load.Loader;
 import flash.system.LoaderContext;
+
+import com.bourre.load.Loader;
+import com.bourre.load.strategy.LoadStrategy;
 
 internal class NullLoadStrategy implements LoadStrategy
 {

@@ -14,14 +14,12 @@
  * limitations under the License.
  */
  
-package com.bourre.transitions 
-{ 
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.log.PixlibDebug;
+package com.bourre.transitions {
 	import flash.events.Event;
 	import flash.utils.getTimer;
 	
-	
+	import com.bourre.log.PixlibStringifier; 
+
 	public class TweenMS extends AbstractTween
 		implements FrameListener
 	{

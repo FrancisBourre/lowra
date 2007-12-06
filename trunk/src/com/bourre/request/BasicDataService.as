@@ -51,12 +51,12 @@ package com.bourre.request
 		
 		public function fireError() : void
 		{
-			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,this))
+			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataErrorEVENT,this));
 		}
 		
 		public function fireResult() : void
 		{
-			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataResultEVENT,this))
+			_oEB.broadcastEvent(new DataServiceEvent(DataServiceEvent.onDataResultEVENT,this));
 			
 		}
 	}

@@ -1,17 +1,14 @@
-package com.bourre.ioc.assembler.property
-{
-	import com.bourre.ioc.bean.BeanEvent;
-	import com.bourre.ioc.bean.BeanFactoryListener;
+package com.bourre.ioc.assembler.property {
 	import com.bourre.collection.HashMap;
+	import com.bourre.events.*;
+	import com.bourre.ioc.bean.BeanEvent;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.events.* ;
-	import com.bourre.ioc.parser.ContextAttributeList ;
-	import com.bourre.ioc.parser.ContextTypeList ;
-	import com.bourre.log.PixlibStringifier 
+	import com.bourre.ioc.bean.BeanFactoryListener;
 	import com.bourre.ioc.control.BuildFactory;
-	import com.bourre.utils.ObjectUtils;
 	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.ioc.parser.ContextTypeList;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.utils.ObjectUtils;	
 
 	public class PropertyExpert 
 		implements BeanFactoryListener

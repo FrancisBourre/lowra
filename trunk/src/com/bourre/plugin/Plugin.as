@@ -20,13 +20,11 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.commands.FrontController;
+	import flash.events.Event;
+	
 	import com.bourre.events.EventChannel;
 	import com.bourre.model.ModelLocator;
-	import com.bourre.view.ViewLocator;
-
-	import flash.events.Event;
+	import com.bourre.view.ViewLocator;	
 
 	public interface Plugin 
 	{

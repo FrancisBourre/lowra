@@ -20,12 +20,10 @@ package com.bourre.load.strategy
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.load.AbstractLoader;
-	import com.bourre.load.Loader;
-	
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
+	
+	import com.bourre.load.Loader;	
 
 	public interface LoadStrategy
 	{

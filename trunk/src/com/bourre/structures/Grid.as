@@ -1,17 +1,13 @@
 
-package com.bourre.structures
-{
+package com.bourre.structures {
 	import com.bourre.collection.Collection;
-	import com.bourre.collection.TypedContainer;
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.TypedArray;
+	import com.bourre.collection.TypedContainer;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.error.UnsupportedOperationException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.errors.IllegalOperationError;
-	import flash.utils.Dictionary;
+	import com.bourre.log.PixlibStringifier;	
 
 	/** 
 	 * A <code>Grid</code> is basically a two dimensionnal data structure based on the <code>Collection</code>
@@ -183,7 +179,6 @@ package com.bourre.structures
 			if( o === _oDefaultValue ) 
 				return false;
 			
-			var p : Point;
 			var i : Iterator = iterator ();
 			var b : Boolean = false;
 			
@@ -550,9 +545,9 @@ package com.bourre.structures
 	}
 }
 
-import com.bourre.structures.Point;
 import com.bourre.collection.Iterator;
-import com.bourre.structures.Grid;	
+import com.bourre.structures.Grid;
+import com.bourre.structures.Point;
 
 internal class _GridIterator extends Point
 	implements Iterator

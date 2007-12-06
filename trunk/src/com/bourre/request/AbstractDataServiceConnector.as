@@ -20,17 +20,14 @@ package com.bourre.request
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.events.EventBroadcaster;
 	import flash.events.Event;
-	import com.bourre.log.*;
-	import com.bourre.commands.ASyncCommandListener;
-	import com.bourre.commands.ASyncCommandEvent;
-	import com.bourre.commands.AbstractSyncCommand;
-	import com.bourre.error.UnimplementedVirtualMethodException;
-	import com.bourre.collection.Collection;
-	import flash.utils.getQualifiedClassName;
 	
+	import com.bourre.commands.ASyncCommandEvent;
+	import com.bourre.commands.ASyncCommandListener;
+	import com.bourre.error.UnimplementedVirtualMethodException;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.log.*;	
+
 	public class AbstractDataServiceConnector 
 		implements DataServiceConnector
 	{
@@ -46,11 +43,11 @@ package com.bourre.request
 		
 		public function AbstractDataServiceConnector(url : String)
 		{
-			setURL( url )
+			setURL( url );
 			_oEB = new EventBroadcaster(this) ;
 			_oEBasync = new EventBroadcaster(this) ;
-			this._queue = new Array()
-			_hasRequestRunning = false
+			this._queue = new Array();
+			_hasRequestRunning = false;
 		}
 		
 		public function setURL( url : String ) : void
@@ -149,7 +146,7 @@ package com.bourre.request
 			if( hasRequest())
 			{
 				_hasRequestRunning = true;
-				doRequest( this.unstore())
+				doRequest( this.unstore());
 			}
 			else
 			{
@@ -173,17 +170,17 @@ package com.bourre.request
 			if(hasRequest())
 				return _queue.shift() as DataService ;
 			else 
-				return null
+				return null;
 		}
 		
 		public function getDataService() : DataService
 		{
-			return (_oDS == null)? new BasicDataService(): _oDS
+			return (_oDS == null)? new BasicDataService(): _oDS;
 		}
 		
 		public function setDataService(ds : DataService) : void
 		{
-			_oDS = ds
+			_oDS = ds;
 		}
 	}
 }

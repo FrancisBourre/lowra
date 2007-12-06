@@ -24,7 +24,7 @@ package com.bourre.ioc.assembler.constructor
 		
 		public static  function release() : void
 		{
-			_oI = null
+			_oI = null;
 		}
 		
 		public function ConstructorExpert()
@@ -56,11 +56,11 @@ package com.bourre.ioc.assembler.constructor
 		{
 			var bf : BeanFactory = BeanFactory.getInstance();
 			var a : Set = IDExpert.getInstance().getReferenceList();
-			var iter : Iterator = a.iterator()
+			var iter : Iterator = a.iterator();
 			
 			while(iter.hasNext())
 			{
-				var id : String = iter.next() as String
+				var id : String = iter.next() as String;
 				if ( _mConstructor.containsKey( id ) ) bf.register( id, buildObject( _mConstructor.get( id ) ) );
 			}
 		}

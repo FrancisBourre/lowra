@@ -1,8 +1,5 @@
-package com.test
-{
-	import com.bourre.log.PixlibDebug ;
-	
-	public class TestClass
+package com.test {
+	public class TestClass
 	{
 		public var x:int ; 
 		public var y:uint ; 

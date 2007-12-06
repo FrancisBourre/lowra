@@ -19,12 +19,9 @@
  * @version 1.0
  */
 
-package com.bourre.events
-{
-	import flash.utils.getQualifiedClassName;
-	import com.bourre.error.ProtectedConstructorException;
-	import com.bourre.log.*;
-	
+package com.bourre.events {
+	import flash.utils.getQualifiedClassName;	
+
 	public class EventChannel 
 	{
 		private var _sChannelName : String;

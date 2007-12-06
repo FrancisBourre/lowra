@@ -20,11 +20,9 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import flash.events.Event;
 	import flash.display.DisplayObjectContainer;
-	import flash.system.ApplicationDomain;
-	
+	import flash.system.ApplicationDomain;	
+
 	public class GraphicLoaderEvent 
 		extends LoaderEvent
 	{

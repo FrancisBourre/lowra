@@ -1,9 +1,5 @@
-package com.bourre.request
-{
-	import com.bourre.load.FileLoader;
-	import flash.events.Event;
-	
-	
+package com.bourre.request {
+
 	public class FileRequest /*extends AbstractDataServiceConnector*/
 	{
 		/*

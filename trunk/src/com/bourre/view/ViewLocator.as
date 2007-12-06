@@ -20,14 +20,16 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
 	import com.bourre.collection.HashMap;
-	import com.bourre.core.Locator;
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.plugin.*;
 
-	import flash.display.MovieClip;
+	import com.bourre.core.Locator;
+
 	import com.bourre.error.NullPointerException;
+
+	import com.bourre.log.PixlibStringifier;
+
+	import com.bourre.plugin.*;	
+
 
 	public class ViewLocator 
 		implements Locator
@@ -45,7 +47,7 @@ package com.bourre.view
 		
 		public static function getInstance( owner : Plugin = null ) : ViewLocator
 		{
-			if(owner==null) owner = NullPlugin.getInstance()
+			if(owner==null) owner = NullPlugin.getInstance();
 			if ( !(ViewLocator._M.containsKey( owner )) ) ViewLocator._M.put( owner, new ViewLocator(new PrivateConstructorAccess(), owner) );
 			return ViewLocator._M.get( owner );
 		}

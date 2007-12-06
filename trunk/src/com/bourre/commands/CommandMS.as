@@ -14,13 +14,11 @@ package com.bourre.commands {
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	import com.bourre.log.PixlibStringifier;
-	
 	import flash.utils.clearInterval;
-	import flash.utils.getTimer;
 	import flash.utils.setInterval;
-	import flash.utils.Dictionary;
 	
+	import com.bourre.log.PixlibStringifier;	
+
 	public class CommandMS
 	{
 		protected var _oT:Object;

@@ -20,10 +20,8 @@ package com.bourre.request
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.commands.ASyncCommand;	
 
-	import com.bourre.commands.ASyncCommand;
-	import flash.events.Event;
-	
 	public interface DataServiceConnector 
 		extends ASyncCommand
 	{

@@ -14,23 +14,20 @@
  * limitations under the License.
  */	
 
-package com.bourre.media.sound
-{
-	import com.bourre.collection.HashMap;
-	import com.bourre.collection.TypedArray;	
-	import com.bourre.error.NoSuchElementException;
-	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.error.IllegalStateException;
-	import com.bourre.error.ClassCastException;			
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
-
+package com.bourre.media.sound {
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.system.ApplicationDomain;
-	import flash.media.SoundTransform;
-
 	
+	import com.bourre.collection.HashMap;
+	import com.bourre.collection.TypedArray;
+	import com.bourre.error.ClassCastException;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.IllegalStateException;
+	import com.bourre.error.NoSuchElementException;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * <pre>
 	 * The SoundFactory class is a collection of sounds. 
@@ -354,16 +351,16 @@ package com.bourre.media.sound
 				try
 				{
 					addSound(a[l]);
-				} catch ( e : IllegalArgumentException )
+				} catch ( eIA : IllegalArgumentException )
 				{
-					e.message = this+".addSounds(" + a + ") failed, '" + a[l] + "' id has been already added";
-					PixlibDebug.ERROR(e.message);	
-					throw( e );
-				} catch ( e : ClassCastException )
+					eIA.message = this+".addSounds(" + a + ") failed, '" + a[l] + "' id has been already added";
+					PixlibDebug.ERROR(eIA.message);	
+					throw( eIA );
+				} catch ( eCC : ClassCastException )
 				{
-					e.message = this+".addSounds(" + a + ") failed, '" + a[l] + "' class can't be found in specified SoundFactory application domain" ;
-					PixlibDebug.ERROR(e.message);					
-					throw( e );
+					eCC.message = this+".addSounds(" + a + ") failed, '" + a[l] + "' class can't be found in specified SoundFactory application domain" ;
+					PixlibDebug.ERROR(eCC.message);					
+					throw( eCC );
 				}
 			}
 		}
@@ -853,14 +850,13 @@ package com.bourre.media.sound
 		}
 		
 	}
-		
 }
 
-import flash.media.SoundTransform;
-import flash.media.SoundChannel;
 import flash.media.Sound;
-import flash.net.URLRequest;
+import flash.media.SoundChannel;
 import flash.media.SoundLoaderContext;
+import flash.media.SoundTransform;
+import flash.net.URLRequest;
 
 internal class SoundTransformInfo
 {

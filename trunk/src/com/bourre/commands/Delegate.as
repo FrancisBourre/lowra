@@ -20,13 +20,11 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.log.*;
-	import com.bourre.transitions.FrameListener;
-	
 	import flash.events.Event;
-	import flash.utils.getQualifiedClassName;
 	
+	import com.bourre.log.*;
+	import com.bourre.transitions.FrameListener;	
+
 	public class Delegate 
 		implements Command, FrameListener
 	{
@@ -81,16 +79,16 @@ package com.bourre.commands
 			if ( a.length > 0 ) _a = _a.concat( a );
 		}
 
-		public function execute( e : Event = null ) : void
+		public function execute( event : Event = null ) : void
 		{
 			var a : Array = new Array();
-			if ( e != null ) a.push( e );
+			if ( event != null ) a.push( event );
 			
 			try
 			{
 				_f.apply( null, ( _a.length > 0 ) ? a.concat( _a ) : ((a.length > 0 ) ? a : null) );
 
-			} catch( e : ArgumentError )
+			} catch( error : ArgumentError )
 			{
 				var msg : String = this + ".execute() failed, you passed incorrect number of arguments or wrong type";
 				PixlibDebug.FATAL( msg );

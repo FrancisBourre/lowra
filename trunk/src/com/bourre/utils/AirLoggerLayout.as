@@ -1,18 +1,6 @@
-package com.bourre.utils
-{
-	import com.bourre.log.LogEvent;
-	import com.bourre.log.LogListener;
-	import flash.net.LocalConnection;
-	import flash.events.StatusEvent;
-	import flash.events.SecurityErrorEvent;
-	import com.bourre.log.PixlibStringifier;
-	import flash.display.Stage;
-	import flash.events.Event;
-	import flash.utils.setInterval;
-	import flash.utils.clearInterval;
-	import flash.utils.getQualifiedClassName;
-
-	public class AirLoggerLayout implements LogListener
+package com.bourre.utils {
+	import flash.events.SecurityErrorEvent;	import flash.events.StatusEvent;	import flash.net.LocalConnection;	import flash.utils.clearInterval;	import flash.utils.getQualifiedClassName;	import flash.utils.setInterval;		import com.bourre.log.LogEvent;	import com.bourre.log.LogListener;	import com.bourre.log.PixlibStringifier;	
+	public class AirLoggerLayout implements LogListener
 	{
 		/*---------------------------------------------------------------
 				STATIC MEMBERS
@@ -138,12 +126,12 @@ package com.bourre.utils
 				_lcIn.close();
 				_lcIn.connect( _getInConnectionName( _sID ) );
 				
-				_lcOut.send( _getOutConnectionName() , "confirmID", id, _sName  )
+				_lcOut.send( _getOutConnectionName() , "confirmID", id, _sName  );
 				
 				_bIdentified = true;
 				_bRequesting = false;
 				
-				var l : Number = _aLogStack.length
+				var l : Number = _aLogStack.length;
 				if( l != 0 )
 				{
 					for(var i : Number = 0; i < l; i++ )
@@ -235,9 +223,8 @@ package com.bourre.utils
         }
 	}
 }
-import com.bourre.events.BasicEvent;
-
-internal class AirLoggerEvent extends BasicEvent
+import com.bourre.events.BasicEvent;
+internal class AirLoggerEvent extends BasicEvent
 {
 	public var message : *;
 	public var level : uint;

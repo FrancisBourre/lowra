@@ -19,15 +19,14 @@
  * @version 1.0
  */
 
-package com.bourre.events
-{
+package com.bourre.events {
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;
-
+	
 	import com.bourre.collection.*;
 	import com.bourre.commands.Delegate;
 	import com.bourre.error.*;
-	import com.bourre.log.*;
+	import com.bourre.log.*;	
 
 	public class EventBroadcaster
 	{

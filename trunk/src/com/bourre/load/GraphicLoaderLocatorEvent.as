@@ -20,10 +20,8 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;	
 
-	import com.bourre.log.PixlibStringifier;
-	import flash.events.Event;
-		
 	public class GraphicLoaderLocatorEvent 
 		extends Event 
 	{

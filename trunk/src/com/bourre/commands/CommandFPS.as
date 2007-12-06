@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.commands 
-{ 
+package com.bourre.commands {
+	import flash.events.Event;
+	
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.transitions.FPSBeacon;
-	import com.bourre.transitions.FrameListener;
-	
-	import flash.utils.getTimer;
-	import flash.events.Event;
+	import com.bourre.transitions.FrameListener; 
 
 	public class CommandFPS
 		implements FrameListener

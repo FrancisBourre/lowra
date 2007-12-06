@@ -1,12 +1,9 @@
-package com.bourre.collection
-{
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.utils.Dictionary;
+package com.bourre.collection {
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
-		
+	
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * <code>TypedArray</code> work the same way than a classical <code>Array</code>
 	 * but all elements in a <code>TypedArray</code> have to be of the same type.
@@ -603,7 +600,7 @@ package com.bourre.collection
 	     */
 	    public function toArray():Array
 	    {
-	    	return _a.concat()
+	    	return _a.concat();
 	    }
 	    
 	   /*override flash_proxy function nextNameIndex (index:int):int

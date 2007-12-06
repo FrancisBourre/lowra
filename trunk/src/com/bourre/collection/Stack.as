@@ -1,10 +1,7 @@
-package com.bourre.collection
-{
+package com.bourre.collection {
 	import com.bourre.error.*;
-	import com.bourre.utils.ObjectUtils;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
+	import com.bourre.log.PixlibStringifier;	
 	/**
 	 * The Stack class represents a last-in-first-out (LIFO) stack
 	 * of objects. The usual push and pop operations are provided,
@@ -260,7 +257,7 @@ package com.bourre.collection
 		{
 			isValidCollection( c );
 			
-			var iter : Iterator = c.iterator()
+			var iter : Iterator = c.iterator();
 			
 			while( iter.hasNext() )
 			{
@@ -428,7 +425,7 @@ package com.bourre.collection
 		 */
 		public function pop() : Object
 		{
-			return _aStack.pop()
+			return _aStack.pop();
 		}
 	    
 		/**
@@ -442,7 +439,7 @@ package com.bourre.collection
 		 */
 		public function push (item : Object) : Object
 		{
-			_aStack.push(item)
+			_aStack.push(item);
 			return item;
 		}
 		
@@ -558,19 +555,17 @@ package com.bourre.collection
 		{
 			return PixlibStringifier.stringify( this );
 		}
-		
 	}
 }
-import com.bourre.collection.Stack;
-import com.bourre.collection.TypedArray;
 import com.bourre.collection.ListIterator;
+import com.bourre.collection.Stack;
 internal class StackIterator 
 	implements ListIterator
 {
 	private var _c : Stack;
 	private var _nIndex : int;
 	private var _nLastIndex : int;
-	private var _a : Array
+	private var _a : Array;
 	
 	public function StackIterator( c : Stack, index : uint = 0 )
 	{

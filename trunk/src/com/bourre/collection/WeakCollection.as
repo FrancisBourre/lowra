@@ -19,11 +19,11 @@
  * @version 1.0
  */
 
-package com.bourre.collection
-{
+package com.bourre.collection {
 	import flash.utils.Dictionary;
-	import com.bourre.log.*;
 	
+	import com.bourre.log.*;	
+
 	public class WeakCollection 
 		implements Collection
 	{
@@ -147,7 +147,6 @@ package com.bourre.collection
 }
 
 import com.bourre.collection.*;
-import flash.utils.Dictionary;
 
 internal class _Iterator 
 	implements Iterator

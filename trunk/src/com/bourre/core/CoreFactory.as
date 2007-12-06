@@ -36,7 +36,7 @@ package com.bourre.core
 					{
 						i = clazz[ singletonAccess ].call();
 						
-					} catch ( e : Error ) 
+					} catch ( eFirst : Error ) 
 					{
 						PixlibDebug.FATAL( qualifiedClassName + "." + singletonAccess + "()' singleton access failed." );
 						return null;
@@ -46,7 +46,7 @@ package com.bourre.core
 					{
 						o = i[factoryMethod].apply( i, aArgs );
 					
-					} catch ( e : Error ) 
+					} catch ( eSecond : Error ) 
 					{
 						PixlibDebug.FATAL( qualifiedClassName + "." + singletonAccess + "()." + factoryMethod + "()' factory method call failed." );
 						return null;
@@ -58,7 +58,7 @@ package com.bourre.core
 					{
 						o = clazz[factoryMethod].apply( clazz, aArgs );
 						
-					} catch( e : Error )
+					} catch( eThird : Error )
 					{
 						PixlibDebug.FATAL( qualifiedClassName + "." + factoryMethod + "()' factory method call failed." );
 						return null;

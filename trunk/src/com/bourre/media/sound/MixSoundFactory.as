@@ -14,15 +14,11 @@
  * limitations under the License.
  */	
 
-package com.bourre.media.sound
-{
-	import flash.media.SoundTransform;
-	
+package com.bourre.media.sound {
 	import com.bourre.collection.HashMap;
 	import com.bourre.error.NoSuchElementException;
-	
 	import com.bourre.log.PixlibDebug;	
-		
+
 	/**
 	 * <pre>
 	 * You can control the SoundFactory with :
@@ -105,7 +101,7 @@ package com.bourre.media.sound
 		 public override function addSounds( a:Array ) : void
 		 {
 		 	super.addSounds( a );
-			var a : Array = _mSoundTransform.getKeys();		
+			a = _mSoundTransform.getKeys();		
 			var i : uint = a.length;
 			while( --i > -1 )
 			{
