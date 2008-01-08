@@ -25,12 +25,12 @@ package com.bourre.ioc.assembler.displayobject
 
 	public class DisplayObjectInfo
 	{
-		public var ID 		: String ;
-		public var parentID : String ;
-		public var isVisible: Boolean ;
-		public var type		: String ;
-		private var _sURL	: String ;
-		private var _aChilds: Array ;
+		public var ID 		: String;
+		public var parentID : String;
+		public var isVisible: Boolean;
+		public var type		: String;
+		private var _sURL	: String;
+		private var _aChilds: Array;
 		
 		public function DisplayObjectInfo ( ID			: String, 
 											parentID	: String	= null, 
@@ -38,38 +38,38 @@ package com.bourre.ioc.assembler.displayobject
 											url			: String 	= null, 
 											type		: String 	= "Movieclip" )
 		{
-			this.ID 		= ID ;
-			this.parentID 	= parentID ;
-			this.isVisible 	= isVisible ;
-			this.type 		= type ;
-			_sURL 			= url ;
-			_aChilds 		= new Array () ;
+			this.ID 		= ID;
+			this.parentID 	= parentID;
+			this.isVisible 	= isVisible;
+			this.type 		= type;
+			_sURL 			= url;
+			_aChilds 		= new Array();
 		}
 		
 		public function addChild( o : DisplayObjectInfo ) : void
 		{
-			_aChilds.push( o ) ;
+			_aChilds.push( o );
 		}
 		
 		public function getChild() : Array
 		{
-			return _aChilds.concat() ;
+			return _aChilds.concat();
 		}
 		
 		public function hasChild() : Boolean
 		{
-			return ( _aChilds.length > 0 )  ;
+			return ( _aChilds.length > 0 );
 		}
 		
 		public function isEmptyDisplayObject() : Boolean
 		{
-			return ( _sURL == null ) ;
+			return ( _sURL == null );
 		}
 		
 		/**
-		* Returns the string representation of this instance.
-		* @return the string representation of this instance
-		*/
+		 * Returns the string representation of this instance.
+		 * @return the string representation of this instance
+		 */
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );

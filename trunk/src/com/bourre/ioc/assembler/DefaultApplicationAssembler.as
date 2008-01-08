@@ -33,7 +33,7 @@ package com.bourre.ioc.assembler
 	{
 		public function buildDLL( url : String ) : void
 		{
-			//
+			DisplayObjectExpert.getInstance().buildDLL( url );
 		}
 
 		public function buildEmptyDisplayObject( 	ID : String,

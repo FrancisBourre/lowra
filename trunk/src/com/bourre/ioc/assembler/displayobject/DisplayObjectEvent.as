@@ -21,7 +21,7 @@ package com.bourre.ioc.assembler.displayobject
 	 * @version 1.0
 	 */
 
-	import flash.display.DisplayObjectContainer;
+	import flash.display.DisplayObject;
 	
 	import com.bourre.events.BasicEvent;
 	import com.bourre.log.PixlibStringifier;
@@ -30,18 +30,18 @@ package com.bourre.ioc.assembler.displayobject
 	{
 		public static var onBuildDisplayObjectEVENT : String = "onBuildDisplayObject" ;
 	
-		private var _mc : DisplayObjectContainer;
+		private var _do : DisplayObject;
 		
-		public function DisplayObjectEvent( mc : DisplayObjectContainer ) 
+		public function DisplayObjectEvent( type : String, d : DisplayObject ) 
 		{
-			super( DisplayObjectEvent.onBuildDisplayObjectEVENT, mc );
+			super( type, d );
 			
-			_mc = mc;
+			_do = d;
 		}
 		
-		public function getDisplayObject() : DisplayObjectContainer
+		public function getDisplayObject() : DisplayObject
 		{
-			return _mc;
+			return _do;
 		}
 		
 		/**
