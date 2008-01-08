@@ -15,7 +15,7 @@ package com.bourre.ioc.assembler.displayobject
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	 
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -39,26 +39,30 @@ package com.bourre.ioc.assembler.displayobject
 
 	public class DisplayObjectExpert 
 	{
-		private static var _oI					: DisplayObjectExpert ;
+		private static var _oI					: DisplayObjectExpert;
 
-		private var _target						: Sprite ;
-		private var _oEB 						: EventBroadcaster ;
-		private var _dllQueue 					: QueueLoader ;
-		private var _gfxQueue 					: QueueLoader ;
-		private var _mDisplayObject				: HashMap ;
+		private var _target						: DisplayObjectContainer;
+		private var _oEB 						: EventBroadcaster;
+		private var _dllQueue 					: QueueLoader;
+		private var _gfxQueue 					: QueueLoader;
+		private var _mDisplayObject				: HashMap;
 
-		public static var onLoadInitEVENT		: String = QueueLoaderEvent.onLoadInitEVENT ; 
-		public static var onLoadProgressEVENT	: String = QueueLoaderEvent.onLoadProgressEVENT ; 
-		public static var onTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT ; 
-		public static var onLoaderLoadInitEVENT	: String = QueueLoaderEvent.onLoaderLoadInitEVENT;
+		public static const onLoadStartEVENT 		: String = QueueLoaderEvent.onLoadStartEVENT;
+		public static var onLoadInitEVENT			: String = QueueLoaderEvent.onLoadInitEVENT; 
+		public static var onLoadProgressEVENT		: String = QueueLoaderEvent.onLoadProgressEVENT; 
+		public static const onLoadTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT;
+		public static const onLoaderLoadStartEVENT 	: String = QueueLoaderEvent.onLoaderLoadStartEVENT;		
+		public static const onLoaderLoadInitEVENT 	: String = QueueLoaderEvent.onLoaderLoadInitEVENT; 
 
 		public static const SPRITE : String = "Sprite";
 		public static const MOVIECLIP : String = "MovieClip";
 
 		public static function getInstance() : DisplayObjectExpert
 		{
-			if ( !(DisplayObjectExpert._oI is DisplayObjectExpert) ) 
+			if ( !(DisplayObjectExpert._oI is DisplayObjectExpert) )
+			{
 				DisplayObjectExpert._oI = new DisplayObjectExpert( new PrivateConstructorAccess() );
+			}
 
 			return DisplayObjectExpert._oI;
 		}
@@ -66,18 +70,6 @@ package com.bourre.ioc.assembler.displayobject
 		public static function release() : void
 		{
 			if ( DisplayObjectExpert._oI is DisplayObjectExpert ) DisplayObjectExpert._oI = null;
-		}
-
-		public function setRootTarget( target : Sprite ) : void
-		{
-			_target = target;
-			BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
-			_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
-		}
-
-		public function getRootTarget() : Sprite
-		{
-			return _target;
 		}
 
 		public function DisplayObjectExpert( access : PrivateConstructorAccess )
@@ -89,90 +81,93 @@ package com.bourre.ioc.assembler.displayobject
 			_oEB = new EventBroadcaster( this );
 		}
 
-		/*public function buildDLL (url:String) : void
+		public function setRootTarget( target : DisplayObjectContainer ) : void
 		{
-			_dllQueue.add( new GraphicLoader(_level0, _dllQueue.length(), false),"DLL", url) ;
-		}*/
+			_target = target;
+			BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
+			_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
+		}
 
-		public function buildGraphicLoader ( 	ID : String, 
-												url : String,
-												parentID : String = null, 
-												isVisible : Boolean = true, 
-												type : String="Movieclip" ) : void
+		public function getRootTarget() : DisplayObjectContainer
+		{
+			return _target;
+		}
+
+		public function buildDLL ( url : String ) : void
+		{
+			var gl : GraphicLoader = new GraphicLoader( getRootTarget(), _dllQueue.size(), false );
+			_dllQueue.add( gl, "DLL" + _dllQueue.size(), new URLRequest( url ) );
+		}
+
+		public function buildGraphicLoader ( 	ID 			: String, 
+												url 		: String,
+												parentID 	: String 	= null, 
+												isVisible 	: Boolean 	= true, 
+												type 		: String 	= "Movieclip" ) : void
 		{
 			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, url, type );
 
-			var gl:GraphicLoader = new GraphicLoader( null, -1, isVisible );
+			var gl : GraphicLoader = new GraphicLoader( null, -1, isVisible );
 			_gfxQueue.add( gl, ID, new URLRequest( url ) ) ;
 
 			_mDisplayObject.put( ID, info ) ;
-
-			if ( _mDisplayObject.containsKey( parentID ) )
-				_mDisplayObject.get( parentID ).addChild( info ) ;
+			if ( _mDisplayObject.containsKey( parentID ) ) _mDisplayObject.get( parentID ).addChild( info );
 		}
 
-		public function buildEmptyDisplayObject( 	ID : String, 
-													parentID : String = null, 
-													isVisible : Boolean = true, 
-													type : String = "Movieclip" ) : void
+		public function buildEmptyDisplayObject ( 	ID 			: String, 
+													parentID 	: String 	= null, 
+													isVisible 	: Boolean 	= true, 
+													type 		: String 	= "Movieclip" ) : void
 		{
-			if ( parentID == null ) parentID = ContextNodeNameList.ROOT ;
+			if ( parentID == null ) parentID = ContextNodeNameList.ROOT;
 
-			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, null, type ) ;
-			_mDisplayObject.put( ID, info ) ;
-
-			if ( _mDisplayObject.containsKey( parentID ) )
-				_mDisplayObject.get( parentID ).addChild( info );
-			
+			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, null, type );
+			_mDisplayObject.put( ID, info );
+			if ( _mDisplayObject.containsKey( parentID ) ) _mDisplayObject.get( parentID ).addChild( info );
 		}
 
 		public function load () : void
 		{
-			_loadDisplayObjectQueue();
+			loadDLLQueue();
 		}
 
-		/*private function _loadDLLQueue() : void
+		public function loadDLLQueue() : void
 		{
-			if ( _dllQueue.size() > 0 )
-			{
-				_dllQueue.addEventListener( DisplayObjectExpert.onLoaderLoadInitEVENT, _onDLLLoad );
-				_dllQueue.addEventListener( DisplayObjectExpert.onLoadProgressEVENT, this );
-				_dllQueue.addEventListener( DisplayObjectExpert.onTimeOutEVENT, this );
-				_dllQueue.addEventListener( DisplayObjectExpert.onLoadInitEVENT, _loadDisplayObjectQueue );
-				_dllQueue.execute() ;
-			}
-			else
-				_loadDisplayObjectQueue();
+			if ( !(_executeQueueLoader( _dllQueue, loadDisplayObjectQueue )) ) loadDisplayObjectQueue();
 		}
 
-		private function _onDLLLoad( e : GraphicLoaderEvent ) : void
+		public function loadDisplayObjectQueue( e : QueueLoaderEvent = null ) : void
 		{
-			_oEB.broadcastEvent( e );
-		}*/
+			if ( !(_executeQueueLoader( _gfxQueue, buildDisplayList )) ) buildDisplayList();
+		}
+		
+		private function _executeQueueLoader( ql : QueueLoader, endCallback : Function ) : Boolean
+		{
+			if ( ql.size() > 0 )
+			{
+				ql.addEventListener( QueueLoaderEvent.onLoadStartEVENT, qlOnLoadStart );
+				ql.addEventListener( QueueLoaderEvent.onLoadInitEVENT, qlOnLoadInit );
+				ql.addEventListener( QueueLoaderEvent.onLoadProgressEVENT, qlOnLoadProgress );
+				ql.addEventListener( QueueLoaderEvent.onLoadTimeOutEVENT, qlOnLoadTimeOut );
+				ql.addEventListener( QueueLoaderEvent.onLoadErrorEVENT, qlOnLoadError );
+				ql.addEventListener( QueueLoaderEvent.onLoaderLoadStartEVENT, qlOnLoaderLoadStart );
+				ql.addEventListener( QueueLoaderEvent.onLoaderLoadInitEVENT, endCallback );
+				ql.execute();
 
-		private function _loadDisplayObjectQueue() : void
-		{
-			if ( _gfxQueue.size() > 0 )
+				return true;
+
+			} else
 			{
-				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadInitEVENT, this) ;
-				_gfxQueue.addEventListener(DisplayObjectExpert.onLoadProgressEVENT, this) ;
-				_gfxQueue.addEventListener(DisplayObjectExpert.onTimeOutEVENT, this) ;
-				_gfxQueue.addEventListener(DisplayObjectExpert.onLoaderLoadInitEVENT, this );
-				_gfxQueue.execute() ;
-			}
-			else
-			{
-				buildDisplayList();
-				_oEB.broadcastEvent( new QueueLoaderEvent( DisplayObjectExpert.onLoadInitEVENT, _gfxQueue ) );
+				return false;
 			}
 		}
-
-		protected function buildDisplayList() : void
+		
+		public function buildDisplayList() : void
 		{
-			displayObjectsTreatment( ContextNodeNameList.ROOT );
+			_buildDisplayList( ContextNodeNameList.ROOT );
 		}
 
-		private function displayObjectsTreatment( ID : String ) : void
+		private function _buildDisplayList( ID : String ) : void
 		{
 			var info : DisplayObjectInfo = _mDisplayObject.get( ID );
 
@@ -183,8 +178,8 @@ package com.bourre.ioc.assembler.displayobject
 					if ( info.isEmptyDisplayObject() )
 					{
 						_buildEmptyDisplayObject( info );
-					}
-					else
+
+					} else
 					{
 						_buildDisplayObject( info );
 					}
@@ -195,7 +190,7 @@ package com.bourre.ioc.assembler.displayobject
 				{
 					var aChild : Array = info.getChild();
 					var l : int = aChild.length;
-					for ( var i : int = 0 ; i < l ; i++ ) displayObjectsTreatment( aChild[i].ID );
+					for ( var i : int = 0 ; i < l ; i++ ) _buildDisplayList( aChild[i].ID );
 				}
 			}
 		}
@@ -207,46 +202,56 @@ package com.bourre.ioc.assembler.displayobject
 			oParent.addChild( oDo ) ;
 			BeanFactory.getInstance().register( info.ID, oDo ) ;
 
-			_oEB.broadcastEvent( new DisplayObjectEvent( oDo ) ) ;
+			_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, oDo ) ) ;
 		}
 
 		private function _buildDisplayObject( info : DisplayObjectInfo ) : void
 		{
-			var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID ) ;
-
+			var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID );
 			var parent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
 			gl.setTarget( parent );
 			if ( info.isVisible ) gl.show();
 			BeanFactory.getInstance().register( info.ID, gl.getView() );
 
-			_oEB.broadcastEvent( new DisplayObjectEvent( gl.getView() ) ) ;
+			_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, gl.getView() ) );
 		}
 
-		public function onLoadInit( e : LoaderEvent ) : void
-		{
-			_oEB.broadcastEvent( e );
-			buildDisplayList();
-		}
 
-		public function onLoadProgress( e : LoaderEvent ) : void
+		// QueueLoader callbacks
+		public function qlOnLoadStart( e : QueueLoaderEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
 
-		public function onTimeOut( e : LoaderEvent ) : void
+		public function qlOnLoadInit( e : QueueLoaderEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
 
-		public function onLoadTimeOut( e : LoaderEvent ) : void
+		public function qlOnLoadProgress( e : QueueLoaderEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
 
-		public function onLoaderLoadInit( e : LoaderEvent ) : void
+		public function qlOnLoadTimeOut( e : QueueLoaderEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
+
+		public function qlOnLoadError( e : QueueLoaderEvent ) : void
+		{
+			_oEB.broadcastEvent( e );
+		}
+
+		public function qlOnLoaderLoadStart( e : QueueLoaderEvent ) : void
+		{
+			_oEB.broadcastEvent( e );
+		}
+		
+//		public function qlOnLoaderLoadInit( e : LoaderEvent ) : void
+//		{
+//			_oEB.broadcastEvent( e );
+//		}
 
 		/**
 		 * Event system
