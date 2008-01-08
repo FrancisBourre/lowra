@@ -1,12 +1,32 @@
 package com.bourre.ioc.assembler.displayobject
 {
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+	 
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+
 	import com.bourre.log.PixlibStringifier;
 
 	public class DisplayObjectInfo
 	{
 		public var ID 		: String ;
 		public var parentID : String ;
-		public var depth 	: uint ;
 		public var isVisible: Boolean ;
 		public var type		: String ;
 		private var _sURL	: String ;
@@ -14,14 +34,12 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function DisplayObjectInfo ( ID			: String, 
 											parentID	: String	= null, 
-											depth		: int 		= 0, 
 											isVisible	: Boolean 	= true, 
 											url			: String 	= null, 
 											type		: String 	= "Movieclip" )
 		{
 			this.ID 		= ID ;
 			this.parentID 	= parentID ;
-			this.depth 		= depth ;
 			this.isVisible 	= isVisible ;
 			this.type 		= type ;
 			_sURL 			= url ;

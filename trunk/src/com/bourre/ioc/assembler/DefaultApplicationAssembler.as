@@ -1,8 +1,32 @@
 package com.bourre.ioc.assembler
 {
-	import com.bourre.ioc.assembler.property.*;
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.assembler.method.MethodExpert;
+	import com.bourre.ioc.assembler.property.Property;
+	import com.bourre.ioc.assembler.property.PropertyExpert;
 
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
@@ -11,13 +35,13 @@ package com.bourre.ioc.assembler
 		{
 			//
 		}
-		
+
 		public function buildEmptyDisplayObject( 	ID : String,
 													parentID : String,
 													isVisible : Boolean,
 													type : String ) : void
 		{
-			
+			DisplayObjectExpert.getInstance().buildEmptyDisplayObject( ID, parentID, isVisible, type );
 		}
 
 		public function buildDisplayObject( ID 			: String,
@@ -26,7 +50,7 @@ package com.bourre.ioc.assembler
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{
-			//
+			DisplayObjectExpert.getInstance().buildGraphicLoader( ID, parentID, url, isVisible, type );
 		}
 
 		public function buildProperty( 	ownerID : String, 
@@ -56,7 +80,7 @@ package com.bourre.ioc.assembler
 					args[ i ] = p;
 				}
 			}
-			
+
 			ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton, channelName );
 		}
 
@@ -73,7 +97,7 @@ package com.bourre.ioc.assembler
 				}
 			}
 
-			// MethodExpert.getInstance().addMethod( ownerID, methodCallName, args );
+			MethodExpert.getInstance().addMethod( ownerID, methodCallName, args );
 		}
 
 		public function buildChannelListener( ownerID : String, channelName : String ) : void
