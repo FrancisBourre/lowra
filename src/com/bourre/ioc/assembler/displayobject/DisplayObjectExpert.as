@@ -32,7 +32,6 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.ioc.parser.ContextNodeNameList;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
-	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.QueueLoader;
 	import com.bourre.load.QueueLoaderEvent;
 	import com.bourre.log.PixlibStringifier;
@@ -51,8 +50,10 @@ package com.bourre.ioc.assembler.displayobject
 		public static var onLoadInitEVENT			: String = QueueLoaderEvent.onLoadInitEVENT; 
 		public static var onLoadProgressEVENT		: String = QueueLoaderEvent.onLoadProgressEVENT; 
 		public static const onLoadTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT;
-		public static const onLoaderLoadStartEVENT 	: String = QueueLoaderEvent.onLoaderLoadStartEVENT;		
-		public static const onLoaderLoadInitEVENT 	: String = QueueLoaderEvent.onLoaderLoadInitEVENT; 
+		public static const onLoadErrorEVENT 		: String = QueueLoaderEvent.onLoadErrorEVENT;
+
+		public static const onDLLLoadStartEVENT 	: String = "onDLLLoadStart";			public static const onDLLLoadInitEVENT 	: String = "onDLLLoadInit";	
+		public static const onDisplayObjectLoadStartEVENT 	: String = "onDisplayObjectLoadStart"; 		public static const onDisplayObjectLoadInitEVENT 	: String = "onDisplayObjectLoadInit"; 
 
 		public static const SPRITE : String = "Sprite";
 		public static const MOVIECLIP : String = "MovieClip";
@@ -133,15 +134,43 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function loadDLLQueue() : void
 		{
-			if ( !(_executeQueueLoader( _dllQueue, loadDisplayObjectQueue )) ) loadDisplayObjectQueue();
-		}
-
-		public function loadDisplayObjectQueue( e : QueueLoaderEvent = null ) : void
-		{
-			if ( !(_executeQueueLoader( _gfxQueue, buildDisplayList )) ) buildDisplayList();
+			if ( !(_executeQueueLoader( _dllQueue, onDLLLoadStart, onDLLLoadInit )) ) loadDisplayObjectQueue();
 		}
 		
-		private function _executeQueueLoader( ql : QueueLoader, endCallback : Function ) : Boolean
+		public function onDLLLoadStart( e : QueueLoaderEvent ) : void
+		{
+			e.type = DisplayObjectExpert.onDLLLoadStartEVENT;
+			_oEB.broadcastEvent( e );
+		}
+		
+		public function onDLLLoadInit( e : QueueLoaderEvent ) : void
+		{
+			e.type = DisplayObjectExpert.onDLLLoadInitEVENT;
+			_oEB.broadcastEvent( e );
+
+			loadDisplayObjectQueue();
+		}
+
+		public function loadDisplayObjectQueue() : void
+		{
+			if ( !(_executeQueueLoader( _gfxQueue, onDisplayObjectLoadStart, onDisplayObjectLoadInit )) ) buildDisplayList();
+		}
+		
+		public function onDisplayObjectLoadStart( e : QueueLoaderEvent ) : void
+		{
+			e.type = DisplayObjectExpert.onDisplayObjectLoadStartEVENT;
+			_oEB.broadcastEvent( e );
+		}
+		
+		public function onDisplayObjectLoadInit( e : QueueLoaderEvent ) : void
+		{
+			e.type = DisplayObjectExpert.onDisplayObjectLoadInitEVENT;
+			_oEB.broadcastEvent( e );
+
+			buildDisplayList();
+		}
+		
+		private function _executeQueueLoader( ql : QueueLoader, startCallback : Function, endCallback : Function ) : Boolean
 		{
 			if ( ql.size() > 0 )
 			{
@@ -150,7 +179,7 @@ package com.bourre.ioc.assembler.displayobject
 				ql.addEventListener( QueueLoaderEvent.onLoadProgressEVENT, qlOnLoadProgress );
 				ql.addEventListener( QueueLoaderEvent.onLoadTimeOutEVENT, qlOnLoadTimeOut );
 				ql.addEventListener( QueueLoaderEvent.onLoadErrorEVENT, qlOnLoadError );
-				ql.addEventListener( QueueLoaderEvent.onLoaderLoadStartEVENT, qlOnLoaderLoadStart );
+				ql.addEventListener( QueueLoaderEvent.onLoaderLoadStartEVENT, startCallback );
 				ql.addEventListener( QueueLoaderEvent.onLoaderLoadInitEVENT, endCallback );
 				ql.execute();
 
@@ -220,38 +249,33 @@ package com.bourre.ioc.assembler.displayobject
 		// QueueLoader callbacks
 		public function qlOnLoadStart( e : QueueLoaderEvent ) : void
 		{
+			e.type = DisplayObjectExpert.onLoadStartEVENT;
 			_oEB.broadcastEvent( e );
 		}
 
 		public function qlOnLoadInit( e : QueueLoaderEvent ) : void
 		{
+			e.type = DisplayObjectExpert.onLoadInitEVENT;
 			_oEB.broadcastEvent( e );
 		}
 
 		public function qlOnLoadProgress( e : QueueLoaderEvent ) : void
 		{
+			e.type = DisplayObjectExpert.onLoadProgressEVENT;
 			_oEB.broadcastEvent( e );
 		}
 
 		public function qlOnLoadTimeOut( e : QueueLoaderEvent ) : void
 		{
+			e.type = DisplayObjectExpert.onLoadTimeOutEVENT;
 			_oEB.broadcastEvent( e );
 		}
 
 		public function qlOnLoadError( e : QueueLoaderEvent ) : void
 		{
+			e.type = DisplayObjectExpert.onLoadErrorEVENT;
 			_oEB.broadcastEvent( e );
 		}
-
-		public function qlOnLoaderLoadStart( e : QueueLoaderEvent ) : void
-		{
-			_oEB.broadcastEvent( e );
-		}
-		
-//		public function qlOnLoaderLoadInit( e : LoaderEvent ) : void
-//		{
-//			_oEB.broadcastEvent( e );
-//		}
 
 		/**
 		 * Event system
