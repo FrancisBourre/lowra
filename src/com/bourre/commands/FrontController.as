@@ -20,8 +20,9 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+
 	import flash.events.Event;
-	
+
 	import com.bourre.collection.HashMap;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.*;
@@ -47,7 +48,7 @@ package com.bourre.commands
 			{
 				_owner = owner;
 				_oEB = new EventBroadcaster( getOwner() );
-				
+
 			} else
 			{
 				_owner = NullPlugin.getInstance();
@@ -90,7 +91,7 @@ package com.bourre.commands
 		{
 			var type : String = event.type.toString();
 
-			if( _mEventList.containsKey( type ) )
+			if ( _mEventList.containsKey( type ) )
 			{
 				var o : Object = _mEventList.get( type );
 
@@ -108,11 +109,15 @@ package com.bourre.commands
 						if ( acmd.getOwner() == null ) acmd.setOwner( getOwner() );
 					}
 
-					AbstractCommand(o).execute( event );
+					( o as Command ).execute( event );
 				}
+
+			} else 
+			{
+				getLogger().debug( this + ".handleEvent() fails to retrieve command associated with '" + type + "' event type." );
 			}
 		}
-		
+
 		public function release() : void
 		{
 			_mEventList.clear();

@@ -15,7 +15,7 @@ package com.bourre.commands
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	 
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -23,17 +23,16 @@ package com.bourre.commands
 
 	import flash.events.Event;
 	import com.bourre.log.*;
-	
+
 	public class ReversedBatch 
 		extends Batch
 	{
-
 		public override function execute ( e : Event = null ) : void
 		{
 			var l : int = _aCommands.length ;
 			while( --l > -1 ) _aCommands[ l ].execute( e ) ;
 		}
-		
+
 		public function toString() : String
 		{
 			return PixlibStringifier.stringify( this ) ;

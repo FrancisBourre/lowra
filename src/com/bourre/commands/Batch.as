@@ -1,6 +1,5 @@
-package com.bourre.commands {
-	import flash.events.Event;	
-
+package com.bourre.commands 
+{
 	/**
 	 * <code>Batch</code> object encapsulate a set of <code>Commands</code>
 	 * to execute at the same time.
@@ -15,11 +14,44 @@ package com.bourre.commands {
 	 * @version 1.0
 	 * @see		MacroCommand
 	 */
+
+	import flash.events.Event;
+
 	public class Batch implements MacroCommand
 	{
 		protected var _aCommands : Array;
-		
-		
+
+		/**
+         * Takes all elements of an Array and pass them one by one as arguments
+         * to a method of an object.
+         * It's exactly the same concept as batch processing in audio or video
+         * software, when you choose to run the same actions on a group of files.
+         *
+         * <p>Basical example which sets _alpha value to .4 and scale to 50
+         * on all MovieClips nested in the Array :
+         *
+         * @example
+         * <code>
+         * import com.bourre.commands.*;
+         *
+         * function changeAlpha( mc : MovieClip, a : Number, s : Number )
+         * {
+         *      mc._alpha = a;
+         *      mc._xscale = mc._yscale = s;
+         * }
+         *
+         * Batch.process( changeAlpha, [mc0, mc1, mc2], .4, 50 );
+         * </code>
+         *
+         * @param f Function to run.
+         * @param a Array of parameters.
+         */
+		public static function process(f:Function, a:Array, ...aArgs) : void
+		{
+			var l : Number = a.length;
+			while( --l > -1 ) f.apply( null, (aArgs.length > 0 ) ? [a[l]].concat( aArgs ) : [a[l]] );
+		}
+
 		/**
 		 * Batch object don't accept any arguments in the constructor.
 		 */
@@ -27,7 +59,7 @@ package com.bourre.commands {
 		{
 			_aCommands = new Array();
 		}
-		
+
 		/**
 		 * Add a command in the batch stack.
 		 * 
@@ -45,11 +77,11 @@ package com.bourre.commands {
 		public function addCommand( oCommand : Command ) : Boolean
 		{
 			if( oCommand == null ) return false;
-			
+
 			var l : Number = _aCommands.length;
 			return (l != _aCommands.push( oCommand ) );
 		}
-		
+
 		/**
 		 * Remove all references to the passed-in command.
 		 * 
@@ -65,7 +97,7 @@ package com.bourre.commands {
 		public function removeCommand( oCommand : Command ) : Boolean
 		{
 			var id : Number = _aCommands.indexOf( oCommand ); 
-			
+
 			if ( id == -1 ) return false;
 			
 			while ( ( id = _aCommands.indexOf( oCommand ) ) != -1 )
@@ -74,7 +106,7 @@ package com.bourre.commands {
 			}
 			return true;
 		}
-		
+
 		/**
 		 * Returns <code>true</code> if the passed-in command is stored
 		 * in the <code>Batch</code>.
@@ -87,7 +119,7 @@ package com.bourre.commands {
 		{
 			return _aCommands.indexOf( oCommand ) != -1;
 		}
-		
+
 		/**
 		 * Execute the whole set of commands in the order they were
 		 * registered.
@@ -100,15 +132,15 @@ package com.bourre.commands {
 		public function execute( e : Event = null ) : void
 		{
 			var l : Number = _aCommands.length;
-			
+
 			if( l == 0 ) return;
-						
+
 			for( var i : Number = 0; i<l; i++ ) 
 			{
 				( _aCommands[ i ] as Command ).execute( e );
 			}
 		}
-		
+
 		/**
 		 * Remove all commands stored in the batch stack.
 		 */
@@ -116,7 +148,7 @@ package com.bourre.commands {
 		{
 			_aCommands = new Array();
 		}
-		
+
 		/**
 		 * Returns the number of commands stored in the Batch.
 		 * 
