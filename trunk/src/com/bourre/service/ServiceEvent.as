@@ -31,14 +31,14 @@ package com.bourre.service
 
 		private var _oService 	: Service;
 
-		public function ServiceEvent( type : String , dataService : Service ) 
+		public function ServiceEvent( type : String , service : Service ) 
 		{
-			super( type, dataService );
+			super( type, service );
 
-			_oService = dataService;
+			_oService = service;
 		}
 
-		public function getDataService() : Service
+		public function getService() : Service
 		{
 			return _oService ;
 		}
