@@ -21,5 +21,5 @@ package com.bourre.service
 	 */
 	public interface ServiceListener 
 	{
-		function onDataResult( event : ServiceEvent) : void;
-		function onDataError( event : ServiceEvent) : void;	}}
+		function onDataResult( event : ServiceEvent ) : void;
+		function onDataError( event : ServiceEvent ) : void;	}}

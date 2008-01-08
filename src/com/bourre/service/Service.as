@@ -29,9 +29,9 @@ package com.bourre.service
 	{
 		function setResult( result : Object ) : void;
 		function getResult() : Object;
-		function addDataServiceListener( listener : ServiceListener ) : Boolean;
-		function removeDataServiceListener( listener : ServiceListener ) : Boolean;
-		function getDataServiceListener() : Collection;
+		function addServiceListener( listener : ServiceListener ) : Boolean;
+		function removeServiceListener( listener : ServiceListener ) : Boolean;
+		function getServiceListener() : Collection;
 		function setArguments( ... rest ) : void;
 		function getArguments() : Object;
 		function fireResult() : void;
