@@ -21,6 +21,6 @@ package com.bourre.ioc.parser
 	 * @version 1.0
 	 */
 
-	import flash.events.Event;	public class ContextParserListener 
+	import flash.events.Event;	public interface ContextParserListener 
 	{
 		function onContextParsingEnd( e : Event ) : void;	}}

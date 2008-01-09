@@ -55,13 +55,15 @@ package com.bourre.ioc.parser
 
 		override public function parse( xml : * ) : void
 		{
+			_oEB.broadcastEvent( new ContextParserEvent( ContextParserEvent.onContextParsingStartEVENT, this ) );
+
 			_oContext = XML( xml );
 			var context : XML = _oContext.copy();
 
 			var i : Iterator = _pc.iterator();
 			while( i.hasNext() ) ( i.next( ) as AbstractParser ).parse( context );
 
-			_oEB.broadcastEvent( new StringEvent( ContextParserEvent.onContextParsingEndEVENT ) );
+			_oEB.broadcastEvent( new ContextParserEvent( ContextParserEvent.onContextParsingEndEVENT, this ) );
 		}
 
 		/**

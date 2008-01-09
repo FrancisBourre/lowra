@@ -1,5 +1,6 @@
 package com.bourre.ioc.parser 
-{	/*
+{
+	/*
 	 * Copyright the original author or authors.
 	 * 
 	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
@@ -19,6 +20,22 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	public class ContextParserEvent 
+
+	import com.bourre.events.BasicEvent;				
+
+	public class ContextParserEvent 
+		extends BasicEvent
 	{
-		public static const onContextParsingEndEVENT : String = "onContextParsingEnd";	}}
+		public static const onContextParsingStartEVENT : String = "onContextParsingStart";
+		public static const onContextParsingEndEVENT : String = "onContextParsingEnd";
+
+		public function ContextParserEvent( sType : String, cp : ContextParser )
+		{
+			super( sType, cp );
+		}
+		
+		public function getContextParser() : ContextParser
+		{
+			return getTarget( ) as ContextParser;
+		}
+	}}
