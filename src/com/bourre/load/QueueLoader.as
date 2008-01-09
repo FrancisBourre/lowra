@@ -150,13 +150,13 @@ package com.bourre.load
 		
 		public function onLoaderLoadStart( e : LoaderEvent, ... rest ) : void
 		{
-			e.type = QueueLoaderEvent.onLoaderLoadStartEVENT;
+			e.type = QueueLoaderEvent.onItemLoadStartEVENT;
 			fireEvent( e );
 		}
 		
 		public function onLoaderLoadInit( e : LoaderEvent, ... rest ) : void
 		{
-			fireEventType( QueueLoaderEvent.onLoaderLoadInitEVENT ) ;
+			fireEventType( QueueLoaderEvent.onItemLoadInitEVENT ) ;
 			if (isEmpty())
 			{
 				_onLoadInit() ;
