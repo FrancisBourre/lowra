@@ -42,7 +42,7 @@ package com.bourre.model
 		{
 			_oEB = new EventBroadcaster( this );
 			
-			if ( owner ) setOwner( owner );
+			setOwner( owner );
 			if ( name ) setName( name );
 		}
 		

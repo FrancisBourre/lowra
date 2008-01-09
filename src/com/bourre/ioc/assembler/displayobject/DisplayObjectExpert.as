@@ -20,21 +20,26 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import com.bourre.load.Loader;	
+	import com.bourre.log.PixlibDebug;	
+	import com.bourre.error.IllegalStateException;	
+	import com.bourre.plugin.PluginDebug;	
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.net.URLRequest;
-
+	
 	import com.bourre.collection.HashMap;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.parser.ContextNodeNameList;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
+	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.QueueLoader;
 	import com.bourre.load.QueueLoaderEvent;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class DisplayObjectExpert 
 	{
@@ -46,14 +51,7 @@ package com.bourre.ioc.assembler.displayobject
 		private var _gfxQueue 					: QueueLoader;
 		private var _mDisplayObject				: HashMap;
 
-		public static const onLoadStartEVENT 		: String = QueueLoaderEvent.onLoadStartEVENT;
-		public static var onLoadInitEVENT			: String = QueueLoaderEvent.onLoadInitEVENT; 
-		public static var onLoadProgressEVENT		: String = QueueLoaderEvent.onLoadProgressEVENT; 
-		public static const onLoadTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT;
-		public static const onLoadErrorEVENT 		: String = QueueLoaderEvent.onLoadErrorEVENT;
-
-		public static const onDLLLoadStartEVENT 	: String = "onDLLLoadStart";			public static const onDLLLoadInitEVENT 	: String = "onDLLLoadInit";	
-		public static const onDisplayObjectLoadStartEVENT 	: String = "onDisplayObjectLoadStart"; 		public static const onDisplayObjectLoadInitEVENT 	: String = "onDisplayObjectLoadInit"; 
+		
 
 		public static const SPRITE : String = "Sprite";
 		public static const MOVIECLIP : String = "MovieClip";
@@ -70,7 +68,11 @@ package com.bourre.ioc.assembler.displayobject
 
 		public static function release() : void
 		{
-			if ( DisplayObjectExpert._oI is DisplayObjectExpert ) DisplayObjectExpert._oI = null;
+			if ( DisplayObjectExpert._oI is DisplayObjectExpert ) 
+			{
+				if ( DisplayObjectExpert.getInstance().getRootTarget() != null ) BeanFactory.getInstance().unregister( ContextNodeNameList.ROOT );
+				DisplayObjectExpert._oI = null;
+			}
 		}
 
 		public function DisplayObjectExpert( access : PrivateConstructorAccess )
@@ -84,9 +86,18 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function setRootTarget( target : DisplayObjectContainer ) : void
 		{
-			_target = target;
-			BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
-			_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
+			if ( BeanFactory.getInstance().isRegistered( ContextNodeNameList.ROOT ) )
+			{
+				var msg : String = this + ".setRootTarget call failed. Root is already registered.";
+				PixlibDebug.ERROR( msg );
+				throw( new IllegalStateException( msg ) );
+
+			} else
+			{
+				_target = target;
+				BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
+				_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
+			}
 		}
 
 		public function getRootTarget() : DisplayObjectContainer
@@ -126,46 +137,48 @@ package com.bourre.ioc.assembler.displayobject
 			_mDisplayObject.put( ID, info );
 			if ( _mDisplayObject.containsKey( parentID ) ) _mDisplayObject.get( parentID ).addChild( info );
 		}
+		
+		protected function fireEvent( type : String, loader : Loader = null ) : void
+		{
+			_oEB.broadcastEvent( new DisplayObjectExpertEvent( type, loader ) );
+		}
 
 		public function load () : void
 		{
+			fireEvent( DisplayObjectExpertEvent.onDisplayObjectExpertLoadStartEVENT );
 			loadDLLQueue();
 		}
 
 		public function loadDLLQueue() : void
 		{
+			PixlibDebug.WARN( "loadDLLQueue()" );
 			if ( !(_executeQueueLoader( _dllQueue, onDLLLoadStart, onDLLLoadInit )) ) loadDisplayObjectQueue();
 		}
-		
-		public function onDLLLoadStart( e : QueueLoaderEvent ) : void
+
+		public function onDLLLoadStart( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onDLLLoadStartEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onDLLLoadStartEVENT, e.getLoader() );
 		}
 		
-		public function onDLLLoadInit( e : QueueLoaderEvent ) : void
+		public function onDLLLoadInit( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onDLLLoadInitEVENT;
-			_oEB.broadcastEvent( e );
-
-			loadDisplayObjectQueue();
+			fireEvent( DisplayObjectExpertEvent.onDLLLoadInitEVENT, e.getLoader() );
 		}
 
 		public function loadDisplayObjectQueue() : void
 		{
+			PixlibDebug.WARN("loadDisplayObjectQueue()");
 			if ( !(_executeQueueLoader( _gfxQueue, onDisplayObjectLoadStart, onDisplayObjectLoadInit )) ) buildDisplayList();
 		}
 		
-		public function onDisplayObjectLoadStart( e : QueueLoaderEvent ) : void
+		public function onDisplayObjectLoadStart( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onDisplayObjectLoadStartEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onDisplayObjectLoadStartEVENT, e.getLoader() );
 		}
 		
-		public function onDisplayObjectLoadInit( e : QueueLoaderEvent ) : void
+		public function onDisplayObjectLoadInit( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onDisplayObjectLoadInitEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onDisplayObjectLoadInitEVENT, e.getLoader() );
 
 			buildDisplayList();
 		}
@@ -193,7 +206,10 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function buildDisplayList() : void
 		{
+			PixlibDebug.WARN("buildDisplayList()");
+
 			_buildDisplayList( ContextNodeNameList.ROOT );
+			fireEvent( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT );
 		}
 
 		private function _buildDisplayList( ID : String ) : void
@@ -247,34 +263,29 @@ package com.bourre.ioc.assembler.displayobject
 
 
 		// QueueLoader callbacks
-		public function qlOnLoadStart( e : QueueLoaderEvent ) : void
+		public function qlOnLoadStart( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onLoadStartEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onLoadStartEVENT, e.getLoader() );
 		}
 
-		public function qlOnLoadInit( e : QueueLoaderEvent ) : void
+		public function qlOnLoadInit( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onLoadInitEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onLoadInitEVENT, e.getLoader() );
 		}
 
-		public function qlOnLoadProgress( e : QueueLoaderEvent ) : void
+		public function qlOnLoadProgress( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onLoadProgressEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onLoadProgressEVENT, e.getLoader() );
 		}
 
-		public function qlOnLoadTimeOut( e : QueueLoaderEvent ) : void
+		public function qlOnLoadTimeOut( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onLoadTimeOutEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onLoadTimeOutEVENT, e.getLoader() );
 		}
 
-		public function qlOnLoadError( e : QueueLoaderEvent ) : void
+		public function qlOnLoadError( e : LoaderEvent ) : void
 		{
-			e.type = DisplayObjectExpert.onLoadErrorEVENT;
-			_oEB.broadcastEvent( e );
+			fireEvent( DisplayObjectExpertEvent.onLoadErrorEVENT, e.getLoader() );
 		}
 
 		/**

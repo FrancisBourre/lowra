@@ -22,11 +22,11 @@ package com.bourre.ioc.assembler.displayobject
 	 */
 
 	import flash.display.DisplayObject;
-	
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;
 
-	public class DisplayObjectEvent extends BasicEvent
+	import com.bourre.events.BasicEvent;
+
+	public class DisplayObjectEvent 
+		extends BasicEvent
 	{
 		public static var onBuildDisplayObjectEVENT : String = "onBuildDisplayObject" ;
 	
@@ -42,15 +42,6 @@ package com.bourre.ioc.assembler.displayobject
 		public function getDisplayObject() : DisplayObject
 		{
 			return _do;
-		}
-		
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public override function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}
 }

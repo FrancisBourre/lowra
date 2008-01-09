@@ -20,18 +20,18 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import flash.events.Event;
+	
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
 	import com.bourre.log.PixlibStringifier;
+	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.structures.Point;
-	
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.events.Event;
+	import com.bourre.structures.Point;	
 
 	public class AbstractView 
 	{
@@ -48,7 +48,7 @@ package com.bourre.view
 		{
 			_oEB = new EventBroadcaster( this );
 			
-			if ( owner != null ) setOwner( owner );
+			setOwner( owner );
 			if ( name != null ) _initAbstractView( name, mc, null );
 		}
 		
@@ -69,7 +69,7 @@ package com.bourre.view
 		
 		public function setOwner( owner : Plugin ) : void
 		{
-			_owner = owner;
+			_owner = owner ? owner : NullPlugin.getInstance();
 		}
 		
 		public function getLogger() : PluginDebug

@@ -20,12 +20,10 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.events.StringEvent;
-	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.log.PixlibStringifier;
 	import com.bourre.collection.Iterator;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.ioc.assembler.ApplicationAssembler;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class ContextParser 
 		extends AbstractParser
