@@ -1,19 +1,14 @@
 package com.bourre.ioc.assembler.displayobject
 {
-	import flexunit.framework.TestCase;
-	import flash.display.MovieClip;
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.load.GraphicLoader;
-	import flash.display.Sprite;
-	import com.bourre.load.GraphicLoaderLocator;
-	import flash.utils.Timer;
-	import flash.events.TimerEvent;
-	import flash.events.Event;
-	import com.bourre.ioc.parser.ContextNodeNameList;
-	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import com.bourre.load.QueueLoaderEvent;
+	import flash.display.MovieClip;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.parser.ContextNodeNameList;
+	
+	import flexunit.framework.TestCase;	
 
 	public class DisplayObjectExpertTest extends TestCase
 	{
@@ -71,101 +66,95 @@ package com.bourre.ioc.assembler.displayobject
 			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to register 'idEmptyChild' id with BeanFactory", BeanFactory.getInstance().isRegistered("idEmptyChild") );
 			assertTrue ("DisplayObjectExpert.buildEmptyDisplayObject() fails to add child with with Sprite type", emptyMC.getChildAt(0) is Sprite) ;
 		}
-//		
-//		public function testBuildGraphicLoader():void
-//		{
-//			var mc : MovieClip = new MovieClip() ;
-//			_oDOE.setRootTarget( mc ) ;
-//
-//			_oDOE.buildEmptyDisplayObject( "containerID" );
-//			_oDOE.buildGraphicLoader( "photo1", "http://img0.gmodules.com/ig/images/igoogle_logo_sm.gif", "containerID" );
-//			_oDOE.buildGraphicLoader( "photo2", "http://img0.gmodules.com/ig/images/igoogle_logo_sm.gif", "containerID" );
-//			_oDOE.addEventListener( DisplayObjectExpert.onDisplayObjectLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
-//			_oDOE.load() ;
-//		}
-//		
-//		public function onTestBuildGraphicLoader( e : Event, mc : MovieClip ) : void
-//		{
-//			assertStrictlyEquals( "DisplayObjectExpert.getRootTarget() doesn't return expected value", mc, _oDOE.getRootTarget() );
-//			assertTrue( "DisplayObjectExpert load() doesn't build 'container'", BeanFactory.getInstance().locate("containerID") is Sprite );
-//			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo1'", BeanFactory.getInstance().locate("photo1") is Sprite );
-//			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo2'", BeanFactory.getInstance().locate("photo2") is Sprite );		
-//		}
-//
-//		public function testEmptyLoadingQueue() : void
-//		{
-//			_oDOE.addEventListener( DisplayObjectExpert.onDisplayObjectLoadInitEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
-//			_oDOE.load() ;
-//		}
-//
-//		public function onTestEmptyLoadingQueue( e : Event ) : void
-//		{
-//			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty",  e is QueueLoaderEvent ) ;
-//		}
-//
-//		public function testDisplayObjectsTreatment() : void
-//		{
-//			//creation of the root
-//			var root : MovieClip = new MovieClip();
-//			_oDOE.setRootTarget( root ) ;
-//			
-//			//creation of the empty clips
-//			_oDOE.buildEmptyDisplayObject("clip1",	ContextNodeNameList.ROOT) ;
-//			_oDOE.buildEmptyDisplayObject("clip2",	ContextNodeNameList.ROOT) ;
-//			_oDOE.buildEmptyDisplayObject("clip11",	"clip1") ;
-//			_oDOE.buildEmptyDisplayObject("clip12",	"clip1") ;
-//			_oDOE.buildEmptyDisplayObject("clip111","clip11") ;
-//			_oDOE.buildEmptyDisplayObject("clip121","clip12") ;
-//			_oDOE.buildEmptyDisplayObject("clip122","clip12",true,"Sprite") ;
-//			
-//			//photos loaded in two clips (=> bitmap objects)
-//			_oDOE.buildGraphicLoader( "photo1", "http://img0.gmodules.com/ig/images/igoogle_logo_sm.gif", "clip111", true ) ;
-//			_oDOE.buildGraphicLoader( "photo2", "http://img0.gmodules.com/ig/images/igoogle_logo_sm.gif", "clip122", true ) ;
-//			
-//			_oDOE.addEventListener( DisplayObjectExpert.onDisplayObjectLoadInitEVENT, addAsync( onTestDisplayObjectsTreatment, 5000, root) );
-//			_oDOE.load() ;
-//		}
-//
-//		public function onTestDisplayObjectsTreatment( e:Event, mc:Object ) : void
-//		{
-//			var root : MovieClip = mc as MovieClip;
-//			var child : Sprite;
-//			
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on root clip", 
-//						2, root.numChildren) ;
-//			
-//			child = root.getChildByName("clip1") as MovieClip ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip1 clip", 
-//						2, child.numChildren) ;
-//						
-//			child = root.getChildByName("clip2") as Sprite ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip2 clip", 
-//						0, child.numChildren) ;
-//			assertTrue("DisplayObjectExpert.displayObjectsTreatment wrong type on clip2",
-//						root.getChildByName("clip2") is Sprite) ;
-//			
-//			child = (root.getChildByName("clip1") as MovieClip).getChildByName("clip11") as MovieClip ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip11 clip", 
-//						1, child.numChildren) ;
-//						
-//			child = (root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip12 clip", 
-//						2, child.numChildren) ;
-//			
-//			child = ((root.getChildByName("clip1") as MovieClip).getChildByName("clip11") as MovieClip).getChildByName("clip111") as MovieClip ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip111 clip", 
-//						1, child.numChildren) ;
-//			
-//			child = ((root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip).getChildByName("clip121") as MovieClip ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip121 clip", 
-//						0, child.numChildren) ;
-//						
-//			child = ((root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip).getChildByName("clip122") as Sprite ;
-//			assertEquals("DisplayObjectExpert.displayObjectsTreatment wrong number of children on clip122 clip", 
-//						1, child.numChildren) ;
-//			assertTrue("DisplayObjectExpert.displayObjectsTreatment wrong type on clip122",
-//						((root.getChildByName("clip1") as MovieClip).getChildByName("clip12") as MovieClip).getChildByName("clip122") is Sprite) ;
-//		}
 		
+		public function testBuildGraphicLoader():void
+		{
+			var mc : MovieClip = new MovieClip() ;
+			_oDOE.setRootTarget( mc ) ;
+
+			_oDOE.buildEmptyDisplayObject( "containerID" );
+			_oDOE.buildGraphicLoader( "photo1", "http://www.google.fr/images/nav_logo.png", "containerID" );
+			_oDOE.buildGraphicLoader( "photo2", "http://www.google.fr/images/nav_logo2.png", "containerID" );
+			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
+			_oDOE.load() ;
+		}
+		
+		public function onTestBuildGraphicLoader( e : Event, mc : MovieClip ) : void
+		{
+			assertStrictlyEquals( "DisplayObjectExpert.getRootTarget() doesn't return expected value", mc, _oDOE.getRootTarget() );
+			assertTrue( "DisplayObjectExpert load() doesn't build 'container'", BeanFactory.getInstance().locate("containerID") is Sprite );
+			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo1'", BeanFactory.getInstance().locate("photo1") is Sprite );
+			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo2'", BeanFactory.getInstance().locate("photo2") is Sprite );		
+		}
+
+		public function testEmptyLoadingQueue() : void
+		{
+			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
+			_oDOE.load() ;
+		}
+
+		public function onTestEmptyLoadingQueue( e : Event ) : void
+		{
+			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty", e is DisplayObjectExpertEvent ) ;
+		}
+
+		public function testBuildDisplayList() : void
+		{
+			//creation of the root
+			var root : MovieClip = new MovieClip();
+			_oDOE.setRootTarget( root ) ;
+			
+			//creation of the empty clips
+			_oDOE.buildEmptyDisplayObject("clip1",	ContextNodeNameList.ROOT) ;
+			_oDOE.buildEmptyDisplayObject("clip2",	ContextNodeNameList.ROOT) ;
+			_oDOE.buildEmptyDisplayObject("clip11",	"clip1") ;
+			_oDOE.buildEmptyDisplayObject("clip12",	"clip1") ;
+			_oDOE.buildEmptyDisplayObject("clip111","clip11") ;
+			_oDOE.buildEmptyDisplayObject("clip121","clip12") ;
+			_oDOE.buildEmptyDisplayObject("clip122","clip12",true,"Sprite") ;
+			
+			//photos loaded in two clips (=> bitmap objects)
+			_oDOE.buildGraphicLoader( "photo1", "http://www.google.fr/images/nav_logo.png", "clip111", true ) ;
+			_oDOE.buildGraphicLoader( "photo2", "http://www.google.fr/images/nav_logo2.png", "clip122", true ) ;
+			
+			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync( onTestBuildDisplayList, 5000, root) );
+			_oDOE.load() ;
+		}
+
+		public function onTestBuildDisplayList( e:Event, mc:Object ) : void
+		{
+			var root : MovieClip = mc as MovieClip;
+			var child : Sprite;
+			
+			assertEquals( "Wrong number of children on root clip",  2, root.numChildren );
+			
+			child = _locate( "clip1" ) as MovieClip ;
+			assertEquals( "Wrong number of children on clip1 clip", 2, child.numChildren );
+						
+			child = _locate( "clip2" ) as MovieClip ;
+			assertEquals( "Wrong number of children on clip2 clip", 0, child.numChildren );
+			assertTrue( "Wrong type on clip2", child is MovieClip ) ;
+			
+			child = _locate( "clip11" ) as MovieClip ;
+			assertEquals( "Wrong number of children on clip11 clip", 1, child.numChildren );
+						
+			child = _locate( "clip12" ) as MovieClip ;
+			assertEquals( "Wrong number of children on clip12 clip", 2, child.numChildren );
+			
+			child = _locate( "clip111" ) as MovieClip ;
+			assertEquals( "Wrong number of children on clip111 clip", 1, child.numChildren);
+			
+			child = _locate( "clip121" ) as MovieClip ;
+			assertEquals( "Wrong number of children on clip121 clip", 0, child.numChildren );
+						
+			child = _locate( "clip122" ) as Sprite ;
+			assertEquals(" Wrong number of children on clip122 clip", 1, child.numChildren );
+			assertTrue( "Wrong type on clip122", child is Sprite ) ;
+		}
+		
+		protected function _locate( key : String ) : Object
+		{
+			return BeanFactory.getInstance().locate(  key );
+		}
 	}
 }

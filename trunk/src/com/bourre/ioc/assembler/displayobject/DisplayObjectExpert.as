@@ -20,26 +20,24 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.load.Loader;	
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.error.IllegalStateException;	
-	import com.bourre.plugin.PluginDebug;	
-	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.net.URLRequest;
 	
 	import com.bourre.collection.HashMap;
+	import com.bourre.error.IllegalStateException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.parser.ContextNodeNameList;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
+	import com.bourre.load.Loader;
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.QueueLoader;
 	import com.bourre.load.QueueLoaderEvent;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;		
 
 	public class DisplayObjectExpert 
 	{
@@ -50,8 +48,6 @@ package com.bourre.ioc.assembler.displayobject
 		private var _dllQueue 					: QueueLoader;
 		private var _gfxQueue 					: QueueLoader;
 		private var _mDisplayObject				: HashMap;
-
-		
 
 		public static const SPRITE : String = "Sprite";
 		public static const MOVIECLIP : String = "MovieClip";
@@ -107,6 +103,7 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function buildDLL ( url : String ) : void
 		{
+			PixlibDebug.WARN( "buildDLL(" + url + ")" );
 			var gl : GraphicLoader = new GraphicLoader( getRootTarget(), _dllQueue.size(), false );
 			_dllQueue.add( gl, "DLL" + _dllQueue.size(), new URLRequest( url ) );
 		}
@@ -117,6 +114,7 @@ package com.bourre.ioc.assembler.displayobject
 												isVisible 	: Boolean 	= true, 
 												type 		: String 	= "Movieclip" ) : void
 		{
+			PixlibDebug.WARN( "buildGraphicLoader(" + ID + ", " + url + ", " + parentID + ", " + isVisible + ", " + type + ")" );
 			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, url, type );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, isVisible );
@@ -131,6 +129,7 @@ package com.bourre.ioc.assembler.displayobject
 													isVisible 	: Boolean 	= true, 
 													type 		: String 	= "Movieclip" ) : void
 		{
+			PixlibDebug.WARN( "buildEmptyDisplayObject(" + ID + ", " + parentID + ", " + isVisible + ", " + type + ")" );
 			if ( parentID == null ) parentID = ContextNodeNameList.ROOT;
 
 			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, null, type );
@@ -187,13 +186,13 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			if ( ql.size() > 0 )
 			{
-				ql.addEventListener( QueueLoaderEvent.onLoadStartEVENT, qlOnLoadStart );
-				ql.addEventListener( QueueLoaderEvent.onLoadInitEVENT, qlOnLoadInit );
+				ql.addEventListener( QueueLoaderEvent.onItemLoadStartEVENT, qlOnLoadStart );
+				ql.addEventListener( QueueLoaderEvent.onItemLoadInitEVENT, qlOnLoadInit );
 				ql.addEventListener( QueueLoaderEvent.onLoadProgressEVENT, qlOnLoadProgress );
 				ql.addEventListener( QueueLoaderEvent.onLoadTimeOutEVENT, qlOnLoadTimeOut );
 				ql.addEventListener( QueueLoaderEvent.onLoadErrorEVENT, qlOnLoadError );
-				ql.addEventListener( QueueLoaderEvent.onLoaderLoadStartEVENT, startCallback );
-				ql.addEventListener( QueueLoaderEvent.onLoaderLoadInitEVENT, endCallback );
+				ql.addEventListener( QueueLoaderEvent.onLoadStartEVENT, startCallback );
+				ql.addEventListener( QueueLoaderEvent.onLoadInitEVENT, endCallback );
 				ql.execute();
 
 				return true;
@@ -265,11 +264,13 @@ package com.bourre.ioc.assembler.displayobject
 		// QueueLoader callbacks
 		public function qlOnLoadStart( e : LoaderEvent ) : void
 		{
+			PixlibDebug.WARN( "qlOnLoadStart(" + e + ")" );
 			fireEvent( DisplayObjectExpertEvent.onLoadStartEVENT, e.getLoader() );
 		}
 
 		public function qlOnLoadInit( e : LoaderEvent ) : void
 		{
+			PixlibDebug.WARN( "qlOnLoadInit(" + e + ")" );
 			fireEvent( DisplayObjectExpertEvent.onLoadInitEVENT, e.getLoader() );
 		}
 
