@@ -49,13 +49,13 @@ package com.bourre.collection
 		 * that would be returned by a call to nextIndex  or previousIndex.)
 		 * 
 		 * @param 	o	the element to insert.
-		 * @throws	UnsupportedOperationException if the set operation
+		 * @throws 	<code>UnsupportedOperationException</code> — if the set operation
 		 * 			is not supported by this list iterator.
-		 * @throws	ClassCastException if the class of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of the specified
 		 * 			element prevents it from being added to this list.
-		 * @throws	IllegalArgumentException if some aspect of the
+		 * @throws 	<code>IllegalArgumentException</code> — if some aspect of the
 		 * 			specified element prevents it from being added to this list.
-		 * @throws	IllegalStateException if neither next nor previous have
+		 * @throws 	<code>IllegalStateException</code> — if neither next nor previous have
 		 * 			been called, or remove or add have been called after
 		 * 			the last call to next or previous.
 		 */
@@ -91,7 +91,7 @@ package com.bourre.collection
 		 * previous will return the same element repeatedly.)
 		 * 
 		 * @return 	the previous element in the list.
-		 * @throws	NoSuchElementException if the iteration has no previous element.
+		 * @throws 	<code>NoSuchElementException</code> — if the iteration has no previous element.
 		 */
 		function previous () : *;
 		
@@ -116,13 +116,13 @@ package com.bourre.collection
 		 * 
 		 * @param 	o	the element with which to replace the last
 		 * 				element returned by next or previous.
-		 * @throws	UnsupportedOperationException if the set operation
+		 * @throws 	<code>UnsupportedOperationException</code> — if the set operation
 		 * 			is not supported by this list iterator.
-		 * @throws	ClassCastException if the class of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of the specified
 		 * 			element prevents it from being added to this list.
-		 * @throws	IllegalArgumentException if some aspect of the
+		 * @throws 	<code>IllegalArgumentException</code> — if some aspect of the
 		 * 			specified element prevents it from being added to this list.
-		 * @throws	IllegalStateException if neither next nor previous have
+		 * @throws 	<code>IllegalStateException</code> — if neither next nor previous have
 		 * 			been called, or remove or add have been called after
 		 * 			the last call to next or previous.
 		 */

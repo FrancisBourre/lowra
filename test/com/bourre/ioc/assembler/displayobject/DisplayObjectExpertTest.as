@@ -59,7 +59,7 @@ package com.bourre.ioc.assembler.displayobject
 
 			_oDOE.buildEmptyDisplayObject( "idEmpty" );
 			_oDOE.buildEmptyDisplayObject( "idEmptyChild", "idEmpty", -1, true, "Sprite" );
-			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync(onTestBuildEmptyDisplayObject, 5000, mc) );
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadInitEVENT, addAsync(onTestBuildEmptyDisplayObject, 5000, mc) );
 			_oDOE.load();
 		}
 		
@@ -80,7 +80,7 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.buildEmptyDisplayObject( "containerID" );
 			_oDOE.buildGraphicLoader( "photo1", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner2.jpg", "containerID" );
 			_oDOE.buildGraphicLoader( "photo2", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner3.jpg", "containerID" );
-			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
 			_oDOE.load() ;
 		}
 		
@@ -94,7 +94,7 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function testEmptyLoadingQueue() : void
 		{
-			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadInitEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
 			_oDOE.load() ;
 		}
 
@@ -122,7 +122,7 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.buildGraphicLoader( "photo1", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner2.jpg", "clip111", 0, true ) ;
 			_oDOE.buildGraphicLoader( "photo2", "http://www.tweenpix.net/blog/themes/tweenpix/img/banner3.jpg", "clip122", 0, true ) ;
 			
-			_oDOE.addEventListener( DisplayObjectExpert.onLoadCompleteEVENT, addAsync( onTestDisplayObjectsTreatment, 5000, root) );
+			_oDOE.addEventListener( DisplayObjectExpert.onLoadInitEVENT, addAsync( onTestDisplayObjectsTreatment, 5000, root) );
 			_oDOE.load() ;
 		}
 

@@ -185,9 +185,16 @@ package com.bourre.view
 		{
 			_getBroadcaster().removeAllListeners();
 			ViewLocator.getInstance( getOwner() ).unregisterView( getName() );
-			if ( view.parent ) view.parent.removeChild( view );
-			view = null;
-			if ( _gl ) _gl.release();
+			
+			if( view != null )
+			{
+				if ( view.parent != null ) 
+					view.parent.removeChild( view );
+				view = null;
+			}
+			if ( _gl != null )
+				 _gl.release();
+				 
 			_sName = null;
 		}
 		
