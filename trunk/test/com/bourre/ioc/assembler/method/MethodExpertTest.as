@@ -1,13 +1,7 @@
 package com.bourre.ioc.assembler.method
 {
-	import flexunit.framework.TestCase;
-	import com.test.TestClass;
-	import com.bourre.log.PixlibDebug 
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.assembler.property.Property;
-	import com.bourre.log.PixlibDebug ;
-
-	public class MethodExpertTest extends TestCase implements MethodExpertListener
+	import com.bourre.ioc.assembler.property.Property;	import com.bourre.ioc.bean.BeanFactory;		import flexunit.framework.TestCase;	
+	public class MethodExpertTest extends TestCase implements MethodExpertListener
 	{
 		private var _oME		:MethodExpert ;
 		private var _test		:TestClass ;
@@ -126,4 +120,9 @@ package com.bourre.ioc.assembler.method
 						_e) ;
 		}
 	}
+}
+
+internal dynamic class TestClass
+{
+	
 }

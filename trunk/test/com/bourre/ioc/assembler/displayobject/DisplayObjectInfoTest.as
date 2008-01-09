@@ -12,7 +12,7 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function testConstruct():void
 		{
-			var oDEI:DisplayObjectInfo = new DisplayObjectInfo("id", "parentid", 1, true) ;
+			var oDEI:DisplayObjectInfo = new DisplayObjectInfo("id", "parentid", true) ;
 			
 			assertNotNull("DisplayObjectInfo constructor returns null", oDEI) ;
 			
@@ -24,7 +24,7 @@ package com.bourre.ioc.assembler.displayobject
 			assertNull("DisplayObjectInfo getChild() doesn't return empty array when no child", 
 						oDEI.getChild()[0]) ;
 						
-			var oChild:DisplayObjectInfo = new DisplayObjectInfo("idChild", "parentChild", 1, false) ;
+			var oChild:DisplayObjectInfo = new DisplayObjectInfo("idChild", "parentChild", false) ;
 			oDEI.addChild(oChild) ;
 			
 			assertTrue("DisplayObjectInfo hasChild returns false when child", oDEI.hasChild()) ;
@@ -41,14 +41,14 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function testEmptyDisplayObject () : void
 		{
-			var oDEI:DisplayObjectInfo = new DisplayObjectInfo("id", "parentid", 1, true, "/swf/ici.swf") ;
+			var oDEI:DisplayObjectInfo = new DisplayObjectInfo("id", "parentid", true, "/swf/ici.swf") ;
 			
 			assertFalse("DisplayObjectInfo isEmptyDisplayObject returns true when displayobject no empty",
 						oDEI.isEmptyDisplayObject()) ;
 						
 			assertEquals("DisplayObjectInfo default type isn't movieclip", "Movieclip", oDEI.type) ;
 			
-			var oDEI2:DisplayObjectInfo = new DisplayObjectInfo("id2", "parentid", 2, true, "/swf/ici.swf", "Sprite") ;
+			var oDEI2:DisplayObjectInfo = new DisplayObjectInfo("id2", "parentid", true, "/swf/ici.swf", "Sprite") ;
 			assertEquals("DisplayObjectInfos type isn't memorize", "Sprite", oDEI2.type) ;
 		}
 
