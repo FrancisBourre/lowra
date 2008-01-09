@@ -241,7 +241,7 @@ package com.bourre.collection
 		 * 			collaboration between typed and untyped collections.
 		 * @example	How the <code>Set.addAll</code> method works with types 
 		 * <p>
-		 * Let say that you have two typed set <code>typedSet1</code>
+		 * Let say that you have two typed sets <code>typedSet1</code>
 		 * and <code>typedSet1</code>.
 		 * </p> 
 		 * <listing>
@@ -259,7 +259,7 @@ package com.bourre.collection
 		 * typedSet2.add( "foo6" );
 		 * </listing>
 		 * 
-		 * And two untyped set <code>untypedSet1</code>
+		 * And two untyped sets <code>untypedSet1</code>
 		 * and <code>untypedSet1</code>. 
 		 * 
 		 * <listing>
@@ -585,7 +585,6 @@ package com.bourre.collection
 		 * 			element.
 		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this set
-		 * 
 		 */
 		public function contains ( o : Object ) : Boolean
 		{
@@ -708,10 +707,8 @@ package com.bourre.collection
 		}
 
 		/**
-		 * Returns the number of elements in this set (its cardinality). If this
-		 * set contains more than <code>Integer.MAX_VALUE</code> elements, returns
-		 * <code>Integer.MAX_VALUE</code>.
-		 *
+		 * Returns the number of elements in this set (its cardinality). 
+		 * 
 		 * @return <code>Number</code> of elements in this set (its cardinality).
 		 */
 		public function size () : uint
@@ -799,12 +796,12 @@ package com.bourre.collection
 		 * <p>
 		 * When dealing with typed and untyped collection, the following rules apply : 
 		 * <ul>
-		 * <li>Two typed set, which have the same type, can collaborate each other.</li>
-		 * <li>Two untyped set can collaborate each other.</li>
-		 * <li>An untyped set can add, remove, retain or contains any typed set
+		 * <li>Two typed collection, which have the same type, can collaborate each other.</li>
+		 * <li>Two untyped collection can collaborate each other.</li>
+		 * <li>An untyped collection can add, remove, retain or contains any typed collection
 		 * of any type without throwing errors.</li>
-		 * <li>A typed set will always fail when attempting to add, remove, retain
-		 * or contains an untyped set.</li>
+		 * <li>A typed collection will always fail when attempting to add, remove, retain
+		 * or contains an untyped collection.</li>
 		 * </ul></p><p>
 		 * If the passed-in <code>Collection</code> is null the method throw a
 		 * <code>NullPointerException</code> error.
@@ -853,8 +850,8 @@ package com.bourre.collection
 		}
 
 		/**
-		 * Test if an object is valid for this <code>Set</code> (well-typed,
-		 * not already present in the set).
+		 * Verify that the passed-in object is valid for this <code>Set</code>
+		 * (well-typed, not already present in the set).
 		 * <p>
 		 * In the case that the object's type prevents it to be added
 		 * as element for this set the method will throw
@@ -874,8 +871,11 @@ package com.bourre.collection
 
 		/**
 		 * Verify that the passed-in object type match the current 
-		 * <code>Set</code> element's type.
+		 * <code>Set</code> element's type. 
 		 * <p>
+		 * In the case that the set is untyped the function will
+		 * always returns <code>true</code>.
+		 * </p><p>
 		 * In the case that the object's type prevents it to be added
 		 * as element for this set the method will throw
 		 * a <code>ClassCastException</code>.
@@ -888,7 +888,7 @@ package com.bourre.collection
 		 */
 		public function isValidType ( o : Object ) : Boolean
 		{
-			if ( getType( ) != null)
+			if ( getType() != null)
 			{
 				if ( isType( o ) )
 				{
@@ -911,7 +911,7 @@ package com.bourre.collection
 		 */
 		public function isEmpty () : Boolean
 		{
-			return size( ) == 0;
+			return size() == 0;
 		}
 
 		/**
@@ -927,9 +927,13 @@ package com.bourre.collection
 		}
 
 		/**
-		 * Return the type of this set object.
-		 * 
-		 * @return <code>Class</code> type of the set elements
+		 * Return the class type of element in this set object.
+		 * <p>
+		 * An untyped set returns <code>null</code>, as the
+		 * wildcard type (<code>*</code>) is not a <code>Class</code>
+		 * and <code>Object</code> class doesn't fit for primitive types.
+		 * </p>
+		 * @return <code>Class</code> type of the set's elements
 		 */
 		public function getType () : Class
 		{
@@ -941,7 +945,8 @@ package com.bourre.collection
 		 * Obeys the general contract of the <code>Collection.toArray</code>
 		 * method.
 		 *
-		 * @return <code>Array</code> containing all of the elements in this set.
+		 * @return  <code>Array</code> containing all of the elements in this set.
+		 * @see		Collection#toArray() Collection.toArray()
 		 */
 		public function toArray () : Array
 		{
@@ -950,10 +955,18 @@ package com.bourre.collection
 
 		/**
 		 * Returns the <code>String</code> representation of
-		 * this object.
-		 * 
+		 * this object. 
+		 * <p>
+		 * The function return a string like
+		 * <code>com.bourre.collection::Set&lt;String&gt;</code>
+		 * for a typed collection. The string between the &lt;
+		 * and &gt; is the name of the type of the collection's
+		 * elements. If the collection is an untyped collection
+		 * the function will simply return the result of the
+		 * <code>PixlibStringifier.stringify</code> call.
+		 * </p>
 		 * @return <code>String</code> representation of
-		 * this object.
+		 * 		   this object.
 		 */
 		public function toString () : String
 		{
