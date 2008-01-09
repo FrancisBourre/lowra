@@ -46,6 +46,18 @@ package com.bourre.collection
 	 * exception or it may succeed, at the option of the implementation.
 	 * Such exceptions are marked as "optional" in the specification for this
 	 * interface. 
+	 * </p><p>
+	 * When dealing with typed and untyped collection, the following rules apply : 
+	 * <ul>
+	 * <li>Two typed collection, which have the same type, can collaborate each other.</li>
+	 * <li>Two untyped collection can collaborate each other.</li>
+	 * <li>An untyped collection can add, remove, retain or contains any typed collection
+	 * of any type without throwing errors.</li>
+	 * <li>A typed collection will always fail when attempting to add, remove, retain
+	 * or contains an untyped collection.</li>
+	 * </ul></p><p>
+	 * If the passed-in <code>Collection</code> is null the method throw a
+	 * <code>NullPointerException</code> error.
 	 * </p>
 	 *
 	 * @author 	Francis Bourre
