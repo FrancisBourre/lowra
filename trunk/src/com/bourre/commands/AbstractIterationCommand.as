@@ -33,7 +33,7 @@ package com.bourre.commands {
 			_oIterator = i;
 		}
 		
-		override public function execute( e : Event ) : void
+		override public function execute( e : Event = null ) : void
 		{
 		}
 		

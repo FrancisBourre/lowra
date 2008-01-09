@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-
 package com.bourre.collection
 {
 	/**
-	 * An iterator over a collection.<br/>
-	 * Iterators differ from enumerations in two ways :
-	 * <ul>
-     * <li>Iterators allow the caller to remove elements
-     * from the underlying collection during the
-     * iteration with well-defined semantics.
-     * <li>Method names have been improved.
-     * </ul> 
+	 * An iterator over a collection.
      * 
-	 * @author Francis Bourre
+	 * @author 	Francis Bourre
 	 * @version 1.0
+	 * @see		Iterable
 	 */
 	public interface Iterator
 	{
@@ -38,7 +29,7 @@ package com.bourre.collection
 		 * (In other words, returns true if next would return
 		 * an element rather than throwing an exception.)
 		 * 
-		 * @return true if the iterator has more elements.
+		 * @return <code>true</code> if the iterator has more elements.
 		 */
 		function hasNext() : Boolean;
 		
@@ -47,8 +38,8 @@ package com.bourre.collection
  		 * repeatedly until the hasNext() method returns false will return
  		 * each element in the underlying collection exactly once.
  		 * 
- 		 * @return the next element in the iteration.
- 		 * @throws NoSuchElementException iteration has no more elements.
+ 		 * @return	the next element in the iteration.
+ 		 * @throws 	<code>NoSuchElementException</code> — iteration has no more elements.
  		 */
  		function next() : *;
  		
@@ -59,11 +50,11 @@ package com.bourre.collection
          * if the underlying collection is modified while the iteration is in
          * progress in any way other than by calling this method.
          * 
-         * @throws UnsupportedOperationException if the remove  operation is not
-         *         supported by this Iterator.
-         * @throws IllegalStateException - if the next method has not yet been called,
-         *         or the remove method has already been called after the last
-         *         call to the next  method.
+         * @throws 	<code>UnsupportedOperationException</code> — if the remove  operation is not
+         *          supported by this Iterator.
+         * @throws 	<code>IllegalStateException</code> — if the next method has not yet been called,
+         *          or the remove method has already been called after the last
+         *          call to the next  method.
          */
         function remove() : void;
 	}

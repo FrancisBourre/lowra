@@ -15,19 +15,22 @@
  */
 package com.bourre.collection 
 {
-
 	/**
-	 * @author Cédric Néhémie
+	 * An object onto which the user can iterate using an <code>Iterator</code>
+	 * object provided by this <code>Iterable</code> object.
+	 * 
+	 * @author 	Cédric Néhémie
+	 * @see		Iterator
 	 */
 	public interface Iterable 
 	{
 		/**
-	     * Returns an iterator over the elements in this collection.  There are no
+	     * Returns an iterator over the elements in this collection. There are no
 	     * guarantees concerning the order in which the elements are returned
 	     * (unless this collection is an instance of some class that provides a
 	     * guarantee).
 	     * 
-	     * @return an <tt>Iterator</tt> over the elements in this collection
+	     * @return an <code>Iterator</code> over the elements in this collection
 	     */
 		function iterator () : Iterator;
 	}

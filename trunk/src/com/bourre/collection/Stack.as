@@ -56,7 +56,7 @@ package com.bourre.collection {
 		 * @param o element to be appended to this Stack
 		 * @return true (as per the general contract of Collection.add).
 		 * @see	push
-		 * @throws ClassCastException if the class of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of the specified
 		 * 		   element prevents it from being added to this list.
 		 */
 		public function add( o : Object ) : Boolean
@@ -73,9 +73,9 @@ package com.bourre.collection {
 		 * 
 		 * @param index index at which the specified element is to be inserted.
 		 * @param o element to be inserted.
-		 * @throws IndexOutOfBoundsException index is out of range
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
-		 * @throws ClassCastException if the class of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of the specified
 		 * 		   element prevents it from being added to this list.
 		 */
 		public function addAt(index:uint, o:Object) : void
@@ -96,9 +96,9 @@ package com.bourre.collection {
 		 * 
 		 * @param c elements to be inserted into this <code>Stack</code>.
 		 * @return true if this <code>Stack</code> changed as a result of the call.
-		 * @throws ClassCastException if the class of an element of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of an element of the specified
 	     * 	       collection prevents it from being added to this collection.
-	     * @throws NullPointerException if the passed in collection is null.
+	     * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
 		public function addAll(c:Collection):Boolean
 		{
@@ -126,11 +126,11 @@ package com.bourre.collection {
 		 * 		  		the specified collection.
 		 * @param c elements to be inserted into this <code>Stack</code>.
 		 * @return true if this <code>Stack</code> changed as a result of the call.
-		 * @throws IndexOutOfBoundsException index is out of range
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
-		 * @throws ClassCastException if the class of an element of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of an element of the specified
 	     * 	       collection prevents it from being added to this collection.
-	     * @throws NullPointerException if the passed in collection is null.
+	     * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
 		public function addAllAt( index : uint, c : Collection ) : Boolean
 		{
@@ -173,7 +173,7 @@ package com.bourre.collection {
 		 * 
 		 * @param index index at which to remove an element from the specified collection.
 		 * @return true if the object have been removed, false otherwise.
-		 * @throws IndexOutOfBoundsException index is out of range
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
 		 */
 		public function removeAt( index : uint ) : Boolean
@@ -189,7 +189,7 @@ package com.bourre.collection {
 		 * 
 		 * @param c a collection of elements to be removed from the <code>Stack</code>
 		 * @return true if this <code>Stack</code> changed as a result of the call.
-	     * @throws NullPointerException if the passed in collection is null.
+	     * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
 		public function removeAll( c : Collection ) : Boolean
 		{
@@ -213,7 +213,7 @@ package com.bourre.collection {
 		 * @param c a collection of elements to be retained in this
 		 *          <code>Stack</code> (all other elements are removed)
 		 * @return true if this <code>Stack</code> changed as a result of the call.
-		 * @throws NullPointerException if the passed in collection is null.
+		 * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
 		public function retainAll(c:Collection):Boolean
 		{
@@ -251,7 +251,7 @@ package com.bourre.collection {
 		 *          containment in this <code>Stack</code>
 		 * @return true if this <code>Stack</code> contains all of the elements
 		 *         in the specified collection.
-		 * @throws NullPointerException if the passed in collection is null.
+		 * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
 		public function containsAll(c:Collection):Boolean
 		{
@@ -352,7 +352,7 @@ package com.bourre.collection {
 		 *        the list iterator (by a call to the next method).
 		 * @return a list iterator of the elements in this list (in proper sequence),
 		 *         starting at the specified position in the list.
-		 * @throws IndexOutOfBoundsException index is out of range
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
 		 */
 		public function listIterator( index : uint = 0 ) : ListIterator
@@ -377,7 +377,7 @@ package com.bourre.collection {
 	     * 
 	     * @param index index of element to return.
 	     * @return object at the specified index
-	     * @throws IndexOutOfBoundsException index is out of range
+	     * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
 	     */
 	    public function get ( index : uint ) : Object
@@ -393,9 +393,9 @@ package com.bourre.collection {
 		 * @param index index of element to replace.
 		 * @param o element to be stored at the specified position.
 		 * @return the element previously at the specified position.
-		 * @throws IndexOutOfBoundsException index is out of range
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
-		 * @throws ClassCastException if the class of an element of the specified
+		 * @throws 	<code>ClassCastException</code> — if the class of an element of the specified
 	     * 	       collection prevents it from being added to this collection.
 		 */
 		public function set ( index : uint, o : Object ) : Object
@@ -452,7 +452,7 @@ package com.bourre.collection {
 	     * @param fromIndex low endpoint (inclusive) of the subList.
 	     * @param toIndex high endpoint (exclusive) of the subList.
 	     * @return a view of the specified range within this List.
-	     * @throws IndexOutOfBoundsException fromIndex or toIndex are
+	     * @throws 	<code>IndexOutOfBoundsException</code> — fromIndex or toIndex are
 	     * 		   out of range (index < 0 || index > size()).
 	     */
 	    public function subList( fromIndex:uint, toIndex:uint ) : List
@@ -473,7 +473,7 @@ package com.bourre.collection {
 		 * If not a IndexOutOfBoundsException is thrown.
 		 * 
 		 * @param index index to verify
-		 * @throws IndexOutOfBoundsException index is out of range
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   (index < 0 || index > size()).
 		 */
 		public function isValidIndex ( index : uint ) : void
@@ -491,7 +491,7 @@ package com.bourre.collection {
 		 * methods.
 		 * 
 		 * @param c collection to verify
-		 * @throws NullPointerException if the passed in collection is null.
+		 * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
 		public function isValidCollection ( c : Collection ) : void
 		{

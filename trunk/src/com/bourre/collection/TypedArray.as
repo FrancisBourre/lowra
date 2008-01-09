@@ -1,4 +1,20 @@
-package com.bourre.collection {
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bourre.collection 
+{
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
@@ -7,16 +23,15 @@ package com.bourre.collection {
 	/**
 	 * <code>TypedArray</code> work the same way than a classical <code>Array</code>
 	 * but all elements in a <code>TypedArray</code> have to be of the same type.
-	 * 
-	 * <p>The type of array's elements is set at creation, then you cannot change it
-	 * after. Every time you trying to insert data in the array the type of elements
+	 * <p>
+	 * The type of array's elements is set at creation, then you cannot change it
+	 * after. Every time you try to insert data in the array the type of the element
 	 * is checked, and an error is thrown if the type doesn't match the 
-	 * <code>TypedArray</code> one.</p>
-	 * 
-	 * <p>The <code>TypedArray</code> is final, you cannot extend it.</p>
-	 * 
+	 * <code>TypedArray</code> one.
+	 * </p><p>
+	 * The <code>TypedArray</code> is final, you cannot extend it.
+	 * </p>
 	 * @author Cédric Néhémie
-	 * @version 1.0
 	 * @example Using a <code>TypedArray</code> directly
 	 * <listing>var a : TypedArray = new TypedArray ( Number );
 	 * a[ 0 ] = 20; // no error
@@ -31,21 +46,22 @@ package com.bourre.collection {
 		
 		/**
 		 * Create a new <code>TypedArray</code> instance.
-		 * 
-		 * <p>Besides type the constructor works as the <code>Array</code>
+		 * <p>
+		 * Besides type the constructor works as the <code>Array</code>
 		 * one, if only one additional arguments is passed to the function and
 		 * if its type is Number then this argument is used to set the length
-		 * of the <code>TypedArray</code></p>
+		 * of the <code>TypedArray</code>
+		 * </p>
 		 * 
-		 * @param 	t		Type of elements in the array. The type is a <code>Class</code>
-		 * 					instance witch is used with the <code>is</code> operator.
-		 * @param 	args	You can use the array constructor in two different ways : 
-		 * 					<ul>
-		 * 					<li>If only one <code>int</code> is passed to the function
-		 * 					then it defines the number of elements in the array.</li>
-		 * 					<li>If several arguments is passed to the function those
-		 * 					values are used to fill the array.</li></ul>
-		 * @throws	TypeError	If one or more of optionnal arguments are not of the
+		 * @param 	t			Type of elements in the array. The type is a <code>Class</code>
+		 * 						instance witch is used with the <code>is</code> operator.
+		 * @param 	args		You can use the array constructor in two different ways : 
+		 * 						<ul>
+		 * 						<li>If only one <code>int</code> is passed to the function
+		 * 						then it defines the number of elements in the array.</li>
+		 * 						<li>If several arguments is passed to the function those
+		 * 						values are used to fill the array.</li></ul>
+		 * @throws 	<code>TypeError</code> — If one or more of optionnal arguments are not of the
 		 * 						same type than the array one. 
 		 */
 		public function TypedArray ( t : Class = null, ... args )
@@ -94,7 +110,7 @@ package com.bourre.collection {
 	     * letters.push("c");
 	     * 
 	     * trace( letters.toString() ); // a,b,c</listing>
-	     * @throws	TypeError	If one or more arguments are not of the same type than
+	     * @throws 	<code>TypeError</code> — If one or more arguments are not of the same type than
 	     * 						the array one.
 	     */
 	    public function push ( ... args ) : Number
@@ -126,7 +142,7 @@ package com.bourre.collection {
 	     * @param	args	One or more numbers, elements, or variables
 	     * 					to be inserted at the beginning of the array.
 	     * @return	An integer representing the new length of the array.
-	     * @throws	TypeError	If one or more arguments are not of the same type than
+	     * @throws 	<code>TypeError</code> — If one or more arguments are not of the same type than
 	     * 						the array one.
 	     */
 	    public function unshift ( ... args ) : Number
@@ -169,7 +185,7 @@ package com.bourre.collection {
 	     * 						or an array, to insert into the array at the position specified
 	     * 						in the startIndex parameter.
 	     * @return	An array containing the elements that were removed from the original array.	
-	     * @throws	TypeError	If one or more additional arguments are not of the same type than
+	     * @throws 	<code>TypeError</code> — If one or more additional arguments are not of the same type than
 	     * 						the array one.
 	     */
 	    public function splice ( startIndex : int, deleteCount : int, ... values ) : TypedArray
@@ -203,7 +219,7 @@ package com.bourre.collection {
 	     * 					to be concatenated in a new array. If you don't pass any values,
 	     * 					the new array is a duplicate of the original array.
 	     * @return 	An array that contains the elements from this array followed by elements from the parameters.
-	     * @throws	TypeError	If one or more arguments are not of the same type that the array one.
+	     * @throws 	<code>TypeError</code> — If one or more arguments are not of the same type that the array one.
 	     */
 	    public function concat ( ... args ) : TypedArray
 	    {
@@ -244,8 +260,9 @@ package com.bourre.collection {
 	     * Returns a new array that consists of a range of elements from the original array,
 	     * without modifying the original array. The returned array includes the startIndex
 	     * element and all elements up to, but not including, the endIndex element.
-	     * 
-	     * <p>If you don't pass any parameters, a duplicate of the original array is created.</p>
+	     * <p>
+	     * If you don't pass any parameters, a duplicate of the original array is created.
+	     * </p>
 	     * 
 	     * @param 	startIndex	A number specifying the index of the starting point for the slice.
 	     * 						If start is a negative number, the starting point begins at the end
@@ -266,20 +283,20 @@ package com.bourre.collection {
 	     * Executes a test function on each item in the array and constructs a new array
 	     * for all items that return true for the specified function. If an item returns
 	     * false, it is not included in the new array.
-	     * 
-	     * <p>For this method, the second parameter, thisObject, must be null if the first
+	     * <p>
+	     * For this method, the second parameter, thisObject, must be null if the first
 	     * parameter, callback, is a method closure. Suppose you create a function in a
 	     * movie clip called me:
 	     * <listing>
 	     * function myFunction()
 	     * {
 	     * 	//your code here
-	     * }</listing></p>
-	     * 
-	     * <p>Suppose you then use the filter() method on an array called myArray:
-	     * <listing>myArray.filter(myFunction, me);</listing></p>
-	     * 
-	     * <p>Because myFunction is a member of the Timeline class, which cannot
+	     * }</listing>
+	     * </p><p>
+	     * Suppose you then use the filter() method on an array called myArray:
+	     * <listing>myArray.filter(myFunction, me);</listing>
+	     * </p><p>
+	     * Because myFunction is a member of the Timeline class, which cannot
 	     * be overridden by me, Flash Player will throw an exception.
 	     * You can avoid this runtime error by assigning the function to
 	     * a variable, as follows:
@@ -307,26 +324,27 @@ package com.bourre.collection {
 	    /**
 	     * Executes a function on each item in an array, and constructs a new array
 	     * of items corresponding to the results of the function on each item in the original array.
-	     * 
-	     * <p>For this method, the second parameter, thisObject, must be null if the first parameter,
+	     * <p>
+	     * For this method, the second parameter, thisObject, must be null if the first parameter,
 	     * callback, is a method closure. Suppose you create a function in a movie clip called me:
 	     * <listing>
 	     * function myFunction()
 	     * {
 	     * 	//your code here
-	     * }</listing></p>
-	     * 
-	     * <p>Suppose you then use the map() method on an array called myArray:
-	     * <listing>myArray.map(myFunction, me);</listing></p>
-	     * 
-	     * <p>Because myFunction is a member of the Timeline class,
+	     * }</listing>
+	     * </p><p>
+	     * Suppose you then use the map() method on an array called myArray:
+	     * <listing>myArray.map(myFunction, me);</listing>
+	     * </p><p>
+	     * Because myFunction is a member of the Timeline class,
 	     * which cannot be overridden by me, Flash Player will throw
 	     * an exception. You can avoid this runtime error by assigning
 	     * the function to a variable, as follows:
 	     * <listing>var foo:Function = myFunction() {
 	     *      //your code here
 	     * };
-	     * myArray.map(foo, me);</listing></p>
+	     * myArray.map(foo, me);</listing>
+	     * </p>
 	     * 
 	     * @param	callback	The function to run on each item in the array.
 	     * 						This function can contain a simple command (such as
@@ -345,8 +363,8 @@ package com.bourre.collection {
 	    /**
 	     * Sorts the elements in an array. This method sorts according to Unicode values.
 	     * ASCII is a subset of Unicode.)
-	     * 
-	     * <p>By default, Array.sort() works in the following way:
+	     * <p>
+	     * By default, Array.sort() works in the following way:
 	     * <ul>
 	     * <li>Sorting is case-sensitive (Z precedes a).</li>
 	     * <li>Sorting is ascending (a precedes b).</li>
@@ -355,17 +373,15 @@ package com.bourre.collection {
 	     * array in no particular order.</li>
 	     * <li>All elements, regardless of data type, are sorted as if they were strings,
 	     * so 100 precedes 99, because "1" is a lower string value than "9".</li>
-	     * </ul></p>
-	     *  
-	     * <p>To sort an array by using settings that deviate from the default settings, 
+	     * </ul></p><p>
+	     * To sort an array by using settings that deviate from the default settings, 
 	     * you can either use one of the sorting options described in the sortOptions
 	     * portion of the ...args parameter description, or you can create your own custom
 	     * function to do the sorting. If you create a custom function, you call the sort()
 	     * method, and use the name of your custom function as the first argument (compareFunction). 
 	     * @param args	The arguments specifying a comparison function and one or more values that
-	     * determine the behavior of the sort.</p>
-	     * 
-	     * <p><ul>
+	     * determine the behavior of the sort.
+	     * </p><p><ul>
 	     * <li>compareFunction - A comparison function used to determine the sorting order
 	     * of elements in an array. This argument is optional. A comparison function
 	     * should take two arguments to compare. Given the elements A and B, the
@@ -384,7 +400,8 @@ package com.bourre.collection {
 	     * <li>16 or Array.NUMERIC</li>
 	     * </ul>
 	     * For more information, see the Array.sortOn() method.</li>
-	     * </ul></p>
+	     * </ul>
+	     * </p>
 	     * 
 	     * @return The return value depends on whether you pass any arguments,
 	     * as described in the following list:
@@ -414,17 +431,17 @@ package com.bourre.collection {
 	     * <li>Each element of the array holds an object with one or more properties.</li>
 	     * <li>All of the objects have at least one property in common, the values
 	     * of which can be used to sort the array. Such a property is called a field.</li>
-	     * </ul>
-	     * 
-	     * <p>If you pass multiple fieldName parameters, the first field represents
+	     * </ul> 
+	     * <p>
+	     * If you pass multiple fieldName parameters, the first field represents
 	     * the primary sort field, the second represents the next sort field, and so on.
 	     * Flash sorts according to Unicode values. (ASCII is a subset of Unicode.)
 	     * If either of the elements being compared does not contain the field that
 	     * is specified in the fieldName parameter, the field is assumed to be set
 	     * to undefined, and the elements are placed consecutively in the sorted array
-	     * in no particular order.</p>
-	     * 
-	     * <p>By default, Array.sortOn() works in the following way:
+	     * in no particular order.
+	     * </p><p>
+	     * By default, Array.sortOn() works in the following way:
 	     * <ul>
 	     * <li>Sorting is case-sensitive (Z precedes a).</li>
 	     * <li>Sorting is ascending (a precedes b).</li>
@@ -433,18 +450,17 @@ package com.bourre.collection {
 	     * placed consecutively in the sorted array in no particular order.</li>
 	     * <li>Numeric fields are sorted as if they were strings, so 100 precedes 99,
 	     * because "1" is a lower string value than "9".</li>
-	     * 
-	     * <p>Flash Player 7 added the options parameter, which you can use
+	     * </ul>
+	     * <p>
+	     * Flash Player 7 added the options parameter, which you can use
 	     * to override the default sort behavior. To sort a simple array
 	     * (for example, an array with only one field), or to specify a
-	     * sort order that the options parameter doesn't support, use Array.sort().</p>
-	     * 
-	     * <p>To pass multiple flags, separate them with the bitwise OR (|) operator:
-	     * 
+	     * sort order that the options parameter doesn't support, use Array.sort().
+	     * </p><p>
+	     * To pass multiple flags, separate them with the bitwise OR (|) operator: 
 	     * <listing>my_array.sortOn(someFieldName, Array.DESCENDING | Array.NUMERIC);</listing>
-	     * </p>   
-	     * 
-	     * <p>Flash Player 8 added the ability to specify a different sorting option
+	     * </p><p>
+	     * Flash Player 8 added the ability to specify a different sorting option
 	     * for each field when you sort by more than one field. In Flash Player 8 and later,
 	     * the options parameter accepts an array of sort options such that each sort option
 	     * corresponds to a sort field in the fieldName parameter. The following
@@ -453,7 +469,8 @@ package com.bourre.collection {
 	     * c, using a case-insensitive sort:
 	     *  
  	     * <listing>Array.sortOn (["a", "b", "c"], [Array.DESCENDING, Array.NUMERIC, Array.CASEINSENSITIVE]);
- 	     * </listing></p>
+ 	     * </listing>
+ 	     * </p>
  	     *   
 	     * @param 	fieldName	A string that identifies a field to be used as the sort value,
 	     * 						or an array in which the first element represents the primary
@@ -509,7 +526,7 @@ package com.bourre.collection {
 		 * 
 		 * @param	o	Object to verify
 		 * @return 	<code>true</code> if the object can be inserted in
-		 * the <code>TypedArray</code>, either <code>false</code>.
+		 * 			the <code>TypedArray</code>, either <code>false</code>.
 		 */
 		public function isType( o : * ) : Boolean
 	    {

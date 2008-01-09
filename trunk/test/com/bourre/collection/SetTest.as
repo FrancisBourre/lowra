@@ -6,7 +6,7 @@ package com.bourre.collection
 	public class SetTest extends TestCase
 	{
 		
-		private var _oTypedSet:Set 
+		private var _oTypedSet:Set; 
 		private var _oSet:Set ;
 		
 		
@@ -40,7 +40,7 @@ package com.bourre.collection
 			}
 			catch (e:Error)
 			{
-				bool = false
+				bool = false;
 			}
 			assertTrue("Set.isValidIndex doesn't throw IndexOutOfBoundsException", bool) ; 
 			
@@ -66,10 +66,9 @@ package com.bourre.collection
 				bool = false ;
 			}
 			
-			assertFalse("Set.isValidCollection doesn't throw illegalArgumentException with wrong typed collection", 
+			assertFalse("Set.isValidCollection doesn't throw IllegalArgumentException with wrong typed collection", 
 						bool) ;
 		}
-		
 		
 		public function testAdd():void
 		{
@@ -80,7 +79,7 @@ package com.bourre.collection
 			_set = new Set() ;
 			
 			//typed set			
-			assertTrue("Set.isValidObject catch a non-existing element ", typedSet.isValidObject("123"))
+			assertTrue("Set.isValidObject catch a non-existing element ", typedSet.isValidObject("123"));
 			
 			assertTrue("Set.add (typed) failed",typedSet.add("123")) ;
 			assertFalse("Set.add (typed) doesn't failed with duplicate element", typedSet.add("123")) ;
@@ -136,8 +135,9 @@ package com.bourre.collection
 			
 			var _set:Set ;
 			_set = new Set() ;
+			_set.add( 456 );
 		
-			assertFalse("Set.addAll doesn't failed with adding an empty collection", _set.addAll(new Set())) ;
+			assertFalse("Set.addAll doesn't failed with adding an empty collection", _set.addAll( new Set())) ;
 			
 			try {
 				typedSet.addAll(testSet) ;
@@ -146,7 +146,7 @@ package com.bourre.collection
 			{
 				bool = false ;
 			}
-			assertFalse("Set.addAll (typed) doesn't failed with adding no typed set",bool) ;
+			assertFalse("Set.addAll (typed) doesn't failed with adding an untyped set",bool) ;
 			
 			bool = true ;
 			try {
@@ -156,7 +156,18 @@ package com.bourre.collection
 			{
 				bool=false ;
 			}
-			assertTrue ("Set.addAll failed with adding no typed set in no typed set",bool) ;
+			assertTrue ("Set.addAll failed when adding an untyped set in untyped set", bool) ;
+			
+			bool = true ;
+			try 
+			{
+				_set.addAll(typedSet) ;
+			}
+			catch (e:Error)
+			{
+				bool=false ;
+			}
+			assertTrue ("Set.addAll failed when adding a typed set in untyped set", bool) ;
 		}
 		
 		public function testGetSet():void
@@ -210,7 +221,7 @@ package com.bourre.collection
 			typedSet.add("456") ;
 			
 			var testSet:Set ;
-			testSet = new Set() ;
+			testSet = new Set(String) ;
 			testSet.add("123") ;
 			testSet.add("lalala") ;
 			
@@ -220,7 +231,7 @@ package com.bourre.collection
 			testSet2.add("123") ;
 			
 			var testSet3:Set ;
-			testSet3 = new Set() ;
+			testSet3 = new Set(String) ;
 			testSet3.add("46") ;
 			testSet3.add("123") ;
 			
