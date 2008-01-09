@@ -38,6 +38,7 @@ package com.bourre.ioc.parser
 		{
 			xml = xml[ ContextNodeNameList.ROOT ];
 			for each ( var node : XML in xml.* ) _parseNode( node, ContextNodeNameList.ROOT );
+			delete xml[ ContextNodeNameList.ROOT ];
 		}
 
 		private function _parseNode( xml : XML, parentID : String = null ) : void

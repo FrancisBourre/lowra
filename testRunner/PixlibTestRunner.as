@@ -77,7 +77,6 @@ private function createSuite() : TestSuite
 
 	// com.bourre.ioc.assembler
 	//ts.addTestSuite (ConstructorTest);
-	ts.addTestSuite ( DepthManagerTest );
 	ts.addTestSuite ( DisplayObjectParserTest );
 	
 	// com.bourre.assembler.method
