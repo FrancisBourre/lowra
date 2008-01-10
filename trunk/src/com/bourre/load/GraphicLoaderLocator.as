@@ -27,7 +27,8 @@ package com.bourre.load
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.*;
 	import flash.system.ApplicationDomain;
-	
+	import flash.utils.Dictionary;	
+
 	public class GraphicLoaderLocator 
 		implements Locator
 	{
@@ -106,7 +107,17 @@ package com.bourre.load
 		
 		public function getGraphicLoader( name : String ) : GraphicLoader
 		{
-			return locate( name ) as GraphicLoader;
+			try
+			{
+				var gl : GraphicLoader = locate( name ) as GraphicLoader;
+				return gl;
+
+			} catch ( e : Error )
+			{
+				throw( e );
+			}
+			
+			return null;
 		}
 		
 		public function getApplicationDomain( name : String ) : ApplicationDomain
@@ -132,6 +143,23 @@ package com.bourre.load
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
+		}
+		
+		public function add( d : Dictionary ) : void
+		{
+			for ( var key : * in d ) 
+			{
+				try
+				{
+					register( key, d[ key ] as GraphicLoader );
+
+				} catch( e : IllegalArgumentException )
+				{
+					e.message = this + ".add() fails. " + e.message;
+					PixlibDebug.ERROR( e.message );
+					throw( e );
+				}
+			}
 		}
 		
 		/**

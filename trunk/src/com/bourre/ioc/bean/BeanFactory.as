@@ -21,13 +21,16 @@ package com.bourre.ioc.bean
 	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
+	import flash.utils.Dictionary;
 
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
-	import com.bourre.error.*;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.NoSuchElementException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.log.*;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;		
 
 	public class BeanFactory 
 		implements Locator
@@ -80,7 +83,7 @@ package com.bourre.ioc.bean
 		{
 			return _m.containsValue( bean ) ;
 		}
-		
+
 		public function register ( key : String, bean : Object ) : Boolean
 		{
 			if ( !( isRegistered( key ) ) && !( isBeanRegistered( bean ) ) )
@@ -92,24 +95,23 @@ package com.bourre.ioc.bean
 			} else
 			{
 				var msg:String = "";
-				
+
 				if ( isRegistered( key ) )
 				{
 					msg += this+".register(" + key + ", " + bean + ") fails, key is already registered." ;
 				}
-				
+
 				if ( isBeanRegistered( bean ) )
 				{
 					msg += this + ".register(" + key + ", " + bean + ") fails, bean is already registered.";
 				}
-				
+
 				PixlibDebug.ERROR( msg ) ;
-				throw( new UnsupportedOperationException( msg ) );
+				throw( new IllegalArgumentException( msg ) );
 				return false ;
-				
 			}
 		}
-		
+
 		public function unregister ( key : String ) : Boolean
 		{
 			if ( isRegistered( key ) )
@@ -124,7 +126,7 @@ package com.bourre.ioc.bean
 				return false ;
 			}
 		}
-		
+
 		public function unregisterBean ( bean : Object ) : Boolean
 		{
 			var b : Boolean = isBeanRegistered( bean );
@@ -143,7 +145,7 @@ package com.bourre.ioc.bean
 
 			return b;
 		}
-		
+
 		public function addListener( listener : BeanFactoryListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
@@ -153,20 +155,37 @@ package com.bourre.ioc.bean
 		{
 			return _oEB.removeListener( listener );
 		}
-		
+
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-		
+
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
 		}
-		
+
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
+		}
+
+		public function add( d : Dictionary ) : void
+		{
+			for ( var key : * in d ) 
+			{
+				try
+				{
+					register( key, d[ key ] as Object );
+
+				} catch( e : IllegalArgumentException )
+				{
+					e.message = this + ".add() fails. " + e.message;
+					PixlibDebug.ERROR( e.message );
+					throw( e );
+				}
+			}
 		}
 	}
 }
