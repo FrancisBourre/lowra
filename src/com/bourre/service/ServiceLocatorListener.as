@@ -18,23 +18,6 @@ package com.bourre.service
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */
-
-	import com.bourre.collection.Collection;
-	import com.bourre.commands.ASyncCommand;
-	import com.bourre.service.ServiceListener;
-
-	public interface Service 
-		extends ASyncCommand
+	 */	public interface ServiceLocatorListener 
 	{
-		function setResult( result : Object ) : void;
-		function getResult() : Object;
-		function addServiceListener( listener : ServiceListener ) : Boolean;
-		function removeServiceListener( listener : ServiceListener ) : Boolean;
-		function getServiceListener() : Collection;
-		function setArguments( ... rest ) : void;
-		function getArguments() : Object;
-		function fireResult() : void;
-		function fireError() : void;
-		function release() : void;
-	}}
+			}}
