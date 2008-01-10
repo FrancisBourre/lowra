@@ -23,8 +23,7 @@ package com.bourre.service
 	import com.bourre.commands.ASyncCommandEvent;
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.commands.AbstractCommand;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.events.EventBroadcaster;	
 
 	public class AbstractService 
 		extends AbstractCommand
@@ -99,7 +98,7 @@ package com.bourre.service
 		{
 			_oEB.broadcastEvent( new ASyncCommandEvent( ASyncCommandEvent.onCommandEndEVENT, this ) );
 		}
-		
+
 		public function release() : void
 		{
 			_oEB.removeAllListeners( );

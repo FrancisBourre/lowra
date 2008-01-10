@@ -20,86 +20,126 @@ package com.bourre.model
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.error.NoSuchElementException;	
 	
+	import flash.utils.Dictionary;
+
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;
 	import com.bourre.plugin.NullPlugin;
-	
+	import com.bourre.plugin.Plugin;
+	import com.bourre.plugin.PluginDebug;		
+
 	final public class ModelLocator 
 		implements Locator
 	{
 		protected static var _M : HashMap = new HashMap();
-		
+
 		protected var _owner : Plugin;
 		protected var _m : HashMap;
-		
+
 		public function ModelLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
 			_m = new HashMap();
 		}
-		
+
 		public static function getInstance( owner : Plugin = null ) : ModelLocator
 		{
 			if(owner==null) owner = NullPlugin.getInstance();
 			if ( !(ModelLocator._M.containsKey( owner )) ) ModelLocator._M.put( owner, new ModelLocator(new PrivateConstructorAccess() , owner) );
 			return ModelLocator._M.get( owner );
 		}
-		
+
 		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
-		
+
 		public function getLogger() : PluginDebug
 		{
 			return PluginDebug.getInstance( getOwner() );
 		}
-		
+
 		public function isRegistered( key : String ) : Boolean 
 		{
 			return _m.containsKey( key );
 		}
-	
+
 		public function locate( key : String ) : Object
 		{
-			if ( !(isRegistered( key )) ) getLogger().error( "Can't locate model instance with '" + key + "' name in " + this );
-			return _m.get( key );
+			if ( isRegistered( key ) )
+			{
+				return _m.get( key );
+
+			} else
+			{
+				var msg : String = "Can't find AbstractModel instance with '" + key + "' name in " + this;
+				getLogger().error( msg );
+				throw new NoSuchElementException( msg );
+			}	
 		}
-		
+
 		public function getModel( key : String ) : AbstractModel
 		{
-			return locate( key ) as AbstractModel;
+			try
+			{
+				var model : AbstractModel = locate( key ) as AbstractModel;
+				return model;
+
+			} catch ( e : Error )
+			{
+				throw( e );
+			}
+			
+			return null;
 		}
-		
+
 		public function registerModel( key : String, o : AbstractModel ) : Boolean
 		{
 			if ( isRegistered( key ) )
 			{
-				getLogger().fatal( "model instance is already registered with '" + key + "' name in " + this );
-				return false;
-				
+				var msg : String = "'" + o + "' model instance is already registered with '" + key + "' name in " + this;
+				getLogger().fatal( msg );
+				throw new IllegalArgumentException( msg );
+
 			} else
 			{
 				_m.put( key, o );
 				return true;
 			}
 		}
-		
+
 		public function unregisterModel( key : String ) : void
 		{
 			_m.remove( key );
 		}
-		
+
 		public function release() : void
 		{
 			var a : Array = _m.getValues();
 			var l : uint = a.length;
 			while( -- l > - 1 ) ( a[ l ] as AbstractModel ).release();
 			_m.clear();
+		}
+
+		public function add( d : Dictionary ) : void
+		{
+			for ( var key : * in d ) 
+			{
+				try
+				{
+					registerModel( key, d[ key ] as AbstractModel );
+
+				} catch( e : IllegalArgumentException )
+				{
+					e.message = this + ".add() fails. " + e.message;
+					getLogger().error( e.message );
+					throw( e );
+				}
+			}
 		}
 
 		/**

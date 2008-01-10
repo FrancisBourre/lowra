@@ -20,16 +20,16 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.error.NoSuchElementException;	
+	
+	import flash.utils.Dictionary;
+	
 	import com.bourre.collection.HashMap;
-
 	import com.bourre.core.Locator;
-
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NullPointerException;
-
 	import com.bourre.log.PixlibStringifier;
-
-	import com.bourre.plugin.*;	
-
+	import com.bourre.plugin.*;		
 
 	public class ViewLocator 
 		implements Locator
@@ -47,7 +47,7 @@ package com.bourre.view
 		
 		public static function getInstance( owner : Plugin = null ) : ViewLocator
 		{
-			if(owner==null) owner = NullPlugin.getInstance();
+			if ( owner==null ) owner = NullPlugin.getInstance();
 			if ( !(ViewLocator._M.containsKey( owner )) ) ViewLocator._M.put( owner, new ViewLocator(new PrivateConstructorAccess(), owner) );
 			return ViewLocator._M.get( owner );
 		}
@@ -66,22 +66,36 @@ package com.bourre.view
 		{
 			return _m.containsKey( key );
 		}
-	
+
 		public function locate( key : String ) : Object
 		{
-			if ( !(isRegistered( key )) ) getLogger().error( "Can't locate AbstractView instance with '" + key + "' name in " + this );
-			return _m.get( key );
+			if ( isRegistered( key ) )
+			{
+				return _m.get( key );
+
+			} else
+			{
+				var msg : String = "Can't find AbstractView instance with '" + key + "' name in " + this;
+				getLogger().error( msg );
+				throw new NoSuchElementException( msg );
+			}	
 		}
-		
+
 		public function getView( key : String ) : AbstractView
 		{
-			var v : Object = locate( key ) ;
+			try
+			{
+				var view : AbstractView = locate( key ) as AbstractView;
+				return view;
+
+			} catch ( e : Error )
+			{
+				throw( e );
+			}
 			
-			if( v == null ) 
-				throw new NullPointerException ( "Can't locate AbstractView instance with '" + key + "' name in " + this );
-			return v as AbstractView;
+			return null;
 		}
-		
+
 		public function registerView( key : String, o : AbstractView ) : Boolean
 		{
 			if( key == null ) 
@@ -91,9 +105,10 @@ package com.bourre.view
 					
 			if ( isRegistered( key ) )
 			{
-				getLogger().fatal( "MovieClipHelper instance is already registered with '" + key + "' name in " + this );
-				return false;
-				
+				var msg : String = "'" + o + "' AbstractView instance is already registered with '" + key + "' name in " + this;
+				getLogger().fatal( msg );
+				throw new IllegalArgumentException( msg );
+
 			} else
 			{
 				_m.put( key, o );
@@ -113,7 +128,24 @@ package com.bourre.view
 			while( -- l > - 1 ) ( a[ l ] as AbstractView ).release();
 			_m.clear();
 		}
-	
+
+		public function add( d : Dictionary ) : void
+		{
+			for ( var key : * in d ) 
+			{
+				try
+				{
+					registerView( key, d[ key ] as AbstractView );
+
+				} catch( e : Error )
+				{
+					e.message = this + ".add() fails. " + e.message;
+					getLogger().error( e.message );
+					throw( e );
+				}
+			}
+		}
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

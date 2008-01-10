@@ -19,7 +19,9 @@ package com.bourre.service
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */	import com.bourre.collection.HashMap;
+	 */	import flash.utils.Dictionary;	
+	
+	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
@@ -49,12 +51,12 @@ package com.bourre.service
 			return _m.containsKey( key );
 		}
 
-		public function register( key : String, service : Service ) : Boolean
+		public function registerService( key : String, service : Service ) : Boolean
 		{
 			return _register( key, service );
 		}
 
-		public function registerClass( key : String, serviceClass : Class ) : Boolean
+		public function registerServiceClass( key : String, serviceClass : Class ) : Boolean
 		{
 			return _register( key, serviceClass, true );
 		}
@@ -108,9 +110,35 @@ package com.bourre.service
 			}
 		}
 
+		public function add( d : Dictionary ) : void
+		{
+			for ( var key : * in d ) 
+			{
+				try
+				{
+					var o : Object = d[ key ] as Object;
+					_register( key, o, o is Class );
+
+				} catch( e : Error )
+				{
+					e.message = this + ".add() fails. " + e.message;
+					PixlibDebug.ERROR( e.message );
+					throw( e );
+				}
+			}
+		}
+
 		public function getService( key : String ) : Service
 		{
-			return locate( key ) as Service;
+			try
+			{
+				var service : Service = locate( key ) as Service;
+				return service;
+
+			} catch ( e : Error )
+			{
+				throw( e );
+			}
 		}
 
 		public function addListener( listener : ServiceLocatorListener ) : Boolean

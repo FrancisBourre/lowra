@@ -20,15 +20,20 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import com.bourre.error.NoSuchElementException;	
+	import com.bourre.core.Locator;	
+	
 	import flash.events.Event;
 
 	import com.bourre.collection.HashMap;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.*;
-	import com.bourre.plugin.*;	
+	import com.bourre.plugin.*;
+	
+	import flash.utils.Dictionary;	
 
 	public class FrontController 
+		implements Locator
 	{
 		protected var _oEB : EventBroadcaster;
 		protected var _owner : Plugin;
@@ -90,16 +95,41 @@ package com.bourre.commands
 		final public function handleEvent( event : Event ) : void
 		{
 			var type : String = event.type.toString();
+			var cmd : Command;
 
-			if ( _mEventList.containsKey( type ) )
+			try
 			{
-				var o : Object = _mEventList.get( type );
+				cmd = locate( type ) as Command;
 
-				if ( o is Class)
+			} catch ( e : Error )
+			{
+				getLogger().debug( this + ".handleEvent() fails to retrieve command associated with '" + type + "' event type." );
+			}
+
+			if ( cmd != null ) cmd.execute( event );
+		}
+
+		public function release() : void
+		{
+			_mEventList.clear();
+		}
+		
+		public function isRegistered(key : String) : Boolean
+		{
+			return _mEventList.containsKey( key );
+		}
+
+		public function locate( key : String ) : Object
+		{
+			if ( _mEventList.containsKey( key ) )
+			{
+				var o : Object = _mEventList.get( key );
+
+				if ( o is Class )
 				{
 					var cmd : Command = new ( o as Class )();
 					if ( cmd is AbstractCommand ) ( cmd as AbstractCommand ).setOwner( getOwner() );
-					cmd.execute( event );
+					return cmd;
 
 				} else if ( o is Command )
 				{
@@ -109,18 +139,42 @@ package com.bourre.commands
 						if ( acmd.getOwner() == null ) acmd.setOwner( getOwner() );
 					}
 
-					( o as Command ).execute( event );
+					return o;
 				}
 
 			} else 
 			{
-				getLogger().debug( this + ".handleEvent() fails to retrieve command associated with '" + type + "' event type." );
+				var msg : String = "Can't find Command instance with '" + key + "' name in " + this;
+				getLogger().fatal( msg );
+				throw new NoSuchElementException( msg );
 			}
+			
+			return null;
 		}
 
-		public function release() : void
+		public function add( d : Dictionary ) : void
 		{
-			_mEventList.clear();
+			for ( var key : * in d ) 
+			{
+				try
+				{
+					var o : Object = d[ key ] as Object;
+					
+					if ( o is Class )
+					{
+						pushCommandClass( key, o as Class );
+					} else
+					{
+						pushCommandInstance( key, o as Command );
+					}
+
+				} catch( e : Error )
+				{
+					e.message = this + ".add() fails. " + e.message;
+					PixlibDebug.ERROR( e.message );
+					throw( e );
+				}
+			}
 		}
 
 		/**
