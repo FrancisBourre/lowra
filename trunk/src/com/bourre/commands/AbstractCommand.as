@@ -20,13 +20,13 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.log.*;
-	import com.bourre.plugin.*;
-
 	import flash.events.Event;
+	
+	import com.bourre.error.UnimplementedVirtualMethodException;
+	import com.bourre.log.*;
 	import com.bourre.model.ModelLocator;
-	import com.bourre.view.ViewLocator;
+	import com.bourre.plugin.*;
+	import com.bourre.view.ViewLocator;	
 
 	public class AbstractCommand 
 		implements Command
@@ -40,7 +40,9 @@ package com.bourre.commands
 
 		public function execute( e : Event = null ) : void 
 		{
-			getLogger().error( this + ".execute() must be implemented in concrete class." );
+			var msg : String = this + ".execute() must be implemented in concrete class.";
+			getLogger().error( msg );
+			throw( new UnimplementedVirtualMethodException( msg ) );
 		}
 
 		public function getOwner() : Plugin

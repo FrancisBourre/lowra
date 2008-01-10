@@ -20,7 +20,8 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import com.bourre.error.NoSuchElementException;	
+	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
 	import com.bourre.events.EventBroadcaster;
@@ -61,8 +62,12 @@ package com.bourre.load
 		{
 			if ( _m.containsKey( name ) )
 			{
-				PixlibDebug.ERROR( "GraphicLoader instance is already registered with '" + name + "' name in " + this );
+				var msg : String = "GraphicLoader instance is already registered with '" + name + "' name in " + this;
+				PixlibDebug.ERROR( msg );
+				throw new IllegalArgumentException( msg );
+				
 				return false;
+
 			} else
 			{
 				_m.put( name, gl );
@@ -93,8 +98,9 @@ package com.bourre.load
 				
 			} else
 			{
-				PixlibDebug.FATAL( "Can't find GraphicLoader instance with '" + name + "' name in " + this );
-				return null;
+				var msg : String = "Can't find GraphicLoader instance with '" + name + "' name in " + this;
+				PixlibDebug.FATAL( msg );
+				throw new NoSuchElementException( msg );
 			}
 		}
 		
