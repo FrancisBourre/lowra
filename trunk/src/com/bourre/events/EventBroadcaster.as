@@ -514,7 +514,7 @@ package com.bourre.events
 		 */
 		public function broadcastEvent( e : Event ) : void
 		{
-			if( e.target == null ) e.target = _oSource;
+			if( e.target == null && e is BasicEvent ) (e as BasicEvent).target = _oSource;
 			
 			if ( hasListenerCollection(e.type) ) _broadcastEvent( getListenerCollection(e.type), e );
 			if ( !(_mAll.isEmpty()) ) _broadcastEvent( _mAll, e );
