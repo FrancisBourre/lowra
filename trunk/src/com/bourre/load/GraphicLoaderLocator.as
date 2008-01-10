@@ -34,7 +34,7 @@ package com.bourre.load
 
 		private var _m : HashMap;
 		private var _oEB : EventBroadcaster;
-	
+
 		public function GraphicLoaderLocator( o : ConstructorAccess )
 		{
 			_m = new HashMap();
@@ -45,6 +45,11 @@ package com.bourre.load
 		{
 			if ( !(GraphicLoaderLocator._oI is GraphicLoaderLocator) ) GraphicLoaderLocator._oI = new GraphicLoaderLocator( new ConstructorAccess() );
 			return GraphicLoaderLocator._oI;
+		}
+		
+		public static function release():void
+		{
+			if ( GraphicLoaderLocator._oI is GraphicLoaderLocator ) GraphicLoaderLocator._oI = null;
 		}
 		
 		public function isRegistered( name : String ) : Boolean
