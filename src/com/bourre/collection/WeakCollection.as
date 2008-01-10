@@ -253,7 +253,6 @@ package com.bourre.collection
 		 * @throws 	<code>NullPointerException</code> — if the specified collection is
 		 *          <code>null</code>.
 		 * @see    	#remove() remove()
-		 * 
 		 * @example Using the <code>WeakCollection.removeAll()</code> method
 		 * <listing>
 		 * var col1 : WeakCollectio = new WeakCollectio();
@@ -306,6 +305,7 @@ package com.bourre.collection
 		 * @throws 	<code>NullPointerException</code> — if the specified collection is
 		 *          <code>null</code>.
 		 * @see 	#remove() remove()
+		 * @example Using the <code>WeakCollection.retainAll()</code> method
 		 * <listing>
 		 * var col1 : WeakCollection = new WeakCollection();
 		 * var col2 : WeakCollection = new WeakCollection();

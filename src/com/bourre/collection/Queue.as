@@ -228,6 +228,8 @@ package com.bourre.collection
 		 */
 		public function contains ( o : Object ) : Boolean
 		{
+			isValidType( o );
+			
 			return _aQueue.indexOf( o ) != -1;
 		}
 

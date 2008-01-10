@@ -1,15 +1,12 @@
 package com.bourre.core
 {
-	import flexunit.framework.TestCase;
-	import com.bourre.structures.Point;
-	import com.bourre.core.MethodAccessor;
-	import com.bourre.core.PropertyAccessor;
 	import com.bourre.core.AccessorFactory;
 	
+	import flexunit.framework.TestCase;	
 
 	public class AccessorTest extends TestCase
 	{
-		private var _o : MockAccessor
+		private var _o : MockAccessor;
 		private var _pa : Accessor;
 		private var _ma : Accessor;
 		private var _ac : AccessorComposer;

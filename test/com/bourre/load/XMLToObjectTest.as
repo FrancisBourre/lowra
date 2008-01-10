@@ -2,10 +2,11 @@ package com.bourre.load
 {
 	import flexunit.framework.TestCase;
 	import flexunit.framework.Test;
-	import com.bourre.structures.Point;
 	import com.bourre.events.BasicEvent;
 	import com.bourre.events.BooleanEvent;
 
+	import flash.geom.Point;	
+	
 	public class XMLToObjectTest extends TestCase
 	{
 		private var _o:Object ;
