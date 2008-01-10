@@ -563,13 +563,32 @@ package com.bourre.events
 		}
 
 		/**
-		 * Returns the string representation of this instance.
-		 * 
-		 * @return the string representation of this instance
+		 * Returns the <code>String</code> representation of
+		 * this object. 
+		 * <p>
+		 * The function return a string like
+		 * <code>com.bourre.events::EventBroadcaster&lt;ListenerType&gt;</code>
+		 * for a typed broadcaster. The string between the &lt;
+		 * and &gt; is the name of the type of the broadcaster's
+		 * global listeners. If the broadcaster is an untyped broadcaster
+		 * the function will simply return the result of the
+		 * <code>PixlibStringifier.stringify</code> call.
+		 * </p>
+		 * @return <code>String</code> representation of
+		 * 		   this object.
 		 */
 		public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this );
+			var hasType : Boolean = _cType != null;
+			var parameter : String = "";
+			
+			if( hasType )
+			{
+				parameter = _cType.toString();
+				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
+			}
+			
+			return PixlibStringifier.stringify( this ) + parameter;
 		}
 
 		//
