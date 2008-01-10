@@ -157,14 +157,7 @@ package com.bourre.load
 		public function onLoaderLoadInit( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( QueueLoaderEvent.onItemLoadInitEVENT ) ;
-			if (isEmpty())
-			{
-				_onLoadInit() ;
-			}
-			else
-			{
-				loadNextEntry() ;
-			}
+			_processQueue();
 		}
 		
 		public function onLoaderLoadProgress( e : LoaderEvent, ... rest ) : void
@@ -175,11 +168,13 @@ package com.bourre.load
 		public function onLoaderLoadTimeOut( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( e.type );
+			_processQueue();
 		}
 		
 		public function onLoaderLoadError( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( e.type );
+			_processQueue();
 		}
 		
 		protected override function getLoaderEvent( type : String ) : LoaderEvent
@@ -190,6 +185,18 @@ package com.bourre.load
 		private function _onLoadStart() : void
 		{
 			fireEventType( QueueLoaderEvent.onLoadStartEVENT );
+		}
+		
+		protected function _processQueue() : void
+		{
+			if ( isEmpty() )
+			{
+				_onLoadInit() ;
+
+			} else
+			{
+				loadNextEntry() ;
+			}
 		}
 		
 		private function _onLoadInit () : void

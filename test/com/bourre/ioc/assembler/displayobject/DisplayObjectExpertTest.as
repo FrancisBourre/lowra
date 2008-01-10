@@ -1,5 +1,7 @@
 package com.bourre.ioc.assembler.displayobject
 {
+	import com.bourre.load.GraphicLoaderLocator;	
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -18,7 +20,8 @@ package com.bourre.ioc.assembler.displayobject
 		public override function setUp():void
 		{
 			DisplayObjectExpert.release() ;
-			BeanFactory.release() ;
+			BeanFactory.release();
+			GraphicLoaderLocator.release();
 
 			_b = false ;
 			_oDOE = DisplayObjectExpert.getInstance() ;
@@ -73,7 +76,7 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget( mc ) ;
 
 			_oDOE.buildEmptyDisplayObject( "containerID" );
-			_oDOE.buildGraphicLoader( "photo1", "http://www.google.fr/images/nav_logo.png", "containerID" );
+			_oDOE.buildGraphicLoader( "photo1", "http://url_that_doesnt_exist/nav_logo.png", "containerID" );
 			_oDOE.buildGraphicLoader( "photo2", "http://www.google.fr/images/nav_logo2.png", "containerID" );
 			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
 			_oDOE.load() ;
@@ -83,7 +86,10 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			assertStrictlyEquals( "DisplayObjectExpert.getRootTarget() doesn't return expected value", mc, _oDOE.getRootTarget() );
 			assertTrue( "DisplayObjectExpert load() doesn't build 'container'", BeanFactory.getInstance().locate("containerID") is Sprite );
-			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo1'", BeanFactory.getInstance().locate("photo1") is Sprite );
+			
+			var photo1 : Object;
+			try{ photo1 = BeanFactory.getInstance().locate("photo1"); } catch ( e : Error ) {}
+			assertNull( "DisplayObjectExpert.load() doesn't load 'photo1'", photo1 );
 			assertTrue( "DisplayObjectExpert.load() doesn't load 'photo2'", BeanFactory.getInstance().locate("photo2") is Sprite );		
 		}
 

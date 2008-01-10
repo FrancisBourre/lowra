@@ -221,11 +221,11 @@ package com.bourre.ioc.assembler.displayobject
 				{
 					if ( info.isEmptyDisplayObject() )
 					{
-						_buildEmptyDisplayObject( info );
+						if ( !_buildEmptyDisplayObject( info ) ) return ;
 
 					} else
 					{
-						_buildDisplayObject( info );
+						if ( !_buildDisplayObject( info ) ) return;
 					}
 				}
 
@@ -239,25 +239,45 @@ package com.bourre.ioc.assembler.displayobject
 			}
 		}
 
-		private function _buildEmptyDisplayObject( info : DisplayObjectInfo ) : void
+		protected function _buildEmptyDisplayObject( info : DisplayObjectInfo ) : Boolean
 		{
-			var oParent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
-			var oDo : Sprite = ( info.type == "Movieclip" ) ? new MovieClip() : new Sprite();
-			oParent.addChild( oDo ) ;
-			BeanFactory.getInstance().register( info.ID, oDo ) ;
+			try
+			{
+				var oParent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
+				var oDo : Sprite = ( info.type == "Movieclip" ) ? new MovieClip() : new Sprite();
+				oParent.addChild( oDo ) ;
+				BeanFactory.getInstance().register( info.ID, oDo ) ;
+	
+				_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, oDo ) );
+				return true;
 
-			_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, oDo ) ) ;
+			} catch ( e : Error )
+			{
+				return false;
+			}
+			
+			return false;
 		}
 
-		private function _buildDisplayObject( info : DisplayObjectInfo ) : void
+		protected function _buildDisplayObject( info : DisplayObjectInfo ) : Boolean
 		{
-			var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID );
-			var parent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
-			gl.setTarget( parent );
-			if ( info.isVisible ) gl.show();
-			BeanFactory.getInstance().register( info.ID, gl.getView() );
+			try
+			{
+				var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID );
+				var parent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
+				gl.setTarget( parent );
+				if ( info.isVisible ) gl.show();
+				BeanFactory.getInstance().register( info.ID, gl.getView() );
+	
+				_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, gl.getView() ) );
+				return true;
 
-			_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, gl.getView() ) );
+			} catch ( e : Error )
+			{
+				return false;
+			}
+			
+			return false;
 		}
 
 
