@@ -12,34 +12,33 @@ package com.bourre.structures {
 	/** 
 	 * A <code>Grid</code> is basically a two dimensionnal data structure based on the <code>Collection</code>
 	 * interface.
-	 * 
-	 * <p>By default a <code>Grid</code> object is an untyped collection that allow duplicate 
+	 * <p>
+	 * By default a <code>Grid</code> object is an untyped collection that allow duplicate 
 	 * and <code>null</code> elements. You can set your own default value instead
-	 * of <code>null</code> by passing it to the grid constructor.</p>
-	 * 
-	 * <p>Its also possible to restrict the type of grid elements in the constructor.</p>
-	 * 
-	 * <p>The <code>Grid</code> class don't support all the methods of the <code>Collection</code>
+	 * of <code>null</code> by passing it to the grid constructor.
+	 * </p><p>
+	 * Its also possible to restrict the type of grid elements in the constructor.
+	 * </p><p>
+	 * The <code>Grid</code> class don't support all the methods of the <code>Collection</code>
 	 * interface. Here the list of the unsupported methods : 
 	 * <ul>
 	 * 	<li><code>add</code></li>
 	 * 	<li><code>addAll</code></li>
 	 * 	<li><code>isEmpty</code></li>
-	 * </ul></p>
-	 * 
-	 * <p>Instead of using the methods above there are several specific methods to insert data in the
+	 * </ul>
+	 * </p><p>
+	 * Instead of using the methods above there are several specific methods to insert data in the
 	 * grid : 
 	 * <ul>
 	 * 	<li><code>setVal</code> : Use it to insert value in the grid</li>
 	 * 	<li><code>setContent</code> : Use it to set the grid with the passed-in array.</li>
 	 * 	<li><code>fill</code> : Use it to fill the grid with the same value in all cells.</li>
-	 * </ul></p>
-	 * 
-	 * @author	Cédric Néhémie 
-	 * @version 1.0
+	 * </ul>
+	 * </p> 
+	 * @author	Cédric Néhémie
+	 * @see		com.bourre.collection.Collection	 * @see		com.bourre.collection.TypedContainer
 	 */
-	public class Grid 
-		implements Collection, TypedContainer
+	public class Grid implements Collection, TypedContainer
 	{
 	
 		protected var _vSize : Point;
@@ -91,13 +90,32 @@ package com.bourre.structures {
 		}
 		
 		/**
-		 * Return the <code>String</code> representation of the object.
-		 * 
-		 * @return <code>String</code> representation of the object.
+		 * Returns the <code>String</code> representation of
+		 * this object. 
+		 * <p>
+		 * The function return a string like
+		 * <code>com.bourre.structures::Grid&lt;String&gt;</code>
+		 * for a typed collection. The string between the &lt;
+		 * and &gt; is the name of the type of the collection's
+		 * elements. If the collection is an untyped collection
+		 * the function will simply return the result of the
+		 * <code>PixlibStringifier.stringify</code> call.
+		 * </p>
+		 * @return <code>String</code> representation of
+		 * 		   this object.
 		 */
 		public function toString () : String
 		{
-			return PixlibStringifier.stringify( this ) + " [" + _vSize.x + ", " + _vSize.y + "]";
+			var hasType : Boolean = getType() != null;
+			var parameter : String = "";
+			
+			if( hasType )
+			{
+				parameter = getType().toString();
+				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
+			}
+			
+			return PixlibStringifier.stringify( this ) + parameter + " [" + _vSize.x + ", " + _vSize.y + "]";
 		}
 		
 		/*
@@ -365,10 +383,22 @@ package com.bourre.structures {
 		 * @return 	<code>true</code> if the object can be inserted in
 		 * the <code>Grid</code>, either <code>false</code>.
 		 */
-		public function isType( o : * ) : Boolean
+		public function matchType( o : * ) : Boolean
 	    {
 	    	return ( o is _cType || o == null );
 	    }
+	    
+	    /**
+		 * Returns <code>true</code> if this grid perform a verification
+		 * of the type of elements.
+		 * 
+		 * @return  <code>true</code> if this grid perform a verification
+		 * 			of the type of elements.
+		 */
+		public function isTyped () : Boolean
+		{
+			return _cType != null;
+		}
 	    
 	    /**
 	     * Return the current type allowed in the <code>Grid</code>

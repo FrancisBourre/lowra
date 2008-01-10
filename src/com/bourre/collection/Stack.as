@@ -18,7 +18,7 @@ package com.bourre.collection
 	import com.bourre.error.*;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
-	
+
 	/**
 	 * The Stack class represents a last-in-first-out (LIFO) stack
 	 * of objects. The usual <code>push</code> and <code>pop</code>
@@ -78,6 +78,7 @@ package com.bourre.collection
 				}
 			}
 		}
+		
 		
 		/**
 		 * Appends the specified element to the end of this stack.
@@ -362,7 +363,6 @@ package com.bourre.collection
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in collection
 		 * 			type is not the same that the current one.    
 		 * @see    	#remove() remove()
-		 * @see		#addAll() See examples for application of the isValidIndex rules
 		 * @see		#isValidCollection() See isValidCollection for description of the rules for 
 		 * 			collaboration between typed and untyped collections.
 		 * @example Using the <code>Stack.removeAll()</code> with untyped stacks
@@ -881,7 +881,7 @@ package com.bourre.collection
 		{
 			if ( getType() != null)
 			{
-				if ( isType( o ) )
+				if ( matchType( o ) )
 				{
 					return true;
 				}
@@ -903,9 +903,21 @@ package com.bourre.collection
 		 * @return 	<code>true</code> if the object can be inserted in
 		 * the <code>Stack</code>, either <code>false</code>.
 		 */
-		public function isType( o : * ) : Boolean
+		public function matchType( o : * ) : Boolean
 		{
 			return o is _oType;
+		}
+		
+		/**
+		 * Returns <code>true</code> if this stack perform a verification
+		 * of the type of elements.
+		 * 
+		 * @return  <code>true</code> if this stack perform a verification
+		 * 			of the type of elements.
+		 */
+		public function isTyped () : Boolean
+		{
+			return _oType != null;
 		}
 		
 		/**
@@ -962,69 +974,109 @@ package com.bourre.collection
 		}
 	}
 }
-import com.bourre.collection.ListIterator;
-import com.bourre.collection.Stack;
-internal class StackIterator 
-	implements ListIterator
+
+import com.bourre.collection.ListIterator;import com.bourre.collection.Stack;
+import com.bourre.error.IllegalStateException;
+import com.bourre.error.NoSuchElementException;
+
+internal class StackIterator implements ListIterator
 {
 	private var _c : Stack;
 	private var _nIndex : int;
 	private var _nLastIndex : int;
 	private var _a : Array;
-	
-	public function StackIterator( c : Stack, index : uint = 0 )
+	private var _bRemoved : Boolean;
+	private var _bAdded : Boolean;
+
+	public function StackIterator ( c : Stack, index : uint = 0 )
 	{
 		_c = c;
 		_nIndex = index - 1;
-		_a = c.toArray();
+		_a = c.toArray( );
 		_nLastIndex = _a.length - 1;
+		_bRemoved = false;
+		_bAdded = false;
 	}
-	
-	public function hasNext() : Boolean
+
+	public function hasNext () : Boolean
 	{
 		return _nIndex + 1 <= _nLastIndex;
 	}
+
+	public function next () : *
+	{
+		if( !hasNext() )
+			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex + 1 ) );
+			
+	    _bRemoved = false;
+		_bAdded = false;
+		return _a[ ++_nIndex ];
+	}
 	
- 	public function next() : *
- 	{
- 		return _a[ ++_nIndex ];
- 	}
- 	public function previous() : *
- 	{
- 		return _a[ _nIndex-- ];
- 	}
- 	
-    public function remove() : void
-    {
-    	_c.removeAt( _nIndex-- );
-    	_a = _c.toArray();
-    	_nLastIndex--;
-    }
-    public function add ( o : Object ) : void
-    {
-    	_c.addAt( ++_nIndex, o );
-    	_a = _c.toArray();
-    	_nLastIndex++;
-    }		
-		
+	public function previous () : *
+	{
+		if( !hasPrevious() )
+			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+			
+	    _bRemoved = false;
+		_bAdded = false;
+		return _a[ _nIndex-- ];
+	}
+
+	public function remove () : void
+	{
+		if( !_bRemoved )
+		{
+			_c.remove( _a[_nIndex--] );
+			_a = _c.toArray( );
+			_nLastIndex--;
+			_bRemoved = true;
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+		}
+	}
+
+	public function add ( o : Object ) : void
+	{
+		if( !_bAdded )
+		{
+			_c.add( o );
+			_a = _c.toArray( );
+			_nLastIndex++;
+			_bAdded = true;
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".add() have been already called for this iteration" );
+		}
+	}		
+
 	public function hasPrevious () : Boolean
 	{
 		return _nIndex >= 0;
 	}	
-	
+
 	public function nextIndex () : uint
 	{
 		return _nIndex + 1;
 	}
+
 	public function previousIndex () : uint
 	{
 		return _nIndex;
 	}	
-	
+
 	public function set ( o : Object ) : void
 	{
-		_c.set ( _nIndex, o );
+		if( !_bAdded && !_bRemoved )
+		{
+			_c.set( _nIndex, o );
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".set() can't be called after neither a remove() nor an add() call" );
+		}
 	}
-	
-	
 }

@@ -79,7 +79,7 @@ package com.bourre.collection
 				var b : Boolean = false;
 				for each ( item in args )
 	            {
-	            	if( !isType( item ) )
+	            	if( !matchType( item ) )
 	            	{
 	            		b = true;
 	            		break;
@@ -118,7 +118,7 @@ package com.bourre.collection
 	    	var b : Boolean = false;
         	for each ( var item : * in args )
         	{
-        		if( !isType( item ) )
+        		if( !matchType( item ) )
             	{
             		b = true;
             		break;
@@ -150,7 +150,7 @@ package com.bourre.collection
 	    	var b : Boolean = false;
         	for each ( var item : * in args )
         	{
-        		if( !isType( item ) )
+        		if( !matchType( item ) )
             	{
             		b = true;
             		break;
@@ -193,7 +193,7 @@ package com.bourre.collection
         	var b : Boolean = false;
         	for each ( var item : * in values )
         	{
-        		if( !isType( item ) )
+        		if( !matchType( item ) )
             	{
             		b = true;
             		break;
@@ -231,7 +231,7 @@ package com.bourre.collection
         		{
         			for each ( var item : * in arg )
         			{
-        				if( !isType( item ) )
+        				if( !matchType( item ) )
             			{
             				b = true;
             				break mainloop;
@@ -240,7 +240,7 @@ package com.bourre.collection
         		}
         		else
         		{
-        			if( !isType( arg ) )
+        			if( !matchType( arg ) )
         			{
         				b = true;
             			break mainloop;
@@ -528,7 +528,7 @@ package com.bourre.collection
 		 * @return 	<code>true</code> if the object can be inserted in
 		 * 			the <code>TypedArray</code>, either <code>false</code>.
 		 */
-		public function isType( o : * ) : Boolean
+		public function matchType( o : * ) : Boolean
 	    {
 	    	return ( o is _t || o == null );
 	    }
@@ -542,6 +542,18 @@ package com.bourre.collection
 	    {
 	    	return _t;
 	    }
+	    
+	    /**
+		 * Returns <code>true</code> if this array perform a verification
+		 * of the type of elements.
+		 * 
+		 * @return  <code>true</code> if this array perform a verification
+		 * 			of the type of elements.
+		 */
+		public function isTyped () : Boolean
+		{
+			return _t != null;
+		}
 	    
 	     /**
 	    * Returns the <code>String</code> representation of the object.
@@ -572,7 +584,7 @@ package com.bourre.collection
 		 */
 	    override flash_proxy function setProperty( name : *, value : * ) : void 
 	    {
-	    	if( !isType ( value ) )
+	    	if( !matchType ( value ) )
 	    	{
 	        	_throwTypeError( value + " is not of type " + _t + " in " + this + "[" + name + "]" );
 	     	}

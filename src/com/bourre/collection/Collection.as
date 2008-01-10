@@ -115,8 +115,8 @@ package com.bourre.collection
 		
 		/**
 	     * Ensures that this collection contains the specified element (optional
-	     * operation).  Returns <code>true</code> if this collection changed as a
-	     * result of the call.  (Returns <code>false</code> if this collection does
+	     * operation). Returns <code>true</code> if this collection changed as a
+	     * result of the call. (Returns <code>false</code> if this collection does
 	     * not permit duplicates and already contains the specified element.)
 	     * <p>
 	     * Collections that support this operation may place limitations on what
@@ -128,7 +128,7 @@ package com.bourre.collection
 	     * </p><p>
 	     * If a collection refuses to add a particular element for any reason
 	     * other than that it already contains the element, it <i>must</i> throw
-	     * an exception (rather than returning <code>false</code>).  This preserves
+	     * an exception (rather than returning <code>false</code>). This preserves
 	     * the invariant that a collection always contains the specified element
 	     * after this call returns.
 	     * </p>
@@ -171,7 +171,7 @@ package com.bourre.collection
 	     * Returns <code>true</code> if this collection contains all of the elements
 	     * in the specified collection.
 	     *
-	     * @param  	c collection to be checked for containment in this collection.
+	     * @param  	c 	collection to be checked for containment in this collection.
 	     * @return 	<code>true</code> if this collection contains all of the elements
 	     *	       	in the specified collection
 	     * @throws 	<code>ClassCastException</code> — if the types of one or more elements
@@ -182,7 +182,7 @@ package com.bourre.collection
 	     *         	elements (optional).
 	     * @throws 	<code>NullPointerException</code> — if the specified collection is
 	     *         	<code>null</code>.
-	     * @see    	#contains(Object)
+	     * @see    	#contains() contains()
 	     */
 		function containsAll( c : Collection ) : Boolean;
 		
@@ -190,19 +190,19 @@ package com.bourre.collection
 	     * Adds all of the elements in the specified collection to this collection
 	     * (optional operation).
 	     *
-	     * @param c elements to be inserted into this collection.
-	     * @return <code>true</code> if this collection changed as a result of the
-	     *         call
+	     * @param 	c 	elements to be inserted into this collection.
+	     * @return 	<code>true</code> if this collection changed as a result of the
+	     *         	call
 	     * @throws 	<code>UnsupportedOperationException</code> — if this collection does not
-	     *         support the <code>addAll</code> method.
+	     *         	support the <code>addAll</code> method.
 	     * @throws 	<code>ClassCastException</code> — if the class of an element of the specified
-	     * 	       collection prevents it from being added to this collection.
+	     * 	       	collection prevents it from being added to this collection.
 	     * @throws 	<code>NullPointerException</code> — if the specified collection contains one
-	     *         or more null elements and this collection does not support null
-	     *         elements, or if the specified collection is <code>null</code>.
+	     *         	or more null elements and this collection does not support null
+	     *         	elements, or if the specified collection is <code>null</code>.
 	     * @throws 	<code>IllegalArgumentException</code> — some aspect of an element of the
-	     *	       specified collection prevents it from being added to this collection.
-	     * @see #add(Object)
+	     *	       	specified collection prevents it from being added to this collection.
+	     * @see 	#add() add()
 	     */
 		function addAll( c : Collection ) : Boolean;
 		
@@ -213,7 +213,7 @@ package com.bourre.collection
 	     * this collection will contain no elements in common with the specified
 	     * collection.
 	     *
-	     * @param 	c elements to be removed from this collection.
+	     * @param 	c 	elements to be removed from this collection.
 	     * @return 	<code>true</code> if this collection changed as a result of the
 	     *         	call
 	     * @throws 	<code>UnsupportedOperationException</code> — if the <code>removeAll</code> method
@@ -226,8 +226,8 @@ package com.bourre.collection
 	     *         	null elements (optional).
 	     * @throws 	<code>NullPointerException</code> — if the specified collection is
 	     *         	<code>null</code>.
-	     * @see 	#remove(Object)
-	     * @see 	#contains(Object)
+	     * @see 	#remove() remove()
+	     * @see 	#contains() contains()
 	     */
 		function removeAll( c : Collection ) : Boolean;
 		
@@ -250,8 +250,8 @@ package com.bourre.collection
 	     *         	elements (optional).
 	     * @throws 	<code>NullPointerException</code> — if the specified collection is
 	     *         	<code>null</code>.
-	     * @see 	#remove(Object)
-	     * @see 	#contains(Object)
+	     * @see 	#remove() remove()
+	     * @see 	#contains() contains()
 	     */
 		function retainAll( c : Collection ) : Boolean;
 		
