@@ -19,11 +19,11 @@ package com.bourre.structures
 	import com.bourre.log.PixlibStringifier;
 	
 	/**
-	 * <code>Range</code> type definition.
+	 * A range represent a space of numeric values.
 	 * 
-	 * <p>Allow manipulation of <code>Number</code> interval.
-	 * 
-	 * @example
+	 * @author Francis Bourre
+	 * @author Cédric Néhémie
+	 * @example Simple examples of <code>Range</code> usage
 	 * <listing>
 	 *   var r1 : Range = new Range(10, 100);
 	 *   var r2 : Range = new Range(5, 50);
@@ -33,18 +33,20 @@ package com.bourre.structures
 	 *   var b2 : Boolean = r2.overlap(r3); //false
 	 *   var b3 : Boolean = r1.overlap(r3); //true
 	 * </listing>
-	 * 
-	 * @author Francis Bourre
-	 * @author Cédric Néhémie
-	 * @version 1.0
 	 */
 	public class Range
 	{
 		//-------------------------------------------------------------------------
 		// Public Properties
 		//-------------------------------------------------------------------------
-		
+		/**
+		 * Lower limit of the range.
+		 */
 		public var min : Number;
+		
+		/**
+		 * Upper limit of the range.
+		 */
 		public var max : Number;
 		
 		//-------------------------------------------------------------------------
@@ -67,7 +69,7 @@ package com.bourre.structures
 		}
 		
 		/**
-		 * Return a copy of the current <code>Range</code> object. 
+		 * Returns a copy of the current <code>Range</code> object. 
 		 * 
 		 * @return A <code>Range</code> object.
 		 */
@@ -77,9 +79,10 @@ package com.bourre.structures
 		}
 		
 		/**
-		 * Indicates if passed-in <code>Range</code> instance overlap 
-		 * current instance.
+		 * Indicates if passed-in range overlap the current range.
 		 * 
+		 * @return 	<code>true</code> if passed-in <code>Range</code> overload this one, 
+		 * 			either <code>false</code>
 		 * @example
 		 * <listing>
 		 *   var r1 : Range = new Range(10, 100);
@@ -90,9 +93,6 @@ package com.bourre.structures
 		 *   var b2 : Boolean = r2.overlap(r3); //false
 		 *   var b3 : Boolean = r1.overlap(r3); //true
 		 * </listing>
-		 * 
-		 * @return <code>true</code> if passed-in <code>Range</code> overload this one, 
-		 * either <code>false</code>
 		 */
 		public function overlap( r : Range ) : Boolean
 		{
@@ -102,6 +102,8 @@ package com.bourre.structures
 		/**
 		 * Indicates if passed-in value <code>Number</code> is inside range values.
 		 * 
+		 * @return	 <code>true</code> if passed-in <code>Number</code> is inside range,
+		 * 			either <code>false</code>
 		 * @example
 		 * <listing>
 		 *   var r : Range = new Range(10, 100);
@@ -112,9 +114,6 @@ package com.bourre.structures
 		 *   var b4 : Boolean = r.surround(100); //true
 		 *   var b5 : Boolean = r.surround(5); //false
 		 * </listing>
-		 * 
-		 * @return <code>true</code> if passed-in <code>Number</code> is inside range,
-		 * either <code>false</code>
 		 */
 		public function surround( n : Number ) : Boolean
 		{
@@ -125,6 +124,8 @@ package com.bourre.structures
 		 * Indicates if passed-in <code>Range</code> instance contain the 
 		 * current instance.
 		 * 
+		 * @return 	<code>true</code> if passed-in <code>Range</code> contain this one, 
+		 * 			either <code>false</code>
 		 * @example
 		 * <listing>
 		 *   var r1 : Range = new Range(10, 100);
@@ -134,9 +135,6 @@ package com.bourre.structures
 		 *   var b2 : Boolean = r2.inside( r1 ); //false
 		 *   var b3 : Boolean = r3.inside( r1 ); //true
 		 * </listing>
-		 * 
-		 * @return <code>true</code> if passed-in <code>Range</code> contain this one, 
-		 * either <code>false</code>
 		 */		
 		public function inside ( r : Range ) : Boolean
 		{
@@ -144,11 +142,11 @@ package com.bourre.structures
 		}
 		
 		/**
-		 * Compare the passed-in <code>Range</code> object with the current one.
+		 * Compares the passed-in <code>Range</code> object with the current one.
 		 * 
-		 * @param r A <code>Range</code> to compare.
-		 * @return <code>true</code> if passed-in <code>Range</code> is equals to this one, 
-		 * either <code>false</code>
+		 * @param	r 	A <code>Range</code> to compare.
+		 * @return 	<code>true</code> if passed-in <code>Range</code> is equals to this one, 
+		 * 			either <code>false</code>
 		 * 
 		 */
 		public function equals ( r : Range ) : Boolean
@@ -157,9 +155,9 @@ package com.bourre.structures
 		}
 		
 		/**
+		 * Returns the size, or length, of the current range.
 		 * 
-		 * @return 
-		 * 
+		 * @return	 size, or length, of the current range.
 		 */
 		public function size() : Number
 		{

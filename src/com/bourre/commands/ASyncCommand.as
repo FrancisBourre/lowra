@@ -15,21 +15,42 @@
  */
 package com.bourre.commands
 {
-	
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * An asynchronous command is a command which is not terminated at the
+	 * end of the <code>execute</code>, for example a remoting request, or
+	 * a file loading.
+	 * <p>
+	 * As AS3 doesn't provide a <code>wait</code> method for objects, which,
+	 * in Java, allow developpers to stop processing of an object method during
+	 * another operation, an asynchronous command can only notify of its execution
+	 * end with an event. According to that postulate an asynchronous command
+	 * have to provide methods to register/unregister listeners and dispath event
+	 * to them.
+	 * </p>
+	 * 
+	 * @author 	Francis Bourre
+	 * @see		Command
+	 * @see		ASyncCommandEvent
 	 */
-
-	public interface ASyncCommand 
-		extends Command
+	public interface ASyncCommand extends Command
 	{
 		
 		/**
-		 * 
-		 * @param listener
-		 * 
+		 * Adds the passed-in command listener object as listener
+		 * for this command.
+		 * <p>
+		 * The <code>addASyncCommandListener</code> function support
+		 * the custom arguments provided by the 
+		 * <code>EventBroadcaster.addEventListener()</code> method.
+		 * </p> 
+		 * @param	listener	the listener object which want to
+		 * 						receive notification from this command
+		 * @param	rest		optional arguments corresponding to the 
+		 * 						<code>EventBroadcaster.addEventListener()</code>
+		 * 						behavior.
+		 * @see		com.bourre.events.EventBroadcaster#addEventListener()
+		 * 			EventBroadcaster.addEventListener() documentation
 		 */
 		function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean;
 		
