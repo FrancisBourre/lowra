@@ -141,8 +141,6 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( SosLayoutTest );
 
 	// com.bourre.structures
-	ts.addTestSuite( PointTest );
-	ts.addTestSuite( RectangleTest );
 	ts.addTestSuite( RangeTest );
 	ts.addTestSuite( GridTest );
 

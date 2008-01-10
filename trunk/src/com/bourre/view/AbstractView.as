@@ -31,8 +31,9 @@ package com.bourre.view
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.structures.Point;	
 
+	import flash.geom.Point;	
+	
 	public class AbstractView 
 	{
 		public static const onInitEVENT : String = "onInit";

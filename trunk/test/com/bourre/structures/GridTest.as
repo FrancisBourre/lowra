@@ -1,9 +1,13 @@
 package com.bourre.structures
 {
+	import com.bourre.log.PixlibDebug;	
+	
+	import flash.geom.Point;
+	
 	import com.bourre.collection.Iterator;
 	
-	import flexunit.framework.TestCase;
-	
+	import flexunit.framework.TestCase;	
+
 	public class GridTest extends TestCase
 	{
 		private var _g : Grid;
@@ -42,9 +46,29 @@ package com.bourre.structures
    		public function testInvalidInsertion () : void
    		{
    			var p : Point = new Point ( 3, 1 );
+   			var b : Boolean = false;
    			
-   			assertFalse ( _g + ".setVal() don't failed with incorrect coords - test1 failed", _g.setVal( p, 20 ) );
-   			assertNull ( _g + ".getVal() don't return null with incorrect coords  - test2 failed", _g.getVal ( p ) );
+   			try
+   			{
+   				_g.setVal( p, 20 );
+   			}
+   			catch( e : Error )
+   			{
+   				b = true;
+   			}
+   			assertTrue ( _g + ".setVal() don't failed with incorrect coords - test1 failed", b );
+   			
+   			b = false;
+   			try
+   			{
+   				_g.getVal( p );
+   			}
+   			catch( e : Error )
+   			{
+   				b = true;
+   			}
+   			assertTrue ( _g + ".getVal() don't fail with incorrect coords  - test2 failed", b );
+   			
    			assertFalse ( _g + ".remove() don't return false when removing an invalid entry - test3 failed", _g.remove( 20 ) );
    		}
    		
@@ -70,8 +94,10 @@ package com.bourre.structures
    			assertTrue ( _g + ".setVal() don't insert the value a second time - test2 failed", _g.setVal( p2, 15 ) ); 
    			assertTrue ( _g + ".contains() failed to find the last inserted element - test3 failed", _g.contains( 15 ) );
    			assertTrue ( _g + ".remove() failed with last insertion - test4 failed", _g.remove( 15 ) );
-   			assertFalse ( _g + ".contains() allready find the value - test5 failed", _g.contains( 15 ) );	
-   			assertFalse ( _g + ".remove() don't return false when removing a non-existing value - test6 failed", _g.remove( 15 ) );
+   			assertTrue ( _g + ".contains() doesn't find the value - test5 failed", _g.contains( 15 ) );	
+   			assertTrue ( _g + ".remove() failed with last insertion - test6 failed", _g.remove( 15 ) );
+   			assertFalse ( _g + ".contains() allready find the value - test7 failed", _g.contains( 15 ) );	
+   			assertFalse ( _g + ".remove() don't return false when removing a non-existing value - test8 failed", _g.remove( 15 ) );
    		}
    		public function testToArray() : void
    		{
@@ -95,10 +121,15 @@ package com.bourre.structures
 			var i : Iterator = _g.iterator();
 			assertNotNull( _g  + ".iterator() returns null - test1 failed", i );
 			var n : uint = 0;
-			var a : Array = [ 25, null, null, null, null, null, null, null, "25" ];
+			var a : Array = [ 25  ,	null, null, 
+							  null, null, null, 
+							  null, null, "25" ];
 			while( i.hasNext() ) 
 			{
 				var o : Object = i.next();
+				
+				PixlibDebug.DEBUG("i.next return : " + o);
+				
 				assertEquals ( _g + ".iterator() don't return expected value - test2("+n+") failed", o, a[n] );
 				n++;
 			}
