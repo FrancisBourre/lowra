@@ -20,7 +20,7 @@ package com.bourre.service
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */	import flash.utils.Dictionary;	
-	
+
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
 	import com.bourre.error.IllegalArgumentException;
@@ -139,6 +139,8 @@ package com.bourre.service
 			{
 				throw( e );
 			}
+
+			return null;
 		}
 
 		public function addListener( listener : ServiceLocatorListener ) : Boolean
