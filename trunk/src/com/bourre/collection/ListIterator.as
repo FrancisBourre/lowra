@@ -20,18 +20,19 @@ package com.bourre.collection
 	 * An iterator for lists that allows the programmer
 	 * to traverse the list in either direction, modify
 	 * the list during iteration, and obtain the iterator's
-	 * current position in the list. A ListIterator has no
-	 * current element; its cursor position always lies
+	 * current position in the list. A <code>ListIterator</code
+	 * has no current element; its cursor position always lies
 	 * between the element that would be returned by a call
-	 * to previous() and the element that would be returned
-	 * by a call to next(). In a list of length n, there are
-	 * n+1 valid index values, from 0 to n, inclusive. 
-	 * 
-	 * Note that the remove() and set(Object) methods are not
-	 * defined in terms of the cursor position; they are 
-	 * defined to operate on the last element returned 
-	 * by a call to next() or previous().
-	 * 
+	 * to <code>previous()</code> and the element that would
+	 * be returned by a call to <code>next()</code>. In a list
+	 * of length <code>n</code>, there are <code>n+1</code> valid
+	 * index values, from <code>0</code> to <code>n</code>, inclusive. 
+	 * <p>
+	 * Note that the <code>remove()</code> and <code>set(Object)</code>
+	 * methods are not defined in terms of the cursor position; they
+	 * are defined to operate on the last element returned by a call
+	 * to <code>next()</code> or <code>previous()</code>.
+	 * </p>
 	 * @author 	Cédric Néhémie
 	 * @see		Iterator
 	 */
@@ -48,7 +49,7 @@ package com.bourre.collection
 		 * would return the new element. (This call increases by one the value
 		 * that would be returned by a call to nextIndex  or previousIndex.)
 		 * 
-		 * @param 	o	the element to insert.
+		 * @param	o	the element to insert.
 		 * @throws 	<code>UnsupportedOperationException</code> — if the set operation
 		 * 			is not supported by this list iterator.
 		 * @throws 	<code>ClassCastException</code> — if the class of the specified
@@ -64,10 +65,10 @@ package com.bourre.collection
 		/**
 		 * Returns true if this list iterator has more elements when
 		 * traversing the list in the reverse direction. (In other words,
-		 * returns true if previous would return an element rather
-		 * than throwing an exception.)
+		 * returns <code>true</code> if previous would return an element
+		 * rather than throwing an exception.)
 		 * 
-		 * @return 	true if the list iterator has more elements when
+		 * @return 	<code>true</code> if the list iterator has more elements when
 		 * 			traversing the list in the reverse direction.
 		 */
 		function hasPrevious () : Boolean;
@@ -79,7 +80,7 @@ package com.bourre.collection
 		 * 
 		 * @return 	the index of the element that would be returned
 		 * 			by a subsequent call to next, or list size if list
-		 * 			iterator is at end of list. * 
+		 * 			iterator is at end of list. 
 		 */
 		function nextIndex () : uint;
 		
@@ -97,24 +98,23 @@ package com.bourre.collection
 		
 		/**
 		 * Returns the index of the element that would be returned
-		 * by a subsequent call to previous. (Returns -1 if the list
-		 * iterator is at the beginning of the list.)
+		 * by a subsequent call to previous. (Returns <code>-1</code>
+		 * if the list iterator is at the beginning of the list.)
 		 * 
 		 * @return	the index of the element that would be returned
-		 * 			by a subsequent call to previous, or -1 if list
-		 * 			iterator is at beginning of list.
-		 * 
+		 * 			by a subsequent call to previous, or <code>-1</code>
+		 * 			if list iterator is at beginning of list.
 		 */
 		function previousIndex () : uint;
 		
 		/**
 		 * Replaces the last element returned by next or previous
 		 * with the specified element (optional operation).
-		 * This call can be made only if neither ListIterator.remove
-		 * nor ListIterator.add have been called after the last 
+		 * This call can be made only if neither <code>ListIterator.remove</code>
+		 * nor <code>ListIterator.add</code> have been called after the last 
 		 * call to next or previous.
 		 * 
-		 * @param 	o	the element with which to replace the last
+		 * @param	o	the element with which to replace the last
 		 * 				element returned by next or previous.
 		 * @throws 	<code>UnsupportedOperationException</code> — if the set operation
 		 * 			is not supported by this list iterator.

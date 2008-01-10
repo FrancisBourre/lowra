@@ -87,7 +87,7 @@ package com.bourre.collection
 	 * trace( set.size() ); // 2
 	 * </listing>
 	 */	
-	public class Set implements Collection, TypedContainer
+	public class Set implements List, TypedContainer
 	{
 		private var _aSet : Array;
 		private var _oType : Class;
@@ -171,50 +171,25 @@ package com.bourre.collection
 		}
 
 		/**
-		 * Adds an element at the specified index to this set if it's not
-		 * already present and if the specified index is valid.
+		 * Inserts the specified element at the specified position
+		 * in this set. Shifts the element currently at that
+		 * position (if any) and any subsequent elements to the
+		 * right (adds one to their indices).
 		 * 
-		 * @copy	com.bourre.collection.Set#add()
-		 * @param	index 	<code>uint</code> index where the element is going to be added
-		 * @param	o 		element to add
-		 * @return 	<code>true</code> if the set changed at the end of the call
-		 * @throws 	<code>IndexOutOfBoundsException</code> — The passed-in
-		 * 			index is not a valid index for this set
-		 * @throws 	<code>ClassCastException</code> — If the object's type
-		 * 			prevents it to be added into this set	
+		 * @param	index 	<code>uint</code> index at which the specified
+		 * 					element is to be inserted.
+		 * @param	o 		element to be inserted.
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
+		 * 		   	(index < 0 || index > size()).
+		 * @throws 	<code>ClassCastException</code> — if the class of the specified
+		 * 		   	element prevents it from being added to this list.
 		 * @see		#add() add()
-		 * @example How to use the <code>Set.addAt</code> method
-		 * <listing>
-		 * var set : Set = new Set( String );
-		 * 
-		 * set.add( "foo" );
-		 * 
-		 * set.addAt( 0, "foo" ); // return false, as 'foo' already exist in this set
-		 * 
-		 * set.addAt( 0, 25 ); // throw a ClassCastException, as 25 is not a string 
-		 * 
-		 * trace( set.size() ); // 1
-		 * 
-		 * try
-		 * {
-		 * 	set.addAt( 3, "hello" ); // fail, as 3 >= size()
-		 * }
-		 * catch( e : IndexOutOfBoundsException )
-		 * {
-		 * 	trace( e );
-		 * }
-		 * </listing>
 		 */
-		public function addAt (index : uint, o : Object) : Boolean
+		public function addAt(index:uint, o:Object) : void
 		{
-			isValidIndex( index );
-			if (isValidObject( o ))
-			{
+			isValidIndex ( index );
+			if( isValidObject( o ) )			
 				_aSet.splice( index, 0, o );
-				return true ;
-			}
-			else
-				return false ;
 		}
 
 		/**
@@ -349,6 +324,49 @@ package com.bourre.collection
 			}
 			return modified;
 		}
+		
+		/**
+		 * Inserts all of the elements in the specified Collection into
+		 * this set at the specified position. Shifts the element
+		 * currently at that position (if any) and any subsequent
+		 * elements to the right (increases their indices). The new
+		 * elements will appear in the stack in the order that
+		 * they are returned by the specified Collection's iterator.
+		 * <p>
+		 * The rules which govern collaboration between typed and untyped
+		 * <code>Collection</code> are described in the <code>isValidCollection</code>
+		 * descrition, all rules described there are supported by the
+		 * <code>containsAll</code> method.
+		 * </p>
+		 * @param 	index 	<code>uint</code> index at which to insert
+		 * 					first element from the specified collection.
+		 * @param 	c 		elements to be inserted into this stack.
+		 * @return 	<code>true</code> if this set changed as a result of the call.
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
+		 * 		   	(index < 0 || index > size()).
+		 * @throws 	<code>ClassCastException</code> — if the class of an element of
+		 * 			the specified collection prevents it from being added to this collection.
+	     * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
+	     * @see		#add() add()
+	     * @see		#addAt() addAt()
+	     * @see		#addAll() addAll()
+	     * @see		#isValidCollection() See isValidCollection for description of the rules for 
+		 * 			collaboration between typed and untyped collections.
+		 */
+		public function addAllAt( index : uint, c : Collection ) : Boolean
+		{
+			isValidIndex ( index );
+			isValidCollection( c );
+			
+			var i : Iterator = c.iterator();
+			
+			while(i.hasNext())
+			{
+				addAt( index++, i.next() );
+			}
+			
+			return true;
+		}
 
 		/**
 		 * Removes the specified element from this set
@@ -470,7 +488,6 @@ package com.bourre.collection
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in collection
 		 * 			type is not the same that the current one.    
 		 * @see    	#remove() remove()
-		 * @see		#addAll() See examples for application of the isValidIndex rules
 		 * @see		#isValidCollection() See isValidCollection for description of the rules for 
 		 * 			collaboration between typed and untyped collections.
 		 * @example Using the <code>Set.removeAll()</code> with untyped sets
@@ -575,7 +592,7 @@ package com.bourre.collection
 
 		/**
 		 * Returns <code>true</code> if this set contains the
-		 * specified element. Moreformally, returns <code>true</code> if
+		 * specified element. More formally, returns <code>true</code> if
 		 * and only if this set contains an element <code>e</code>
 		 * such that <code>o === e</code>.
 		 *
@@ -677,10 +694,31 @@ package com.bourre.collection
 		 * @return 	<code>int</code> index of the passed object in this
 		 * 			set, either if the object isn't contained
 		 * 			in this set the function return <code>-1</code>
+		 * @throws 	<code>ClassCastException</code> — If the object's type
+		 * 			prevents it to be added into this stack	
 		 */
 		public function indexOf ( o : Object ) : int
 		{
+			isValidType( o );
 			return _aSet.indexOf( o );
+		}
+		
+		/**
+		 * Returns the index of the last occurrence of the specified
+		 * object in this <code>Set</code>.
+		 * 
+		 * @param 	o	the desired component.
+		 * @return	the index of the first occurrence of the object argument
+		 * 		   	in this stack, that is, the largest value <code>k</code>
+		 * 		   	such that <code>(elem === elementData[k])</code> is true;
+		 * 		   	returns <code>-1</code> if the object is not found.
+		 * @throws 	<code>ClassCastException</code> — If the object's type
+		 * 			prevents it to be added into this stack	
+		 */
+		public function lastIndexOf( o : Object ) : int
+		{
+			isValidType( o );
+			return _aSet.lastIndexOf(o);
 		}
 
 		/**
@@ -704,6 +742,61 @@ package com.bourre.collection
 		public function iterator () : Iterator
 		{
 			return new SetIterator( this );
+		}
+
+		/**
+		 * Returns a list iterator of the elements in this list
+		 * (in proper sequence), starting at the specified position
+		 * in the list. The specified index indicates the first
+		 * element that would be returned by an initial call to
+		 * the next method. An initial call to the previous method
+		 * would return the element with the specified index minus one.
+		 * <p>
+		 * This implementation returns a straightforward implementation
+		 * of the ListIterator interface that extends the implementation
+		 * of the Iterator interface returned by the iterator() method.
+		 * The ListIterator implementation relies on the backing list's
+		 * <code>get(int)</code>, <code>set(int, Object)</code>, 
+		 * <code>add(int, Object)</code> and <code>remove(int)</code>
+		 * methods.
+		 * </p>
+		 * @param	index 	<code>uint</code> index of the first element
+		 * 					to be returned from	the list iterator (by
+		 * 					a call to the next method).
+		 * @return 	a list iterator of the elements in this list (in proper sequence),
+		 *         	starting at the specified position in the list.
+		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
+		 * 		   	(index < 0 || index > size()).
+		 */
+		public function listIterator( index : uint = 0 ) : ListIterator
+		{
+			isValidIndex ( index );
+			
+			return new SetIterator ( this, index );
+		}
+		
+		 /**
+	     * Returns a view of the portion of this List between fromIndex,
+	     * inclusive, and toIndex, exclusive. (If fromIndex and ToIndex
+	     * are equal, the returned List is empty.) 
+	     * 
+	     * @param 	fromIndex 	low endpoint (inclusive) of the subList.
+	     * @param	toIndex 	high endpoint (exclusive) of the subList.
+	     * @return 	a view of the specified range within this List.
+	     * @throws 	<code>IndexOutOfBoundsException</code> — fromIndex or toIndex are
+	     * 		   	out of range (index < 0 || index > size()).
+	     */
+	    public function subList( fromIndex:uint, toIndex:uint ) : List
+		{
+			isValidIndex( fromIndex );
+			isValidIndex( toIndex );
+			
+			var l : List = new Stack( getType() );
+			for(var i : Number = fromIndex;i < toIndex;i++)
+			{
+				l.add( _aSet[ i ] );
+			}
+			return l;
 		}
 
 		/**
@@ -890,7 +983,7 @@ package com.bourre.collection
 		{
 			if ( getType() != null)
 			{
-				if ( isType( o ) )
+				if ( matchType( o ) )
 				{
 					return true;
 				}
@@ -921,9 +1014,21 @@ package com.bourre.collection
 		 * @return  <code>true</code> if the object is elligible for this
 		 * 			set object, either <code>false</code>.
 		 */
-		public function isType ( o : * ) : Boolean
+		public function matchType ( o : * ) : Boolean
 		{
 			return o is _oType || o == null;
+		}
+
+		/**
+		 * Returns <code>true</code> if this set perform a verification
+		 * of the type of elements.
+		 * 
+		 * @return  <code>true</code> if this set perform a verification
+		 * 			of the type of elements.
+		 */
+		public function isTyped () : Boolean
+		{
+			return _oType != null;
 		}
 
 		/**
@@ -986,6 +1091,8 @@ package com.bourre.collection
 
 import com.bourre.collection.ListIterator;
 import com.bourre.collection.Set;
+import com.bourre.error.NoSuchElementException;
+import com.bourre.error.IllegalStateException;
 
 internal class SetIterator implements ListIterator
 {
@@ -993,6 +1100,8 @@ internal class SetIterator implements ListIterator
 	private var _nIndex : int;
 	private var _nLastIndex : int;
 	private var _a : Array;
+	private var _bRemoved : Boolean;
+	private var _bAdded : Boolean;
 
 	public function SetIterator ( c : Set, index : uint = 0 )
 	{
@@ -1000,81 +1109,89 @@ internal class SetIterator implements ListIterator
 		_nIndex = index - 1;
 		_a = c.toArray( );
 		_nLastIndex = _a.length - 1;
+		_bRemoved = false;
+		_bAdded = false;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function hasNext () : Boolean
 	{
 		return _nIndex + 1 <= _nLastIndex;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function next () : *
 	{
+		if( !hasNext() )
+			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex + 1 ) );
+			
+	    _bRemoved = false;
+		_bAdded = false;
 		return _a[ ++_nIndex ];
 	}
-
-	/**
-	 * @inheritDoc
-	 */
+	
 	public function previous () : *
 	{
+		if( !hasPrevious() )
+			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+			
+	    _bRemoved = false;
+		_bAdded = false;
 		return _a[ _nIndex-- ];
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function remove () : void
 	{
-		_c.remove( _a[_nIndex--] );
-		_a = _c.toArray( );
-		_nLastIndex--;
+		if( !_bRemoved )
+		{
+			_c.remove( _a[_nIndex--] );
+			_a = _c.toArray( );
+			_nLastIndex--;
+			_bRemoved = true;
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+		}
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function add ( o : Object ) : void
 	{
-		_c.add( o );
-		_a = _c.toArray( );
-		_nLastIndex++;
+		if( !_bAdded )
+		{
+			_c.add( o );
+			_a = _c.toArray( );
+			_nLastIndex++;
+			_bAdded = true;
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".add() have been already called for this iteration" );
+		}
 	}		
 
-	/**
-	 * @inheritDoc
-	 */	
 	public function hasPrevious () : Boolean
 	{
 		return _nIndex >= 0;
 	}	
 
-	/**
-	 * @inheritDoc
-	 */
 	public function nextIndex () : uint
 	{
 		return _nIndex + 1;
 	}
 
-	/**
-	 * @inheritDoc
-	 */
 	public function previousIndex () : uint
 	{
 		return _nIndex;
 	}	
 
-	/**
-	 * @inheritDoc
-	 */
 	public function set ( o : Object ) : void
 	{
-		_c.set( _nIndex, o );
+		if( !_bAdded && !_bRemoved )
+		{
+			_c.set( _nIndex, o );
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".set() can't be called after neither a remove() nor an add() call" );
+		}
 	}
 }

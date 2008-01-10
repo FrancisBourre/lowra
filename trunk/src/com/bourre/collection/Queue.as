@@ -425,7 +425,6 @@ package com.bourre.collection
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in collection
 		 * 			type is not the same that the current one.    
 		 * @see    	#remove() remove()
-		 * @see		#addAll() See examples for application of the isValidIndex rules
 		 * @see		#isValidCollection() See isValidCollection for description of the rules for 
 		 * 			collaboration between typed and untyped collections.
 		 * @example Using the <code>Queue.removeAll()</code> with untyped queues
@@ -636,10 +635,23 @@ package com.bourre.collection
 		 * @return  <code>true</code> if the object is elligible for this
 		 * 			queue object, either <code>false</code>.
 		 */
-		public function isType (o : *) : Boolean
+		public function matchType (o : *) : Boolean
 		{
 			return o is _oType;
-		}		
+		}
+				
+		/**
+		 * Returns <code>true</code> if this queue perform a verification
+		 * of the type of elements.
+		 * 
+		 * @return  <code>true</code> if this queue perform a verification
+		 * 			of the type of elements.
+		 */
+		public function isTyped () : Boolean
+		{
+			return _oType != null;
+		}
+		
 		/**
 		 * Return the class type of elements in this queue object.
 		 * <p>
@@ -730,7 +742,7 @@ package com.bourre.collection
 		{
 			if ( getType() != null)
 			{
-				if ( isType( o ) )
+				if ( matchType( o ) )
 				{
 					return true;
 				}
@@ -791,6 +803,8 @@ package com.bourre.collection
 
 import com.bourre.collection.Iterator;
 import com.bourre.collection.Queue;
+import com.bourre.error.IllegalStateException;
+import com.bourre.error.NoSuchElementException;
 
 internal class QueueIterator 
 	implements Iterator
@@ -799,6 +813,7 @@ internal class QueueIterator
 	private var _nIndex : int;
 	private var _nLastIndex : int;
 	private var _a : Array;
+	private var _bRemoved : Boolean;
 
 	public function QueueIterator ( c : Queue )
 	{
@@ -806,6 +821,7 @@ internal class QueueIterator
 		_nIndex = -1;
 		_a = _c.toArray( );
 		_nLastIndex = _a.length - 1;
+		_bRemoved = false;
 	}
 
 	public function hasNext () : Boolean
@@ -815,11 +831,25 @@ internal class QueueIterator
 
 	public function next () : *
 	{
+		if( !hasNext() )
+			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+			
+		_bRemoved = true;
 		return _a[ ++_nIndex];
 	}
 
 	public function remove () : void
 	{
-		_c.remove( _a[ _nIndex] );
+		if( !_bRemoved )
+		{
+			_c.remove( _a[ _nIndex] );
+			_a = _c.toArray( );
+			_nLastIndex--;
+			_bRemoved = true;
+		}
+		else
+		{
+			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+		}
 	}
 }
