@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Francis Bourre
- * @version 1.0
- */
-
-package com.bourre.events {
+package com.bourre.events 
+{
 	import flash.utils.getQualifiedClassName;	
 
+	/**
+	 * 
+	 * @author Francis Bourre
+	 */
 	public class EventChannel 
 	{
 		private var _sChannelName : String;
