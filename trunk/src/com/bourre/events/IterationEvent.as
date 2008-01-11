@@ -18,29 +18,54 @@ package com.bourre.events
 	import com.bourre.events.BasicEvent;
 	
 	/**
-	 * @author Cédric Néhémie
+	 * Event dispatched by the <code>LoopCommand</code> class
+	 * to its dedicated <code>IterationCommand</code>. The event
+	 * carry the iteration index, and its associated value, provided
+	 * by the <code>Iterator</code> used by the loop command.
+	 * 
+	 * @author 	Cédric Néhémie
+	 * @see		BasicEvent
+	 * @see		com.bourre.event.LoopCommand	 * @see		com.bourre.event.IterationCommand
 	 */
 	public class IterationEvent extends BasicEvent 
 	{
-		protected var _nIndex : Number;
-		protected var _oValue : *;
+		private var _nIndex : Number;
+		private var _oValue : *;
 		
-		public function IterationEvent ( sType : String, 
-										 oTarget : Object = null,
-										 index : Number = 0,
-										 value : * = null )
+		/**
+		 * Creates a new <code>Iteration</code> event.
+		 * 
+		 * @param	type	name of this event type
+		 * @param	target	target of this event
+		 * @param	index	index of the current iteration
+		 * @param	value	value associated with this iteration
+		 */
+		public function IterationEvent ( type : String, target : Object = null, index : Number = 0, value : * = null )
 		{
-			super( sType, oTarget );
+			super( type, target );
 			
 			_nIndex = index;
 			_oValue = value;
 		}
 		
+		/**
+		 * Returns the index of the iteration in the loop
+		 * performed by the <code>LoopCommand</code>.
+		 * 
+		 * @return	the index of the iteration in the loop
+		 * 			performed by the <code>LoopCommand</code>
+		 */
 		public function getIndex () : Number
 		{
 			return _nIndex;
-		}
-		
+		}		
+		/**
+		 * Returns the value of the iteration in the loop
+		 * performed by the <code>LoopCommand</code>.
+		 * 
+		 * @return	the value of the iteration in the loop
+		 * 			performed by the <code>LoopCommand</code>
+		 */
 		public function getValue () : *
 		{
 			return _oValue;

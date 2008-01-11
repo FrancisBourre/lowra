@@ -62,7 +62,7 @@ package com.bourre.events
 		/**
 		 * Creates a new <code>ChannelBroadcaster</code> with the passed-in
 		 * event channel as default channel. The default channel is used when
-		 * a call to function is done wihtout specifying any channel. If the 
+		 * a call to function is done without specifying any channel. If the 
 		 * channel argument is omitted, the default channel is set to the
 		 * internal <code>DefaultChannel.CHANNEL</code> constant.
 		 * 
