@@ -38,7 +38,7 @@ package com.bourre.commands
 		
 		/**
 		 * Adds the passed-in command listener object as listener
-		 * for this command.
+		 * for this command events.
 		 * <p>
 		 * The <code>addASyncCommandListener</code> function support
 		 * the custom arguments provided by the 
@@ -49,21 +49,28 @@ package com.bourre.commands
 		 * @param	rest		optional arguments corresponding to the 
 		 * 						<code>EventBroadcaster.addEventListener()</code>
 		 * 						behavior.
+		 * @return	<code>true</code> if the listener have been added as result
+		 * 			of the call	
 		 * @see		com.bourre.events.EventBroadcaster#addEventListener()
 		 * 			EventBroadcaster.addEventListener() documentation
 		 */
 		function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean;
 		
 		/**
+		 * Removes the passed-in command listener object as listener
+		 * for this command events.
 		 * 
-		 * @param listener
-		 * 
+		 * @param	listener	the listener object which to remove from this
+		 * 						command's listeners
+		 * @return	<code>true</code> if the listener have been removed as result
+		 * 			of the call	
+		 * @see		com.bourre.events.EventBroadcaster#addEventListener()
+		 * 			EventBroadcaster.addEventListener() documentation
 		 */
 		function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean;
 		
 		/**
-		 * 
-		 * 
+		 * Fires the <code>onCommandEnd</code> event to the listeners of this command. 
 		 */
 		function fireCommandEndEvent() : void;
 	}
