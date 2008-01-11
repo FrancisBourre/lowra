@@ -23,40 +23,39 @@ package com.bourre.commands
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.events.IterationEvent;
 	import com.bourre.events.LoopEvent;
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.transitions.FPSBeacon;
 	import com.bourre.transitions.FrameBeacon;
-	import com.bourre.transitions.FrameListener;
-	import com.bourre.log.PixlibDebug;
+	import com.bourre.transitions.FrameListener;	
 
 	/**
 	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class LoopCommand extends AbstractSyncCommand 
-		   implements ASyncCommand, ASyncCommandListener, FrameListener
+							 implements ASyncCommand, ASyncCommandListener, FrameListener
 	{
 		static public const DEFAULT_ITERATION_TIME_LIMIT : Number = 15;
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
 		
-		static public const onLoopStartEVENT : String = "onLoopStart";
-		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT : String = "onLoopEnd";		static public const onLoopAbortEVENT : String = "onLoopAbort";
+		static public const onLoopStartEVENT 	: String = "onLoopStart";
+		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT 		: String = "onLoopEnd";		static public const onLoopAbortEVENT 	: String = "onLoopAbort";
 		
-		static protected const onIterationEVENT : String = "onIteration";
+		static private const onIterationEVENT 	: String = "onIteration";
 		
-		protected var _oCommand : IterationCommand;
-		protected var _oIterator : Iterator;
-		protected var _oBeacon : FrameBeacon;
-		protected var _nIterationTimeLimit : Number;
-		protected var _nIndex : Number;
-		protected var _bIsPlaying : Boolean;
+		private var _oCommand : IterationCommand;
+		private var _oIterator : Iterator;
+		private var _oBeacon : FrameBeacon;
+		private var _nIterationTimeLimit : Number;
+		private var _nIndex : Number;
+		private var _bIsPlaying : Boolean;
 
 		/**
 		 * 
-		 * @param command
-		 * @param iterationLimit
+		 * @param	command
+		 * @param	iterationLimit
 		 */
-		public function LoopCommand ( command : IterationCommand, 
-									  iterationLimit : Number = DEFAULT_ITERATION_TIME_LIMIT )
+		public function LoopCommand ( command : IterationCommand, iterationLimit : Number = DEFAULT_ITERATION_TIME_LIMIT )
 		{
 			super();
 			
@@ -69,7 +68,7 @@ package com.bourre.commands
 
 		/**
 		 * 
-		 * @param e
+		 * @param	e
 		 */
 		override public function execute (e : Event = null) : void
 		{
@@ -126,7 +125,7 @@ package com.bourre.commands
 		
 		/**
 		 * 
-		 * @param e
+		 * @param	e
 		 */
 		public function onEnterFrame (e : Event = null) : void
 		{
@@ -158,7 +157,7 @@ package com.bourre.commands
 		
 		/**
 		 * 
-		 * @param e
+		 * @param	e
 		 */
 		public function onCommandEnd ( e : ASyncCommandEvent ): void
 		{
@@ -177,7 +176,7 @@ package com.bourre.commands
 		
 		/**
 		 * 
-		 * @param beacon
+		 * @param	beacon
 		 */
 		public function setFrameBeacon ( beacon : FrameBeacon ) : void
 		{
@@ -190,7 +189,7 @@ package com.bourre.commands
 
 		/**
 		 * 
-		 * @param listener
+		 * @param	listener
 		 */
 		public function addLoopCommandListener ( listener : LoopCommandListener ) : Boolean
 		{
@@ -199,7 +198,7 @@ package com.bourre.commands
 		
 		/**
 		 * 
-		 * @param listener
+		 * @param	listener
 		 */
 		public function removeLoopCommandListener ( listener : LoopCommandListener ) : Boolean
 		{

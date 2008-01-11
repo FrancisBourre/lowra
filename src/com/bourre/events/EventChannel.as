@@ -18,18 +18,33 @@ package com.bourre.events
 	import flash.utils.getQualifiedClassName;	
 
 	/**
-	 * 
+	 * An <code>EventChannel</code> object defines a communication
+	 * channel in the <code>ChannelBroadcaster</code>. 
+	 *  
 	 * @author Francis Bourre
 	 */
 	public class EventChannel 
 	{
 		private var _sChannelName : String;
 		
+		/**
+		 * Creates a new event channel with the passed-in channel name.
+		 * <p>
+		 * Several channel can have the same name, as the channel broadcaster
+		 * use the instance of the class as key.
+		 * </p>
+		 * @param	channelName	name of this channel
+		 */
 		public function EventChannel( channelName : String = null )
 		{
 			_sChannelName =  channelName ? channelName : getQualifiedClassName( this );
 		}
 		
+		/**
+		 * Returns the string representation of this object.
+		 * 
+		 * @return	the string representation of this object.
+		 */
 		public function toString() : String
 		{
 			return _sChannelName;

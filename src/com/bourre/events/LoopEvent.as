@@ -18,21 +18,40 @@ package com.bourre.events
 	import com.bourre.events.BasicEvent;
 	
 	/**
-	 * @author Cédric Néhémie
+	 * Event dispatched by the <code>LoopCommand</code> class
+	 * to its listeners.
+	 * 
+	 * @author 	Cédric Néhémie
+	 * @see		BasicEvent
+	 * @see		com.bourre.event.LoopCommand	 * @see		com.bourre.event.LoopCommandListener
 	 */
 	public class LoopEvent extends BasicEvent 
 	{
-		protected var _nIndex : Number;
+		private var _nCount : Number;
 		
-		public function LoopEvent (sType : String, oTarget : Object = null, index : Number = 0)
+		/**
+		 * Creates a new <code>LoopEvent</code> object.
+		 * 
+		 * @param	type	name of the event type
+		 * @param	target	target object of this event
+		 * @param	count	the number of iterations realized
+		 * 					since this event be fired
+		 */
+		public function LoopEvent ( type : String, target : Object = null, count : Number = 0 )
 		{
-			super( sType, oTarget );
-			_nIndex = index;
+			super( type, target );
+			_nCount = count;
 		}
 		
-		public function getIndex () : Number
+		/**
+		 * Returns the iterations count since this event be fired.
+		 * 
+		 * @return	the number of iterations realized
+		 * 			since this event be fired
+		 */
+		public function getCount () : Number
 		{
-			return _nIndex;
+			return _nCount;
 		}
 	}
 }
