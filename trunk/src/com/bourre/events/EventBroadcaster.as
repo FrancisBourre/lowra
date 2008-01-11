@@ -86,7 +86,7 @@ package com.bourre.events
 		/**
 		 * Creates an new <code>EventBroadcaster</code> object with the passed-in
 		 * <code>source</code> object as source for events. If the <code>source</code>
-		 * parameter is ommited the source of events will be this event broadcaster.
+		 * parameter is omitted the source of events will be this event broadcaster.
 		 * <p>
 		 * Optionnaly the type of listeners objects can be restricted, in that
 		 * case you just have to pass the class of listener in the <code>type</code>
@@ -170,7 +170,7 @@ package com.bourre.events
 		 * event type. The returned collection is a reference to the internal collection
 		 * of this event broadcaster, resulting that there's no guarantee that collection
 		 * cannot be altered by another object. If the <code>type</code> parameter is
-		 * ommited, the function returns the collection of global listeners objects (all
+		 * omitted, the function returns the collection of global listeners objects (all
 		 * objects that haven't register for a specific event).
 		 * 
 		 * @param	type	the event name for which get a collection, if not
@@ -197,11 +197,10 @@ package com.bourre.events
 		/**
 		 * Returns <code>true</code> if the passed-in listener object is registered
 		 * as listener for the passed-in event type. If the <code>type</code> parameter
-		 * is ommited, the function returns <code>true</code> only if the listener is 
+		 * is omitted, the function returns <code>true</code> only if the listener is 
 		 * registered as global listener.
 		 * <p>
-		 * As for all function with a listener argument, the listener could be either
-		 * an object or a function.
+		 * Note : the listener could be either an object or a function.
 		 * </p>
 		 * 
 		 * @param	listener	object to look for registration
