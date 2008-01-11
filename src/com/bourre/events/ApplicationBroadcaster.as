@@ -22,8 +22,7 @@ package com.bourre.events
 	 * @version 1.0
 	 */
 
-	public class ApplicationBroadcaster
-		extends ChannelBroadcaster
+	public class ApplicationBroadcaster	extends ChannelBroadcaster
 	{
 		private static var _oI : ApplicationBroadcaster;
 

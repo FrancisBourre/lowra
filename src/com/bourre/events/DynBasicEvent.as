@@ -14,26 +14,46 @@
  * limitations under the License.
  */
 
-/**
- * @author Francis Bourre
- * @version 1.0
- */
-
 package com.bourre.events
 {
-	import flash.events.Event;
-	import com.bourre.log.*;
-	
-	public dynamic class DynBasicEvent 
-		extends Event
+	import com.bourre.log.*;	
+
+	/**
+	 * The <code>DynBasicEvent</code> class extends the 
+	 * <code>BasicEvent</code> class and make it dynamic.
+	 * <p>
+	 * The <code>DynBasicEvent</code> class is used by 
+	 * the <code>EventBroadcaster.dispatchEvent</code>
+	 * function, which dispatch event using anonymous object,
+	 * the event object is then decorated with the object
+	 * properties and finally broadcasted as any other event
+	 * object. 
+	 * </p>
+	 * @author 	Francis Bourre
+	 * @see		BasicEvent
+	 * @see		EventBroadcaster#dispatchEvent()
+	 */
+	public dynamic class DynBasicEvent extends BasicEvent
 	{
-		public function DynBasicEvent( type : String )
+		/**
+		 * Creates a new <code>DynBasicEvent</code> event for the
+		 * passed-in event type. The <code>target</code> is optional, 
+		 * if the target is omitted and the event used in combination
+		 * with the <code>EventBroadcaster</code> class, the event
+		 * target will be set on the event broadcaster source.
+		 * 
+		 * @param	type	<code>String</code> name of the event
+		 * @param	target	an object considered as source for this event
+		 * @see		EventBroadcaster#dispatchEvent() The EventBroadcaster.dispatchEvent() method
+		 */
+		public function DynBasicEvent( type : String, target : Object = null )
 		{
-			super( type );
+			super( type, target );
 		}
 		
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		public override function toString() : String 
