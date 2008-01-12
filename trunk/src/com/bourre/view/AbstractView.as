@@ -236,7 +236,7 @@ package com.bourre.view
 
 			if ( name != null && !( vl.isRegistered( name ) ) )
 			{
-				if ( vl.isRegistered( getName() ) ) vl.unregisterView( getName() );
+				if ( getName() != null && vl.isRegistered( getName() ) ) vl.unregisterView( getName() );
 				if ( vl.registerView( name, this ) ) _sName = name;
 				
 			} else

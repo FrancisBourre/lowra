@@ -62,7 +62,7 @@ package com.bourre.model
 			
 			if ( !( ml.isRegistered( name ) ) )
 			{
-				if ( ml.isRegistered( getName() ) ) ml.unregisterModel( getName() );
+				if ( getName() != null && ml.isRegistered( getName() ) ) ml.unregisterModel( getName() );
 				if ( ml.registerModel( name, this ) ) _sName = name;
 				
 			} else
