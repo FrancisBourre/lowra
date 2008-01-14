@@ -5,9 +5,10 @@ package com.bourre.transitions
 	import flash.events.EventDispatcher;
 	import com.bourre.events.BasicEvent;
 	
-	public class MockBeacon implements FrameBeacon
+	public class MockBeacon implements TickBeacon
 	{
 		private static var _oInstance : MockBeacon;
+		private static const TICK : String = "onTick";
 		
 		private var _oShape : Shape; 
 		private var _bIP : Boolean;
@@ -24,7 +25,7 @@ package com.bourre.transitions
 			if( !_bIP )
 			{
 				_bIP = true;
-				_oShape.addEventListener( Event.ENTER_FRAME, enterFrameHandler );
+				_oShape.addEventListener( Event.ENTER_FRAME, fireOnTickEvent );
 			}
 		}
 		
@@ -33,7 +34,7 @@ package com.bourre.transitions
 			if( _bIP )
 			{
 				_bIP = false;
-				_oShape.removeEventListener( Event.ENTER_FRAME, enterFrameHandler );
+				_oShape.removeEventListener( Event.ENTER_FRAME, fireOnTickEvent );
 			}
 		}
 		
@@ -42,18 +43,18 @@ package com.bourre.transitions
 			return _bIP;
 		}
 		
-		public function addFrameListener( listener : FrameListener ) : void
+		public function addTickListener( listener : TickListener ) : void
 		{
-			_oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
+			_oED.addEventListener( TICK, listener.onTick, false, 0, true );
 		}
-		public function removeFrameListener( listener : FrameListener ) : void
+		public function removeTickListener( listener : TickListener ) : void
 		{
-			_oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
+			_oED.removeEventListener( TICK, listener.onTick );
 		}
 		
-		public function enterFrameHandler ( e : Event ) : void
+		public function fireOnTickEvent ( e : Event ) : void
 		{
-			var evt : BasicEvent = new BasicEvent( Event.ENTER_FRAME, this );
+			var evt : BasicEvent = new BasicEvent( TICK, this );
 			_oED.dispatchEvent( evt );
 		}
 		

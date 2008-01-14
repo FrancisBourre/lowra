@@ -52,7 +52,7 @@ package com.bourre.transitions
 			
 			while ( _t.isPlaying() )
 			{
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 				n++;
 				i++;
 				assertEquals ( "MockMultiTweenFPS don't modify the object correctly in the iteration " + i + " - test1 failed", n*5, _o.x );
@@ -66,7 +66,7 @@ package com.bourre.transitions
 			i = 0;
 			while ( _t.isPlaying() )
 			{
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 				n--;
 				i++;
 				assertEquals ( "MockMultiTweenFPS don't modify the object correctly in the iteration " + i + "  - test4 failed", n*5, _o.x );
@@ -83,7 +83,7 @@ package com.bourre.transitions
 			var step : Number;
 			while ( t.isPlaying() )
 			{
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 				n++;
 				i++;
 				step = 250 - (n * 5);
@@ -102,7 +102,7 @@ package com.bourre.transitions
 			
 			while ( _t.isPlaying() )
 			{
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 			}
 			assertTrue ( "MockMultiTweenFPS haven't fired the onCommandEnd event - test2 failed", l.called );
 		}
@@ -116,7 +116,7 @@ package com.bourre.transitions
 
 			while ( _t.isPlaying() )
 			{
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 			}
 			
 			assertTrue ( "MockMultiTweenFPS haven't fired the onStart event - test2 failed", l.startCalled );
@@ -142,7 +142,7 @@ package com.bourre.transitions
 				if( n == 5 )
 					_t.stop();
 							 
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 			}
 			assertTrue ( "MockMultiTweenFPS haven't fired the onStop event - test2 failed", l.stopCalled );
 			assertFalse ( "MockMultiTweenFPS have fired the onMotionFinished event - test3 failed", l.motionFinishedCalled );

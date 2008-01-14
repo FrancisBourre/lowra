@@ -15,50 +15,46 @@
  */
 package  com.bourre.transitions
 { 	
-	/**
-	 * {@code TweenListener} defines rules for tween listener.
-	 * 
-	 * <p>All instances which want to listen to {@link Tween} progression, 
-	 * must implement {@code TweenListener} interface
-	 * 
-	 * <p>a {@link TweenEvent} is broadcasted throw event.
-	 * 
-	 * @author Francis Bourre
-	 * @author Cédric Néhémie
-	 * @version 1.0
-	 * 
-	 * @see com.bourre.transitions.TweenEvent
-	 */
-	import com.bourre.transitions.TweenEvent;
 	import com.bourre.commands.ASyncCommandListener;
+	import com.bourre.transitions.TweenEvent;	
 	
+	/**
+	 * <code>TweenListener</code> defines rules for tween listeners.
+	 * <p>
+	 * All instances which want to listen to <code>AdvancedTween</code> progression, 
+	 * must implement <code>TweenListener</code> interface.
+	 * </p>
+	 * @author	Francis Bourre
+	 * @author	Cédric Néhémie
+	 * @see 	TweenEvent	 * @see 	AdvancedTween
+	 */
 	public interface TweenListener extends ASyncCommandListener
 	{
 		/**
-		 * Triggers when tween starts.
+		 * Method called when tween starts.
 		 * 
-		 * @param e {@link TweenEvent} instance
+		 * @param	e	<code>TweenEvent</code> instance
 		 */
 		function onStart( e : TweenEvent ) : void;
 		
 		/**
-		 * Triggers when tween stops.
+		 * Method called when tween stops.
 		 * 
-		 * @param e {@link TweenEvent} instance
+		 * @param	e	<code>TweenEvent</code> instance
 		 */
 		function onStop( e : TweenEvent ) : void;
 		
 		/**
-		 * Triggers when tween ends.
+		 * Method called when tween ends.
 		 * 
-		 * @param e {@link TweenEvent} instance
+		 * @param	e	<code>TweenEvent</code> instance
 		 */
 		function onMotionFinished( e : TweenEvent ) : void;
 		
 		/**
-		 * Triggers when object property value is updated.
+		 * Method called when object property value is updated.
 		 * 
-		 * @param e {@link TweenEvent} instance
+		 * @param	e	<code>TweenEvent</code> instance
 		 */
 		function onMotionChanged( e : TweenEvent ) : void;
 	}

@@ -21,14 +21,13 @@ package com.bourre.transitions
 	
 	/**
 	 * <code>TweenEvent</code> defines event model for Tween API.
-	 * 
-	 * <p>Based on <code>com.bourre.events.BasicEvent</code> class.
-	 * 
-	 * <p>{@code TweenEvent} events are broadcasted by <code>Tween</code>
+	 * <p>
+	 * Based on <code>com.bourre.events.BasicEvent</code> class.
+	 * </p><p>
+	 * <code>TweenEvent</code> events are broadcasted by <code>Tween</code>
 	 * instances. 
-	 * 
+	 * </p>
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	
 	public class TweenEvent extends BasicEvent
@@ -57,52 +56,49 @@ package com.bourre.transitions
 		// Private properties
 		//-------------------------------------------------------------------------
 		
-		protected var _oTween:Tween;
-		
+		private var _oTween:AdvancedTween;
 		
 		//-------------------------------------------------------------------------
 		// Public API
 		//-------------------------------------------------------------------------
 		
 		/**
-		 * Constructs a new {@code TweenEvent} instance broadcasted by {@link Tween} 
+		 * Constructs a new <code>TweenEvent</code> instance broadcasted by <code>Tween</code> 
 		 * family classes.
 		 * 
-		 * <p>Example
-		 * <code>
-		 *   var e:TweenEvent = new TweenEvent(TweenFPS.onMotionFinished, this);
-		 * </code>
-		 * 
-		 * @param e event type (event name).
-		 * @param oTween event source ({@link Tween} instance).
+		 * @param	e		name of the event type.
+		 * @param	tween 	<code>Tween</code> instance which trigger the event.
+		 * @example
+		 * <listing>
+		 *   var e:TweenEvent = new TweenEvent( TweenEvent.onMotionFinishedEVENT, this );
+		 * </listing>
 		 */
-		public function TweenEvent( e : String, oTween : Tween )
+		public function TweenEvent( e : String, tween : AdvancedTween )
 		{
 			super(e);
-			_oTween = oTween;
+			_oTween = tween;
 		}
 		
 		/**
-		 * Returns {@link Tween} event source.
+		 * Returns <code>Tween</code> event source.
 		 * 
-		 * <p>Example
-		 * <code>
-		 *   var t:TweenMS = TweenMS( e.getType() );
-		 * </code>
-		 * 
-		 * @return {@link Tween} instance
+		 * @return <code>Tween</code> instance
+		 * @example 
+		 * <listing>
+		 *   var t:TweenMS = e.getTween();
+		 * </listing>
 		 */
-		public function getTween() : Tween
+		public function getTween() : AdvancedTween
 		{
 			return _oTween;
 		}
 		
 		/**
 		 * Returns the string representation of this instance.
-		 * 
-		 * <p>{@link com.bourre.events.BasciEvent#toString} overridding
-		 * 
-		 * @return {@code String} representation of this instance
+		 * <p>
+		 * <code>com.bourre.events.BasciEvent#toString</code> overridding
+		 * </p>
+		 * @return <code>String</code> representation of this instance
 		 */
 		public override function toString() : String
 		{

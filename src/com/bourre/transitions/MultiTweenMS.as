@@ -28,7 +28,7 @@ package com.bourre.transitions
 	
 	public class MultiTweenMS 
 		extends AbstractMultiTween
-		implements BasicTween, FrameListener
+		implements Tween, TickListener
 	{
 		protected var _nCurrentMS:Number;
 		protected var _nM : Number;

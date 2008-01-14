@@ -25,15 +25,15 @@ package com.bourre.commands
 	import com.bourre.events.LoopEvent;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.transitions.FPSBeacon;
-	import com.bourre.transitions.FrameBeacon;
-	import com.bourre.transitions.FrameListener;	
+	import com.bourre.transitions.TickBeacon;
+	import com.bourre.transitions.TickListener;	
 
 	/**
 	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class LoopCommand extends AbstractSyncCommand 
-							 implements ASyncCommand, ASyncCommandListener, FrameListener
+							 implements ASyncCommand, ASyncCommandListener, TickListener
 	{
 		static public const DEFAULT_ITERATION_TIME_LIMIT : Number = 15;
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
@@ -45,7 +45,7 @@ package com.bourre.commands
 		
 		private var _oCommand : IterationCommand;
 		private var _oIterator : Iterator;
-		private var _oBeacon : FrameBeacon;
+		private var _oBeacon : TickBeacon;
 		private var _nIterationTimeLimit : Number;
 		private var _nIndex : Number;
 		private var _bIsPlaying : Boolean;
@@ -106,7 +106,7 @@ package com.bourre.commands
 				
 			if( !_bIsPlaying )
 			{
-				_oBeacon.addFrameListener( this );
+				_oBeacon.addTickListener( this );
 				_bIsPlaying = true;
 			}
 		}
@@ -118,7 +118,7 @@ package com.bourre.commands
 		{
 			if( _bIsPlaying )
 			{
-				_oBeacon.removeFrameListener( this );
+				_oBeacon.removeTickListener( this );
 				_bIsPlaying = false;
 			}
 		}
@@ -127,7 +127,7 @@ package com.bourre.commands
 		 * 
 		 * @param	e
 		 */
-		public function onEnterFrame (e : Event = null) : void
+		public function onTick (e : Event = null) : void
 		{
 			var time:Number = 0;
 			var tmpTime:Number;
@@ -178,13 +178,13 @@ package com.bourre.commands
 		 * 
 		 * @param	beacon
 		 */
-		public function setFrameBeacon ( beacon : FrameBeacon ) : void
+		public function setFrameBeacon ( beacon : TickBeacon ) : void
 		{
-			if( _bIsPlaying ) _oBeacon.removeFrameListener( this );
+			if( _bIsPlaying ) _oBeacon.removeTickListener( this );
 			
 			_oBeacon = beacon;
 			
-			if( _bIsPlaying ) _oBeacon.addFrameListener( this );
+			if( _bIsPlaying ) _oBeacon.addTickListener( this );
 		}
 
 		/**

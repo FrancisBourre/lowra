@@ -21,7 +21,7 @@ package com.bourre.transitions
 	
 	
 	public class TweenFPS extends AbstractTween
-		implements FrameListener
+		implements TickListener
 	{
 		//-------------------------------------------------------------------------
 		// Private properties

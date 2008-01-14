@@ -259,7 +259,7 @@ package com.bourre.events
 		 * Note : The <code>addListener</code> function doesn't accept functions
 		 * as listener, functions could only register for a single event.
 		 * </p>
-		 * @param 	listener	the listener object to add as global listener
+		 * @param	listener	the listener object to add as global listener
 		 * @return	<code>true</code> if the listener have been added during this call
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in listener
 		 * 			listener doesn't match the listener type supported by this event
@@ -346,9 +346,9 @@ package com.bourre.events
 		 * used as additional arguments into the delegate object. 
 		 * </ol>
 		 * 
-		 * @param 	type		name of the event for which register the listener
-		 * @param 	listener	object or function which will receive this event
-		 * @param 	rest		additional arguments for the function listener
+		 * @param	type		name of the event for which register the listener
+		 * @param	listener	object or function which will receive this event
+		 * @param	rest		additional arguments for the function listener
 		 * @return	<code>true</code> if the function have been succesfully added as
 		 * 			listener fot the passed-in event
 		 * @throws 	<code>UnsupportedOperationException</code> — If the listener is an object
@@ -415,8 +415,8 @@ package com.bourre.events
 		 * Removes the passed-in listener for listening the specified event. The
 		 * listener could be either an object or a function.
 		 * 
-		 * @param 	type		name of the event for which unregister the listener
-		 * @param 	listener	object or function to be unregistered
+		 * @param	type		name of the event for which unregister the listener
+		 * @param	listener	object or function to be unregistered
 		 * @return	<code>true</code> if the listener have been successfully removed
 		 * 			as listener for the passed-in event
 		 */
@@ -523,8 +523,8 @@ package com.bourre.events
 		 * Broadcast the passed-in event to the listeners contained in the passed-in
 		 * <code>Collection</code>.
 		 * 
-		 * @param 	c	<code>Collection</code> of listeners to which send the event
-		 * @param 	e	event to broadcast to listeners
+		 * @param	c	<code>Collection</code> of listeners to which send the event
+		 * @param	e	event to broadcast to listeners
 		 * @throws 	<code>UnsupportedOperationException</code> — If one listener is an object
 		 * 			which have neither a function with the same name than the event type nor
 		 * 			a function called <code>handleEvent</code>

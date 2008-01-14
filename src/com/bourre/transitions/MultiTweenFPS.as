@@ -27,7 +27,7 @@ package com.bourre.transitions
 	
 	public class MultiTweenFPS 
 		extends AbstractMultiTween
-		implements BasicTween, FrameListener
+		implements Tween, TickListener
 	{
 		protected var _nCurrentFPS:Number;
 		

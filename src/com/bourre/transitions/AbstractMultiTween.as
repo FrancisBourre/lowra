@@ -25,7 +25,7 @@ package com.bourre.transitions {
 	import com.bourre.utils.ClassUtils; 
 
 	public class AbstractMultiTween extends AbstractSyncCommand
-		implements Tween, FrameListener
+									implements AdvancedTween, TickListener
 	{	
 		//-------------------------------------------------------------------------
 		// Private properties
@@ -39,7 +39,7 @@ package com.bourre.transitions {
 		protected var _bP:Boolean;
 		
 		protected var _oSetter : AccessorComposer;
-		protected var _oBeacon : FrameBeacon;
+		protected var _oBeacon : TickBeacon;
 		
 		protected var _eOnStart : TweenEvent;
 		protected var _eOnStop : TweenEvent;
@@ -82,7 +82,7 @@ package com.bourre.transitions {
 			return c * t / d + b;
 		}
 		
-		public function onEnterFrame( e : Event = null ) : void
+		public function onTick( e : Event = null ) : void
 		{
 			if ( isMotionFinished() )
 			{
@@ -146,7 +146,7 @@ package com.bourre.transitions {
 		
 		public function stop() : void
 		{
-			_oBeacon.removeFrameListener(this);
+			_oBeacon.removeTickListener(this);
 			_bP = false;
 			_oEB.broadcastEvent( _eOnStop );
 		}
@@ -154,7 +154,7 @@ package com.bourre.transitions {
 		public function resume() : void
 		{
 			_bP = true;
-			_oBeacon.addFrameListener(this);
+			_oBeacon.addTickListener(this);
 			
 		}
 		
@@ -170,7 +170,7 @@ package com.bourre.transitions {
 				_oSetter.setValue( _aS );
 				_aE = _aRE;
 				_bP = true;
-				_oBeacon.addFrameListener(this);
+				_oBeacon.addTickListener(this);
 			}
 		}
 
@@ -249,7 +249,7 @@ package com.bourre.transitions {
 		protected function _onMotionEnd() : void
 		{
 			_bP = false;
-			_oBeacon.removeFrameListener( this );
+			_oBeacon.removeTickListener( this );
 			
 			_update();
 			_oSetter.setValue( _aE );
