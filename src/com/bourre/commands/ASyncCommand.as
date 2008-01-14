@@ -18,8 +18,8 @@ package com.bourre.commands
 
 	/**
 	 * An asynchronous command is a command which is not terminated at the
-	 * end of the <code>execute</code>, for example a remoting request, or
-	 * a file loading.
+	 * end of the <code>execute</code> call, for example a remoting request,
+	 * or a file loading.
 	 * <p>
 	 * As AS3 doesn't provide a <code>wait</code> method for objects, which,
 	 * in Java, allow developpers to stop processing of an object method during

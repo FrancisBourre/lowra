@@ -33,7 +33,7 @@ package com.bourre.commands
 	 * @author Cédric Néhémie
 	 */
 	public class LoopCommand extends AbstractSyncCommand 
-							 implements ASyncCommand, ASyncCommandListener, TickListener
+							 implements TimelineCommand, ASyncCommandListener, TickListener
 	{
 		static public const DEFAULT_ITERATION_TIME_LIMIT : Number = 15;
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;

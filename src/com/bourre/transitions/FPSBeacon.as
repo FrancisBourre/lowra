@@ -24,6 +24,7 @@ package com.bourre.transitions
 
 	/**
 	 * 
+	 * 
 	 * @author	Cédric Néhémie
 	 */
 	public class FPSBeacon implements TickBeacon
@@ -41,7 +42,7 @@ package com.bourre.transitions
 		 */
 		public static function getInstance() : FPSBeacon
 		{
-			if( !_oInstance ) _oInstance = new FPSBeacon( new PrivateFPSBeaconConstructorAccess () );
+			if( !_oInstance ) _oInstance = new FPSBeacon();
 			return _oInstance;
 		}
 		
@@ -66,7 +67,7 @@ package com.bourre.transitions
 		 * 
 		 * @param	o
 		 */
-		public function FPSBeacon ( o : PrivateFPSBeaconConstructorAccess )
+		public function FPSBeacon ()
 		{
 			_oShape = new Shape();
 			_bIP = false;
@@ -123,4 +124,3 @@ package com.bourre.transitions
 		}
 	}
 }
-internal class PrivateFPSBeaconConstructorAccess {}
