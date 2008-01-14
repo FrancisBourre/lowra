@@ -53,6 +53,7 @@ package com.bourre.events
 	 * 
 	 * @author 	Francis Bourre
 	 * @see		EventBroadcaster
+	 * @see		EventChannel
 	 */
 	public class ChannelBroadcaster
 	{

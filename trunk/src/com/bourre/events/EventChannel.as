@@ -21,7 +21,8 @@ package com.bourre.events
 	 * An <code>EventChannel</code> object defines a communication
 	 * channel in the <code>ChannelBroadcaster</code>. 
 	 *  
-	 * @author Francis Bourre
+	 * @author 	Francis Bourre
+	 * @see		ChannelBroadcaster
 	 */
 	public class EventChannel 
 	{
