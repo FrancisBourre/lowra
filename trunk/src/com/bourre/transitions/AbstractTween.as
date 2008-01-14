@@ -16,20 +16,22 @@
 	 
 	 
 package com.bourre.transitions 
-{ 
+{
+	import flash.events.Event;
+	
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.core.Accessor;
 	import com.bourre.core.AccessorFactory;
 	import com.bourre.core.PropertyAccessor;
+	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	
-	import flash.events.Event;
-	import com.bourre.utils.ClassUtils;
-	import com.bourre.error.UnimplementedVirtualMethodException;
-	
-	public class AbstractTween extends AbstractSyncCommand
-		implements Tween, FrameListener
+	import com.bourre.utils.ClassUtils;	
+
+	/**
+	 * 
+	 */
+	public class AbstractTween extends AbstractSyncCommand implements AdvancedTween, TickListener
 	{	
 		//-------------------------------------------------------------------------
 		// Private properties
@@ -43,7 +45,7 @@ package com.bourre.transitions
 		protected var _bP:Boolean;
 		
 		protected var _oSetter:Accessor;
-		protected var _oBeacon : FrameBeacon;
+		protected var _oBeacon : TickBeacon;
 		
 		protected var _eOnStart : TweenEvent;
 		protected var _eOnStop : TweenEvent;
@@ -86,7 +88,7 @@ package com.bourre.transitions
 			return c * t / d + b;
 		}
 		
-		public function onEnterFrame( e : Event = null ) : void
+		public function onTick( e : Event = null ) : void
 		{
 			if ( isMotionFinished() )
 			{
@@ -140,7 +142,7 @@ package com.bourre.transitions
 		
 		public function stop() : void
 		{
-			_oBeacon.removeFrameListener(this);
+			_oBeacon.removeTickListener(this);
 			_bP = false;
 			_oEB.broadcastEvent( _eOnStop );
 		}
@@ -148,7 +150,7 @@ package com.bourre.transitions
 		public function resume() : void
 		{
 			_bP = true;
-			_oBeacon.addFrameListener(this);
+			_oBeacon.addTickListener(this);
 			
 		}
 		
@@ -164,7 +166,7 @@ package com.bourre.transitions
 				_oSetter.setValue( _nS );
 				_nE = _nRE;
 				_bP = true;
-				_oBeacon.addFrameListener(this);
+				_oBeacon.addTickListener(this);
 				_oEB.broadcastEvent( _eOnStart );
 			}
 		}
@@ -272,7 +274,7 @@ package com.bourre.transitions
 		protected function _onMotionEnd() : void
 		{
 			_bP = false;
-			_oBeacon.removeFrameListener( this );
+			_oBeacon.removeTickListener( this );
 			
 			onUpdate();
 			_oSetter.setValue( _nE );

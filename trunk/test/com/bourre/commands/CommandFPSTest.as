@@ -60,7 +60,7 @@ package com.bourre.commands
 			
 			while ( _nIteration < 10 )
 			{
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 				_nIteration++;
 			}
 			
@@ -93,7 +93,7 @@ package com.bourre.commands
 					assertTrue( _oCommandFPS+".resumeWithName() failed to resume the passed-in command - test4 failed", _oCommandFPS.resumeWithName( sn ) );
 				}
 				
-				MockBeacon.getInstance().enterFrameHandler( null );
+				MockBeacon.getInstance().fireOnTickEvent( null );
 				_nIteration++;				
 			}
 			
@@ -108,12 +108,12 @@ package com.bourre.commands
 		{
 			_oCommandFPS.delay( _oCommand );
 			
-			MockBeacon.getInstance().enterFrameHandler( null );
+			MockBeacon.getInstance().fireOnTickEvent( null );
 			
 			assertTrue ( "Command.execute() haven't been called on the succeeding frame - test1 failed", _oCommand.called );
 			assertEquals ( "Command.execute() haven't been called on the succeeding frame - test2 failed", 1, _oCommand.callCount );
 			
-			MockBeacon.getInstance().enterFrameHandler( null );
+			MockBeacon.getInstance().fireOnTickEvent( null );
 			
 			assertEquals ( "Command.execute() have been called a second time - test2 failed", 1, _oCommand.callCount );
 		}

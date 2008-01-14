@@ -7,8 +7,8 @@ package com.bourre.commands
 	{
 		public function MockCommandFPS ()
 		{
-			FPSBeacon.getInstance().removeFrameListener( this );
-			MockBeacon.getInstance().addFrameListener( this );
+			FPSBeacon.getInstance().removeTickListener( this );
+			MockBeacon.getInstance().addTickListener( this );
 		}
 	}
 }

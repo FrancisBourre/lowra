@@ -17,7 +17,7 @@ package com.bourre.commands
 		}
 		public static function release() : void
 		{
-			FPSBeacon.getInstance().removeFrameListener( _oInstance );
+			FPSBeacon.getInstance().removeTickListener( _oInstance );
 			_oInstance = null;
 		}
 		public function CommandManagerFPS ( o : PrivateCommandManagerFPSConstructorAccess )

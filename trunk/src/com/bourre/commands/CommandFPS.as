@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.commands {
+package com.bourre.commands 
+{
 	import flash.events.Event;
 	
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.transitions.FPSBeacon;
-	import com.bourre.transitions.FrameListener; 
+	import com.bourre.transitions.TickListener;	
 
-	public class CommandFPS
-		implements FrameListener
+	/**
+	 * 
+	 */
+	public class CommandFPS	implements TickListener
 	{
 		protected var _oT : Object;
 		protected var _oS : Object;
@@ -34,10 +37,10 @@ package com.bourre.commands {
 			_oS = new Object();
 			_nID = 0;
 			_nL = 0;
-			FPSBeacon.getInstance().addFrameListener(this);
+			FPSBeacon.getInstance().addTickListener(this);
 		}
 		
-		public function onEnterFrame( e : Event = null ) : void
+		public function onTick( e : Event = null ) : void
 		{
 			for (var s:String in _oT) _oT[s].execute();
 		}

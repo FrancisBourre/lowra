@@ -1,19 +1,71 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.transitions
 {
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;
 	
-	public class FPSBeacon implements FrameBeacon
+	import com.bourre.events.BasicEvent;
+	import com.bourre.log.PixlibStringifier;	
+
+	/**
+	 * 
+	 * @author	Cédric Néhémie
+	 */
+	public class FPSBeacon implements TickBeacon
 	{
+		/*-----------------------------------------------------
+		 * 	CLASS MEMBERS
+		 *-----------------------------------------------------*/
+		
 		private static var _oInstance : FPSBeacon;
+		private static const TICK : String = "onTick";
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public static function getInstance() : FPSBeacon
+		{
+			if( !_oInstance ) _oInstance = new FPSBeacon( new PrivateFPSBeaconConstructorAccess () );
+			return _oInstance;
+		}
+		
+		/**
+		 * 
+		 */
+		public static function release () : void
+		{
+			_oInstance.stop();
+			_oInstance = null;
+		}
+		
+		/*-----------------------------------------------------
+		 * 	INSTANCE MEMBERS
+		 *-----------------------------------------------------*/
 		
 		private var _oShape : Shape; 
 		private var _bIP : Boolean;
 		private var _oED : EventDispatcher;
 		
+		/**
+		 * 
+		 * @param	o
+		 */
 		public function FPSBeacon ( o : PrivateFPSBeaconConstructorAccess )
 		{
 			_oShape = new Shape();
@@ -44,37 +96,26 @@ package com.bourre.transitions
 			return _bIP;
 		}
 		
-		public function addFrameListener( listener : FrameListener ) : void
+		public function addTickListener( listener : TickListener ) : void
 		{
-			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
+			if( !_oED.hasEventListener( TICK ) )
 				start();
 
-			_oED.addEventListener( Event.ENTER_FRAME, listener.onEnterFrame, false, 0, true );
+			_oED.addEventListener( TICK, listener.onTick, false, 0, true );
 		}
-		public function removeFrameListener( listener : FrameListener ) : void
+		public function removeTickListener( listener : TickListener ) : void
 		{
-			_oED.removeEventListener( Event.ENTER_FRAME, listener.onEnterFrame );
-			if( !_oED.hasEventListener( Event.ENTER_FRAME ) )
+			_oED.removeEventListener( TICK, listener.onTick );
+			if( !_oED.hasEventListener( TICK ) )
 				stop();
 		}
 		
 		public function enterFrameHandler ( e : Event = null ) : void
 		{
-			var evt : BasicEvent = new BasicEvent( Event.ENTER_FRAME, this );
+			var evt : BasicEvent = new BasicEvent( TICK, this );
 			_oED.dispatchEvent( evt );
 		}
-		
-		public static function getInstance() : FPSBeacon
-		{
-			if( !_oInstance ) _oInstance = new FPSBeacon( new PrivateFPSBeaconConstructorAccess () );
-			return _oInstance;
-		}
-		
-		public static function release () : void
-		{
-			_oInstance.stop();
-			_oInstance = null;
-		}
+	
 		
 		public function toString() : String 
 		{

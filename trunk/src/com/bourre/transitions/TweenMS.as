@@ -21,7 +21,7 @@ package com.bourre.transitions {
 	import com.bourre.log.PixlibStringifier; 
 
 	public class TweenMS extends AbstractTween
-		implements FrameListener
+		implements TickListener
 	{
 		//-------------------------------------------------------------------------
 		// Private properties
