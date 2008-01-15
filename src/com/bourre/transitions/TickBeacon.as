@@ -21,6 +21,12 @@ package com.bourre.transitions
 	 * timed commands plug themselves on a beacon and will be noticed
 	 * of time change.
 	 * <p>
+	 * The tick is the atomic unit of computation, it correspond to
+	 * a step of computation in an animation. Its an equivalent to
+	 * the frame unit, but, rather than using the frame as unit, which
+	 * is more suitable for timeline based animation, we choose to use
+	 * the tick, which is a more generic notion.
+	 * </p><p>
 	 * Each concret implemetation or instance of beacon could have a different
 	 * atomic time entity, with different scale. For example a beacon can work
 	 * with the flash player <code>ENTER_FRAME</code> event, with a framerate

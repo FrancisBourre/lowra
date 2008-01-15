@@ -50,5 +50,23 @@ package com.bourre.commands {
 		{
 			_oIterator = i;
 		}
+		
+		public function cancel () : void
+		{
+		}
+		
+		public function isCancelled () : Boolean
+		{
+			return false;
+		}
+		
+		public function run () : void
+		{
+		}
+		
+		public function isRunning () : Boolean
+		{
+			return false;
+		}
 	}
 }

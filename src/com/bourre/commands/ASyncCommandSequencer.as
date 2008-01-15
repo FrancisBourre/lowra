@@ -45,7 +45,6 @@ package com.bourre.commands
 		private var _nTimeout : Number;
 		private var _nStep : Number;
 		private var _oTimer : Timer;
-		private var _bIR : Boolean;
 		
 		private var _eOnCommandTimeout : ASyncCommandEvent;
 		
@@ -117,7 +116,7 @@ package com.bourre.commands
 		{
 			if( !isRunning() )
 			{
-				_bIR = true;
+				_bIsRunning = true;
 				_executeNextCommand ();
 			}
 		}
@@ -139,20 +138,11 @@ package com.bourre.commands
 			{
 				_nStep = 0;
 				_abortTimeout ();
-				_bIR = false;
+				_bIsRunning = false;
 				_oEB.broadcastEvent( _eOnCommandEnd );
 			}
 		}
-		
-		/**
-		 * 
-		 * @return 
-		 * 
-		 */
-		public function isRunning () : Boolean
-		{
-			return _bIR;
-		}
+
 		
 		/**
 		 * 
@@ -224,7 +214,7 @@ package com.bourre.commands
 		{
 			_abortTimeout ();
 			_nStep = -1;
-			_bIR = false;
+			_bIsRunning = false;
 			_oEB.broadcastEvent( _eOnCommandTimeout );
 		}
 		

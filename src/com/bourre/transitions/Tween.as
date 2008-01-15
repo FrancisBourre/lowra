@@ -15,7 +15,7 @@
  */	 
 package com.bourre.transitions
 {
-	import com.bourre.commands.TimelineCommand;		
+	import com.bourre.commands.Suspendable;		
 
 	/**
 	 * The <code>Tween</code> interface defines a tween, a property animation
@@ -37,7 +37,7 @@ package com.bourre.transitions
 	 * @see		com.bourre.code.Accessor
 	 * @see		com.bourre.commands.TimelineCommand
 	 */
-	public interface Tween extends TimelineCommand
+	public interface Tween extends Suspendable
 	{
 		/**
 		 * Defines the easing function used by this <code>Tween</code> object.
@@ -46,7 +46,6 @@ package com.bourre.transitions
 		 * a default function if no function is defined, or if the passed-in
 		 * function is <code>null</code>.
 		 * </p>
-		 * 
 		 * @param	f	easing function for this tween, the function must implements
 		 * 				the following signature :
 		 * 				<listing>function easingFunc( t : Number, b : Number, c : Number, d : Number ) : Number</listing>
