@@ -19,6 +19,7 @@ package com.bourre.commands {
 	{	
 		protected var _oEB : EventBroadcaster;
 		protected var _eOnCommandEnd : ASyncCommandEvent;
+		protected var _bIsRunning : Boolean;
 		
 		/**
 		 * 
@@ -28,6 +29,7 @@ package com.bourre.commands {
 		 */
 		public function AbstractSyncCommand ()
 		{
+			_bIsRunning = false;
 			_oEB = new EventBroadcaster ( this );
 			_eOnCommandEnd = new ASyncCommandEvent ( ASyncCommandEvent.onCommandEndEVENT, this );
 		}
@@ -73,6 +75,22 @@ package com.bourre.commands {
 			fireCommandEndEvent();
 		}
 		
+		/**
+		 * 
+		 */
+		public function run() : void
+		{
+			execute();
+		}
+		
+		/**
+		 * 
+		 */
+		public function isRunning () : Boolean
+		{
+			return _bIsRunning;
+		}
+
 		/**
 		 * 
 		 * 

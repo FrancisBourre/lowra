@@ -19,7 +19,6 @@ package com.bourre.commands
 	import flash.utils.getTimer;
 	
 	import com.bourre.collection.Iterator;
-	import com.bourre.commands.ASyncCommand;
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.events.IterationEvent;
 	import com.bourre.events.LoopEvent;
@@ -33,7 +32,7 @@ package com.bourre.commands
 	 * @author Cédric Néhémie
 	 */
 	public class LoopCommand extends AbstractSyncCommand 
-							 implements TimelineCommand, ASyncCommandListener, TickListener
+							 implements Cancelable, Suspendable, ASyncCommandListener, TickListener
 	{
 		static public const DEFAULT_ITERATION_TIME_LIMIT : Number = 15;
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
@@ -48,7 +47,6 @@ package com.bourre.commands
 		private var _oBeacon : TickBeacon;
 		private var _nIterationTimeLimit : Number;
 		private var _nIndex : Number;
-		private var _bIsPlaying : Boolean;
 
 		/**
 		 * 
@@ -63,34 +61,51 @@ package com.bourre.commands
 			
 			_oCommand =  command;
 			_nIterationTimeLimit = iterationLimit;
-			_bIsPlaying = false;
+			_bIsRunning = false;
 		}
-
+		
 		/**
 		 * 
 		 * @param	e
 		 */
 		override public function execute (e : Event = null) : void
 		{
-			_oIterator = _oCommand.iterator();
-			_nIndex = 0;
-			
+			reset();			
 			start();
 		}
 		
 		/**
 		 * 
 		 */
-		public function abort () : void
+		public function cancel () : void
 		{
 			stop();
 			
-			_oCommand.abort();
+			_oCommand.cancel();
 			_oCommand = null;
 			_oIterator = null;
 			
 			fireOnLoopAbortEvent( _nIndex );
-		}			
+		}		
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public function isCancelled () : Boolean
+		{
+			return false;
+		}
+		
+		
+		/**
+		 * 
+		 */
+		public function reset() : void
+		{
+			_oIterator = _oCommand.iterator();
+			_nIndex = 0;
+		}	
 		
 		/**
 		 * 
@@ -104,10 +119,10 @@ package com.bourre.commands
 				return;
 			}
 				
-			if( !_bIsPlaying )
+			if( !_bIsRunning )
 			{
 				_oBeacon.addTickListener( this );
-				_bIsPlaying = true;
+				_bIsRunning = true;
 			}
 		}
 		
@@ -116,10 +131,10 @@ package com.bourre.commands
 		 */
 		public function stop() : void
 		{
-			if( _bIsPlaying )
+			if( _bIsRunning )
 			{
 				_oBeacon.removeTickListener( this );
-				_bIsPlaying = false;
+				_bIsRunning = false;
 			}
 		}
 		
@@ -165,14 +180,6 @@ package com.bourre.commands
 			execute( e );
 		}
 		
-		/**
-		 * 
-		 * @return
-		 */
-		public function isPlaying () : Boolean
-		{
-			return _bIsPlaying;
-		}
 		
 		/**
 		 * 
@@ -180,11 +187,11 @@ package com.bourre.commands
 		 */
 		public function setFrameBeacon ( beacon : TickBeacon ) : void
 		{
-			if( _bIsPlaying ) _oBeacon.removeTickListener( this );
+			if( _bIsRunning ) _oBeacon.removeTickListener( this );
 			
 			_oBeacon = beacon;
 			
-			if( _bIsPlaying ) _oBeacon.addTickListener( this );
+			if( _bIsRunning ) _oBeacon.addTickListener( this );
 		}
 
 		/**

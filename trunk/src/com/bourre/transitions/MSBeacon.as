@@ -29,7 +29,7 @@ package com.bourre.transitions
 	 * By comparison with the <code>FPSBeacon</code> the number of
 	 * ticks per second is relatively independant of the flash player
 	 * framerate, as said in the <code>Timer</code> class documentation :
-	 * <blockquote>
+	 * <blockquote><i>
 	 * For example, if a SWF file is set to play at 10 frames per second
 	 * (fps), which is 100 millisecond intervals, but your timer is set
 	 * to fire an event at 80 milliseconds, the event will be dispatched
@@ -37,7 +37,7 @@ package com.bourre.transitions
 	 * events at slightly offset intervals based on the internal frame
 	 * rate of the application.  Memory-intensive scripts may also offset
 	 * the events.
-	 * </blockquote>
+	 * </i></blockquote>
 	 * <p>
 	 * The <code>MSBeacon</code> provides an access to a global instance
 	 * of the class, concret <code>TickListener</code> may use that instance
@@ -87,7 +87,7 @@ package com.bourre.transitions
 		 *-----------------------------------------------------*/
 		
 		private var _oTimer : Timer; 
-		private var _nTickRate : Number;
+		private var _nTickDelay : Number;
 		private var _bIP : Boolean;
 		private var _oED : EventDispatcher;
 		
@@ -96,8 +96,8 @@ package com.bourre.transitions
 		 */
 		public function MSBeacon ()
 		{
-			_nTickRate = 1000/40;
-			_oTimer = new Timer( _nTickRate, 0 );
+			_nTickDelay = 1000/40;
+			_oTimer = new Timer( _nTickDelay, 0 );
 			_oTimer.addEventListener( TimerEvent.TIMER , timeHandler );
 			_bIP = false;
 			_oED = new EventDispatcher ();
@@ -182,22 +182,50 @@ package com.bourre.transitions
 			_oED.dispatchEvent( evt );
 		}
 		
-		public function setFramerate ( n : Number = 25 ) : void 
+		/**
+		 * Defines the preferred delay to occurs between two ticks.
+		 * There's no guarantee on the regularity of the delay, as 
+		 * the Flash player can restrict the delay to match the 
+		 * framerate defined for the compiled swf.
+		 * 
+		 * @param	n	number of milliseconds between each tick
+		 */
+		public function setTickDelay ( n : Number = 25 ) : void 
 		{
-			_nTickRate = n;
-			_oTimer.delay = _nTickRate;
+			_nTickDelay = n;
+			_oTimer.delay = _nTickDelay;
 		}
-		public function getFramerate () : Number
+		/**
+		 * Returns the current delay in milliseconds between ticks.
+		 * 
+		 * @return the current delay in milliseconds between ticks
+		 */
+		public function getTickDelay () : Number
 		{
-			return _nTickRate;
+			return _nTickDelay;
 		}
-		public function setFPS ( n : Number = 40 ) : void
+		/**
+		 * Sets the delay between ticks by defining the number of
+		 * ticks per seconds to occurs. As with the <code>setTickDelay</code>
+		 * method, there's no guarantee that the observed delay
+		 * was conform to the specified one.
+		 * 
+		 * @param	n	number of ticks per seconds
+		 */
+		public function setTickPerSecond ( n : Number = 40 ) : void
 		{
-			setFramerate ( Math.round( 1000/n ) );
-		} 
-		public function getFPS () : Number
+			setTickDelay ( Math.round( 1000/n ) );
+		}
+		/**
+		 * Returns the number of ticks per seconds which may
+		 * occurs with the current delay. 
+		 * 
+		 * @return	the number of ticks per seconds which may
+		 * 			occurs with the current delay
+		 */ 
+		public function getTickPerSecond () : Number
 		{
-			return Math.round( 1000 / _nTickRate );
+			return Math.round( 1000 / _nTickDelay );
 		}
 		
 		/**

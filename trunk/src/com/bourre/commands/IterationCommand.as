@@ -20,8 +20,6 @@ package com.bourre.commands
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public interface IterationCommand extends Iterable, Command
-	{
-		function abort () : void;
-	}
+	public interface IterationCommand extends Iterable, Command, Cancelable
+	{}
 }

@@ -14,7 +14,9 @@
  * limitations under the License.
  */	 
 package com.bourre.transitions
-{ 
+{
+	import com.bourre.commands.ASyncCommand; 
+
 	/**
 	 * The <code>AdvancedTween</code> interface extends <code>Tween</code> and
 	 * add the support for event dispatching.
@@ -37,7 +39,7 @@ package com.bourre.transitions
 	 * @author	Cédric Néhémie
 	 * @see		Tween
 	 */
-	public interface AdvancedTween extends Tween
+	public interface AdvancedTween extends Tween, ASyncCommand
 	{
 		/**
 		 * Adds the passed-in listener object as listener for

@@ -36,7 +36,6 @@ package com.bourre.transitions {
 		protected var _aRE:Array;
 		protected var _nRate:Number;
 		protected var _fE:Function;
-		protected var _bP:Boolean;
 		
 		protected var _oSetter : AccessorComposer;
 		protected var _oBeacon : TickBeacon;
@@ -66,7 +65,7 @@ package com.bourre.transitions {
 			}
 			_buildAccessor( oT, sP, gP, aS );
 			
-			_bP = false;
+			_bIsRunning = false;
 			_aRE = aE;
 			_nRate = nRate;
 			setEasing(fE);
@@ -127,6 +126,10 @@ package com.bourre.transitions {
 		{
 			return _nRate;
 		}
+
+		
+		public function reset() : void
+		{}
 		
 		public function start() : void
 		{
@@ -147,13 +150,13 @@ package com.bourre.transitions {
 		public function stop() : void
 		{
 			_oBeacon.removeTickListener(this);
-			_bP = false;
+			_bIsRunning = false;
 			_oEB.broadcastEvent( _eOnStop );
 		}
 		
 		public function resume() : void
 		{
-			_bP = true;
+			_bIsRunning = true;
 			_oBeacon.addTickListener(this);
 			
 		}
@@ -169,7 +172,7 @@ package com.bourre.transitions {
 				_aS = _aRS;
 				_oSetter.setValue( _aS );
 				_aE = _aRE;
-				_bP = true;
+				_bIsRunning = true;
 				_oBeacon.addTickListener(this);
 			}
 		}
@@ -198,11 +201,7 @@ package com.bourre.transitions {
 		{
 			return _aRE;
 		}
-		
-		public function isPlaying() : Boolean
-		{
-			return _bP;	
-		}
+
 		
 		public override function toString() : String 
 		{
@@ -248,7 +247,7 @@ package com.bourre.transitions {
 		
 		protected function _onMotionEnd() : void
 		{
-			_bP = false;
+			_bIsRunning = false;
 			_oBeacon.removeTickListener( this );
 			
 			_update();

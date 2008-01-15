@@ -42,7 +42,6 @@ package com.bourre.transitions
 		protected var _nRE:Number;
 		protected var _nRate:Number;
 		protected var _fE:Function;
-		protected var _bP:Boolean;
 		
 		protected var _oSetter:Accessor;
 		protected var _oBeacon : TickBeacon;
@@ -72,7 +71,7 @@ package com.bourre.transitions
 			
 			_buildAccessor( oT, sP, gP, nS );
 			
-			_bP = false;
+			_bIsRunning = false;
 			_nRE = nE;
 			_nRate = nRate;
 			setEasing(fE);
@@ -124,6 +123,9 @@ package com.bourre.transitions
 		{
 			return _nRate;
 		}
+
+		public function reset() : void
+		{}
 		
 		public function start() : void
 		{
@@ -143,13 +145,13 @@ package com.bourre.transitions
 		public function stop() : void
 		{
 			_oBeacon.removeTickListener(this);
-			_bP = false;
+			_bIsRunning = false;
 			_oEB.broadcastEvent( _eOnStop );
 		}
 		
 		public function resume() : void
 		{
-			_bP = true;
+			_bIsRunning = true;
 			_oBeacon.addTickListener(this);
 			
 		}
@@ -165,7 +167,7 @@ package com.bourre.transitions
 				_nS = _nRS;
 				_oSetter.setValue( _nS );
 				_nE = _nRE;
-				_bP = true;
+				_bIsRunning = true;
 				_oBeacon.addTickListener(this);
 				_oEB.broadcastEvent( _eOnStart );
 			}
@@ -178,7 +180,7 @@ package com.bourre.transitions
 		
 		public function setTarget( o : Object ) : void
 		{
-			if ( isPlaying() )
+			if ( isRunning() )
 			{
 				PixlibDebug.WARN( this + ".setTarget() invalid call while playing." );
 			} else
@@ -194,7 +196,7 @@ package com.bourre.transitions
 		
 		public function setProperty( p : String ) : void
 		{
-			if ( isPlaying() )
+			if ( isRunning() )
 			{
 				PixlibDebug.WARN( this + ".setProperty() invalid call while playing." );
 			} else
@@ -223,11 +225,7 @@ package com.bourre.transitions
 		{
 			return _nRE;
 		}
-		
-		public function isPlaying() : Boolean
-		{
-			return _bP;	
-		}
+
 		
 		public override function toString() : String 
 		{
@@ -273,7 +271,7 @@ package com.bourre.transitions
 		
 		protected function _onMotionEnd() : void
 		{
-			_bP = false;
+			_bIsRunning = false;
 			_oBeacon.removeTickListener( this );
 			
 			onUpdate();
