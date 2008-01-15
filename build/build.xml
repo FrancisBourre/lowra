@@ -1,0 +1,204 @@
+<project name="lowra" basedir="../" default="test.Execute">
+	
+	<property file="./build/build.properties" />
+	
+	<!--**************************************************** 
+		CLEAN THE TEST RUNNER
+	*****************************************************-->	
+	
+	<target name="test.Clean">
+		<delete>
+			<fileset dir="${lowra.bin}">
+			    <include name="PixlibTestRunner.swf"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<!--**************************************************** 
+		COMPILE THE TEST RUNNER
+	*****************************************************-->
+	
+	<target name="test.Compile">
+		<antcall target="mxmlc.Compile">
+			<param name="src" value="${lowra.testRunner}/PixlibTest.mxml"/>
+			<param name="output" value="PixlibTestRunner.swf"/>
+			<param name="bin" value="${lowra.bin}"/>
+		</antcall>
+	</target>
+	
+	<!--**************************************************** 
+		LAUNCH THE TEST RUNNER IN THE FLASH PLAYER
+	*****************************************************-->
+	
+	 <target name="test.Launch">
+
+    	<antcall target="flashPlayer.Exec">
+			<param name="file" value="${lowra.bin}/FlashInspector3.swf"/>
+		</antcall>
+
+	 	<antcall target="flashPlayer.Exec">
+			<param name="file" value="${lowra.bin}/PixlibTestRunner.swf"/>
+		</antcall>
+
+    </target>
+	
+	<!--**************************************************** 
+		CLEAN, COMPILE AND THEN LAUNCH THE TEST RUNNER
+	*****************************************************-->
+	
+	<target name="test.Execute">
+		
+		<antcall target="test.Clean"/>
+		<antcall target="test.Compile"/>
+		<antcall target="test.Launch"/>
+
+	</target>
+	
+	<!--**************************************************** 
+		CLEAN THE SWC PACKAGE
+	*****************************************************-->	
+	
+	<target name="package.Clean">
+		<delete>
+			<fileset dir="${lowra.bin}">
+			    <include name="${lowra.swc}"/>
+			</fileset>
+		</delete>
+	</target>
+	
+	<!--**************************************************** 
+		COMPILE THE SWC PACKAGE
+	*****************************************************-->	
+	
+	<target name="package.Compile">
+		<java jar="${compc.jar}" fork="true">
+			<arg line="-load-config=${flex.config}"/>
+			
+			<arg line="-is=${lowra.src}"/>
+			<arg line="-sp=${lowra.src}"/>
+	
+			<arg line="-output=${lowra.bin}/${lowra.swc}"/>
+		</java>
+	</target>
+
+	<!--**************************************************** 
+		CLEAN AND THEN COMPILE THE SWC PACKAGE
+	*****************************************************-->
+	
+	<target name="package.Execute">
+		
+		<antcall target="package.Clean"/>
+		<antcall target="package.Compile"/>
+		
+	</target>
+	
+	<!--**************************************************** 
+		CLEAN THE DOCUMENTATION DIRECTORY
+	*****************************************************-->
+	
+	<target name="docs.Clean">
+
+		<delete>
+			<fileset dir="${lowra.docs}">
+				   <include name="*"/>
+			</fileset>
+		</delete>
+		
+	</target>
+	
+	<!--**************************************************** 
+		CREATE THE DOCUMENTATION
+	*****************************************************-->
+
+	<target name="docs.Create">
+		
+		<java jar="${asdoc.jar}" fork="true">
+			
+			<jvmarg value="-Xbootclasspath/p: ${FLEX_HOME}/asdoc/lib/xalan.jar"/>
+
+			<arg line="+flexlib='${FLEX_HOME}/frameworks'"/>
+			
+			<arg line="-load-config=${flex.config}"/>
+			
+			<arg line="-source-path=${lowra.src}"/>
+			<arg line="-doc-sources=${lowra.src}"/>
+			<arg line="-output=${lowra.docs}"/>
+			
+			<!-- GENERAL TITLES & DESCRIPTION -->
+			
+			<arg line="-footer='${project.name} API Documentation - 2008'"/>
+			<arg line="-main-title='${project.name} API Documentation'"/>
+			<arg line="-window-title='${project.name} API Documentation'"/>
+			
+			<!-- PACKAGES DESCRIPTION -->
+			
+			<arg line="-package com.bourre.collection 
+						'Contains the collections framework, legacy collection classes.'"/>
+			
+			<arg line="-package com.bourre.commands 
+						'Various interfaces, and their implementations, of the Command pattern.'"/>
+			
+			<arg line="-package com.bourre.core 
+						'Core utilities for objects handling.'"/>
+		
+			<arg line="-package com.bourre.error 
+						'Custom exceptions class thrown by LowRA components.'"/>
+			
+			<arg line="-package com.bourre.events 
+						'Provides interfaces and classes for dealing with different types
+						 of events fired by LowRA components or for creating your own
+						 event-based components.'"/>
+			
+			<arg line="-package com.bourre.transitions
+						'Animations framework.'"/>
+			
+					
+		</java>
+		
+	</target>
+	
+	<!--**************************************************** 
+		CLEAN AND THEN CREATES THE DOCUMENTATION
+	*****************************************************-->
+	
+	<target name="docs.Execute">
+		
+		<antcall target="docs.Clean"/>
+		<antcall target="docs.Create"/>
+		
+	</target>	
+	
+	<!--**************************************************** 
+		MISC TASKS
+	*****************************************************-->
+	
+	<!-- 
+		Launch the passed-in swf ${file} in the flash player.
+	-->
+	<target name="flashPlayer.Exec">
+		<exec executable="${flashDebugPlayer.bin}" spawn="true">
+			<arg line="'${file}'"/>
+		</exec>
+    </target>
+	
+	<!-- 
+		Compile the passed-in ${src} file to the output ${output} file
+		in the ${bin} directory
+	-->
+	<target name="mxmlc.Compile">
+		<java jar="${mxmlc.jar}" fork="true">
+			<arg line="-load-config=${flex.config}"/>
+			<arg line="-source-path=${flex.framework.dir}"/>
+
+			<arg line="-source-path+=${lowra.src}"/>
+			<arg line="-source-path+=${lowra.test}"/>
+			<arg line="-source-path+=${lowra.testRunner}"/>
+
+			<arg line="-library-path+=${flexunit.swc}"/>	
+
+			<arg line="-output=${bin}/${output}"/>
+			<arg line="${src}"/>
+		</java>
+	</target>
+
+</project>

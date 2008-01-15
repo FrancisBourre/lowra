@@ -17,10 +17,17 @@ package com.bourre.transitions
 {
 	/**
 	 * A <code>TickBeacon</code> object is an object which provides
-	 * time scaling in an application. Many objects such tweens or
+	 * time slicing in an application. Many objects such tweens or
 	 * timed commands plug themselves on a beacon and will be noticed
 	 * of time change.
 	 * <p>
+	 * Each concret implemetation or instance of beacon could have a different
+	 * atomic time entity, with different scale. For example a beacon can work
+	 * with the flash player <code>ENTER_FRAME</code> event, with a framerate
+	 * set to <code>40</code>, and in parrallel there could be two others 
+	 * beacons, working with the <code>setInterval</code> function and with step
+	 * respectively set to <code>10ms</code> and <code>100ms</code>.
+	 * </p><p>
 	 * The main contract defined by this interface is that all time beacons
 	 * objects should register and unregister as many listeners as needed.
 	 * These listeners will be noticed of time change only if the beacon
@@ -63,12 +70,12 @@ package com.bourre.transitions
 		function removeTickListener ( listener : TickListener ) : void;		
 		
 		/**
-		 * Starts this beacon.
+		 * Starts this beacon if it wasn't already nunning.
 		 */
 		function start () : void;		
 		
 		/**
-		 * Stops this beacon
+		 * Stops this beacon if it wasn't already stopped.
 		 */
 		function stop () : void;		
 		
