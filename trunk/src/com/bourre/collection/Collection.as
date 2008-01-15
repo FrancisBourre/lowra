@@ -55,13 +55,9 @@ package com.bourre.collection
 	 * of any type without throwing errors.</li>
 	 * <li>A typed collection will always fail when attempting to add, remove, retain
 	 * or contains an untyped collection.</li>
-	 * </ul></p><p>
-	 * If the passed-in <code>Collection</code> is null the method throw a
-	 * <code>NullPointerException</code> error.
-	 * </p>
+	 * </ul></p>
 	 *
 	 * @author 	Francis Bourre
-	 * @see	    WeakCollection
 	 */
 	public interface Collection extends Iterable
 	{

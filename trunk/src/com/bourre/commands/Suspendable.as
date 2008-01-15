@@ -20,8 +20,7 @@ package com.bourre.commands
 	 * implementations whose instances process could be suspended.
 	 * Implementers should consider the possibility for the user of the class
 	 * to suspend or not the operation, if the operation could be suspended,
-	 * the implementer should create a suspendable object instead of a 
-	 * <code>Cancelable</code> one.
+	 * the implementer should create a <code>Suspendable</code> class.
 	 * <p>
 	 * More formally, an operation is suspendable if and only if the operation could
 	 * be paused(stopped) and resumed(re-started) without breaking the state of the
@@ -34,7 +33,8 @@ package com.bourre.commands
 	 * Implementing the <code>Suspendable</code> interface doesn't require anything
 	 * regarding the time outflow approach. The only requirements concerned the suspendable
 	 * nature of the process. 
-	 * There's no restriction concerning class which would implements both <code>Suspendable</code>
+	 * </p><p>
+	 * Note : There's no restriction concerning class which would implements both <code>Suspendable</code>
 	 * and <code>Cancelable</code> interfaces.
 	 * </p>
 	 * @author 	Cédric Néhémie

@@ -24,8 +24,7 @@ package com.bourre.service
 	import com.bourre.commands.ASyncCommand;
 	import com.bourre.service.ServiceListener;
 
-	public interface Service 
-		extends ASyncCommand
+	public interface Service extends ASyncCommand
 	{
 		function setResult( result : Object ) : void;
 		function getResult() : Object;
