@@ -98,10 +98,8 @@
 	
 	<target name="docs.Clean">
 
-		<delete>
-			<fileset dir="${lowra.docs}">
-				   <include name="*"/>
-			</fileset>
+		<delete includeemptydirs="true">
+			<fileset dir="${lowra.docs}" includes="**/*"/>
 		</delete>
 		
 	</target>
@@ -156,7 +154,18 @@
 		</java>
 		
 	</target>
+
+	<!--**************************************************** 
+		COPY INCLUDED DOCUMENTS
+	*****************************************************-->	
 	
+	<target name="docs.CopyIncludes">
+		<copy todir="${lowra.docs}">
+			<fileset dir="${lowra.docsIncludes}">
+			</fileset>
+		</copy>
+	</target>
+
 	<!--**************************************************** 
 		CLEAN AND THEN CREATES THE DOCUMENTATION
 	*****************************************************-->
@@ -165,6 +174,7 @@
 		
 		<antcall target="docs.Clean"/>
 		<antcall target="docs.Create"/>
+		<antcall target="docs.CopyIncludes"/>
 		
 	</target>	
 	
