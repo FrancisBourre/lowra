@@ -7,7 +7,7 @@ package com.bourre.commands
 	{
 		public function isRegistered ( o : ASyncCommandListener ) : Boolean
 		{
-			return _oEB.isRegistered( o, ASyncCommandEvent.onCommandEndEVENT );
+			return _oEB.isRegistered( o,  AbstractSyncCommand.onCommandEndEVENT );
 		}
 		 
 		public override function execute( e : Event = null ) : void

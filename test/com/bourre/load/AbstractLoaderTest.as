@@ -8,7 +8,9 @@ package com.bourre.load
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import com.bourre.commands.*;
-	
+
+	import flash.events.Event;	
+
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -222,7 +224,7 @@ package com.bourre.load
 		}
 		*/
 		
-		public function onCommandEnd( e : ASyncCommandEvent ) : void
+		public function onCommandEnd( e : Event ) : void
 		{
 			PixlibDebug.FATAL(e+"AbstractLoaderTest onCommandEnd");
 		}

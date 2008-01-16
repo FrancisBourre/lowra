@@ -174,9 +174,9 @@ package com.bourre.commands
 		 * 
 		 * @param	e
 		 */
-		public function onCommandEnd ( e : ASyncCommandEvent ): void
+		public function onCommandEnd ( e : Event ): void
 		{
-			(e.getTarget( ) as AbstractSyncCommand ).removeASyncCommandListener( this );
+			(e.target as AbstractSyncCommand ).removeASyncCommandListener( this );
 			execute( e );
 		}
 		

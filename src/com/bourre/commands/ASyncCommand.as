@@ -21,15 +21,12 @@ package com.bourre.commands
 	 * at the end of the <code>execute</code> call, for example a remoting request,
 	 * or a file loading.
 	 * <p>
-	 * As AS3 doesn't provide thread controls, an asynchronous command can only
-	 * notify of its execution end with an event. According to that postulate
-	 * an asynchronous command have to provide methods to register/unregister
-	 * listeners and dispath event to them.
+	 * An asynchronous command define a specific ending for the operation. The 
+	 * command dispatch an <code>onCommandEnd</code> event at the end of its process.
 	 * </p>
 	 * @author 	Francis Bourre
 	 * @see		Command
 	 * @see		Runnable
-	 * @see		ASyncCommandEvent
 	 */
 	public interface ASyncCommand extends Command, Runnable
 	{

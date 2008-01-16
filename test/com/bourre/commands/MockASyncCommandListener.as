@@ -6,7 +6,7 @@ package com.bourre.commands
 	{
 		public var called : Boolean;
 		
-		public function onCommandEnd( e : ASyncCommandEvent ) : void
+		public function onCommandEnd( e : Event ) : void
 		{
 			called = true;
 		}

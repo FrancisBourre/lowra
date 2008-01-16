@@ -118,12 +118,12 @@ package com.bourre.load
 		
 		public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
 		{
-			return _oEB.addEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.addEventListener( AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
 
 		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			return _oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.removeEventListener(  AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
 
 		public function addListener( listener : LoaderListener ) : Boolean

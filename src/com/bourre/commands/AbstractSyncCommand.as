@@ -1,6 +1,23 @@
-package com.bourre.commands {
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bourre.commands 
+{
 	import flash.events.Event;
 	
+	import com.bourre.events.BasicEvent;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibStringifier;	
 
@@ -17,8 +34,10 @@ package com.bourre.commands {
 	 */
 	public class AbstractSyncCommand extends AbstractCommand implements ASyncCommand
 	{	
+		static public const onCommandEndEVENT : String = "onCommandEnd";
+		
 		protected var _oEB : EventBroadcaster;
-		protected var _eOnCommandEnd : ASyncCommandEvent;
+		protected var _eOnCommandEnd : BasicEvent;
 		protected var _bIsRunning : Boolean;
 		
 		/**
@@ -31,7 +50,7 @@ package com.bourre.commands {
 		{
 			_bIsRunning = false;
 			_oEB = new EventBroadcaster ( this );
-			_eOnCommandEnd = new ASyncCommandEvent ( ASyncCommandEvent.onCommandEndEVENT, this );
+			_eOnCommandEnd = new BasicEvent ( onCommandEndEVENT, this );
 		}
 		
 		/**
@@ -42,8 +61,8 @@ package com.bourre.commands {
 		public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? 
-												[ ASyncCommandEvent.onCommandEndEVENT, listener ].concat( rest )
-												: [ ASyncCommandEvent.onCommandEndEVENT, listener ] );
+												[ onCommandEndEVENT, listener ].concat( rest )
+												: [ onCommandEndEVENT, listener ] );
 		}
 		
 		/**
@@ -53,7 +72,7 @@ package com.bourre.commands {
 		 */
 		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			return _oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener );
+			return _oEB.removeEventListener( onCommandEndEVENT, listener );
 		}
 
 		/**
