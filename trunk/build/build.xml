@@ -8,7 +8,7 @@
 	
 	<target name="test.Clean">
 		<delete>
-			<fileset dir="${lowra.bin}">
+			<fileset dir="${bin.dir}">
 			    <include name="PixlibTestRunner.swf"/>
 			</fileset>
 		</delete>
@@ -20,9 +20,9 @@
 	
 	<target name="test.Compile">
 		<antcall target="mxmlc.Compile">
-			<param name="src" value="${lowra.testRunner}/PixlibTest.mxml"/>
+			<param name="src" value="${testRunner.dir}/PixlibTest.mxml"/>
 			<param name="output" value="PixlibTestRunner.swf"/>
-			<param name="bin" value="${lowra.bin}"/>
+			<param name="bin" value="${bin.dir}"/>
 		</antcall>
 	</target>
 	
@@ -33,11 +33,11 @@
 	 <target name="test.Launch">
 
     	<antcall target="flashPlayer.Exec">
-			<param name="file" value="${lowra.bin}/FlashInspector3.swf"/>
+			<param name="file" value="${bin.dir}/FlashInspector3.swf"/>
 		</antcall>
 
 	 	<antcall target="flashPlayer.Exec">
-			<param name="file" value="${lowra.bin}/PixlibTestRunner.swf"/>
+			<param name="file" value="${bin.dir}/PixlibTestRunner.swf"/>
 		</antcall>
 
     </target>
@@ -60,8 +60,8 @@
 	
 	<target name="package.Clean">
 		<delete>
-			<fileset dir="${lowra.bin}">
-			    <include name="${lowra.swc}"/>
+			<fileset dir="${bin.dir}">
+			    <include name="${swc}"/>
 			</fileset>
 		</delete>
 	</target>
@@ -74,10 +74,10 @@
 		<java jar="${compc.jar}" fork="true">
 			<arg line="-load-config=${flex.config}"/>
 			
-			<arg line="-is=${lowra.src}"/>
-			<arg line="-sp=${lowra.src}"/>
+			<arg line="-is=${src.dir}"/>
+			<arg line="-sp=${src.dir}"/>
 	
-			<arg line="-output=${lowra.bin}/${lowra.swc}"/>
+			<arg line="-output=${bin.dir}/${swc}"/>
 		</java>
 	</target>
 
@@ -99,7 +99,7 @@
 	<target name="docs.Clean">
 
 		<delete includeemptydirs="true">
-			<fileset dir="${lowra.docs}" includes="**/*"/>
+			<fileset dir="${docs.dir}" includes="**/*"/>
 		</delete>
 		
 	</target>
@@ -118,9 +118,9 @@
 			
 			<arg line="-load-config=${flex.config}"/>
 			
-			<arg line="-source-path=${lowra.src}"/>
-			<arg line="-doc-sources=${lowra.src}"/>
-			<arg line="-output=${lowra.docs}"/>
+			<arg line="-source-path=${src.dir}"/>
+			<arg line="-doc-sources=${src.dir}"/>
+			<arg line="-output=${docs.dir}"/>
 			
 			<!-- GENERAL TITLES & DESCRIPTION -->
 			
@@ -160,8 +160,8 @@
 	*****************************************************-->	
 	
 	<target name="docs.CopyIncludes">
-		<copy todir="${lowra.docs}">
-			<fileset dir="${lowra.docsIncludes}">
+		<copy todir="${docs.dir}">
+			<fileset dir="${docsIncludes.dir}">
 			</fileset>
 		</copy>
 	</target>
@@ -196,19 +196,98 @@
 		in the ${bin} directory
 	-->
 	<target name="mxmlc.Compile">
+		
+		<condition property="includes.source" value="-includes='${includes}'" else="">
+			<isset property="includes"/>
+		</condition>
+			
+		<condition property="excludes.source" value="-externs='${excludes}'" else="">
+			<isset property="excludes"/>
+		</condition>
+		
+		<condition property="link.report" value="-link-report='${report}'" else="">
+			<isset property="report"/>
+		</condition>
+		
 		<java jar="${mxmlc.jar}" fork="true">
 			<arg line="-load-config=${flex.config}"/>
 			<arg line="-source-path=${flex.framework.dir}"/>
 
-			<arg line="-source-path+=${lowra.src}"/>
-			<arg line="-source-path+=${lowra.test}"/>
-			<arg line="-source-path+=${lowra.testRunner}"/>
+			<arg line="-source-path+=${src.dir}"/>
+			<arg line="-source-path+=${test.dir}"/>
+			<arg line="-source-path+=${testRunner.dir}"/>
+			
+			<arg line="${includes.source}"/>
+			<arg line="${excludes.source}"/>
+			<arg line="${link.report}"/>
 
 			<arg line="-library-path+=${flexunit.swc}"/>	
 
-			<arg line="-output=${bin}/${output}"/>
+			<arg line="-output=${bin.dir}/${output}"/>
 			<arg line="${src}"/>
 		</java>
+	</target>
+	
+	<!--
+		Compile a dll using a temporary entry class
+	-->
+	
+	<target name="dll.Compile">
+		<property name="tempfile" value="DLLEntryPoint"/>
+		
+		<antcall target="dll.CreateTempEntry">
+			<param name="tempfile" value="${tempfile}"/>
+		</antcall>
+		
+		<antcall target="mxmlc.Compile">
+			<param name="src" value="${src.dir}/${tempfile}.as"/>
+			<param name="output" value="${dll.name}.swf"/>
+			<param name="bin" value="${dll.dir}"/>
+			<param name="includes" value="${dll.includes}"/>
+			<param name="excludes" value="${dll.excludes}"/>
+			<param name="report" value="${dll.report}"/>
+		</antcall>
+		
+		<antcall target="dll.CleanTempEntry">
+			<param name="tempfile" value="${tempfile}"/>
+		</antcall>
+	</target>
+	
+	<!--
+		Tests the Dll compile task
+		Copy paste that target to create your own dll compilation tasks
+	-->
+	<target name="dll.Test">
+		<antcall target="dll.Compile">
+			<param name="dll.name" value="TestDll"/>
+			<param name="dll.dir" value="${bin.dir}"/>
+			<param name="dll.includes" value="com.bourre.commands.Runnable"/>
+			<param name="dll.excludes" value=""/>
+			<param name="dll.report" value="${bin.dir}/dllreport.xml"/>
+		</antcall>
+	</target>
+	
+	<!--
+		Generates a temporary *.as file containing an empty class which extends sprites
+		and which could be used as entry point for dll compilation
+	-->
+	
+	<target name="dll.CreateTempEntry">
+		<echo file="${src.dir}/${tempfile}.as">package
+{
+	import flash.display.Sprite;
+	public class ${tempfile} extends Sprite {}
+}
+		</echo>
+	</target>
+	
+	<!--
+		Clean the previously created temporary entry point
+	-->
+	<target name="dll.CleanTempEntry">
+		<delete>
+			<fileset file="${src.dir}/${tempfile}.as"/>
+		</delete>
 	</target>
 
 </project>
