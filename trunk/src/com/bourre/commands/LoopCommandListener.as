@@ -22,6 +22,6 @@ package com.bourre.commands
 	 */
 	public interface LoopCommandListener extends ASyncCommandListener 
 	{
-		function onLoopStart( e : LoopEvent ) : void;		function onLoopProgress( e : LoopEvent ) : void;		function onLoopEnd( e : LoopEvent ) : void;		function onLoopAbort( e : LoopEvent ) : void;
+		function onLoopStart( e : LoopEvent ) : void;		function onLoopProgress( e : LoopEvent ) : void;		function onLoopEnd( e : LoopEvent ) : void;		function onLoopCancel( e : LoopEvent ) : void;
 	}
 }

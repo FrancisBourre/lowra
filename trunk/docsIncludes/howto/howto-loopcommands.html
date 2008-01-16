@@ -1,0 +1,236 @@
+<html>
+	<head>
+		<title>LowRA API Documentation</title>
+		<link rel="stylesheet" href="../../docs/style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../../docs/print.css" type="text/css" media="print" />
+		<script language="javascript" type="text/javascript" src="../../docs/asdoc.js" />
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'How to use LoopCommand and IterationCommand - LowRA API Documentation';
+			var baseRef = '../../docs/';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+			
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
+					   	href="../../docs/package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
+						href="../../docs/class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../../docs/index-list.html')" 
+						href="../../docs/.all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../../docs/index.html?howto/howto-loopcommands.html&amp;class-list.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../docs/images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					How to use LoopCommand and IterationCommand
+				</td class="titleTableSubTitle">
+				<td></td>			
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		<script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("How to use LoopCommand and IterationCommand");
+			
+			titleBar_setSubNav(false,	false,	  false,
+							   false,   false,	  false,
+							   false,   false,	  false,
+							   false,   false,	  false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+
+<h3>A brief introduction to loop and iteration commands</h3>
+<code>LoopCommand</code> and <code>IterationCommand</code> are a representation of the
+traditionnal loop statements (such <code>for</code> and <code>while</code>) as asynchronous
+commands.
+<p>
+The main idea is that loop command represent the statement itself, and iteration command
+represent the inner statement part.
+For example, in the statement below : 
+<div class="listing"><pre>while( i.hasNext() )
+{
+	trace( i.next() );
+}</pre></div>
+</p>
+<p>
+The part below is transformed in a LoopCommand object : 
+<div class="listing"><pre>while( i.hasNext() )</pre></div>
+</p>
+<p>
+All the part below is transformed in an IterationCommand :
+<div class="listing"><pre>{
+	trace( i.next() );
+}</pre></div>
+</p>
+<p>
+Loop commands favour <code>Iterator</code> based statement instead of traditionnal <code>for</code>
+and <code>for...each</code> statements, even if it is always possible to regain these behavior with
+the general purpose iterators (<code>StringIterator</code>, <code>ArrayIterator</code> and
+<code>ObjectIterator</code>). You can although create your own custom iterator which doesn't need
+to process iteration in a regular way (iterate from 0 to size(), elements by elements).
+</p>
+
+<h3>How the LoopCommand iterate over elements</h3>
+
+When creating a <code>LoopCommand</code> object, you also define the concret iteration command
+associated with it. When starting the loop (with the <code>run</code> or <code>execute</code>
+methods) the loop command get an iterator from the iteration command, and then will starts its
+process by register itself as listener of a <code>TickBeacon</code> instance. At each tick, and
+while the current execution time is not greater than the max execution time per tick limit of
+this loop command, the loop while realize as many iterations as possible. Iteration are defined
+as a call to the <code>execute</code> method of the <code>IterationCommand</code> instance, with
+an <code>IterationEvent</code> as argument. The iteration command now can perform its action
+with the data carried by the event object.
+<p>
+Below an example of a concret <code>IterationCommand</code> based on the real statement above.
+<div class="listing"><pre>package 
+{
+	import flash.events.Event;
+
+	import com.bourre.commands.AbstractIterationCommand;
+	import com.bourre.commands.IterationEvent;
+	
+	class TraceIteration extends AbstractIterationCommand
+	{
+		override public function execute ( e : Event = null ) : void
+		{
+			trace ( ( e as IterationEvent ).getValue() );
+		}
+	}	
+}	
+</pre></div>
+Afterwards, the code below creates a <code>LoopCommand</code> and start it :
+<div class="listing"><pre>package
+{
+	import flash.display.Sprite;
+	
+	import com.bourre.collection.Iterator;
+	import com.bourre.collection.ArrayIterator;
+	import com.bourre.commands.LoopCommand;
+	import com.bourre.commands.LoopCommandListener;
+	import com.bourre.events.LoopEvent;
+	
+	class LoopCommandDemo extends Sprite implements LoopCommandListener
+	{
+		private var _oLoop : LoopCommand;
+		
+		public function LoopCommandDemo ()
+		{
+			// create an iterator over array elements
+			var a : Array = new Array( 0,1,2,3,4,5,6,7,8,9 );
+			var i : Iterator = new ArrayIterator( a );
+			
+			// create the concret iteration command
+			var iteration : TraceIteration( i );
+			
+			// create the loop
+			_oLoop = new LoopCommand ( iteration );
+			
+			// start the loop
+			_oLoop.execute();
+		}
+		
+		public function onLoopStart( e : LoopEvent ) : void
+		{
+			trace ( "loop started" );
+		}
+		
+		public function onLoopProgress( e : LoopEvent ) : void
+		{
+			trace ( "loop progressed to " + e.getCount() + "iterations in one step" );
+		}
+		
+		public function onLoopEnd( e : LoopEvent ) : void
+		{
+			trace ( "loop finished after " + e.getCount() + " iterations" );
+		}
+		
+		public function onLoopCancel( e : LoopEvent ) : void
+		{
+			trace ( "loop cancelled after " + e.getCount() + " iterations" );
+		}
+	}
+}
+</pre></div>
+
+In the example above, the amount of iteration is not significant enough
+to take more time than the default execution time limit (15ms) so the
+output should look like that : 
+
+<div class="listing"><pre>loop started
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+loop progressed to 10 iterations in one step
+loop finished after 10 iterations	
+</pre></div>
+
+Now, let say that we replace the <code>execute</code> method of our
+<code>TraceIteration</code> command by : 
+
+<div class="listing"><pre>override public function execute ( e : Event = null ) : void
+{
+	var t : Number = getTimer();
+	// forcing an execution time of 5ms
+	while( getTimer() - t &lt; 5 );
+	
+	trace ( ( e as IterationEvent ).getValue() );
+}	
+</pre></div>
+
+As the max execution time is set to 15 ms the output should look like :
+
+<div class="listing"><pre>loop started
+0
+1
+2
+loop progressed to 3 iterations in one step
+3
+4
+5
+loop progressed to 6 iterations in one step
+6
+7
+8
+loop progressed to 9 iterations in one step
+9
+loop progressed to 10 iterations in one step
+loop finished after 10 iterations	
+</pre></div>
+
+</p>
+		</div>
+		
+	</body>
+</html>

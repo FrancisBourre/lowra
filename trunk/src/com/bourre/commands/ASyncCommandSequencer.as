@@ -15,16 +15,15 @@
  */
 package com.bourre.commands
 {
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
-
-	import com.bourre.events.BasicEvent;	
 	
+	import com.bourre.events.BasicEvent;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;	
+
 	/*
 	 * Upgrade to IOC : 
 	 *  - remove abstract protection hack and call super with constructor argument
@@ -129,7 +128,7 @@ package com.bourre.commands
 		 * @param e
 		 * 
 		 */
-		public function onCommandEnd( e : BasicEvent):void
+		public function onCommandEnd( e : Event):void
 		{
 			if ( _nStep + 1 < getLength() )
 			{

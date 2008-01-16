@@ -38,7 +38,7 @@ package com.bourre.commands
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
 		
 		static public const onLoopStartEVENT 	: String = "onLoopStart";
-		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT 		: String = "onLoopEnd";		static public const onLoopAbortEVENT 	: String = "onLoopAbort";
+		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT 		: String = "onLoopEnd";		static public const onLoopCancelEVENT 	: String = "onLoopCancel";
 		
 		static private const onIterationEVENT 	: String = "onIteration";
 		
@@ -46,7 +46,7 @@ package com.bourre.commands
 		private var _oIterator : Iterator;
 		private var _oBeacon : TickBeacon;
 		private var _nIterationTimeLimit : Number;
-		private var _nIndex : Number;
+		private var _nIndex : Number;		private var _bIsCancelled : Boolean;
 
 		/**
 		 * 
@@ -62,6 +62,7 @@ package com.bourre.commands
 			_oCommand =  command;
 			_nIterationTimeLimit = iterationLimit;
 			_bIsRunning = false;
+			_bIsCancelled = false;
 		}
 		
 		/**
@@ -80,12 +81,12 @@ package com.bourre.commands
 		public function cancel () : void
 		{
 			stop();
-			
-			_oCommand.cancel();
-			_oCommand = null;
+
+			//_oCommand = null;
 			_oIterator = null;
+			_bIsCancelled = true;
 			
-			fireOnLoopAbortEvent( _nIndex );
+			fireOnLoopCancelEvent( _nIndex );			
 		}		
 		
 		/**
@@ -94,7 +95,7 @@ package com.bourre.commands
 		 */
 		public function isCancelled () : Boolean
 		{
-			return false;
+			return _bIsCancelled;
 		}
 		
 		
@@ -229,9 +230,9 @@ package com.bourre.commands
 		/**
 		 * 
 		 */
-		protected function fireOnLoopAbortEvent ( n : Number ) : void
+		protected function fireOnLoopCancelEvent ( n : Number ) : void
 		{
-			_oEB.broadcastEvent(  new LoopEvent( onLoopAbortEVENT, this, n ) );
+			_oEB.broadcastEvent(  new LoopEvent( onLoopCancelEVENT, this, n ) );
 		}
 		/**
 		 * 

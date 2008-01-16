@@ -1,41 +1,77 @@
 <html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'Your Title Here' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
 	<head>
-		<title>LowRA API Documentation</title>
+		<title>Your Title Here -LowRA API Documentation</title>
 		<link rel="stylesheet" href="../../docs/style.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../../docs/print.css" type="text/css" media="print" />
 		<script language="javascript" type="text/javascript" src="../../docs/asdoc.js" />
+
 	</head>
 	<body>
-		<table class="titleTable" cellpadding="0" cellspacing="0">
-		  <tr>
-			<td class="titleTableTitle" align="left">LowRA API Documentation</td>
-			<td class="titleTableTopNav" align="right">
-				<a target="classFrame" href="package-summary.html" onclick="loadClassListFrame('all-classes.html')">All Packages</a> | 
-				<a target="classFrame" href="class-summary.html" onclick="loadClassListFrame('all-classes.html')">All Classes</a> |
-				<a target="classFrame" href="all-index-A.html" onclick="loadClassListFrame('index-list.html')">Index</a> | 
-				<a href="" onclick="parent.location=parent.classFrame.location">No Frames</a>
-			</td>
-			<!-- <td class="titleTableLogo" align="right" rowspan="3"><img src="images/logo.jpg" class="logoImage" title="Adobe Logo" alt="Adobe Logo" /></td> -->
-			<td align="right" rowspan="3"><p></p> </td>
-		  </tr>
-		  <tr class="titleTableRow2">
-		  	
-			<!--******************************************************************************** 
-				PAGE TITLE	
-			************************************************************************************-->
-			<td class="titleTableSubTitle" colspan="2" id="subTitle" align="left">Your Page Title Here</td>
-
-		  </tr>
-		  <tr class="titleTableRow3">
-		  	
-			<!--******************************************************************************** 
-				PAGE CONTENT	
-			************************************************************************************-->
-		  	<td colspan="2">
-			</td>
-
-		  </tr>
-		</table>
+		<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'Your Title Here - LowRA API Documentation';
+			var baseRef = '../../docs/';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+			
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
+					   	href="../../docs/package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
+						href="../../docs/class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../../docs/index-list.html')" 
+						href="../../docs/all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../../docs/index.html?howto/YourFileNameHere.html&amp;class-list.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					Your Title Here
+				</td>			
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		<script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("Your Title Here");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
 		<div class="MainContent">
 			<p>Your Page Content Here</p>
 		</div>
