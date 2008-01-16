@@ -18,8 +18,20 @@ package com.bourre.commands
 	import com.bourre.collection.Iterable;
 	
 	/**
-	 * @author Cédric Néhémie
+	 * <code>IterationCommand</code>s are used by a <code>LoopCommand</code> to perform
+	 * the concret iterations. <code>IterationCommand</code> interface simply aggregate
+	 * many other interfaces to ensure that all iteration commands should provides the
+	 * same controls.
+	 * <p>
+	 * Concret implementations must consider each call of the <code>execute</code> method
+	 * as loop iteration. All actions for a single elements must process in the call.
+	 * </p>
+	 * 
+	 * @author	Cédric Néhémie
+	 * @see		LoopCommand
+	 * @see		../../../../docs/howto/howto-loopcommands.html How to use LoopCommand
+	 * 			and IterationCommand
 	 */
-	public interface IterationCommand extends Iterable, Command, Cancelable
+	public interface IterationCommand extends Iterable, Command
 	{}
 }

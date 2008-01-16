@@ -13,32 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.commands {
+package com.bourre.commands 
+{
 	import flash.events.Event;
 	
 	import com.bourre.collection.Iterator;
-	import com.bourre.commands.AbstractCommand;	
+	import com.bourre.error.UnimplementedVirtualMethodException;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;		
 
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class AbstractIterationCommand extends AbstractCommand implements IterationCommand 
+	public class AbstractIterationCommand implements IterationCommand 
 	{
 		protected var _oIterator : Iterator;
 
 		public function AbstractIterationCommand ( i : Iterator )
 		{
-			super( );
-			
 			_oIterator = i;
 		}
 		
-		override public function execute( e : Event = null ) : void
+		public function execute( e : Event = null ) : void
 		{
-		}
-		
-		public function abort () : void
-		{
+			var msg : String = this + ".execute() must be implemented in concrete class.";
+			PixlibDebug.ERROR( msg );
+			throw( new UnimplementedVirtualMethodException( msg ) );
 		}
 		
 		public function iterator () : Iterator
@@ -50,23 +50,10 @@ package com.bourre.commands {
 		{
 			_oIterator = i;
 		}
-		
-		public function cancel () : void
+	
+		public function toString() : String 
 		{
-		}
-		
-		public function isCancelled () : Boolean
-		{
-			return false;
-		}
-		
-		public function run () : void
-		{
-		}
-		
-		public function isRunning () : Boolean
-		{
-			return false;
+			return PixlibStringifier.stringify( this );
 		}
 	}
 }
