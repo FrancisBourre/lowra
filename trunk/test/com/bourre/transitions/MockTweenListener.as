@@ -1,8 +1,7 @@
 package com.bourre.transitions
 {
-	import flash.events.Event;
-	import com.bourre.commands.ASyncCommandEvent;
-	
+	import flash.events.Event;	
+
 	public class MockTweenListener implements TweenListener
 	{
 		public var commandEndCalled : Boolean;
@@ -33,7 +32,7 @@ package com.bourre.transitions
 			motionChangedCalled = true;
 		}
 		
-		public function onCommandEnd ( e : ASyncCommandEvent ) : void
+		public function onCommandEnd ( e : Event ) : void
 		{
 			commandEndCalled = true;
 		}

@@ -15,11 +15,13 @@
  */
 package com.bourre.service 
 {
-	import com.bourre.collection.Collection;
-	import com.bourre.commands.ASyncCommandEvent;
+	import com.bourre.collection.Collection;
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.commands.AbstractCommand;
-	import com.bourre.events.EventBroadcaster;	
+	import com.bourre.commands.AbstractSyncCommand;
+	import com.bourre.events.BasicEvent;
+	import com.bourre.events.EventBroadcaster;		
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -82,18 +84,18 @@ package com.bourre.service
 
 		public function addASyncCommandListener( listener : ASyncCommandListener, ...rest ) : Boolean
 		{
-			var type : String = ASyncCommandEvent.onCommandEndEVENT;
+			var type : String =  AbstractSyncCommand.onCommandEndEVENT;
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 
 		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			return _oEB.removeEventListener( ASyncCommandEvent.onCommandEndEVENT, listener ); 
+			return _oEB.removeEventListener( AbstractSyncCommand.onCommandEndEVENT, listener ); 
 		}
 
 		public function fireCommandEndEvent() : void
 		{
-			_oEB.broadcastEvent( new ASyncCommandEvent( ASyncCommandEvent.onCommandEndEVENT, this ) );
+			_oEB.broadcastEvent( new BasicEvent(  AbstractSyncCommand.onCommandEndEVENT, this ) );
 		}
 
 		public function release() : void

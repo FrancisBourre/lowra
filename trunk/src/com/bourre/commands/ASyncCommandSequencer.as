@@ -23,6 +23,8 @@ package com.bourre.commands
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 
+	import com.bourre.events.BasicEvent;	
+	
 	/*
 	 * Upgrade to IOC : 
 	 *  - remove abstract protection hack and call super with constructor argument
@@ -38,15 +40,16 @@ package com.bourre.commands
 	 * @see		ASyncCommand
 	 * @see		ASyncCommandListener
 	 */
-	public class ASyncCommandSequencer extends AbstractSyncCommand	
-		implements ASyncCommand, ASyncCommandListener
+	public class ASyncCommandSequencer extends AbstractSyncCommand	implements ASyncCommand, ASyncCommandListener
 	{
+		static public const onCommandTimeoutEVENT : String = "onCommandTimeout";
+		
 		private var _aCommands : Array;
 		private var _nTimeout : Number;
 		private var _nStep : Number;
 		private var _oTimer : Timer;
 		
-		private var _eOnCommandTimeout : ASyncCommandEvent;
+		private var _eOnCommandTimeout : BasicEvent;
 		
 		/**
 		 * 
@@ -61,7 +64,7 @@ package com.bourre.commands
 			_oTimer = new Timer( _nTimeout == -1 ? 1 : _nTimeout, 1 );
 		  	_oTimer.addEventListener( TimerEvent.TIMER_COMPLETE, _onTimeout );
 
-		  	_eOnCommandTimeout = new ASyncCommandEvent ( ASyncCommandEvent.onCommandTimeoutEVENT, this );
+		  	_eOnCommandTimeout = new BasicEvent ( onCommandTimeoutEVENT, this );
 		}		
 		
 		/**
@@ -126,7 +129,7 @@ package com.bourre.commands
 		 * @param e
 		 * 
 		 */
-		public function onCommandEnd( e : ASyncCommandEvent):void
+		public function onCommandEnd( e : BasicEvent):void
 		{
 			if ( _nStep + 1 < getLength() )
 			{

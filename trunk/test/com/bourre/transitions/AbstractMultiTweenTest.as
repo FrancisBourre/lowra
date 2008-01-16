@@ -10,7 +10,7 @@ package com.bourre.transitions
 		private var _t : MockMultiTweenFPS;
 		private var _o : Sprite;
 		private var _m : MockAccessor;
-		private var errorOccurs : Boolean
+		private var errorOccurs : Boolean;
 		
 		public override function setUp () : void
 		{
@@ -37,7 +37,7 @@ package com.bourre.transitions
 			}
 			catch ( e : Error )
 			{
-				errorOccurs = true
+				errorOccurs = true;
 			}
 			
 			assertTrue ( "MockMultiTweenFPS constructor don't failed to create a tween with an invalid target property - test2 failed", errorOccurs );
@@ -50,7 +50,7 @@ package com.bourre.transitions
 			
 			_t.start();
 			
-			while ( _t.isPlaying() )
+			while ( _t.isRunning() )
 			{
 				MockBeacon.getInstance().fireOnTickEvent( null );
 				n++;
@@ -64,7 +64,7 @@ package com.bourre.transitions
 			_t.yoyo();
 			n = 10;
 			i = 0;
-			while ( _t.isPlaying() )
+			while ( _t.isRunning() )
 			{
 				MockBeacon.getInstance().fireOnTickEvent( null );
 				n--;
@@ -81,7 +81,7 @@ package com.bourre.transitions
 			n = 0;
 			i = 0;
 			var step : Number;
-			while ( t.isPlaying() )
+			while ( t.isRunning() )
 			{
 				MockBeacon.getInstance().fireOnTickEvent( null );
 				n++;
@@ -100,7 +100,7 @@ package com.bourre.transitions
 			assertTrue( "Listener haven't been added - test1 failed", _t.addASyncCommandListener( l ) );
 			_t.start();
 			
-			while ( _t.isPlaying() )
+			while ( _t.isRunning() )
 			{
 				MockBeacon.getInstance().fireOnTickEvent( null );
 			}
@@ -114,7 +114,7 @@ package com.bourre.transitions
 			assertTrue( "Listener haven't been added - test1 failed", _t.addListener( l ) );
 			_t.start();
 
-			while ( _t.isPlaying() )
+			while ( _t.isRunning() )
 			{
 				MockBeacon.getInstance().fireOnTickEvent( null );
 			}
@@ -135,7 +135,7 @@ package com.bourre.transitions
 			
 			var n : Number = 0;
 
-			while ( _t.isPlaying() )
+			while ( _t.isRunning() )
 			{
 				n++;
 				
