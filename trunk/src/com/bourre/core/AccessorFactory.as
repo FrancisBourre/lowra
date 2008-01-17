@@ -19,12 +19,7 @@ package com.bourre.core
 	import com.bourre.log.PixlibDebug;
 	
 	public class AccessorFactory 
-	{
-		//-------------------------------------------------------------------------
-		// Public API
-		//-------------------------------------------------------------------------
-		
-		
+	{		
 		public static function getAccessor( t : Object , setter : String, getter : String = null ) : Accessor
 		{
 			if( !t )

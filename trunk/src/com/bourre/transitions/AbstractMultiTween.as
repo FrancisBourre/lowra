@@ -13,62 +13,74 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.transitions {
+package com.bourre.transitions 
+{
 	import flash.events.Event;
 	
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.core.AccessorComposer;
 	import com.bourre.core.AccessorFactory;
+	import com.bourre.error.IndexOutOfBoundsException;
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.utils.ClassUtils; 
+	import com.bourre.utils.ClassUtils;	
 
-	public class AbstractMultiTween extends AbstractSyncCommand
+	/**
+	 * 
+	 * @author	Cédric Néhémie
+	 */
+	public class AbstractMultiTween extends AbstractSyncCommand	
 									implements AdvancedTween, TickListener
 	{	
+		static public function noEasing( t : Number,  b : Number,  c : Number, d : Number ) : Number 
+		{
+			return c * t / d + b;
+		}
+		
 		//-------------------------------------------------------------------------
 		// Private properties
 		//-------------------------------------------------------------------------
-		protected var _aS:Array; 
-		protected var _aE:Array;
-		protected var _aRS:Array;
-		protected var _aRE:Array;
-		protected var _nRate:Number;
-		protected var _fE:Function;
 		
-		protected var _oSetter : AccessorComposer;
-		protected var _oBeacon : TickBeacon;
-		
-		protected var _eOnStart : TweenEvent;
-		protected var _eOnStop : TweenEvent;
-		protected var _eOnMotionChanged : TweenEvent;
+		protected var _aStart			 : Array; 
+		protected var _aEnd				 : Array;
+		protected var _aStartValues		 : Array;
+		protected var _aEndValues		 : Array;
+		protected var _nDuration		 : Number;
+		protected var _fEasing			 : Function;	
+		protected var _nPlayHead		 : Number;
+		protected var _bReversedMotion 	 : Boolean;	
+		protected var _oSetter 			 : AccessorComposer;
+		protected var _oBeacon 			 : TickBeacon;		
+		protected var _eOnStart 		 : TweenEvent;
+		protected var _eOnStop 			 : TweenEvent;
+		protected var _eOnMotionChanged  : TweenEvent;
 		protected var _eOnMotionFinished : TweenEvent;
 		
 		//-------------------------------------------------------------------------
 		// Private implementation
 		//-------------------------------------------------------------------------
 		
-		public function AbstractMultiTween( 
-									   		oT : Object, 
-									   		sP : Array, 
-									   		aE : Array, 
-									   		nRate : Number, 
-									   		aS : Array = null, 
-									   		fE : Function = null,
-									   		gP : Array = null )
+		public function AbstractMultiTween( targets : Object, 
+									   		setters : Array, 
+									   		endValues : Array, 
+									   		duration : Number, 
+									   		startValues : Array = null, 
+									   		easing : Function = null,
+									   		getters : Array = null )
 		{
-			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions:AbstractMultiTween", "isMotionFinished", "onUpdate" ) )
+			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions:AbstractMultiTween", "isMotionFinished", "isReversedMotionFinished" ) )
 			{
-				PixlibDebug.ERROR ( this + " have to implements virtual methods : isMotionFinished & onUpdate" );
-				throw new UnimplementedVirtualMethodException ( this + " have to implements virtual methods : isMotionFinished & onUpdate" );
+				PixlibDebug.ERROR ( this + " have to implements virtual methods : isMotionFinished & isReversedMotionFinished" );
+				throw new UnimplementedVirtualMethodException ( this + " have to implements virtual methods : isMotionFinished & isReversedMotionFinished" );
 			}
-			_buildAccessor( oT, sP, gP, aS );
+			_buildAccessor( targets, setters, getters, startValues );
 			
 			_bIsRunning = false;
-			_aRE = aE;
-			_nRate = nRate;
-			setEasing(fE);
+			_aEndValues = endValues;
+			_nDuration = duration;
+			
+			setEasing( easing );
+			reset();
 			
 			_eOnStart = new TweenEvent ( TweenEvent.onStartEVENT, this );
 			_eOnStop = new TweenEvent ( TweenEvent.onStopEVENT, this );
@@ -76,14 +88,13 @@ package com.bourre.transitions {
 			_eOnMotionFinished = new TweenEvent ( TweenEvent.onMotionFinishedEVENT, this );
 		}
 		
-		public static function noEasing( t : Number,  b : Number,  c : Number, d : Number ) : Number 
-		{
-			return c * t / d + b;
-		}
+		/*-----------------------------------------------
+		 *	TickListener IMPLEMENTATION
+		 *-----------------------------------------------*/
 		
 		public function onTick( e : Event = null ) : void
 		{
-			if ( isMotionFinished() )
+			if ( _bReversedMotion ? isReversedMotionFinished() :  isMotionFinished() )
 			{
 				_onMotionEnd();
 			} 
@@ -93,60 +104,34 @@ package com.bourre.transitions {
 			}
 		}
 		
-		public function isMotionFinished () : Boolean
-		{	
-			return false;
-		}
-		
-		public function onUpdate ( sV : Number, eV : Number ) : Number
-		{
-			return 0;
-		}
-		
-		public function _update() : void
-		{
-			var a : Array = new Array();
-			var l : Number = _aE.length;
-			for ( var i : Number= 0; i < l; i++ ) a.push( onUpdate( _aS[i], _aE[i] ) );
-			_oSetter.setValue( a );
-			_oEB.broadcastEvent( _eOnMotionChanged );	
-		}
-		
-		public function setEasing( f : Function ) : void
-		{
-			_fE = ( f != null ) ?  f : AbstractTween.noEasing;
-		}
-		
-		public function getEasing() : Function
-		{
-			return _fE;
-		}
-		
-		public function getDuration() : Number
-		{
-			return _nRate;
-		}
-
+		/*-----------------------------------------------
+		 *	Suspendable IMPLEMENTATION
+		 *-----------------------------------------------*/
 		
 		public function reset() : void
-		{}
+		{
+			_nPlayHead = 0;
+			_bReversedMotion = false;
+			_aStart = _aStartValues;
+			_oSetter.setValue( _aStart );
+			_aEnd = _aEndValues;
+		}
 		
 		public function start() : void
 		{
-			execute();
-			_oEB.broadcastEvent( _eOnStart );
+			if ( !_aStartValues ) 
+			{
+				PixlibDebug.FATAL( this + " has no start value." );
+				
+			} 
+			else
+			{
+				_bIsRunning = true;
+				_oBeacon.addTickListener(this);
+				_oEB.broadcastEvent( _eOnStart );
+			}
 		}
-		
-		public function yoyo() : void
-		{
-			stop();
-			
-			setEndValue( _aRS );
-			setStartValue( _oSetter.getValue() );
-			
-			start();
-		}
-		
+				
 		public function stop() : void
 		{
 			_oBeacon.removeTickListener(this);
@@ -154,27 +139,85 @@ package com.bourre.transitions {
 			_oEB.broadcastEvent( _eOnStop );
 		}
 		
-		public function resume() : void
+		/*-----------------------------------------------
+		 *	Tween IMPLEMENTATION
+		 *-----------------------------------------------*/
+		
+		public function setEasing( f : Function ) : void
 		{
-			_bIsRunning = true;
-			_oBeacon.addTickListener(this);
-			
+			_fEasing = ( f != null ) ?  f : AbstractTween.noEasing;
 		}
 		
+		
+		/*-----------------------------------------------
+		 *	VIRTUAL MEMBERS
+		 *-----------------------------------------------*/
+		
+		public function isMotionFinished () : Boolean
+		{	
+			return false;
+		}
+		
+		public function isReversedMotionFinished () : Boolean
+		{	
+			return false;
+		}
+		
+		/*-----------------------------------------------
+		 *	ELSE
+		 *-----------------------------------------------*/
+		
+		public function onUpdate ( sV : Number, eV : Number ) : Number
+		{
+			return _fEasing( _nPlayHead, sV, eV - sV, _nDuration );
+		}
+		
+		public function _update() : void
+		{
+			var a : Array = new Array();
+			var l : Number = _aEnd.length;
+			for ( var i : Number= 0; i < l; i++ ) a.push( onUpdate( _aStart[i], _aEnd[i] ) );
+			_oSetter.setValue( a );
+			_oEB.broadcastEvent( _eOnMotionChanged );	
+		}
+		
+		public function isReversed() : Boolean
+		{
+			return _bReversedMotion;
+		}
+		
+		public function setReversed( b : Boolean ) : void
+		{
+			_bReversedMotion = b;
+		}
+		
+		public function setPlayHeadPosition ( n : Number ) : void
+		{
+			if ( n < 0 || n > 1 )
+				throw new IndexOutOfBoundsException( "The new playhead position must be in the range 0 < n < 1" );
+				
+			_nPlayHead = Math.floor( n * _nDuration );
+		}
+
+		public function getPlayHeadPosition () : Number
+		{
+			return _nPlayHead / _nDuration;
+		}
+		
+		public function getEasing() : Function
+		{
+			return _fEasing;
+		}
+		
+		public function getDuration() : Number
+		{
+			return _nDuration;
+		}
+				
 		public override function execute( e : Event = null ) : void
 		{
-			if ( !_aRS ) 
-			{
-				PixlibDebug.FATAL( this + " has no start value." );
-				
-			} else
-			{
-				_aS = _aRS;
-				_oSetter.setValue( _aS );
-				_aE = _aRE;
-				_bIsRunning = true;
-				_oBeacon.addTickListener(this);
-			}
+			reset();
+			start();
 		}
 
 		public function getTarget () : Object
@@ -184,33 +227,27 @@ package com.bourre.transitions {
 		
 		public function setStartValue( a : Array ) : void
 		{
-			_aRS = a;
+			_aStartValues = a;
 		}
 		
 		public function getStartValue () : Array
 		{
-			return _aRS;
+			return _aStartValues;
 		}
 		
 		public function setEndValue( a : Array ) : void
 		{
-			_aRE = a;
+			_aEndValues = a;
 		}
 		
 		public function getEndValue () : Array
 		{
-			return _aRE;
+			return _aEndValues;
 		}
-
 		
-		public override function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
-		}
-
 		public function setDuration( n : Number ) : void
 		{
-			_nRate = n;
+			_nDuration = n;
 		}
 		
 		public function addListener( listener : TweenListener ) : Boolean
@@ -241,8 +278,8 @@ package com.bourre.transitions {
 		protected function _buildAccessor( o : Object, sP  : Array, gP : Array = null, nS : Array = null ) : void
 		{
 			_oSetter = AccessorFactory.getMultiAccessor( o, sP, gP );
-			if (nS) _aRS = nS;
-			else _aRS = _oSetter.getValue();
+			if (nS) _aStartValues = nS;
+			else _aStartValues = _oSetter.getValue();
 		}
 		
 		protected function _onMotionEnd() : void
@@ -250,8 +287,8 @@ package com.bourre.transitions {
 			_bIsRunning = false;
 			_oBeacon.removeTickListener( this );
 			
+			_nPlayHead = _bReversedMotion ? 0 : _nDuration;
 			_update();
-			_oSetter.setValue( _aE );
 			
 			fireCommandEndEvent();
 			_oEB.broadcastEvent( _eOnMotionFinished );

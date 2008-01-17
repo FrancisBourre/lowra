@@ -15,6 +15,12 @@
  */
 package  com.bourre.core
 { 
+	/**
+	 * The <code>Accessor</code> interface defines common rules
+	 * to create abstract 
+	 * 
+	 * @author	Cédric Néhémie
+	 */
 	public interface Accessor 
 	{
 		function getValue () : Number;

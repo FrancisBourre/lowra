@@ -60,8 +60,9 @@ package com.bourre.transitions
 			}
 			assertEquals ( "Beacon haven't run 10 times - test2 failed", 10, i );
 			assertEquals ( "Target object property don't equals tween end value - test3 failed", 50, _o.x );
-			
-			_t.yoyo();
+
+			_t.setReversed( true );
+			_t.start();
 			n = 10;
 			i = 0;
 			while ( _t.isRunning() )

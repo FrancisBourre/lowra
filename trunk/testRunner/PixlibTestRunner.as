@@ -74,7 +74,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( StringEventTest );
 	ts.addTestSuite( BooleanEventTest );
 	ts.addTestSuite( BasicEventTest );
-
+	/*
 	// com.bourre.ioc.assembler
 	//ts.addTestSuite (ConstructorTest);
 	ts.addTestSuite ( DisplayObjectParserTest );
@@ -108,7 +108,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( ContextNodeNameListTest );
 	ts.addTestSuite( AbstractParserTest );
 	ts.addTestSuite( ObjectParserTest );
-
+	*/
 	// com.bourre.load
 	//ts.addTestSuite( LoaderStrategyTest );
 	//ts.addTestSuite( URLLoaderStrategyTest );	

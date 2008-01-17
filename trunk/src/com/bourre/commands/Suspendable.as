@@ -61,6 +61,12 @@ package com.bourre.commands
 		/**
 		 * Resets the state of this object. The state of an operation
 		 * could be reset at any time, whether it be running or stopped.
+		 * Concret implementation, which not support the <code>reset</code>
+		 * method, can choose to throw an exception or to simply ignore the
+		 * call.
+		 * 
+		 * @throws 	<code>UnsupportedOperationException</code> — The <code>reset</code>
+		 * 			method is not supported by this implementation
 		 */
 		function reset () : void;
 	}

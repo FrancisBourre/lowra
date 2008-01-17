@@ -31,7 +31,7 @@ package com.bourre.core {
 		{
 			var l : Number = _a.length;
 			var a : Array = new Array();
-			for ( var i : Number = 0; i < l; i++ ) a[i] = Accessor( _a[i] ).getValue();
+			while ( --l -(-1) ) a[ l ] = ( _a[ l ] as Accessor ).getValue();
 			return a;
 		}
 		
@@ -48,7 +48,7 @@ package com.bourre.core {
 		public function setValue( values : Array ) : void
 		{
 			var l : Number = _a.length;
-			for ( var i : Number = 0; i < l; i++ ) Accessor( _a[i] ).setValue( values[i] );
+			while ( --l -(-1) ) ( _a[ l ] as Accessor ).setValue( values[ l ] );
 		}
 	}
 }
