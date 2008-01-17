@@ -1,5 +1,5 @@
 package com.bourre.ioc.assembler.displayobject 
-{
+{
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -34,11 +34,11 @@ package com.bourre.ioc.assembler.displayobject
 		public static const onLoadErrorEVENT 		: String = QueueLoaderEvent.onLoadErrorEVENT;
 
 		public static const onDisplayObjectExpertLoadStartEVENT 	: String = "onDisplayObjectExpertLoadStart"; 
-		public static const onDLLLoadStartEVENT 	: String = "onDLLLoadStart";	
-		public static const onDLLLoadInitEVENT 	: String = "onDLLLoadInit";	
-		public static const onDisplayObjectLoadStartEVENT 	: String = "onDisplayObjectLoadStart"; 
-		public static const onDisplayObjectLoadInitEVENT 	: String = "onDisplayObjectLoadInit"; 
-		public static const onDisplayObjectExpertLoadInitEVENT 	: String = "onDisplayObjectExpertLoadInit";
+		public static const onDLLLoadStartEVENT 					: String = "onDLLLoadStart";	
+		public static const onDLLLoadInitEVENT 						: String = "onDLLLoadInit";	
+		public static const onDisplayObjectLoadStartEVENT 			: String = "onDisplayObjectLoadStart"; 
+		public static const onDisplayObjectLoadInitEVENT 			: String = "onDisplayObjectLoadInit"; 
+		public static const onDisplayObjectExpertLoadInitEVENT 		: String = "onDisplayObjectExpertLoadInit";
 
 		public function DisplayObjectExpertEvent( type : String, loader : Loader = null ) 
 		{

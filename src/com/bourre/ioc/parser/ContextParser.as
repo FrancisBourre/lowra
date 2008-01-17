@@ -22,36 +22,21 @@ package com.bourre.ioc.parser
 	 */
 	import com.bourre.collection.Iterator;
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.log.PixlibStringifier;	
 
 	public class ContextParser 
-		extends AbstractParser
 	{
 		protected var _oEB : EventBroadcaster;
 		protected var _pc : ParserCollection;
 		protected var _oContext : XML;
 
-		public function ContextParser( pc : ParserCollection = null, assembler : ApplicationAssembler = null ) 
+		public function ContextParser( pc : ParserCollection = null ) 
 		{
-			super( assembler );
-
-			_oEB = new EventBroadcaster( this );
-
-			if ( _pc == null )
-			{
-				_pc = new ParserCollection();
-				_pc.push( new DLLParser( getAssembler() ) );
-				_pc.push( new DisplayObjectParser( getAssembler() ) );
-				_pc.push( new ObjectParser( getAssembler() ) );
-
-			} else
-			{
-				_pc = pc;
-			}
+			_oEB = new EventBroadcaster( this, ContextParserListener );
+			_pc = pc;
 		}
 
-		override public function parse( xml : * ) : void
+		public function parse( xml : * ) : void
 		{
 			_oEB.broadcastEvent( new ContextParserEvent( ContextParserEvent.onContextParsingStartEVENT, this ) );
 
@@ -62,6 +47,11 @@ package com.bourre.ioc.parser
 			while( i.hasNext() ) ( i.next( ) as AbstractParser ).parse( context );
 
 			_oEB.broadcastEvent( new ContextParserEvent( ContextParserEvent.onContextParsingEndEVENT, this ) );
+		}
+
+		public function toString() : String
+		{
+			return PixlibStringifier.stringify( this );
 		}
 
 		/**
@@ -85,11 +75,6 @@ package com.bourre.ioc.parser
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
-		}
-
-		public function toString() : String
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}
 }

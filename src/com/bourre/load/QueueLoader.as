@@ -1,6 +1,5 @@
 package com.bourre.load
 {
-
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -22,60 +21,65 @@ package com.bourre.load
 	 * @author Cedric Nehemie
 	 * @version 1.0
 	 */
+	import com.bourre.error.NullPointerException;	
 
-	import com.bourre.collection.Queue;
 	import flash.events.Event;
-	import com.bourre.log.PixlibDebug;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
+
+	import com.bourre.collection.Queue;
+	import com.bourre.log.PixlibDebug;	
+
 	public class QueueLoader 
 		extends AbstractLoader 
 	{
 		private var _q : Queue;
 		private var _currentLoader : Loader;
 		private static var _KEY : int = 0 ;
-		
+
 		public function QueueLoader()
 		{
 			_q = new Queue( Loader );
 		}
-		
+
 		public function clear() : void
 		{
 			_q.clear();
 		}
-		
-		public function getCurrentLoader () : Loader
+
+		public function getCurrentLoader() : Loader
 		{
 			return _currentLoader;
 		}
-		
+
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			release();
-
 			super.load( url, context );
 		}
+
 		public override function release() : void
 		{
+			clear();
 			super.release();
 		}
+
 		public override function execute( e : Event = null ) : void
 		{
 			var a : Array = _q.toArray();
 			var l : Number = a.length;
-			
+
 			while( --l > -1 )
 			{
 				var loader : Loader = a[l];
 				if ( !( loader.getURL() ) )
 				{
-					PixlibDebug.ERROR( this + " encounters Loader instance without url property, load fails." );
+					var msg : String = this + " encounters Loader instance without url property, load fails.";
+					PixlibDebug.ERROR( msg );
+					throw NullPointerException( msg );
 					return;
 				}
 			}
-			
+
 			loadNextEntry() ;
 			_onLoadStart();		
 		}
@@ -89,41 +93,39 @@ package com.bourre.load
 		{
 			return _q.toArray();
 		}
-		
+
 		public function size() : uint
 		{
 			return _q.size();
 		}
-		
+
 		public function add( loader : Loader, name : String, url : URLRequest, context : LoaderContext = null ) : Boolean
 		{
 			if ( name != null ) 
 			{
 				loader.setName( name );
-				
+
 				if ( url )
 				{
 					loader.setURL( url );
 					if ( context && loader is GraphicLoader ) ( loader as GraphicLoader ).setContext( context );
 
-				} 
-				else if ( loader.getURL().url )
+				} else if ( loader.getURL().url )
 				{
 					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
 				}
 
-			} 
-			else if( !(loader.getName()) )
+			} else if( !(loader.getName()) )
 			{
 				PixlibDebug.WARN( "You passed Loader argument without any name property in " + this + ".enqueue()." );
 			}
-			
+
 			if (loader.getName() == null) loader.setName( 'library' + QueueLoader._KEY++);
-			
+
 			_q.add(loader);
 			return loader.getName()!= null;
 		}
-		
+
 		public function loadNextEntry() : void
 		{
 			if ( _currentLoader )
@@ -144,49 +146,49 @@ package com.bourre.load
 			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
 			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
 			_currentLoader.addEventListener(LoaderEvent.onLoadErrorEVENT,   onLoaderLoadError);
-			
+
 			_currentLoader.execute() ;
 		}
-		
+
 		public function onLoaderLoadStart( e : LoaderEvent, ... rest ) : void
 		{
 			e.type = QueueLoaderEvent.onItemLoadStartEVENT;
 			fireEvent( e );
 		}
-		
+
 		public function onLoaderLoadInit( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( QueueLoaderEvent.onItemLoadInitEVENT ) ;
 			_processQueue();
 		}
-		
+
 		public function onLoaderLoadProgress( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( e.type );
 		}
-				
+
 		public function onLoaderLoadTimeOut( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( e.type );
 			_processQueue();
 		}
-		
+
 		public function onLoaderLoadError( e : LoaderEvent, ... rest ) : void
 		{
 			fireEventType( e.type );
 			_processQueue();
 		}
-		
+
 		protected override function getLoaderEvent( type : String ) : LoaderEvent
 		{
 			return new QueueLoaderEvent( type, this );
 		}
-				
+
 		private function _onLoadStart() : void
 		{
 			fireEventType( QueueLoaderEvent.onLoadStartEVENT );
 		}
-		
+
 		protected function _processQueue() : void
 		{
 			if ( isEmpty() )
@@ -198,7 +200,7 @@ package com.bourre.load
 				loadNextEntry() ;
 			}
 		}
-		
+
 		private function _onLoadInit () : void
 		{
 			_currentLoader.removeEventListener  (LoaderEvent.onLoadInitEVENT,		onLoaderLoadInit) ;
@@ -206,7 +208,7 @@ package com.bourre.load
 			_currentLoader.removeEventListener  (LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut) ;
 			_currentLoader.removeEventListener  (LoaderEvent.onLoadStartEVENT, 		onLoaderLoadStart) ;
 			_currentLoader.removeEventListener	(LoaderEvent.onLoadErrorEVENT, 		onLoaderLoadError);
-			
+
 			fireEventType(  QueueLoaderEvent.onLoadInitEVENT );
 		}		
 	}

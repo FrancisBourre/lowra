@@ -60,15 +60,11 @@ package com.bourre.load
 
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			release();
-
 			super.load( url, context );
 		}
 
 		public override function release() : void
 		{
-			//
-
 			super.release();
 		}
 

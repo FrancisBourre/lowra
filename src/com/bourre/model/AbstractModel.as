@@ -1,6 +1,5 @@
 package com.bourre.model
 {
-
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -21,15 +20,15 @@ package com.bourre.model
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;
 	
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibStringifier;
-	import flash.events.Event;
-	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;
-	import com.bourre.plugin.NullPlugin;
 	import com.bourre.events.StringEvent;
-	
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.plugin.NullPlugin;
+	import com.bourre.plugin.Plugin;
+	import com.bourre.plugin.PluginDebug;	
+
 	public class AbstractModel 
 	{
 		public static const onInitEVENT : String = "onInit";
@@ -46,6 +45,11 @@ package com.bourre.model
 			if ( name ) setName( name );
 		}
 		
+		public function setListenerType( type : Class ) : void
+		{
+			_oEB.setListenerType(type);
+		}
+
 		public function handleEvent( e : Event ) : void
 		{
 			
@@ -124,7 +128,7 @@ package com.bourre.model
 		}
 		
 		//
-		private function _getBroadcaster() : EventBroadcaster
+		protected function _getBroadcaster() : EventBroadcaster
 		{
 			return _oEB;
 		}

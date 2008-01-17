@@ -20,7 +20,8 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import flash.net.URLRequest;	
+	
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
@@ -45,12 +46,12 @@ package com.bourre.ioc.assembler
 		}
 
 		public function buildDisplayObject( ID 			: String,
+											url : URLRequest,
 											parentID 	: String, 
-											url 		: String,
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{
-			DisplayObjectExpert.getInstance().buildGraphicLoader( ID, parentID, url, isVisible, type );
+			DisplayObjectExpert.getInstance().buildGraphicLoader( ID, url, parentID, isVisible, type );
 		}
 
 		public function buildProperty( 	ownerID : String, 

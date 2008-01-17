@@ -39,7 +39,7 @@ package com.bourre.load
 			super( type, load );
 			_load = load;
 		}
-		
+
 		public function getLoader() : Loader
 		{
 			return _load;
@@ -62,7 +62,7 @@ package com.bourre.load
 		
 		public function getMessage() : String
 		{
-			return _sMessage;
+			return _sMessage == null ? _sMessage : getLoader() + " loading fails with '" + getLoader().getURL().url + "'";
 		}
 	}
 }

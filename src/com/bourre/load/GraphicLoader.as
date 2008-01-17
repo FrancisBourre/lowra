@@ -1,26 +1,6 @@
 package com.bourre.load
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
-
+	import com.bourre.error.IllegalStateException;	
 	import com.bourre.load.strategy.LoaderStrategy;
 	import com.bourre.log.*;
 
@@ -37,16 +17,17 @@ package com.bourre.load
 		private var _bAutoShow : Boolean;
 		private var _bMustUnregister : Boolean;
 		private var _oContext : LoaderContext;
+
 		public function GraphicLoader( target : DisplayObjectContainer = null, index : int = -1, bAutoShow : Boolean = true )
 		{
 			super( new LoaderStrategy() );
-			
+
 			_target = target;
 			_index = index;
 			_bAutoShow = bAutoShow;
 			_bMustUnregister = false;
 		}
-		
+
 		public function setTarget( target : DisplayObjectContainer ) : void
 		{
 			var b : Boolean = isVisible();
@@ -59,17 +40,16 @@ package com.bourre.load
 		{
 			return new GraphicLoaderEvent( type, this );
 		}
-		
+
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			release();
 			if ( context ) setContext( context );
 			super.load( url, getContext() );
 		}
-		
+
 		protected override function onInitialize() : void
 		{
-			if ( getName() ) 
+			if ( getName() != null ) 
 			{
 				if ( !(GraphicLoaderLocator.getInstance().isRegistered(getName())) )
 				{
@@ -78,8 +58,11 @@ package com.bourre.load
 				} else
 				{
 					_bMustUnregister = false;
-					PixlibDebug.ERROR( 	this + " can't be registered to " + GraphicLoaderLocator.getInstance() 
-										+ " with '" + getName() + "' name. This name already exists." );
+					var msg : String = this + " can't be registered to " + GraphicLoaderLocator.getInstance() 
+										+ " with '" + getName() + "' name. This name already exists.";
+					PixlibDebug.ERROR( msg );
+					fireOnLoadErrorEvent( msg );
+					throw new IllegalStateException( msg );
 				}
 			}
 			
