@@ -153,11 +153,30 @@ package com.bourre.ioc.load
 			return _oContextLoader.getBytesTotal();
 		}
 
-		public function fireOnApplicationBuilt() : void
+		public function fireOnApplicationParsed() : void
 		{
-			PixlibDebug.INFO( "fireOnApplicationBuilt()" );
-			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationBuiltEVENT, this ) );
+			PixlibDebug.INFO( "fireOnApplicationParsed()" );
+			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationParsedEVENT, this ) );
 		}
+		
+		public function fireOnObjectsBuilt() : void
+		{
+			PixlibDebug.INFO( "fireOnObjectsBuilt()" );
+			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationObjectsBuiltEVENT, this ) );
+		}
+		
+		public function fireOnMethodsCalled() : void
+		{
+			PixlibDebug.INFO( "fireOnMethodsCalled()" );
+			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationMethodsCalledEVENT, this ) );
+		}
+		
+		public function fireOnChannelsAssigned() : void
+		{
+			PixlibDebug.INFO( "fireOnChannelsAssigned()" );
+			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationChannelsAssignedEVENT, this ) );
+		}
+		
 
 		public function fireOnApplicationInit() : void 
 		{
@@ -246,11 +265,16 @@ package com.bourre.ioc.load
 		{
 			PixlibDebug.INFO( "onDisplayObjectExpertLoadInit()" );
 
-			fireOnApplicationBuilt();
+			fireOnApplicationParsed();
 
-			ConstructorExpert.getInstance().buildAllObjects( );
-			MethodExpert.getInstance().callAllMethods( );
+			ConstructorExpert.getInstance().buildAllObjects();
+			fireOnObjectsBuilt();
+
+			MethodExpert.getInstance().callAllMethods();
+			fireOnMethodsCalled();
+
 			ChannelListenerExpert.getInstance().assignAllChannelListeners();
+			fireOnChannelsAssigned();
 
 			fireOnApplicationInit();
 		}

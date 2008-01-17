@@ -25,7 +25,10 @@ package com.bourre.ioc.load
 	public interface ApplicationLoaderListener 
 		extends LoaderListener
 	{
-		function onApplicationBuilt( e : ApplicationLoaderEvent ) : void;
-		function onApplicationInit( e : ApplicationLoaderEvent ) : void;
+		function onApplicationParsed ( e : ApplicationLoaderEvent ) : void;
+		function onApplicationObjectsBuilt ( e : ApplicationLoaderEvent ) : void;
+		function onApplicationMethodsCalled ( e : ApplicationLoaderEvent ) : void;
+		function onApplicationChannelsAssigned ( e : ApplicationLoaderEvent ) : void;
+		function onApplicationInit ( e : ApplicationLoaderEvent ) : void;
 	}
 }
