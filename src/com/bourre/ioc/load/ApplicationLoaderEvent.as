@@ -31,9 +31,12 @@ package com.bourre.ioc.load
 		public static const onLoadTimeOutEVENT : String = LoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
 		
-		public static const onApplicationBuiltEVENT : String = "onApplicationBuilt";
+		public static const onApplicationParsedEVENT : String = "onApplicationParsed";
+		public static const onApplicationObjectsBuiltEVENT : String = "onApplicationObjectsBuilt";
+		public static const onApplicationMethodsCalledEVENT : String = "onApplicationMethodsCalled";
+		public static const onApplicationChannelsAssignedEVENT : String = "onApplicationChannelsAssigned";
 		public static const onApplicationInitEVENT : String = "onApplicationInit";
-		
+
 		public function ApplicationLoaderEvent( type : String, al : ApplicationLoader )
 		{
 			super( type, al );
