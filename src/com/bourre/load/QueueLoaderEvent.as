@@ -32,9 +32,9 @@ package com.bourre.load
 				public static const onItemLoadStartEVENT : String = "onItemLoadStart";		
 		public static const onItemLoadInitEVENT : String = "onItemLoadInit";
 		
-		public function QueueLoaderEvent( type : String, ql : QueueLoader )
+		public function QueueLoaderEvent( type : String, ql : QueueLoader, errorMessage : String = "" )
 		{
-			super( type, ql );
+			super( type, ql, errorMessage );
 		}
 		
 		public function getQueue() : QueueLoader

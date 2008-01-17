@@ -1,13 +1,13 @@
 package com.bourre.load
 {
-	import com.bourre.error.IllegalStateException;	
-	import com.bourre.load.strategy.LoaderStrategy;
-	import com.bourre.log.*;
-
 	import flash.display.*;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
+	
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.load.strategy.LoaderStrategy;
+	import com.bourre.log.*;	
 
 	public class GraphicLoader 
 		extends AbstractLoader
@@ -41,9 +41,9 @@ package com.bourre.load
 			if (b) show();
 		}
 
-		protected override function getLoaderEvent( type : String ) : LoaderEvent
+		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
-			return new GraphicLoaderEvent( type, this );
+			return new GraphicLoaderEvent( type, this, errorMessage );
 		}
 
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
@@ -60,6 +60,7 @@ package com.bourre.load
 				{
 					_bMustUnregister = true;
 					GraphicLoaderLocator.getInstance().register( getName(), this );
+
 				} else
 				{
 					_bMustUnregister = false;
@@ -67,7 +68,7 @@ package com.bourre.load
 										+ " with '" + getName() + "' name. This name already exists.";
 					PixlibDebug.ERROR( msg );
 					fireOnLoadErrorEvent( msg );
-					throw new IllegalStateException( msg );
+					throw new IllegalArgumentException( msg );
 				}
 			}
 			

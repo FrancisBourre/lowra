@@ -40,8 +40,8 @@ package com.bourre.ioc.assembler.displayobject
 		public static const onDisplayObjectLoadInitEVENT 			: String = "onDisplayObjectLoadInit"; 
 		public static const onDisplayObjectExpertLoadInitEVENT 		: String = "onDisplayObjectExpertLoadInit";
 
-		public function DisplayObjectExpertEvent( type : String, loader : Loader = null ) 
+		public function DisplayObjectExpertEvent( type : String, loader : Loader = null, errorMessage : String = "" ) 
 		{
-			super( type, loader );
+			super( type, loader, errorMessage );
 		}
 	}}

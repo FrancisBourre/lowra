@@ -46,9 +46,9 @@ package com.bourre.ioc.context
 			return XML( getContent() );
 		}
 
-		protected override function getLoaderEvent( type : String ) : LoaderEvent
+		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
-			return new ContextLoaderEvent( type, this );
+			return new ContextLoaderEvent( type, this, errorMessage );
 		}
 
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void

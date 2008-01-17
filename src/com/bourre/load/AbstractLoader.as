@@ -191,7 +191,7 @@ package com.bourre.load
 
 		public function release() : void
 		{
-			_loadStrategy.release( );
+			_loadStrategy.release();
 			_oEB.removeAllListeners();
 		}
 		public function getContent() : Object
@@ -221,9 +221,8 @@ package com.bourre.load
 
 		public function fireOnLoadErrorEvent( message : String = "" ) : void
 		{
-			var e : LoaderEvent = getLoaderEvent( LoaderEvent.onLoadErrorEVENT );
-			e.setMessage( message );
-			fireEvent( e );
+			
+			fireEventType( LoaderEvent.onLoadErrorEVENT, message );
 		}
 
 		public function fireOnLoadTimeOut() : void
@@ -246,9 +245,9 @@ package com.bourre.load
 		}
 
 		//
-		protected function fireEventType( type : String ) : void
+		protected function fireEventType( type : String, errorMessage : String = "" ) : void
 		{
-			fireEvent( getLoaderEvent( type ) );
+			fireEvent( getLoaderEvent( type, errorMessage ) );
 		}
 
 		protected function fireEvent( e : Event ) : void
@@ -256,9 +255,9 @@ package com.bourre.load
 			_oEB.broadcastEvent( e );
 		}
 
-		protected function getLoaderEvent( type : String ) : LoaderEvent
+		protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
-			return new LoaderEvent( type, this );
+			return new LoaderEvent( type, this, errorMessage );
 		}
 
 		//

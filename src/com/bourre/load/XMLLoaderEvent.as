@@ -30,9 +30,9 @@ package com.bourre.load
 		public static const onLoadTimeOutEVENT : String = LoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
 		
-		public function XMLLoaderEvent( type : String, xl : XMLLoader )
+		public function XMLLoaderEvent( type : String, xl : XMLLoader, errorMessage : String = "" )
 		{
-			super( type, xl );
+			super( type, xl, errorMessage );
 		}
 		
 		public function getXMLLoader() : XMLLoader

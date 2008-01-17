@@ -37,9 +37,9 @@ package com.bourre.ioc.load
 		public static const onApplicationChannelsAssignedEVENT : String = "onApplicationChannelsAssigned";
 		public static const onApplicationInitEVENT : String = "onApplicationInit";
 
-		public function ApplicationLoaderEvent( type : String, al : ApplicationLoader )
+		public function ApplicationLoaderEvent( type : String, al : ApplicationLoader, errorMessage : String = "" )
 		{
-			super( type, al );
+			super( type, al, errorMessage );
 		}
 		
 		public function getApplicationLoader() : ApplicationLoader
