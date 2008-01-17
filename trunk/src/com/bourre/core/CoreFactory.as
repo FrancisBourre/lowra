@@ -17,11 +17,18 @@ package com.bourre.core
 
 		public static function buildInstance( qualifiedClassName : String, aArgs : Array = null, factoryMethod : String = null, singletonAccess : String = null ) : Object
 		{
-			var clazz : Class = getDefinitionByName( qualifiedClassName ) as Class;
-			if ( !clazz ) 
+			var msg : String;
+			var clazz : Class;
+
+			try
 			{
-				PixlibDebug.FATAL( clazz + "' class is not available in current domain" );
-				return null;
+				clazz = getDefinitionByName( qualifiedClassName ) as Class;
+
+			} catch ( e : Error )
+			{
+				msg = clazz + "' class is not available in current domain";
+				PixlibDebug.FATAL( msg );
+				throw( e );
 			}
 
 			var o : Object;
@@ -38,7 +45,8 @@ package com.bourre.core
 						
 					} catch ( eFirst : Error ) 
 					{
-						PixlibDebug.FATAL( qualifiedClassName + "." + singletonAccess + "()' singleton access failed." );
+						msg = qualifiedClassName + "." + singletonAccess + "()' singleton access failed.";
+						PixlibDebug.FATAL( msg );
 						return null;
 					}
 					
@@ -48,7 +56,8 @@ package com.bourre.core
 					
 					} catch ( eSecond : Error ) 
 					{
-						PixlibDebug.FATAL( qualifiedClassName + "." + singletonAccess + "()." + factoryMethod + "()' factory method call failed." );
+						msg = qualifiedClassName + "." + singletonAccess + "()." + factoryMethod + "()' factory method call failed.";
+						PixlibDebug.FATAL( msg );
 						return null;
 					}
 					
@@ -60,7 +69,8 @@ package com.bourre.core
 						
 					} catch( eThird : Error )
 					{
-						PixlibDebug.FATAL( qualifiedClassName + "." + factoryMethod + "()' factory method call failed." );
+						msg = qualifiedClassName + "." + factoryMethod + "()' factory method call failed.";
+						PixlibDebug.FATAL( msg );
 						return null;
 					}
 

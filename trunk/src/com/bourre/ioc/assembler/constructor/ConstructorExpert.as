@@ -1,5 +1,6 @@
 package com.bourre.ioc.assembler.constructor
 {
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.Set;
@@ -49,6 +50,7 @@ package com.bourre.ioc.assembler.constructor
 		public function buildObject( o : Constructor ) : *
 		{
 			var args : Array = PropertyExpert.getInstance().deserializeArguments( o.arguments );
+			PixlibDebug.INFO( o.type + ":" + args)
 			return BuildFactory.getInstance().getBuilder( o.type ).build( o.type, args, o.factory, o.singleton, o.channel );
 		}
 		
