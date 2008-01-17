@@ -20,7 +20,7 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.core.CoreFactory;
 	import com.bourre.log.*;
 	import com.bourre.plugin.*;
@@ -38,8 +38,20 @@ package com.bourre.ioc.control
 			var o : Object = null;
 
 			if ( channelName ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( channelName ) );
-			if ( qualifiedClassName ) o = CoreFactory.buildInstance( qualifiedClassName, args, factory, singleton );
-			if ( o == null ) PixlibDebug.FATAL( this + ".build(" + qualifiedClassName + ") failed." );
+			if ( qualifiedClassName ) 
+			{
+				try
+				{
+					o = CoreFactory.buildInstance( qualifiedClassName, args, factory, singleton );
+
+				} catch( e : Error )
+				{
+					var msg : String = this + ".build(" + qualifiedClassName + ") failed.";
+					PixlibDebug.FATAL( msg );
+					throw new IllegalArgumentException( msg );
+				}
+			}
+
 			return o;
 		}
 		
