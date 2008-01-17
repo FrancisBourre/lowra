@@ -1,14 +1,14 @@
 package com.bourre.ioc.assembler.constructor
 {
-	import com.bourre.events.EventBroadcaster;
 	import com.bourre.collection.HashMap;
-	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.control.BuildFactory;
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.collection.Set;
 	import com.bourre.collection.Iterator;
-	
+	import com.bourre.collection.Set;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.ioc.assembler.property.PropertyExpert;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.control.BuildFactory;
+	import com.bourre.ioc.core.IDExpert;		
+
 	public class ConstructorExpert
 	{
 		private static var _oI : ConstructorExpert;
@@ -58,7 +58,7 @@ package com.bourre.ioc.assembler.constructor
 			var a : Set = IDExpert.getInstance().getReferenceList();
 			var iter : Iterator = a.iterator();
 			
-			while(iter.hasNext())
+			while( iter.hasNext() )
 			{
 				var id : String = iter.next() as String;
 				if ( _mConstructor.containsKey( id ) ) bf.register( id, buildObject( _mConstructor.get( id ) ) );

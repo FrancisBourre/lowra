@@ -20,8 +20,8 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.assembler.ApplicationAssembler;					
 
-	import com.bourre.ioc.assembler.ApplicationAssembler;
 	public class DLLParser 
 		extends AbstractParser
 	{
@@ -32,14 +32,10 @@ package com.bourre.ioc.parser
 
 		public override function parse( xml : * ) : void
 		{
-			var dllXML : XMLList = xml[ ContextNodeNameList.DLL ];
-			for each ( var node : XML in dllXML.* ) _parseNode( node );
+			var dllXML : XMLList = (xml as XML).child( ContextNodeNameList.DLL );	
+			var l : int = dllXML.length();
+			for ( var i : int = 0; i < l; i++ ) _parseNode( dllXML[ i ] );
 			delete xml[ ContextNodeNameList.DLL ];
-			
-//			delete thePeople.person.bio; //delete all <bio> tags
-//delete thePeople..bio; //Doesn't work but no error. Why?!?
-//delete thePeople.person.@suffix; //deletes all suffix attributes of <person> tags
-//delete thePeople.person.(@name == "Roger Braunstein").*; //clears out children of my node
 		}
 
 		protected function _parseNode( node : XML ) : void

@@ -28,6 +28,11 @@ package com.bourre.load
 			_bMustUnregister = false;
 		}
 
+		public function getTarget() : DisplayObjectContainer
+		{
+			return _target;
+		}
+
 		public function setTarget( target : DisplayObjectContainer ) : void
 		{
 			var b : Boolean = isVisible();
@@ -66,7 +71,7 @@ package com.bourre.load
 				}
 			}
 			
-			if ( _bAutoShow ) show();
+			if ( _bAutoShow && getTarget() != null ) show();
 			super.onInitialize();
 		}
 		
@@ -86,7 +91,7 @@ package com.bourre.load
 		
 		public function show() : void
 		{
-			if (_target != null )
+			if ( _target != null )
 			{
 				if ( _index != -1 )
 				{
