@@ -48,9 +48,9 @@ package com.bourre.load
 			return _oDeserializer;
 		}
 
-		protected override function getLoaderEvent( type : String ) : LoaderEvent
+		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
-			return new XMLLoaderEvent( type, this );
+			return new XMLLoaderEvent( type, this, errorMessage );
 		}
 
 		public function getXML() : XML
