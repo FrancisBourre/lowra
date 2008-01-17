@@ -233,7 +233,7 @@ package com.bourre.load
 
 		final public function fireCommandEndEvent() : void
 		{
-			_oEB.broadcastEvent( new ASyncCommandEvent( ASyncCommandEvent.onCommandEndEVENT, this ) );
+			fireEventType( AbstractSyncCommand.onCommandEndEVENT );
 		}
 
 		/**
