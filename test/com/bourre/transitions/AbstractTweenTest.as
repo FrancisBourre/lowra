@@ -1,5 +1,7 @@
 package com.bourre.transitions
 {
+	import com.bourre.log.PixlibDebug;	
+	
 	import flexunit.framework.TestCase;
 	import flash.display.Sprite;
 	import com.bourre.core.MockAccessor;
@@ -14,6 +16,7 @@ package com.bourre.transitions
 		
 		public override function setUp () : void
 		{
+			PixlibDebug.INFO( "setUp" );
 			_o = new Sprite();
 			_t = new MockTweenFPS ( _o, "x", 50, 10 );	
 			_m = new MockAccessor ();
@@ -21,6 +24,7 @@ package com.bourre.transitions
 		}
 		public function testConstruct() : void
 		{
+			PixlibDebug.INFO( "testConstruct" );
 			assertNotNull ( "MockTweenFPS constructor return null - test1 failed", _t );
 			
 			try
@@ -29,7 +33,7 @@ package com.bourre.transitions
 			}
 			catch ( e : Error )
 			{
-				errorOccurs = true
+				errorOccurs = true;
 			}
 			
 			assertTrue ( "MockTweenFPS constructor don't failed to create a tween with an invalid target property - test2 failed", errorOccurs );
@@ -41,7 +45,7 @@ package com.bourre.transitions
 			}
 			catch ( e : Error )
 			{
-				errorOccurs = true
+				errorOccurs = true;
 			}
 			
 			assertTrue ( "MockTweenFPS constructor don't failed to create a tween with an invalid getter method name - test3 failed", errorOccurs );
@@ -49,6 +53,7 @@ package com.bourre.transitions
 		
 		public function testRun () : void
 		{
+			PixlibDebug.INFO( "testRun" );
 			var n : Number = 0;
 			var i : Number = 0;
 			
@@ -65,7 +70,8 @@ package com.bourre.transitions
 			assertEquals ( "Beacon haven't run 10 times - test2 failed", 10, i );
 			assertEquals ( "Target object property don't equals tween end value - test3 failed", 50, _o.x );
 			
-			_t.yoyo();
+			_t.setReversed( true );
+			_t.start();
 			n = 10;
 			i = 0;
 			while ( _t.isRunning() )
@@ -100,6 +106,7 @@ package com.bourre.transitions
 		
 		public function testASyncBehavior () : void
 		{
+			PixlibDebug.INFO( "testASyncBehavior" );
 			var l : MockASyncCommandListener = new MockASyncCommandListener();
 			
 			assertTrue( "Listener haven't been added - test1 failed", _t.addASyncCommandListener( l ) );
@@ -114,6 +121,7 @@ package com.bourre.transitions
 		
 		public function testEventBroadcasting () : void
 		{
+			PixlibDebug.INFO( "testEventBroadcasting" );
 			var l : MockTweenListener = new MockTweenListener ();
 			
 			assertTrue( "Listener haven't been added - test1 failed", _t.addListener( l ) );
@@ -132,6 +140,7 @@ package com.bourre.transitions
 		}
 		public function testStopEvent () : void
 		{
+			PixlibDebug.INFO( "testStopEvent" );
 			var l : MockTweenListener = new MockTweenListener ();
 			
 			assertTrue( "Listener haven't been added - test1 failed", _t.addListener( l ) );
@@ -154,6 +163,7 @@ package com.bourre.transitions
 		
 		public function testSetTarget () : void
 		{
+			PixlibDebug.INFO( "testSetTarget" );
 			var o : Sprite = new Sprite();
 			o.x = -100;
 			

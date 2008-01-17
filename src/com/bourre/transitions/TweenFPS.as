@@ -13,64 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
 package com.bourre.transitions 
 { 
-	import com.bourre.log.PixlibStringifier;
-	import flash.events.Event;
-	
-	
+	/**
+	 * 
+	 * @author	Cédric Néhémie
+	 */
 	public class TweenFPS extends AbstractTween
-		implements TickListener
 	{
-		//-------------------------------------------------------------------------
-		// Private properties
-		//-------------------------------------------------------------------------
-		
-		protected var _nCurrentFPS:Number;		
-	
-		
-		//-------------------------------------------------------------------------
-		// Public API
-		//-------------------------------------------------------------------------
-		
-	
-		public function TweenFPS( 	oT : Object,
-									sP : String, 
-									nE:Number, 
-									nRate:Number, 
-									nS:Number = NaN, 
-									fE:Function = null, 
-									gP : String = null)
+		public function TweenFPS( 	target : Object,
+									setter : String, 
+									endValue : Number,
+									duration : Number, 
+									startValue : Number = NaN, 
+									easing : Function = null, 
+									getter : String = null )
 		{
-			super( oT, sP, nE, nRate, nS, fE, gP );
+			super( target, setter, endValue, duration, startValue, easing, getter );
 			_oBeacon = FPSBeacon.getInstance();
 		}
-
-		public override function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
-		}
-	
-		public override function execute( e : Event = null ) : void
-		{
-			_nCurrentFPS = 0;
-			super.execute();		
-		}
 		
 		//-------------------------------------------------------------------------
-		// Private implementation
+		// VIRTUAL METHODS IMPLEMENTATION
 		//-------------------------------------------------------------------------
 		
-		public override function isMotionFinished() : Boolean
+		override public function isMotionFinished() : Boolean
 		{
-			return ++_nCurrentFPS >= _nRate;
+			return ++_nPlayHead >= _nDuration;
 		}
 		
-		public override function onUpdate() : void
+		override public function isReversedMotionFinished () : Boolean
 		{
-			super.onUpdate();
-			_oSetter.setValue( _fE( _nCurrentFPS, _nS, _nE - _nS, _nRate ) );
+			return --_nPlayHead <= 0;
 		}
 	}
 }

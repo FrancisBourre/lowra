@@ -14,72 +14,72 @@
  * limitations under the License.
  */
  
-package com.bourre.transitions {
-	import flash.events.Event;
-	import flash.utils.getTimer;
+package com.bourre.transitions 
+{
+	import flash.utils.getTimer;	
 	
-	import com.bourre.log.PixlibStringifier; 
-
+	/**
+	 * 
+	 * @author	Cédric Néhémie
+	 */
 	public class TweenMS extends AbstractTween
-		implements TickListener
 	{
 		//-------------------------------------------------------------------------
-		// Private properties
+		// PRIVATE MEMBERS
 		//-------------------------------------------------------------------------
 		
-		protected var _nCurrentMS:Number;
-		protected var _nM : Number;
+		private var _nStopTime : Number;
 		
 		//-------------------------------------------------------------------------
-		// Public API
+		// PUBLIC API
 		//-------------------------------------------------------------------------
 		
-	
-		public function TweenMS( 	oT : Object,
-									sP : String, 
-									nE:Number, 
-									nRate:Number, 
-									nS:Number = NaN, 
-									fE:Function = null, 
-									gP : String = null)
+		public function TweenMS( target : Object,
+								 setter : String, 
+								 endValue : Number,
+								 duration : Number, 
+								 startValue : Number = NaN, 
+								 easing : Function = null, 
+								 getter : String = null )
 		{
-			super( oT, sP, nE, nRate, nS, fE, gP );
-			_oBeacon = MSBeacon.getInstance();
+			super( target, setter, endValue, duration, startValue, easing, getter );
+			_oBeacon = MSBeacon.getInstance( );
 		}
 
-		public override function toString() : String 
+		override public function start() : void
 		{
-			return PixlibStringifier.stringify( this );
+			if( _nStopTime != 0 )
+				_nPlayHead = getTimer() - ( _nStopTime - _nPlayHead );
+			else
+				_nPlayHead = 0;
+			
+			super.start();
 		}
-	
-		public override function execute( e : Event = null ) : void
-		{
-			_nCurrentMS = getTimer();
-			super.execute();		
-		}
-		public override function resume() : void
-		{
-			_nCurrentMS = getTimer() - (_nM - _nCurrentMS );
-			super.resume();
-		}
-		public override function stop() : void
+		
+		override public function stop() : void
 		{
 			super.stop();
-			_nM = getTimer();
+			_nStopTime = getTimer();
 		}
+		
+		override public function reset() : void
+		{
+			_nStopTime = 0;
+			super.reset();
+		}
+		
 		//-------------------------------------------------------------------------
-		// Private implementation
+		// VIRTUAL METHODS IMPLEMENTATION
 		//-------------------------------------------------------------------------
 		
 		public override function isMotionFinished() : Boolean
 		{
-			return getTimer() - _nCurrentMS >= _nRate;
+			return getTimer() - _nPlayHead >= _nDuration;
 		}
 		
-		public override function onUpdate() : void
+		public override function isReversedMotionFinished() : Boolean
 		{
-			super.onUpdate();
-			_oSetter.setValue( _fE( getTimer() - _nCurrentMS , _nS, _nE - _nS, _nRate ) );
+			return _nPlayHead - getTimer() <= 0;
 		}
 	}
 }
