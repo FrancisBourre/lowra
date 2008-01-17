@@ -20,13 +20,12 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.utils.ClassUtils;
+	import com.bourre.utils.ClassUtils;	
 
 	public class AbstractParser
 	{
@@ -36,8 +35,9 @@ package com.bourre.ioc.parser
 		{
 			if( !( ClassUtils.isImplemented( this, "com.bourre.ioc.parser:AbstractParser", "parse" ) ) )
 			{
-				PixlibDebug.ERROR ( this + " have to implement virtual method : parse" );
-				throw new UnimplementedVirtualMethodException ( this + " have to implement virtual method : parse" );
+				var msg : String = this + " have to implement virtual method : parse";
+				PixlibDebug.ERROR ( msg );
+				throw new UnimplementedVirtualMethodException ( msg );
 			}
 
 			setAssembler( ( assembler != null ) ? assembler : new DefaultApplicationAssembler() );
@@ -56,7 +56,9 @@ package com.bourre.ioc.parser
 
 			} else
 			{
-				throw new IllegalArgumentException( this + ".setAssembler() failed. Assembler can't be null" );
+				var msg : String = this + ".setAssembler() failed. Assembler can't be null";
+				PixlibDebug.FATAL( msg )
+				throw new IllegalArgumentException( msg );
 			}
 		}
 		

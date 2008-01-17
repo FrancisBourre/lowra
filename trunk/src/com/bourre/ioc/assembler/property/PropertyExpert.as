@@ -1,4 +1,25 @@
-package com.bourre.ioc.assembler.property {
+package com.bourre.ioc.assembler.property 
+{
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	import com.bourre.collection.HashMap;
 	import com.bourre.events.*;
 	import com.bourre.ioc.bean.BeanEvent;
@@ -105,54 +126,7 @@ package com.bourre.ioc.assembler.property {
 
 			return p;
 		}
-/*
-		public function getPropertyVO( ownerID : String, property ) : Array
-		{
-			var a : Array;
-			
-			if ( property )
-			{
-				a = new Array();
-				var l : Number = property.length;
-				
-				if ( l > 0 ) 
-				{
-					for ( var i : Number = 0; i < l; i++ ) a.push( _buildProperty( ownerID, property[i].attribute) );
-					
-				} else
-				{
-					a.push( _buildProperty( ownerID, property.attribute ) );
-				}
-			}
-			
-			return a;
-		}
-		
-		public function buildProperty( ownerID : String, property ) : void
-		{
-			_mProperty.put( ownerID, getPropertyVO( ownerID, property ) );
-		}
-		
-		public function buildObjectProperty( ownerID : String, property ):void
-		{
-			_mProperty.put( ownerID, getPropertyVO( ownerID, property ) );
-		}
 
-		private function _buildProperty( ownerID : String, rawProperty : Object ) : Property
-		{
-			var p : Property =  new Property( 	
-												ownerID,
-												ContextAttributeList.getName( rawProperty ),
-												ContextAttributeList.getValue( rawProperty ),
-												ContextAttributeList.getType( rawProperty ),
-												ContextAttributeList.getRef( rawProperty ),
-												ContextAttributeList.getMethod( rawProperty )
-											);
-	
-			_oEB.broadcastEvent( new PropertyEvent( p, p.ownerID, p.ref  ) );
-			return p;
-		}
-*/
 		/**
 		 * Event system
 		 */
@@ -181,7 +155,6 @@ package com.bourre.ioc.assembler.property {
 		 */
 		public function onRegisterBean( e : BeanEvent ) : void
 		{
-			PixlibDebug.INFO( e.getID() + " -> onRegisterBean:" + e.getBean() );
 			var id : String = e.getID();
 			var bean : Object = e.getBean();
 
@@ -189,7 +162,6 @@ package com.bourre.ioc.assembler.property {
 			{
 				var props : Array = _mProperty.get( id );
 				var l : Number = props.length;
-				PixlibDebug.INFO( id + ":" + bean + ":" + l );
 				while( -- l > - 1 ) setPropertyValue( props[ l ], bean );
 			}
 		}

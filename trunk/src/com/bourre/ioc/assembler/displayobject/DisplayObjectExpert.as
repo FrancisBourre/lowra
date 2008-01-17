@@ -24,6 +24,8 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
 	
 	import com.bourre.collection.HashMap;
 	import com.bourre.error.IllegalStateException;
@@ -77,7 +79,7 @@ package com.bourre.ioc.assembler.displayobject
 			_gfxQueue = new QueueLoader();
 			_mDisplayObject = new HashMap();
 
-			_oEB = new EventBroadcaster( this );
+			_oEB = new EventBroadcaster( this, DisplayObjectExpertListener );
 		}
 
 		public function setRootTarget( target : DisplayObjectContainer ) : void
@@ -104,7 +106,7 @@ package com.bourre.ioc.assembler.displayobject
 		public function buildDLL ( url : String ) : void
 		{
 			var gl : GraphicLoader = new GraphicLoader( getRootTarget(), _dllQueue.size(), false );
-			_dllQueue.add( gl, "DLL" + _dllQueue.size(), new URLRequest( url ) );
+			_dllQueue.add( gl, "DLL" + _dllQueue.size(), new URLRequest( url ), new LoaderContext( false, ApplicationDomain.currentDomain ) );
 		}
 
 		public function buildGraphicLoader ( 	ID 			: String, 
@@ -116,7 +118,7 @@ package com.bourre.ioc.assembler.displayobject
 			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, url.url, type );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, isVisible );
-			_gfxQueue.add( gl, ID, url ) ;
+			_gfxQueue.add( gl, ID, url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
 
 			_mDisplayObject.put( ID, info );
 
@@ -159,6 +161,7 @@ package com.bourre.ioc.assembler.displayobject
 		public function onDLLLoadInit( e : LoaderEvent ) : void
 		{
 			fireEvent( DisplayObjectExpertEvent.onDLLLoadInitEVENT, e.getLoader() );
+			loadDisplayObjectQueue();
 		}
 
 		public function loadDisplayObjectQueue() : void
@@ -174,7 +177,6 @@ package com.bourre.ioc.assembler.displayobject
 		public function onDisplayObjectLoadInit( e : LoaderEvent ) : void
 		{
 			fireEvent( DisplayObjectExpertEvent.onDisplayObjectLoadInitEVENT, e.getLoader() );
-
 			buildDisplayList();
 		}
 		
@@ -259,6 +261,7 @@ package com.bourre.ioc.assembler.displayobject
 			{
 				var gl : GraphicLoader = GraphicLoaderLocator.getInstance().getGraphicLoader( info.ID );
 				var parent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
+				
 				gl.setTarget( parent );
 				if ( info.isVisible ) gl.show();
 				BeanFactory.getInstance().register( info.ID, gl.getView() );

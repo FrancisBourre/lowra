@@ -20,6 +20,10 @@ package com.bourre.ioc.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;	
+	import com.bourre.ioc.assembler.method.MethodExpert;	
+	import com.bourre.ioc.assembler.constructor.ConstructorExpert;	
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
@@ -134,7 +138,6 @@ package com.bourre.ioc.load
 		protected function _onContextLoaderLoadInit( e : ContextLoaderEvent ) : void
 		{
 			_oContextLoader.removeListener( this );
-PixlibDebug.INFO("_onContextLoaderLoadInit("+e.getContext()+")");
 			_oContextParser = new ContextParser( getParserCollection() );
 			_oContextParser.addListener( this );
 			_oContextParser.parse( e.getContext() );
@@ -152,11 +155,13 @@ PixlibDebug.INFO("_onContextLoaderLoadInit("+e.getContext()+")");
 
 		public function fireOnApplicationBuilt() : void
 		{
+			PixlibDebug.INFO( "fireOnApplicationBuilt()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationBuiltEVENT, this ) );
 		}
 
 		public function fireOnApplicationInit() : void 
 		{
+			PixlibDebug.INFO( "fireOnApplicationInit()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationInitEVENT, this ) );
 		}
 
@@ -186,7 +191,7 @@ PixlibDebug.INFO("_onContextLoaderLoadInit("+e.getContext()+")");
 		public function onLoadError( e : LoaderEvent ) : void
 		{
 			fireOnLoadErrorEvent( e.getMessage() );
-			//PixlibDebug.ERROR( e.getMessage() );
+			PixlibDebug.ERROR( e.getMessage() );
 		}
 
 		/**
@@ -209,30 +214,45 @@ PixlibDebug.INFO("_onContextLoaderLoadInit("+e.getContext()+")");
 		 */
 		public function onBuildDisplayObject( e : DisplayObjectEvent ) : void
 		{
+			PixlibDebug.INFO( "onBuildDisplayObject()" );
 		}
 
 		public function onDisplayObjectExpertLoadStart(e : DisplayObjectExpertEvent) : void
 		{
+			PixlibDebug.INFO( "onDisplayObjectExpertLoadStart()" );
 		}
 
 		public function onDLLLoadStart(e : DisplayObjectExpertEvent) : void
 		{
+			PixlibDebug.INFO( "onDLLLoadStart()" );
 		}
 
 		public function onDLLLoadInit(e : DisplayObjectExpertEvent) : void
 		{
+			PixlibDebug.INFO( "onDLLLoadInit()" );
 		}
 
 		public function onDisplayObjectLoadStart(e : DisplayObjectExpertEvent) : void
 		{
+			PixlibDebug.INFO( "onDisplayObjectLoadStart()" );
 		}
 
 		public function onDisplayObjectLoadInit(e : DisplayObjectExpertEvent) : void
 		{
+			PixlibDebug.INFO( "onDisplayObjectLoadInit()" );
 		}
 
 		public function onDisplayObjectExpertLoadInit(e : DisplayObjectExpertEvent) : void
 		{
+			PixlibDebug.INFO( "onDisplayObjectExpertLoadInit()" );
+
+			fireOnApplicationBuilt();
+
+			ConstructorExpert.getInstance().buildAllObjects( );
+			MethodExpert.getInstance().callAllMethods( );
+			ChannelListenerExpert.getInstance().assignAllChannelListeners();
+
+			fireOnApplicationInit();
 		}
 	}
 }

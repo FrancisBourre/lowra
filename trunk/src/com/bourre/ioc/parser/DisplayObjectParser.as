@@ -20,13 +20,12 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;	
+	import flash.net.URLRequest;
 	
 	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.error.NullIDException;
 	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.plugin.PluginDebug;
-
+	import com.bourre.ioc.error.NullIDException;
+	import com.bourre.log.PixlibDebug;		
 	public class DisplayObjectParser
 		extends AbstractParser
 	{
@@ -37,8 +36,8 @@ package com.bourre.ioc.parser
 
 		public override function parse( xml : * ) : void
 		{
-			xml = xml[ ContextNodeNameList.ROOT ];
-			for each ( var node : XML in xml.* ) _parseNode( node, ContextNodeNameList.ROOT );
+			var displayXML : XMLList = xml[ ContextNodeNameList.ROOT ];
+			for each ( var node : XML in displayXML.* ) _parseNode( node, ContextNodeNameList.ROOT );
 			delete xml[ ContextNodeNameList.ROOT ];
 		}
 
@@ -54,7 +53,7 @@ package com.bourre.ioc.parser
 			if ( !id )
 			{
 				msg = this + " encounters parsing error with '" + xml.name() + "' node. You must set an id attribute.";
-				PluginDebug.getInstance().fatal( msg );
+				PixlibDebug.FATAL( msg );
 				throw( new NullIDException( msg ) );
 			}
 
@@ -97,11 +96,6 @@ package com.bourre.ioc.parser
 												ContextAttributeList.getName( method ),
 												getArguments( method ) );
 			}
-
-			// reversed recursivity
-			/*var b : ReversedBatch = new ReversedBatch();
-			for each ( var node : XML in xml.* ) b.addCommand( new Delegate( _parseNode, node, id) );
-			b.execute();*/
 
 			// recursivity
 			for each ( var node : XML in xml.* ) _parseNode( node, id );

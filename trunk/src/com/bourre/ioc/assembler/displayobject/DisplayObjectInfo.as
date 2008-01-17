@@ -20,10 +20,8 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.log.PixlibStringifier;
-
-	public class DisplayObjectInfo
+	import com.bourre.log.PixlibStringifier;		
+	public class DisplayObjectInfo
 	{
 		public var ID 		: String;
 		public var parentID : String;
@@ -48,7 +46,6 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function addChild( o : DisplayObjectInfo ) : void
 		{
-			PixlibDebug.INFO( "addChild to " +  this );			PixlibDebug.INFO( "child is " +  o );
 			_aChilds.push( o );
 		}
 		

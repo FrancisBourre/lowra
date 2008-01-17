@@ -26,8 +26,7 @@ package com.bourre.ioc.context
 	
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
-	import com.bourre.load.strategy.URLLoaderStrategy;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.load.strategy.URLLoaderStrategy;	
 
 	public class ContextLoader
 		extends AbstractLoader 
@@ -39,6 +38,7 @@ package com.bourre.ioc.context
 			super( new URLLoaderStrategy() );
 
 			setURL( url? url : new URLRequest( ContextLoader.DEFAULT_URL ) );
+			setAntiCache( true );
 		}
 
 		public function getContext() : XML
@@ -53,13 +53,7 @@ package com.bourre.ioc.context
 
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			PixlibDebug.INFO("load("+getURL().url+")");
 			super.load( url, context );
-		}
-
-		public override function release() : void
-		{
-			super.release();
 		}
 	}
 }
