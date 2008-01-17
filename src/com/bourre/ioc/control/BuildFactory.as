@@ -20,10 +20,9 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
 	import com.bourre.collection.HashMap;
 	import com.bourre.ioc.parser.ContextTypeList;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class BuildFactory
 	{
@@ -59,6 +58,8 @@ package com.bourre.ioc.control
 			addType( ContextTypeList.STRING, new BuildString() );
 			addType( ContextTypeList.UINT, new BuildUint() );
 			addType( ContextTypeList.DEFAULT, new BuildString() );
+			addType( ContextTypeList.DICTIONARY, new BuildDictionary() );
+			addType( ContextTypeList.CLASS, new BuildClass() );
 		}
 
 		protected function addType( type : String, build : IBuilder ) : void

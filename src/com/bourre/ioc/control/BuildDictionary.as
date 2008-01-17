@@ -1,4 +1,4 @@
-package com.bourre.ioc.control
+package com.bourre.ioc.control 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,34 +20,41 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import flash.utils.Dictionary;
+	
+	import com.bourre.ioc.assembler.property.Property;	
 
-	public class BuildBoolean
+	public class BuildDictionary 
 		implements IBuilder
 	{
+		import com.bourre.log.*;
+
 		public function build ( type : String = null, 
-								args : Array = null, 
+								args : Array = null,  
 								factory : String = null, 
 								singleton : String = null, 
 								channel : String = null		) : *
 		{
-			var value : String = "";
-			if ( args != null && args.length > 0 ) value = ( args[0] ).toString();
-
-			if ( value.length <= 0 || Number(value)==0) 
+			var d : Dictionary = new Dictionary();
+			
+			if ( args.length <= 0 ) 
 			{
-				PixlibDebug.WARN( this + ".build(" + value + ") failed." );
-				return false;
+				PixlibDebug.WARN( this + ".build(" + args + ") returns an empty Dictionary." );
+
 			} else
 			{
-				return new Boolean( value == "true" || !isNaN(Number(value))&&Number(value)!=0 );
+				var l : int = args.length;
+				for ( var i : int = 0; i < l; i++ )
+				{
+					var p : Property = args[ i ];
+					d[ p.name ] = p.value;
+				}
 			}
+			return d;
 		}
 
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}
-	}
-}
+	}}

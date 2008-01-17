@@ -55,13 +55,13 @@ package com.bourre.events
 		 * Inhibit the behavior of the <code>getChannelDispatcher</code>
 		 * which will return nothing if this channel is passed as argument.
 		 */
-		public const NO_CHANNEL : EventChannel = new NoChannel( );
+		public const NO_CHANNEL : EventChannel = new NoChannel();
 
 		/**
 		 * Default channel for the application broadcaster, all listeners
 		 * which not define any channel are considered as system listeners.
 		 */
-		public const SYSTEM_CHANNEL : EventChannel = new SystemChannel( );
+		public const SYSTEM_CHANNEL : EventChannel = new SystemChannel();
 
 		/**
 		 * Returns the singleton instance of the <code>ApplicationBroadcaster</code>

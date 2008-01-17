@@ -20,7 +20,7 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import com.bourre.events.ApplicationBroadcaster;	
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullChannelException;
@@ -63,10 +63,10 @@ package com.bourre.ioc.parser
 			var channel : String = ContextAttributeList.getChannel( xml );
 
 			getAssembler().buildObject( id, type, args, factory, singleton, channel );
-/*	
+
 			// register each object to system channel.
-			_oAssembler.buildChannelListener( id, PixiocSystemChannel.CHANNEL );
-*/
+			getAssembler().buildChannelListener( id, ApplicationBroadcaster.getInstance().SYSTEM_CHANNEL.toString() );
+
 			// Build property.
 			for each ( var property : XML in xml[ ContextNodeNameList.PROPERTY ] )
 			{
@@ -77,8 +77,6 @@ package com.bourre.ioc.parser
 												ContextAttributeList.getRef( property ),
 												ContextAttributeList.getMethod( property ) );
 			}
-	
-
 
 			// Build method call.
 			for each ( var method : XML in xml[ ContextNodeNameList.METHOD_CALL ] )
