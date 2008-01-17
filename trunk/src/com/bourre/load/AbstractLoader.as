@@ -1,35 +1,39 @@
-/*
- * Copyright the original author or authors.
- * 
- * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.mozilla.org/MPL/MPL-1.1.html
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.bourre.load
 {
-	import flash.events.*;
-	import flash.net.*;
-	import flash.system.LoaderContext;
-	import flash.utils.*;
-	
-	import com.bourre.commands.*;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.load.strategy.LoadStrategy;
-	import com.bourre.log.*;	
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
 
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	public class AbstractLoader implements com.bourre.load.Loader
+	import flash.events.*;
+	import flash.net.*;
+	import flash.system.LoaderContext;
+	import flash.utils.*;
+
+	import com.bourre.commands.*;
+	import com.bourre.error.NullPointerException;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.load.strategy.LoadStrategy;
+	import com.bourre.log.*;	
+
+	public class AbstractLoader 
+		implements 	com.bourre.load.Loader, 
+					ASyncCommand
 	{
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
@@ -37,7 +41,7 @@ package com.bourre.load
 		private var _oURL : URLRequest;
 		private var _bAntiCache : Boolean;
 		protected var _sPrefixURL : String;
-		
+
 		private var _loadStrategy : LoadStrategy;
 		private var _oContent : Object;
 		private var _nLastBytesLoaded : Number;
@@ -58,43 +62,47 @@ package com.bourre.load
 		{
 			load();
 		}
+
 		public function getStrategy () : LoadStrategy
 		{
 			return _loadStrategy;
 		}
+
 		public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( url ) setURL( url );
 			
-			if ( getURL() )
+			if ( getURL().url.length > 0 )
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
-				
+
 				_loadStrategy.load( getURL(), context );
 
 			} else
 			{
-				PixlibDebug.ERROR( this + ".load() can't retrieve file url." );
+				var msg : String = this + ".load() can't retrieve file url.";
+				PixlibDebug.ERROR( msg );
+				throw new NullPointerException( msg );
 			}
 		}
-		
+
 		protected function onInitialize() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 			fireEventType( LoaderEvent.onLoadInitEVENT );
 		}
-		
+
 		protected function setListenerType( type : Class ) : void
 		{
 			_oEB.setListenerType( type );
 		}
-		
+
 		public function getBytesLoaded() : uint
 		{
 			return _loadStrategy.getBytesLoaded();
 		}
-		
+
 		public function getBytesTotal() : uint
 		{
 			return _loadStrategy.getBytesTotal();
@@ -115,13 +123,13 @@ package com.bourre.load
 		{
 			_oURL = url;
 		}
-		
-		public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
+
+		final public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener( AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
 
-		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
+		final public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
 			return _oEB.removeEventListener(  AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
@@ -135,12 +143,12 @@ package com.bourre.load
 		{
 			return _oEB.removeListener( listener );
 		}
-		
+
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-		
+
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
@@ -160,7 +168,7 @@ package com.bourre.load
 		{
 			_bAntiCache = b;
 		}
-		
+
 		public function isAntiCache() : Boolean
 		{
 			return _bAntiCache;
@@ -180,57 +188,54 @@ package com.bourre.load
 		{
 			_nTimeOut = Math.max( 1000, n );
 		}
-		
+
 		public function release() : void
 		{
-			_loadStrategy.release();
+			_loadStrategy.release( );
+			_oEB.removeAllListeners();
 		}
-		
-		public function getContent() : Object
+		public function getContent() : Object
 		{
 			return _oContent;
 		}
-		
+
 		public function setContent( content : Object ) : void
 		{	
 			_oContent = content;
 		}
-		
+
 		public function fireOnLoadProgressEvent() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 		}
-		
+
 		public function fireOnLoadInitEvent() : void
 		{
 			onInitialize();
 		}
-		
+
 		public function fireOnLoadStartEvent() : void
 		{
 			fireEventType( LoaderEvent.onLoadStartEVENT );
 		}
-		
-		public function fireOnLoadErrorEvent( message : String = null ) : void
+
+		public function fireOnLoadErrorEvent( message : String = "" ) : void
 		{
 			var e : LoaderEvent = getLoaderEvent( LoaderEvent.onLoadErrorEVENT );
 			e.setMessage( message );
 			fireEvent( e );
-
-			PixlibDebug.ERROR( message );
 		}
-		
+
 		public function fireOnLoadTimeOut() : void
 		{
 			fireEventType( LoaderEvent.onLoadTimeOutEVENT );
 		}
-		
+
 		final public function fireCommandEndEvent() : void
 		{
-			
+			_oEB.broadcastEvent( new ASyncCommandEvent( ASyncCommandEvent.onCommandEndEVENT, this ) );
 		}
 
-		
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
@@ -245,7 +250,7 @@ package com.bourre.load
 		{
 			fireEvent( getLoaderEvent( type ) );
 		}
-		
+
 		protected function fireEvent( e : Event ) : void
 		{
 			_oEB.broadcastEvent( e );
@@ -262,16 +267,17 @@ package com.bourre.load
 			var d : Date = new Date();
 			return String( d.getTime() );
 		}
-		
+
 		public function run () : void
 		{
+			
 		}
-		
+
 		public function isRunning () : Boolean
 		{
 			return false;
 		}
-        
+
         // TODO check if _checkTimeOut is important
 //        private function _checkTimeOut( nLastBytesLoaded : Number, nTime : Number ) : void 
 //		{
@@ -298,24 +304,9 @@ import com.bourre.load.strategy.LoadStrategy;
 
 internal class NullLoadStrategy implements LoadStrategy
 {
-		public function load( request : URLRequest = null, context : LoaderContext = null  ) : void
-		{
-			
-		}
-		public function getBytesLoaded() : uint
-		{
-			return 0 ;
-		}
-		public function getBytesTotal() : uint
-		{
-			return 0 ;
-		}
-		public function setOwner( owner : Loader ) : void
-		{
-			
-		}
-		public function release() : void
-		{
-			
-		}
+		public function load( request : URLRequest = null, context : LoaderContext = null  ) : void {}
+		public function getBytesLoaded() : uint { return 0; }
+		public function getBytesTotal() : uint { return 0; }
+		public function setOwner( owner : Loader ) : void {}
+		public function release() : void {}
 }

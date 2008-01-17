@@ -20,11 +20,17 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.load.LoaderListener;
+	import com.bourre.load.LoaderListener;					
 
 	public interface DisplayObjectExpertListener extends LoaderListener
 	{
-		function onBuildDisplayObject ( e : DisplayObjectEvent ) :void;
+		function onDisplayObjectExpertLoadStart ( e : DisplayObjectExpertEvent ) : void;
+		function onDLLLoadStart ( e : DisplayObjectExpertEvent ) : void;	
+		function onDLLLoadInit ( e : DisplayObjectExpertEvent ) : void;
+		function onDisplayObjectLoadStart ( e : DisplayObjectExpertEvent ) : void;
+		function onDisplayObjectLoadInit ( e : DisplayObjectExpertEvent ) : void;
+		function onDisplayObjectExpertLoadInit ( e : DisplayObjectExpertEvent ) : void;
+
+		function onBuildDisplayObject ( e : DisplayObjectEvent ) : void;
 	}
 }

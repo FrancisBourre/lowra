@@ -20,7 +20,8 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import flash.net.URLRequest;	
+	
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.error.NullIDException;
 	import com.bourre.ioc.core.IDExpert;
@@ -69,7 +70,7 @@ package com.bourre.ioc.parser
 				if ( url.length > 0 )
 				{
 					// If we need to load a swf file.
-					getAssembler().buildDisplayObject( id, parentID, url, isVisible, type );
+					getAssembler().buildDisplayObject( id, new URLRequest(url), parentID, isVisible, type );
 					
 				} else
 				{

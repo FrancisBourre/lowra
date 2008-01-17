@@ -32,9 +32,14 @@ package com.bourre.ioc.parser
 
 		public override function parse( xml : * ) : void
 		{
-			xml = xml[ ContextNodeNameList.DLL ];
-			for each ( var node : XML in xml.* ) _parseNode( node );
+			var dllXML : XMLList = xml[ ContextNodeNameList.DLL ];
+			for each ( var node : XML in dllXML.* ) _parseNode( node );
 			delete xml[ ContextNodeNameList.DLL ];
+			
+//			delete thePeople.person.bio; //delete all <bio> tags
+//delete thePeople..bio; //Doesn't work but no error. Why?!?
+//delete thePeople.person.@suffix; //deletes all suffix attributes of <person> tags
+//delete thePeople.person.(@name == "Roger Braunstein").*; //clears out children of my node
 		}
 
 		protected function _parseNode( node : XML ) : void

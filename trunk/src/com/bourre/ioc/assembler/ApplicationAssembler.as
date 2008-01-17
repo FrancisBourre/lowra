@@ -20,6 +20,7 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.net.URLRequest;
 
 	public interface ApplicationAssembler
 	{
@@ -34,8 +35,8 @@ package com.bourre.ioc.assembler
 											type : String							) : void;
 		
 		function buildDisplayObject( 		ID 					: String,
+											url : URLRequest,
 											parentID 			: String, 
-											url 				: String,
 											isVisible 			: Boolean,
 											type 				: String			) : void;
 

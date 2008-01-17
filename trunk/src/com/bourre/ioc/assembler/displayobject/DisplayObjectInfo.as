@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.log.PixlibStringifier;
 
 	public class DisplayObjectInfo
@@ -48,6 +48,7 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function addChild( o : DisplayObjectInfo ) : void
 		{
+			PixlibDebug.INFO( "addChild to " +  this );			PixlibDebug.INFO( "child is " +  o );
 			_aChilds.push( o );
 		}
 		
@@ -58,7 +59,12 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function hasChild() : Boolean
 		{
-			return ( _aChilds.length > 0 );
+			return getNumChild() > 0;
+		}
+		
+		public function getNumChild() : int
+		{
+			return _aChilds.length;
 		}
 		
 		public function isEmptyDisplayObject() : Boolean
@@ -72,7 +78,11 @@ package com.bourre.ioc.assembler.displayobject
 		 */
 		public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this );
+			var s : String = " ";
+			s += "ID:" + ID + ", ";			s += "url:" + _sURL + ", ";
+			s += "parentID:" + parentID + ", ";			s += "isVisible:" + isVisible + ", ";			s += "url:" + type + ", ";			s += "hasChild:" + hasChild() + ", ";			s += "numChild:" + getNumChild();
+			
+			return PixlibStringifier.stringify( this ) + s;
 		}
 	}
 }

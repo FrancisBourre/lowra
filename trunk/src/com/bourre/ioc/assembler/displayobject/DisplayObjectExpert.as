@@ -103,24 +103,23 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function buildDLL ( url : String ) : void
 		{
-			PixlibDebug.WARN( "buildDLL(" + url + ")" );
 			var gl : GraphicLoader = new GraphicLoader( getRootTarget(), _dllQueue.size(), false );
 			_dllQueue.add( gl, "DLL" + _dllQueue.size(), new URLRequest( url ) );
 		}
 
 		public function buildGraphicLoader ( 	ID 			: String, 
-												url 		: String,
+												url 		: URLRequest,
 												parentID 	: String 	= null, 
 												isVisible 	: Boolean 	= true, 
 												type 		: String 	= "Movieclip" ) : void
 		{
-			PixlibDebug.WARN( "buildGraphicLoader(" + ID + ", " + url + ", " + parentID + ", " + isVisible + ", " + type + ")" );
-			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, url, type );
+			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, url.url, type );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, isVisible );
-			_gfxQueue.add( gl, ID, new URLRequest( url ) ) ;
+			_gfxQueue.add( gl, ID, url ) ;
 
-			_mDisplayObject.put( ID, info ) ;
+			_mDisplayObject.put( ID, info );
+
 			if ( _mDisplayObject.containsKey( parentID ) ) _mDisplayObject.get( parentID ).addChild( info );
 		}
 
@@ -129,7 +128,6 @@ package com.bourre.ioc.assembler.displayobject
 													isVisible 	: Boolean 	= true, 
 													type 		: String 	= "Movieclip" ) : void
 		{
-			PixlibDebug.WARN( "buildEmptyDisplayObject(" + ID + ", " + parentID + ", " + isVisible + ", " + type + ")" );
 			if ( parentID == null ) parentID = ContextNodeNameList.ROOT;
 
 			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, null, type );
@@ -150,7 +148,6 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function loadDLLQueue() : void
 		{
-			PixlibDebug.WARN( "loadDLLQueue()" );
 			if ( !(_executeQueueLoader( _dllQueue, onDLLLoadStart, onDLLLoadInit )) ) loadDisplayObjectQueue();
 		}
 
@@ -166,7 +163,6 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function loadDisplayObjectQueue() : void
 		{
-			PixlibDebug.WARN("loadDisplayObjectQueue()");
 			if ( !(_executeQueueLoader( _gfxQueue, onDisplayObjectLoadStart, onDisplayObjectLoadInit )) ) buildDisplayList();
 		}
 		
@@ -205,8 +201,6 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function buildDisplayList() : void
 		{
-			PixlibDebug.WARN("buildDisplayList()");
-
 			_buildDisplayList( ContextNodeNameList.ROOT );
 			fireEvent( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT );
 		}
@@ -284,13 +278,11 @@ package com.bourre.ioc.assembler.displayobject
 		// QueueLoader callbacks
 		public function qlOnLoadStart( e : LoaderEvent ) : void
 		{
-			PixlibDebug.WARN( "qlOnLoadStart(" + e + ")" );
 			fireEvent( DisplayObjectExpertEvent.onLoadStartEVENT, e.getLoader() );
 		}
 
 		public function qlOnLoadInit( e : LoaderEvent ) : void
 		{
-			PixlibDebug.WARN( "qlOnLoadInit(" + e + ")" );
 			fireEvent( DisplayObjectExpertEvent.onLoadInitEVENT, e.getLoader() );
 		}
 
