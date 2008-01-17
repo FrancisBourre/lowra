@@ -74,7 +74,16 @@ package com.bourre.load.strategy
 
 		public function release() : void
 		{
-			if ( _loader ) _loader.close();
+			if ( _loader ) 
+			{
+				_loader.removeEventListener( ProgressEvent.PROGRESS, _onProgress );
+				_loader.removeEventListener( Event.COMPLETE, _onComplete );
+				_loader.removeEventListener( Event.OPEN, _onOpen );
+				_loader.removeEventListener( SecurityErrorEvent.SECURITY_ERROR, _onSecurityError );
+				_loader.removeEventListener( HTTPStatusEvent.HTTP_STATUS, _onHttpStatus );
+				_loader.removeEventListener( IOErrorEvent.IO_ERROR, _onIOError );
+				_loader.close();
+			}
 		}
 
 		/**
@@ -115,7 +124,7 @@ package com.bourre.load.strategy
 
 	    protected function _onHttpStatus( e : HTTPStatusEvent ) : void 
 	    {
-			//if ( _owner ) _owner.fireOnLoadErrorEvent();
+			//
 	    }
 
 	    protected function _onIOError( e : IOErrorEvent ) : void 

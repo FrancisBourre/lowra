@@ -20,10 +20,6 @@ package com.bourre.ioc.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;	
-	import com.bourre.ioc.assembler.method.MethodExpert;	
-	import com.bourre.ioc.assembler.constructor.ConstructorExpert;	
-	
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
@@ -31,10 +27,13 @@ package com.bourre.ioc.load
 	import com.bourre.error.NullPointerException;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
+	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
+	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpertEvent;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpertListener;
+	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.context.ContextLoader;
 	import com.bourre.ioc.context.ContextLoaderEvent;
 	import com.bourre.ioc.parser.ContextParser;
@@ -47,7 +46,7 @@ package com.bourre.ioc.load
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.LoaderListener;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;		
 
 	public class ApplicationLoader
 		extends AbstractLoader
@@ -105,9 +104,9 @@ package com.bourre.ioc.load
 			return removeListener( listener );
 		}
 
-		override protected function getLoaderEvent( type : String ) : LoaderEvent
+		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
-			return new ApplicationLoaderEvent( type, this );
+			return new ApplicationLoaderEvent( type, this, errorMessage );
 		}
 
 		override public function release() : void
@@ -155,31 +154,26 @@ package com.bourre.ioc.load
 
 		public function fireOnApplicationParsed() : void
 		{
-			PixlibDebug.INFO( "fireOnApplicationParsed()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationParsedEVENT, this ) );
 		}
 
 		public function fireOnObjectsBuilt() : void
 		{
-			PixlibDebug.INFO( "fireOnObjectsBuilt()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationObjectsBuiltEVENT, this ) );
 		}
 
 		public function fireOnChannelsAssigned() : void
 		{
-			PixlibDebug.INFO( "fireOnChannelsAssigned()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationChannelsAssignedEVENT, this ) );
 		}
 
 		public function fireOnMethodsCalled() : void
 		{
-			PixlibDebug.INFO( "fireOnMethodsCalled()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationMethodsCalledEVENT, this ) );
 		}
 
 		public function fireOnApplicationInit() : void 
 		{
-			PixlibDebug.INFO( "fireOnApplicationInit()" );
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationInitEVENT, this ) );
 		}
 
@@ -208,8 +202,8 @@ package com.bourre.ioc.load
 
 		public function onLoadError( e : LoaderEvent ) : void
 		{
-			fireOnLoadErrorEvent( e.getMessage() );
-			PixlibDebug.ERROR( e.getMessage() );
+			fireOnLoadErrorEvent( e.getErrorMessage() );
+			PixlibDebug.ERROR( e.getErrorMessage() );
 		}
 
 		/**

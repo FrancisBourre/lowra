@@ -20,7 +20,7 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.events.BasicEvent;	
+	import com.bourre.events.BasicEvent;				
 
 	public class LoaderEvent 
 		extends BasicEvent
@@ -31,18 +31,19 @@ package com.bourre.load
 		public static const onLoadTimeOutEVENT : String = "onLoadTimeOut";
 		public static const onLoadErrorEVENT : String = "onLoadError";
 		
-		protected var _load : Loader;
-		protected var _sMessage : String;
+		protected var _loader : Loader;
+		protected var _sErrorMessage : String;
 		
-		public function LoaderEvent( type : String, load : Loader )
+		public function LoaderEvent( type : String, loader : Loader, errorMessage : String = "" )
 		{
-			super( type, load );
-			_load = load;
+			super( type, loader );
+			_loader = loader;
+			_sErrorMessage = errorMessage;
 		}
 
 		public function getLoader() : Loader
 		{
-			return _load;
+			return _loader;
 		}
 		
 		public function getPerCent() : Number
@@ -55,14 +56,14 @@ package com.bourre.load
 			return getLoader().getName();
 		}
 		
-		public function setMessage( message : String ) : void
+		public function setErrorMessage( errorMessage : String = "" ) : void
 		{
-			_sMessage = message;
+			_sErrorMessage = errorMessage.length > 0 ? errorMessage : getLoader() + " loading fails with '" + getLoader().getURL().url + "'";
 		}
 		
-		public function getMessage() : String
+		public function getErrorMessage() : String
 		{
-			return _sMessage == null ? _sMessage : getLoader() + " loading fails with '" + getLoader().getURL().url + "'";
+			return _sErrorMessage;
 		}
 	}
 }

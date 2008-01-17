@@ -77,7 +77,18 @@ package com.bourre.load.strategy
 
 		public function release() : void
 		{
-			if ( _loader ) _loader.close();
+			if ( _loader ) 
+			{
+				_loader.contentLoaderInfo.removeEventListener( ProgressEvent.PROGRESS, _onProgress );
+				_loader.contentLoaderInfo.removeEventListener( Event.COMPLETE, _onComplete );
+				_loader.contentLoaderInfo.removeEventListener( Event.OPEN, _onOpen );
+				_loader.contentLoaderInfo.removeEventListener( SecurityErrorEvent.SECURITY_ERROR, _onSecurityError );
+				_loader.contentLoaderInfo.removeEventListener( HTTPStatusEvent.HTTP_STATUS, _onHttpStatus );
+				_loader.contentLoaderInfo.removeEventListener( IOErrorEvent.IO_ERROR, _onIOError );
+		        _loader.contentLoaderInfo.removeEventListener( Event.INIT, _onInit );
+		        _loader.contentLoaderInfo.removeEventListener( Event.UNLOAD, _onUnLoad );
+				_loader.close();
+			}
 		}
 
 		/**
@@ -105,7 +116,6 @@ package com.bourre.load.strategy
 
 		protected function _onProgress( e : ProgressEvent ) : void
 		{
-			// trace( "_onProgress: " + e );
 			_bytesLoaded = e.bytesLoaded;
 			_bytesTotal = e.bytesTotal;
 
@@ -114,35 +124,33 @@ package com.bourre.load.strategy
 
 		protected function _onComplete( e : Event ) : void 
 		{
-			// trace( "_onComplete: " + e );
+			//
 	    }
 
 	    protected function _onOpen( e : Event ) : void
 	    {
-	    	// trace( "_onOpen: " + e );
 	    	if ( _owner ) _owner.fireOnLoadStartEvent();
 	    }
 
 	    protected function _onSecurityError( e : SecurityErrorEvent ) : void 
 	    {
-	    	// trace( "_onSecurityError: " + e );
+	    	release();
 			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
 
 	    protected function _onHttpStatus( e : HTTPStatusEvent ) : void 
 	    {
-	    	// trace( "_onHttpStatus: " + e );
+	    	//
 	    }
 
 	    protected function _onIOError( e : IOErrorEvent ) : void 
 	    {
-	    	// trace( "_onIOError: " + e );
+	    	release();
 			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
 
 	    protected function _onInit( e : Event ) : void 
 	    {
-			// trace( "_onInit: " + e );
 			if ( _owner ) 
 			{
 				_owner.setContent( _loader.content );
@@ -152,7 +160,7 @@ package com.bourre.load.strategy
 
 	    protected function _onUnLoad( e : Event ) : void 
 	    {
-			// trace( "_onUnLoad: " + e );
+			//
 		}
 	}
 }

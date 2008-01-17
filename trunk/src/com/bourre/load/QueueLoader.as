@@ -175,13 +175,13 @@ package com.bourre.load
 
 		public function onLoaderLoadError( e : LoaderEvent, ... rest ) : void
 		{
-			fireEventType( e.type );
+			fireEventType( e.type, e.getErrorMessage() );
 			_processQueue();
 		}
 
-		protected override function getLoaderEvent( type : String ) : LoaderEvent
+		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
-			return new QueueLoaderEvent( type, this );
+			return new QueueLoaderEvent( type, this, errorMessage );
 		}
 
 		private function _onLoadStart() : void

@@ -32,9 +32,9 @@ package com.bourre.load
 		public static const onLoadTimeOutEVENT : String = LoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
 		
-		public function GraphicLoaderEvent( type : String, gl : GraphicLoader )
+		public function GraphicLoaderEvent( type : String, gl : GraphicLoader, errorMessage : String = "" )
 		{
-			super( type, gl );
+			super( type, gl, errorMessage );
 		}
 		
 		public function getView() : DisplayObjectContainer

@@ -32,9 +32,9 @@ package com.bourre.ioc.context
 		public static const onLoadTimeOutEVENT : String = LoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
 		
-		public function ContextLoaderEvent( type : String, cl : ContextLoader )
+		public function ContextLoaderEvent( type : String, cl : ContextLoader, errorMessage : String = "" )
 		{
-			super( type, cl );
+			super( type, cl, errorMessage );
 		}
 		
 		public function getContextLoader() : ContextLoader

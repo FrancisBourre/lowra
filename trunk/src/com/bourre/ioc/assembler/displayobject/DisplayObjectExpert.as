@@ -39,7 +39,7 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.load.QueueLoader;
 	import com.bourre.load.QueueLoaderEvent;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;	
 
 	public class DisplayObjectExpert 
 	{
@@ -137,9 +137,10 @@ package com.bourre.ioc.assembler.displayobject
 			if ( _mDisplayObject.containsKey( parentID ) ) _mDisplayObject.get( parentID ).addChild( info );
 		}
 		
-		protected function fireEvent( type : String, loader : Loader = null ) : void
+		protected function fireEvent( type : String, loader : Loader = null, errorMessage : String = null ) : void
 		{
-			_oEB.broadcastEvent( new DisplayObjectExpertEvent( type, loader ) );
+			var e : DisplayObjectExpertEvent = new DisplayObjectExpertEvent( type, loader, errorMessage );
+			_oEB.broadcastEvent( e );
 		}
 
 		public function load () : void
@@ -301,7 +302,7 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function qlOnLoadError( e : LoaderEvent ) : void
 		{
-			fireEvent( DisplayObjectExpertEvent.onLoadErrorEVENT, e.getLoader() );
+			fireEvent( DisplayObjectExpertEvent.onLoadErrorEVENT, e.getLoader(), e.getErrorMessage() );
 		}
 
 		/**
