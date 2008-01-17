@@ -1,11 +1,36 @@
 package com.bourre.ioc.core
 {
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * @author Francis Bourre
+	 * @author Olympe Dignat
+	 * @version 1.0
+	 */
 	import flash.utils.Dictionary;
 	
-	import com.bourre.collection.*;
-	import com.bourre.ioc.assembler.property.*;
-	import com.bourre.log.*;
-	import com.bourre.plugin.*;
+	import com.bourre.collection.HashMap;
+	import com.bourre.collection.Set;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.NoSuchElementException;
+	import com.bourre.ioc.assembler.property.PropertyEvent;
+	import com.bourre.ioc.assembler.property.PropertyExpertListener;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;		
 
 	public class IDExpert
 		implements PropertyExpertListener
@@ -77,15 +102,18 @@ package com.bourre.ioc.core
 		{
 			if (  _d[ id ] ) 
 			{
-				PluginDebug.getInstance().fatal( this + ".register(" + id + ") failed. This id was already registered, check conflicts in your config file." );
-				return false;
-				
+				var msg : String = this + ".register(" + id + ") failed. This id was already registered, check conflicts in your config file.";
+				PixlibDebug.ERROR( msg );
+				throw( new IllegalArgumentException( msg ) );
+
 			} else
 			{
 				_d[ id ] = true;
 				_c.add( id );
 				return true;
 			}
+			
+			return false;
 		}
 		
 		public function unregister( id : String ) : Boolean
@@ -98,21 +126,13 @@ package com.bourre.ioc.core
 
 			} else
 			{
-				PluginDebug.getInstance().fatal( this + ".unregister(" + id + ") failed." );
-				return false;
+				var msg : String =  this + ".unregister(" + id + ") failed.";
+				PixlibDebug.ERROR( msg );
+				throw( new NoSuchElementException( msg ) );
 			}
+			
+			return false;
 		}
-
-		/*
-		public function storeContextID( id : String, target : Object ) : void
-		{	PluginDebug.getInstance().warn("storeContextID("+id+")");
-			if ( !_m.containsKey(id) ) _m.put( id, target );
-		}
-
-		public function getContextTarget( id : String ) : Object
-		{	PluginDebug.getInstance().warn("getContextTarget("+id+")");
-			return _m.get( id );
-		}*/
 
 		/**
 		 * Returns the string representation of this instance.
