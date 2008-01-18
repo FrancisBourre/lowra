@@ -1,9 +1,16 @@
 package com.bourre.ioc.parser
 {
-	import flexunit.framework.TestCase;
+	import com.bourre.events.ApplicationBroadcaster;	
+	
+	import flash.net.URLRequest;
+	
 	import com.bourre.ioc.assembler.*;
-	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
+	
+	import flexunit.framework.TestCase;	
 
 	public class ObjectParserTest 
 		extends TestCase
@@ -17,6 +24,10 @@ package com.bourre.ioc.parser
 		
 		public override function setUp():void
 		{
+			IDExpert.release();
+			DisplayObjectExpert.release() ;
+			BeanFactory.release();
+
 			_oParser = new ObjectParser( this );
 			_aResult = new Array();
 			_aChannelListener = new Array();
@@ -185,7 +196,7 @@ package com.bourre.ioc.parser
 			var o1 : Object = _aResult[ 1 ];
 			assertEquals( "unexpected id", o1.id, "list" );
 			assertEquals( "unexpected o1.args length", o1.args.length, 0 );
-			
+
 			assertEquals( "unexpected channel listeners count", _aChannelListener.length, 3 );
 			//
 			var listener0 : Object = _aChannelListener[ 0 ];
@@ -287,8 +298,8 @@ package com.bourre.ioc.parser
 		}
 
 		public function buildDisplayObject( id 			: String,
+											url			: URLRequest,
 											parentID 	: String, 
-											url 		: String,
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{
@@ -322,7 +333,10 @@ package com.bourre.ioc.parser
 
 		public function buildChannelListener( id : String, channelName : String ) : void
 		{
-			_aChannelListener.push( {id:id, channelName:channelName} );
+			if ( channelName != ApplicationBroadcaster.getInstance().SYSTEM_CHANNEL.toString() )
+			{
+				_aChannelListener.push( {id:id, channelName:channelName} );
+			}
 		}
 	}
 }

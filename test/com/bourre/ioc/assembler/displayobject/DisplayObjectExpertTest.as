@@ -1,5 +1,7 @@
 package com.bourre.ioc.assembler.displayobject
 {
+	import flash.net.URLRequest;	
+	
 	import com.bourre.load.GraphicLoaderLocator;	
 	
 	import flash.display.DisplayObjectContainer;
@@ -76,8 +78,8 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget( mc ) ;
 
 			_oDOE.buildEmptyDisplayObject( "containerID" );
-			_oDOE.buildGraphicLoader( "photo1", "http://url_that_doesnt_exist/nav_logo.png", "containerID" );
-			_oDOE.buildGraphicLoader( "photo2", "http://www.google.fr/images/nav_logo2.png", "containerID" );
+			_oDOE.buildGraphicLoader( "photo1", new URLRequest("http://url_that_doesnt_exist/nav_logo.png"), "containerID" );
+			_oDOE.buildGraphicLoader( "photo2", new URLRequest( "http://www.google.fr/images/nav_logo2.png"), "containerID" );
 			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
 			_oDOE.load() ;
 		}
@@ -120,8 +122,8 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.buildEmptyDisplayObject("clip122","clip12",true,"Sprite") ;
 			
 			//photos loaded in two clips (=> bitmap objects)
-			_oDOE.buildGraphicLoader( "photo1", "http://www.google.fr/images/nav_logo.png", "clip111", true ) ;
-			_oDOE.buildGraphicLoader( "photo2", "http://www.google.fr/images/nav_logo2.png", "clip122", true ) ;
+			_oDOE.buildGraphicLoader( "photo1", new URLRequest("http://www.google.fr/images/nav_logo.png"), "clip111", true ) ;
+			_oDOE.buildGraphicLoader( "photo2", new URLRequest("http://www.google.fr/images/nav_logo2.png"), "clip122", true ) ;
 			
 			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync( onTestBuildDisplayList, 5000, root) );
 			_oDOE.load() ;

@@ -74,7 +74,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( StringEventTest );
 	ts.addTestSuite( BooleanEventTest );
 	ts.addTestSuite( BasicEventTest );
-	/*
+
 	// com.bourre.ioc.assembler
 	//ts.addTestSuite (ConstructorTest);
 	ts.addTestSuite ( DisplayObjectParserTest );
@@ -108,7 +108,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( ContextNodeNameListTest );
 	ts.addTestSuite( AbstractParserTest );
 	ts.addTestSuite( ObjectParserTest );
-	*/
+
 	// com.bourre.load
 	//ts.addTestSuite( LoaderStrategyTest );
 	//ts.addTestSuite( URLLoaderStrategyTest );	
@@ -125,16 +125,13 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( LogLevelTest );
 
 	//com.bourre.media.sound
-	ts.addTestSuite( SoundFactoryTest );
+	//ts.addTestSuite( SoundFactoryTest );
 	
 	// com.bourre.plugin
 	ts.addTestSuite( PluginDebugTest );	
 	ts.addTestSuite( NullPluginTest );
 	ts.addTestSuite( AbstractPluginTest )
 	ts.addTestSuite( PluginChannelTest );
-
-	//com.bourre.request
-	//ts.addTestSuite( AbstractDataRequestTest );
 
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
