@@ -25,8 +25,11 @@ package com.bourre.commands
 	 * <p>
 	 * Concret implementations must consider each call of the <code>execute</code> method
 	 * as loop iteration. All actions for a single elements must process in the call.
-	 * </p>
-	 * 
+	 * </p><p>
+	 * For informations and examples on these classes see the 
+	 * <a href="../../../../docs/howto/howto-loopcommands.html">How to use LoopCommand
+	 * and IterationCommand</a> document.
+	 * </p> 
 	 * @author	Cédric Néhémie
 	 * @see		LoopCommand
 	 * @see		../../../../docs/howto/howto-loopcommands.html How to use LoopCommand

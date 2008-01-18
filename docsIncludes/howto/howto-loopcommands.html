@@ -147,8 +147,9 @@ Afterwards, the code below creates a <code>LoopCommand</code> and start it :
 			// create the concret iteration command
 			var iteration : TraceIteration( i );
 			
-			// create the loop
+			// create the loop and register this as listener
 			_oLoop = new LoopCommand ( iteration );
+			_oLoop.addLoopCommandListener ( this );
 			
 			// start the loop
 			_oLoop.execute();

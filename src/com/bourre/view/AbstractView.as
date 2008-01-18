@@ -20,6 +20,8 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.structures.Dimension;	
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -137,15 +139,19 @@ package com.bourre.view
 			return new Point( view.x, view.y );
 		}
 		
-		public function setSize( w : Number, h : Number ) : void
+		public function setSize( size : Dimension ) : void
+		{
+			view.width = size.width;
+			view.height = size.height;
+		}
+		public function setSizeWH( w : Number, h : Number ) : void
 		{
 			view.width = w;
 			view.height = h;
 		}
-		
-		public function getSize() : Point
+		public function getSize () : Dimension
 		{
-			return new Point( view.width, view.height );
+			return new Dimension( view.width, view.height );
 		}
 		
 		public function getName() : String

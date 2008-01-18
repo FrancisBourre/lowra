@@ -126,7 +126,7 @@ package com.bourre.collection
 		 * @return 	<code>true</code> if this set did not already contain the specified
 		 *         	element.
 		 * @throws 	<code>ClassCastException</code> — If the object's type
-		 * 			prevents it to be added into thisset
+		 * 			prevents it to be added into this set
 		 * @example How to use the <code>Set.add</code> method
 		 * <listing>
 		 * var set : Set = new Set( String );

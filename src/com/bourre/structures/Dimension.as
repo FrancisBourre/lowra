@@ -27,6 +27,11 @@ package com.bourre.structures
 			height = dimension.height;
 		}
 		
+		public function clone() : Dimension
+		{
+			return new Dimension ( width, height );
+		}
+
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify ( this ) + "[" + width + ", " + height +"]";

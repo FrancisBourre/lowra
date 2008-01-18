@@ -14,7 +14,7 @@ package com.bourre.structures
 		
 		public override function setUp () : void
 		{
-			_g = new Grid ( 3, 3 ); 
+			_g = new Grid ( new Dimension( 3, 3 ) ); 
 		}
    		
    		/*------------------------------------------------------------------*
@@ -33,14 +33,14 @@ package com.bourre.structures
    		
    		public function testGetSize() : void
    		{
-   			var size1:Point = _g.getSize();
-   			assertEquals ( "size1.x == 3", 3, size1.x );
-   			assertEquals ( "size1.y == 3", 3, size1.y );
+   			var size1:Dimension = _g.getSize();
+   			assertEquals ( "size1.width == 3", 3, size1.width );
+   			assertEquals ( "size1.height == 3", 3, size1.height );
    			
-			var g2:Grid = new Grid( 0, 0 );
-   			var size2:Point = g2.getSize();
-   			assertEquals ( "size2.x == 0", 0, size2.x );
-   			assertEquals ( "size2.y == 0", 0, size2.y );
+			var g2:Grid = new Grid( new Dimension( 0, 0 ) );
+   			var size2:Dimension = g2.getSize();
+   			assertEquals ( "size2.width == 0", 0, size2.width );
+   			assertEquals ( "size2.height == 0", 0, size2.height );
    		}
    		
    		public function testInvalidInsertion () : void
@@ -152,7 +152,7 @@ package com.bourre.structures
    			_g.setVal( new Point ( 1, 1 ), this );
    			_g.setVal( new Point ( 1, 2 ), null );
    			
-   			var g : Grid = new Grid ( 2,1 );
+   			var g : Grid = new Grid( new Dimension( 2, 1 ) );
    			g.setVal( new Point ( 0, 0 ), 15 );
    			g.setVal( new Point ( 1, 0 ), "15" );
    			
@@ -177,7 +177,7 @@ package com.bourre.structures
    			_g.setVal( new Point ( 1, 1 ), this );
    			_g.setVal( new Point ( 1, 2 ), null );
    			
-   			var g : Grid = new Grid ( 2,1 );
+   			var g : Grid = new Grid( new Dimension( 2, 1 ) );
    			g.setVal( new Point ( 0, 0 ), 15 );
    			g.setVal( new Point ( 1, 0 ), "15" );
    			
@@ -190,7 +190,7 @@ package com.bourre.structures
    		
    		public function testContainsAll () : void
    		{
-   			var g : Grid = new Grid ( 3,1 );
+   			var g : Grid = new Grid ( new Dimension( 3,1 ) );
    			g.setVal( new Point ( 0, 0 ), 15 );
    			g.setVal( new Point ( 1, 0 ), "15" );
    			
@@ -228,8 +228,8 @@ package com.bourre.structures
    			var a1 : Array = [ 15, 15, 15, "15", "15", "15", this, this, this ];
    			var a2 : Array = [ 25, "25" ];
    			
-   			var g1 : Grid = new Grid ( 3, 3, a1 );
-   			var g2 : Grid = new Grid ( 3, 3, a2 );
+   			var g1 : Grid = new Grid ( new Dimension( 3, 3 ), a1 );
+   			var g2 : Grid = new Grid ( new Dimension( 3, 3 ), a2 );
    			   			
    			assertTrue ( g1 + ".contains() failed to find an object added in constructor - test1 failed", g1.contains( 15 ) );
    			assertTrue ( g1 + ".contains() failed to find an object added in constructor - test2 failed", g1.contains( "15" ) );
@@ -267,7 +267,7 @@ package com.bourre.structures
    		
    		public function testDefaultValue () : void
    		{
-   			var g : Grid = new Grid ( 3, 3, [ null, null, null, null, 15, "15", this, this, this ], 0 );
+   			var g : Grid = new Grid ( new Dimension( 3, 3 ), [ null, null, null, null, 15, "15", this, this, this ], 0 );
    			
    			assertEquals ( g + ".fill() haven't does it's job - test1 failed", g.getVal( new Point ( 0, 0 ) ), 0 );
    			assertEquals ( g + ".fill() haven't does it's job - test2 failed", g.getVal( new Point ( 1, 1 ) ), 15 );

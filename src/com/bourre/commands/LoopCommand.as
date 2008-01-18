@@ -28,8 +28,16 @@ package com.bourre.commands
 	import com.bourre.transitions.TickListener;	
 
 	/**
-	 * 
-	 * @author Cédric Néhémie
+	 * A <code>LoopCommand</code> wrap a loop statement within a command.
+	 * <p>
+	 * For informations and examples on these classes see the 
+	 * <a href="../../../../docs/howto/howto-loopcommands.html">How to use LoopCommand
+	 * and IterationCommand</a> document.
+	 * </p>
+	 * @author 	Cédric Néhémie
+	 * @see		IterationCommand
+	 * @see		../../../../docs/howto/howto-loopcommands.html How to use LoopCommand
+	 * 			and IterationCommand
 	 */
 	public class LoopCommand extends AbstractSyncCommand 
 							 implements Cancelable, Suspendable, ASyncCommandListener, TickListener
