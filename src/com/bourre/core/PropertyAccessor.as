@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */	
-package com.bourre.core {
+package com.bourre.core 
+{
+	import com.bourre.error.ClassCastException;	
+	import com.bourre.error.NoSuchFieldException;
+	import com.bourre.error.NullPointerException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;		
 
 	public class PropertyAccessor implements Accessor
 	{
@@ -24,13 +28,18 @@ package com.bourre.core {
 		
 		public function PropertyAccessor ( o : Object, p : String )
 		{
+			var msg : String;
 			if( o == null )
 			{
-				PixlibDebug.ERROR( "Can't create an accessor on null" );
+				msg = "Can't create an accessor on a null object";
+				PixlibDebug.ERROR( msg );
+				throw new NullPointerException ( msg );
 			}
 			else if( !o.hasOwnProperty( p ) ) 
 			{
-				PixlibDebug.ERROR( "Can't create an accessor for " + p + " in " + o );
+				msg = o + " doesn't own any property called '" + p + "'";
+				PixlibDebug.ERROR( msg );
+				throw new NoSuchFieldException ( msg );
 			}
 					
 			_o = o;
@@ -39,11 +48,25 @@ package com.bourre.core {
 		
 		public function getValue():Number
 		{
+			if( !(_o[ _p ] is Number) ) 
+			{
+				var msg : String =  _o + "." + _p + " doesn't store a number";
+				PixlibDebug.ERROR( msg );
+				throw new ClassCastException ( msg );
+			}
+				
 			return _o[ _p ];
 		}	
 		
 		public function setValue( value : Number ) : void
 		{
+			if( !(_o[ _p ] is Number) ) 
+			{
+				var msg : String =  _o + "." + _p + " doesn't store a number";
+				PixlibDebug.ERROR( msg );
+				throw new ClassCastException ( msg );
+			}
+			
 			_o[ _p ] = value ;
 		}
 		
@@ -56,10 +79,12 @@ package com.bourre.core {
 		{
 			return _p;
 		}
+		
 		public function getSetterHelper() : String
 		{
 			return _p;
 		}
+		
 		public function getProperty() : String
 		{
 			return _p;

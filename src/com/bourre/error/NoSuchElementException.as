@@ -21,8 +21,7 @@
 
 package com.bourre.error
 {
-	public class NoSuchElementException
-			extends Error
+	public class NoSuchElementException	extends Error
 	{
 		public function NoSuchElementException ( message : String = "" )
 		{
