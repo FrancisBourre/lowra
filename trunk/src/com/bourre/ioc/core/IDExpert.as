@@ -98,6 +98,11 @@ package com.bourre.ioc.core
 		}
 		
 		// check for id conflicts
+		public function isRegistered( id : String ) : Boolean
+		{
+			return (_d[ id ] == true) ? true : false;
+		}
+
 		public function register( id : String ) : Boolean
 		{
 			if (  _d[ id ] ) 
@@ -118,7 +123,7 @@ package com.bourre.ioc.core
 		
 		public function unregister( id : String ) : Boolean
 		{
-			if (  _d[ id ] ) 
+			if ( isRegistered( id ) ) 
 			{
 				_d[ id ] = false;
 				_c.remove( id );

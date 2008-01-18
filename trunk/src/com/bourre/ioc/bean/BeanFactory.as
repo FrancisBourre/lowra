@@ -117,7 +117,6 @@ package com.bourre.ioc.bean
 			if ( isRegistered( key ) )
 			{
 				_m.remove( key ) ;
-				IDExpert.getInstance().unregister( key );
 				_oEB.broadcastEvent( new BeanEvent( BeanFactory.onUnregisterBeanEVENT, key, null ) ) ;
 				return true ;
 			}
@@ -129,6 +128,13 @@ package com.bourre.ioc.bean
 
 		public function unregisterBean ( bean : Object ) : Boolean
 		{
+			var key : String = getKey( bean );
+			return ( key != null ) ? unregister( key ) : false;
+		}
+		
+		public function getKey( bean : Object ) : String
+		{
+			var key : String;
 			var b : Boolean = isBeanRegistered( bean );
 
 			if ( b )
@@ -138,12 +144,12 @@ package com.bourre.ioc.bean
 
 				while( -- l > - 1 ) 
 				{
-					var key : String = a[ l ];
-					if ( locate( a[ l ] ) == bean ) unregister( key );
+					key = a[ l ];
+					if ( locate( key ) == bean ) return key;
 				}
 			}
-
-			return b;
+			
+			return null;
 		}
 
 		public function addListener( listener : BeanFactoryListener ) : Boolean
