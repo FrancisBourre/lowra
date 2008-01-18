@@ -20,6 +20,7 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.error.NoSuchElementException;	
 	import com.bourre.core.Locator;	
 	
@@ -77,14 +78,38 @@ package com.bourre.commands
 			return _oEB;
 		}
 
-		public function pushCommandClass( eventName : String, commandClass : Class ) : void
+		public function pushCommandClass( eventName : String, commandClass : Class ) : Boolean
 		{
-			_mEventList.put( eventName.toString(), commandClass );
+			var key : String = eventName.toString();
+
+			if ( isRegistered( key ) )
+			{
+				var msg : String = "'" + commandClass + "' Command class is already registered with '" + key + "' name in " + this;
+				getLogger().fatal( msg );
+				throw new IllegalArgumentException( msg );
+
+			} else
+			{
+				_mEventList.put( eventName.toString(), commandClass );
+				return true;
+			}
 		}
 
-		public function pushCommandInstance( eventName : String, command : Command ) : void
+		public function pushCommandInstance( eventName : String, command : Command ) : Boolean
 		{
-			_mEventList.put( eventName.toString(), command );
+			var key : String = eventName.toString();
+
+			if ( isRegistered( key ) )
+			{
+				var msg : String = "'" + command + "' Command instance is already registered with '" + key + "' name in " + this;
+				getLogger().fatal( msg );
+				throw new IllegalArgumentException( msg );
+
+			} else
+			{
+				_mEventList.put( eventName.toString(), command );
+				return true;
+			}
 		}
 
 		public function remove( eventName : String ) : void
