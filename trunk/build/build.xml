@@ -147,8 +147,36 @@
 						 of events fired by LowRA components or for creating your own
 						 event-based components.'"/>
 			
+			<arg line="-package com.bourre.load 
+						'Contains a complete set of classes for file loading purpose'"/>
+			
+			<arg line="-package com.bourre.load.strategy 
+						'Contains custom strategy used by the different loader of LowRA'"/>
+			
+			<arg line="-package com.bourre.log 
+						'Provides a set of tools application logging and objects stringification'"/>
+			
+			<arg line="-package com.bourre.model
+						'Base objects for model part of the LowRA MVC implementation'"/>
+			
+			<arg line="-package com.bourre.plugin
+						'Base objects for plugin creation and communication'"/>
+		
+			<arg line="-package com.bourre.service
+						'Contains abstract classes and utilities for remoting request 
+						 and service-based communication'"/>
+			
 			<arg line="-package com.bourre.transitions
 						'Animations framework.'"/>
+			
+			<arg line="-package com.bourre.structures
+						'Convenient data structures'"/>
+			
+			<arg line="-package com.bourre.utils
+						'Contains general purpose utility classes and logging layout'"/>
+			
+			<arg line="-package com.bourre.view
+						'Base objects for view part of the LowRA MVC implementation'"/>
 			
 					
 		</java>

@@ -51,13 +51,13 @@ package com.bourre.structures
 	public class Grid implements Collection, TypedContainer
 	{
 	
-		protected var _vSize : Point;
+		protected var _vSize : Dimension;
 		protected var _aContent : Array;
 		protected var _oDefaultValue : Object;
 		protected var _cType : Class;
 		
 		/**
-		 * Create a new grid of size <code>x * y</code>.
+		 * Create a new grid of passed-in <code>size</code>.
 		 * <p>
 		 * If <code>a</code> is set, and if it have the same size that the grid, 
 		 * it's used to fill the collection at creation.
@@ -66,25 +66,23 @@ package com.bourre.structures
 		 * will be replaced by <code>dV</code> value.
 		 * </p>
 		 * 
-		 * @param	x	Width of the grid.
-		 * @param	y	Height of the grid.
+		 * @param	size Size of the grid.
 		 * @param	a	An array to fill the grid with.
 		 * @param 	dV 	The default value for null elements.
 		 * @throws 	<code>ArgumentError</code> — Invalid size passed in Grid constructor.
 		 */
-		public function Grid ( x : uint = 1, 
-							   y : uint = 1, 
+		public function Grid ( size : Dimension, 
 							   a : Array = null, 
 							   dV : Object = null, 
 							   t : Class = null )
 		{
-			if( isNaN ( x ) || isNaN ( y ) )
+			if( size == null )
 			{
-				PixlibDebug.ERROR( "Invalid size in Grid constructor : [" + x + ", " + y + "]" );
-				throw new ArgumentError ( "Invalid size in Grid constructor : [" + x + ", " + y + "]" );
+				PixlibDebug.ERROR( "Invalid size in Grid constructor : " + size );
+				throw new ArgumentError ( "Invalid size in Grid constructor : " + size );
 			}
 			
-			_vSize = new Point ( x, y );
+			_vSize = size;
 			_oDefaultValue = dV;
 			_cType = t;
 			
@@ -126,7 +124,7 @@ package com.bourre.structures
 				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
 			}
 			
-			return PixlibStringifier.stringify( this ) + parameter + " [" + _vSize.x + ", " + _vSize.y + "]";
+			return PixlibStringifier.stringify( this ) + parameter + " [" + _vSize.width + ", " + _vSize.height + "]";
 		}
 		
 		/*
@@ -434,7 +432,7 @@ package com.bourre.structures
 	     */
 		public function size() : uint
 		{
-			return _vSize.x * _vSize.y;
+			return _vSize.width * _vSize.height;
 		}
 		
 		/*
@@ -572,9 +570,9 @@ package com.bourre.structures
 		 */
 		protected function initContent() : void 
 		{
-			_aContent  = new Array( _vSize.x );
-			for ( var x : Number = 0; x < _vSize.x; x++ ) 
-				_aContent[ x ] = new Array( _vSize.y );
+			_aContent  = new Array( _vSize.width );
+			for ( var x : Number = 0; x < _vSize.width ; x++ ) 
+				_aContent[ x ] = new Array( _vSize.height );
 		}
 		
 		/**
@@ -632,21 +630,24 @@ package com.bourre.structures
 		 */
 		public function isGridCoords ( p : Point ) : Boolean
 		{
-			if ( !( p.x >= 0 && p.x < _vSize.x && p.y >= 0 && p.y < _vSize.y ) )
+			if ( !( p.x >= 0 && 
+					p.x < _vSize.width &&
+					p.y >= 0 &&
+					p.y < _vSize.height ) )
 				throw new IndexOutOfBoundsException ( p + " is not a valid grid coordinates for " + this );
 				
 			return true;
 		}
 
 		/**
-		 * Returns the size of the grid as <code>Point</code>.
+		 * Returns the size of the grid as <code>Dimension</code>.
 		 * <p>
-		 * The returned <code>Point</code> is a clone of the
+		 * The returned <code>Dimension</code> is a clone of the
 		 * internal one.
 		 * </p>
-		 * @return 	the dimensions of the grid as <code>Point</code>
+		 * @return 	the dimensions of the grid as <code>Dimension</code>
 		 */
-		public function getSize () : Point
+		public function getSize () : Dimension
 		{
 			return _vSize.clone(); 
 		}
@@ -662,8 +663,8 @@ package com.bourre.structures
 		 */
 		public function getCoordinates ( id : uint ) : Point
 		{
-			var nY : Number = Math.floor( id / _vSize.x );
-			var p : Point = new Point( id - ( nY * _vSize.x ), nY );
+			var nY : Number = Math.floor( id / _vSize.width );
+			var p : Point = new Point( id - ( nY * _vSize.height ), nY );
 			
 			isGridCoords( p );
 			
