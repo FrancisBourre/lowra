@@ -18,7 +18,7 @@ package com.bourre.structures
 	import com.bourre.error.IllegalArgumentException;	
 
 	/** 
-	 * A <code>Grid</code> is basically a two dimensionnal data structure
+	 * A <code>Grid</code> is basically a two dimensions data structure
 	 * based on the <code>Collection</code> interface.
 	 * <p>
 	 * By default a <code>Grid</code> object is an untyped collection that
@@ -40,7 +40,7 @@ package com.bourre.structures
 	 * Instead of using the methods above there are several specific methods to insert data in the
 	 * grid : 
 	 * <ul>
-	 * 	<li><code>setVal</code> : Use it to insert value in the grid</li>
+	 * 	<li><code>setVal</code> : Use it to insert value in the grid at specified coordinates</li>
 	 * 	<li><code>setContent</code> : Use it to set the grid with the passed-in array.</li>
 	 * 	<li><code>fill</code> : Use it to fill the grid with the same value in all cells.</li>
 	 * </ul>
@@ -50,11 +50,10 @@ package com.bourre.structures
 	 */
 	public class Grid implements Collection, TypedContainer
 	{
-	
-		protected var _vSize : Dimension;
-		protected var _aContent : Array;
-		protected var _oDefaultValue : Object;
-		protected var _cType : Class;
+		private var _vSize : Dimension;
+		private var _aContent : Array;
+		private var _oDefaultValue : Object;
+		private var _cType : Class;
 		
 		/**
 		 * Create a new grid of passed-in <code>size</code>.
@@ -70,6 +69,10 @@ package com.bourre.structures
 		 * @param	a	An array to fill the grid with.
 		 * @param 	dV 	The default value for null elements.
 		 * @throws 	<code>ArgumentError</code> — Invalid size passed in Grid constructor.
+		 * @throws 	<code>ClassCastException</code> — If objects type contained in the
+		 * 			passed-in array prevents them to be added into this grid
+		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in array length
+		 * 			doesn't match this grid size
 		 */
 		public function Grid ( size : Dimension, 
 							   a : Array = null, 
@@ -78,8 +81,9 @@ package com.bourre.structures
 		{
 			if( size == null )
 			{
-				PixlibDebug.ERROR( "Invalid size in Grid constructor : " + size );
-				throw new ArgumentError ( "Invalid size in Grid constructor : " + size );
+				var msg : String = "Invalid size in Grid constructor : " + size;
+				PixlibDebug.ERROR( msg );
+				throw new ArgumentError ( msg );
 			}
 			
 			_vSize = size;
@@ -766,12 +770,18 @@ package com.bourre.structures
 		 * @return 	<code>true</code> if the <code>Grid</code> changed as results of the call
 		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this grid
+		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in array length
+		 * 			doesn't match this grid size
 		 */
 		public function setContent ( a : Array ) : Boolean
 		{
 			if( a.length != size () )
 			{
-				PixlibDebug.ERROR( "Passed-in array doesn't match " + this + ".size()");
+				var msg : String = "Passed-in array of length" + a.length +
+								   " doesn't match " + this + ".size() : " + size();
+								   
+				PixlibDebug.ERROR( msg );
+				throw new IllegalArgumentException ( msg );
 				return false;
 			}
 			var l : Number = a.length;
