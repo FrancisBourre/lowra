@@ -20,18 +20,18 @@ package com.bourre.commands
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.IllegalArgumentException;	
-	import com.bourre.error.NoSuchElementException;	
-	import com.bourre.core.Locator;	
-	
 	import flash.events.Event;
-
-	import com.bourre.collection.HashMap;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.*;
-	import com.bourre.plugin.*;
+	import flash.utils.Dictionary;
 	
-	import flash.utils.Dictionary;	
+	import com.bourre.collection.HashMap;
+	import com.bourre.core.Locator;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.NoSuchElementException;
+	import com.bourre.events.EventBroadcaster;
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.plugin.NullPlugin;
+	import com.bourre.plugin.Plugin;
+	import com.bourre.plugin.PluginDebug;	
 
 	public class FrontController 
 		implements Locator
@@ -196,7 +196,7 @@ package com.bourre.commands
 				} catch( e : Error )
 				{
 					e.message = this + ".add() fails. " + e.message;
-					PixlibDebug.ERROR( e.message );
+					getLogger().error( e.message );
 					throw( e );
 				}
 			}
