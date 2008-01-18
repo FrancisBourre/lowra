@@ -1,5 +1,7 @@
 package com.bourre.ioc.assembler
 {
+	import flash.net.URLRequest;	
+	
 	public class MockApplicationAssembler 
 		implements ApplicationAssembler
 	{
@@ -12,8 +14,8 @@ package com.bourre.ioc.assembler
 		}
 
 		public function buildDisplayObject( ID 			: String,
+											url : URLRequest,
 											parentID 	: String, 
-											url 		: String,
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{

@@ -1,47 +1,50 @@
 package com.bourre.ioc.bean
 {
-	import flexunit.framework.TestCase;
 	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.core.IDExpert;
 	
+	import flexunit.framework.TestCase;	
 
-	public class BeanFactoryTest extends TestCase
+	public class BeanFactoryTest 
+		extends TestCase
 	{
-		
-		private var _oBF:BeanFactory ;
-		private var _oL:MockBeanFactory ;
-		
+		private var _oBF:BeanFactory;
+		private var _o : Object;
+		private var _oL : MockBeanFactory;
+
 		public override function setUp():void
 		{
+			IDExpert.release();
+			BeanFactory.release();
+
 			_oBF = BeanFactory.getInstance();
-			_oL = new MockBeanFactory () ;
+			_oL = new MockBeanFactory();
 		}
-		
+
 		public function testConstruct() :void
 		{
-			assertNotNull("BeanFactory constructor returns null", BeanFactory.getInstance()) ;
+			assertNotNull( "BeanFactory constructor returns null", BeanFactory.getInstance() );
 		}
-		
+
 		public function testAddAndRemoveListener():void
 		{
-			var obj:Object = new Object() ;
+			_o = new Object();
+			var key : String = "key";
 
-			var str:String = "lalala" ;
+			assertTrue("Listener not added", _oBF.addListener(_oL) );
 
-			assertTrue("Listener not added", _oBF.addListener(_oL));
+			assertTrue( "Bean registration failed", _oBF.register( key, _o ) );
 
+			assertTrue( "Event [bean registered] not called", _oL.registerCalled );
 
-			assertTrue("Bean registration failed", _oBF.register(str, obj));
+			assertTrue ( "Key not registered", _oBF.isRegistered( key ) ); 
+			assertTrue ( "Bean not registered", _oBF.isBeanRegistered( _o ) );
+			assertNotNull( "Key not located", _oBF.locate( key ) );
 
-			assertTrue("Event [bean registered] not called", _oL.registerCalled) ;
+			assertTrue( "Bean unregistration failed", _oBF.unregister( key ) );
+			assertTrue ( "Bean not unregistered", _oL.unregisterCalled );
 
-			assertTrue ("Key not registered", _oBF.isRegistered(str)) ; 
-			assertTrue ("Bean not registered", _oBF.isBeanRegistered(obj)) ;
-			assertNotNull("Key not located", _oBF.locate(str)) ;
-
-			assertTrue("Bean unregistration failed", _oBF.unregister(str));
-			assertTrue ("Bean not unregistered", _oL.unregisterCalled) ;
-			
-			assertTrue("Listener not removed", _oBF.removeListener(_oL)) ;
+			assertTrue( "Listener not removed", _oBF.removeListener( _oL ) );
 		}
 	}
 }

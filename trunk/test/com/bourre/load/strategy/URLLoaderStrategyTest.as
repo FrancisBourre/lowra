@@ -263,6 +263,10 @@ package com.bourre.load.strategy
 		{
 			return _URLls;
 		}
-				
+		
+		public function isRunning() : Boolean
+		{
+			return null;
+		}
 	}
 }

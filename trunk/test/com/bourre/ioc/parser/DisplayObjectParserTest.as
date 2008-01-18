@@ -1,8 +1,14 @@
 package com.bourre.ioc.parser
 {
-	import flexunit.framework.TestCase;
-	import com.bourre.ioc.assembler.*;
+	import flash.net.URLRequest;
+	
+	import com.bourre.ioc.assembler.ApplicationAssembler;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
+	
+	import flexunit.framework.TestCase;		
 
 	public class DisplayObjectParserTest 
 		extends TestCase
@@ -16,6 +22,10 @@ package com.bourre.ioc.parser
 		
 		public override function setUp():void
 		{
+			IDExpert.release();
+			DisplayObjectExpert.release() ;
+			BeanFactory.release();
+
 			_oParser = new DisplayObjectParser( this );
 			_aEmptyDO = new Array();
 			_aDO = new Array();
@@ -79,7 +89,7 @@ package com.bourre.ioc.parser
 			var o : Object = _aDO[ 0 ];
 			assertEquals( "unexpected id", "test", o.id );
 			assertEquals( "unexpected parentID", "root", o.parentID );
-			assertEquals( "unexpected url", "http://www.tweenpix.net", o.url );
+			assertEquals( "unexpected url", "http://www.tweenpix.net", (o.url as URLRequest).url );
 			assertFalse( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.MOVIECLIP, o.type );
 		}
@@ -113,21 +123,21 @@ package com.bourre.ioc.parser
 			o = _aDO[ 0 ];
 			assertEquals( "unexpected id", "tweenpix", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
-			assertEquals( "unexpected url", "http://www.tweenpix.net", o.url );
+			assertEquals( "unexpected url", "http://www.tweenpix.net", (o.url as URLRequest).url );
 			assertFalse( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.MOVIECLIP, o.type );
 			//
 			o = _aDO[ 1 ];
 			assertEquals( "unexpected id", "osflash", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
-			assertEquals( "unexpected url", "http://www.osflash.org", o.url );
+			assertEquals( "unexpected url", "http://www.osflash.org", (o.url as URLRequest).url );
 			assertTrue( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.SPRITE, o.type );
 			//
 			o = _aDO[ 2 ];
 			assertEquals( "unexpected id", "google", o.id );
 			assertEquals( "unexpected parentID", "osflash", o.parentID );
-			assertEquals( "unexpected url", "http://www.google.fr", o.url );
+			assertEquals( "unexpected url", "http://www.google.fr", (o.url as URLRequest).url );
 			assertTrue( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.SPRITE, o.type );
 		}
@@ -159,7 +169,7 @@ package com.bourre.ioc.parser
 			o = _aDO[ 0 ];
 			assertEquals( "unexpected id", "button", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
-			assertEquals( "unexpected url", "http://www.tweenpix.net/button.swf", o.url );
+			assertEquals( "unexpected url", "http://www.tweenpix.net/button.swf", (o.url as URLRequest).url );
 			//
 			
 			assertEquals( "unexpected instances count", _aProperty.length, 2 );
@@ -205,7 +215,7 @@ package com.bourre.ioc.parser
 			o = _aDO[ 0 ];
 			assertEquals( "unexpected id", "button", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
-			assertEquals( "unexpected url", "http://www.tweenpix.net/button.swf", o.url );
+			assertEquals( "unexpected url", "http://www.tweenpix.net/button.swf", (o.url as URLRequest).url );
 			//
 
 			assertEquals( "unexpected method count", _aMethod.length, 1 );
@@ -235,8 +245,8 @@ package com.bourre.ioc.parser
 		}
 
 		public function buildDisplayObject( id 			: String,
-											parentID 	: String, 
-											url 		: String,
+											url 		: URLRequest,
+											parentID 	: String,
 											isVisible 	: Boolean, 
 											type : String ) : void
 		{

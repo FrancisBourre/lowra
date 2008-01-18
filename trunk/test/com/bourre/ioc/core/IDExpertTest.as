@@ -29,7 +29,19 @@ package com.bourre.ioc.core
 		public function testRegister() : void
 		{
 			assertTrue( "", _oIE.register( "id" ) );
-			assertFalse( "", _oIE.register( "id" ) );
+
+			var err : Error;
+
+			try
+			{
+				_oIE.register( "id" );
+
+			} catch ( e : Error )
+			{
+				err = e;
+			}
+
+			assertNotNull( "", err );
 		}
 
 		public function testBasicRefSorting() : void

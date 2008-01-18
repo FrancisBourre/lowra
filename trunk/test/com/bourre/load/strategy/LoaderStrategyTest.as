@@ -282,7 +282,8 @@ package com.bourre.load.strategy
 		public function getStrategy() : LoadStrategy
 		{
 			return _ls;
+		}				public function isRunning() : Boolean		{
+			return null;
 		}
-		
 	}
 }
