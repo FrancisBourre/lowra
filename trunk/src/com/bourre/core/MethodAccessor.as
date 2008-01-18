@@ -13,9 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */	
-package com.bourre.core {
+package com.bourre.core 
+{
+	import com.bourre.error.NoSuchMethodException;	
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.error.NullPointerException;
+	import com.bourre.error.ClassCastException;	
 
 	public class MethodAccessor implements Accessor
 	{
@@ -27,23 +31,28 @@ package com.bourre.core {
 		private var _sf : Function;
 		private var _gf : Function;
 		
-		private var _value : Number;
-		
 		public function MethodAccessor ( o : Object, setter : String, getter : String  )
 		{
+			var msg : String;
 			if( o == null )
 			{
-				PixlibDebug.ERROR( "Can't create an accessor on null" );
+				msg = "Can't create an accessor on a null object";
+				PixlibDebug.ERROR( msg );
+				throw new NullPointerException ( msg );
 			}
 			else if( !o.hasOwnProperty( setter ) ) 
 			{
-				PixlibDebug.ERROR( "Can't create a setter accessor for " + setter + " in " + o );
+				msg = o + " doesn't own any setter method called '" + setter + "'";
+				PixlibDebug.ERROR( msg );
+				throw new NoSuchMethodException( msg );
+
 			}
 			else if( !o.hasOwnProperty( getter ) ) 
 			{
-				PixlibDebug.ERROR( "Can't create a getter accessor for " + getter + " in " + o );
-			}
-					
+				msg = o + " doesn't own any getter method called '" + getter + "'";
+				PixlibDebug.ERROR( msg );
+				throw new NoSuchMethodException( msg );
+			}	
 			_o = o;
 			
 			_sp = setter;
@@ -55,13 +64,32 @@ package com.bourre.core {
 		
 		public function getValue():Number
 		{
-			return _gf == null ? _value : _gf();
+			var n : Number = _gf();
+			
+			if( isNaN ( n ) ) 
+			{
+				var msg : String =  _o + "." + _gp + "() doesn't return a number";
+				PixlibDebug.ERROR( msg );
+				
+				throw new ClassCastException ( msg );
+			}
+			
+			return n;
 		}	
 		
 		public function setValue( value : Number ) : void
 		{
-			if ( _gf == null ) _value = value;
-			_sf( value );
+			try
+			{
+				_sf( value );
+			}
+			catch ( e : Error )
+			{
+				var msg : String =  _o + "." + _sp + "() doesn't accept a number as argument";
+				PixlibDebug.ERROR( msg );
+				
+				throw new ClassCastException ( msg );
+			}
 		}
 		
 		public function getTarget() : Object
