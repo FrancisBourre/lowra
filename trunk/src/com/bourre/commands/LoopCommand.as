@@ -46,6 +46,7 @@ package com.bourre.commands
 		static public const NO_LIMIT : Number = Number.POSITIVE_INFINITY;
 		
 		static public const onLoopStartEVENT 	: String = "onLoopStart";
+		static public const onLoopStopEVENT 	: String = "onLoopStop";
 		static public const onLoopProgressEVENT : String = "onLoopProgress";		static public const onLoopEndEVENT 		: String = "onLoopEnd";		static public const onLoopCancelEVENT 	: String = "onLoopCancel";
 		
 		static private const onIterationEVENT 	: String = "onIteration";
@@ -132,6 +133,7 @@ package com.bourre.commands
 			{
 				_oBeacon.addTickListener( this );
 				_bIsRunning = true;
+				fireOnLoopStartEvent( _nIndex );
 			}
 		}
 		
@@ -144,6 +146,7 @@ package com.bourre.commands
 			{
 				_oBeacon.removeTickListener( this );
 				_bIsRunning = false;
+				fireOnLoopStopEvent( _nIndex );
 			}
 		}
 		
@@ -224,9 +227,9 @@ package com.bourre.commands
 		/**
 		 * 
 		 */
-		protected function fireOnLoopStartEvent () : void
+		protected function fireOnLoopStartEvent ( n : Number ) : void
 		{
-			_oEB.broadcastEvent( new LoopEvent( onLoopStartEVENT, this, 0 ) );
+			_oEB.broadcastEvent( new LoopEvent( onLoopStartEVENT, this, n ) );
 		}
 		/**
 		 * 
@@ -248,6 +251,13 @@ package com.bourre.commands
 		protected function fireOnLoopEndEvent ( n : Number ) : void
 		{
 			_oEB.broadcastEvent(  new LoopEvent( onLoopEndEVENT, this, n ) );
+		}
+		/**
+		 * 
+		 */
+		protected function fireOnLoopStopEvent ( n : Number ) : void
+		{
+			_oEB.broadcastEvent(  new LoopEvent( onLoopStopEVENT, this, n ) );
 		}
 		/**
 		 * 
