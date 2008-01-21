@@ -25,7 +25,8 @@ package com.bourre.ioc.parser
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
-	import com.bourre.log.PixlibDebug;		
+	import com.bourre.log.PixlibDebug;	
+
 	public class DisplayObjectParser
 		extends AbstractParser
 	{
@@ -94,7 +95,7 @@ package com.bourre.ioc.parser
 			{
 				getAssembler().buildMethodCall( id, 
 												ContextAttributeList.getName( method ),
-												getArguments( method ) );
+												getArguments( method, ContextNodeNameList.ARGUMENT ) );
 			}
 
 			// recursivity

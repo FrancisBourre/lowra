@@ -20,14 +20,16 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;	
+	import flash.net.URLRequest;
 	
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
 	import com.bourre.ioc.assembler.method.MethodExpert;
+	import com.bourre.ioc.assembler.property.DictionaryItem;
 	import com.bourre.ioc.assembler.property.Property;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
+	import com.bourre.ioc.parser.ContextTypeList;	
 
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
@@ -74,11 +76,29 @@ package com.bourre.ioc.assembler
 			if ( args != null )
 			{
 				var l : int = args.length;
-				for ( var i : int; i < l; i++ )
+				var i : int;
+				var o : Object;
+
+				if ( type == ContextTypeList.DICTIONARY )
 				{
-					var o : Object = args[ i ];
-					var p : Property = new Property( o.id, o.name, o.value, o.type, o.ref, o.method );
-					args[ i ] = p;
+					for ( i = 0; i < l; i++ )
+					{
+						o = args[ i ];
+						var key : Object = o.key;
+						var value : Object = o.value;
+						var pKey : Property = new Property( key.id, key.name, key.value, key.type, key.ref, key.method );
+						var pValue : Property = new Property( value.id, value.name, value.value, value.type, value.ref, value.method );
+						args[ i ] = new DictionaryItem( pKey, pValue );
+					}
+
+				} else
+				{
+					for ( i = 0; i < l; i++ )
+					{
+						o = args[ i ];
+						var p : Property = new Property( o.id, o.name, o.value, o.type, o.ref, o.method );
+						args[ i ] = p;
+					}
 				}
 			}
 

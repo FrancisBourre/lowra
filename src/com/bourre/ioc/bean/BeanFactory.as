@@ -22,15 +22,14 @@ package com.bourre.ioc.bean
 	 * @version 1.0
 	 */
 	import flash.utils.Dictionary;
-
+	
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.Locator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;	
 
 	public class BeanFactory 
 		implements Locator
