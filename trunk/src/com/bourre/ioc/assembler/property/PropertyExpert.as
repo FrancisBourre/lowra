@@ -28,7 +28,7 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.ioc.control.BuildFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.parser.ContextTypeList;
-	import com.bourre.utils.ObjectUtils;		
+	import com.bourre.utils.ObjectUtils;	
 
 	public class PropertyExpert 
 		implements BeanFactoryListener
@@ -108,7 +108,8 @@ package com.bourre.ioc.assembler.property
 				} else if ( o is DictionaryItem )
 				{
 					var di : DictionaryItem = o as DictionaryItem;
-					r.push( {key: getValue( di.getKey() ), value: getValue( di.getValue() )} );
+					di.key = getValue( di.getPropertyKey() );					di.value = getValue( di.getPropertyValue() );
+					r.push( di );
 				}
 			}
 
