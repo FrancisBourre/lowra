@@ -33,17 +33,19 @@ package com.bourre.commands
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;	
 
-	public class FrontController 
-		implements Locator
+	public class FrontController implements Locator, ASyncCommandListener
 	{
 		protected var _oEB : EventBroadcaster;
 		protected var _owner : Plugin;
 		protected var _mEventList : HashMap;
+		
+		private var _oASyncCommands : Dictionary;
 
 		public function FrontController( owner : Plugin = null ) 
 		{
 			setOwner( owner );
 			_mEventList = new HashMap();
+			_oASyncCommands = new Dictionary();
 		}
 
 		final public function setOwner( owner : Plugin ) : void
@@ -131,7 +133,20 @@ package com.bourre.commands
 				getLogger().debug( this + ".handleEvent() fails to retrieve command associated with '" + type + "' event type." );
 			}
 
-			if ( cmd != null ) cmd.execute( event );
+			if ( cmd != null )
+			{
+				if( cmd is ASyncCommand )
+				{
+					_oASyncCommands[ cmd ] = true;
+					(cmd as ASyncCommand).addASyncCommandListener( this );
+				}
+				cmd.execute( event );
+			}
+		}
+		
+		public function onCommandEnd (e : Event) : void
+		{
+			delete _oASyncCommands[ e.target ];
 		}
 
 		public function release() : void
@@ -210,5 +225,6 @@ package com.bourre.commands
 		{
 			return PixlibStringifier.stringify( this );
 		}
+		
 	}
 }

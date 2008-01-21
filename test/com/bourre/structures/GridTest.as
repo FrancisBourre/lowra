@@ -211,13 +211,32 @@ package com.bourre.structures
    		{
    			var a1 : Array = [ 15, 15, 15, "15", "15", "15", this, this, this ];
    			var a2 : Array = [ 25, "25" ];
+   			var b : Boolean = false;
    			
-   			assertTrue ( _g + ".setContent() failed to add an array of the right size - test1 failed", _g.setContent( a1 ) );
+   			try
+   			{
+   				_g.setContent( a1 );
+   			}
+   			catch( e : Error ) 
+   			{
+   				b = true;
+   			}
+			assertFalse ( _g + ".setContent() failed to add an array of the right size - test1 failed", b );
    			
    			assertTrue ( _g + ".contains() failed to find an object added with setContent() - test2 failed", _g.contains( 15 ) );
    			assertTrue ( _g + ".contains() failed to find an object added with setContent() - test3 failed", _g.contains( "15" ) );
    			
-   			assertFalse ( _g + ".setContent() don't failed with an array of the wrong size - test4 failed", _g.setContent( a2 ) );
+   			b = false;
+   			try
+   			{
+   				_g.setContent( a2 );
+   			}
+   			catch( e : Error ) 
+   			{
+   				b = true;
+   			}
+			assertTrue ( _g + ".setContent() don't failed with an array of the wrong size - test4 failed", b );
+
    			assertFalse ( _g + ".contains() don't failed to find a non inserted value.", _g.contains( 25 ) );
    			assertTrue ( _g + ".contains().", _g.contains( 15 ) );
    			
@@ -229,13 +248,22 @@ package com.bourre.structures
    			var a2 : Array = [ 25, "25" ];
    			
    			var g1 : Grid = new Grid ( new Dimension( 3, 3 ), a1 );
-   			var g2 : Grid = new Grid ( new Dimension( 3, 3 ), a2 );
-   			   			
+   			
    			assertTrue ( g1 + ".contains() failed to find an object added in constructor - test1 failed", g1.contains( 15 ) );
    			assertTrue ( g1 + ".contains() failed to find an object added in constructor - test2 failed", g1.contains( "15" ) );
    			
-   			assertFalse ( g2 + ".contains() don't failed to find a non inserted value - test3 failed", g2.contains( 25 ) );
-   			assertFalse ( g2 + ".contains() don't failed to find a non inserted value - test4 failed", g2.contains("25" ) );
+   			var g2 : Grid;   			
+   			var b : Boolean = false;
+   			try
+   			{
+   				g2 = new Grid ( new Dimension( 3, 3 ), a2 );
+   			}
+   			catch( e : Error ) 
+   			{
+   				b = true;
+   			}
+   			assertTrue ( g2 + " have been created with an invalid array as content - test3 failed", b ); 			
+   			
    		}
    		
    		public function testClear () : void
