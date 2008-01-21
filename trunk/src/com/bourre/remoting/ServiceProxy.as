@@ -16,10 +16,10 @@ package com.bourre.remoting
 		}
 		
 		// TODO : what we do with ServiceResponder in this case
-		public function __resolve( sServiceMethodName : String, o : ServiceResponder ) : Function 
+		public function __resolve( sServiceMethodName : ServiceMethod, o : ServiceResponder ) : Function 
 		{
 			var connection : RemotingConnection = getRemotingConnection();
-			var aFullServiceName  : Array = [ getFullyQualifiedMethodName( sServiceMethodName ) ];
+			var aFullServiceName  : Array = [ getFullyQualifiedMethodName( sServiceMethodName  ) ];
 			return function (){ return getRemotingConnection().call.apply( connection, aFullServiceName.concat(arguments) ); };
 		}
 		
