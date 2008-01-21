@@ -93,7 +93,7 @@ package com.bourre.remoting
 		
 		
 		// Util function
-		function hasGateway() : Boolean
+		public function hasGateway() : Boolean
 		{
 			return gatewayURL !=  null ;
 		}
