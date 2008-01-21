@@ -777,7 +777,7 @@ package com.bourre.structures
 		{
 			if( a.length != size () )
 			{
-				var msg : String = "Passed-in array of length" + a.length +
+				var msg : String = "Passed-in array of length " + a.length +
 								   " doesn't match " + this + ".size() : " + size();
 								   
 				PixlibDebug.ERROR( msg );

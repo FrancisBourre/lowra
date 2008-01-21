@@ -23,7 +23,6 @@ import com.bourre.load.strategy.*;
 import com.bourre.log.*;
 import com.bourre.media.sound.*;
 import com.bourre.plugin.*;
-import com.bourre.request.*;
 import com.bourre.utils.*;
 import com.bourre.structures.*;
 import com.bourre.transitions.*;

@@ -289,7 +289,7 @@
 		<antcall target="dll.Compile">
 			<param name="dll.name" value="TestDll"/>
 			<param name="dll.dir" value="${bin.dir}"/>
-			<param name="dll.includes" value="com.bourre.commands.Runnable"/>
+			<param name="dll.includes" value="com.bourre.structures.Dimension"/>
 			<param name="dll.excludes" value=""/>
 			<param name="dll.report" value="${bin.dir}/dllreport.xml"/>
 		</antcall>

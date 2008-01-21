@@ -35,6 +35,32 @@ package com.bourre.load
 		implements 	com.bourre.load.Loader, 
 					ASyncCommand
 	{
+		static private var _oPool : Dictionary = new Dictionary();
+		
+		static protected function registerLoaderToPool ( o : Loader ) : void
+		{
+			if( _oPool[ o ] == null )
+			{
+				_oPool[ o ] = true;
+			}
+			else
+			{
+				PixlibDebug.WARN( o + " is already registered in the loading pool" );
+			}
+		}
+		
+		static protected function unregisterLoaderFromPool ( o : Loader ) : void
+		{
+			if( _oPool[ o ] != null )
+			{
+				delete _oPool[ o ];
+			}
+			else
+			{
+				PixlibDebug.WARN( o + " is not registered in the loading pool" );
+			}
+		}
+		
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
@@ -76,10 +102,13 @@ package com.bourre.load
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
-
+				
+				registerLoaderToPool( this );
+				
 				_loadStrategy.load( getURL(), context );
 
-			} else
+			} 
+			else
 			{
 				var msg : String = this + ".load() can't retrieve file url.";
 				PixlibDebug.ERROR( msg );
@@ -209,9 +238,10 @@ package com.bourre.load
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 		}
 
-		public function fireOnLoadInitEvent() : void
+		final public function fireOnLoadInitEvent() : void
 		{
 			onInitialize();
+			unregisterLoaderFromPool( this );
 		}
 
 		public function fireOnLoadStartEvent() : void

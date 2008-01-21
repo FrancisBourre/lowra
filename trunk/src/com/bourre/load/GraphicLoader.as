@@ -9,22 +9,22 @@ package com.bourre.load
 	import com.bourre.load.strategy.LoaderStrategy;
 	import com.bourre.log.*;	
 
-	public class GraphicLoader 
-		extends AbstractLoader
+	public class GraphicLoader extends AbstractLoader
 	{
 		private var _target : DisplayObjectContainer;
 		private var _index : int;
 		private var _bAutoShow : Boolean;
 		private var _bMustUnregister : Boolean;
 		private var _oContext : LoaderContext;
+		private var _oBitmapContainer : Sprite;
 
-		public function GraphicLoader( target : DisplayObjectContainer = null, index : int = -1, bAutoShow : Boolean = true )
+		public function GraphicLoader( target : DisplayObjectContainer = null, index : int = -1, autoShow : Boolean = true )
 		{
 			super( new LoaderStrategy() );
 
 			_target = target;
 			_index = index;
-			_bAutoShow = bAutoShow;
+			_bAutoShow = autoShow;
 			_bMustUnregister = false;
 		}
 
@@ -41,18 +41,18 @@ package com.bourre.load
 			if (b) show();
 		}
 
-		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
+		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
 			return new GraphicLoaderEvent( type, this, errorMessage );
 		}
 
-		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
+		override public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( context ) setContext( context );
 			super.load( url, getContext() );
 		}
 
-		protected override function onInitialize() : void
+		override protected function onInitialize() : void
 		{
 			if ( getName() != null ) 
 			{
@@ -61,7 +61,8 @@ package com.bourre.load
 					_bMustUnregister = true;
 					GraphicLoaderLocator.getInstance().register( getName(), this );
 
-				} else
+				} 
+				else
 				{
 					_bMustUnregister = false;
 					var msg : String = this + " can't be registered to " + GraphicLoaderLocator.getInstance() 
@@ -80,14 +81,14 @@ package com.bourre.load
 		{	
 			if ( content is Bitmap )
 			{
-				var mc : Sprite = new Sprite();
-				mc.addChild( content as Bitmap );
-				super.setContent( mc );
-
-			} else
-			{
-				super.setContent( content );
+				_oBitmapContainer = new Sprite();
+				_oBitmapContainer.addChild( content as Bitmap );
 			}
+			else
+			{
+				_oBitmapContainer = null;
+			} 
+			super.setContent( content );
 		}
 		
 		public function show() : void
@@ -96,14 +97,15 @@ package com.bourre.load
 			{
 				if ( _index != -1 )
 				{
-					_target.addChildAt( getContent() as DisplayObject, _index );
+					_target.addChildAt( getView(), _index );
 					
-				} else
+				} 
+				else
 				{
-					_target.addChild( getContent() as DisplayObject );
+					_target.addChild( getView() );
 				}
-
-			} else
+			} 
+			else
 			{
 				PixlibDebug.DEBUG( this + ".show() failed. No specified target." );
 			}
@@ -111,8 +113,8 @@ package com.bourre.load
 		
 		public function hide() : void
 		{
-			if (_target != null && _target.contains(getContent() as DisplayObject)) 
-				_target.removeChild( getContent() as DisplayObject );
+			if (_target != null && _target.contains( getView() )) 
+				_target.removeChild( getView() );
 		}
 		
 		public function isVisible() : Boolean
@@ -120,7 +122,7 @@ package com.bourre.load
 			var result : Boolean;
 			try
 			{
-				result = _target.contains( getContent() as DisplayObject );
+				result = _target.contains( getView() );
 			} 
 			catch( e : Error )
 			{
@@ -136,7 +138,7 @@ package com.bourre.load
 		
 		override public function release() : void
 		{
-			if ( getContent() && _target.contains( getContent() as DisplayObject ) ) _target.removeChild( getContent() as DisplayObject );
+			if ( getContent() && _target.contains( getView() ) ) _target.removeChild( getView() );
 
 			if ( _bMustUnregister ) 
 			{
@@ -149,7 +151,7 @@ package com.bourre.load
 		
 		public function getView() : DisplayObjectContainer
 		{
-			return getContent() as DisplayObjectContainer;
+			return _oBitmapContainer ? _oBitmapContainer : getContent() as DisplayObjectContainer;
 		}
 		
 		public function getApplicationDomain() : ApplicationDomain
