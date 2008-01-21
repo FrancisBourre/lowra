@@ -20,7 +20,7 @@ package com.bourre.remoting.events {
 		
 		public function getLib() : RemotingCall
 		{
-			return _load as RemotingCall;
+			return _loader as RemotingCall;
 		}
 		
 		public function getResult() : Object
