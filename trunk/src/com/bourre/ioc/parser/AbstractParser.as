@@ -67,10 +67,10 @@ package com.bourre.ioc.parser
 			//
 		}
 		
-		public final function getArguments( xml : XML, type : String = null ) : Array
+		public final function getArguments( xml : XML, nodeName : String, type : String = null ) : Array
 		{
 			var args : Array = new Array();
-			var argList : XMLList = xml.child( ContextNodeNameList.ARGUMENT );
+			var argList : XMLList = xml.child( nodeName );
 			var length : int = argList.length();
 
 			if ( length > 0 )
@@ -78,14 +78,7 @@ package com.bourre.ioc.parser
 				for ( var i : int = 0; i < length; i++ ) 
 				{
 					var x : XMLList = argList[ i ].attributes();
-					var l : int = x.length();
-
-					if ( l > 0 )
-					{
-						var o : Object = {};
-						for ( var j : int = 0; j < l; j++ ) o[ String( x[j].name() ) ]=x[j];
-						args.push( o );
-					}
+					if ( x.length() > 0 ) args.push( getAttributes(x) );
 				}
 
 			} else
@@ -95,6 +88,34 @@ package com.bourre.ioc.parser
 			}
 			
 			return args;
+		}
+		
+		public final function getItems( xml : XML ) : Array
+		{
+			
+			var args : Array = new Array();
+			var itemList : XMLList = xml.child( ContextNodeNameList.ITEM );
+			var length : int = itemList.length();
+
+			if ( length > 0 )
+			{
+				for ( var i : int = 0; i < length; i++ ) 
+				{
+					var keyList : XMLList = (itemList[ i ].child( ContextNodeNameList.KEY ) as XMLList).attributes();
+					var valueList : XMLList = (itemList[ i ].child( ContextNodeNameList.VALUE ) as XMLList).attributes();
+					if ( keyList.length() > 0 ) args.push( {key:getAttributes(keyList), value:getAttributes(valueList)} );
+				}
+			}
+
+			return args;
+		}
+		
+		public final function getAttributes( attributes : XMLList ) : Object
+		{
+			var l : int = attributes.length();
+			var o : Object = {};
+			for ( var j : int = 0; j < l; j++ ) o[ String( attributes[j].name() ) ] = attributes[j];
+			return o;
 		}
 	}
 }

@@ -22,7 +22,7 @@ package com.bourre.ioc.control
 	 */
 	import flash.utils.Dictionary;
 	
-	import com.bourre.ioc.assembler.property.Property;	
+	import com.bourre.log.PixlibDebug;	
 
 	public class BuildDictionary 
 		implements IBuilder
@@ -36,7 +36,7 @@ package com.bourre.ioc.control
 								channel : String = null		) : *
 		{
 			var d : Dictionary = new Dictionary();
-			
+
 			if ( args.length <= 0 ) 
 			{
 				PixlibDebug.WARN( this + ".build(" + args + ") returns an empty Dictionary." );
@@ -46,8 +46,8 @@ package com.bourre.ioc.control
 				var l : int = args.length;
 				for ( var i : int = 0; i < l; i++ )
 				{
-					var p : Property = args[ i ];
-					d[ p.name ] = p.value;
+					var o : Object = args[ i ];
+					d[ o.key ] = o.value;
 				}
 			}
 			return d;

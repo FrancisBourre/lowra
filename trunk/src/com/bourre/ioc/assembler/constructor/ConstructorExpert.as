@@ -1,6 +1,5 @@
 package com.bourre.ioc.assembler.constructor
 {
-	import com.bourre.log.PixlibDebug;	
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.Set;
@@ -8,7 +7,7 @@ package com.bourre.ioc.assembler.constructor
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.control.BuildFactory;
-	import com.bourre.ioc.core.IDExpert;		
+	import com.bourre.ioc.core.IDExpert;	
 
 	public class ConstructorExpert
 	{
@@ -50,7 +49,6 @@ package com.bourre.ioc.assembler.constructor
 		public function buildObject( o : Constructor ) : *
 		{
 			var args : Array = PropertyExpert.getInstance().deserializeArguments( o.arguments );
-			PixlibDebug.INFO( o.type + ":" + args)
 			return BuildFactory.getInstance().getBuilder( o.type ).build( o.type, args, o.factory, o.singleton, o.channel );
 		}
 		

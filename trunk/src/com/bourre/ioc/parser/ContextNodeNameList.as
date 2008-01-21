@@ -16,6 +16,7 @@ package com.bourre.ioc.parser
 		public static var DLL 					: String = "dll";
 		public static var METHOD_CALL 			: String = "method-call";
 		public static var LISTEN 				: String = "listen";
+		public static var ITEM 					: String = "item";		public static var KEY 					: String = "key";		public static var VALUE 				: String = "value";
 		
 		private var _mNodeName:HashMap;
 		

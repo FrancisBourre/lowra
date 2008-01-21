@@ -24,11 +24,6 @@ package com.bourre.ioc.assembler
 
 	public interface ApplicationAssembler
 	{
-		
-
-		
-		//function buildGraphicProperty( id : String, propertyNode : * ) : void;
-		
 		function buildEmptyDisplayObject( 	ID : String,
 											parentID : String,
 											isVisible : Boolean,

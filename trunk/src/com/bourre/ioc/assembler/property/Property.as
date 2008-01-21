@@ -28,10 +28,10 @@ package com.bourre.ioc.assembler.property
 			this.method = method;
 		}
 		
-	/**
-	 * Returns the string representation of this instance.
-	 * @return the string representation of this instance
-	 */
+		/**
+		 * Returns the string representation of this instance.
+		 * @return the string representation of this instance
+		 */
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );

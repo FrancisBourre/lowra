@@ -20,12 +20,12 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.events.ApplicationBroadcaster;	
+	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullChannelException;
 	import com.bourre.ioc.error.NullIDException;
-	import com.bourre.plugin.PluginDebug;
+	import com.bourre.plugin.PluginDebug;		
 
 	public class ObjectParser
 		extends AbstractParser
@@ -57,7 +57,7 @@ package com.bourre.ioc.parser
 
 			// Build object.
 			var type : String = ContextAttributeList.getType( xml );
-			var args : Array = getArguments( xml, type );
+			var args : Array = (type == ContextTypeList.DICTIONARY) ? getItems( xml ) : getArguments( xml, ContextNodeNameList.ARGUMENT, type );
 			var factory : String = ContextAttributeList.getFactoryMethod( xml );
 			var singleton : String = ContextAttributeList.getSingletonAccess( xml );
 			var channel : String = ContextAttributeList.getChannel( xml );
@@ -83,7 +83,7 @@ package com.bourre.ioc.parser
 			{
 				getAssembler().buildMethodCall( id, 
 												ContextAttributeList.getName( method ),
-												getArguments( method ) );
+												getArguments( method, ContextNodeNameList.ARGUMENT ) );
 			}
 
 			// Build channel listener.
