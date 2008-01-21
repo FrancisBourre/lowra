@@ -60,12 +60,12 @@ package com.bourre.remoting
 		}
 		
 		// Locator implementation 
-		function isRegistered( key : String ) : Boolean
+		public function isRegistered( key : String ) : Boolean
 		{
 			return _m.containsKey( key ) ;
 		}
 		
-		function locate( key : String ) : Object
+		public function locate( key : String ) : Object
 		{
 			if (!_m.containsKey( key ) ) 
 			{
@@ -74,7 +74,7 @@ package com.bourre.remoting
 			return _m.get( key );
 		}
 		
-		function add( d : Dictionary ) : void
+		public function add( d : Dictionary ) : void
 		{
 			for ( var key : * in d ) 
 			{

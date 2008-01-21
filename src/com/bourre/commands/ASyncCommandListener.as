@@ -18,11 +18,18 @@ package com.bourre.commands
 	import flash.events.Event;	
 
 	/**
+	 * Interface for objects which want to be notified of the end of execution
+	 * of an asynchronous command.
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public interface ASyncCommandListener
 	{
+		/**
+		 * Called when the command have completed its process.
+		 * 
+		 * @param	e	event dispatched by the command
+		 */
 		function onCommandEnd ( e : Event ) : void;
 	}
 }

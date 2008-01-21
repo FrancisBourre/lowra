@@ -1,24 +1,42 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.commands 
 {
+	import flash.events.Event;
+
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * <code>Batch</code> object encapsulate a set of <code>Commands</code>
 	 * to execute at the same time.
-	 * 
-	 * <p>Batch is a first-in first-out stack (FIFO) where commands
-	 * are executed in the order they were registered.</p>
-	 * 
-	 * <p>When an event is passed to the <code>execute</code> method
-	 * it will be relayed to the sub-commands.</p>
+	 * <p>
+	 * Batch is a first-in first-out stack (FIFO) where commands
+	 * are executed in the order they were registered.
+	 * </p><p>
+	 * When an event is passed to the <code>execute</code> method
+	 * it will be relayed to the sub-commands.
+	 * </p>
 	 * 
 	 * @author 	Cédric Néhémie
-	 * @version 1.0
-	 * @see		MacroCommand
 	 */
-
-	import flash.events.Event;
-
 	public class Batch implements MacroCommand
 	{
+		/**
+		 * Contains all commands currently in this macro command
+		 */
 		protected var _aCommands : Array;
 
 		/**
@@ -26,12 +44,12 @@ package com.bourre.commands
          * to a method of an object.
          * It's exactly the same concept as batch processing in audio or video
          * software, when you choose to run the same actions on a group of files.
-         *
-         * <p>Basical example which sets _alpha value to .4 and scale to 50
+         * <p>
+         * Basical example which sets _alpha value to .4 and scale to 50
          * on all MovieClips nested in the Array :
-         *
+         * </p>
          * @example
-         * <code>
+         * <listing>
          * import com.bourre.commands.*;
          *
          * function changeAlpha( mc : MovieClip, a : Number, s : Number )
@@ -41,15 +59,17 @@ package com.bourre.commands
          * }
          *
          * Batch.process( changeAlpha, [mc0, mc1, mc2], .4, 50 );
-         * </code>
+         * </listing>
          *
-         * @param f Function to run.
-         * @param a Array of parameters.
+         * @param	f		function to run.
+         * @param	a		array of parameters.
+         * @param 	args	additionnal parameters to concat with the passed-in
+         * 					arguments array
          */
-		public static function process(f:Function, a:Array, ...aArgs) : void
+		public static function process ( f : Function, a : Array, ...args ) : void
 		{
 			var l : Number = a.length;
-			while( --l > -1 ) f.apply( null, (aArgs.length > 0 ) ? [a[l]].concat( aArgs ) : [a[l]] );
+			while( --l > -1 ) f.apply( null, (args.length > 0 ) ? [a[l]].concat( args ) : [a[l]] );
 		}
 
 		/**
@@ -61,46 +81,45 @@ package com.bourre.commands
 		}
 
 		/**
-		 * Add a command in the batch stack.
-		 * 
-		 * <p>If the passed-in command have been added the
-		 * function return <code>true</code>.</p> 
-		 * 
-		 * <p>There is no limitation on the number of references
-		 * of the same command witch the batch can contain.</p>
-		 * 
-		 * @param oCommand	A <code>Command</code> to add at the end
-		 * 					of the current Batch. 
-		 * @return <code>true</code> if the command could have been added.
-		 * 		   either <code>false</code>
+		 * Adds a command in the batch stack.
+		 * <p>
+		 * If the passed-in command have been added the
+		 * function return <code>true</code>.
+		 * </p><p>
+		 * There is no limitation on the number of references
+		 * of the same command witch the batch can contain.
+		 * </p>
+		 * @param 	command	a <code>Command</code> to add at the end
+		 * 					of the current Batch
+		 * @return 	<code>true</code> if the command could have been added,
+		 * 		   	either <code>false</code>
 		 */
-		public function addCommand( oCommand : Command ) : Boolean
+		public function addCommand( command : Command ) : Boolean
 		{
-			if( oCommand == null ) return false;
+			if( command == null ) return false;
 
 			var l : Number = _aCommands.length;
-			return (l != _aCommands.push( oCommand ) );
+			return (l != _aCommands.push( command ) );
 		}
 
 		/**
-		 * Remove all references to the passed-in command.
-		 * 
-		 * <p>If the command have been found and removed
+		 * Removes all references to the passed-in command.
+		 * <p>
+		 * If the command have been found and removed
 		 * from the <code>Batch</code> the function return
-		 * <code>true</code>.</p>
-		 * 
-		 * @param oCommand 
-		 * @return <code>true</code> if the command have been 
-		 * 		   successfully removed.
-		 * 
+		 * <code>true</code>.
+		 * </p> 
+		 * @param	command command object to be removed
+		 * @return 	<code>true</code> if the command have been 
+		 * 		   	successfully removed.
 		 */
-		public function removeCommand( oCommand : Command ) : Boolean
+		public function removeCommand( command : Command ) : Boolean
 		{
-			var id : Number = _aCommands.indexOf( oCommand ); 
+			var id : Number = _aCommands.indexOf( command ); 
 
 			if ( id == -1 ) return false;
 			
-			while ( ( id = _aCommands.indexOf( oCommand ) ) != -1 )
+			while ( ( id = _aCommands.indexOf( command ) ) != -1 )
 			{
 				_aCommands.splice( id, 1 );
 			}
@@ -109,25 +128,25 @@ package com.bourre.commands
 
 		/**
 		 * Returns <code>true</code> if the passed-in command is stored
-		 * in the <code>Batch</code>.
+		 * in this batch.
 		 * 
-		 * @param  oCommand Command to look at
-		 * @return <code>true</code> if the passed-in command is stored
-		 * 		   in the <code>Batch</code>.
+		 * @param	command command object to look at
+		 * @return	<code>true</code> if the passed-in command is stored
+		 * 		   	in the <code>Batch</code>
 		 */
-		public function contains ( oCommand : Command ) : Boolean
+		public function contains ( command : Command ) : Boolean
 		{
-			return _aCommands.indexOf( oCommand ) != -1;
+			return _aCommands.indexOf( command ) != -1;
 		}
 
 		/**
-		 * Execute the whole set of commands in the order they were
+		 * Executes the whole set of commands in the order they were
 		 * registered.
-		 * 
-		 * <p>If an event is passed to the function, it will be relayed
-		 * to the sub-commands <code>execute</code> method.</p>
-		 * 
-		 * @param	e	An event that will be relayed to the sub-commands. 
+		 * <p>
+		 * If an event is passed to the function, it will be relayed
+		 * to the sub-commands <code>execute</code> method.
+		 * </p>
+		 * @param	e	event object to relay to the sub-commands. 
 		 */
 		public function execute( e : Event = null ) : void
 		{
@@ -142,7 +161,7 @@ package com.bourre.commands
 		}
 
 		/**
-		 * Remove all commands stored in the batch stack.
+		 * Removes all commands stored in the batch stack.
 		 */
 		public function removeAll () : void
 		{
@@ -150,13 +169,23 @@ package com.bourre.commands
 		}
 
 		/**
-		 * Returns the number of commands stored in the Batch.
+		 * Returns the number of commands stored in this batch.
 		 * 
-		 * @return the number of commands stored in the Batch.
+		 * @return	the number of commands stored in this batch
 		 */
-		public function getLength () : uint
+		public function size () : uint
 		{
 			return _aCommands.length;		
 		}	
+	
+		/**
+		 * Returns the string representation of this object.
+		 * 
+		 * @return	the string representation of this object
+		 */
+		public function toString() : String
+		{
+			return PixlibStringifier.stringify( this ) ;
+		}
 	}
 }

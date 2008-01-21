@@ -32,8 +32,7 @@ package com.bourre.load
 	import com.bourre.log.*;	
 
 	public class AbstractLoader 
-		implements 	com.bourre.load.Loader, 
-					ASyncCommand
+		implements 	com.bourre.load.Loader, ASyncCommand
 	{
 		static private var _oPool : Dictionary = new Dictionary();
 		
@@ -257,6 +256,7 @@ package com.bourre.load
 
 		public function fireOnLoadTimeOut() : void
 		{
+			unregisterLoaderFromPool( this );
 			fireEventType( LoaderEvent.onLoadTimeOutEVENT );
 		}
 
@@ -267,6 +267,7 @@ package com.bourre.load
 
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		public function toString() : String 

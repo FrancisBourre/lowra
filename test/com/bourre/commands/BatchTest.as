@@ -19,7 +19,7 @@ package com.bourre.commands
 			assertTrue ( _b + ".addCommand() failed to add the command - test1 failed", _b.addCommand( oC ) );
 			assertTrue ( _b + ".contains() failed to find the last inserted command - test2 failed", _b.contains( oC ) );
 			assertTrue ( _b + ".addCommand() failed to add the same command a second time - test3 failed", _b.addCommand( oC ) );
-			assertEquals ( _b + ".getLength() don't return the right length - test4 failed", _b.getLength(), 2 );
+			assertEquals ( _b + ".getLength() don't return the right length - test4 failed", _b.size(), 2 );
 		}
 		
 		public function testRemoveCommand() : void
@@ -34,11 +34,11 @@ package com.bourre.commands
 			
 			assertTrue ( _b + ".removeCommand() failed to remove the command - test1 failed", _b.removeCommand( oC1 ) );
 			assertFalse ( _b + ".containsCommand() allways find the removed object - test2 failed", _b.contains( oC1 ) );
-			assertEquals ( _b + ".getLength() don't return the right length - test3 failed", _b.getLength(), 1 );
+			assertEquals ( _b + ".getLength() don't return the right length - test3 failed", _b.size(), 1 );
 			assertFalse ( _b + ".removeCommand() don't return false when trying to remove a command allready removed - test4 failed", _b.removeCommand( oC1 ) );
 			assertTrue ( _b + ".removeCommand() failed to remove the command - test5 failed", _b.removeCommand( oC2 ) );
 			assertFalse ( _b + ".containsCommand() allways find the removed object - test6 failed", _b.contains( oC2 ) );
-			assertEquals ( _b + ".getLength() don't return the right length - test7 failed", _b.getLength(), 0 );
+			assertEquals ( _b + ".getLength() don't return the right length - test7 failed", _b.size(), 0 );
 			assertFalse ( _b + ".removeCommand() don't return false when trying to remove a command witch are not stored in the batch - test8 failed", _b.removeCommand( oC3 ) );
 		}
 		
@@ -53,9 +53,9 @@ package com.bourre.commands
 			_b.addCommand( oC2 );
 			_b.addCommand( oC3 );
 			
-			assertEquals ( _b + ".getLength() don't return the right length - test1 failed", _b.getLength(), 4 );
+			assertEquals ( _b + ".getLength() don't return the right length - test1 failed", _b.size(), 4 );
 			_b.removeAll();
-			assertEquals ( _b + ".getLength() don't return the right length after removeAll - test2 failed", _b.getLength(), 0 );
+			assertEquals ( _b + ".getLength() don't return the right length after removeAll - test2 failed", _b.size(), 0 );
 		}
 		
 		public function testExecuteCommand() : void

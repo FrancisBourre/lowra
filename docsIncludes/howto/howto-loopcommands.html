@@ -127,6 +127,7 @@ Afterwards, the code below creates a <code>LoopCommand</code> and start it :
 <div class="listing"><pre>package
 {
 	import flash.display.Sprite;
+	import flash.event.Event;
 	
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.ArrayIterator;
@@ -160,11 +161,16 @@ Afterwards, the code below creates a <code>LoopCommand</code> and start it :
 			trace ( "loop started" );
 		}
 		
+		public function onLoopStop( e : LoopEvent ) : void
+		{
+			trace ( "loop stopped" );
+		}
+		
 		public function onLoopProgress( e : LoopEvent ) : void
 		{
 			trace ( "loop progressed to " + e.getCount() + "iterations in one step" );
 		}
-		
+
 		public function onLoopEnd( e : LoopEvent ) : void
 		{
 			trace ( "loop finished after " + e.getCount() + " iterations" );
@@ -174,6 +180,8 @@ Afterwards, the code below creates a <code>LoopCommand</code> and start it :
 		{
 			trace ( "loop cancelled after " + e.getCount() + " iterations" );
 		}
+		
+		public function onCommandEnd( e : Event ) : void {}
 	}
 }
 </pre></div>

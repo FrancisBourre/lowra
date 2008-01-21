@@ -20,7 +20,7 @@ package com.bourre.remoting
 		{
 			var connection : RemotingConnection = getRemotingConnection();
 			var aFullServiceName  : Array = [ getFullyQualifiedMethodName( sServiceMethodName  ) ];
-			return function (){ return getRemotingConnection().call.apply( connection, aFullServiceName.concat(arguments) ); };
+			return function () : * { return getRemotingConnection().call.apply( connection, aFullServiceName.concat(arguments) ); };
 		}
 		
 		
