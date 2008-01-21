@@ -22,6 +22,7 @@ package com.bourre.ioc.control
 	 */
 	import flash.utils.Dictionary;
 	
+	import com.bourre.ioc.assembler.property.DictionaryItem;
 	import com.bourre.log.PixlibDebug;	
 
 	public class BuildDictionary 
@@ -46,8 +47,15 @@ package com.bourre.ioc.control
 				var l : int = args.length;
 				for ( var i : int = 0; i < l; i++ )
 				{
-					var o : Object = args[ i ];
-					d[ o.key ] = o.value;
+					var di : DictionaryItem = args[ i ] as DictionaryItem;
+					if (di.key != null)
+					{
+						d[ di.key ] = di.value;
+
+					} else
+					{
+						PixlibDebug.WARN( this + ".build() adds item with a 'null' key for '"  + di.value +"' value." );
+					}
 				}
 			}
 			return d;

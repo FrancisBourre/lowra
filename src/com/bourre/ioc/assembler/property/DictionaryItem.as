@@ -20,27 +20,30 @@ package com.bourre.ioc.assembler.property
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.log.PixlibStringifier;						
+	import com.bourre.log.PixlibStringifier;											
 
 	public class DictionaryItem 
 	{
-		protected var _key : Property;
-		protected var _value : Property;
+		protected var _pKey : Property;
+		protected var _pValue : Property;
+		
+		public var key : Object;
+		public var value : Object;
 
 		public function DictionaryItem ( key : Property, value : Property ) 
 		{
-			_key = key;
-			_value = value;
+			_pKey = key;
+			_pValue = value;
 		}
 
-		public function getKey() : Property
+		public function getPropertyKey() : Property
 		{
-			return _key;
+			return _pKey;
 		}
 
-		public function getValue() : Property
+		public function getPropertyValue() : Property
 		{
-			return _value;
+			return _pValue;
 		}
 
 		/**
@@ -49,7 +52,7 @@ package com.bourre.ioc.assembler.property
 		 */
 		public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this ) + " [key:" + getKey() + ", value:" + getValue() + "]";
+			return PixlibStringifier.stringify( this ) + " [key:" + getPropertyKey() + ", value:" + getPropertyValue() + "]";
 		}
 	}
 }
