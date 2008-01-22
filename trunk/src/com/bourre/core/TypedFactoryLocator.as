@@ -23,7 +23,7 @@ package com.bourre.core
 	import flash.utils.Dictionary;
 	import flash.utils.describeType;
 	import flash.utils.getQualifiedClassName;
-	
+
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.TypedContainer;
 	import com.bourre.error.IllegalArgumentException;
@@ -61,7 +61,7 @@ package com.bourre.core
 		{
 			return _m.containsKey( key ) ;
 		}
-		
+
 		public function register ( key : String, clazz : Class ) : Boolean
 		{
 			var msg : String;
@@ -92,7 +92,9 @@ package com.bourre.core
 
 		public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this ) + "<" + _cType + ">";
+			var parameter : String = getType().toString();
+			parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
+			return PixlibStringifier.stringify( this ) + parameter;
 		}
 
 		public function classExtends( extendedClass : Class ) : Boolean 
@@ -125,7 +127,7 @@ package com.bourre.core
 
 		public function matchType( o : * ) : Boolean
 		{
-			return o is _cType || o == null;
+			return o is _cType;
 		}
 
 		public function getType() : Class
@@ -135,7 +137,7 @@ package com.bourre.core
 
 		public function isTyped() : Boolean
 		{
-			return _cType != null;
+			return true;
 		}
 	}
 }
