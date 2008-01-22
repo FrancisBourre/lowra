@@ -118,7 +118,6 @@ private function createSuite() : TestSuite
 	//ts.addTestSuite( AbstractLoaderTest );
 	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
-	ts.addTestSuite( XMLToObjectTest );
 
 	// com.bourre.log
 	ts.addTestSuite( BasicStringifierTest );
