@@ -37,7 +37,7 @@ package com.bourre.commands
 		 * After this method returns, subsequent calls to <code>isRunning</code>
 		 * will always return <code>false</code>. Subsequent calls to
 		 * <code>run</code> will always fail with an exception. Subsequent
-		 * calls to <code>isCancelled</code> will always failed with the throw
+		 * calls to <code>cancel</code> will always failed with the throw
 		 * of an exception. 
 		 * </p>
 		 * @throws 	<code>IllegalStateException</code> — if the <code>cancel</code>

@@ -1,11 +1,23 @@
-package com.bourre.utils {
-	import flash.utils.describeType;	
+package com.bourre.utils 
+{
+	import flash.utils.describeType;
+	import flash.utils.getQualifiedClassName;	
 
+	/**
+	 * 
+	 */
 	public class ClassUtils
-	{
-		public function ClassUtils( access : PrivateConstructorAccess )
+	{		
+		/**
+		 * Verify that the passed-in <code>childClass</code> is a descendant of the 
+		 * specified <code>parentClass</code>.
+		 * 
+		 * @param childClass	class to check inheritance with the ascendant class
+		 * @param parentClass	class which is the ascendant
+		 */
+		static public function inherit( childClass : Class, parentClass : Class) : Boolean 
 		{
-			
+        	return describeType(childClass).factory.extendsClass.(@type == getQualifiedClassName( parentClass) ).length() > 0;
 		}
 		
 		/**
@@ -17,7 +29,7 @@ package com.bourre.utils {
 		 * @return 	<code>true</code> if the method is implemented
 		 * 			by the child class, either <code>false</code>
 		 */
-		public static function isImplemented ( o : Object, classPath : String, f : String ) : Boolean
+		static public function isImplemented ( o : Object, classPath : String, f : String ) : Boolean
 		{
 			var x : XML = describeType( o );
 			var declaredBy : String = x..method.(@name == f).@declaredBy;
@@ -36,7 +48,7 @@ package com.bourre.utils {
 		 * 			failed and return immediatly.
 		 * @see		#isImplemented()
 		 */
-		public static function isImplementedAll ( o : Object, classPath : String, ... rest ) : Boolean
+		static public function isImplementedAll ( o : Object, classPath : String, ... rest ) : Boolean
 		{
 			var i : Number = rest.length-1;
 			var x : XML = describeType( o );
@@ -49,5 +61,3 @@ package com.bourre.utils {
 		} 
 	}
 }
-
-internal class PrivateConstructorAccess {}

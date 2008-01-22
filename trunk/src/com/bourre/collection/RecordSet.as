@@ -14,18 +14,15 @@
  * limitations under the License.
  */
  
-/**
- * @author Francis Bourre
- * @version 1.0
- */
- 
- 
 package com.bourre.collection 
 {
 	
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	
+	/**
+	 * @author Francis Bourre
+	 */
 	public class   RecordSet 
 		implements Iterable
 	{		private var _aColumNames : Array;
@@ -119,6 +116,7 @@ package com.bourre.collection
 		
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		public function toString() : String 
