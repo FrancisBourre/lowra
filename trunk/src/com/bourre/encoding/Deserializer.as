@@ -1,4 +1,4 @@
-package com.bourre.load
+package com.bourre.encoding 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,22 +20,8 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	public class XMLLoader 
-		extends FileLoader
+	public interface Deserializer 
 	{
-		public function XMLLoader()
-		{
-			super( FileLoader.TEXT );
-		}
-
-		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
-		{
-			return new XMLLoaderEvent( type, this, errorMessage );
-		}
-
-		public function getXML() : XML
-		{
-			return XML( getContent() );
-		}
+		function deserialize( serializedContent : Object, target : Object = null ) : Object;
 	}
 }

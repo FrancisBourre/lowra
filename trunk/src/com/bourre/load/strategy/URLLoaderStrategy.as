@@ -31,20 +31,40 @@ package com.bourre.load.strategy
 	public class URLLoaderStrategy 
 		implements LoadStrategy
 	{
+		public static const BINARY : String = URLLoaderDataFormat.BINARY;
+		public static const TEXT : String = URLLoaderDataFormat.TEXT;
+		public static const VARIABLES : String = URLLoaderDataFormat.VARIABLES;
+
 		private var _owner : Loader;
 		private var _loader : URLLoader;
 		private var _bytesLoaded : uint;
 		private var _bytesTotal : uint;
+		private var _sDataFormat : String;
 
-		public function URLLoaderStrategy()
+		public static function isValidDataFormat( dataFormat : String ) : Boolean
+		{
+			return (dataFormat == URLLoaderStrategy.TEXT || 
+					dataFormat == URLLoaderStrategy.BINARY || 
+					dataFormat == URLLoaderStrategy.VARIABLES);
+		}
+
+		public function URLLoaderStrategy( dataFormat : String = null )
 		{
 			_bytesLoaded = 0;
 			_bytesTotal = 0;
+
+			setDataFormat( dataFormat );
+		}
+
+		public function setDataFormat( dataFormat : String ) : void
+		{
+			_sDataFormat = dataFormat;
 		}
 
 		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			_loader = new URLLoader();
+			_loader = new URLLoader( );
+			_loader.dataFormat = URLLoaderStrategy.isValidDataFormat( _sDataFormat ) ? URLLoaderStrategy.TEXT : _sDataFormat;
 
 			_loader.addEventListener( ProgressEvent.PROGRESS, _onProgress );
 			_loader.addEventListener( Event.COMPLETE, _onComplete );
