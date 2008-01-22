@@ -15,6 +15,7 @@
  */
 package com.bourre.collection 
 {
+	import com.bourre.utils.ObjectUtils;	
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
@@ -640,6 +641,28 @@ package com.bourre.collection
 	    public function toArray():Array
 	    {
 	    	return _a.concat();
+		}
+	    
+	    /**
+	     * Return the size of the <code>TypedArray</code>
+	     * 
+	     * @return <code>uint</code> length of the array.
+	     */
+	    public function size () : uint
+	    {
+	    	return _a.length ;
+	    }
+	    
+	     /**
+	     * Clone the typed array and return a new <code>TypedArray</code>
+	     * 
+	     * @return a copy of type Array.
+	     */
+	    public function clone() : TypedArray
+	    {
+	    	var a : TypedArray = new TypedArray( _t );
+	    	a._fill(ObjectUtils.cloneArray( _a ));
+	    	return a ;
 	    }
 	    
 	   /*override flash_proxy function nextNameIndex (index:int):int

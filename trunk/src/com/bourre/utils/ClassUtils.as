@@ -17,7 +17,10 @@ package com.bourre.utils
 		 */
 		static public function inherit( childClass : Class, parentClass : Class) : Boolean 
 		{
-        	return describeType(childClass).factory.extendsClass.(@type == getQualifiedClassName( parentClass) ).length() > 0;
+        	var bExtends : Boolean = describeType(childClass).factory.extendsClass.(@type == getQualifiedClassName( parentClass) ).length() > 0 ;
+			var bImplements : Boolean = describeType(childClass).factory.implementsInterface.(@type == getQualifiedClassName( parentClass) ).length() > 0 ;
+			
+			return bExtends || bImplements ;
 		}
 		
 		/**
