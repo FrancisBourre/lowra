@@ -186,13 +186,13 @@ package com.bourre.commands
 				msg = "There is already a command class registered with '" + key + "' name in " + this;
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
-			}
+			}/*
 			else if( !ClassUtils.inherit( commandClass, Command ) )
 			{
 				msg = "The class '" + commandClass + "' doesn't inherit from Command interface in " + this;
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
-			}
+			}*/
 			else
 			{
 				_mEventList.put( key, commandClass );
