@@ -7,6 +7,7 @@ import com.bourre.TestSettings;
 import com.bourre.commands.*;
 import com.bourre.collection.*;
 import com.bourre.core.*;
+import com.bourre.encoding.*;
 import com.bourre.events.*;
 import com.bourre.ioc.control.*;
 import com.bourre.ioc.assembler.*;
@@ -60,10 +61,13 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( FrontControlerTest );
 	ts.addTestSuite( CommandMSTest );
 	ts.addTestSuite( CommandFPSTest );
-	ts.addTestSuite( ReversedBatchTest ) ;
+	ts.addTestSuite( ReversedBatchTest );
 
 	// com.bourre.core
 	ts.addTestSuite( AccessorTest );
+	
+	// com.bourre.encoding
+	ts.addTestSuite( XMLToObjectDeserializerTest ); 
 
 	// com.bourre.events
 	ts.addTestSuite( ChannelBroadcasterTest );
@@ -79,15 +83,15 @@ private function createSuite() : TestSuite
 	ts.addTestSuite ( DisplayObjectParserTest );
 	
 	// com.bourre.assembler.method
-	ts.addTestSuite(MethodEventTest) ;
-	ts.addTestSuite(MethodExpertTest) ;
+	ts.addTestSuite(MethodEventTest);
+	ts.addTestSuite(MethodExpertTest);
 
 	// com.bourre.assembler.channel
 	ts.addTestSuite (ChannelListenerExpertTest );
 
 	// com.bourre.assembler.displayobject
-	ts.addTestSuite (DisplayObjectExpertTest) ;
-	ts.addTestSuite (DisplayObjectInfoTest) ;
+	ts.addTestSuite (DisplayObjectExpertTest);
+	ts.addTestSuite (DisplayObjectInfoTest);
 
 	// com.bourre.ioc.bean
 	ts.addTestSuite( BeanFactoryTest );
@@ -114,8 +118,7 @@ private function createSuite() : TestSuite
 	//ts.addTestSuite( AbstractLoaderTest );
 	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
-	ts.addTestSuite( XMLToObjectTest ) ;
-	ts.addTestSuite( XMLToObjectDeserializerTest ); 
+	ts.addTestSuite( XMLToObjectTest );
 
 	// com.bourre.log
 	ts.addTestSuite( BasicStringifierTest );
@@ -129,12 +132,8 @@ private function createSuite() : TestSuite
 	// com.bourre.plugin
 	ts.addTestSuite( PluginDebugTest );	
 	ts.addTestSuite( NullPluginTest );
-	ts.addTestSuite( AbstractPluginTest )
+	ts.addTestSuite( AbstractPluginTest );
 	ts.addTestSuite( PluginChannelTest );
-
-	// com.bourre.utils
-	ts.addTestSuite( FlashInspectorLayoutTest );
-	ts.addTestSuite( SosLayoutTest );	ts.addTestSuite( ClassUtilsTest );
 
 	// com.bourre.structures
 	ts.addTestSuite( RangeTest );
@@ -145,6 +144,11 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( AbstractMultiTweenTest );
 	ts.addTestSuite( TweenMSTest );
 	ts.addTestSuite( MultiTweenMSTest );
+	
+	// com.bourre.utils
+	ts.addTestSuite( FlashInspectorLayoutTest );
+	ts.addTestSuite( SosLayoutTest );
+	ts.addTestSuite( ClassUtilsTest );
 
 	return ts;
 }
