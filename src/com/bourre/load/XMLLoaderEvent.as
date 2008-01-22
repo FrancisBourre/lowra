@@ -15,7 +15,7 @@ package com.bourre.load
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -24,22 +24,22 @@ package com.bourre.load
 	public class XMLLoaderEvent
 		extends LoaderEvent
 	{
-		public static const onLoadStartEVENT : String = LoaderEvent.onLoadStartEVENT;
-		public static const onLoadInitEVENT : String = LoaderEvent.onLoadInitEVENT;
+		public static const onLoadStartEVENT 	: String = LoaderEvent.onLoadStartEVENT;
+		public static const onLoadInitEVENT 	: String = LoaderEvent.onLoadInitEVENT;
 		public static const onLoadProgressEVENT : String = LoaderEvent.onLoadProgressEVENT;
-		public static const onLoadTimeOutEVENT : String = LoaderEvent.onLoadTimeOutEVENT;
-		public static const onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
-		
+		public static const onLoadTimeOutEVENT 	: String = LoaderEvent.onLoadTimeOutEVENT;
+		public static const onLoadErrorEVENT 	: String = LoaderEvent.onLoadErrorEVENT;
+
 		public function XMLLoaderEvent( type : String, xl : XMLLoader, errorMessage : String = "" )
 		{
 			super( type, xl, errorMessage );
 		}
-		
+
 		public function getXMLLoader() : XMLLoader
 		{
 			return getLoader() as XMLLoader;
 		}
-		
+
 		public function getXML() : XML
 		{
 			return getXMLLoader().getXML();
