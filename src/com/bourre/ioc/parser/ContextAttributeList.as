@@ -40,7 +40,7 @@ package com.bourre.ioc.parser
 		public static const BUILT_CALLBACK 		: String = "built-callback";	
 		public static const INIT_CALLBACK 		: String = "init-callback";	
 		public static const CHANNEL 			: String = "channel";
-		public static const DELAY 				: String = "delay";
+		public static const DELAY 				: String = "delay";		public static const DESERIALIZER_CLASS 	: String = "deserializer-class";
 		
 		public function ContextAttributeList( access : PrivateConstructorAccess )
 		{
@@ -137,6 +137,11 @@ package com.bourre.ioc.parser
 		public static function getDelay( xml : XML ) : String
 		{
 			return xml.attribute( ContextAttributeList.DELAY );
+		}
+		
+		public static function getDeserializerClass( xml : XML ) : String
+		{
+			return xml.attribute( ContextAttributeList.DESERIALIZER_CLASS );
 		}		
 	}
 }
