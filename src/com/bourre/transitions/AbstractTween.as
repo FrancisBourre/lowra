@@ -70,7 +70,7 @@ package com.bourre.transitions
 										easing : Function = null, 
 										getter : String = null )
 		{			
-			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions:AbstractTween", "isMotionFinished", "isReversedMotionFinished" ) )
+			if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions::AbstractTween", "isMotionFinished", "isReversedMotionFinished" ) )
 			{
 				PixlibDebug.ERROR ( this + " have to implements virtual methods : isMotionFinished & isReversedMotionFinished " );
 				throw new UnimplementedVirtualMethodException ( this + " have to implements virtual methods : isMotionFinished & isReversedMotionFinished" );
