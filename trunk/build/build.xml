@@ -193,6 +193,33 @@
 			</fileset>
 		</copy>
 	</target>
+	
+<!--**************************************************** 
+		INJECT ANNEXES IN HTML FILES
+	*****************************************************-->
+	
+	<target name="docs.Inject">
+		
+		<loadfile property="file" srcfile="${docs.dir}/package-list.html"></loadfile>
+		<loadfile property="addon" srcfile="${docsIncludes.dir}/annexes.html"></loadfile>
+		
+		<script language="javascript">
+			importClass ( java.io.File );
+
+			file = project.getProperty("file");
+			addon = project.getProperty("addon");
+			
+			docsDir = project.getProperty("docs.dir");
+			
+			s = file.substr ( 0, file.lastIndexOf( "&lt;/table&gt;" ) ) + "&lt;/table&gt;" + 
+				addon + file.substr ( file.lastIndexOf( "&lt;/table&gt;" ) + 8 );
+			
+			echo = project.createTask("echo");
+			echo.setFile( new File( docsDir, "package-list.html" ) );
+			echo.setMessage( s );
+			echo.perform();
+		</script>
+	</target>
 
 	<!--**************************************************** 
 		CLEAN AND THEN CREATES THE DOCUMENTATION
@@ -203,6 +230,7 @@
 		<antcall target="docs.Clean"/>
 		<antcall target="docs.Create"/>
 		<antcall target="docs.CopyIncludes"/>
+		<antcall target="docs.Inject"/>
 		
 	</target>	
 	
