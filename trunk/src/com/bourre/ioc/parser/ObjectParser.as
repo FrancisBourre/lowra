@@ -68,7 +68,8 @@ package com.bourre.ioc.parser
 			{
 				args = new Array();
 				args.push( {ownerID:id, value:xml.children()} );
-				getAssembler().buildObject( id, type, args );
+				factory = ContextAttributeList.getDeserializerClass( xml );
+				getAssembler().buildObject( id, type, args, factory );
 
 			} else
 			{
