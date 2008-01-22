@@ -29,7 +29,11 @@ package com.bourre.commands
 	 * </p><p>
 	 * Commands can be asynchronous by implementing the <code>ASyncCommand</code>
 	 * interface.
-	 * </p>
+	 * </p><p>
+	 * See the <a href="../../../docs/howto/howto-commands.html">How to use the Command
+	 * pattern implementation in LowRA</a> document for more details on 
+	 * the commands package structure.
+	 * </p> 
 	 * @author 	Francis Bourre
 	 * @see		ASyncCommand
 	 */

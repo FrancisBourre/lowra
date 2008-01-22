@@ -21,30 +21,55 @@ package com.bourre.commands
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibStringifier;	
 
-	/*
-	 * Upgrade to IOC : 
-	 *  - remove abstract protection hack and call super with constructor argument
-	 *  - uncomment extends elements 
-	 *  - refactor add and remove listener return
-	 */
-
 	/**
-	 * 
+	 * <code>AbstractSyncCommand</code> provides a skeleton to create
+	 * asynchronous stateless commands. As defined in the 
+	 * <code>ASyncCommand</code> interface, an asynchronous command
+	 * hasn't finished its process at the end of the <code>execute</code>
+	 * call. In that context, the command will dispatch an <code>onCommandEnd</code>
+	 * event to notice its listener of the end of its process.
+	 * <p>
+	 * LowRA encourage the creation of stateless commands, it means
+	 * that commands must realize all their process entirely in
+	 * the <code>execute</code> call. The constructor of a stateless
+	 * command should always be empty. In the case of an asynchronous
+	 * command, the constructor initialize essentials properties which
+	 * allow command owner to setup the command properly, and to register
+	 * its <code>FrontController</code> to the command.
+	 * </p><p>
+	 * See the <a href="../../../docs/howto/howto-commands.html">How to use
+	 * the Command pattern implementation in LowRA</a> document for more details
+	 * on the commands package structure.
+	 * </p>
 	 * @author Cédric Néhémie
 	 */
 	public class AbstractSyncCommand extends AbstractCommand implements ASyncCommand
 	{	
+		/**
+		 * Name of the event dispatched at the end of the command's process.
+		 */
 		static public const onCommandEndEVENT : String = "onCommandEnd";
 		
+		/**
+		 * The internal event broadcaster.
+		 */
 		protected var _oEB : EventBroadcaster;
+		
+		/**
+		 * An event instance used as event object when dispatching
+		 * the <code>onCommandEnd</code> event to its listener.
+		 */
 		protected var _eOnCommandEnd : BasicEvent;
+		
+		/**
+		 * A boolean value which indicates if this command is currently
+		 * processing.
+		 */
 		protected var _bIsRunning : Boolean;
 		
 		/**
-		 * 
-		 * @param o
-		 * @return 
-		 * 
+		 * Initializes event dispatching behavior and <code>Runnable</code>
+		 * implementation
 		 */
 		public function AbstractSyncCommand ()
 		{
@@ -54,9 +79,14 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Adds the passed-in listener as listener for the <code>onCommandEnd</code>
+		 * event of this command.
 		 * 
-		 * @param listener
-		 * 
+		 * @param	listener	object to be added as listener
+		 * @param	rest		additional arguments such defined by the
+		 * 						<code>EventBroacaster.addEventListener</code> method
+		 * @see		com.bourre.events.EventBroacaster#addEventListener() See the
+		 * 			EventBroacaster.addEventListener() documentation
 		 */
 		public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
 		{
@@ -66,9 +96,10 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Removes the passed-in listener for listening
+		 * the <code>onCommandEnd</code> event of this command.
 		 * 
-		 * @param listener
-		 * 
+		 * @param	listener	object to be removed as listener
 		 */
 		public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
@@ -76,8 +107,8 @@ package com.bourre.commands
 		}
 
 		/**
-		 * 
-		 * 
+		 * Fires the <code>onCommandEnd</code> event to the listeners
+		 * of this command. 
 		 */
 		public function fireCommandEndEvent() : void
 		{
@@ -85,9 +116,11 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * By default the implementation of the <code>execute</code> method
+		 * in the <code>AbstratSyncCommand</code> dispatch immediately the 
+		 * <code>onCommandEnd</code> event.
 		 * 
-		 * @param e
-		 * 
+		 * @param	e	An event that will be used as data source by the command. 
 		 */
 		public override function execute( e : Event = null) : void
 		{
@@ -95,7 +128,9 @@ package com.bourre.commands
 		}
 		
 		/**
-		 * 
+		 * Implementation of the <code>Runnable</code> interface, 
+		 * a call to <code>run()</code> is equivalent to a call to
+		 * <code>execute</code> without argument.
 		 */
 		public function run() : void
 		{
@@ -103,7 +138,11 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Returns <code>true</code> if this command is currently
+		 * processing.
 		 * 
+		 * @return	<code>true</code> if this command is currently
+		 * 			processing
 		 */
 		public function isRunning () : Boolean
 		{
@@ -111,7 +150,7 @@ package com.bourre.commands
 		}
 
 		/**
-		 * 
+		 * Returns the string representation of the object.
 		 * 
 		 * @return the string representation of the object
 		 */

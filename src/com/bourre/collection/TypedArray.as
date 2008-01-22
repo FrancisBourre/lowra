@@ -560,7 +560,17 @@ package com.bourre.collection
 	    */
 	    public function toString () : String
 	    {
-	    	return PixlibStringifier.stringify( this ) + " [" + _a + "]";
+	    	var hasType : Boolean = getType() != null;
+			var parameter : String = "";
+			
+			if( hasType )
+			{
+				parameter = getType().toString();
+				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
+			}	
+			parameter += "[" + _a + "]";
+			
+			return PixlibStringifier.stringify( this ) + parameter;
 	    }
 	    
 		/**

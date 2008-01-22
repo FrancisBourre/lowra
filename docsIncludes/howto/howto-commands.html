@@ -4,14 +4,14 @@
 			IMPORTANT
 			
 			To setup the title of the page use find/replace, 
-			and replace 'Your Title Here' by the html text of your title
+			and replace 'How to use the Command pattern implementation in LowRA' by the html text of your title
 			
 			To setup the link which make the page return the the with-frame content
 			use find/replace and replace 'YourFileNameHere' by the 
 	-->
 	
 	<head>
-		<title>LowRA tutorials - LowRA API Documentation</title>
+		<title>How to use the Command pattern implementation in LowRA -LowRA API Documentation</title>
 		<link rel="stylesheet" href="../../docs/style.css" type="text/css" media="screen" />
 		<link rel="stylesheet" href="../../docs/print.css" type="text/css" media="print" />
 		<script language="javascript" type="text/javascript" src="../../docs/asdoc.js"></script>
@@ -20,7 +20,7 @@
 	<body>
 		<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
 		<!--
-			asdocTitle = 'LowRA tutorials - LowRA API Documentation';
+			asdocTitle = 'How to use the Command pattern implementation in LowRA - LowRA API Documentation';
 			var baseRef = '../../docs/';
 			window.onload = configPage;
 		--></script>
@@ -36,22 +36,19 @@
 						href="../../docs/class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
 					<a 	onclick="loadClassListFrame('../../docs/index-list.html')" 
 						href="../../docs/all-index-A.html">Index</a>&nbsp;|&nbsp;
-					<a 	href="../../docs/index.html?howto/tutorials.html&amp;class-list.html" id="framesLink1">Frames</a>
+					<a 	href="../../docs/index.html?howto/howto-commands.html&amp;class-list.html" id="framesLink1">Frames</a>
 					<a 	onclick="parent.location=document.location" 
 						href="" 
 						style="display:none;" 
 						id="noFramesLink1">No&nbsp;Frames</a>
 				</td>
 				<td rowspan="3" align="right" class="titleTableLogo">
-					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../docs/images/logo.jpg">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../images/logo.jpg">
 				</td>
 			</tr>
 			<tr class="titleTableRow2">
 				<td align="left" id="subTitle" class="titleTableSubTitle">
-					LowRA tutorials
-				</td>
-				<td class="titleTableSubTitle">
-					&nbsp;
+					How to use the Command pattern implementation in LowRA
 				</td>			
 			</tr>
 			<tr class="titleTableRow3">
@@ -64,7 +61,7 @@
 		<!--
 		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
 		{
-			titleBar_setSubTitle("LowRA tutorials");
+			titleBar_setSubTitle("How to use the Command pattern implementation in LowRA");
 			
 			titleBar_setSubNav(false,	false,	   false,
 							   false,   false,	   false,
@@ -74,19 +71,48 @@
 							   );
 		}
 		--></script>
-<div class="MainContent">
 		
-<h3>Tutorials</h3>	
+<div class="MainContent">
 
-<a href="howto-commands.html" lang="en-EN" title="How to use the Command pattern implementation in LowRA">
-How to use the Command pattern implementation in LowRA</a>
-<br/>
+<h2>Summary</h2>
 
-<a href="howto-loopcommands.html" lang="en-EN" title="How to use LoopCommand and IterationCommand">
-How to use LoopCommand and IterationCommand</a>
-<br/>
+<ul>
+	<li><a href="#intro">Introduction</a></li>
+	<li><a href="#basic">Basic Commands</a></li>
+	<li><a href="#async">Asynchronous Commands</a>
+		<ul>
+			<li><a href="#runnable">Links between <code>ASyncCommand</code>
+			and <code>Runnable</code> class</a></li>
+		</ul>
+	</li>
+	<li><a href="#stateless">Stateless Commands</a></li>
+	<li><a href="#plugins">Commands and Plugins</a></li>
+</ul>
+
+<a name="intro"/>
+<h2>Introduction</h2>
+<p>
+	You can see below the implementation diagramme of the command pattern in <abbr title="Low level Rework on Actionscript">LowRA</abbr> : 
+</p>
 
 
-</div>		
+<img src="../pictures/CommandModel.jpg" title="The command model in lowra" alt="Command pattern implementation diagramme"/>
+
+<a name="basic"/>
+<h2>Basic Commands</h2>
+
+<a name="async"/>
+<h2>Asynchronous Commands</h2>
+
+
+
+<a name="stateless"/>
+<h2>Stateless Commands</h2>
+
+<a name="plugins"/>
+<h2>Commands and Plugins</h2>
+
+</div>
+		
 	</body>
 </html>
