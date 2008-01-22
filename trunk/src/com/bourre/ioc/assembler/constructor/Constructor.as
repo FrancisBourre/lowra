@@ -17,7 +17,7 @@ package com.bourre.ioc.assembler.constructor
 										args : Array = null, 
 										factory : String = null, 
 										singleton : String = null,
-										channel : String = null) //access:PrivateConstructorAccess)
+										channel : String = null)
 		{
 			this.id = id;
 			this.type = type;

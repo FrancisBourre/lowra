@@ -14,7 +14,7 @@ package com.bourre.ioc.parser
 		public static var INSTANCE 		: String = "Instance";
 		public static var SPRITE 		: String = "flash.display.Sprite";
 		public static var MOVIECLIP 	: String = "flash.display.MovieClip";
-		public static var NULL 			: String = "null";		public static var DICTIONARY 	: String = "Dictionary";		public static var CLASS 		: String = "Class";
+		public static var NULL 			: String = "null";		public static var DICTIONARY 	: String = "Dictionary";		public static var CLASS 		: String = "Class";		public static var XML 			: String = "XML";
 		
 		public function ContextTypeList( access : PrivateConstructorAccess )
 		{

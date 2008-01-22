@@ -54,51 +54,68 @@ package com.bourre.ioc.parser
 			}
 
 			IDExpert.getInstance().register( id );
+			
+			var type : String;
+			var args : Array;
+			var factory : String;
+			var singleton : String;
+			var channel : String;
 
 			// Build object.
-			var type : String = ContextAttributeList.getType( xml );
-			var args : Array = (type == ContextTypeList.DICTIONARY) ? getItems( xml ) : getArguments( xml, ContextNodeNameList.ARGUMENT, type );
-			var factory : String = ContextAttributeList.getFactoryMethod( xml );
-			var singleton : String = ContextAttributeList.getSingletonAccess( xml );
-			var channel : String = ContextAttributeList.getChannel( xml );
+			type = ContextAttributeList.getType( xml );
 
-			getAssembler().buildObject( id, type, args, factory, singleton, channel );
-
-			// register each object to system channel.
-			getAssembler().buildChannelListener( id, ApplicationBroadcaster.getInstance().SYSTEM_CHANNEL.toString() );
-
-			// Build property.
-			for each ( var property : XML in xml[ ContextNodeNameList.PROPERTY ] )
+			if ( type == ContextTypeList.XML )
 			{
-				getAssembler().buildProperty( 	id, 
-												ContextAttributeList.getName( property ),
-												ContextAttributeList.getValue( property ),
-												ContextAttributeList.getType( property ),
-												ContextAttributeList.getRef( property ),
-												ContextAttributeList.getMethod( property ) );
-			}
+				args = new Array();
+				args.push( {ownerID:id, value:xml} );
+				getAssembler().buildObject( id, type, args );
 
-			// Build method call.
-			for each ( var method : XML in xml[ ContextNodeNameList.METHOD_CALL ] )
+			} else
 			{
-				getAssembler().buildMethodCall( id, 
-												ContextAttributeList.getName( method ),
-												getArguments( method, ContextNodeNameList.ARGUMENT ) );
-			}
 
-			// Build channel listener.
-			for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
-			{
-				var channelName : String = ContextAttributeList.getChannel( listener );
-				if ( channelName )
+				args = (type == ContextTypeList.DICTIONARY) ? getItems( xml ) : getArguments( xml, ContextNodeNameList.ARGUMENT, type );
+				factory = ContextAttributeList.getFactoryMethod( xml );
+				singleton = ContextAttributeList.getSingletonAccess( xml );
+				channel = ContextAttributeList.getChannel( xml );
+	
+				getAssembler().buildObject( id, type, args, factory, singleton, channel );
+	
+				// register each object to system channel.
+				getAssembler().buildChannelListener( id, ApplicationBroadcaster.getInstance().SYSTEM_CHANNEL.toString() );
+	
+				// Build property.
+				for each ( var property : XML in xml[ ContextNodeNameList.PROPERTY ] )
 				{
-					getAssembler().buildChannelListener( id, channelName );
-
-				} else
+					getAssembler().buildProperty( 	id, 
+													ContextAttributeList.getName( property ),
+													ContextAttributeList.getValue( property ),
+													ContextAttributeList.getType( property ),
+													ContextAttributeList.getRef( property ),
+													ContextAttributeList.getMethod( property ) );
+				}
+	
+				// Build method call.
+				for each ( var method : XML in xml[ ContextNodeNameList.METHOD_CALL ] )
 				{
-					msg = this + " encounters parsing error with '" + xml.name() + "' node, 'channel' attribute is mandatory in a 'listen' node.";
-					PluginDebug.getInstance().fatal( msg );
-					throw( new NullChannelException( msg ) );
+					getAssembler().buildMethodCall( id, 
+													ContextAttributeList.getName( method ),
+													getArguments( method, ContextNodeNameList.ARGUMENT ) );
+				}
+	
+				// Build channel listener.
+				for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
+				{
+					var channelName : String = ContextAttributeList.getChannel( listener );
+					if ( channelName )
+					{
+						getAssembler().buildChannelListener( id, channelName );
+	
+					} else
+					{
+						msg = this + " encounters parsing error with '" + xml.name() + "' node, 'channel' attribute is mandatory in a 'listen' node.";
+						PluginDebug.getInstance().fatal( msg );
+						throw( new NullChannelException( msg ) );
+					}
 				}
 			}
 		}

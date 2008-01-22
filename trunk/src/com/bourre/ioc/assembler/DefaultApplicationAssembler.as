@@ -79,7 +79,12 @@ package com.bourre.ioc.assembler
 				var i : int;
 				var o : Object;
 
-				if ( type == ContextTypeList.DICTIONARY )
+				/*if ( type == ContextTypeList.XML )
+				{
+					o = args[ 0 ];
+					args[ 0 ] = new Property( o.id, o.name, o.value, o.type, o.ref, o.method );
+
+				} else */if ( type == ContextTypeList.DICTIONARY )
 				{
 					for ( i = 0; i < l; i++ )
 					{
