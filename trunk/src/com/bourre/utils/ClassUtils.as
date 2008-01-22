@@ -1,5 +1,7 @@
 package com.bourre.utils 
 {
+	import com.bourre.log.PixlibDebug;	
+	
 	import flash.utils.describeType;
 	import flash.utils.getQualifiedClassName;	
 
@@ -17,10 +19,9 @@ package com.bourre.utils
 		 */
 		static public function inherit( childClass : Class, parentClass : Class) : Boolean 
 		{
-        	var bExtends : Boolean = describeType(childClass).factory.extendsClass.(@type == getQualifiedClassName( parentClass) ).length() > 0 ;
-			var bImplements : Boolean = describeType(childClass).factory.implementsInterface.(@type == getQualifiedClassName( parentClass) ).length() > 0 ;
-			
-			return bExtends || bImplements ;
+			var xml : XML = describeType(childClass);
+			var parent : String = getQualifiedClassName( parentClass);
+			return 	xml.factory.extendsClass.(@type == parent ).length() > 0 ||					xml.factory.implementsInterface.(@type == parent ).length() > 0 ;
 		}
 		
 		/**
@@ -31,12 +32,18 @@ package com.bourre.utils
 		 * @param 	f	The name of the virtual method.	
 		 * @return 	<code>true</code> if the method is implemented
 		 * 			by the child class, either <code>false</code>
+		 * @example A concret example in the class <code>AbstractTween</code> : 
+		 * if( !ClassUtils.isImplementedAll( this, "com.bourre.transitions::AbstractTween", "isMotionFinished", "isReversedMotionFinished" ) )
+		 * {
+		 *	PixlibDebug.ERROR ( this + " have to implements virtual methods : isMotionFinished & isReversedMotionFinished " );
+		 * 	throw new UnimplementedVirtualMethodException ( this + " have to implements virtual methods : isMotionFinished & isReversedMotionFinished" );
+		 * {}
 		 */
 		static public function isImplemented ( o : Object, classPath : String, f : String ) : Boolean
 		{
 			var x : XML = describeType( o );
 			var declaredBy : String = x..method.(@name == f).@declaredBy;
-			return ( declaredBy != classPath);
+			return ( declaredBy != classPath );
 		}
 		
 		/**

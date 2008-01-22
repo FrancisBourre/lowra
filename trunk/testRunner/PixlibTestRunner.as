@@ -30,8 +30,8 @@ import com.bourre.transitions.*;
 private function onCreationComplete():void
 {
 	Logger.getInstance().setLevel( LogLevel.ALL );
-	Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
-	Logger.getInstance().addLogListener( SosLayout.getInstance(), PixlibDebug.CHANNEL );
+	Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance() );
+	Logger.getInstance().addLogListener( AirLoggerLayout.getInstance() );
 
 	if( Application.application.parameters.testBinPath != null )
 		TestSettings.getInstance().testBinPath = Application.application.parameters.testBinPath;
@@ -134,7 +134,7 @@ private function createSuite() : TestSuite
 
 	// com.bourre.utils
 	ts.addTestSuite( FlashInspectorLayoutTest );
-	ts.addTestSuite( SosLayoutTest );
+	ts.addTestSuite( SosLayoutTest );	ts.addTestSuite( ClassUtilsTest );
 
 	// com.bourre.structures
 	ts.addTestSuite( RangeTest );
