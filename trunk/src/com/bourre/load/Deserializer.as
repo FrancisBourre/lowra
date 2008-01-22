@@ -1,4 +1,4 @@
-package com.bourre.load
+package com.bourre.load 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -15,14 +15,10 @@ package com.bourre.load
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */
-	
-	public interface XMLLoaderDeserializer
+	 */	public interface Deserializer 
 	{
-		function deserialize( target : Object, xml : XML ) : Object;
-	}
-}
+		function deserialize( serializedContent : Object, target : Object = null ) : Object;	}}

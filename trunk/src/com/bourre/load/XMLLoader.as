@@ -22,30 +22,15 @@ package com.bourre.load
 	 */
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
+
 	import com.bourre.load.strategy.URLLoaderStrategy;	
 
 	public class XMLLoader 
 		extends AbstractLoader
 	{
-		// TODO check _oContent is important
-//		private var _oContent : XML;
-		private var _oDeserializer : XMLLoaderDeserializer;
-
-		public function XMLLoader( deserializer : XMLLoaderDeserializer = null )
+		public function XMLLoader()
 		{
 			super( new URLLoaderStrategy() );
-			if ( deserializer ) setDeserializer ( deserializer );
-		}
-
-		public function setDeserializer ( deserializer : XMLLoaderDeserializer ) : void
-		{
-			_oDeserializer = deserializer;
-		}
-
-		public function getDeserializer () : XMLLoaderDeserializer 
-		{
-			return _oDeserializer;
 		}
 
 		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
@@ -62,17 +47,5 @@ package com.bourre.load
 		{
 			super.load( url, context );
 		}
-
-		public override function release() : void
-		{
-			super.release();
-		}
-
-		protected override function onInitialize() : void
-		{
-			if ( getDeserializer() != null ) getDeserializer().deserialize( new Object(), getXML() );
-			super.onInitialize();
-		}
-		
 	}
 }
