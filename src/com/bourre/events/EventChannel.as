@@ -15,6 +15,8 @@
  */
 package com.bourre.events 
 {
+	import com.bourre.log.PixlibDebug;	
+	
 	import flash.utils.getQualifiedClassName;	
 
 	/**
@@ -39,6 +41,8 @@ package com.bourre.events
 		public function EventChannel( channelName : String = null )
 		{
 			_sChannelName =  channelName ? channelName : getQualifiedClassName( this );
+			if( _sChannelName == "EventChannel" ) 
+			 	PixlibDebug.WARN('EventChannel must have a name , or be extends by another class with a different name of EventChannel');
 		}
 		
 		/**
