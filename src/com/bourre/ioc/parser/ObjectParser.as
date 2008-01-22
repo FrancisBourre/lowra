@@ -67,7 +67,7 @@ package com.bourre.ioc.parser
 			if ( type == ContextTypeList.XML )
 			{
 				args = new Array();
-				args.push( {ownerID:id, value:xml} );
+				args.push( {ownerID:id, value:xml.children()} );
 				getAssembler().buildObject( id, type, args );
 
 			} else
