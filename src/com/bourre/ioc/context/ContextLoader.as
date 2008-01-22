@@ -18,24 +18,21 @@ package com.bourre.ioc.context
 
 	/**
 	 * @author Francis Bourre
-	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
 	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
 	
-	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
-	import com.bourre.load.strategy.URLLoaderStrategy;	
+	import com.bourre.load.XMLLoader;	
 
 	public class ContextLoader
-		extends AbstractLoader 
+		extends XMLLoader 
 	{
 		public static const DEFAULT_URL : String = "applicationContext.xml";
 
 		public function ContextLoader( url : URLRequest = null )
 		{
-			super( new URLLoaderStrategy() );
+			super();
 
 			setURL( url? url : new URLRequest( ContextLoader.DEFAULT_URL ) );
 			setAntiCache( true );
@@ -43,17 +40,12 @@ package com.bourre.ioc.context
 
 		public function getContext() : XML
 		{
-			return XML( getContent() );
+			return getXML();
 		}
 
 		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
 			return new ContextLoaderEvent( type, this, errorMessage );
-		}
-
-		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
-		{
-			super.load( url, context );
 		}
 	}
 }
