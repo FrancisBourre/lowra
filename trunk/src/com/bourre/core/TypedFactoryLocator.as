@@ -139,5 +139,3 @@ package com.bourre.core
 		}
 	}
 }
-
-internal class PrivateConstructorAccess {}
