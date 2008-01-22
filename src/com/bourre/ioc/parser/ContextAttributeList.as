@@ -141,7 +141,7 @@ package com.bourre.ioc.parser
 		
 		public static function getDeserializerClass( xml : XML ) : String
 		{
-			return xml.attribute( ContextAttributeList.DESERIALIZER_CLASS );
+			return xml.attribute( ContextAttributeList.DESERIALIZER_CLASS ) || null;
 		}		
 	}
 }
