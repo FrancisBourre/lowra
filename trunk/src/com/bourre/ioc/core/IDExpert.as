@@ -80,10 +80,8 @@ package com.bourre.ioc.core
 
 		private function _pushReference( refID : String, ownerID : String ) : void
 		{	
-			PixlibDebug.INFO( "_pushReference(" + refID + ", " + ownerID + ")" );
-
 			_c.add( refID );
-			
+
 			var nRef : int = _c.indexOf( refID );
 			var nOwner : int = _c.indexOf( ownerID );
 			
@@ -119,7 +117,7 @@ package com.bourre.ioc.core
 				_c.add( id );
 				return true;
 			}
-			
+
 			return false;
 		}
 		
