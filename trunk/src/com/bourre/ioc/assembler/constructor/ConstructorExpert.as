@@ -29,7 +29,7 @@ package com.bourre.ioc.assembler.constructor
 		
 		public function ConstructorExpert()
 		{
-			_oEB = new EventBroadcaster( this );
+			_oEB = new EventBroadcaster( this, ConstructorExpertListener );
 			_mConstructor = new HashMap();
 		}
 	

@@ -17,7 +17,9 @@ package com.bourre.commands
 {
 	import flash.events.Event;
 	
-	import com.bourre.log.*;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;
 	import com.bourre.transitions.TickListener;	
 
 	/**
@@ -89,7 +91,7 @@ package com.bourre.commands
 			{
 				var msg : String = this + ".execute() failed, you passed incorrect number of arguments or wrong type";
 				PixlibDebug.FATAL( msg );
-				throw new ArgumentError( msg );
+				throw new IllegalArgumentException( msg );
 			}
 		}
 		
