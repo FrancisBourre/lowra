@@ -15,7 +15,7 @@ package com.bourre.ioc.parser
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	 
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0

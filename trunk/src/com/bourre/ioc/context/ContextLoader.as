@@ -20,24 +20,12 @@ package com.bourre.ioc.context
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;
-	
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.XMLLoader;	
 
 	public class ContextLoader
 		extends XMLLoader 
 	{
-		public static const DEFAULT_URL : String = "applicationContext.xml";
-
-		public function ContextLoader( url : URLRequest = null )
-		{
-			super();
-
-			setURL( url? url : new URLRequest( ContextLoader.DEFAULT_URL ) );
-			setAntiCache( true );
-		}
-
 		public function getContext() : XML
 		{
 			return getXML();
