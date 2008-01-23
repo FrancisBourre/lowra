@@ -16,15 +16,14 @@ package com.bourre.ioc.assembler.constructor
 										type : String = null, 
 										args : Array = null, 
 										factory : String = null, 
-										singleton : String = null,
-										channel : String = null)
+										singleton : String = null)
 		{
 			this.id = id;
 			this.type = type;
 			this.arguments = args;
 			this.factory = factory;
 			this.singleton = singleton;
-			this.channel = channel;
+			this.channel = id;
 		}
 		
 		/**

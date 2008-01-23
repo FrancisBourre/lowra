@@ -37,10 +37,9 @@ package com.bourre.ioc.assembler.constructor
 										type : String = null, 
 										args : Array = null, 
 										factory : String = null , 
-										singleton : String = null ,
-										channel : String = null ) : Constructor
+										singleton : String = null) : Constructor
 		{
-			var cons : Constructor = new Constructor( id, type, args, factory, singleton, channel );
+			var cons : Constructor = new Constructor( id, type, args, factory, singleton );
 			_mConstructor.put( id, cons );
 			_oEB.broadcastEvent( new ConstructorEvent( cons ) );
 			return cons;

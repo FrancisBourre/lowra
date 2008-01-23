@@ -39,7 +39,6 @@ package com.bourre.ioc.parser
 		public static const TIMEOUT_CALLBACK 	: String = "timeout-callback";	
 		public static const BUILT_CALLBACK 		: String = "built-callback";	
 		public static const INIT_CALLBACK 		: String = "init-callback";	
-		public static const CHANNEL 			: String = "channel";
 		public static const DELAY 				: String = "delay";		public static const DESERIALIZER_CLASS 	: String = "deserializer-class";
 		
 		public function ContextAttributeList( access : PrivateConstructorAccess )
@@ -98,12 +97,7 @@ package com.bourre.ioc.parser
 		{
 			return xml.attribute( ContextAttributeList.SINGLETON_ACCESS ) || null;
 		}
-		
-		public static function getChannel( xml : XML ) : String
-		{
-			return xml.attribute( ContextAttributeList.CHANNEL ) || null;
-		}
-		
+
 		public static function getMethod( xml : XML ) : String
 		{
 			return xml.attribute( ContextAttributeList.METHOD );

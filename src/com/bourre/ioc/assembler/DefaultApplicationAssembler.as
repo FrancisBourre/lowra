@@ -70,8 +70,7 @@ package com.bourre.ioc.assembler
 										type 		: String 	= null, 
 										args 		: Array 	= null, 
 										factory 	: String 	= null, 
-										singleton 	: String 	= null, 
-										channelName : String 	= null 	) : void
+										singleton 	: String 	= null) : void
 		{
 			if ( args != null )
 			{
@@ -102,7 +101,7 @@ package com.bourre.ioc.assembler
 				}
 			}
 
-			ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton, channelName );
+			ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton );
 		}
 
 		public function buildMethodCall( ownerID : String, methodCallName : String, args : Array = null ) : void

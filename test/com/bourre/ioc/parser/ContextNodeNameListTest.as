@@ -17,8 +17,6 @@ package com.bourre.ioc.parser
 			assertNotNull("ContextNodeNameList constructor returns null", _oCN) ;
 			assertTrue	("ContextNodeNameList.init doesn't add default nodeName - test1", 
 						_oCN.nodeNameIsReserved(ContextNodeNameList.BEANS)) ;
-			assertTrue	("ContextNodeNameList.init doesn't add default nodeName - test2", 
-						_oCN.nodeNameIsReserved(ContextNodeNameList.DEFAULT)) ;
 			assertTrue	("ContextNodeNameList.init doesn't add default nodeName - test3", 
 						_oCN.nodeNameIsReserved(ContextNodeNameList.PROPERTY)) ;
 			assertTrue	("ContextNodeNameList.init doesn't add default nodeName - test4", 

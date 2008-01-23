@@ -59,7 +59,6 @@ package com.bourre.ioc.parser
 			var args : Array;
 			var factory : String;
 			var singleton : String;
-			var channel : String;
 
 			// Build object.
 			type = ContextAttributeList.getType( xml );
@@ -77,9 +76,8 @@ package com.bourre.ioc.parser
 				args = (type == ContextTypeList.DICTIONARY) ? getItems( xml ) : getArguments( xml, ContextNodeNameList.ARGUMENT, type );
 				factory = ContextAttributeList.getFactoryMethod( xml );
 				singleton = ContextAttributeList.getSingletonAccess( xml );
-				channel = ContextAttributeList.getChannel( xml );
-	
-				getAssembler().buildObject( id, type, args, factory, singleton, channel );
+
+				getAssembler().buildObject( id, type, args, factory, singleton );
 	
 				// register each object to system channel.
 				getAssembler().buildChannelListener( id, ApplicationBroadcaster.getInstance().SYSTEM_CHANNEL.toString() );
@@ -106,7 +104,7 @@ package com.bourre.ioc.parser
 				// Build channel listener.
 				for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
 				{
-					var channelName : String = ContextAttributeList.getChannel( listener );
+					var channelName : String = ContextAttributeList.getRef( listener );
 					if ( channelName )
 					{
 						getAssembler().buildChannelListener( id, channelName );
