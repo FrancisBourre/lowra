@@ -38,7 +38,6 @@ package com.bourre.ioc.load
 	import com.bourre.ioc.context.ContextLoaderEvent;
 	import com.bourre.ioc.parser.ContextParser;
 	import com.bourre.ioc.parser.ContextParserEvent;
-	import com.bourre.ioc.parser.ContextParserListener;
 	import com.bourre.ioc.parser.DLLParser;
 	import com.bourre.ioc.parser.DisplayObjectParser;
 	import com.bourre.ioc.parser.ObjectParser;
@@ -46,17 +45,14 @@ package com.bourre.ioc.load
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.LoaderListener;
-	import com.bourre.log.PixlibDebug;		
+	import com.bourre.log.PixlibDebug;	
 
 	public class ApplicationLoader
 		extends AbstractLoader
-		implements LoaderListener, ContextParserListener, DisplayObjectExpertListener
+		implements LoaderListener, DisplayObjectExpertListener
 	{
-		public static const DEFAULT_URL : String = "applicationContext.xml";
+		public static const DEFAULT_URL : URLRequest = new URLRequest( "applicationContext.xml" );
 
-		protected var _oContextLoader : ContextLoader;
-
-		protected var _oContextParser : ContextParser;
 		protected var _oAssembler : ApplicationAssembler;
 		protected var _oParserCollection : ParserCollection;
 
@@ -64,24 +60,19 @@ package com.bourre.ioc.load
 		{
 			setListenerType( ApplicationLoaderListener );
 
-			setURL( url? url : new URLRequest( ApplicationLoader.DEFAULT_URL ) );
+			setURL( url? url : ApplicationLoader.DEFAULT_URL );
 
 			_oAssembler = new DefaultApplicationAssembler();
 			DisplayObjectExpert.getInstance().setRootTarget( target );
 			_initParserCollection();
 		}
-		
+
 		protected function _initParserCollection() : void
 		{
 			_oParserCollection = new ParserCollection();
 			_oParserCollection.push( new DLLParser( getAssembler() ) );
 			_oParserCollection.push( new DisplayObjectParser( getAssembler() ) );
 			_oParserCollection.push( new ObjectParser( getAssembler() ) );
-		}
-
-		public function getContextParser() : ContextParser
-		{
-			return _oContextParser;
 		}
 
 		public function getAssembler() : ApplicationAssembler
@@ -120,11 +111,16 @@ package com.bourre.ioc.load
 
 			if ( getURL().url.length > 0 )
 			{
-				_oContextLoader = new ContextLoader();
-				_oContextLoader.addEventListener( ContextLoaderEvent.onLoadInitEVENT, _onContextLoaderLoadInit );
-				_oContextLoader.addEventListener( ContextLoaderEvent.onLoadProgressEVENT, this );
-				_oContextLoader.addEventListener( ContextLoaderEvent.onLoadTimeOutEVENT, this );
-				_oContextLoader.load( getURL(), context );
+				var cl : ContextLoader = new ContextLoader();
+				cl.setURL( getURL() );
+				cl.setAntiCache( true );
+
+				cl.addEventListener( ContextLoaderEvent.onLoadInitEVENT, _onContextLoaderLoadInit );
+				cl.addEventListener( ContextLoaderEvent.onLoadProgressEVENT, this );
+				cl.addEventListener( ContextLoaderEvent.onLoadTimeOutEVENT, this );
+				cl.addEventListener( ContextLoaderEvent.onLoadErrorEVENT, this );
+
+				cl.load( getURL(), context );
 
 			} else
 			{
@@ -136,20 +132,19 @@ package com.bourre.ioc.load
 
 		protected function _onContextLoaderLoadInit( e : ContextLoaderEvent ) : void
 		{
-			_oContextLoader.removeListener( this );
-			_oContextParser = new ContextParser( getParserCollection() );
-			_oContextParser.addListener( this );
-			_oContextParser.parse( e.getContext() );
+			e.getContextLoader().removeListener( this );
+
+			var cp : ContextParser = new ContextParser( getParserCollection() );
+			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
+			cp.parse( e.getContext() );
 		}
 
-		override public function getBytesLoaded() : uint
+		protected function _onContextParsingEnd( e : ContextParserEvent ) : void
 		{
-			return _oContextLoader.getBytesLoaded();
-		}
+			e.getContextParser().removeEventListener( ContextParserEvent.onContextParsingEndEVENT, this );
 
-		override public function getBytesTotal() : uint
-		{
-			return _oContextLoader.getBytesTotal();
+			DisplayObjectExpert.getInstance().addListener( this );
+			DisplayObjectExpert.getInstance().load();
 		}
 
 		public function fireOnApplicationParsed() : void
@@ -187,7 +182,7 @@ package com.bourre.ioc.load
 
 		public function onLoadInit( e : LoaderEvent ) : void
 		{
-			fireOnLoadInitEvent();
+			//
 		}
 
 		public function onLoadProgress( e : LoaderEvent ) : void
@@ -204,21 +199,6 @@ package com.bourre.ioc.load
 		{
 			fireOnLoadErrorEvent( e.getErrorMessage() );
 			PixlibDebug.ERROR( e.getErrorMessage() );
-		}
-
-		/**
-		 * ContextParser callbacks
-		 */
-		public function onContextParsingStart(e : ContextParserEvent) : void
-		{
-		}
-
-		public function onContextParsingEnd( e : ContextParserEvent ) : void
-		{
-			_oContextParser.removeListener( this );
-
-			DisplayObjectExpert.getInstance().addListener( this );
-			DisplayObjectExpert.getInstance().load( );
 		}
 
 		/**

@@ -15,9 +15,10 @@
  */
 package com.bourre.events 
 {
-	import com.bourre.log.PixlibDebug;	
+	import flash.utils.getQualifiedClassName;
 	
-	import flash.utils.getQualifiedClassName;	
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.log.PixlibDebug;	
 
 	/**
 	 * An <code>EventChannel</code> object defines a communication
@@ -29,7 +30,7 @@ package com.bourre.events
 	public class EventChannel 
 	{
 		private var _sChannelName : String;
-		
+
 		/**
 		 * Creates a new event channel with the passed-in channel name.
 		 * <p>
@@ -41,10 +42,15 @@ package com.bourre.events
 		public function EventChannel( channelName : String = null )
 		{
 			_sChannelName =  channelName ? channelName : getQualifiedClassName( this );
-			if( _sChannelName == "EventChannel" ) 
-			 	PixlibDebug.WARN('EventChannel must have a name , or be extends by another class with a different name of EventChannel');
+
+			if ( _sChannelName == "EventChannel" )
+			{
+			 	var msg : String = "EventChannel must have a name, or be extended by another class";
+			 	PixlibDebug.ERROR( msg );
+			 	throw new IllegalArgumentException( msg );
+			}
 		}
-		
+
 		/**
 		 * Returns the string representation of this object.
 		 * 

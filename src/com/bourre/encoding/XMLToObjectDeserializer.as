@@ -113,7 +113,7 @@ package com.bourre.encoding
 		{
 			var dataType:String = node.attribute("type");
 			
-			if (_m.containsKey( dataType ))
+			if ( _m.containsKey( dataType ) )
 			{
 				var d:Function = _m.get( dataType );
 				return d.apply(this, [node]);
@@ -137,6 +137,7 @@ package com.bourre.encoding
 	  		{
 	  			var a : Array = new Array();
 	  			a[ "__nodeContainer" ] = true;
+				a.setPropertyIsEnumerable( "__nodeContainer", false );
 	  			a.push( temp );
 	  			return a;
 	  		}
