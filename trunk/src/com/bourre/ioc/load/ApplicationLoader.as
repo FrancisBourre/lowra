@@ -134,9 +134,16 @@ package com.bourre.ioc.load
 		{
 			e.getContextLoader().removeListener( this );
 
+			parseContext( e.getContext() );
+		}
+		
+		public function parseContext( xml : * ) : void
+		{
+			PixlibDebug.INFO( "Parse Context" );
+
 			var cp : ContextParser = new ContextParser( getParserCollection() );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
-			cp.parse( e.getContext() );
+			cp.parse( xml );
 		}
 
 		protected function _onContextParsingEnd( e : ContextParserEvent ) : void
