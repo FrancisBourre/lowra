@@ -85,7 +85,7 @@ package com.bourre.ioc.assembler.method
 
 			} catch ( e : Error )
 			{
-				var msg : String = this + ".callMethod() failed. " + m.ownerID + "." + m.name + "() can't be called.";
+				msg = this + ".callMethod() failed. " + m.ownerID + "." + m.name + "() can't be called.";
 				PixlibDebug.FATAL( msg );
 				throw new IllegalArgumentException( msg );
 			}
