@@ -15,6 +15,8 @@
  */
 package com.bourre.commands 
 {
+	import com.bourre.plugin.Plugin;	
+	
 	import flash.events.Event;
 
 	import com.bourre.log.PixlibStringifier;	
@@ -32,7 +34,7 @@ package com.bourre.commands
 	 * 
 	 * @author 	Cédric Néhémie
 	 */
-	public class Batch implements MacroCommand
+	public class Batch extends AbstractCommand implements MacroCommand
 	{
 		/**
 		 * Contains all commands currently in this macro command
@@ -97,9 +99,25 @@ package com.bourre.commands
 		public function addCommand( command : Command ) : Boolean
 		{
 			if( command == null ) return false;
-
+			
+			if( command is AbstractCommand )
+				( command as AbstractCommand).setOwner( getOwner() );
+				
 			var l : Number = _aCommands.length;
 			return (l != _aCommands.push( command ) );
+		}
+		
+		override public function setOwner ( owner : Plugin ) : void
+		{
+			super.setOwner( owner );
+			
+			var l : Number = _aCommands.length;
+			var c : AbstractCommand;
+			while( --l -(-1 ) )
+			{
+				if( ( c = _aCommands[ l ]  as AbstractCommand ) != null )
+					c.setOwner( owner );
+			}
 		}
 
 		/**
@@ -148,7 +166,7 @@ package com.bourre.commands
 		 * </p>
 		 * @param	e	event object to relay to the sub-commands. 
 		 */
-		public function execute( e : Event = null ) : void
+		override public function execute( e : Event = null ) : void
 		{
 			var l : Number = _aCommands.length;
 

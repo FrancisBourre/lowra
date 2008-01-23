@@ -18,7 +18,7 @@
 
 	</head>
 	<body>
-		<script type="text/javascript" language="javascript" src="../../../asdoc.js"></script><script type="text/javascript" language="javascript" src="../../../cookies.js"></script><script type="text/javascript" language="javascript">
+		<script type="text/javascript" language="javascript">
 		<!--
 			asdocTitle = 'LowRA Assembler Reference - LowRA API Documentation';
 			var baseRef = '../../docs/';
@@ -79,20 +79,48 @@
 <h2>Available nodes in context file</h2>
 
 <p>
-	You will find below the various types of nodes possible inside
+	You will find below the various types of nodes allowed inside
 the file defining the context ( applicationContext.xml ) for LowRA IoC.
-</p>	
+</p>
+<h4>Conventions :</h4> 
+<ul>
+	<li><code>&lt;foo&gt;</code> : A node of type <code>foo</code> such as : 
+	<div class="listing"><pre>&lt;foo&gt;
+	Some content in the node
+&lt;/foo&gt;</pre></li>
+	<li><code>&lt;%custom%&gt;</code> : A node where <code>%custom%</code> is the user
+	defined node name. It means that the node name is only significant for the user,
+	the assembler will use attributes of the node instead of the node name.
+	<p>Example, the two following declaration produce the same result : </p>
+	<div class="listing"><pre>&lt;plugin id="somePlugin" type="MyPluginClass" /&gt;</pre></div>
+	<div class="listing"><pre>&lt;object id="somePlugin" type="MyPluginClass" /&gt;</pre></div></li>
+	<li><code>@foo</code> : A node attribute called <code>foo</code> 
+	such as :
+	 <div class="listing"><pre>&lt;node foo="some value" /&gt;</pre></div>
+	The <code>@</code> prefix only means that the name refer to a node attribute.
+	</li>
+	<li><code>#foo</code> : Refer to the id <code>foo</code> such as :
+	<div class="listing"><pre>&lt;node id="foo" /&gt;</pre>
+	The <code>#</code> prefix only means that the name refer to the value of the 
+	id attribute of a node.</li>
+	<li><code>Foo</code> : Refer to class name <code>Foo</code>.</li>
+</ul>
+	
 
 <table class="summaryTable" cellpadding="3" cellspacing="0">
 	<tbody>
-		<!-- Nodes description -->
+<!--*****************************************************************************
+		 Nodes description 
+*****************************************************************************-->
 		<tr>
-			<th>&nbsp;</th>
+			<th><a name="nodes">&nbsp;</a></th>
 			<th width="15%">Nodes</th>
-			<th width="20%">Context</th>
-			<th width="65%">Description</th>
+			<th width="25%">Context</th>
+			<th width="60%">Description</th>
 		</tr>
-
+<!-- 
+	<application-loader> 
+-->
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
@@ -106,46 +134,62 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 			</td>
 		</tr>
 		
+<!-- 
+	<argument> 
+-->		
+
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#argument">&lt;argument&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#dynamic">&lt;%dynamic%&gt;</a>,
+				<a href="#custom">&lt;%custom%&gt;</a>,
 				<a href="#method-call">&lt;method-call&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Creates a new argument for a function call or a class constructor.
 			</td>
 		</tr>
-		
+<!-- 
+	<bean> 
+-->			
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#bean">&lt;bean&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				File root
+				XML file root node
 			</td>
 			<td class="summaryTableLastCol">
 				Required root node for the application context file (only one occurence). 
 			</td>
 		</tr>
-		
+<!-- 
+	<%custom%> 
+-->			
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#default">&lt;default&gt;</a>
+				<a href="#custom">&lt;%custom%&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Context
+				<a href="#bean">&lt;bean&gt;</a>,
+				<a href="#root">&lt;root&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Description
+				The node name has no meaning in this case, it creates
+				an new entity of the specified <code>@type</code> and
+				identified with the specified <code>@id</code>. When
+				child of the <code>&lt;root&gt;</code> node it will
+				be considered as part of the display list, nested
+				<code>&lt;%custom%&gt;</code> children are also allowed. 
 			</td>
 		</tr>
-		
+<!-- 
+	<dll> 
+-->			
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
@@ -158,36 +202,39 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				Loads the specified *.swf file as a Dynamically Loaded Library (dll).
 			</td>
 		</tr>
-		
+<!-- 
+	<include> 
+-->	
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#dynamic">&lt;%dynamic%&gt;</a>
+				<a href="#include">&lt;include&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#bean">&lt;bean&gt;</a>,
-				<a href="#root">&lt;root&gt;</a>
+				<a href="#bean">&lt;bean&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				The node name has no meaning in this case, it creates
-				an new entity of the specified <code>type</code> and
-				identified with the specified <code>id</code>.
+				Loads a context file and add its content to the current application context
 			</td>
 		</tr>
-		
+<!-- 
+	<item> 
+-->	
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#item">&lt;item&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#dynamic">&lt;%dynamic% type="Dictionary"&gt;</a>
+				<a href="#custom">&lt;%custom% type="Dictionary"&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Defines an entry in a <code>Dictionary</code>.
 			</td>
 		</tr>
-		
+<!-- 
+	<key> 
+-->	
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
@@ -200,51 +247,59 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				Defines the key of the <code>&lt;item&gt;</code> parent note.
 			</td>
 		</tr>
-		
+<!-- 
+	<listen> 
+-->			
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#listen">&lt;listen&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#dynamic">&lt;%dynamic%&gt;</a>
+				<a href="#custom">&lt;%custom%&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Sets the <code>&lt;%dynamic%&gt;</code> parent node as listener
-				of the specified <code>id</code>. The <code>&lt;listen&gt;</code>
-				node is only for dynamic nodes which are outside of the
+				Sets the <code>&lt;%custom%&gt;</code> parent node as listener
+				of the specified <code>@ref</code>. The <code>&lt;listen&gt;</code>
+				node is only for custom nodes which are outside of the
 				<code>&lt;root&gt;</code> node.
 			</td>
 		</tr>
-		
+<!-- 
+	<method-call> 
+-->			
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#method-call">&lt;method-call&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#dynamic">&lt;%dynamic%&gt;</a>
+				<a href="#custom">&lt;%custom%&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Calls a method of the <code>&lt;%dynamic%&gt;</code>
+				Calls a method of the <code>&lt;%custom%&gt;</code>
 				parent node.
 			</td>
 		</tr>
-		
+<!-- 
+	<property> 
+-->			
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#property">&lt;property&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#dynamic">&lt;%dynamic%&gt;</a>
+				<a href="#custom">&lt;%custom%&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Sets the initial value of the specified property
-				of the <code>&lt;%dynamic%&gt;</code> parent node.
+				of the <code>&lt;%custom%&gt;</code> parent node.
 			</td>
 		</tr>
-		
+<!-- 
+	<root> 
+-->			
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
@@ -255,12 +310,13 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 			</td>
 			<td class="summaryTableLastCol">
 				Defines the root node for the graphics structures (only one occurence).
-				All childs of the <code>&lt;root&gt;</code> nodes will be considered
+				All children of the <code>&lt;root&gt;</code> nodes will be considered
 				as part of the display list.
 			</td>
 		</tr>
-		
-		
+<!-- 
+	<value> 
+-->			
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
@@ -274,29 +330,322 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 			</td>
 		</tr>
 		
-		<!-- Attributes description -->
+<!--*****************************************************************************
+		 Attributes description 
+*****************************************************************************-->
 		
 		<tr>
-			<th>&nbsp;</th>
-			<th>Nodes</th>
+			<th><a name="attributes">&nbsp;</a></th>
+			<th>Attributes</th>
 			<th>Context</th>
 			<th>Description</th>
 		</tr>
+<!-- 
+	built-callback
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@built-callback">@ built-callback</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#application-loader">&lt;application-loader&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Name of the function to call on the application loader when
+				the build is completed.
+			</td>
+		</tr>
+<!-- 
+	delay
+-->		
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				Attribute name
+				<a href="#@delay">@ delay</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Context
+				<a href="#method-call">&lt;method-call&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Delay the call of the method with the amount of the attribute
+				value in milliseconds.
+			</td>
+		</tr>
+<!-- 
+	deserializer-class
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@deserializer-class">@ deserializer-class</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#custom">&lt;%custom% type="XML"&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Defines the concret deserializer class to use for parse the
+				node content.
+			</td>
+		</tr>
+<!-- 
+	factory
+-->		
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@factory">@ factory</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#custom">&lt;%custom%&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Defines the factory method to call when creating the object
+				defined by this <code>&lt;%custom%&gt;</code> node.
+			</td>
+		</tr>
+<!-- 
+	id
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@id">@ id</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#custom">&lt;%custom%&gt;</a>,
+				<a href="#root">&lt;root&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Defines the identifier of this node in the bean 
+				namespace. You can use the <code>@id</code> of an
+				object in all nodes which provide a <code>@ref</code>,
+				it will	return a reference to the object identified
+				by <code>@id</code>.
+			</td>
+		</tr>
+<!-- 
+	init-callback
+-->		
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@init-callback">@ init-callback</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#application-loader">&lt;application-loader&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Name of the function to call on the application loader when
+				all loading are finished.
+			</td>
+		</tr>
+<!-- 
+	method
+	
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@method">@ method</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#argument">&lt;argument&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Description
 			</td>
 		</tr>
+-->	
+<!-- 
+	name
+-->		
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@name">@ name</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#method-call">&lt;method-call&gt;</a>,
+				<a href="#property">&lt;property&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Sets the name of the property or method of an object.
+			</td>
+		</tr>	
+<!-- 
+	name-callback
+-->	
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@name-callback">@ name-callback</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#application-loader">&lt;application-loader&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Name of the function to call on the application loader when
+				a new loading start. The function is called with the name
+				of the lib file currently in loading.
+			</td>
+		</tr>
+<!-- 
+	progress-callback
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@progress-callback">@ progress-callback</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#application-loader">&lt;application-loader&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Name of the function to call on the application loader during
+				the loading of a file. The function is called with the percentage
+				of file's loaded.
+			</td>
+		</tr>
+			
+<!-- 
+	ref
+-->	
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@ref">@ ref</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#argument">&lt;argument&gt;</a>,
+				<a href="#listen">&lt;listen&gt;</a>,
+				<a href="#key">&lt;key&gt;</a>,
+				<a href="#property">&lt;property&gt;</a>,
+				<a href="#value">&lt;value&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Gets and return the entity of the bean namespace which
+				<code>@id</code> is	equals to <code>@ref</code> value.
+			</td>
+		</tr>
+			
+<!-- 
+	singleton-access
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@singleton-access">@ singleton-access</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#custom">&lt;%custom%&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Defines the name of the function which return the
+				singleton instance of a class. Used when <code>@factory</code>
+				is defined.
+			</td>
+		</tr>
+
+<!-- 
+	timeout-callback
+-->	
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@timeout-callback">@ timeout-callback</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#application-loader">&lt;application-loader&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Name of the function to call on the application loader when 
+				a loading fail due to a timeout.
+			</td>
+		</tr>
+
+<!-- 
+	type
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@type">@ type</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#argument">&lt;argument&gt;</a>,
+				<a href="#custom">&lt;%custom%&gt;</a>,
+				<a href="#key">&lt;key&gt;</a>,
+				<a href="#property">&lt;property&gt;</a>,
+				<a href="#value">&lt;value&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Classpath which defines the type of the entity.
+			</td>
+		</tr>
+
+<!-- 
+	url
+-->	
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@url">@ url</a>
+			</td>
+			<td class="summaryTableLastCol">
+				
+				<a href="#application-loader">&lt;application-loader&gt;</a>,
+				<a href="#custom">&lt;%custom%&gt;</a>,
+				<a href="#dll">&lt;dll&gt;</a>,
+				<a href="#include">&lt;include&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				URL of the file to load according to the node type.
+			</td>
+		</tr>
+
+<!-- 
+	value
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@value">@ value</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#argument">&lt;argument&gt;</a>, 
+				<a href="#custom">&lt;%custom%&gt;</a>, 
+				<a href="#key">&lt;key&gt;</a>,
+				<a href="#property">&lt;property&gt;</a>,
+				<a href="#value">&lt;value&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Defines the value carried by the node, if <code>@type</code>
+				is defined <code>@value</code> is cast to <code>@type</code>.
+			</td>
+		</tr>
+
+<!-- 
+	visible
+-->	
+		<tr class="row0">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@visible">@ visible</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#custom">&lt;%custom%&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Sets a <code>&lt;root&gt;</code> child visible on the screen
+				at creation.
+			</td>
+		</tr>
 	</tbody>
 </table>
-			
+
+	
+<hr size="1"/>
+
 
 </div>
 		
