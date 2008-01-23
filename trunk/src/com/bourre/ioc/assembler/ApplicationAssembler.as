@@ -48,8 +48,7 @@ package com.bourre.ioc.assembler
 											type 				: String 	= null, 
 											args 				: Array 	= null, 
 											factory 			: String 	= null, 
-											singleton 			: String 	= null, 
-											channelName 		: String 	= null 	) : void;
+											singleton 			: String 	= null  ) : void;
 
 		function buildMethodCall( 			id 					: String, 
 											methodCallName 		: String, 
