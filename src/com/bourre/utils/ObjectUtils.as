@@ -22,6 +22,7 @@ package com.bourre.utils
 		 */
 		public static function clone( source : Object ) : Object 
 		{
+			if(source === null) return null ;
 			if ( source is DisplayObject ) throw new IllegalArgumentException( "" );
 			if ( source.hasOwnProperty( "clone" ) && source.clone is Function) return source.clone();
 			if ( source is Array) return ObjectUtils.cloneArray(source as Array) ;

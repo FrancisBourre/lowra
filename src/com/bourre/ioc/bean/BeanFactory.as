@@ -59,6 +59,16 @@ package com.bourre.ioc.bean
 			_m = new HashMap() ;
 		}
 		
+		public function  getKeys () : Array
+		{
+			return _m.getKeys() ;
+		}
+		
+		public function getValues() : Array
+		{
+			return _m.getValues() ;
+		}
+		
 		public function  locate ( key : String ) : Object
 		{
 			if ( isRegistered(key) )

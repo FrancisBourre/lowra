@@ -38,6 +38,11 @@ package com.bourre.ioc.parser
 		{
 			_a.push( parser );
 		}
+		
+		public function clear() : void
+		{
+			_a = new Array() ;
+		}
 
 		public function iterator() : Iterator
 		{
