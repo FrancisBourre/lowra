@@ -27,11 +27,11 @@ package com.bourre.ioc.control
 		implements IBuilder
 	{
 
-		public function build ( type : String = null, 
-								args : Array = null, 
-								factory : String = null, 
-								singleton : String = null, 
-								channel : String = null		) : *
+		public function build ( type 		: String = null, 
+								args 		: Array = null,  
+								factory 	: String = null, 
+								singleton 	: String = null, 
+								id 			: String = null ) : *
 		{
 			return null;
 		}

@@ -9,9 +9,7 @@ package com.bourre.ioc.assembler.constructor
 		public var 		arguments : Array;
 		public var 		factory 	: String;
 		public var 		singleton : String;
-		public var 		channel 	: String;
 
-		
 		public function Constructor(	id : String, 
 										type : String = null, 
 										args : Array = null, 
@@ -23,7 +21,6 @@ package com.bourre.ioc.assembler.constructor
 			this.arguments = args;
 			this.factory = factory;
 			this.singleton = singleton;
-			this.channel = id;
 		}
 		
 		/**

@@ -26,11 +26,11 @@ package com.bourre.ioc.control
 	public class BuildBoolean
 		implements IBuilder
 	{
-		public function build ( type : String = null, 
-								args : Array = null, 
-								factory : String = null, 
-								singleton : String = null, 
-								channel : String = null		) : *
+		public function build ( type 		: String = null, 
+								args 		: Array = null,  
+								factory 	: String = null, 
+								singleton 	: String = null, 
+								id 			: String = null ) : *
 		{
 			var value : String = "";
 			if ( args != null && args.length > 0 ) value = ( args[0] ).toString();

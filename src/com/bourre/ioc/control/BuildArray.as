@@ -26,11 +26,11 @@ package com.bourre.ioc.control
 	{
 		import com.bourre.log.*;
 
-		public function build ( type : String = null, 
-								args : Array = null,  
-								factory : String = null, 
-								singleton : String = null, 
-								channel : String = null		) : *
+		public function build ( type 		: String = null, 
+								args 		: Array = null,  
+								factory 	: String = null, 
+								singleton 	: String = null, 
+								id 			: String = null ) : *
 		{
 			var a : Array;
 			

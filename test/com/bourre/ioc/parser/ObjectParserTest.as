@@ -320,10 +320,9 @@ package com.bourre.ioc.parser
 										type 		: String 	= null, 
 										args 		: Array 	= null, 
 										factory 	: String 	= null, 
-										singleton 	: String 	= null, 
-										channelName : String 	= null 	) : void
+										singleton 	: String 	= null ) : void
 		{
-			_aResult.push( {id:id, type:type, args:args, factory:factory, singleton:singleton, channelName:channelName} );
+			_aResult.push( {id:id, type:type, args:args, factory:factory, singleton:singleton, channelName:id} );
 		}
 
 		public function buildMethodCall( id : String, methodCallName : String, args : Array = null ) : void

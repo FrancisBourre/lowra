@@ -27,6 +27,6 @@ package com.bourre.ioc.control
 							args : Array = null,
 							factory : String = null,
 							singleton : String = null,
-							channel : String = null ) : *
+							id : String = null ) : *
 	}
 }

@@ -7,11 +7,11 @@ package com.bourre.ioc.assembler.constructor
 		
 		public function testCreate() :void
 		{
-			var cst : Constructor = new Constructor("id","type", [1,2,3], "factory","singleton","channel")
-			var cstEvt : ConstructorEvent = new ConstructorEvent(cst)
-			assertNotNull("failde to create ConstructorEvent", cstEvt)
-			assertEquals(cstEvt+".getContructor() dont return good value", cst,cstEvt.getConstructor())
-			assertEquals(cstEvt+".type dont return good value", ConstructorEvent.onBuildConstructorEVENT,cstEvt.type)
+			var cst : Constructor = new Constructor("id","type", [1,2,3], "factory","singleton");
+			var cstEvt : ConstructorEvent = new ConstructorEvent(cst);
+			assertNotNull("failde to create ConstructorEvent", cstEvt);
+			assertEquals(cstEvt+".getContructor() dont return good value", cst,cstEvt.getConstructor());
+			assertEquals(cstEvt+".type dont return good value", ConstructorEvent.onBuildConstructorEVENT,cstEvt.type);
 			
 		}
 		
