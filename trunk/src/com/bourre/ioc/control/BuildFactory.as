@@ -61,6 +61,7 @@ package com.bourre.ioc.control
 			addType( ContextTypeList.DICTIONARY, new BuildDictionary() );
 			addType( ContextTypeList.CLASS, new BuildClass() );
 			addType( ContextTypeList.XML, new BuildXML() );
+			addType( ContextTypeList.FUNCTION, new BuildFunction() );
 		}
 
 		protected function addType( type : String, build : IBuilder ) : void

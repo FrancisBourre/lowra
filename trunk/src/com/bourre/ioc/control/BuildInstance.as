@@ -29,24 +29,24 @@ package com.bourre.ioc.control
 		implements IBuilder
 	{
 
-		public function build ( qualifiedClassName : String = null, 
-								args : Array = null, 
-								factory : String = null, 
-								singleton : String = null, 
-								channelName : String = null		) : *
+		public function build ( type 		: String = null, 
+								args 		: Array = null,  
+								factory 	: String = null, 
+								singleton 	: String = null, 
+								id 			: String = null ) : *
 		{
 			var o : Object = null;
 
-			if ( channelName ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( channelName ) );
-			if ( qualifiedClassName ) 
+			if ( id.length > 0 ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( id ) );
+			if ( type ) 
 			{
 				try
 				{
-					o = CoreFactory.buildInstance( qualifiedClassName, args, factory, singleton );
+					o = CoreFactory.buildInstance( type, args, factory, singleton );
 
 				} catch( e : Error )
 				{
-					var msg : String = this + ".build(" + qualifiedClassName + ") failed.";
+					var msg : String = this + ".build(" + type + ") failed.";
 					PixlibDebug.FATAL( msg );
 					throw new IllegalArgumentException( msg );
 				}
