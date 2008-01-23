@@ -194,16 +194,6 @@ package com.bourre.commands
 		public function size () : uint
 		{
 			return _aCommands.length;		
-		}	
-	
-		/**
-		 * Returns the string representation of this object.
-		 * 
-		 * @return	the string representation of this object
-		 */
-		public function toString() : String
-		{
-			return PixlibStringifier.stringify( this ) ;
 		}
 	}
 }

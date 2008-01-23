@@ -23,13 +23,12 @@ package com.bourre.ioc.control
 	import flash.utils.Dictionary;
 	
 	import com.bourre.ioc.assembler.property.DictionaryItem;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class BuildDictionary 
 		implements IBuilder
 	{
-		import com.bourre.log.*;
-
 		public function build ( type 		: String = null, 
 								args 		: Array = null,  
 								factory 	: String = null, 
@@ -45,9 +44,11 @@ package com.bourre.ioc.control
 			} else
 			{
 				var l : int = args.length;
+
 				for ( var i : int = 0; i < l; i++ )
 				{
 					var di : DictionaryItem = args[ i ] as DictionaryItem;
+
 					if (di.key != null)
 					{
 						d[ di.key ] = di.value;
@@ -58,6 +59,7 @@ package com.bourre.ioc.control
 					}
 				}
 			}
+
 			return d;
 		}
 

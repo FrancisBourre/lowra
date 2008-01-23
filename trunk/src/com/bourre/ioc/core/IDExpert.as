@@ -22,7 +22,7 @@ package com.bourre.ioc.core
 	 * @version 1.0
 	 */
 	import flash.utils.Dictionary;
-	
+
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Set;
 	import com.bourre.error.IllegalArgumentException;
@@ -30,7 +30,7 @@ package com.bourre.ioc.core
 	import com.bourre.ioc.assembler.property.PropertyEvent;
 	import com.bourre.ioc.assembler.property.PropertyExpertListener;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;	
 
 	public class IDExpert
 		implements PropertyExpertListener
@@ -68,18 +68,20 @@ package com.bourre.ioc.core
 
 			if ( refID != null ) 
 			{
-				if ( refID.indexOf(".") != -1 )
+				/*if ( refID.indexOf(".") != -1 )
 				{
 					var a : Array = refID.split(".");
 					refID = a[0];
-				}
+				}*/
 	
 				_pushReference( refID, e.getOwnerID() );
 			}
 		}
 
 		private function _pushReference( refID : String, ownerID : String ) : void
-		{
+		{	
+			PixlibDebug.INFO( "_pushReference(" + refID + ", " + ownerID + ")" );
+
 			_c.add( refID );
 			
 			var nRef : int = _c.indexOf( refID );
@@ -135,7 +137,7 @@ package com.bourre.ioc.core
 				PixlibDebug.ERROR( msg );
 				throw( new NoSuchElementException( msg ) );
 			}
-			
+
 			return false;
 		}
 
