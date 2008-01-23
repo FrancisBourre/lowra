@@ -37,7 +37,7 @@ package com.bourre.commands
 	 * allow command owner to setup the command properly, and to register
 	 * its <code>FrontController</code> to the command.
 	 * </p><p>
-	 * See the <a href="../../../docs/howto/howto-commands.html">How to use
+	 * See the <a href="../../../howto/howto-commands.html">How to use
 	 * the Command pattern implementation in LowRA</a> document for more details
 	 * on the commands package structure.
 	 * </p>

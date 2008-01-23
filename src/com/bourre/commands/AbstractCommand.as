@@ -36,7 +36,7 @@ package com.bourre.commands
 	 * the <code>execute</code> call. The constructor of a stateless
 	 * command should always be empty.
 	 * </p><p>
-	 * See the <a href="../../../docs/howto/howto-commands.html">How to use
+	 * See the <a href="../../../howto/howto-commands.html">How to use
 	 * the Command pattern implementation in LowRA</a> document for more details
 	 * on the commands package structure.
 	 * </p>

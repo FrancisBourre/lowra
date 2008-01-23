@@ -52,7 +52,7 @@ package com.bourre.commands
 	 * plugin. In that way it will receive all private events dispatched in all
 	 * plugin's MVC components. 
 	 * </p><p>
-	 * See the <a href="../../../docs/howto/howto-commands.html">How to use
+	 * See the <a href="../../../howto/howto-commands.html">How to use
 	 * the Command pattern implementations in LowRA</a> document for more details
 	 * on the commands package structure.
 	 * </p>
@@ -255,7 +255,7 @@ package com.bourre.commands
 
 		/**
 		 * Handles all events received by this object.
-		 * For each received the controller will look up
+		 * For each received event the controller will look up
 		 * its registered events table, if a command or
 		 * a class is registered the controller proceed.
 		 * <p>
