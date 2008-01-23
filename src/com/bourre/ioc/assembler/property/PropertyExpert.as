@@ -50,7 +50,7 @@ package com.bourre.ioc.assembler.property
 
 		public function PropertyExpert( o : PrivateConstructorAccess )
 		{
-			_oEB = new EventBroadcaster( this );
+			_oEB = new EventBroadcaster( this, PropertyExpertListener );
 			_mProperty = new HashMap();
 
 			BeanFactory.getInstance().addListener( this );
@@ -124,7 +124,8 @@ package com.bourre.ioc.assembler.property
 										method 	: String = null  ) : Property
 		{
 			var p : Property = new Property( ownerID, name, value, type, ref, method );
-			
+			_oEB.broadcastEvent( new PropertyEvent( p, ownerID, ref ) );
+
 			if ( _mProperty.containsKey( ownerID ) )
 			{
 				( _mProperty.get( ownerID ) as Array ).push( p );
