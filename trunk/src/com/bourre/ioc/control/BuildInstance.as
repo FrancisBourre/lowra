@@ -35,21 +35,19 @@ package com.bourre.ioc.control
 								singleton 	: String = null, 
 								id 			: String = null ) : *
 		{
-			var o : Object = null;
+			var o : Object;
 
-			if ( id.length > 0 ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( id ) );
-			if ( type ) 
+			if ( id != null && id.length > 0 ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( id ) );
+
+			try
 			{
-				try
-				{
-					o = CoreFactory.buildInstance( type, args, factory, singleton );
+				o = CoreFactory.buildInstance( type, args, factory, singleton );
 
-				} catch( e : Error )
-				{
-					var msg : String = this + ".build(" + type + ") failed.";
-					PixlibDebug.FATAL( msg );
-					throw new IllegalArgumentException( msg );
-				}
+			} catch( e : Error )
+			{
+				var msg : String = this + ".build(" + type + ") failed.";
+				PixlibDebug.FATAL( msg );
+				throw new IllegalArgumentException( msg );
 			}
 
 			return o;

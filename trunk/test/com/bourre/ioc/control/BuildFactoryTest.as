@@ -1,13 +1,15 @@
 
 package com.bourre.ioc.control
 {
-	import flexunit.framework.TestCase;
 	import com.bourre.ioc.parser.ContextTypeList;
 	
+	import flexunit.framework.TestCase;	
+
 	public class BuildFactoryTest extends TestCase
 	{
-		public static var linkMockSingleton : Class = MockSingleton
-		public static var linkMockInstance : Class = MockInstance
+		public static var linkMockSingleton : Class = MockSingleton;
+		public static var linkMockInstance : Class = MockInstance;
+
 		public function testCreate():void
 		{
 			trace()
@@ -54,10 +56,13 @@ package com.bourre.ioc.control
 		
 		public 	function testINSTANCE() :void
 		{
-			var arg1 : * = "arg1"
-			var arg2 : * = 2
-			var myInstance : MockInstance = BuildFactory.getInstance().getBuilder(ContextTypeList.INSTANCE).build("com.bourre.ioc.control.MockInstance",[arg1,arg2])
-			assertNotNull("can't create MockInstance", myInstance)
+			var arg1 : * = "arg1";
+			var arg2 : * = 2;
+			
+			var builder : IBuilder = BuildFactory.getInstance().getBuilder( ContextTypeList.INSTANCE );
+
+			var myInstance : MockInstance = builder.build( "com.bourre.ioc.control.MockInstance", [arg1,arg2] );
+			assertNotNull("can't create MockInstance", myInstance);
 			assertTrue("Can't create an Instance" ,myInstance is MockInstance)
 			assertEquals("myInstance dont contained the good value", arg1, myInstance.arg1)
 			assertEquals("myInstance dont contained the good value", arg2, myInstance.arg2)

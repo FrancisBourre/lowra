@@ -64,6 +64,8 @@ package com.bourre.ioc.core
 
 		public function onBuildProperty( e : PropertyEvent ) : void
 		{
+			PixlibDebug.INFO( "onBuildProperty(" + e.getRefID() + ", " + e.getOwnerID() + ")" );
+
 			var refID : String = e.getRefID();
 
 			if ( refID != null ) 
