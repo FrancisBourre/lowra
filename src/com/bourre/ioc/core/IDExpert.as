@@ -22,7 +22,7 @@ package com.bourre.ioc.core
 	 * @version 1.0
 	 */
 	import flash.utils.Dictionary;
-
+	
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Set;
 	import com.bourre.error.IllegalArgumentException;
@@ -64,20 +64,19 @@ package com.bourre.ioc.core
 
 		public function onBuildProperty( e : PropertyEvent ) : void
 		{
-			PixlibDebug.INFO( "onBuildProperty(" + e.getRefID() + ", " + e.getOwnerID() + ")" );
-
 			var refID : String = e.getRefID();
+			if ( refID != null ) _pushReference( refID, e.getOwnerID() );
 
-			if ( refID != null ) 
-			{
-				/*if ( refID.indexOf(".") != -1 )
-				{
-					var a : Array = refID.split(".");
-					refID = a[0];
-				}*/
-	
-				_pushReference( refID, e.getOwnerID() );
-			}
+//			if ( refID != null ) 
+//			{
+//				if ( refID.indexOf(".") != -1 )
+//				{
+//					var a : Array = refID.split(".");
+//					refID = a[0];
+//				}
+//	
+//				_pushReference( refID, e.getOwnerID() );
+//			}
 		}
 
 		private function _pushReference( refID : String, ownerID : String ) : void

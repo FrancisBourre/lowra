@@ -116,7 +116,7 @@ package com.bourre.ioc.assembler.property
 			return r;
 		}
 		
-		public function addProperty( 	ownerID : String, 
+		public function buildProperty( 	ownerID : String, 
 										name 	: String = null, 
 										value 	: String = null, 
 										type 	: String = null, 
@@ -125,6 +125,17 @@ package com.bourre.ioc.assembler.property
 		{
 			var p : Property = new Property( ownerID, name, value, type, ref, method );
 			_oEB.broadcastEvent( new PropertyEvent( p, ownerID, ref ) );
+			return p;
+		}
+		
+		public function addProperty( 	ownerID : String, 
+										name 	: String = null, 
+										value 	: String = null, 
+										type 	: String = null, 
+										ref 	: String = null, 
+										method 	: String = null  ) : Property
+		{
+			var p : Property = buildProperty( ownerID, name, value, type, ref, method );
 
 			if ( _mProperty.containsKey( ownerID ) )
 			{

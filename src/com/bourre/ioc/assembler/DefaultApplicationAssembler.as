@@ -85,8 +85,8 @@ package com.bourre.ioc.assembler
 						o = args[ i ];
 						var key : Object = o.key;
 						var value : Object = o.value;
-						var pKey : Property = new Property( key.id, key.name, key.value, key.type, key.ref, key.method );
-						var pValue : Property = new Property( value.id, value.name, value.value, value.type, value.ref, value.method );
+						var pKey : Property = PropertyExpert.getInstance().buildProperty( ownerID, key.name, key.value, key.type, key.ref, key.method );
+						var pValue : Property = PropertyExpert.getInstance().buildProperty( ownerID, value.name, value.value, value.type, value.ref, value.method );
 						args[ i ] = new DictionaryItem( pKey, pValue );
 					}
 
@@ -95,7 +95,7 @@ package com.bourre.ioc.assembler
 					for ( i = 0; i < l; i++ )
 					{
 						o = args[ i ];
-						var p : Property = new Property( o.id, o.name, o.value, o.type, o.ref, o.method );
+						var p : Property = PropertyExpert.getInstance().buildProperty( ownerID, o.name, o.value, o.type, o.ref, o.method );
 						args[ i ] = p;
 					}
 				}
