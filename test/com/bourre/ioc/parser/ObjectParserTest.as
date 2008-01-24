@@ -176,11 +176,11 @@ package com.bourre.ioc.parser
 			var xml : XML = 
 			<beans>
 				<object id="instance" type="com.test.TestClass">
-					<listen channel="channelA" />
-					<listen channel="channelB" />
+					<listen ref="channelA" />
+					<listen ref="channelB" />
 				</object>
 				<object id="list" type="Array">
-					<listen channel="channelC" />
+					<listen ref="channelC" />
 				</object>
 			</beans>;
 			
