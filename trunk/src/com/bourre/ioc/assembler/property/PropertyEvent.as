@@ -29,17 +29,13 @@ package com.bourre.ioc.assembler.property
 	{
 		public static const onBuildPropertyEVENT : String = "onBuildProperty";
 
-		private var _oProp : Property;
-		private var _sOwnerID : String;
-		private var _sRefID : String;
+		protected var _oProp : Property;
 
-		public function PropertyEvent( o : Property, ownerID : String, refID : String = null )
+		public function PropertyEvent( o : Property )
 		{
 			super( PropertyEvent.onBuildPropertyEVENT, o );
 
 			_oProp = o;
-			_sOwnerID = ownerID;
-			_sRefID = refID;
 		}
 
 		public function getProperty() : Property
@@ -47,14 +43,34 @@ package com.bourre.ioc.assembler.property
 			return _oProp;
 		}
 
-		public function getOwnerID() : String
+		public function getPropertyOwnerID() : String
 		{
-			return _sOwnerID;
+			return _oProp.ownerID;
+		}
+		
+		public function getPropertyName() : String
+		{
+			return _oProp.name;
+		}
+		
+		public function getPropertyValue() : String
+		{
+			return _oProp.value;
+		}
+		
+		public function getPropertyType() : String
+		{
+			return _oProp.type;
 		}
 
-		public function getRefID() : String
+		public function getPropertyRef() : String
 		{
-			return _sRefID;
+			return _oProp.ref;
+		}
+		
+		public function getPropertyMethod() : String
+		{
+			return _oProp.method;
 		}
 
 		/**

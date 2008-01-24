@@ -1,5 +1,7 @@
 package com.bourre.ioc.control
 {
+	import com.bourre.log.PixlibDebug;					
+
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -33,7 +35,7 @@ package com.bourre.ioc.control
 								id 			: String = null ) : *
 		{
 			var a : Array;
-			
+		
 			if ( args == null ) 
 			{
 				a = new Array();

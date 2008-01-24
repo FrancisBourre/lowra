@@ -21,6 +21,7 @@ package com.bourre.ioc.assembler.property
 	 * @version 1.0
 	 */
 	import com.bourre.collection.HashMap;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.*;
 	import com.bourre.ioc.bean.BeanEvent;
 	import com.bourre.ioc.bean.BeanFactory;
@@ -28,6 +29,7 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.ioc.control.BuildFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.parser.ContextTypeList;
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.utils.ObjectUtils;	
 
 	public class PropertyExpert 
@@ -62,12 +64,26 @@ package com.bourre.ioc.assembler.property
 			target[ p.name ] = getValue( p ) ;
 		}
 
-		public function getValue( p : Property ) : Object
+		public function getValue( p : Property ) : *
 		{
+			var msg : String;
+
 			if ( p.method ) 
 			{
-				var a : Array = p.method.split(".");
-				return BeanFactory.getInstance().locate( a[0] )[ a[1] ];
+				var a : Array = p.method.split( "." );
+				var target : Object = BeanFactory.getInstance().locate( a[0] );
+				var methodName : String = a[1];
+
+				if ( target.hasOwnProperty( methodName ) && target[ methodName ] is Function )
+				{
+					return target[ methodName ];
+
+				} else
+				{
+					msg = this + ".getValue() failed to retrieve method of '" + target + "' named '" + methodName + "'";
+					PixlibDebug.FATAL( msg );
+					throw new IllegalArgumentException( msg );
+				}
 
 			} else if ( p.ref )
 			{
@@ -124,7 +140,7 @@ package com.bourre.ioc.assembler.property
 										method 	: String = null  ) : Property
 		{
 			var p : Property = new Property( ownerID, name, value, type, ref, method );
-			_oEB.broadcastEvent( new PropertyEvent( p, ownerID, ref ) );
+			_oEB.broadcastEvent( new PropertyEvent( p ) );
 			return p;
 		}
 		

@@ -64,8 +64,19 @@ package com.bourre.ioc.core
 
 		public function onBuildProperty( e : PropertyEvent ) : void
 		{
-			var refID : String = e.getRefID();
-			if ( refID != null ) _pushReference( refID, e.getOwnerID() );
+			var refID : String;
+
+			var methodName : String = e.getPropertyMethod();
+			if ( methodName != null )
+			{
+				var split : Array = methodName.split( ".");
+				_pushReference( split[0], e.getPropertyOwnerID() );
+
+			} else
+			{
+				refID = e.getPropertyRef();
+				if ( refID != null ) _pushReference( refID, e.getPropertyOwnerID() );
+			}
 
 //			if ( refID != null ) 
 //			{
@@ -74,8 +85,8 @@ package com.bourre.ioc.core
 //					var a : Array = refID.split(".");
 //					refID = a[0];
 //				}
-//	
-//				_pushReference( refID, e.getOwnerID() );
+//
+//				_pushReference( refID, e.getPropertyOwnerID() );
 //			}
 		}
 

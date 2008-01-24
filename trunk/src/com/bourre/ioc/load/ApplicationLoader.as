@@ -23,7 +23,7 @@ package com.bourre.ioc.load
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
+
 	import com.bourre.error.NullPointerException;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
@@ -133,14 +133,11 @@ package com.bourre.ioc.load
 		protected function _onContextLoaderLoadInit( e : ContextLoaderEvent ) : void
 		{
 			e.getContextLoader().removeListener( this );
-
 			parseContext( e.getContext() );
 		}
 		
 		public function parseContext( xml : * ) : void
 		{
-			PixlibDebug.INFO( "Parse Context" );
-
 			var cp : ContextParser = new ContextParser( getParserCollection() );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
 			cp.parse( xml );

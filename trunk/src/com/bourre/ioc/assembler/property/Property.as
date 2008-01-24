@@ -34,7 +34,8 @@ package com.bourre.ioc.assembler.property
 		 */
 		public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this );
+			return PixlibStringifier.stringify( this ) 	+ "["
+							+ "ownerID:" 	+ ownerID 	+ ", "							+ "name:" 		+ name 		+ ", "							+ "value:" 		+ value 	+ ", "							+ "type:" 		+ type 		+ ", "							+ "ref:" 		+ ref 		+ ", "							+ "method:" 	+ method 	+ "]";
 		}
 	}
 }
