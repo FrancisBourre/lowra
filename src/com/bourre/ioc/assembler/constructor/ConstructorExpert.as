@@ -47,7 +47,8 @@ package com.bourre.ioc.assembler.constructor
 		
 		public function buildObject( o : Constructor ) : *
 		{
-			var args : Array = PropertyExpert.getInstance().deserializeArguments( o.arguments );
+			var args : Array;
+			if ( o.arguments != null )  args = PropertyExpert.getInstance().deserializeArguments( o.arguments );
 			return BuildFactory.getInstance().getBuilder( o.type ).build( o.type, args, o.factory, o.singleton, o.id );
 		}
 		
