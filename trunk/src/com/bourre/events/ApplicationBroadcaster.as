@@ -88,7 +88,7 @@ package com.bourre.events
 		 */
 		public function ApplicationBroadcaster ( access : PrivateConstructorAccess )
 		{
-			super( SYSTEM_CHANNEL );
+			super( InternalBroadcaster, SYSTEM_CHANNEL );
 		}
 
 		/**
@@ -107,7 +107,7 @@ package com.bourre.events
 		 * @return	the <code>EventBroadcaster</code> object associated with
 		 * 			the passed-in <code>channel<code>
 		 */
-		public override function getChannelDispatcher ( channel : EventChannel = null, owner : Object = null ) : EventBroadcaster
+		public override function getChannelDispatcher ( channel : EventChannel = null, owner : Object = null ) : Broadcaster
 		{
 			return ( channel != NO_CHANNEL ) ? super.getChannelDispatcher( channel, owner ) : null;
 		}
@@ -126,4 +126,55 @@ internal class SystemChannel extends EventChannel
 
 internal class PrivateConstructorAccess 
 {
+}
+
+import com.bourre.events.EventBroadcaster;
+import com.bourre.collection.Collection;
+
+import flash.events.Event;
+
+import flash.utils.getQualifiedClassName;
+
+import com.bourre.log.PixlibDebug;
+import com.bourre.error.UnsupportedOperationException;
+
+internal class InternalBroadcaster
+	extends EventBroadcaster
+{
+	public function InternalBroadcaster( source : Object = null, type : Class = null )
+	{
+		super( source, type );
+	}
+
+	override protected function _broadcastEvent( c : Collection, e : Event ) : void
+	{
+		var type : String = e.type;
+		var target : Object = e.target;
+		var a : Array = c.toArray();
+		var l : Number = a.length;
+
+		while ( --l > -1 ) 
+		{
+			var listener : Object = a[l];
+
+			if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
+			{
+				if ( listener != target ) listener[type](e);
+
+			} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+			{
+				listener.handleEvent(e);
+
+			} else 
+			{
+				var msg : String;
+				msg = this + ".broadcastEvent() failed, you must implement '" 
+				+ type + "' method or 'handleEvent' method in '" + 
+				getQualifiedClassName(listener) + "' class";
+
+				PixlibDebug.ERROR( msg );
+				throw( new UnsupportedOperationException( msg ) );
+			}
+		}
+	}
 }

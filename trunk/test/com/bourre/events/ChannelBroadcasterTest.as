@@ -39,7 +39,7 @@ package com.bourre.events
 		public override function setUp() : void
 		{
 			channel = PixlibDebug.CHANNEL;
-			cb = new ChannelBroadcaster( channel );
+			cb = new ChannelBroadcaster( EventBroadcaster, channel );
 			
 		}
 		

@@ -72,7 +72,8 @@ package com.bourre.events
 	 * </p>
 	 * @author Francis Bourre
 	 */
-	public class EventBroadcaster
+	public class EventBroadcaster 
+		implements Broadcaster
 	{
 		private static var _oI : EventBroadcaster = null;
 
@@ -541,7 +542,6 @@ package com.bourre.events
 
 				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
 				{
-					//PixlibDebug.DEBUG( "is a real listener for type " + type );
 					listener[type](e);
 
 				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
