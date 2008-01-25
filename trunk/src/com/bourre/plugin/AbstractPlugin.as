@@ -18,16 +18,14 @@ package com.bourre.plugin
 
 	/**
 	 * @author Francis Bourre
-	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
-	import com.bourre.events.Broadcaster;	
-	
 	import flash.events.Event;
 
 	import com.bourre.commands.FrontController;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.ApplicationBroadcaster;
-	import com.bourre.events.EventBroadcaster;
+	import com.bourre.events.Broadcaster;
 	import com.bourre.events.EventChannel;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;
@@ -110,8 +108,9 @@ package com.bourre.plugin
 				
 			} else
 			{
-				getLogger().error( this + ".fireExternalEvent() failed, '" + externalChannel + "' is its public channel." );
-			
+				var msg : String = this + ".fireExternalEvent() failed, '" + externalChannel + "' is its public channel.";
+				getLogger().error( msg );
+				throw new IllegalArgumentException( msg );
 			}
 		}
 
