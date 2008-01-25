@@ -51,8 +51,8 @@ package com.bourre.ioc.core
 			var p0 : Property = new Property( "owner", null, null, null, "refID0", null );
 			var p1 : Property = new Property( "refID0", null, null, null, "refID1", null );
 
-			_oIE.onBuildProperty( new PropertyEvent( p0, "owner", "refID0" ) );
-			_oIE.onBuildProperty( new PropertyEvent( p1, "refID0", "refID1" ) );
+			_oIE.onBuildProperty( new PropertyEvent( p0 ) );
+			_oIE.onBuildProperty( new PropertyEvent( p1 ) );
 
 			var a : Array = _oIE.getReferenceList().toArray();
 
@@ -68,8 +68,8 @@ package com.bourre.ioc.core
 			var p2 : Property = new Property( "refID2", null, null, null, "refID1", null );
 			var p3 : Property = new Property( "refID2", null, null, null, "owner", null );
 			
-			_oIE.onBuildProperty( new PropertyEvent( p2, "refID2", "refID1" ) );
-			_oIE.onBuildProperty( new PropertyEvent( p3, "refID2", "owner" ) );
+			_oIE.onBuildProperty( new PropertyEvent( p2 ) );
+			_oIE.onBuildProperty( new PropertyEvent( p3 ) );
 			
 			_oIE.register( "refID0" );
 			var p0 : Property = new Property( "refID0", null, null, null, "refID1", null );
@@ -77,8 +77,8 @@ package com.bourre.ioc.core
 			_oIE.register( "owner" );
 			var p1 : Property = new Property( "owner", null, null, null, "refID0", null );
 
-			_oIE.onBuildProperty( new PropertyEvent( p0, "refID0", "refID1" ) );
-			_oIE.onBuildProperty( new PropertyEvent( p1, "owner", "refID0" ) );
+			_oIE.onBuildProperty( new PropertyEvent( p0 ) );
+			_oIE.onBuildProperty( new PropertyEvent( p1 ) );
 
 			var a : Array = _oIE.getReferenceList().toArray();
 

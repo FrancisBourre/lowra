@@ -1,10 +1,32 @@
 package com.bourre.load
 {
-	import flash.display.*;
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+	import flash.display.Bitmap;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
-	
+
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.load.strategy.LoaderStrategy;
 	import com.bourre.log.*;	
@@ -35,10 +57,19 @@ package com.bourre.load
 
 		public function setTarget( target : DisplayObjectContainer ) : void
 		{
-			var b : Boolean = isVisible();
-			hide();
 			_target = target ;
-			if (b) show();
+
+			if ( _target != null )
+			{
+				if ( _index != -1 )
+				{
+					_target.addChildAt( getView(), _index );
+
+				} else
+				{
+					_target.addChild( getView() );
+				}
+			} 
 		}
 
 		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
@@ -61,8 +92,7 @@ package com.bourre.load
 					_bMustUnregister = true;
 					GraphicLoaderLocator.getInstance().register( getName(), this );
 
-				} 
-				else
+				} else
 				{
 					_bMustUnregister = false;
 					var msg : String = this + " can't be registered to " + GraphicLoaderLocator.getInstance() 
@@ -72,70 +102,54 @@ package com.bourre.load
 					throw new IllegalArgumentException( msg );
 				}
 			}
-			
-			if ( _bAutoShow && getTarget() != null ) show();
+
+			if ( _bAutoShow ) 
+			{
+				show();
+
+			} else
+			{
+				hide();
+			}
+
 			super.onInitialize();
 		}
-		
+
 		override public function setContent( content : Object ) : void
 		{	
 			if ( content is Bitmap )
 			{
 				_oBitmapContainer = new Sprite();
 				_oBitmapContainer.addChild( content as Bitmap );
-			}
-			else
+
+			} else
 			{
 				_oBitmapContainer = null;
-			} 
+			}
+
 			super.setContent( content );
 		}
-		
+
 		public function show() : void
 		{
-			if ( _target != null )
-			{
-				if ( _index != -1 )
-				{
-					_target.addChildAt( getView(), _index );
-					
-				} 
-				else
-				{
-					_target.addChild( getView() );
-				}
-			} 
-			else
-			{
-				PixlibDebug.DEBUG( this + ".show() failed. No specified target." );
-			}
+			getView().visible = true;
 		}
-		
+
 		public function hide() : void
 		{
-			if (_target != null && _target.contains( getView() )) 
-				_target.removeChild( getView() );
+			getView().visible = false;
 		}
-		
+
 		public function isVisible() : Boolean
 		{
-			var result : Boolean;
-			try
-			{
-				result = _target.contains( getView() );
-			} 
-			catch( e : Error )
-			{
-				result = false;
-			}
-			return result ;
+			return getView().visible;
 		}
-		
+
 		public function setAutoShow( b : Boolean ) : void
 		{
 			_bAutoShow = b;
 		}
-		
+
 		override public function release() : void
 		{
 			if ( getContent() && _target.contains( getView() ) ) _target.removeChild( getView() );
@@ -148,22 +162,22 @@ package com.bourre.load
 
 			super.release();
 		}
-		
+
 		public function getView() : DisplayObjectContainer
 		{
 			return _oBitmapContainer ? _oBitmapContainer : getContent() as DisplayObjectContainer;
 		}
-		
+
 		public function getApplicationDomain() : ApplicationDomain
 		{
 			return ( getStrategy() as LoaderStrategy ).getContentLoaderInfo().applicationDomain;
 		}
-		
+
 		final public function setContext ( context : LoaderContext ):void
 		{
 			_oContext = context;
 		}
-		
+
 		final public function getContext () : LoaderContext
 		{
 			return _oContext;
