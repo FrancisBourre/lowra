@@ -17,8 +17,8 @@ package com.bourre.events
 {
 	import flash.events.Event;
 	
-	import com.bourre.collection.*;
-	import com.bourre.log.*;	
+	import com.bourre.collection.HashMap;
+	import com.bourre.log.PixlibStringifier;	
 
 	/**
 	 * The <code>ChannelBroadcaster</code> is a macro broadcaster
@@ -57,8 +57,9 @@ package com.bourre.events
 	 */
 	public class ChannelBroadcaster
 	{
-		private var _oDefaultChannel :EventChannel;
-		private var _mChannel : HashMap;
+		protected var _oDefaultChannel :EventChannel;
+		protected var _mChannel : HashMap;
+		protected var _broadcasterClass : Class;
 		
 		/**
 		 * Creates a new <code>ChannelBroadcaster</code> with the passed-in
@@ -69,8 +70,10 @@ package com.bourre.events
 		 * 
 		 * @param	channel	default channel for this broadcaster
 		 */
-		public function ChannelBroadcaster( channel : EventChannel = null )
+		public function ChannelBroadcaster( broadcasterClass : Class = null, channel : EventChannel = null )
 		{
+			_broadcasterClass = broadcasterClass != null ? broadcasterClass : EventBroadcaster;
+
 			empty();
 			setDefaultChannel( channel );
 		}
@@ -82,7 +85,7 @@ package com.bourre.events
 		 * @return	the <code>EventBroadcaster</code> associated with
 		 * 			the default channel of this channel broadcaster 
 		 */
-		public function getDefaultDispatcher() : EventBroadcaster
+		public function getDefaultDispatcher() : Broadcaster
 		{
 			return _mChannel.get( _oDefaultChannel );
 		}
@@ -191,13 +194,13 @@ package com.bourre.events
 		 * @return	the <code>EventBroadcaster</code> object associated with
 		 * 			the passed-in <code>channel<code>
 		 */
-		public function getChannelDispatcher( channel : EventChannel = null, owner : Object = null ) : EventBroadcaster
+		public function getChannelDispatcher( channel : EventChannel = null, owner : Object = null ) : Broadcaster
 		{
 			if ( hasChannelDispatcher( channel ) )
 				return channel == null ? _mChannel.get( _oDefaultChannel ) : _mChannel.get( channel );
 			else
 			{
-				var eb : EventBroadcaster = new EventBroadcaster( owner );
+				var eb : Broadcaster = new (_broadcasterClass as Class)( owner );
 				_mChannel.put( channel, eb );
 				return eb;
 			}
@@ -216,7 +219,7 @@ package com.bourre.events
 		{
 			if ( hasChannelDispatcher( channel ) )
 			{
-				var eb : EventBroadcaster = _mChannel.get( channel ) as EventBroadcaster;
+				var eb : Broadcaster = _mChannel.get( channel ) as Broadcaster;
 				eb.removeAllListeners();
 				_mChannel.remove( channel );
 

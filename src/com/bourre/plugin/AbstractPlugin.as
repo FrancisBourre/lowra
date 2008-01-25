@@ -21,6 +21,8 @@ package com.bourre.plugin
 	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
+	import com.bourre.events.Broadcaster;	
+	
 	import flash.events.Event;
 
 	import com.bourre.commands.FrontController;
@@ -38,9 +40,8 @@ package com.bourre.plugin
 		implements Plugin
 	{
 		private var _oABExternal : ApplicationBroadcaster;
-		private var _oEBPublic : EventBroadcaster;
-		private var _oEBPrivate : EventBroadcaster;
-
+		private var _oEBPublic : Broadcaster;
+		private var _oEBPrivate : Broadcaster;
 		private var _oController : FrontController;
 		private var _oModelLocator : ModelLocator;
 		private var _oViewLocator : ViewLocator;

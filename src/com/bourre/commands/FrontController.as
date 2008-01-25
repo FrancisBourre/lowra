@@ -15,6 +15,8 @@
  */
 package com.bourre.commands
 {
+	import com.bourre.events.Broadcaster;	
+	
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 	
@@ -66,8 +68,7 @@ package com.bourre.commands
 		 * <code>EventBroadcaster</code> class when used outside of the plugin
 		 * architecture.
 		 */
-		protected var _oEB : EventBroadcaster;
-		
+		protected var _oEB : Broadcaster;
 		/**
 		 * A reference to the plugin owner of this front controller. When used 
 		 * outside of the plugin architecture, this property store a reference
@@ -150,7 +151,7 @@ package com.bourre.commands
 		 * @return 	a reference to the Event Broadcaster used
 		 * 			by this controller
 		 */
-		final public function getBroadcaster() : EventBroadcaster
+		final public function getBroadcaster() : Broadcaster
 		{
 			return _oEB;
 		}
