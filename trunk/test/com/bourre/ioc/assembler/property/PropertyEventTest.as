@@ -15,7 +15,7 @@ package com.bourre.ioc.assembler.property
 			_sOwner = "lala" ;
 			_sRef = "pouet" ;
 			_oProp = new Property(_sOwner, "name", "value", "string", _sRef, "method") ;
-			_oPE = new PropertyEvent(_oProp, _sOwner, _sRef) ;
+			_oPE = new PropertyEvent( _oProp );
 		}
 		
 		public function testConstruct() :void
@@ -28,9 +28,9 @@ package com.bourre.ioc.assembler.property
 			assertEquals("PropertyEvent.getProperty doesn't return expected value", 
 						_oProp, _oPE.getProperty()) ;
 			assertEquals("PropertyEvent.getOwnerID doesn't return expected value", 
-						_sOwner, _oPE.getOwnerID()) ;						
+						_sOwner, _oPE.getPropertyOwnerID()) ;						
 			assertEquals("PropertyEvent.getRefID doesn't return expected value", 
-						_sRef, _oPE.getRefID()) ;
+						_sRef, _oPE.getPropertyRef()) ;
 		}
 	}
 }

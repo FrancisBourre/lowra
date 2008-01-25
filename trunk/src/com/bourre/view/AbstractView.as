@@ -20,12 +20,12 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.structures.Dimension;	
-	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
-	
+	import flash.geom.Point;
+
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
@@ -33,20 +33,19 @@ package com.bourre.view
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
+	import com.bourre.structures.Dimension;		
 
-	import flash.geom.Point;	
-	
 	public class AbstractView 
 	{
 		public static const onInitEVENT : String = "onInit";
-		
+
 		public var view : DisplayObjectContainer;
-		
+
 		protected var _gl : GraphicLoader;
 		protected var _sName:String;
 		protected var _oEB:EventBroadcaster;
 		protected var _owner : Plugin;
-		
+
 		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
@@ -54,111 +53,102 @@ package com.bourre.view
 			setOwner( owner );
 			if ( name != null ) _initAbstractView( name, mc, null );
 		}
-		
+
 		public function handleEvent( e : Event ) : void
 		{
-			
+			//
 		}
-		
+
 		protected function onInit() : void
 		{
-			
+			//
 		}
-		
+
 		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
-		
+
 		public function setOwner( owner : Plugin ) : void
 		{
 			_owner = owner ? owner : NullPlugin.getInstance();
 		}
-		
+
 		public function getLogger() : PluginDebug
 		{
 			return PluginDebug.getInstance( getOwner() );
 		}
-		
+
 		public function notifyChanged( e : Event ) : void
 		{
 			_getBroadcaster().broadcastEvent( e );
 		}
-		
+
 		public function registerGraphicLoader( glName : String, name : String = null ) : void
 		{
 			_initAbstractView( glName, null, (( name && (name != getName()) ) ? name : null) );
 		}
-		
+
 		public function registerView( mc : DisplayObjectContainer, name : String = null ) : void
 		{
 			_initAbstractView( getName(), mc, (( name && (name != getName()) ) ? name : null) );
 		}
-		
+
 		public function setVisible( b : Boolean ) : void
 		{
 			if ( b )
 			{
 				show();
+
 			} else
 			{
 				hide();
 			}
 		}
-		
+
 		public function show() : void
 		{
-			if (_gl) 
-			{
-				_gl.show();
-			} else 
-			{
-				view.visible = true;
-			}
+			view.visible = true;
 		}
-		
+
 		public function hide() : void
 		{
-			if (_gl) 
-			{
-				_gl.hide();
-			} else 
-			{
-				view.visible = false;
-			}
+			view.visible = false;
 		}
-		
+
 		public function move( x : Number, y : Number ) : void
 		{
 			view.x = x;
 			view.y = y;
 		}
-		
+
 		public function getPosition() : Point
 		{
 			return new Point( view.x, view.y );
 		}
-		
+
 		public function setSize( size : Dimension ) : void
 		{
 			view.width = size.width;
 			view.height = size.height;
 		}
+
 		public function setSizeWH( w : Number, h : Number ) : void
 		{
 			view.width = w;
 			view.height = h;
 		}
+
 		public function getSize () : Dimension
 		{
 			return new Dimension( view.width, view.height );
 		}
-		
+
 		public function getName() : String
 		{
 			return _sName;
 		}
-		
+
 		public function canResolveUI ( label : String ) : Boolean
 		{
 			return resolveUI( label ) is DisplayObject;
@@ -167,7 +157,7 @@ package com.bourre.view
 		public function resolveUI( label : String ) : DisplayObject 
 		{
 			var target : DisplayObject = this.view;
-			
+
 			var a : Array = label.split( "." );
 			var l : int = a.length;
 
@@ -187,24 +177,23 @@ package com.bourre.view
 
 			return target;
 		}
-		
+
 		public function release() : void
 		{
 			_getBroadcaster().removeAllListeners();
 			ViewLocator.getInstance( getOwner() ).unregisterView( getName() );
-			
+
 			if( view != null )
 			{
-				if ( view.parent != null ) 
-					view.parent.removeChild( view );
+				if ( view.parent != null ) view.parent.removeChild( view );
 				view = null;
 			}
-			if ( _gl != null )
-				 _gl.release();
-				 
+
+			if ( _gl != null ) _gl.release();
+
 			_sName = null;
 		}
-		
+
 		public function addListener( listener : Object ) : Boolean
 		{
 			return _oEB.addListener( listener );
@@ -214,28 +203,22 @@ package com.bourre.view
 		{
 			return _oEB.removeListener( listener );
 		}
-		
+
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-		
+
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
 		}
-		
+
 		public function isVisible() : Boolean
 		{
-			if ( _gl ) 
-			{
-				return _gl.isVisible();
-			} else 
-			{
-				return view.visible;
-			}
+			return view.visible;
 		}
-		
+
 		public function setName( name : String ) : void
 		{
 			var vl : ViewLocator = ViewLocator.getInstance( getOwner() );
@@ -244,13 +227,15 @@ package com.bourre.view
 			{
 				if ( getName() != null && vl.isRegistered( getName() ) ) vl.unregisterView( getName() );
 				if ( vl.registerView( name, this ) ) _sName = name;
-				
+
 			} else
 			{
-				getLogger().error( this + ".setName() failed. '" + name + "' is already registered in MovieClipHelperLocator." );
+				var msg : String = this + ".setName() failed. '" + name + "' is already registered in MovieClipHelperLocator.";
+				getLogger().error( msg );
+				throw new IllegalArgumentException( msg );
 			}
 		}
-			
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
@@ -259,22 +244,24 @@ package com.bourre.view
 		{
 			return PixlibStringifier.stringify( this );
 		}
-		
+
 		//
 		private function _initAbstractView( glName : String, oView : DisplayObjectContainer, mvhName : String ) : void
 		{	
 			if ( oView != null )
 			{
 				this.view = oView;
-			} 
-			else
+
+			} else
 			{
 				if( GraphicLoaderLocator.getInstance().isRegistered( glName ) )
 				{
 					_gl = GraphicLoaderLocator.getInstance().getGraphicLoader( glName );
-					if ( _gl )
+
+					if ( _gl != null )
 					{
 						this.view = _gl.getView();
+
 					} else
 					{
 						getLogger().error( "Invalid arguments for " + this + " constructor." );
@@ -282,15 +269,16 @@ package com.bourre.view
 					}
 				}
 			}
+
 			setName( mvhName?mvhName:glName );
 			onInit();
 		}
-		
+
 		protected function _getBroadcaster() : EventBroadcaster
 		{
 			return _oEB;
 		}
-		
+
 		protected function _firePrivateEvent( e : Event ) : void
 		{
 			getOwner().firePrivateEvent( e );
