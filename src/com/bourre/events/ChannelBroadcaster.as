@@ -15,6 +15,10 @@
  */
 package com.bourre.events
 {
+	import com.bourre.error.IllegalArgumentException;	
+	import com.bourre.log.PixlibDebug;	
+	import com.bourre.utils.ClassUtils;	
+	
 	import flash.events.Event;
 	
 	import com.bourre.collection.HashMap;
@@ -29,22 +33,22 @@ package com.bourre.events
 	 * To take a metaphor, is like a CB radio, you can select a frequency
 	 * and then you will listen and talk to people which are connected to
 	 * that frequency, and only that one. To achieve this process, the
-	 * channel broadcaster aggregate <code>EventBroadcaster</code> and
-	 * map it with <code>EventChannel</code> object. In that principle
+	 * channel broadcaster aggregates <code>Broadcaster</code> implementation
+	 * and map it with <code>EventChannel</code> object. In that principle
 	 * the channel broadcaster is no more than a CB base station. With
-	 * a big difference anyway, the channel broadcaster offer an access
-	 * to a frequency, it doesn't broadcast messages.
+	 * a big difference anyway, the broadcaster channel offers an access
+	 * to a frequency, it doesn't broadcast messages itself.
 	 * </p><p>
-	 * To initiate the dispatching on a specific channel, developpers
+	 * To initiate the dispatching on a specific channel, developers
 	 * only need to call the redefined functions of the class as they
-	 * can do with the <code>EventBroadcaster</code> class with a proper
+	 * can do with a <code>Broadcaster</code> implementation with a proper
 	 * event channel, the channel broadcaster will check for the presence
-	 * of an event broadcaster for this channel, and if there's no corresponding
-	 * broadcaster it will create it.
+	 * of a broadcaster instance for this channel, and if there's no
+	 * corresponding broadcaster it will create it.
 	 * </p><p>
-	 * The channel broadcaster redefine many functions of the 
-	 * <code>EventBroadcaster</code> class in order to add the channel
-	 * parameter. Below the list of redefined methods : 
+	 * The channel broadcaster redefines many functions of the 
+	 * <code>Broadcaster</code> interface in order to add the channel
+	 * parameter. See below the list of redefined methods : 
 	 * <ul>
 	 * <li><code>isRegistered</code></li>	 * <li><code>broadcastEvent</code></li>	 * <li><code>addListener</code></li>	 * <li><code>addEventListener</code></li>	 * <li><code>removeListener</code></li>	 * <li><code>removeEventListener</code></li>	 * <li><code>hasChannelListener</code>, which correspond 
 	 * to the <code>hasListenerCollection</code> method of the 
@@ -52,7 +56,7 @@ package com.bourre.events
 	 * </ul></p>
 	 * 
 	 * @author 	Francis Bourre
-	 * @see		EventBroadcaster
+	 * @see		Broadcaster
 	 * @see		EventChannel
 	 */
 	public class ChannelBroadcaster
@@ -63,27 +67,47 @@ package com.bourre.events
 		
 		/**
 		 * Creates a new <code>ChannelBroadcaster</code> with the passed-in
-		 * event channel as default channel. The default channel is used when
-		 * a call to function is done without specifying any channel. If the 
-		 * channel argument is omitted, the default channel is set to the
+		 * <code>Broadcaster</code> class to build broadcaster instances and
+		 * an event channel as default channel. The default channel is used
+		 * when a call to function is done without specifying any channel. If 
+		 * the channel argument is omitted, the default channel is set to the
 		 * internal <code>DefaultChannel.CHANNEL</code> constant.
 		 * 
+		 * @param	Broadcaster Class
 		 * @param	channel	default channel for this broadcaster
+		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in
+		 * 			class doesn't implement <code>Broadcaster</code> interface
 		 */
 		public function ChannelBroadcaster( broadcasterClass : Class = null, channel : EventChannel = null )
 		{
-			_broadcasterClass = broadcasterClass != null ? broadcasterClass : EventBroadcaster;
+			if ( broadcasterClass != null )
+			{
+				if ( !ClassUtils.inherit( broadcasterClass, Broadcaster ) )
+				{
+					var msg : String = "The class '" + broadcasterClass + "' doesn't implement Broadcaster interface in " + this;
+					PixlibDebug.FATAL( msg );
+					throw new IllegalArgumentException( msg );
+	
+				} else
+				{
+					_broadcasterClass = broadcasterClass;
+				}
+
+			} else
+			{
+				_broadcasterClass = EventBroadcaster;
+			}
 
 			empty();
 			setDefaultChannel( channel );
 		}
 		
 		/**
-		 * Returns the <code>EventBroadcaster</code> associated with
-		 * the default channel of this channel broadcaster.
+		 * Returns the <code>Broadcaster</code> implementation associated
+		 * with the default channel of this channel broadcaster.
 		 * 
-		 * @return	the <code>EventBroadcaster</code> associated with
-		 * 			the default channel of this channel broadcaster 
+		 * @return	the <code>Broadcaster</code> implementatation associated
+		 * 			with the default channel of this channel broadcaster 
 		 */
 		public function getDefaultDispatcher() : Broadcaster
 		{
@@ -119,8 +143,8 @@ package com.bourre.events
 		
 		/**
 		 * Clean the current channel broacaster by removing all 
-		 * <code>EventBroadcaster</code> previously created and
-		 * then rebuild the default <code>EventBroadcaster</code>. 
+		 * <code>Broadcaster</code> instances previously created
+		 * and then rebuild the default <code>EventBroadcaster</code>. 
 		 */
 		public function empty() : void
 		{
@@ -141,6 +165,7 @@ package com.bourre.events
 		 * @return	<code>true</code> if the passed-in <code>listener</code>
 		 * 			is registered as listener for the passed-in event
 		 * 			<code>type</code> in the passed-in <code>channel</code>
+		 * @see		Broadcaster#isRegistered()
 		 */
 		public function isRegistered( listener : Object, type : String, channel : EventChannel ) : Boolean
 		{
@@ -151,12 +176,12 @@ package com.bourre.events
 		}
 		
 		/**
-		 * Returns <code>true</code> if there is an <code>EventBroadcaster</code>
-		 * registered for the passed-in channel.
+		 * Returns <code>true</code> if there is a <code>Broadcaster</code>
+		 * instance registered for the passed-in channel.
 		 * 
 		 * @param	channel	channel onto which look at
-		 * @return	<code>true</code> if there is an <code>EventBroadcaster</code>
-		 * 			registered for the passed-in channel
+		 * @return	<code>true</code> if there is a <code>Broadcaster</code>
+		 * 			instance registered for the passed-in channel
 		 */
 		public function hasChannelDispatcher( channel : EventChannel ) : Boolean
 		{
@@ -164,15 +189,15 @@ package com.bourre.events
 		}
 		
 		/**
-		 * Returns <code>true</code> if there is an <code>EventBroadcaster</code>
+		 * Returns <code>true</code> if there is a <code>Broadcaster</code> instance
 		 * registered for the passed-in channel, and if this broadcaster has registered
 		 * listeners.
 		 * 
 		 * @param	type		event type to look at
 		 * @param	channel		channel onto which look at
-		 * @return	<code>true</code> if there is an <code>EventBroadcaster</code>
-		 * 			registered for the passed-in channel, and if this broadcaster
-		 * 			has registered listeners
+		 * @return	<code>true</code> if there is a <code>Broadcaster</code>
+		 * 			instance registered for the passed-in channel, and if this
+		 * 			broadcaster has registered listeners
 		 */
 		public function hasChannelListener( type : String, channel : EventChannel = null ) : Boolean
 		{
@@ -183,15 +208,15 @@ package com.bourre.events
 		}
 		
 		/**
-		 * Returns the <code>EventBroadcaster</code> object associated with
-		 * the passed-in <code>channel<code>. The <code>owner</code> is an optionnal
-		 * parameter which is used to initialize the newly created <code>EventBroadcaster</code>
+		 * Returns the <code>Broadcaster</code> instance associated with the
+		 * passed-in <code>channel<code>. The <code>owner</code> is an optionnal
+		 * parameter which is used to initialize the newly created <code>Broadcaster</code>
 		 * when there is no broadcaster for this channel.
 		 * 
 		 * @param	channel	the channel for which get the associated broadcaster
 		 * @param	owner	an optional object which will used as source if there
 		 * 					is no broadcaster associated to the channel
-		 * @return	the <code>EventBroadcaster</code> object associated with
+		 * @return	the <code>Broadcaster</code> instance associated with
 		 * 			the passed-in <code>channel<code>
 		 */
 		public function getChannelDispatcher( channel : EventChannel = null, owner : Object = null ) : Broadcaster
@@ -207,7 +232,7 @@ package com.bourre.events
 		}
 
 		/**
-		 * Removes the <code>EventBroadcaster</code> object associated with
+		 * Removes the <code>Broadcaster</code> instance associated with
 		 * the passed-in <code>channel<code>, and return <code>true</code>
 		 * if there is a broadcaster and if it have been successfully removed.
 		 * 
@@ -244,11 +269,11 @@ package com.bourre.events
 		 * @param	channel		the channel for which the object listen
 		 * @return	<code>true</code> if the listener have been added during this call
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in listener
-		 * 			listener doesn't match the listener type supported by this event
-		 * 			broadcaster
+		 * 			listener doesn't match the listener type supported by this
+		 * 			broadcaster instance
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in listener
 		 * 			is a function
-		 * @see		EventBroadcaster#addListener()
+		 * @see		Broadcaster#addListener()
 		 */
 		public function addListener( listener : Object, channel : EventChannel = null ) : Boolean
 		{
@@ -265,10 +290,10 @@ package com.bourre.events
 		 * 						this event broadcaster object
 		 * @param	channel		the channel for which the object will be removed			
 		 * @return	<code>true</code> if the object have been successfully
-		 * 			removed from this event broadcaster
+		 * 			removed from this broadcaster instance
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in listener
 		 * 			is a function
-		 * @see		EventBroadcaster#removeListener()
+		 * @see		Broadcaster#removeListener()
 		 */
 		public function removeListener( listener : Object, channel : EventChannel = null ) : Boolean
 		{
@@ -298,7 +323,7 @@ package com.bourre.events
 		 * @throws 	<code>UnsupportedOperationException</code> — If the listener is an object
 		 * 			which have neither a function with the same name than the event type nor
 		 * 			a function called <code>handleEvent</code>
-		 * @see		EventBroadcaster#addEventListener()
+		 * @see		Broadcaster#addEventListener()
 		 */
 		public function addEventListener( type : String, listener : Object, channel : EventChannel = null ) : Boolean
 		{
@@ -314,6 +339,7 @@ package com.bourre.events
 		 * @param	channel		event channel on which unregister the listener
 		 * @return	<code>true</code> if the listener have been successfully removed
 		 * 			as listener for the passed-in event
+		 * 	@see	Broadcaster#removeEventListener()
 		 */
 		public function removeEventListener( type : String, listener : Object, channel : EventChannel = null ) : Boolean
 		{
@@ -336,6 +362,7 @@ package com.bourre.events
 		 * @throws 	<code>UnsupportedOperationException</code> — If one listener is an object
 		 * 			which have neither a function with the same name than the event type nor
 		 * 			a function called <code>handleEvent</code>
+		 * @see		Broadcaster#broadcastEvent()
 		 */
 		public function broadcastEvent( e : Event, channel : EventChannel = null ) : void
 		{
