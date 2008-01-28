@@ -23,7 +23,7 @@ package com.bourre.ioc.load
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-
+	
 	import com.bourre.error.NullPointerException;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
@@ -53,7 +53,7 @@ package com.bourre.ioc.load
 	{
 		public static const DEFAULT_URL : URLRequest = new URLRequest( "applicationContext.xml" );
 
-		protected var _oAssembler : ApplicationAssembler;
+		protected var _oApplicationAssembler : ApplicationAssembler;
 		protected var _oParserCollection : ParserCollection;
 
 		public function ApplicationLoader( target : DisplayObjectContainer, url : URLRequest = null )
@@ -62,27 +62,40 @@ package com.bourre.ioc.load
 
 			setURL( url? url : ApplicationLoader.DEFAULT_URL );
 
-			_oAssembler = new DefaultApplicationAssembler();
+			setApplicationAssembler( new DefaultApplicationAssembler() );
 			DisplayObjectExpert.getInstance().setRootTarget( target );
 			_initParserCollection();
 		}
 
 		protected function _initParserCollection() : void
 		{
-			_oParserCollection = new ParserCollection();
-			_oParserCollection.push( new DLLParser( getAssembler() ) );
-			_oParserCollection.push( new DisplayObjectParser( getAssembler() ) );
-			_oParserCollection.push( new ObjectParser( getAssembler() ) );
+			var pc : ParserCollection = new ParserCollection();
+
+			pc.push( new DLLParser( getApplicationAssembler() ) );
+			pc.push( new DisplayObjectParser( getApplicationAssembler() ) );
+			pc.push( new ObjectParser( getApplicationAssembler() ) );
+
+			setParserCollection( pc );
 		}
 
-		public function getAssembler() : ApplicationAssembler
+		public function getApplicationAssembler() : ApplicationAssembler
 		{
-			return _oAssembler;
+			return _oApplicationAssembler;
+		}
+
+		public function setApplicationAssembler( assembler : ApplicationAssembler ) : void
+		{
+			_oApplicationAssembler = assembler;
 		}
 
 		public function getParserCollection() : ParserCollection
 		{
 			return _oParserCollection;
+		}
+
+		public function setParserCollection( pc : ParserCollection ) : void
+		{
+			_oParserCollection = pc;
 		}
 
 		public function addApplicationLoaderListener( listener : ApplicationLoaderListener ) : Boolean
@@ -95,25 +108,18 @@ package com.bourre.ioc.load
 			return removeListener( listener );
 		}
 
-		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
-		{
-			return new ApplicationLoaderEvent( type, this, errorMessage );
-		}
-
-		override public function release() : void
-		{
-			super.release();
-		}
-
+		/**
+		 * loading
+		 */
 		override public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			if ( url ) setURL( url );
+			if ( url != null ) setURL( url );
 
 			if ( getURL().url.length > 0 )
 			{
 				var cl : ContextLoader = new ContextLoader();
 				cl.setURL( getURL() );
-				cl.setAntiCache( true );
+				//cl.setAntiCache( true );
 
 				cl.addEventListener( ContextLoaderEvent.onLoadInitEVENT, _onContextLoaderLoadInit );
 				cl.addEventListener( ContextLoaderEvent.onLoadProgressEVENT, this );
@@ -135,7 +141,10 @@ package com.bourre.ioc.load
 			e.getContextLoader().removeListener( this );
 			parseContext( e.getContext() );
 		}
-		
+
+		/**
+		 * parsing
+		 */
 		public function parseContext( xml : * ) : void
 		{
 			var cp : ContextParser = new ContextParser( getParserCollection() );
@@ -151,6 +160,9 @@ package com.bourre.ioc.load
 			DisplayObjectExpert.getInstance().load();
 		}
 
+		/**
+		 * fire events
+		 */
 		public function fireOnApplicationParsed() : void
 		{
 			fireEvent( new ApplicationLoaderEvent( ApplicationLoaderEvent.onApplicationParsedEVENT, this ) );
@@ -254,6 +266,12 @@ package com.bourre.ioc.load
 			fireOnMethodsCalled();
 
 			fireOnApplicationInit();
+		}
+
+		//
+		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
+		{
+			return new ApplicationLoaderEvent( type, this, errorMessage );
 		}
 	}
 }

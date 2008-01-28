@@ -20,46 +20,51 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.events.*;
-	import flash.net.*;
+	import flash.events.Event;
+	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	import flash.utils.*;
+	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 
-	import com.bourre.commands.*;
+	import com.bourre.commands.ASyncCommand;
+	import com.bourre.commands.ASyncCommandListener;
+	import com.bourre.commands.AbstractSyncCommand;
+	import com.bourre.error.IllegalStateException;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.strategy.LoadStrategy;
-	import com.bourre.log.*;	
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class AbstractLoader 
 		implements 	com.bourre.load.Loader, ASyncCommand
 	{
 		static private var _oPool : Dictionary = new Dictionary();
-		
+
 		static protected function registerLoaderToPool ( o : Loader ) : void
 		{
 			if( _oPool[ o ] == null )
 			{
 				_oPool[ o ] = true;
-			}
-			else
+
+			} else
 			{
 				PixlibDebug.WARN( o + " is already registered in the loading pool" );
 			}
 		}
-		
+
 		static protected function unregisterLoaderFromPool ( o : Loader ) : void
 		{
 			if( _oPool[ o ] != null )
 			{
 				delete _oPool[ o ];
-			}
-			else
+
+			} else
 			{
 				PixlibDebug.WARN( o + " is not registered in the loading pool" );
 			}
 		}
-		
+
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
@@ -69,6 +74,7 @@ package com.bourre.load
 
 		private var _loadStrategy : LoadStrategy;
 		private var _oContent : Object;
+		private var _bIsRunning : Boolean;
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
 
@@ -81,6 +87,7 @@ package com.bourre.load
 			_nTimeOut = 10000;
 			_bAntiCache = false;
 			_sPrefixURL = "";
+			_bIsRunning = false;
 		}
 
 		public function execute( e : Event = null ) : void
@@ -96,18 +103,16 @@ package com.bourre.load
 		public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( url ) setURL( url );
-			
+
 			if ( getURL().url.length > 0 )
 			{
 				_nLastBytesLoaded = 0;
 				_nTime = getTimer();
-				
+
 				registerLoaderToPool( this );
-				
 				_loadStrategy.load( getURL(), context );
 
-			} 
-			else
+			} else
 			{
 				var msg : String = this + ".load() can't retrieve file url.";
 				PixlibDebug.ERROR( msg );
@@ -121,7 +126,7 @@ package com.bourre.load
 			fireEventType( LoaderEvent.onLoadInitEVENT );
 		}
 
-		protected function setListenerType( type : Class ) : void
+		final protected function setListenerType( type : Class ) : void
 		{
 			_oEB.setListenerType( type );
 		}
@@ -239,6 +244,7 @@ package com.bourre.load
 
 		final public function fireOnLoadInitEvent() : void
 		{
+			_bIsRunning = false;
 			onInitialize();
 			unregisterLoaderFromPool( this );
 		}
@@ -250,7 +256,6 @@ package com.bourre.load
 
 		public function fireOnLoadErrorEvent( message : String = "" ) : void
 		{
-			
 			fireEventType( LoaderEvent.onLoadErrorEVENT, message );
 		}
 
@@ -300,12 +305,22 @@ package com.bourre.load
 
 		public function run () : void
 		{
-			
+			if ( !isRunning() )
+			{
+				_bIsRunning = true;
+				execute();
+
+			} else
+			{
+				var msg : String = this + ".run() called wheras an operation is currently running";
+				PixlibDebug.ERROR( msg );
+				throw new IllegalStateException( msg );
+			}
 		}
 
 		public function isRunning () : Boolean
 		{
-			return false;
+			return _bIsRunning;
 		}
 
         // TODO check if _checkTimeOut is important
@@ -332,7 +347,8 @@ import flash.system.LoaderContext;
 import com.bourre.load.Loader;
 import com.bourre.load.strategy.LoadStrategy;
 
-internal class NullLoadStrategy implements LoadStrategy
+internal class NullLoadStrategy 
+	implements LoadStrategy
 {
 		public function load( request : URLRequest = null, context : LoaderContext = null  ) : void {}
 		public function getBytesLoaded() : uint { return 0; }

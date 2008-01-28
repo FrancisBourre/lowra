@@ -20,12 +20,14 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
+	import flash.text.TextField;
 	
 	import com.bourre.collection.HashMap;
 	import com.bourre.error.IllegalStateException;
@@ -52,7 +54,7 @@ package com.bourre.ioc.assembler.displayobject
 		private var _mDisplayObject				: HashMap;
 
 		public static const SPRITE : String = "Sprite";
-		public static const MOVIECLIP : String = "MovieClip";
+		public static const MOVIECLIP : String = "MovieClip";		public static const TEXTFIELD : String = "TextField";
 
 		public static function getInstance() : DisplayObjectExpert
 		{
@@ -241,7 +243,25 @@ package com.bourre.ioc.assembler.displayobject
 			try
 			{
 				var oParent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
-				var oDo : Sprite = ( info.type == "Movieclip" ) ? new MovieClip() : new Sprite();
+
+				var oDo : DisplayObject;
+				var type : String = info.type;
+
+				switch( type )
+				{
+					case DisplayObjectExpert.SPRITE :
+						oDo = new Sprite();
+						break;
+						
+					case DisplayObjectExpert.TEXTFIELD :
+						oDo = new TextField();
+						break;
+						
+					default :
+						oDo = new MovieClip();
+						break;
+				}
+				PixlibDebug.FATAL( oDo );
 				oParent.addChild( oDo ) ;
 				BeanFactory.getInstance().register( info.ID, oDo ) ;
 	
