@@ -95,7 +95,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 	<li><code>&lt;%custom%&gt;</code> : A node where <code>%custom%</code> is the user
 	defined node name. It means that the node name is only significant for the user,
 	the assembler will use attributes of the node instead of the node name.
-	<p>Example, the two following declaration produce the same result : </p>
+	<p>Example, the two following declarations produce the same result : </p>
 	<div class="listing"><pre>&lt;plugin id="somePlugin" type="MyPluginClass" /&gt;</pre></div>
 	<div class="listing"><pre>&lt;object id="somePlugin" type="MyPluginClass" /&gt;</pre></div></li>
 	<li><code>@foo</code> : A node attribute called <code>foo</code> 
@@ -186,6 +186,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#bean">&lt;bean&gt;</a>,
+				<a href="#custom">&lt;custom&gt;</a>,
 				<a href="#root">&lt;root&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
@@ -742,7 +743,9 @@ are dispatched to the loader instance.
 <p></p>
 
 <p>
-	
+Creates a new argument for a function call or a class constructor.
+An argument could be a simple value or a reference to another entity
+defined in the assembler context file. 
 </p>
 
 <span class="label">Context</span>
@@ -767,22 +770,510 @@ are dispatched to the loader instance.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">ref</span></td>
-	<td></td>
+	<td>The <code>@id</code> of an entity in the assembler context file.
+	When setting <code>@ref</code>, the assembler will ignore all other
+	attributes.</td>
 </tr>
 <tr class="row1">
 	<td width="20"></td>
 	<td width="15%"><span class="label">type</span></td>
-	<td></td>
+	<td>The type of the value contained in this <code>&lt;argument&gt;</code>.
+	If omitted the value is casted to <code>String</code>.</td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">value</span></td>
-	<td></td>
+	<td>The value of this argument.</td>
 </tr>
 </tbody></table>
 </p>
 
+<!--
+	<bean>
+-->
+<a name="bean"></a>
+<div class="detailSectionHeader">&lt;bean&gt;</div>
+<p></p>
 
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	XML file root node
+</p>
+
+<span class="label">Children</span>
+<p>
+	<a href="#application-loader">&lt;application-loader&gt;</a>,
+	<a href="#custom">&lt;%custom%&gt;</a>,
+	<a href="#dll">&lt;dll&gt;</a>,
+	<a href="#include">&lt;include&gt;</a>,
+	<a href="#root">&lt;root&gt;</a>
+	
+	<p>There is no restriction in the order of the children, order of node execution
+	is defined by the assembler while parsing is completed : 
+	<ol>
+		 <li><code>&lt;application-loader&gt;</code> is created (if set)</li>
+		 <li><code>&lt;include&gt;</code> nodes are loaded</li>
+		 <li><code>&lt;dll&gt;</code> nodes are loaded</li>
+		 <li><code>&lt;root&gt;</code> children are loaded or created and added on the stage</li>
+		 <li><code>&lt;%custom%&gt;</code> children of the <code>&lt;bean&gt;</code>
+			are created</li>
+		 <li><code>&lt;method-call&gt;</code> nodes are processed for each entity</li>
+	</ol>
+	
+	</p>	
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1
+</p>
+
+<span class="label">Attributes</span>
+<p>
+	No
+</p>
+
+
+<!--
+	<%custom%>
+-->
+<a name="custom"></a>
+<div class="detailSectionHeader">&lt;%custom%&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#bean">&lt;bean&gt;</a>,
+	<a href="#custom">&lt;%custom%&gt;</a>,
+	<a href="#root">&lt;root&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	<a href="#argument">&lt;argument&gt;</a>, 
+	<a href="#custom">&lt;%custom%&gt;</a>,
+	<a href="#item">&lt;item&gt;</a>,  
+	<a href="#listen">&lt;listen&gt;</a>, 
+	<a href="#method-call">&lt;method-call&gt;</a>, 
+	<a href="#property">&lt;property&gt;</a>
+	
+	<p></p>
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">deserializer-class</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">factory</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">id</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">singleton-access</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">type</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">url</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">value</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<dll>
+-->
+<a name="dll"></a>
+<div class="detailSectionHeader">&lt;dll&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#bean">&lt;bean&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">dll</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<include>
+-->
+<a name="include"></a>
+<div class="detailSectionHeader">&lt;include&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#bean">&lt;bean&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">dll</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<item>
+-->
+<a name="item"></a>
+<div class="detailSectionHeader">&lt;item&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#custom">&lt;%custom% type="Dictionary"&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	<a href="#key">&lt;key&gt;</a>, <a href="#key">&lt;value&gt;</a>
+	<p></p>
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+	No
+</p>
+<!--
+	<key>
+-->
+<a name="key"></a>
+<div class="detailSectionHeader">&lt;key&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#item">&lt;item&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 for each <code>&lt;item&gt;</code>
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">ref</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">type</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">value</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<listen>
+-->
+<a name="listen"></a>
+<div class="detailSectionHeader">&lt;listen&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#custom">&lt;%custom%&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 for each <code>&lt;%custom%&gt;</code>
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">id</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<method-call>
+-->
+<a name="method-call"></a>
+<div class="detailSectionHeader">&lt;method-call&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#custom">&lt;%custom%&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	<a href="#argument">&lt;argument&gt;</a>
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">delay</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">name</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<property>
+-->
+<a name="property"></a>
+<div class="detailSectionHeader">&lt;property&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#custom">&lt;%custom%&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">name</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">ref</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">type</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">value</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<root>
+-->
+<a name="root"></a>
+<div class="detailSectionHeader">&lt;root&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#bean">&lt;bean&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	<a href="#custom">&lt;%custom%&gt;</a>
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1
+</p>
+
+<span class="label">Attributes</span>
+<p>
+	No
+</p>
+
+<!--
+	<value>
+-->
+<a name="value"></a>
+<div class="detailSectionHeader">&lt;value&gt;</div>
+<p></p>
+
+<p>
+
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#item">&lt;item&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 for each <code>&lt;item&gt;</code>
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">ref</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">type</span></td>
+	<td>Description</td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">value</span></td>
+	<td>Description</td>
+</tr>
+</tbody></table>
+</p>
 
 <!--*****************************************************************************
 		 End File
