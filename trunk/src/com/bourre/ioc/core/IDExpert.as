@@ -18,11 +18,10 @@ package com.bourre.ioc.core
 
 	/**
 	 * @author Francis Bourre
-	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
 	import flash.utils.Dictionary;
-	
+
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Set;
 	import com.bourre.error.IllegalArgumentException;
@@ -46,8 +45,8 @@ package com.bourre.ioc.core
 		 */
 		public static function getInstance() : IDExpert 
 		{
-			if (!_oI) _oI = new IDExpert();
-			return _oI;
+			if ( !(IDExpert._oI is IDExpert) ) IDExpert._oI = new IDExpert( new PrivateConstructorAccess() );
+			return IDExpert._oI;
 		}
 		
 		public static function release() : void
@@ -55,7 +54,7 @@ package com.bourre.ioc.core
 			if ( IDExpert._oI is IDExpert ) IDExpert._oI = null;
 		}
 
-		public function IDExpert()
+		public function IDExpert( access : PrivateConstructorAccess )
 		{
 			_d = new Dictionary( true );
 			_c = new Set();
@@ -161,3 +160,5 @@ package com.bourre.ioc.core
 		}
 	}
 }
+
+internal class PrivateConstructorAccess {}
