@@ -74,15 +74,19 @@
 		--></script>
 		
 <div class="MainContent">
-	
-	
-<h2>Available nodes in context file</h2>
 
+
+<h1>Overview</h1>
 <p>
 	You will find below the various types of nodes allowed inside
 the file defining the context ( applicationContext.xml ) for LowRA IoC.
 </p>
-<h4>Conventions :</h4> 
+
+<!--*****************************************************************************
+		 Formal Convention 
+*****************************************************************************-->
+
+<h1>Conventions :</h1> 
 <ul>
 	<li><code>&lt;foo&gt;</code> : A node of type <code>foo</code> such as : 
 	<div class="listing"><pre>&lt;foo&gt;
@@ -105,7 +109,13 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 	id attribute of a node.</li>
 	<li><code>Foo</code> : Refer to class name <code>Foo</code>.</li>
 </ul>
-	
+
+<!--*****************************************************************************
+		 Nodes and Attributes list 
+*****************************************************************************-->
+
+<hr/>
+<div class="summaryTableTitle">Nodes and Attributes list</div>
 
 <table class="summaryTable" cellpadding="3" cellspacing="0">
 	<tbody>
@@ -346,7 +356,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@built-callback">@ built-callback</a>
+				<a href="#@built-callback">built-callback</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -362,7 +372,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@delay">@ delay</a>
+				<a href="#@delay">delay</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#method-call">&lt;method-call&gt;</a>
@@ -378,7 +388,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@deserializer-class">@ deserializer-class</a>
+				<a href="#@deserializer-class">deserializer-class</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom% type="XML"&gt;</a>
@@ -394,7 +404,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@factory">@ factory</a>
+				<a href="#@factory">factory</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>
@@ -410,7 +420,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@id">@ id</a>
+				<a href="#@id">id</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>,
@@ -430,7 +440,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@init-callback">@ init-callback</a>
+				<a href="#@init-callback">init-callback</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -446,7 +456,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@method">@ method</a>
+				<a href="#@method">method</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>
@@ -462,7 +472,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@name">@ name</a>
+				<a href="#@name">name</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#method-call">&lt;method-call&gt;</a>,
@@ -478,7 +488,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@name-callback">@ name-callback</a>
+				<a href="#@name-callback">name-callback</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -495,7 +505,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@progress-callback">@ progress-callback</a>
+				<a href="#@progress-callback">progress-callback</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -513,7 +523,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@ref">@ ref</a>
+				<a href="#@ref">ref</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>,
@@ -534,7 +544,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@singleton-access">@ singleton-access</a>
+				<a href="#@singleton-access">singleton-access</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>
@@ -552,7 +562,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@timeout-callback">@ timeout-callback</a>
+				<a href="#@timeout-callback">timeout-callback</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -569,7 +579,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@type">@ type</a>
+				<a href="#@type">type</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>,
@@ -589,7 +599,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@url">@ url</a>
+				<a href="#@url">url</a>
 			</td>
 			<td class="summaryTableLastCol">
 				
@@ -609,7 +619,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@value">@ value</a>
+				<a href="#@value">value</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>, 
@@ -630,7 +640,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@visible">@ visible</a>
+				<a href="#@visible">visible</a>
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>
@@ -643,11 +653,140 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 	</tbody>
 </table>
 
+<!--*****************************************************************************
+		Node Details
+*****************************************************************************-->
+
+<a name="nodes-details"></a>
+<div class="summaryTableTitle">Nodes details</div>
+<hr/>
+
+<!--
+	<application-loader>
+-->
+<a name="application-loader"></a>
+<div class="detailSectionHeader">&lt;applicationloader&gt;</div>
+<p></p>
+
+<p>
+	Defines the loader view used to display the assembler process (only one occurence).
+The <code>&lt;applicationloader&gt;</code> allow designer and developer to simply add and
+handle loading and assembling states to display the progress. The *.swf file specified in 
+the <code>@url</code> is loaded and callbacks methods are then called directly on the root
+of the file. 
+	This file could be a simple file with timeline function and all graphics
+directly on stage or a full AS3 file. All the process performed by the assembler will
+be send to the provided method in the node attributes. Only events defined by an attribute
+are dispatched to the loader instance.
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#bean">&lt;bean&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></td>
+	<td width="15%"><span class="label">built-callback</span> </td>
+	<td>Name of the function to call on the application loader when the build is completed.</td>
+</tr>
+<tr class="row1">
+	<td></td>
+	<td><span class="label">init-callback</span> </td>
+	<td>Name of the function to call on the application loader when all loading are finished.</td>
+</tr>
+<tr class="row0">
+	<td></td>
+	<td><span class="label">name-callback</span> </td>
+	<td>Name of the function to call on the application loader when a new process start
+	(loading, parsing, assembling, etc...).</td>
+</tr>
+<tr class="row1">
+	<td></td>
+	<td><span class="label">progress-callback</span> </td>
+	<td>Name of the function to call on the application loader during the process. A number,
+	which represent the current progression, is passed to the function.</td>
+</tr>
+<tr class="row0">
+	<td></td>
+	<td><span class="label">timeout-callback</span> </td>
+	<td>Name of the function to call on the application loader when a loading fail due
+	to a timeout.</td>
+</tr>
+<tr class="row1">
+	<td></td>
+	<td><span class="label">url</span> </td>
+	<td>URL of the *.swf file.</td>
+</tr>
+</tbody></table>
+</p>
+
+<!--
+	<argument>
+-->
+<a name="argument"></a>
+<div class="detailSectionHeader">&lt;argument&gt;</div>
+<p></p>
+
+<p>
 	
-<hr size="1"/>
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#custom">&lt;%custom%&gt;</a>,
+	<a href="#method-call">&lt;method-call&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	1 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">ref</span></td>
+	<td></td>
+</tr>
+<tr class="row1">
+	<td width="20"></td>
+	<td width="15%"><span class="label">type</span></td>
+	<td></td>
+</tr>
+<tr class="row0">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">value</span></td>
+	<td></td>
+</tr>
+</tbody></table>
+</p>
 
 
-</div>
-		
+
+<!--*****************************************************************************
+		 End File
+*****************************************************************************-->
+		</div>
 	</body>
 </html>
