@@ -20,8 +20,10 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.log.PixlibStringifier;		
-	public class DisplayObjectInfo
+	import com.bourre.ioc.parser.ContextTypeList;
+	import com.bourre.log.PixlibStringifier;	
+
+	public class DisplayObjectInfo
 	{
 		public var ID 		: String;
 		public var parentID : String;
@@ -34,12 +36,12 @@ package com.bourre.ioc.assembler.displayobject
 											parentID	: String	= null, 
 											isVisible	: Boolean 	= true, 
 											url			: String 	= null, 
-											type		: String 	= "Movieclip" )
+											type		: String 	= null )
 		{
 			this.ID 		= ID;
 			this.parentID 	= parentID;
 			this.isVisible 	= isVisible;
-			this.type 		= type;
+			this.type 		= (type == null) ? ContextTypeList.MOVIECLIP : type;
 			_sURL 			= url;
 			_aChilds 		= new Array();
 		}

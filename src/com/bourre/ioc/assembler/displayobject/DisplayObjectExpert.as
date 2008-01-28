@@ -20,6 +20,9 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.core.CoreFactory;	
+	import com.bourre.ioc.parser.ContextTypeList;	
+	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
@@ -53,8 +56,8 @@ package com.bourre.ioc.assembler.displayobject
 		private var _gfxQueue 					: QueueLoader;
 		private var _mDisplayObject				: HashMap;
 
-		public static const SPRITE : String = "Sprite";
-		public static const MOVIECLIP : String = "MovieClip";		public static const TEXTFIELD : String = "TextField";
+		public static const SPRITE : String = ContextTypeList.SPRITE;
+		public static const MOVIECLIP : String = ContextTypeList.MOVIECLIP;		public static const TEXTFIELD : String = ContextTypeList.TEXTFIELD;
 
 		public static function getInstance() : DisplayObjectExpert
 		{
@@ -257,8 +260,12 @@ package com.bourre.ioc.assembler.displayobject
 						oDo = new TextField();
 						break;
 						
+					case DisplayObjectExpert.MOVIECLIP :
+						oDo = new MovieClip( );
+						break;
+						
 					default :
-						oDo = new MovieClip();
+						oDo = CoreFactory.buildInstance( type ) as DisplayObject;
 						break;
 				}
 				PixlibDebug.FATAL( oDo );
