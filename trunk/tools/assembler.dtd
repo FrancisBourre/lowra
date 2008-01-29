@@ -1,0 +1,87 @@
+<!-- 
+	<application-loader>
+-->
+<!ELEMENT application-loader EMPTY>
+<!ATTLIST application-loader built-callback CDATA #IMPLIED
+							 init-callback CDATA #IMPLIED
+							 name-callback CDATA #IMPLIED
+							 progress-callback CDATA #IMPLIED
+							 timeout-callback CDATA #IMPLIED
+							 url CDATA #REQUIRED>
+
+<!-- 
+	<argument>
+-->
+<!ELEMENT argument EMPTY>
+<!ATTLIST argument 	ref IDREF #IMPLIED
+					type CDATA #IMPLIED
+					value CDATA #IMPLIED>
+
+<!-- 
+	<beans>
+-->
+<!ELEMENT beans (#PCDATA*,application-loader?,dll*,include*,root?)>
+
+<!-- 
+	<dll>
+-->
+<!ELEMENT dll EMPTY>
+<!ATTLIST dll url CDATA #REQUIRED>
+
+<!-- 
+	<include>
+-->
+<!ELEMENT include EMPTY>
+<!ATTLIST include url CDATA #REQUIRED
+				  root-ref IDREF #IMPLIED>
+
+<!-- 
+	<item>
+-->
+<!ELEMENT item (key,value)>
+
+<!-- 
+	<key>
+-->
+<!ELEMENT key EMPTY>
+<!ATTLIST key type CDATA #IMPLIED 
+			  ref IDREF #IMPLIED
+			  value CDATA #IMPLIED>
+
+<!-- 
+	<listen>
+-->
+<!ELEMENT listen EMPTY>
+<!ATTLIST listen ref IDREF #REQUIRED>
+
+<!-- 
+	<method-call>
+-->
+<!ELEMENT method-call (argument*)>
+<!ATTLIST method-call name CDATA #REQUIRED
+					  delay CDATA #IMPLIED>
+
+<!-- 
+	<property>
+-->
+<!ELEMENT property EMPTY>
+<!ATTLIST property name CDATA #REQUIRED
+				   ref IDREF #IMPLIED
+				   type CDATA #IMPLIED
+				   value CDATA #IMPLIED>
+
+
+<!-- 
+	<root>
+-->
+<!ELEMENT root ANY>
+<!ATTLIST root id CDATA #IMPLIED>
+
+<!-- 
+	<value>
+-->
+<!ELEMENT value EMPTY>
+<!ATTLIST value type CDATA #IMPLIED 
+			  	ref IDREF #IMPLIED
+			  	value CDATA #IMPLIED>
+

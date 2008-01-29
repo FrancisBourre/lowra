@@ -137,7 +137,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#application-loader">&lt;application-loader&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#bean">&lt;bean&gt;</a>
+				<a href="#beans">&lt;beans&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Defines the loader view used to display the assembler process (only one occurence).
@@ -162,12 +162,12 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 			</td>
 		</tr>
 <!-- 
-	<bean> 
+	<beans> 
 -->			
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#bean">&lt;bean&gt;</a>
+				<a href="#beans">&lt;beans&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				XML file root node
@@ -185,7 +185,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#custom">&lt;%custom%&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#bean">&lt;bean&gt;</a>,
+				<a href="#beans">&lt;beans&gt;</a>,
 				<a href="#custom">&lt;custom&gt;</a>,
 				<a href="#root">&lt;root&gt;</a>
 			</td>
@@ -207,7 +207,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#dll">&lt;dll&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#bean">&lt;bean&gt;</a>
+				<a href="#beans">&lt;beans&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Loads the specified *.swf file as a Dynamically Loaded Library (dll).
@@ -222,7 +222,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#include">&lt;include&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#bean">&lt;bean&gt;</a>
+				<a href="#beans">&lt;beans&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Loads a context file and add its content to the current application context
@@ -317,7 +317,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#root">&lt;root&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				<a href="#bean">&lt;bean&gt;</a>
+				<a href="#beans">&lt;beans&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
 				Defines the root node for the graphics structures (only one occurence).
@@ -428,7 +428,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#root">&lt;root&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Defines the identifier of this node in the bean 
+				Defines the identifier of this node in the beans 
 				namespace. You can use the <code>@id</code> of an
 				object in all nodes which provide a <code>@ref</code>,
 				it will	return a reference to the object identified
@@ -534,15 +534,32 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#value">&lt;value&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Gets and return the entity of the bean namespace which
+				Gets and return the entity of the beans namespace which
 				<code>@id</code> is	equals to <code>@ref</code> value.
+			</td>
+		</tr>
+
+<!-- 
+	root-ref
+-->	
+		<tr class="row1">
+			<td class="summaryTablePaddingCol">&nbsp;</td>
+			<td class="summaryTableSecondCol">
+				<a href="#@root-ref">root-ref</a>
+			</td>
+			<td class="summaryTableLastCol">
+				<a href="#include">&lt;include&gt;</a>
+			</td>
+			<td class="summaryTableLastCol">
+				Defines the object considered as the root object
+				for graphical structures of an included file.
 			</td>
 		</tr>
 			
 <!-- 
 	singleton-access
 -->	
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#@singleton-access">singleton-access</a>
@@ -560,7 +577,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	timeout-callback
 -->	
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#@timeout-callback">timeout-callback</a>
@@ -577,7 +594,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	type
 -->	
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#@type">type</a>
@@ -597,7 +614,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	url
 -->	
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#@url">url</a>
@@ -617,7 +634,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	value
 -->	
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#@value">value</a>
@@ -638,7 +655,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	visible
 -->	
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#@visible">visible</a>
@@ -683,7 +700,7 @@ are dispatched to the loader instance.
 
 <span class="label">Context</span>
 <p>
-	<a href="#bean">&lt;bean&gt;</a>
+	<a href="#beans">&lt;beans&gt;</a>
 </p>
 
 <span class="label">Children</span>
@@ -693,7 +710,7 @@ are dispatched to the loader instance.
 
 <span class="label">Cardinality</span>
 <p>
-	1
+	0 - 1
 </p>
 
 <span class="label">Attributes</span>
@@ -752,6 +769,11 @@ defined in the assembler context file.
 <p>
 	<a href="#custom">&lt;%custom%&gt;</a>,
 	<a href="#method-call">&lt;method-call&gt;</a>
+	
+	<p>
+		When used directly inside a <code>&lt;%custom%&gt;</code> node, arguments are
+		passed to the constructor of the class specified in <code>@type</code>.
+	</p>
 </p>
 
 <span class="label">Children</span>
@@ -761,7 +783,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -789,14 +811,19 @@ defined in the assembler context file.
 </p>
 
 <!--
-	<bean>
+	<beans>
 -->
-<a name="bean"></a>
-<div class="detailSectionHeader">&lt;bean&gt;</div>
+<a name="beans"></a>
+<div class="detailSectionHeader">&lt;beans&gt;</div>
 <p></p>
 
 <p>
-
+	Required root node for the application context file (only one occurence).
+The <code>&lt;beans&gt;</code> node contains the whole application context. 
+Included context must also defines the <code>&lt;beans&gt;</code> root node.
+</p>
+<p>
+	Note : <code>&lt;beans&gt;</code> node doesn't accept any attributes.
 </p>
 
 <span class="label">Context</span>
@@ -819,7 +846,7 @@ defined in the assembler context file.
 		 <li><code>&lt;include&gt;</code> nodes are loaded</li>
 		 <li><code>&lt;dll&gt;</code> nodes are loaded</li>
 		 <li><code>&lt;root&gt;</code> children are loaded or created and added on the stage</li>
-		 <li><code>&lt;%custom%&gt;</code> children of the <code>&lt;bean&gt;</code>
+		 <li><code>&lt;%custom%&gt;</code> children of the <code>&lt;beans&gt;</code>
 			are created</li>
 		 <li><code>&lt;method-call&gt;</code> nodes are processed for each entity</li>
 	</ol>
@@ -829,7 +856,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1
+	1 for each context file
 </p>
 
 <span class="label">Attributes</span>
@@ -846,14 +873,24 @@ defined in the assembler context file.
 <p></p>
 
 <p>
-
+	The node name has no meaning in this case, it creates
+an new entity of the specified <code>@type</code> and
+identified with the specified <code>@id</code>. When
+child of the <code>&lt;root&gt;</code> node it will
+be considered as part of the display list, nested
+<code>&lt;%custom%&gt;</code> children are also allowed. 
 </p>
 
 <span class="label">Context</span>
 <p>
-	<a href="#bean">&lt;bean&gt;</a>,
+	<a href="#beans">&lt;beans&gt;</a>,
 	<a href="#custom">&lt;%custom%&gt;</a>,
 	<a href="#root">&lt;root&gt;</a>
+	
+	<p>
+		For details on nested <code>&lt;%custom%&gt;</code> see the 
+		<strong>Children</strong> part.
+	</p>
 </p>
 
 <span class="label">Children</span>
@@ -865,12 +902,17 @@ defined in the assembler context file.
 	<a href="#method-call">&lt;method-call&gt;</a>, 
 	<a href="#property">&lt;property&gt;</a>
 	
-	<p></p>
+	<p>
+		<code>&lt;%custom%&gt;</code> nodes can be nested only when they
+		are children of the <code>&lt;root&gt;</code> node. In that context
+		each child will be added to the display list as a child of their
+		parent node.
+	</p>
 </p>
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -879,37 +921,64 @@ defined in the assembler context file.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">deserializer-class</span></td>
-	<td>Description</td>
+	<td>When <code>@type</code> is <code>XML</code> only. Defines
+	the concret deserializer class to use for parse the node content.
+	The <code>@deserializer-class</code> must implements the 
+	<code>Deserializer</code> interface of the <code>com.bourre.encoding</code>
+	package.</td>
 </tr>
 <tr class="row1">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">factory</span></td>
-	<td>Description</td>
+	<td>Defines the factory method to call when creating the object defined
+	by this <code>&lt;%custom%&gt;</code> node. The <code>@factory</code>
+	attribute is optional, when omitted, the object is created using the
+	classical <code>new</code> construct.</td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">id</span></td>
-	<td>Description</td>
+	<td>Defines the identifier of this node in the beans 
+	namespace. You can use the <code>@id</code> of the
+	object in all nodes which provide a <code>@ref</code>,
+	it will	return a reference to the object identified
+	by <code>@id</code>. More formally if you create an
+	object such :
+	<div class="listing"><pre>&lt;plugin id="somePlugin" type="MyPluginClass"/&gt;</pre></div>
+	<p>
+		You can get a reference to <code>#somePlugin</code> such :
+	</p>
+	<div class="listing"><pre>&lt;argument ref="somePlugin"/&gt;</pre></div>
+	</td>
 </tr>
 <tr class="row1">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">singleton-access</span></td>
-	<td>Description</td>
+	<td>Defines the name of the function which return the
+	singleton instance of a class. Used when <code>@factory</code>
+	is defined. If set the creation of the object will correspond to :
+	<div class="listing"><pre>MyClass.singletonAccess().factoryMethod( arguments );</pre></div></td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">type</span></td>
-	<td>Description</td>
+	<td>Classpath which defines the type of the entity. The specified class must exist
+	in the assembler <code>applicationDomain</code>.</td>
 </tr>
 <tr class="row1">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">url</span></td>
-	<td>Description</td>
+	<td>When the current <code>&lt;%custom%&gt;</code> is a child of the
+	<code>&lt;root&gt;</code> node, the <code>@url</code> will represent 
+	a swf file to load in place of the node. The <code>@url</code> content
+	must be a valid *.swf file.</td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">value</span></td>
-	<td>Description</td>
+	<td>The <code>@value</code> is used only when the <code>@type</code>
+	point to a primitive type, such <code>Number</code>, <code>int</code>, 
+	<code>uint</code>, <code>String</code> or <code>Boolean</code>.</td>
 </tr>
 </tbody></table>
 </p>
@@ -922,12 +991,16 @@ defined in the assembler context file.
 <p></p>
 
 <p>
-
+  	 Loads the specified *.swf file as a Dynamically Loaded Library (dll).
+All dlls files are loaded in the same <code>ApplicationDomain</code> object.
+More formally, the <code>&lt;dll&gt;</code> behave as the <code>import</code>
+statement, it allow developers to includes classes compiled in a swf file in
+the current assembler, and then instanciate them later.
 </p>
 
 <span class="label">Context</span>
 <p>
-	<a href="#bean">&lt;bean&gt;</a>
+	<a href="#beans">&lt;beans&gt;</a>
 </p>
 
 <span class="label">Children</span>
@@ -937,7 +1010,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -945,8 +1018,8 @@ defined in the assembler context file.
 <table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
 <tr class="row0">
 	<td width="20"></a></td>
-	<td width="15%"><span class="label">dll</span></td>
-	<td>Description</td>
+	<td width="15%"><span class="label">url</span></td>
+	<td>URL of the *.swf file to load.</td>
 </tr>
 </tbody></table>
 </p>
@@ -959,12 +1032,13 @@ defined in the assembler context file.
 <p></p>
 
 <p>
-
+  	Loads a context file and add its content to the current application context.
+Included context files must defines a <code>&lt;beans&gt;</code> node.
 </p>
 
 <span class="label">Context</span>
 <p>
-	<a href="#bean">&lt;bean&gt;</a>
+	<a href="#beans">&lt;beans&gt;</a>
 </p>
 
 <span class="label">Children</span>
@@ -974,7 +1048,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -982,8 +1056,15 @@ defined in the assembler context file.
 <table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
 <tr class="row0">
 	<td width="20"></a></td>
-	<td width="15%"><span class="label">dll</span></td>
-	<td>Description</td>
+	<td width="15%"><span class="label">url</span></td>
+	<td>URL of the *.xml context file to load.</td>
+</tr>
+<tr class="row1">
+	<td width="20"></a></td>
+	<td width="15%"><span class="label">root-ref</span></td>
+	<td>An entity of the parent assembler context file which will be the
+	display object used to represent the <code>&lt;root&gt;</code> node
+	of the included file.</td>
 </tr>
 </tbody></table>
 </p>
@@ -1012,7 +1093,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -1089,7 +1170,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 for each <code>&lt;%custom%&gt;</code>
+	0 - 1 for each <code>&lt;%custom%&gt;</code>
 </p>
 
 <span class="label">Attributes</span>
@@ -1126,7 +1207,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -1168,7 +1249,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1 - *
+	0 - *
 </p>
 
 <span class="label">Attributes</span>
@@ -1210,7 +1291,7 @@ defined in the assembler context file.
 
 <span class="label">Context</span>
 <p>
-	<a href="#bean">&lt;bean&gt;</a>
+	<a href="#beans">&lt;beans&gt;</a>
 </p>
 
 <span class="label">Children</span>
@@ -1220,7 +1301,7 @@ defined in the assembler context file.
 
 <span class="label">Cardinality</span>
 <p>
-	1
+	0 - 1
 </p>
 
 <span class="label">Attributes</span>
