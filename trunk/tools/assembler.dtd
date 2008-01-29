@@ -20,7 +20,7 @@
 <!-- 
 	<beans>
 -->
-<!ELEMENT beans (#PCDATA*,application-loader?,dll*,include*,root?)>
+<!ELEMENT beans (#PCDATA|application-loader?|dll*|include*|root?)>
 
 <!-- 
 	<dll>

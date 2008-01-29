@@ -76,6 +76,27 @@
 <div class="MainContent">
 
 
+<h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#conventions">Conventions</a></li>
+	<li><a href="#list">Nodes and Attributes list</a></li>
+	<li><a href="#nodes-details">Nodes details</a></li>
+	<li><a href="#examples">Examples</a></li>
+</ol>
+
+<p>
+	
+</p>
+
+<hr/>
+
+<p>
+	
+</p>
+
+<a name="overview"></a>
 <h1>Overview</h1>
 <p>
 	You will find below the various types of nodes allowed inside
@@ -86,6 +107,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		 Formal Convention 
 *****************************************************************************-->
 
+<a name="conventions"></a>
 <h1>Conventions :</h1> 
 <ul>
 	<li><code>&lt;foo&gt;</code> : A node of type <code>foo</code> such as : 
@@ -115,6 +137,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 *****************************************************************************-->
 
 <hr/>
+<a name="list"></a>
 <div class="summaryTableTitle">Nodes and Attributes list</div>
 
 <table class="summaryTable" cellpadding="3" cellspacing="0">
@@ -270,10 +293,8 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 				<a href="#custom">&lt;%custom%&gt;</a>
 			</td>
 			<td class="summaryTableLastCol">
-				Sets the <code>&lt;%custom%&gt;</code> parent node as listener
-				of the specified <code>@ref</code>. The <code>&lt;listen&gt;</code>
-				node is only for custom nodes which are outside of the
-				<code>&lt;root&gt;</code> node.
+				Sets the <code>&lt;%custom%&gt;</code> parent node listening
+				to the specified <code>@ref</code>.
 			</td>
 		</tr>
 <!-- 
@@ -357,7 +378,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@built-callback">built-callback</a>
+				built-callback
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -373,7 +394,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@delay">delay</a>
+				delay
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#method-call">&lt;method-call&gt;</a>
@@ -389,7 +410,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@deserializer-class">deserializer-class</a>
+				deserializer-class
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom% type="XML"&gt;</a>
@@ -405,7 +426,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@factory">factory</a>
+				factory
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>
@@ -421,7 +442,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@id">id</a>
+				id
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>,
@@ -441,7 +462,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@init-callback">init-callback</a>
+				init-callback
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -457,7 +478,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@method">method</a>
+				method
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>
@@ -473,7 +494,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@name">name</a>
+				name
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#method-call">&lt;method-call&gt;</a>,
@@ -489,7 +510,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@name-callback">name-callback</a>
+				name-callback
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -506,7 +527,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@progress-callback">progress-callback</a>
+				progress-callback
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -524,7 +545,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@ref">ref</a>
+				ref
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>,
@@ -545,7 +566,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@root-ref">root-ref</a>
+				root-ref
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#include">&lt;include&gt;</a>
@@ -562,7 +583,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@singleton-access">singleton-access</a>
+				singleton-access
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>
@@ -580,7 +601,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@timeout-callback">timeout-callback</a>
+				timeout-callback
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#application-loader">&lt;application-loader&gt;</a>
@@ -597,7 +618,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@type">type</a>
+				type
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>,
@@ -617,7 +638,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@url">url</a>
+				url
 			</td>
 			<td class="summaryTableLastCol">
 				
@@ -637,7 +658,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@value">value</a>
+				value
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#argument">&lt;argument&gt;</a>, 
@@ -658,7 +679,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
-				<a href="#@visible">visible</a>
+				visible
 			</td>
 			<td class="summaryTableLastCol">
 				<a href="#custom">&lt;%custom%&gt;</a>
@@ -805,7 +826,7 @@ defined in the assembler context file.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">value</span></td>
-	<td>The value of this argument.</td>
+	<td>The value of this <code>&lt;argument&gt;</code> node.</td>
 </tr>
 </tbody></table>
 </p>
@@ -1034,6 +1055,9 @@ the current assembler, and then instanciate them later.
 <p>
   	Loads a context file and add its content to the current application context.
 Included context files must defines a <code>&lt;beans&gt;</code> node.
+	When including a context file which also define a <code>&lt;root&gt;</code>
+node, the <code>&lt;include&gt;</code> may define <code>@root-ref</code> to prevent
+conflicts with the parent file <code>&lt;root&gt;</code> node.
 </p>
 
 <span class="label">Context</span>
@@ -1077,12 +1101,21 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+Defines an entry in a <code>Dictionary</code>. The <code>&lt;item&gt;</code> node
+don't accept any attributes, but require two child : 
 </p>
+<ul>
+	<li>One occurence of a <code>&lt;key&gt;</code> node</li>
+	<li>One occurence of a <code>&lt;value&gt;</code> node</li>
+</ul>
 
 <span class="label">Context</span>
 <p>
 	<a href="#custom">&lt;%custom% type="Dictionary"&gt;</a>
+	<p>
+		The <code>&lt;item&gt;</code> node is only available for <code>&lt;%custom%&gt;</code>
+		nodes whose <code>@type</code> is <code>Dictionary</code>.
+	</p>	
 </p>
 
 <span class="label">Children</span>
@@ -1108,7 +1141,7 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+	Defines the key of the <code>&lt;item&gt;</code> parent note.
 </p>
 
 <span class="label">Context</span>
@@ -1132,17 +1165,20 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">ref</span></td>
-	<td>Description</td>
+	<td>The <code>@id</code> of an entity in the assembler context file.
+	When setting <code>@ref</code>, the assembler will ignore all other
+	attributes.</td>
 </tr>
 <tr class="row1">
-	<td width="20"></a></td>
+	<td width="20"></td>
 	<td width="15%"><span class="label">type</span></td>
-	<td>Description</td>
+	<td>The type of the value contained in this <code>&lt;key&gt;</code>.
+	If omitted the value is casted to <code>String</code>.</td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">value</span></td>
-	<td>Description</td>
+	<td>The value of this <code>&lt;key&gt;</code> node.</td>
 </tr>
 </tbody></table>
 </p>
@@ -1155,7 +1191,8 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+	Sets the <code>&lt;%custom%&gt;</code> parent node listening
+to the specified <code>@ref</code>. 
 </p>
 
 <span class="label">Context</span>
@@ -1179,7 +1216,7 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">id</span></td>
-	<td>Description</td>
+	<td>The <code>@id</code> of an entity in the assembler context file.</td>
 </tr>
 </tbody></table>
 </p>
@@ -1192,7 +1229,9 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+	Calls a method of the <code>&lt;%custom%&gt;</code>
+parent node. The method must be a member of the instance
+and not a member of the class.
 </p>
 
 <span class="label">Context</span>
@@ -1216,12 +1255,13 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">delay</span></td>
-	<td>Description</td>
+	<td>Delay the call of the method with the amount of the attribute
+	value in milliseconds.</td>
 </tr>
 <tr class="row1">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">name</span></td>
-	<td>Description</td>
+	<td>The name of the method to call on the parent object.</td>
 </tr>
 </tbody></table>
 </p>
@@ -1234,7 +1274,8 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+	Sets the initial value of the specified property
+of the <code>&lt;%custom%&gt;</code> parent node.
 </p>
 
 <span class="label">Context</span>
@@ -1258,22 +1299,25 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">name</span></td>
-	<td>Description</td>
-</tr>
-<tr class="row1">
-	<td width="20"></a></td>
-	<td width="15%"><span class="label">ref</span></td>
-	<td>Description</td>
+	<td>The name of the property to set on the parent object.</td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
-	<td width="15%"><span class="label">type</span></td>
-	<td>Description</td>
+	<td width="15%"><span class="label">ref</span></td>
+	<td>The <code>@id</code> of an entity in the assembler context file.
+	When setting <code>@ref</code>, the assembler will ignore all other
+	attributes.</td>
 </tr>
 <tr class="row1">
+	<td width="20"></td>
+	<td width="15%"><span class="label">type</span></td>
+	<td>The type of the value contained in this <code>&lt;property&gt;</code>.
+	If omitted the value is casted to <code>String</code>.</td>
+</tr>
+<tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">value</span></td>
-	<td>Description</td>
+	<td>The value of this property.</td>
 </tr>
 </tbody></table>
 </p>
@@ -1286,7 +1330,12 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+	Defines the root node for the graphics structures (only one occurence).
+All children of the <code>&lt;root&gt;</code> node will be considered
+as part of the display list.
+	When dealing with multiple context files, each included context which
+also define a <code>&lt;root&gt;</code> will be included with the <code>@root-ref</code>
+attribute defined.
 </p>
 
 <span class="label">Context</span>
@@ -1317,7 +1366,7 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <p></p>
 
 <p>
-
+	Defines the value of the <code>&lt;item&gt;</code> parent note.
 </p>
 
 <span class="label">Context</span>
@@ -1341,24 +1390,244 @@ Included context files must defines a <code>&lt;beans&gt;</code> node.
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">ref</span></td>
-	<td>Description</td>
+	<td>The <code>@id</code> of an entity in the assembler context file.
+	When setting <code>@ref</code>, the assembler will ignore all other
+	attributes.</td>
 </tr>
 <tr class="row1">
-	<td width="20"></a></td>
+	<td width="20"></td>
 	<td width="15%"><span class="label">type</span></td>
-	<td>Description</td>
+	<td>The type of the value contained in this <code>&lt;value&gt;</code>.
+	If omitted the value is casted to <code>String</code>.</td>
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
 	<td width="15%"><span class="label">value</span></td>
-	<td>Description</td>
+	<td>The value of this <code>&lt;value&gt;</code> node.</td>
 </tr>
 </tbody></table>
 </p>
 
+
+<!--*****************************************************************************
+		Example
+*****************************************************************************-->
+
+<hr/>
+
+<a name="examples"></a>
+<h1>Examples</h1>
+
+<p>
+	Below a concret example of a context file which use the whole features set
+	of the LowRA assembler.
+</p>
+
+<div class="listing"><pre>
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE beans SYSTEM "http://lowra.googlecode.com/svn/trunk/tools/assembler.dtd"&gt;
+
+&lt;beans&gt;
+
+	&lt;!-- 	You can insert here all the compiled classes you need 
+			to make your application working. --&gt;
+
+	&lt;dll url="dll/FakePluginListenerDLL2.swf"/&gt;	
+
+
+
+	&lt;!-- That's your application loader config (if you need one) --&gt;
+
+	&lt;!--&lt;application-loader url="swf/loader.swf" 
+						progress-callback="onProgress" 
+						built-callback="onBuild"/&gt;--&gt;
+
+
+
+	&lt;!-- 	That's the visual tree of your application. 
+			If you need a graphical structure, root node is mandatory. --&gt;
+
+	&lt;root&gt;
+
+		&lt;container id="container"&gt;
+			
+			&lt;property name="x" type="int" value="50"/&gt;
+			&lt;property name="y" type="int" value="50"/&gt;
+
+			&lt;swf id="background" url="swf/background.swf" visible="false"/&gt;
+
+			&lt;swf id="coffee" url="swf/coffee.jpg"&gt;
+				&lt;property name="x" type="int" value="100"/&gt;
+				&lt;property name="y" type="int" value="100"/&gt;
+				&lt;property name="alpha" type="Number" value="0.1"/&gt;
+			&lt;/swf&gt;
+			
+			&lt;txt id="txt" type="flash.text.TextField"&gt;
+				&lt;property name="text" value="Hello world!"/&gt;
+				&lt;property name="y" type="int" value="250"/&gt;
+				&lt;property name="autoSize" value="center"/&gt;
+				
+				&lt;method-call name="setTextFormat"&gt;
+					&lt;argument ref="tf"/&gt;
+				&lt;/method-call&gt;
+			&lt;/txt&gt;
+			
+			&lt;square id="square" type="com.prizee.ui.Square"&gt;
+				&lt;property name="alpha" type="Number" value="0.5"/&gt;
+				&lt;property name="x" type="int" value="150"/&gt;
+			&lt;/square&gt;
+
+		&lt;/container&gt;
+
+	&lt;/root&gt;
+
+
+
+	&lt;!--	Objects instanciation begins here.
+			Methods call happen when all objects have been built. --&gt;
+
+	&lt;tf id="tf" type="flash.text.TextFormat"&gt;
+		&lt;argument type="" value="Arial"/&gt;
+		&lt;argument type="Number" value="30"/&gt;
+		&lt;argument type="Number" value="0XFF"/&gt;
+	&lt;/tf&gt;
+
+
+
+	&lt;array id="collection" type="Array"&gt;
+		&lt;argument ref="dimensionClass"/&gt;
+		&lt;argument method="range1.clone"/&gt;
+		&lt;argument ref="obj"/&gt;
+		&lt;argument ref="config"/&gt;
+		&lt;argument ref="coffee"/&gt;
+	&lt;/array&gt;
+
+
+
+	&lt;dll url="dll/RangeDLL.swf"/&gt;
+
+	&lt;range id="range1" type="com.bourre.structures.Range"&gt;
+		&lt;argument ref="min"/&gt;
+		&lt;argument type="Number" value="5"/&gt;
+	&lt;/range&gt;
+
+	&lt;range id="range2" type="com.bourre.structures.Range"&gt;
+		&lt;argument type="Number" value="5"/&gt;
+		&lt;argument ref="max"/&gt;
+	&lt;/range&gt;
+
+
+
+	&lt;dll url="dll/DimensionDLL.swf"/&gt;
+
+	&lt;dimension id="dimension1" type="com.bourre.structures.Dimension"&gt;
+		&lt;argument type="Number" value="800"/&gt;
+		&lt;argument type="Number" value="600"/&gt;
+	&lt;/dimension&gt;
+
+	&lt;dimension id="dimension2" type="com.bourre.structures.Dimension"&gt;
+		&lt;argument type="Number" value="1024"/&gt;
+		&lt;argument type="Number" value="768"/&gt;
+		
+		&lt;method-call name="setSize"&gt;
+			&lt;argument ref="dimension1"/&gt;
+		&lt;/method-call&gt;
+	&lt;/dimension&gt;
+
+
+
+	&lt;dll url="dll/FakePluginDLL.swf"/&gt;
+
+	&lt;fake id="fake" type="FakePlugin"&gt;
+		&lt;argument value="Hello world!"/&gt;
+		&lt;argument ref="background"/&gt;
+		
+		&lt;method-call name="testPlugin"/&gt;
+	&lt;/fake&gt;
+
+
+
+	&lt;min id="min" type="Number" value="1"/&gt;
+	&lt;max id="max" type="Number" value="10"/&gt;
+
+
+
+	&lt;dll url="dll/FakePluginListenerDLL.swf"/&gt;
+
+	&lt;fake id="fakeListener" type="com.prizee.plugin.FakePluginListener"&gt;
+		&lt;argument ref="dimension1"/&gt;
+
+		&lt;listen ref="fake" /&gt;
+	&lt;/fake&gt;
+
+
+
+	&lt;dictionary id="dictionary" type="Dictionary"&gt;
+		&lt;item&gt; &lt;key ref="dimension2"/&gt; &lt;value ref="dimension1"/&gt; &lt;/item&gt;
+		&lt;item&gt; &lt;key ref="dimension1"/&gt; &lt;value ref="dimension2"/&gt; &lt;/item&gt;
+		&lt;item&gt; &lt;key type="Number" value="13"/&gt; &lt;value type="Class" value="com.bourre.structures.Dimension"/&gt; &lt;/item&gt;
+	&lt;/dictionary&gt;
+
+
+
+	&lt;class id="dimensionClass" type="Class"&gt;
+		&lt;argument value="com.bourre.structures.Dimension"/&gt;
+	&lt;/class&gt;
+
+
+
+	&lt;dll url="dll/UIDLL.swf"/&gt;
+
+	&lt;dictionary id="displayObjectDictionary" type="Dictionary"&gt;
+		&lt;item&gt; &lt;key value="com.prizee.ui.Square"/&gt; &lt;value type="Class" value="com.prizee.ui.Square"/&gt; &lt;/item&gt;
+	&lt;/dictionary&gt;
+
+
+
+	&lt;dictionary id="dico" type="Dictionary"&gt;
+		&lt;item&gt; &lt;key value="o"/&gt; &lt;value ref="obj"/&gt; &lt;/item&gt;
+	&lt;/dictionary&gt;
+
+
+
+	&lt;dll url="dll/TypedFactoryLocatorDLL.swf"/&gt;
+
+	&lt;factory id="displayOjectFactory" type="com.bourre.core.TypedFactoryLocator"&gt;
+		&lt;argument type="Class" value="flash.display.MovieClip"/&gt;
+		&lt;method-call name="add"&gt;&lt;argument ref="displayObjectDictionary"/&gt;&lt;/method-call&gt;
+	&lt;/factory&gt;
+
+
+
+	&lt;dll url="dll/XMLToObjectDeserializerDLL.swf"/&gt;
+
+	&lt;xml id="config" type="XML" deserializer-class="com.bourre.encoding.XMLToObjectDeserializer"&gt;
+		&lt;root&gt;
+			&lt;node&gt;1&lt;/node&gt;
+			&lt;node&gt;2&lt;/node&gt;
+			&lt;node&gt;
+				&lt;childNode&gt;childNodeValue&lt;/childNode&gt;
+			&lt;/node&gt;
+			&lt;node&gt;4&lt;/node&gt;
+		&lt;/root&gt;
+	&lt;/xml&gt;
+
+
+
+	&lt;object id="obj" type="Object"&gt;
+		&lt;property name="p1" value="hello1"/&gt;
+		&lt;property name="p2" value="hello2"/&gt;
+	&lt;/object&gt;
+
+
+
+&lt;/beans&gt;	
+</pre></div>
+
 <!--*****************************************************************************
 		 End File
 *****************************************************************************-->
+
 		</div>
 	</body>
 </html>
