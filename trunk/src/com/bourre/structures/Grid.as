@@ -1,21 +1,19 @@
 
 package com.bourre.structures 
 {
-	import com.bourre.error.IndexOutOfBoundsException;	
-	import com.bourre.collection.WeakCollection;	
-	
 	import flash.geom.Point;
 	
 	import com.bourre.collection.Collection;
 	import com.bourre.collection.Iterator;
-	import com.bourre.collection.TypedArray;
 	import com.bourre.collection.TypedContainer;
+	import com.bourre.collection.WeakCollection;
+	import com.bourre.error.ClassCastException;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.IndexOutOfBoundsException;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.error.UnsupportedOperationException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.error.ClassCastException;
-	import com.bourre.error.IllegalArgumentException;	
+	import com.bourre.log.PixlibStringifier;		
 
 	/** 
 	 * A <code>Grid</code> is basically a two dimensions data structure
