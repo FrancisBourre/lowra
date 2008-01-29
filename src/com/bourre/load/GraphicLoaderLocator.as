@@ -20,91 +20,42 @@ package com.bourre.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.NoSuchElementException;	
-	import com.bourre.error.IllegalArgumentException;	
-	import com.bourre.collection.HashMap;
-	import com.bourre.core.Locator;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.*;
 	import flash.system.ApplicationDomain;
-	import flash.utils.Dictionary;	
+	
+	import com.bourre.core.AbstractLocator;
+	import com.bourre.events.EventBroadcaster;	
 
 	public class GraphicLoaderLocator 
-		implements Locator
+		extends AbstractLocator
 	{
 		private static var _oI : GraphicLoaderLocator = null;
 
-		private var _m : HashMap;
-		private var _oEB : EventBroadcaster;
-
 		public function GraphicLoaderLocator( o : ConstructorAccess )
 		{
-			_m = new HashMap();
-			_oEB = new EventBroadcaster( this );
+			super( GraphicLoader, GraphicLoaderLocatorListener );
 		}
-		
+
 		public static function getInstance() : GraphicLoaderLocator
 		{
 			if ( !(GraphicLoaderLocator._oI is GraphicLoaderLocator) ) GraphicLoaderLocator._oI = new GraphicLoaderLocator( new ConstructorAccess() );
 			return GraphicLoaderLocator._oI;
 		}
-		
+
 		public static function release():void
 		{
 			if ( GraphicLoaderLocator._oI is GraphicLoaderLocator ) GraphicLoaderLocator._oI = null;
 		}
-		
-		public function isRegistered( name : String ) : Boolean
-		{
-			return _m.containsKey( name );
-		}
-		
-		public function register( name : String, gl : GraphicLoader ) : Boolean
-		{
-			if ( _m.containsKey( name ) )
-			{
-				var msg : String = "GraphicLoader instance is already registered with '" + name + "' name in " + this;
-				PixlibDebug.ERROR( msg );
-				throw new IllegalArgumentException( msg );
-				
-				return false;
 
-			} else
-			{
-				_m.put( name, gl );
-				_oEB.broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onRegisterGraphicLoaderEVENT, name, gl ) );
-				return true;
-			}
-		}
-		
-		public function unregister( name : String ) : Boolean
+		override protected function onRegister( name : String = null, o : Object = null ) : void
 		{
-			if ( isRegistered( name ) )
-			{
-				_m.remove( name );
-				_oEB.broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onUnregisterGraphicLoaderEVENT, name, null ) );
-				return true;
-				
-			} else
-			{
-				return false;
-			}
+			_oEB.broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onRegisterGraphicLoaderEVENT, name, o as GraphicLoader ) );
 		}
-		
-		public function locate( name : String ) : Object
+
+		override protected function onUnregister( name : String = null ) : void
 		{
-			if ( isRegistered( name ) ) 
-			{
-				return _m.get( name );
-				
-			} else
-			{
-				var msg : String = "Can't find GraphicLoader instance with '" + name + "' name in " + this;
-				PixlibDebug.FATAL( msg );
-				throw new NoSuchElementException( msg );
-			}
-		}
-		
+			_oEB.broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onUnregisterGraphicLoaderEVENT, name, null ) );
+		} 
+
 		public function getGraphicLoader( name : String ) : GraphicLoader
 		{
 			try
@@ -116,15 +67,15 @@ package com.bourre.load
 			{
 				throw( e );
 			}
-			
+
 			return null;
 		}
-		
+
 		public function getApplicationDomain( name : String ) : ApplicationDomain
 		{
 			return getGraphicLoader( name ).getApplicationDomain();
 		}
-		
+
 		public function addListener( listener : GraphicLoaderLocatorListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
@@ -133,42 +84,6 @@ package com.bourre.load
 		public function removeListener( listener : GraphicLoaderLocatorListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
-		}
-		
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
-		{
-			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
-		}
-		
-		public function removeEventListener( type : String, listener : Object ) : Boolean
-		{
-			return _oEB.removeEventListener( type, listener );
-		}
-		
-		public function add( d : Dictionary ) : void
-		{
-			for ( var key : * in d ) 
-			{
-				try
-				{
-					register( key, d[ key ] as GraphicLoader );
-
-				} catch( e : IllegalArgumentException )
-				{
-					e.message = this + ".add() fails. " + e.message;
-					PixlibDebug.ERROR( e.message );
-					throw( e );
-				}
-			}
-		}
-		
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}
 }
