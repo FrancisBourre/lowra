@@ -54,7 +54,7 @@ package com.bourre.utils {
 		{
 			try
 			{
-				var save:SharedObject = SharedObject.getLocal(sCookieName, "/");
+				var save:SharedObject = SharedObject.getLocal( sCookieName );
 				save.data[sObjectName] = refValue;
 				save.flush();
 				return true;
@@ -66,19 +66,18 @@ package com.bourre.utils {
 			return false;
 		}
 		/**
-		 * Clear the value stored in a local SharedObject.
+		 * Clear all values stored in a local SharedObject.
 		 * 
-		 * <p>If an error occurs the function die silently.</p>
+		 * <p>If an error occurs the function die silently and return false.</p>
 		 * 
 		 * @param	sCookieName Name of the cookie.
-		 * @param	sObjectName	Field to retreive.
 		 * @return	<code>true</code> if the data have been cleared.
 		 */
-		public static function clearLocal( sCookieName : String, sObjectName : String) : Boolean
+		public static function clearLocal( sCookieName : String ) : Boolean
 		{
 			try
 			{
-				var save:SharedObject = SharedObject.getLocal( sCookieName, "/" );
+				var save:SharedObject = SharedObject.getLocal( sCookieName );
 				save.clear();
 				return true;
 			}

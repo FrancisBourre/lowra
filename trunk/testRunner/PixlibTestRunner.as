@@ -148,6 +148,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( FlashInspectorLayoutTest );
 	ts.addTestSuite( SosLayoutTest );
 	ts.addTestSuite( ClassUtilsTest );
+	ts.addTestSuite( CookieTest );
 
 	return ts;
 }
