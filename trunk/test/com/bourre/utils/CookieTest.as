@@ -110,5 +110,27 @@ package com.bourre.utils
 			assertNull( cookie + ".clear() failed to remove data stored in the cookie", 
 						cookie.someProperty );
 		}
+		
+		public function testRootSpaceChange () : void
+		{
+			cookie.someProperty = "Hello world";
+			
+			cookie.setRootSpace( "someContainer" );
+			
+			assertNull( cookie + ".setRootSpace() failed to change the root space of this cookie", 
+						cookie.someProperty );	
+			
+			cookie.someProperty = "GoodBye world";
+			
+			cookie.setRootSpace();
+			
+			assertEquals( cookie + ".someContainer().someProperty can't access to a value defined " + 
+						  "with a custom space", 
+						  "GoodBye world", cookie.someContainer().someProperty );
+						  
+			assertEquals( cookie + ".someProperty can't access property defined before root space change", 
+						  "Hello world", cookie.someProperty );		
+			
+		}
 	}
 }
