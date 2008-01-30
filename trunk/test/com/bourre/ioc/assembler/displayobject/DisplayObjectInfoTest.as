@@ -1,5 +1,7 @@
 package com.bourre.ioc.assembler.displayobject
 {
+	import com.bourre.ioc.parser.ContextTypeList;	
+	
 	import flexunit.framework.TestCase;
 
 	public class DisplayObjectInfoTest extends TestCase
@@ -46,10 +48,10 @@ package com.bourre.ioc.assembler.displayobject
 			assertFalse("DisplayObjectInfo isEmptyDisplayObject returns true when displayobject no empty",
 						oDEI.isEmptyDisplayObject()) ;
 						
-			assertEquals("DisplayObjectInfo default type isn't movieclip", "Movieclip", oDEI.type) ;
+			assertEquals("DisplayObjectInfo default type isn't movieclip", ContextTypeList.MOVIECLIP, oDEI.type) ;
 			
-			var oDEI2:DisplayObjectInfo = new DisplayObjectInfo("id2", "parentid", true, "/swf/ici.swf", "Sprite") ;
-			assertEquals("DisplayObjectInfos type isn't memorize", "Sprite", oDEI2.type) ;
+			var oDEI2:DisplayObjectInfo = new DisplayObjectInfo("id2", "parentid", true, "/swf/ici.swf", ContextTypeList.SPRITE ) ;
+			assertEquals("DisplayObjectInfos type isn't memorize", ContextTypeList.SPRITE , oDEI2.type) ;
 		}
 
 	}

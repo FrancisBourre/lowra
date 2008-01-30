@@ -20,8 +20,10 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.error.NullChannelException;	
+
 	import flash.net.URLRequest;
-	
+
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
@@ -66,12 +68,12 @@ package com.bourre.ioc.parser
 				var visible : String = ContextAttributeList.getVisible( xml );
 				var isVisible : Boolean = visible ? (visible == "true") : true;
 				var type : String = ContextAttributeList.getDisplayType( xml );
-				
+
 				if ( url.length > 0 )
 				{
 					// If we need to load a swf file.
 					getAssembler().buildDisplayObject( id, new URLRequest(url), parentID, isVisible, type );
-					
+
 				} else
 				{
 					// If we need to build an empty DisplayObject.
@@ -96,6 +98,22 @@ package com.bourre.ioc.parser
 				getAssembler().buildMethodCall( id, 
 												ContextAttributeList.getName( method ),
 												getArguments( method, ContextNodeNameList.ARGUMENT ) );
+			}
+
+			// Build channel listener.
+			for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
+			{
+				var channelName : String = ContextAttributeList.getRef( listener );
+				if ( channelName )
+				{
+					getAssembler().buildChannelListener( id, channelName );
+
+				} else
+				{
+					msg = this + " encounters parsing error with '" + xml.name() + "' node, 'channel' attribute is mandatory in a 'listen' node.";
+					PixlibDebug.FATAL( msg );
+					throw( new NullChannelException( msg ) );
+				}
 			}
 
 			// recursivity
