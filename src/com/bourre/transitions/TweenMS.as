@@ -28,7 +28,7 @@ package com.bourre.transitions
 		// PRIVATE MEMBERS
 		//-------------------------------------------------------------------------
 		
-		private var _nStopTime : Number;
+		private var _nStopTime : Number;		private var _nStartTime : Number;		private var _nLastTime : Number;
 		
 		//-------------------------------------------------------------------------
 		// PUBLIC API
@@ -49,9 +49,9 @@ package com.bourre.transitions
 		override public function start() : void
 		{
 			if( _nStopTime != 0 )
-				_nPlayHead = getTimer() - ( _nStopTime - _nPlayHead );
+				_nLastTime = _nStartTime = getTimer() - ( _nStopTime - _nStartTime );
 			else
-				_nPlayHead = 0;
+				_nLastTime = _nStartTime = getTimer();
 			
 			super.start();
 		}
@@ -74,12 +74,20 @@ package com.bourre.transitions
 		
 		public override function isMotionFinished() : Boolean
 		{
-			return getTimer() - _nPlayHead >= _nDuration;
+			var t : Number = getTimer();
+			var lt : Number = _nLastTime;
+			_nPlayHead += t - lt;
+			_nLastTime = t;
+			return t - _nStartTime >= _nDuration;
 		}
 		
 		public override function isReversedMotionFinished() : Boolean
 		{
-			return _nPlayHead - getTimer() <= 0;
+			var t : Number = getTimer();
+			var lt : Number = _nLastTime;
+			_nPlayHead -= t - lt;
+			_nLastTime = t;
+			return _nStartTime - t <= 0;
 		}
 	}
 }

@@ -73,8 +73,9 @@ package com.bourre.events
 		 * the channel argument is omitted, the default channel is set to the
 		 * internal <code>DefaultChannel.CHANNEL</code> constant.
 		 * 
-		 * @param	Broadcaster Class
-		 * @param	channel	default channel for this broadcaster
+		 * @param	broadcasterClass broadcaster class wrapped by this channel
+		 * 							 broadcaster
+		 * @param	channel			 default channel for this broadcaster
 		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in
 		 * 			class doesn't implement <code>Broadcaster</code> interface
 		 */
