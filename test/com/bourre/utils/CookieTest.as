@@ -124,13 +124,23 @@ package com.bourre.utils
 			
 			cookie.setRootSpace();
 			
-			assertEquals( cookie + ".someContainer().someProperty can't access to a value defined " + 
-						  "with a custom space", 
-						  "GoodBye world", cookie.someContainer().someProperty );
-						  
 			assertEquals( cookie + ".someProperty can't access property defined before root space change", 
-						  "Hello world", cookie.someProperty );		
+						  "Hello world", cookie.someProperty );	
 			
+			assertEquals( cookie + ".someContainer().someProperty can't access to a value defined " + 
+						  "with a custom root space", 
+						  "GoodBye world", cookie.someContainer().someProperty );
+		}
+	
+		public function testPartialRequest () : void
+		{
+			cookie.someUnusedContainerCall();
+			
+			cookie.someContainer().someProperty = "Hello world";
+			
+			assertNull ( cookie + ".someContainer().someProperty access to unavailable data " +
+						   "while make an uncomplete access before",
+						   cookie.someContainer().someProperty );
 		}
 	}
 }
