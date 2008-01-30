@@ -20,6 +20,7 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.core.CoreFactory;	
 	import com.bourre.ioc.parser.ContextTypeList;	
 	
@@ -118,7 +119,7 @@ package com.bourre.ioc.assembler.displayobject
 												url 		: URLRequest,
 												parentID 	: String 	= null, 
 												isVisible 	: Boolean 	= true, 
-												type 		: String 	= "Movieclip" ) : void
+												type 		: String 	= null ) : void
 		{
 			var info : DisplayObjectInfo = new DisplayObjectInfo( ID, parentID, isVisible, url.url, type );
 
@@ -133,7 +134,7 @@ package com.bourre.ioc.assembler.displayobject
 		public function buildEmptyDisplayObject ( 	ID 			: String, 
 													parentID 	: String 	= null, 
 													isVisible 	: Boolean 	= true, 
-													type 		: String 	= "Movieclip" ) : void
+													type 		: String 	= null ) : void
 		{
 			if ( parentID == null ) parentID = ContextNodeNameList.ROOT;
 
@@ -268,10 +269,17 @@ package com.bourre.ioc.assembler.displayobject
 						oDo = CoreFactory.buildInstance( type ) as DisplayObject;
 						break;
 				}
-				PixlibDebug.FATAL( oDo );
+
+				if ( !(oDo is DisplayObject) )
+				{
+					var msg : String = this + ".buildDisplayList() failed. '" + info.type + "' doesn't extend DisplayObject.";
+					PixlibDebug.ERROR( msg );
+					throw new IllegalArgumentException( msg );
+				}
+
 				oParent.addChild( oDo ) ;
 				BeanFactory.getInstance().register( info.ID, oDo ) ;
-	
+
 				_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, oDo ) );
 				return true;
 

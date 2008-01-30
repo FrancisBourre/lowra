@@ -25,7 +25,7 @@ package com.bourre.ioc.parser
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullChannelException;
 	import com.bourre.ioc.error.NullIDException;
-	import com.bourre.plugin.PluginDebug;		
+	import com.bourre.log.PixlibDebug;	
 
 	public class ObjectParser
 		extends AbstractParser
@@ -43,18 +43,18 @@ package com.bourre.ioc.parser
 		protected function _parseNode( xml : XML ) : void
 		{
 			var msg : String;
-			
+
 			// Debug missing ids.
 			var id : String = ContextAttributeList.getID( xml );
 			if ( !id )
 			{
 				msg = this + " encounters parsing error with '" + xml.name() + "' node. You must set an id attribute.";
-				PluginDebug.getInstance().fatal( msg );
+				PixlibDebug.FATAL( msg );
 				throw( new NullIDException( msg ) );
 			}
 
 			IDExpert.getInstance().register( id );
-			
+
 			var type : String;
 			var args : Array;
 			var factory : String;
@@ -72,7 +72,6 @@ package com.bourre.ioc.parser
 
 			} else
 			{
-
 				args = (type == ContextTypeList.DICTIONARY) ? getItems( xml ) : getArguments( xml, ContextNodeNameList.ARGUMENT, type );
 				factory = ContextAttributeList.getFactoryMethod( xml );
 				singleton = ContextAttributeList.getSingletonAccess( xml );
@@ -112,7 +111,7 @@ package com.bourre.ioc.parser
 					} else
 					{
 						msg = this + " encounters parsing error with '" + xml.name() + "' node, 'channel' attribute is mandatory in a 'listen' node.";
-						PluginDebug.getInstance().fatal( msg );
+						PixlibDebug.FATAL( msg );
 						throw( new NullChannelException( msg ) );
 					}
 				}

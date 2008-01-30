@@ -19,16 +19,15 @@ package com.bourre.commands
 	import flash.utils.Dictionary;
 	
 	import com.bourre.collection.HashMap;
-	import com.bourre.core.Locator;
+	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.events.Broadcaster;
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibStringifier;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.utils.ClassUtils;	
+	import com.bourre.utils.ClassUtils;		
 
 	/**
 	 * A base class for an application specific front controller,
@@ -59,7 +58,9 @@ package com.bourre.commands
 	 * </p>
 	 * @author Francis Bourre
 	 */
-	public class FrontController implements Locator, ASyncCommandListener
+	public class FrontController 
+		extends AbstractLocator
+		implements ASyncCommandListener
 	{
 		/**
 		 * A reference to the private event broadcaster of the plugin (when
@@ -67,19 +68,14 @@ package com.bourre.commands
 		 * <code>EventBroadcaster</code> class when used outside of the plugin
 		 * architecture.
 		 */
-		protected var _oEB : Broadcaster;
+		protected var _oBroadcaster : Broadcaster;
 		/**
 		 * A reference to the plugin owner of this front controller. When used 
 		 * outside of the plugin architecture, this property store a reference
 		 * to the global instance of the <code>NullPlugin</code> class.
 		 */
 		protected var _owner : Plugin;
-		
-		/**
-		 * Map between event and associated commands.
-		 */
-		protected var _mEventList : HashMap;
-		
+
 		private var _oASyncCommands : Dictionary;
 
 		/**
@@ -92,8 +88,9 @@ package com.bourre.commands
 		 */
 		public function FrontController( owner : Plugin = null ) 
 		{
+			super( Command );
+
 			setOwner( owner );
-			_mEventList = new HashMap();
 			_oASyncCommands = new Dictionary();
 		}
 
@@ -106,19 +103,20 @@ package com.bourre.commands
 		 */
 		final public function setOwner( owner : Plugin ) : void
 		{
-			if ( _oEB ) _oEB.removeListener( this );
+			if ( _oBroadcaster ) _oBroadcaster.removeListener( this );
 
 			if ( owner!= null )
 			{
 				_owner = owner;
-				_oEB = new EventBroadcaster( getOwner() );
+				_oBroadcaster = new EventBroadcaster( getOwner() );
 
 			} else
 			{
 				_owner = NullPlugin.getInstance();
-				_oEB = EventBroadcaster.getInstance();
+				_oBroadcaster = EventBroadcaster.getInstance();
 			}
-			_oEB.addListener( this );
+
+			_oBroadcaster.addListener( this );
 		}
 
 		/**
@@ -152,7 +150,29 @@ package com.bourre.commands
 		 */
 		final public function getBroadcaster() : Broadcaster
 		{
-			return _oEB;
+			return _oBroadcaster;
+		}
+
+		override public function register( eventName : String, o : Object ) : Boolean
+		{
+			try
+			{
+				if ( o is Class )
+				{
+					return pushCommandClass( eventName, o as Class );
+
+				} else
+				{
+					return pushCommandInstance( eventName, o as Command );
+				}
+
+			} catch( e : Error )
+			{
+				getLogger().fatal( e.message );
+				throw e;
+			}
+			
+			return false;
 		}
 
 		/**
@@ -180,26 +200,26 @@ package com.bourre.commands
 		{
 			var key : String = eventName.toString();
 			var msg : String;
-			
+
 			if ( isRegistered( key ) )
 			{
 				msg = "There is already a command class registered with '" + key + "' name in " + this;
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
-			}
-			else if( !ClassUtils.inherit( commandClass, Command ) )
+
+			} else if( !ClassUtils.inherit( commandClass, Command ) )
 			{
 				msg = "The class '" + commandClass + "' doesn't inherit from Command interface in " + this;
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
-			}
-			else
+
+			} else
 			{
-				_mEventList.put( key, commandClass );
+				_m.put( key, commandClass );
 				return true;
 			}
 		}
-		
+
 		/**
 		 * Registers the passed-in command to be triggered at each time
 		 * the controller will receive an event of type <code>eventName</code>.
@@ -227,20 +247,20 @@ package com.bourre.commands
 				msg = "There is already a command class registered with '" + key + "' name in " + this;
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
-			}
-			else if( command == null )
+
+			} else if( command == null )
 			{
 				msg = "The passed-in command is null in " + this;
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
-			}
-			else
+
+			} else
 			{
-				_mEventList.put( key, command );
+				_m.put( key, command );
 				return true;
 			}
 		}
-		
+
 		/**
 		 * Removes the class or the command registered with the
 		 * passed-in event name.
@@ -250,7 +270,7 @@ package com.bourre.commands
 		 */
 		public function remove( eventName : String ) : void
 		{
-			_mEventList.remove( eventName.toString() );
+			_m.remove( eventName.toString() );
 		}
 
 		/**
@@ -279,23 +299,24 @@ package com.bourre.commands
 			try
 			{
 				cmd = locate( type ) as Command;
-			} 
-			catch ( e : Error )
+
+			} catch ( e : Error )
 			{
 				getLogger().debug( this + ".handleEvent() fails to retrieve command associated with '" + type + "' event type." );
 			}
 
 			if ( cmd != null )
 			{
-				if( cmd is ASyncCommand )
+				if ( cmd is ASyncCommand )
 				{
 					_oASyncCommands[ cmd ] = true;
-					(cmd as ASyncCommand).addASyncCommandListener( this );
+					( cmd as ASyncCommand ).addASyncCommandListener( this );
 				}
+
 				cmd.execute( event );
 			}
 		}
-		
+
 		/**
 		 * Catch callback events from asynchronous commands thiggered
 		 * by this front controller. When the controller receive an event
@@ -310,28 +331,6 @@ package com.bourre.commands
 		}
 
 		/**
-		 * Clears all association between events and commands for
-		 * this front controller.
-		 */
-		public function release() : void
-		{
-			_mEventList.clear();
-		}
-		
-		/**
-		 * Returns <code>true</code> if a command have been registered
-		 * with the passed-in key in this front controller.
-		 * 
-		 * @param	key	 string key to verify
-		 * @return	<code>true</code> if a command have been registered
-		 * 			with the passed-in key in this front controller
-		 */
-		public function isRegistered(key : String) : Boolean
-		{
-			return _mEventList.containsKey( key );
-		}
-		
-		/**
 		 * Returns the command located at the specified <code>key</code>
 		 * index. If there's no command registered with the passed-in key
 		 * the function fail and throw an error.
@@ -343,37 +342,38 @@ package com.bourre.commands
 		 * @throws 	<code>NoSuchElementException</code> — There is no command
 		 * 			registered with the passed-in key
 		 */
-		public function locate( key : String ) : Object
+		override public function locate( key : String ) : Object
 		{
-			if ( _mEventList.containsKey( key ) )
+			var o : Object;
+
+			try
 			{
-				var o : Object = _mEventList.get( key );
+				o = super.locate( key );
 
-				if ( o is Class )
-				{
-					var cmd : Command = new ( o as Class )();
-					if ( cmd is AbstractCommand ) ( cmd as AbstractCommand ).setOwner( getOwner() );
-					return cmd;
-
-				} 
-				else if ( o is Command )
-				{
-					if ( o is AbstractCommand ) 
-					{
-						var acmd : AbstractCommand = ( o as AbstractCommand );
-						if ( acmd.getOwner() == null ) acmd.setOwner( getOwner() );
-					}
-
-					return o;
-				}
-
-			} else 
+			} catch ( e : Error )
 			{
 				var msg : String = "Can't find Command instance with '" + key + "' name in " + this;
 				getLogger().fatal( msg );
 				throw new NoSuchElementException( msg );
 			}
-			
+
+			if ( o is Class )
+			{
+				var cmd : Command = new ( o as Class )();
+				if ( cmd is AbstractCommand ) ( cmd as AbstractCommand ).setOwner( getOwner() );
+				return cmd;
+
+			} else if ( o is Command )
+			{
+				if ( o is AbstractCommand ) 
+				{
+					var acmd : AbstractCommand = ( o as AbstractCommand );
+					if ( acmd.getOwner() == null ) acmd.setOwner( getOwner() );
+				}
+
+				return o;
+			}
+
 			return null;
 		}
 
@@ -392,25 +392,24 @@ package com.bourre.commands
 		 * @throws 	<code>NullPointerException</code> — A command in the
 		 * 			dictionary is null
 		 */
-		public function add( d : Dictionary ) : void
+		override public function add( d : Dictionary ) : void
 		{
 			for ( var key : * in d ) 
 			{
 				try
 				{
 					var o : Object = d[ key ] as Object;
-					
+
 					if ( o is Class )
 					{
 						pushCommandClass( key, o as Class );
-					} 
-					else
+
+					} else
 					{
 						pushCommandInstance( key, o as Command );
 					}
 
-				} 
-				catch( e : Error )
+				} catch( e : Error )
 				{
 					e.message = this + ".add() fails. " + e.message;
 					getLogger().error( e.message );
@@ -418,16 +417,5 @@ package com.bourre.commands
 				}
 			}
 		}
-
-		/**
-		 * Returns the string representation of this instance.
-		 * 
-		 * @return the string representation of this instance
-		 */
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
-		}
-		
 	}
 }

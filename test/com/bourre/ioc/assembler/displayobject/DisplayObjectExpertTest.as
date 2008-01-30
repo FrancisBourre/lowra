@@ -1,24 +1,23 @@
 package com.bourre.ioc.assembler.displayobject
 {
-	import flash.net.URLRequest;	
-	
-	import com.bourre.load.GraphicLoaderLocator;	
-	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.net.URLRequest;
 	
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.parser.ContextNodeNameList;
+	import com.bourre.ioc.parser.ContextTypeList;
+	import com.bourre.load.GraphicLoaderLocator;
 	
 	import flexunit.framework.TestCase;	
 
 	public class DisplayObjectExpertTest extends TestCase
 	{
-		private var _oDOE:DisplayObjectExpert ;
-		private var _b:Boolean ;
-		
+		private var _oDOE : DisplayObjectExpert ;
+		private var _b : Boolean ;
+
 		public override function setUp():void
 		{
 			DisplayObjectExpert.release() ;
@@ -28,12 +27,12 @@ package com.bourre.ioc.assembler.displayobject
 			_b = false ;
 			_oDOE = DisplayObjectExpert.getInstance() ;
 		}
-		
+
 		public function testConstruct() : void
 		{
 			assertNotNull("DisplayObjectExpert constructor returns null", _oDOE) ;
 		}
-		
+
 		public function testSetRootTarget():void
 		{
 			var mc:MovieClip = new MovieClip();
@@ -43,8 +42,8 @@ package com.bourre.ioc.assembler.displayobject
 			try
 			{
 				_oDOE.setRootTarget( new MovieClip () );
-			}
-			catch (e:Error)
+
+			} catch (e:Error)
 			{
 				b = true ;
 			}
@@ -58,7 +57,7 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget( mc );
 
 			_oDOE.buildEmptyDisplayObject( "idEmpty" );
-			_oDOE.buildEmptyDisplayObject( "idEmptyChild", "idEmpty", true, "Sprite" );
+			_oDOE.buildEmptyDisplayObject( "idEmptyChild", "idEmpty", true, ContextTypeList.SPRITE );
 			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync(onTestBuildEmptyDisplayObject, 5000, mc) );
 			_oDOE.load();
 		}
@@ -113,25 +112,24 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget( root ) ;
 			
 			//creation of the empty clips
-			_oDOE.buildEmptyDisplayObject("clip1",	ContextNodeNameList.ROOT) ;
-			_oDOE.buildEmptyDisplayObject("clip2",	ContextNodeNameList.ROOT) ;
-			_oDOE.buildEmptyDisplayObject("clip11",	"clip1") ;
-			_oDOE.buildEmptyDisplayObject("clip12",	"clip1") ;
-			_oDOE.buildEmptyDisplayObject("clip111","clip11") ;
-			_oDOE.buildEmptyDisplayObject("clip121","clip12") ;
-			_oDOE.buildEmptyDisplayObject("clip122","clip12",true,"Sprite") ;
+			_oDOE.buildEmptyDisplayObject( "clip1",	ContextNodeNameList.ROOT ) ;
+			_oDOE.buildEmptyDisplayObject( "clip2",	ContextNodeNameList.ROOT ) ;
+			_oDOE.buildEmptyDisplayObject( "clip11", "clip1" ) ;
+			_oDOE.buildEmptyDisplayObject( "clip12", "clip1" ) ;
+			_oDOE.buildEmptyDisplayObject( "clip111", "clip11" ) ;
+			_oDOE.buildEmptyDisplayObject( "clip121", "clip12" ) ;
+			_oDOE.buildEmptyDisplayObject( "clip122", "clip12", true, ContextTypeList.SPRITE ) ;
 			
 			//photos loaded in two clips (=> bitmap objects)
-			_oDOE.buildGraphicLoader( "photo1", new URLRequest("http://www.google.fr/images/nav_logo.png"), "clip111", true ) ;
-			_oDOE.buildGraphicLoader( "photo2", new URLRequest("http://www.google.fr/images/nav_logo2.png"), "clip122", true ) ;
+			_oDOE.buildGraphicLoader( "photo1", new URLRequest( "http://www.google.fr/images/nav_logo.png" ), "clip111", true ) ;
+			_oDOE.buildGraphicLoader( "photo2", new URLRequest( "http://www.google.fr/images/nav_logo2.png" ), "clip122", true ) ;
 			
 			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync( onTestBuildDisplayList, 5000, root) );
 			_oDOE.load() ;
 		}
 
-		public function onTestBuildDisplayList( e:Event, mc:Object ) : void
+		public function onTestBuildDisplayList( e : Event, root : MovieClip ) : void
 		{
-			var root : MovieClip = mc as MovieClip;
 			var child : Sprite;
 			
 			assertEquals( "Wrong number of children on root clip",  2, root.numChildren );
@@ -162,7 +160,7 @@ package com.bourre.ioc.assembler.displayobject
 		
 		protected function _locate( key : String ) : Object
 		{
-			return BeanFactory.getInstance().locate(  key );
+			return BeanFactory.getInstance().locate( key );
 		}
 	}
 }
