@@ -92,7 +92,7 @@ package com.bourre.utils
 		}		
 		public function getCurrentSpace( space : String ) : String
 		{
-			return _sCurrentSpace;
+			return _sRootSpace + _sCurrentSpace;
 		}
 		public function appendSpace( space : String ) : String
 		{
