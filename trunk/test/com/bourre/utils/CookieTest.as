@@ -111,18 +111,18 @@ package com.bourre.utils
 						cookie.someProperty );
 		}
 		
-		public function testRootSpaceChange () : void
+		public function testRootPathChange () : void
 		{
 			cookie.someProperty = "Hello world";
 			
-			cookie.setRootSpace( "someContainer" );
+			cookie.setRootPath( "someContainer" );
 			
-			assertNull( cookie + ".setRootSpace() failed to change the root space of this cookie", 
+			assertNull( cookie + ".setRootPath() failed to change the root space of this cookie", 
 						cookie.someProperty );	
 			
 			cookie.someProperty = "GoodBye world";
 			
-			cookie.setRootSpace();
+			cookie.setRootPath();
 			
 			assertEquals( cookie + ".someProperty can't access property defined before root space change", 
 						  "Hello world", cookie.someProperty );	

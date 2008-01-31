@@ -1,11 +1,10 @@
 package com.bourre.utils 
 {
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.log.PixlibStringifier;	
-	
 	import flash.net.SharedObject;
 	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;		
+	import flash.utils.flash_proxy;
+	
+	import com.bourre.log.PixlibStringifier;		
 
 	/**
 	 * @author Cédric Néhémie
@@ -35,41 +34,41 @@ package com.bourre.utils
 		 *---------------------------------------------------*/
 		
 		private var _sChannel : String;
-		private var _sLocalPath : String;
+		private var _sCookieLocalPath : String;
 		private var _bSecure : Boolean;
 		
-		private var _sLocalSpace : String;		private var _sRootSpace : String;
+		private var _sLocalPath : String;		private var _sRootPath : String;
 		
 		public function Cookie ( channel : String, localPath : String = "/", secure : Boolean = false )
 		{
 			_sChannel = channel;
-			_sLocalPath = localPath;
+			_sCookieLocalPath = localPath;
 			_bSecure = secure;
 			
-			_sRootSpace = "";
-			_sLocalSpace = "";
+			_sRootPath = "";
+			_sLocalPath = "";
 		}
 
 		override flash_proxy function callProperty( methodName : *, ... args ) : *
 		{
-			appendLocalSpace( methodName );
+			appendLocalPath( methodName );
 			return this;
 		}
 		override flash_proxy function getProperty( propertyName : * ) : *
 		{
-			var content : * = __getSO().data[ appendSpace( propertyName ) ];
+			var content : * = __getSO().data[ appendPath( propertyName ) ];
 			
-			setLocalSpace();
+			setLocalPath();
 	
 			return content;
 		}		
 		override flash_proxy function setProperty( propertyName : *, value : * ) : void
 		{
 			var save : SharedObject = __getSO();
-			save.data[ appendSpace( propertyName ) ] = value;
+			save.data[ appendPath( propertyName ) ] = value;
 			save.flush();
 			
-			setLocalSpace();
+			setLocalPath();
 		}
 
 		public function clear() : void
@@ -82,63 +81,63 @@ package com.bourre.utils
 		}
 				
 		/*-----------------------------------------------------------
-		 * 		ROOT SPACE MANAGEMENT
+		 * 		ROOT PATH MANAGEMENT
 		 *-----------------------------------------------------------*/
 				
-		public function setRootSpace ( space : String = "" ) : void
+		public function setRootPath ( path : String = "" ) : void
 		{
-			_sRootSpace = space;
+			_sRootPath = path;
 		}
-		public function getRootSpace () : String
+		public function getRootPath () : String
 		{
-			return _sRootSpace;
+			return _sRootPath;
 		}
-		public function hasRootSpace () : Boolean
+		public function hasRootPath () : Boolean
 		{
-			return _sRootSpace != "";
+			return _sRootPath != "";
 		}
 		
 		/*-----------------------------------------------------------
-		 * 		FINAL SPACE MANAGEMENT
+		 * 		FINAL PATH MANAGEMENT
 		 *-----------------------------------------------------------*/
 		
-		protected function getSpace () : String 
+		protected function getPath () : String 
 		{
-			return 	hasRootSpace() ? 
-					getRootSpace() + ( hasLocalSpace() ? "." : "" ) + getLocalSpace() :
-				   	getLocalSpace();
+			return 	hasRootPath() ? 
+					getRootPath() + ( hasLocalPath() ? "." : "" ) + getLocalPath() :
+				   	getLocalPath();
 		}
-		protected function hasSpace () : Boolean 
+		protected function hasPath () : Boolean 
 		{
-			return getSpace() != "";
+			return getPath() != "";
 		}
-		protected function appendSpace( space : String ) : String
+		protected function appendPath( path : String ) : String
 		{
-			return hasSpace() ? getSpace() + "." + space : space;
+			return hasPath() ? getPath() + "." + path : path;
 		}
 		
 		/*-----------------------------------------------------------
-		 * 		LOCAL SPACE MANAGEMENT
+		 * 		LOCAL PATH MANAGEMENT
 		 *-----------------------------------------------------------*/
 
-		protected function setLocalSpace ( space : String = "" ) : void
+		protected function setLocalPath ( path : String = "" ) : void
 		{			
-			_sLocalSpace = space;
+			_sLocalPath = path;
 		}		
-		protected function getLocalSpace() : String
+		protected function getLocalPath() : String
 		{
-			return _sLocalSpace;
+			return _sLocalPath;
 		}
-		protected function hasLocalSpace () : Boolean
+		protected function hasLocalPath () : Boolean
 		{
-			return _sLocalSpace != "";
+			return _sLocalPath != "";
 		}
-		protected function appendLocalSpace( space : String ) : void
+		protected function appendLocalPath( path : String ) : void
 		{
-			if( hasLocalSpace() )
-				_sLocalSpace += "." + space;
+			if( hasLocalPath() )
+				_sLocalPath += "." + path;
 			else
-				_sLocalSpace = space;
+				_sLocalPath = path;
 		}
 		
 		/*-----------------------------------------------------------
@@ -147,7 +146,7 @@ package com.bourre.utils
 		
 		private function __getSO () : SharedObject
 		{
-			return SharedObject.getLocal( _sChannel, _sLocalPath, _bSecure );
+			return SharedObject.getLocal( _sChannel, _sCookieLocalPath, _bSecure );
 		}
 	}
 }
