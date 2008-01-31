@@ -27,9 +27,10 @@ package com.bourre.commands
 	 */
 	public class Delegate implements Command, TickListener
 	{
-		private var _f : Function;
-		private var _a : Array;
-		
+		protected var _f : Function;
+		protected var _a : Array;
+		protected var _bHasEventCallback : Boolean;
+
 		public static function create( method : Function, ... args ) : Function 
 		{
 			return function( ... rest ) : *
@@ -51,6 +52,12 @@ package com.bourre.commands
 		{
 			_f = f;
 			_a = rest;
+			_bHasEventCallback = true;
+		}
+		
+		public function bypassEventCallback( b : Boolean ) : void
+		{
+			_bHasEventCallback = !b;
 		}
 		
 		public function getArguments() : Array
@@ -81,7 +88,8 @@ package com.bourre.commands
 		public function execute( event : Event = null ) : void
 		{
 			var a : Array = new Array();
-			if ( event != null ) a.push( event );
+
+			if ( event != null && _bHasEventCallback ) a.push( event );
 			
 			try
 			{
