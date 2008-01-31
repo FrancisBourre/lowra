@@ -66,6 +66,8 @@ package com.bourre.service
 				PixlibDebug.FATAL( e.message );
 				throw e;
 			}
+			
+			return null;
 		}
 
 		public function getService( key : String ) : Service
