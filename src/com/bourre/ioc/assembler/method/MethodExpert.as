@@ -72,9 +72,10 @@ package com.bourre.ioc.assembler.method
 			{
 				f = owner[ m.name ] as Function;
 
-			} catch ( e : Error )
+			} catch ( error1 : Error )
 			{
-				msg = this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'."
+				msg = error1.message;
+				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'. ";
 				msg += m.name + " method can't be found.";
 				PixlibDebug.FATAL( msg );
 				throw new NoSuchMethodException( msg );
@@ -86,10 +87,11 @@ package com.bourre.ioc.assembler.method
 			{
 				f.apply( null, args );
 
-			} catch ( e : Error )
+			} catch ( error2 : Error )
 			{
-				msg = this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'." 
-				msg += m.name + "() method can't be called with these arguments: " + args;
+				msg = error2.message;
+				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'. ";
+				msg += "'" + m.name + "' method can't be called with these arguments: [" + args + "]";
 				PixlibDebug.FATAL( msg );
 				throw new IllegalArgumentException( msg );
 			}

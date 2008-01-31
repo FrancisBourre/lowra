@@ -102,7 +102,7 @@ package com.bourre.ioc.assembler.property
 
 			} else
 			{
-				var type : String = p.type ? p.type : ContextTypeList.STRING;
+				var type : String = p.type && p.type != ContextTypeList.CLASS ? p.type : ContextTypeList.STRING;
 				return BuildFactory.getInstance().getBuilder( type ).build( type, [p.value] );
 			}
 		}

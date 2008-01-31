@@ -20,11 +20,14 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.IllegalArgumentException;	
+	import flash.utils.getDefinitionByName;
+	
 	import com.bourre.core.CoreFactory;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.log.*;
 	import com.bourre.plugin.*;
-	
+	import com.bourre.utils.ClassUtils;		
+
 	public class BuildInstance 
 		implements IBuilder
 	{
@@ -35,17 +38,33 @@ package com.bourre.ioc.control
 								singleton 	: String = null, 
 								id 			: String = null ) : *
 		{
+
 			var o : Object;
 
-			if ( id != null && id.length > 0 ) ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( id ) );
+			try
+			{
+				var isPlugin : Boolean = ClassUtils.inherit( getDefinitionByName( type ) as Class, AbstractPlugin );
+				
+				if ( isPlugin && id != null && id.length > 0 ) 
+				{
+					ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( id ) );
+				}
+
+			} catch ( error1 : Error )
+			{
+				//
+			}
+
+			
 
 			try
 			{
 				o = CoreFactory.buildInstance( type, args, factory, singleton );
 
-			} catch( e : Error )
+			} catch( error2 : Error )
 			{
-				var msg : String = this + ".build(" + type + ") failed.";
+				var msg : String = error2.message;
+				msg += " " + this + ".build(" + type + ") failed.";
 				PixlibDebug.FATAL( msg );
 				throw new IllegalArgumentException( msg );
 			}
