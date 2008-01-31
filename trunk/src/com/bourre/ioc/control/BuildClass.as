@@ -49,7 +49,8 @@ package com.bourre.ioc.control
 
 			} catch ( e : Error )
 			{
-				msg = qualifiedClassName + "' class is not available in current domain";
+				msg = e.message;
+				msg += " '" + qualifiedClassName + "' is not available in current domain";
 				PixlibDebug.FATAL( msg );
 				return null;
 			}
