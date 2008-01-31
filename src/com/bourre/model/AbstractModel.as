@@ -66,8 +66,8 @@ package com.bourre.model
 			
 			if ( !( ml.isRegistered( name ) ) )
 			{
-				if ( getName() != null && ml.isRegistered( getName() ) ) ml.unregisterModel( getName() );
-				if ( ml.registerModel( name, this ) ) _sName = name;
+				if ( getName() != null && ml.isRegistered( getName() ) ) ml.unregister( getName() );
+				if ( ml.register( name, this ) ) _sName = name;
 				
 			} else
 			{
@@ -103,7 +103,7 @@ package com.bourre.model
 		public function release() : void
 		{
 			_getBroadcaster().removeAllListeners();
-			ModelLocator.getInstance( getOwner() ).unregisterModel( getName() );
+			ModelLocator.getInstance( getOwner() ).unregister( getName() );
 			_sName = null;
 		}
 	

@@ -15,70 +15,52 @@ package com.bourre.view
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.NoSuchElementException;	
-	
-	import flash.utils.Dictionary;
-	
+	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.collection.HashMap;
-	import com.bourre.core.Locator;
-	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.NullPointerException;
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.plugin.*;		
+	import com.bourre.plugin.NullPlugin;
+	import com.bourre.plugin.Plugin;
+	import com.bourre.plugin.PluginDebug;	
 
-	public class ViewLocator 
-		implements Locator
+	final public class ViewLocator 
+		extends AbstractLocator
 	{
 		protected static var _M : HashMap = new HashMap();
-		
+
 		protected var _owner : Plugin;
-		protected var _m : HashMap;
-		
+
 		public function ViewLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
-			_m = new HashMap();
+			super( AbstractView );
 		}
-		
+
 		public static function getInstance( owner : Plugin = null ) : ViewLocator
 		{
-			if ( owner==null ) owner = NullPlugin.getInstance();
-			if ( !(ViewLocator._M.containsKey( owner )) ) ViewLocator._M.put( owner, new ViewLocator(new PrivateConstructorAccess(), owner) );
+			if ( owner == null ) owner = NullPlugin.getInstance();
+
+			if ( !( ViewLocator._M.containsKey( owner ) ) ) 
+			{
+				ViewLocator._M.put( owner, new ViewLocator( new PrivateConstructorAccess(), owner ) );
+			}
+
 			return ViewLocator._M.get( owner );
 		}
-		
+
 		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
-		
+
 		public function getLogger() : PluginDebug
 		{
 			return PluginDebug.getInstance( getOwner() );
-		}
-		
-		public function isRegistered( key : String ) : Boolean 
-		{
-			return _m.containsKey( key );
-		}
-
-		public function locate( key : String ) : Object
-		{
-			if ( isRegistered( key ) )
-			{
-				return _m.get( key );
-
-			} else
-			{
-				var msg : String = "Can't find AbstractView instance with '" + key + "' name in " + this;
-				getLogger().error( msg );
-				throw new NoSuchElementException( msg );
-			}	
 		}
 
 		public function getView( key : String ) : AbstractView
@@ -96,63 +78,32 @@ package com.bourre.view
 			return null;
 		}
 
-		public function registerView( key : String, o : AbstractView ) : Boolean
+		public override function register( key : String, o : Object ) : Boolean
 		{
 			if( key == null ) 
 				throw new NullPointerException ( "Cannot register a view with a null name" );
+
 			if( o == null ) 
 				throw new NullPointerException ( "Cannot register a null view" );
-					
-			if ( isRegistered( key ) )
-			{
-				var msg : String = "'" + o + "' AbstractView instance is already registered with '" + key + "' name in " + this;
-				getLogger().fatal( msg );
-				throw new IllegalArgumentException( msg );
 
-			} else
-			{
-				_m.put( key, o );
-				return true;
-			}
+			return super.register( key, o );
 		}
-		
-		public function unregisterView( key : String ) : void
-		{
-			_m.remove( key );
-		}
-		
-		public function release() : void
+
+		override public function release() : void
 		{
 			var a : Array = _m.getValues();
 			var l : uint = a.length;
 			while( -- l > - 1 ) ( a[ l ] as AbstractView ).release();
-			_m.clear();
-		}
-
-		public function add( d : Dictionary ) : void
-		{
-			for ( var key : * in d ) 
-			{
-				try
-				{
-					registerView( key, d[ key ] as AbstractView );
-
-				} catch( e : Error )
-				{
-					e.message = this + ".add() fails. " + e.message;
-					getLogger().error( e.message );
-					throw( e );
-				}
-			}
+			super.release();
 		}
 
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		override public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this ) + (_owner?", owner: "+_owner:"No owner.");
+			return super.toString() + (_owner?", owner: "+_owner:"No owner.");
 		}
 	}
 }

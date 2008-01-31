@@ -90,12 +90,31 @@ package com.bourre.remoting
 				}
 			}
 		}
-		
-		
+
 		// Util function
 		public function hasGateway() : Boolean
 		{
 			return gatewayURL !=  null ;
+		}
+
+		/**
+	     * Returns an <code>Array</code> view of the keys contained in this locator.
+	     *
+	     * @return an array view of the keys contained in this locator
+	     */
+		public function getKeys() : Array
+		{
+			return _m.getKeys();
+		}
+
+		/**
+	     * Returns an <code>Array</code> view of the values contained in this locator.
+	     *
+	     * @return an array view of the values contained in this locator
+	     */
+		public function getValues() : Array
+		{
+			return _m.getValues();
 		}
 	}
 }

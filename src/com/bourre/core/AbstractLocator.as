@@ -86,9 +86,18 @@ package com.bourre.core
 
 		public function register( name : String, o : Object ) : Boolean
 		{
+			var msg : String;
+
+			if ( isTyped() && !( o is getType() ) )
+			{
+				msg = this + ".register() failed. Item must be '" + getType().toString() + "' typed.";
+				PixlibDebug.ERROR( msg );
+				throw new IllegalArgumentException( msg );
+			}
+
 			if ( _m.containsKey( name ) )
 			{
-				var msg : String = " item is already registered with '" + name + "' name in " + this;
+				msg = " item is already registered with '" + name + "' name in " + this;
 				PixlibDebug.ERROR( msg );
 				throw new IllegalArgumentException( msg );
 
@@ -168,7 +177,7 @@ package com.bourre.core
 			{
 				try
 				{
-					register( key, d[ key ] as _cType );
+					register( key, d[ key ] );
 
 				} catch ( e : IllegalArgumentException )
 				{
@@ -259,6 +268,26 @@ package com.bourre.core
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
+		}
+		
+		/**
+	     * Returns an <code>Array</code> view of the keys contained in this locator.
+	     *
+	     * @return an array view of the keys contained in this locator
+	     */
+		public function getKeys() : Array
+		{
+			return _m.getKeys();
+		}
+
+		/**
+	     * Returns an <code>Array</code> view of the values contained in this locator.
+	     *
+	     * @return an array view of the values contained in this locator
+	     */
+		public function getValues() : Array
+		{
+			return _m.getValues();
 		}
 
 		/**

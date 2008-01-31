@@ -19,112 +19,52 @@ package com.bourre.service
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */	import flash.utils.Dictionary;	
-
-	import com.bourre.collection.HashMap;
-	import com.bourre.core.Locator;
-	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.error.NoSuchElementException;
+	 */	import com.bourre.core.AbstractLocator;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.service.ServiceLocatorListener;		
+	import com.bourre.service.ServiceLocatorListener;	
 
 	public class ServiceLocator 
-		implements Locator
+		extends AbstractLocator
 	{
-		private var _m : HashMap;
-		private var _oEB : EventBroadcaster;
-
 		public function ServiceLocator() 
 		{
-			_m = new HashMap();
-			_oEB = new EventBroadcaster( this );
+			super( null, ServiceLocatorListener );
 		}
 
-		public function release() : void
+		override protected function onRegister( key : String = null, service : Object = null ) : void
 		{
-			_m.clear();
+			var e : ServiceLocatorEvent = new ServiceLocatorEvent( ServiceLocatorEvent.onRegisterServiceEVENT, key, this );
+			if ( service is Class ) {e.setServiceClass( service as Class );} else {e.setService( service as Service );}
+			_oEB.broadcastEvent( e );
 		}
-		public function isRegistered( key : String ) : Boolean
+
+		override protected function onUnregister( key : String = null ) : void
 		{
-			return _m.containsKey( key );
+			_oEB.broadcastEvent( new ServiceLocatorEvent( ServiceLocatorEvent.onUnregisterServiceEVENT, key, this ) );
 		}
 
 		public function registerService( key : String, service : Service ) : Boolean
 		{
-			return _register( key, service );
+			return register( key, service );
 		}
 
 		public function registerServiceClass( key : String, serviceClass : Class ) : Boolean
 		{
-			return _register( key, serviceClass, true );
+			return register( key, serviceClass );
 		}
 
-		protected function _register( key : String, service : Object, isClass : Boolean = false ) : Boolean
+		override public function locate( key : String ) : Object
 		{
-			if ( _m.containsKey( key ) )
+			try
 			{
-				var msg : String = "Service instance is already registered with '" + key + "' name in " + this;
-				PixlibDebug.ERROR( msg );
-				throw new IllegalArgumentException( msg );
-
-				return false;
-
-			} else
-			{
-				_m.put( key, service );
-				var e : ServiceLocatorEvent = new ServiceLocatorEvent( ServiceLocatorEvent.onRegisterServiceEVENT, key, this );
-				if ( isClass ) {e.setServiceClass( service as Class );} else {e.setService( service as Service );}
-				_oEB.broadcastEvent( e );
-				return true;
-			}
-		}
-
-		public function unregister( key : String ) : Boolean
-		{
-			if ( isRegistered( key ) )
-			{
-				_m.remove( key );
-				_oEB.broadcastEvent( new ServiceLocatorEvent( ServiceLocatorEvent.onUnregisterServiceEVENT, key, this ) );
-				return true;
-
-			} else
-			{
-				return false;
-			}
-		}
-
-		public function locate( key : String ) : Object
-		{
-			if ( isRegistered( key ) ) 
-			{
-				var o : Object =  _m.get( key );
+				var o : Object =  super.locate( key );
 				return ( o is Class ) ? new ( o as Class )() : o;
 
-			} else
+			} catch ( e : Error )
 			{
-				var msg : String = "Can't find Service instance with '" + key + "' name in " + this;
-				PixlibDebug.FATAL( msg );
-				throw new NoSuchElementException( msg );
-			}
-		}
-
-		public function add( d : Dictionary ) : void
-		{
-			for ( var key : * in d ) 
-			{
-				try
-				{
-					var o : Object = d[ key ] as Object;
-					_register( key, o, o is Class );
-
-				} catch( e : Error )
-				{
-					e.message = this + ".add() fails. " + e.message;
-					PixlibDebug.ERROR( e.message );
-					throw( e );
-				}
+				PixlibDebug.FATAL( e.message );
+				throw e;
 			}
 		}
 
@@ -151,24 +91,5 @@ package com.bourre.service
 		public function removeListener( listener : ServiceLocatorListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
-		}
-
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
-		{
-			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
-		}
-
-		public function removeEventListener( type : String, listener : Object ) : Boolean
-		{
-			return _oEB.removeEventListener( type, listener );
-		}
-
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}}
