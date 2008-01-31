@@ -20,12 +20,9 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.IllegalArgumentException;	
-	import com.bourre.core.CoreFactory;	
-	import com.bourre.ioc.parser.ContextTypeList;	
-	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.net.URLRequest;
@@ -34,10 +31,13 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.text.TextField;
 	
 	import com.bourre.collection.HashMap;
+	import com.bourre.core.CoreFactory;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.IllegalStateException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.parser.ContextNodeNameList;
+	import com.bourre.ioc.parser.ContextTypeList;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
 	import com.bourre.load.Loader;
@@ -100,6 +100,9 @@ package com.bourre.ioc.assembler.displayobject
 			{
 				_target = target;
 				BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
+	
+				var param : Object = LoaderInfo( _target.root.loaderInfo ).parameters;
+				for ( var p : * in param ) BeanFactory.getInstance().register( "flashvars::" + p,  param[ p ] );
 				_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
 			}
 		}
