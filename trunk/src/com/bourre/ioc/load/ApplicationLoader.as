@@ -119,7 +119,6 @@ package com.bourre.ioc.load
 			{
 				var cl : ContextLoader = new ContextLoader();
 				cl.setURL( getURL() );
-				//cl.setAntiCache( true );
 
 				cl.addEventListener( ContextLoaderEvent.onLoadInitEVENT, _onContextLoaderLoadInit );
 				cl.addEventListener( ContextLoaderEvent.onLoadProgressEVENT, this );

@@ -24,7 +24,7 @@ package com.bourre.view
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.geom.Point;
-
+	
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.GraphicLoader;
@@ -33,7 +33,7 @@ package com.bourre.view
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.structures.Dimension;		
+	import com.bourre.structures.Dimension;	
 
 	public class AbstractView 
 	{
@@ -181,7 +181,7 @@ package com.bourre.view
 		public function release() : void
 		{
 			_getBroadcaster().removeAllListeners();
-			ViewLocator.getInstance( getOwner() ).unregisterView( getName() );
+			ViewLocator.getInstance( getOwner() ).unregister( getName() );
 
 			if( view != null )
 			{
@@ -225,8 +225,8 @@ package com.bourre.view
 
 			if ( name != null && !( vl.isRegistered( name ) ) )
 			{
-				if ( getName() != null && vl.isRegistered( getName() ) ) vl.unregisterView( getName() );
-				if ( vl.registerView( name, this ) ) _sName = name;
+				if ( getName() != null && vl.isRegistered( getName() ) ) vl.unregister( getName() );
+				if ( vl.register( name, this ) ) _sName = name;
 
 			} else
 			{

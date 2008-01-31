@@ -55,5 +55,19 @@ package com.bourre.core
 		 * 			locator instance.
 		 */
 		function add( d : Dictionary ) : void;
+		
+		/**
+	     * Returns an <code>Array</code> view of the keys contained in this locator.
+	     *
+	     * @return an array view of the keys contained in this locator
+	     */
+		function getKeys() : Array
+
+		/**
+	     * Returns an <code>Array</code> view of the values contained in this locator.
+	     *
+	     * @return an array view of the values contained in this locator
+	     */
+		function getValues() : Array
 	}
 }

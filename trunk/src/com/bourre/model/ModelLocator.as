@@ -20,30 +20,23 @@ package com.bourre.model
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.NoSuchElementException;	
-	
-	import flash.utils.Dictionary;
-
 	import com.bourre.collection.HashMap;
-	import com.bourre.core.Locator;
-	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.core.AbstractLocator;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;		
+	import com.bourre.plugin.PluginDebug;	
 
 	final public class ModelLocator 
-		implements Locator
+		extends AbstractLocator
 	{
 		protected static var _M : HashMap = new HashMap();
 
 		protected var _owner : Plugin;
-		protected var _m : HashMap;
 
 		public function ModelLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
-			_m = new HashMap();
+			super( AbstractModel );
 		}
 
 		public static function getInstance( owner : Plugin = null ) : ModelLocator
@@ -63,25 +56,6 @@ package com.bourre.model
 			return PluginDebug.getInstance( getOwner() );
 		}
 
-		public function isRegistered( key : String ) : Boolean 
-		{
-			return _m.containsKey( key );
-		}
-
-		public function locate( key : String ) : Object
-		{
-			if ( isRegistered( key ) )
-			{
-				return _m.get( key );
-
-			} else
-			{
-				var msg : String = "Can't find AbstractModel instance with '" + key + "' name in " + this;
-				getLogger().error( msg );
-				throw new NoSuchElementException( msg );
-			}	
-		}
-
 		public function getModel( key : String ) : AbstractModel
 		{
 			try
@@ -97,58 +71,21 @@ package com.bourre.model
 			return null;
 		}
 
-		public function registerModel( key : String, o : AbstractModel ) : Boolean
-		{
-			if ( isRegistered( key ) )
-			{
-				var msg : String = "'" + o + "' model instance is already registered with '" + key + "' name in " + this;
-				getLogger().fatal( msg );
-				throw new IllegalArgumentException( msg );
-
-			} else
-			{
-				_m.put( key, o );
-				return true;
-			}
-		}
-
-		public function unregisterModel( key : String ) : void
-		{
-			_m.remove( key );
-		}
-
-		public function release() : void
+		override public function release() : void
 		{
 			var a : Array = _m.getValues();
 			var l : uint = a.length;
 			while( -- l > - 1 ) ( a[ l ] as AbstractModel ).release();
-			_m.clear();
-		}
-
-		public function add( d : Dictionary ) : void
-		{
-			for ( var key : * in d ) 
-			{
-				try
-				{
-					registerModel( key, d[ key ] as AbstractModel );
-
-				} catch( e : IllegalArgumentException )
-				{
-					e.message = this + ".add() fails. " + e.message;
-					getLogger().error( e.message );
-					throw( e );
-				}
-			}
+			super.release();
 		}
 
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		override public function toString() : String 
 		{
-			return PixlibStringifier.stringify( this ) + (_owner?", owner: "+_owner:"No owner.");
+			return super.toString() + (_owner?", owner: "+_owner:"No owner.");
 		}
 	}
 }

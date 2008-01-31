@@ -20,55 +20,35 @@ package com.bourre.core
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.utils.Dictionary;
-	import flash.utils.describeType;
-	import flash.utils.getQualifiedClassName;
-
 	import com.bourre.collection.HashMap;
-	import com.bourre.collection.TypedContainer;
 	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.utils.ClassUtils;	
 
 	public class TypedFactoryLocator 
-		implements Locator, TypedContainer
+		extends AbstractLocator
 	{
-		protected var _m : HashMap;
-		protected var _cType : Class;
-
 		public function TypedFactoryLocator( type : Class )
 		{
-			_cType = type;
-			_m = new HashMap() ;
+			super( type );
 		}
 
-		public function  locate ( key : String ) : Object
-		{
-			if ( isRegistered(key) )
-			{
-				return _m.get( key ) ;
-
-			} else
-			{
-				var msg : String = this + ".locate(" + key + ") fails." ;
-				PixlibDebug.ERROR( msg ) ;
-				throw( new NoSuchElementException( msg ) ) ;
-			}
-		}
-
-		public function isRegistered( key : String ) : Boolean
-		{
-			return _m.containsKey( key ) ;
-		}
-
-		public function register ( key : String, clazz : Class ) : Boolean
+		override public function register ( key : String, o : Object ) : Boolean
 		{
 			var msg : String;
 
+			if ( !( o is Class ) )
+			{
+				msg = this + ".register(" + key + ") fails, '" + o + "' value isn't a Class." ;
+				PixlibDebug.ERROR( msg ) ;
+				throw( new IllegalArgumentException( msg ) );
+			}
+
+			var clazz : Class = o as Class;
+
 			if ( !( isRegistered( key ) ) )
 			{
-				if ( classExtends( clazz ) )
+				if ( ClassUtils.inherit( clazz, getType() ))
 				{
 					_m.put( key, clazz );
 					return true;
@@ -90,54 +70,10 @@ package com.bourre.core
 			}
 		}
 
-		public function toString() : String 
-		{
-			var parameter : String = getType().toString();
-			parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
-			return PixlibStringifier.stringify( this ) + parameter;
-		}
-
-		public function classExtends( extendedClass : Class ) : Boolean 
-		{
-        	return describeType( extendedClass ).factory.extendsClass.(@type==getQualifiedClassName( this._cType )).length() > 0;
-		}
-
-		public function add( d : Dictionary ) : void
-		{
-			for ( var key : * in d ) 
-			{
-				try
-				{
-					register( key, d[ key ] as Class );
-
-				} catch( e : IllegalArgumentException )
-				{
-					e.message = this + ".add() fails. " + e.message;
-					PixlibDebug.ERROR( e.message );
-					throw( e );
-				}
-			}
-		}
-
 		public function build( key : String ) : Object
 		{
 			var clazz : Class = locate( key ) as Class;
 			return new clazz( );
-		}
-
-		public function matchType( o : * ) : Boolean
-		{
-			return o is _cType;
-		}
-
-		public function getType() : Class
-		{
-			return _cType;
-		}
-
-		public function isTyped() : Boolean
-		{
-			return true;
 		}
 	}
 }

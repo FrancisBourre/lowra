@@ -61,7 +61,7 @@ package com.bourre.ioc.assembler.method
 			_oEB.broadcastEvent( new MethodEvent( m ) );
 			return m;
 		}
-		
+
 		public function callMethod( m : Method ) : void
 		{
 			var f : Function;
@@ -74,18 +74,22 @@ package com.bourre.ioc.assembler.method
 
 			} catch ( e : Error )
 			{
-				msg = this + ".callMethod() failed. " + m.ownerID + "." + m.name + " method was not found.";
+				msg = this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'."
+				msg += m.name + " method can't be found.";
 				PixlibDebug.FATAL( msg );
 				throw new NoSuchMethodException( msg );
 			}
 
+			var args : Array = PropertyExpert.getInstance().deserializeArguments( m.args );
+
 			try
 			{
-				f.apply( null, PropertyExpert.getInstance().deserializeArguments( m.args ) );
+				f.apply( null, args );
 
 			} catch ( e : Error )
 			{
-				msg = this + ".callMethod() failed. " + m.ownerID + "." + m.name + "() can't be called.";
+				msg = this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'." 
+				msg += m.name + "() method can't be called with these arguments: " + args;
 				PixlibDebug.FATAL( msg );
 				throw new IllegalArgumentException( msg );
 			}
