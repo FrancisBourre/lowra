@@ -25,7 +25,7 @@ package com.bourre.ioc.assembler.displayobject
 			GraphicLoaderLocator.release();
 
 			_b = false ;
-			_oDOE = DisplayObjectExpert.getInstance() ;
+			_oDOE = DisplayObjectExpert.getInstance();
 		}
 
 		public function testConstruct() : void
