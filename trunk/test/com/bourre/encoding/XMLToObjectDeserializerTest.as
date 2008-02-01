@@ -182,14 +182,13 @@ package com.bourre.encoding
 			
 			var obj : Object = oXOD.deserialize( xml );
 
+			assertNotNull("XMLToObjectDeserializer deserialize return null object  -node xml-", obj) ;
+			assertNotNull("XMLToObjectDeserializer deserialize result doesn't contain expected property -node xml 1-", obj.dvds) ;
+			assertNotNull("XMLToObjectDeserializer deserialize result doesn't contain expected property -node xml- 2", obj.dvds.film) ;
 			
-//			assertNotNull("XMLToObjectDeserializer deserialize return null object  -node xml-", obj) ;
-//			assertNotNull("XMLToObjectDeserializer deserialize result doesn't contain expected property -node xml 1-", obj.dvds) ;
-//			assertNotNull("XMLToObjectDeserializer deserialize result doesn't contain expected property -node xml- 2", obj.dvds.film) ;
-//			
-//			assertTrue ("XMLToObjectDeserializer deserialize doesn't return a string which is in childnode", obj.dvds.film.value is String) ;
-//			
-//			assertEquals("XMLToObjectDerializer deserialize doesn't return expected value -node xml-", obj.dvds.film.value, "Lost Highway") ;
+			assertTrue ("XMLToObjectDeserializer deserialize doesn't return a string which is in childnode", obj.dvds.film.value is String) ;
+			
+			assertEquals("XMLToObjectDerializer deserialize doesn't return expected value -node xml-", obj.dvds.film.value, "Lost Highway") ;
 		}
 		
 		public function testComplexNode():void

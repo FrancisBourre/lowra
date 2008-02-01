@@ -101,8 +101,16 @@ package com.bourre.ioc.assembler.displayobject
 				_target = target;
 				BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
 	
-				var param : Object = LoaderInfo( _target.root.loaderInfo ).parameters;
-				for ( var p : * in param ) BeanFactory.getInstance().register( "flashvars::" + p,  param[ p ] );
+				try
+				{
+					var param : Object = LoaderInfo( _target.root.loaderInfo ).parameters;
+					for ( var p : * in param ) BeanFactory.getInstance().register( "flashvars::" + p,  param[ p ] );
+
+				} catch ( e : Error )
+				{
+					//
+				}
+
 				_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
 			}
 		}
