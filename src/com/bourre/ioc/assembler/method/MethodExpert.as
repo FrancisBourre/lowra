@@ -20,20 +20,17 @@ package com.bourre.ioc.assembler.method
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.commands.Batch;
+	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchMethodException;
-	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.ioc.bean.BeanFactory;		
 
-	public class MethodExpert
+	public class MethodExpert 
+		extends AbstractLocator
 	{
 		private static var	_oI		: MethodExpert;
-
-		private var 		_oEB 	: EventBroadcaster;
-		private var 		_aMethod: Array;
 
 		public static function getInstance() : MethodExpert
 		{
@@ -45,43 +42,46 @@ package com.bourre.ioc.assembler.method
 
 		public static function release() : void
 		{
-			if ( MethodExpert._oI is MethodExpert ) MethodExpert._oI = null;
+			MethodExpert._oI = null;
 		}
 
 		public function MethodExpert( access : PrivateConstructorAccess )
 		{
-			_oEB = new EventBroadcaster( this, MethodExpertListener );
-			_aMethod = new Array();
+			super( Method, MethodExpertListener, null );
+		}
+		
+		override protected function onRegister( id : String = null, method : Object = null ) : void
+		{
+			broadcastEvent( new MethodEvent( MethodEvent.onRegisterMethodEVENT, id, method as Method ) );
 		}
 
-		public function addMethod ( ownerID : String, name : String, args : Array ) : Method
+		override protected function onUnregister( id : String = null ) : void
 		{
-			var m : Method = new Method( ownerID, name, args );
-			_aMethod.push( m ) ;
-			_oEB.broadcastEvent( new MethodEvent( m ) );
-			return m;
+			broadcastEvent( new MethodEvent( MethodEvent.onUnregisterMethodEVENT, id ) );
 		}
 
-		public function callMethod( m : Method ) : void
+		public function callMethod( id : String ) : void
 		{
+			var method : Method = locate( id ) as Method;
+
 			var f : Function;
 			var msg : String;
-			var owner : Object = BeanFactory.getInstance().locate( m.ownerID );
+			var owner : Object = BeanFactory.getInstance().locate( method.ownerID );
 
 			try
 			{
-				f = owner[ m.name ] as Function;
+				f = owner[ method.name ] as Function;
 
 			} catch ( error1 : Error )
 			{
 				msg = error1.message;
-				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'. ";
-				msg += m.name + " method can't be found.";
-				PixlibDebug.FATAL( msg );
+				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + method.ownerID + "'. ";
+				msg += method.name + " method can't be found.";
+				getLogger().fatal( msg );
 				throw new NoSuchMethodException( msg );
 			}
 
-			var args : Array = PropertyExpert.getInstance().deserializeArguments( m.args );
+			var args : Array = PropertyExpert.getInstance().deserializeArguments( method.args );
 
 			try
 			{
@@ -90,49 +90,26 @@ package com.bourre.ioc.assembler.method
 			} catch ( error2 : Error )
 			{
 				msg = error2.message;
-				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + m.ownerID + "'. ";
-				msg += "'" + m.name + "' method can't be called with these arguments: [" + args + "]";
-				PixlibDebug.FATAL( msg );
+				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + method.ownerID + "'. ";
+				msg += "'" + method.name + "' method can't be called with these arguments: [" + args + "]";
+				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
 			}
 		}
 
 		public function callAllMethods() : void
 		{
-			var l : int = _aMethod.length;
-			for ( var i : int = 0; i < l; i++ ) callMethod( _aMethod[i] );
+			Batch.process( callMethod, getKeys() );
 		}
-		
-		/**
-		 * Event system
-		 */
+
 		public function addListener( listener : MethodExpertListener ) : Boolean
 		{
-			return _oEB.addListener( listener );
+			return getBroadcaster().addListener( listener );
 		}
 
 		public function removeListener( listener : MethodExpertListener ) : Boolean
 		{
-			return _oEB.removeListener( listener );
-		}
-
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
-		{
-			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
-		}
-
-		public function removeEventListener( type : String, listener : Object ) : Boolean
-		{
-			return _oEB.removeEventListener( type, listener );
-		}
-
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
+			return getBroadcaster().removeListener( listener );
 		}
 	}
 }

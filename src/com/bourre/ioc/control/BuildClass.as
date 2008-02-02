@@ -20,26 +20,24 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
 
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;	
 
-	public class BuildClass 
-			implements IBuilder
+	public class BuildClass
+		extends AbstractCommand
 	{
-		
-
-
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
+		override public function execute( e : Event = null ) : void 
 		{
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+
 			var c : Class;
 			var msg : String;
-			
+			var args : Array = constructor.arguments;
+
 			var qualifiedClassName : String = "";
 			if ( args != null && args.length > 0 ) qualifiedClassName = ( args[0] ).toString();
 
@@ -47,19 +45,14 @@ package com.bourre.ioc.control
 			{
 				c = getDefinitionByName( qualifiedClassName ) as Class;
 
-			} catch ( e : Error )
+			} catch ( error : Error )
 			{
-				msg = e.message;
+				msg = error.message;
 				msg += " '" + qualifiedClassName + "' is not available in current domain";
-				PixlibDebug.FATAL( msg );
-				return null;
+				getLogger().fatal( msg );
 			}
-	
-			return c;
-		}
 
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
+			constructor.result = c;
 		}
-	}}
+	}
+}

@@ -20,48 +20,58 @@ package com.bourre.ioc.assembler.property
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.collection.HashMap;
+	import com.bourre.commands.Batch;
+	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.events.*;
+	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.bean.BeanEvent;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.bean.BeanFactoryListener;
 	import com.bourre.ioc.control.BuildFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.parser.ContextTypeList;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.utils.ObjectUtils;	
+	import com.bourre.utils.ObjectUtils;		
 
 	public class PropertyExpert 
+		extends AbstractLocator
 		implements BeanFactoryListener
 	{
 		private static var _oI : PropertyExpert;
-		private var _oEB : EventBroadcaster;
-		private var _mProperty : HashMap;
 
 		public static function getInstance() : PropertyExpert
 		{
-			if ( !( _oI is PropertyExpert ) ) _oI = new PropertyExpert( new PrivateConstructorAccess() );
-			return _oI;
+			if ( !( PropertyExpert._oI is PropertyExpert ) ) 
+				PropertyExpert._oI = new PropertyExpert( new PrivateConstructorAccess() );
+
+			return PropertyExpert._oI;
 		}
 		
 		public static function release() : void
 		{
-			if ( PropertyExpert._oI is PropertyExpert ) PropertyExpert._oI = null;
+			PropertyExpert._oI = null;
 		}
 
 		public function PropertyExpert( o : PrivateConstructorAccess )
 		{
-			_oEB = new EventBroadcaster( this, PropertyExpertListener );
-			_mProperty = new HashMap();
+			super( Array, PropertyExpertListener, null );
 
 			BeanFactory.getInstance().addListener( this );
 			addListener( IDExpert.getInstance() );
 		}
+		
+		override protected function onRegister( id : String = null, o : Object = null ) : void
+		{
+			broadcastEvent( new PropertyEvent( PropertyEvent.onRegisterPropertyOwnerEVENT, id ) );
+		}
+
+		override protected function onUnregister( id : String = null ) : void
+		{
+			broadcastEvent( new PropertyEvent( PropertyEvent.onRegisterPropertyOwnerEVENT, id ) );
+		}
 
 		public function setPropertyValue( p : Property, target : Object ) : void
 		{
-			target[ p.name ] = getValue( p ) ;
+			target[ p.name ] = getValue( p );
 		}
 
 		public function getValue( p : Property ) : *
@@ -81,7 +91,7 @@ package com.bourre.ioc.assembler.property
 				} else
 				{
 					msg = this + ".getValue() failed to retrieve method of '" + target + "' named '" + methodName + "'";
-					PixlibDebug.FATAL( msg );
+					getLogger().fatal( msg );
 					throw new IllegalArgumentException( msg );
 				}
 
@@ -102,8 +112,8 @@ package com.bourre.ioc.assembler.property
 
 			} else
 			{
-				var type : String = p.type && p.type != ContextTypeList.CLASS ? p.type : ContextTypeList.STRING;
-				return BuildFactory.getInstance().getBuilder( type ).build( type, [p.value] );
+				var type : String = p.type/* && p.type != ContextTypeList.CLASS */? p.type : ContextTypeList.STRING;
+				return BuildFactory.getInstance().build( new Constructor( p.ownerID, type, [ p.value ] ) );
 			}
 		}
 
@@ -114,7 +124,7 @@ package com.bourre.ioc.assembler.property
 
 			if ( l > 0 ) r = new Array();
 
-			for ( var i : Number = 0; i < l; i++ ) 
+			for ( var i : int; i < l; i++ ) 
 			{
 				var o : * = a[i];
 				if ( o is Property )
@@ -140,7 +150,7 @@ package com.bourre.ioc.assembler.property
 										method 	: String = null  ) : Property
 		{
 			var p : Property = new Property( ownerID, name, value, type, ref, method );
-			_oEB.broadcastEvent( new PropertyEvent( p ) );
+			broadcastEvent( new PropertyEvent( PropertyEvent.onBuildPropertyEVENT, null, p ) );
 			return p;
 		}
 		
@@ -153,63 +163,35 @@ package com.bourre.ioc.assembler.property
 		{
 			var p : Property = buildProperty( ownerID, name, value, type, ref, method );
 
-			if ( _mProperty.containsKey( ownerID ) )
+			if ( isRegistered( ownerID ) )
 			{
-				( _mProperty.get( ownerID ) as Array ).push( p );
+				( locate( ownerID ) as Array ).push( p );
 
 			} else
 			{
-				var a : Array = new Array();
-				a.push( p );
-				_mProperty.put( ownerID, a );
+				register( ownerID, [ p ] );
 			}
 
 			return p;
 		}
 
-		/**
-		 * Event system
-		 */
 		public function addListener( listener : PropertyExpertListener ) : Boolean
 		{
-			return _oEB.addListener( listener );
+			return getBroadcaster().addListener( listener );
 		}
 
 		public function removeListener( listener : PropertyExpertListener ) : Boolean
 		{
-			return _oEB.removeListener( listener );
-		}
-		
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
-		{
-			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
-		}
-		
-		public function removeEventListener( type : String, listener : Object ) : Boolean
-		{
-			return _oEB.removeEventListener( type, listener );
+			return getBroadcaster().removeListener( listener );
 		}
 
-		/**
-		 * IBeanFactoryListener callbacks
-		 */
 		public function onRegisterBean( e : BeanEvent ) : void
 		{
 			var id : String = e.getID();
-			var bean : Object = e.getBean();
-
-			if ( _mProperty.containsKey( id ) )
-			{
-				var props : Array = _mProperty.get( id );
-				var l : Number = props.length;
-				while( -- l > - 1 ) setPropertyValue( props[ l ], bean );
-			}
+			if ( isRegistered( id ) ) Batch.process( setPropertyValue, locate( id ) as Array, e.getBean() );
 		}
 
-		public function onUnregisterBean( e : BeanEvent ) : void
-		{
-			//
-		}
+		public function onUnregisterBean( e : BeanEvent ) : void {}
 	}
 }
 

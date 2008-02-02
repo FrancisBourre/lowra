@@ -1,89 +1,96 @@
 package com.bourre.ioc.assembler.constructor
 {
-	import com.bourre.collection.HashMap;
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */
+
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.Set;
+	import com.bourre.core.AbstractLocator;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.control.BuildFactory;
 	import com.bourre.ioc.core.IDExpert;	
 
-	public class ConstructorExpert
+	public class ConstructorExpert 
+		extends AbstractLocator
 	{
 		private static var _oI : ConstructorExpert;
-	
-		private var _oEB : EventBroadcaster;
-		private var _mConstructor : HashMap;
-		
+
 		public static function getInstance() : ConstructorExpert 
 		{
-			if (_oI == null) _oI = new ConstructorExpert();
-			return _oI;
+			if ( !(ConstructorExpert._oI is ConstructorExpert) ) 
+				ConstructorExpert._oI = new ConstructorExpert( new PrivateConstructorAccess() );
+
+			return ConstructorExpert._oI;
 		}
-		
+
 		public static  function release() : void
 		{
-			_oI = null;
+			ConstructorExpert._oI = null;
 		}
-		
-		public function ConstructorExpert()
+
+		public function ConstructorExpert( access : PrivateConstructorAccess )
 		{
-			_oEB = new EventBroadcaster( this, ConstructorExpertListener );
-			_mConstructor = new HashMap();
+			super( Constructor, ConstructorExpertListener, null );
 		}
-	
-		public function addConstructor( id : String, 
-										type : String = null, 
-										args : Array = null, 
-										factory : String = null , 
-										singleton : String = null) : Constructor
+
+		override protected function onRegister( id : String = null, constructor : Object = null ) : void
 		{
-			var cons : Constructor = new Constructor( id, type, args, factory, singleton );
-			_mConstructor.put( id, cons );
-			_oEB.broadcastEvent( new ConstructorEvent( cons ) );
-			return cons;
+			broadcastEvent( new ConstructorEvent( ConstructorEvent.onRegisterConstructorEVENT, id, constructor as Constructor ) );
 		}
-		
-		public function buildObject( o : Constructor ) : *
+
+		override protected function onUnregister( id : String = null ) : void
 		{
-			var args : Array;
-			if ( o.arguments != null )  args = PropertyExpert.getInstance().deserializeArguments( o.arguments );
-			return BuildFactory.getInstance().getBuilder( o.type ).build( o.type, args, o.factory, o.singleton, o.id );
+			broadcastEvent( new ConstructorEvent( ConstructorEvent.onUnregisterConstructorEVENT, id ) );
 		}
-		
+
+		public function buildObject( id : String ) : *
+		{
+			var cons : Constructor = locate( id ) as Constructor;
+			if ( cons.arguments != null )  cons.arguments = PropertyExpert.getInstance().deserializeArguments( cons.arguments );
+			return BuildFactory.getInstance().build( cons );
+		}
+
 		public function buildAllObjects() : void
 		{
-			var bf : BeanFactory = BeanFactory.getInstance();
 			var a : Set = IDExpert.getInstance().getReferenceList();
 			var iter : Iterator = a.iterator();
-			
+
 			while( iter.hasNext() )
 			{
 				var id : String = iter.next() as String;
-				if ( _mConstructor.containsKey( id ) ) bf.register( id, buildObject( _mConstructor.get( id ) ) );
+				if ( isRegistered( id ) ) BeanFactory.getInstance().register( id, buildObject( id ) );
 			}
 		}
-		
+
 		public function addListener( listener : ConstructorExpertListener ) : Boolean
 		{
-			return _oEB.addListener( listener );
+			return getBroadcaster().addListener( listener );
 		}
 
 		public function removeListener( listener : ConstructorExpertListener ) : Boolean
 		{
-			return _oEB.removeListener( listener );
+			return getBroadcaster().removeListener( listener );
 		}
-		
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
-		{
-			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
-		}
-		
-		public function removeEventListener( type : String, listener : Object ) : Boolean
-		{
-			return _oEB.removeEventListener( type, listener );
-		}
-
 	}
 }
+
+internal class PrivateConstructorAccess {}

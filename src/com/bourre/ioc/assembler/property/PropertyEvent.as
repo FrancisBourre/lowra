@@ -21,66 +21,62 @@ package com.bourre.ioc.assembler.property
 	 * @version 1.0
 	 */
 	import com.bourre.events.BasicEvent;
-	import com.bourre.ioc.assembler.property.Property;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.ioc.assembler.property.Property;	
 
 	public class PropertyEvent 
 		extends BasicEvent
 	{
 		public static const onBuildPropertyEVENT : String = "onBuildProperty";
+		public static const onRegisterPropertyOwnerEVENT : String = "onRegisterPropertyOwner";		public static const onUnregisterPropertyOwnerEVENT : String = "onUnregisterPropertyOwner";
 
-		protected var _oProp : Property;
+		protected var _sID : String;		protected var _oProperty : Property;
 
-		public function PropertyEvent( o : Property )
+		public function PropertyEvent( type : String, id : String, property : Property = null )
 		{
-			super( PropertyEvent.onBuildPropertyEVENT, o );
+			super( type );
 
-			_oProp = o;
+			_sID = id;
+			_oProperty = property;
+		}
+		
+		public function getExpertID() : String
+		{
+			return _sID;
 		}
 
 		public function getProperty() : Property
 		{
-			return _oProp;
+			return _oProperty;
 		}
 
 		public function getPropertyOwnerID() : String
 		{
-			return _oProp.ownerID;
+			return _oProperty.ownerID;
 		}
 		
 		public function getPropertyName() : String
 		{
-			return _oProp.name;
+			return _oProperty.name;
 		}
 		
 		public function getPropertyValue() : String
 		{
-			return _oProp.value;
+			return _oProperty.value;
 		}
 		
 		public function getPropertyType() : String
 		{
-			return _oProp.type;
+			return _oProperty.type;
 		}
 
 		public function getPropertyRef() : String
 		{
-			return _oProp.ref;
+			return _oProperty.ref;
 		}
 		
 		public function getPropertyMethod() : String
 		{
-			return _oProp.method;
+			return _oProperty.method;
 		}
-
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public override function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
-		}
-		
 	}
 }

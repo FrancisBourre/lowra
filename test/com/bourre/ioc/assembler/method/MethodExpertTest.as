@@ -1,13 +1,16 @@
 package com.bourre.ioc.assembler.method
 {
+	import com.bourre.core.HashCodeFactory;	
 	import com.bourre.ioc.assembler.property.Property;	import com.bourre.ioc.bean.BeanFactory;		import flexunit.framework.TestCase;	
-	public class MethodExpertTest extends TestCase implements MethodExpertListener
+	public class MethodExpertTest 
+		extends TestCase 
+		implements MethodExpertListener
 	{
 		private var _oME		:MethodExpert ;
 		private var _test		:TestClass ;
-		private var _method		:* ;
-		private var _method2	:* ;
-		private var _method3	:* ;
+		private var _method 	: Method;
+		private var _method2	: Method;
+		private var _method3	: Method;
 		private var _e 			: MethodEvent ;
 		
 		public override function setUp():void
@@ -49,7 +52,8 @@ package com.bourre.ioc.assembler.method
 			var i:Property = new Property("_test", null, "12", "int", null, null) ;
 			var j:Property = new Property("_test", null, "21", "uint", null, null) ;
 			
-			_method 	= _oME.addMethod ("_test", 	"setPosition",	[i,j]) ;
+			_method = new Method("_test", 	"setPosition",	[i,j]);
+			_oME.register( HashCodeFactory.getKey( _method ), _method );
 			
 			assertNotNull(	"MethodExpert addMethod returns null", 
 							_method) ;
@@ -70,8 +74,9 @@ package com.bourre.ioc.assembler.method
 			var i:Property = new Property("_test", null, "12", "int", null, null) ;
 			var j:Property = new Property("_test", null, "21", "uint", null, null) ;
 			
-			_method 	= _oME.addMethod ("_test", 	"setPosition",	[i,j]) ;
-			_oME.callMethod(_method) ;
+			_method = new Method ("_test", 	"setPosition",	[i,j]) ;
+			_oME.register( HashCodeFactory.getKey( _method ), _method );
+			_oME.callMethod(HashCodeFactory.getKey( _method )) ;
 			assertTrue(	"MethodExpert callMethod doesn't call the method", _test.x != 0) ;
 		}
 		
@@ -82,9 +87,13 @@ package com.bourre.ioc.assembler.method
 			var j:Property = new Property("_test", null, "21", "uint", null, null) ;
 			var k:Property = new Property("_test", null, "blabla", "String", null, null) ;
 			
-			_method 	= _oME.addMethod ("_test", 	"setPosition",	[i,j]) ;
-			_method2 	= _oME.addMethod ("_test", 	"setName",		[k]) ; 
-			_method3 	= _oME.addMethod ("_test", 	"getArgs", 		[]) ;
+			_method 	= new Method ("_test", 	"setPosition",	[i,j]) ;
+			_method2 	= new Method ("_test", 	"setName",		[k]) ; 
+			_method3 	= new Method ("_test", 	"getArgs", 		[]) ;
+			
+			_oME.register( HashCodeFactory.getKey( _method ), _method );
+			_oME.register( HashCodeFactory.getKey( _method2 ), _method2 );
+			_oME.register( HashCodeFactory.getKey( _method3 ), _method3 );
 			
 			_oME.callAllMethods() ;
 			
@@ -96,18 +105,14 @@ package com.bourre.ioc.assembler.method
 							12, _test.tab[0]) ;
 		}
 		
-		public function onBuildMethod(e:MethodEvent) : void
-		{
-			_e = e ;
-		}
-		
 		public function testAddRemoveListener():void
 		{
 			var i:Property = new Property("_test", null, "12", "int", null, null) ;
 			var j:Property = new Property("_test", null, "21", "uint", null, null) ;
 			var k:Property = new Property("_test", null, "blabla", "String", null, null) ;
 			
-			_method = _oME.addMethod ("_test", "setPosition", [i,j]) ;
+			_method = new Method ("_test", "setPosition", [i,j]) ;
+			_oME.register( HashCodeFactory.getKey( _method ), _method );
 			
 			assertNotNull(	"MethodExpert addListener event not called", 
 							_e) ;
@@ -115,9 +120,20 @@ package com.bourre.ioc.assembler.method
 			_e = null ;
 			_oME.removeListener(this) ;
 			
-			_method2 = _oME.addMethod ("_test", "setName", [k]) ;
+			_method2 = new Method ("_test", "setName", [k]) ;
+			_oME.register( HashCodeFactory.getKey( _method2 ), _method2 );
+			
 			assertNull(	"MethodExpert removeListener event still called", 
 						_e) ;
+		}
+		
+		public function onRegisterMethod(e : MethodEvent) : void
+		{
+			_e = e;
+		}
+		
+		public function onUnregisterMethod(e : MethodEvent) : void
+		{
 		}
 	}
 }

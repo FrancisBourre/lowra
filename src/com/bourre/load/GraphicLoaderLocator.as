@@ -23,7 +23,6 @@ package com.bourre.load
 	import flash.system.ApplicationDomain;
 	
 	import com.bourre.core.AbstractLocator;
-	import com.bourre.events.EventBroadcaster;	
 
 	public class GraphicLoaderLocator 
 		extends AbstractLocator
@@ -48,12 +47,12 @@ package com.bourre.load
 
 		override protected function onRegister( name : String = null, o : Object = null ) : void
 		{
-			_oEB.broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onRegisterGraphicLoaderEVENT, name, o as GraphicLoader ) );
+			broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onRegisterGraphicLoaderEVENT, name, o as GraphicLoader ) );
 		}
 
 		override protected function onUnregister( name : String = null ) : void
 		{
-			_oEB.broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onUnregisterGraphicLoaderEVENT, name, null ) );
+			broadcastEvent( new GraphicLoaderLocatorEvent( GraphicLoaderLocatorEvent.onUnregisterGraphicLoaderEVENT, name, null ) );
 		} 
 
 		public function getGraphicLoader( name : String ) : GraphicLoader
@@ -78,12 +77,12 @@ package com.bourre.load
 
 		public function addListener( listener : GraphicLoaderLocatorListener ) : Boolean
 		{
-			return _oEB.addListener( listener );
+			return getBroadcaster().addListener( listener );
 		}
 
 		public function removeListener( listener : GraphicLoaderLocatorListener ) : Boolean
 		{
-			return _oEB.removeListener( listener );
+			return getBroadcaster().removeListener( listener );
 		}
 	}
 }

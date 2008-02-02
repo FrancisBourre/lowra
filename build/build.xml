@@ -1,9 +1,7 @@
 <project name="lowra" basedir="../" default="test.Execute">
 	
 	<property file="./build/build.properties" />
-	
-	<taskdef name="ifac" classname="com.netTrek.iFac.ant.core.IFacTask" classpath="${iFac.ant}"/>
-	
+
 	<!--**************************************************** 
 		CLEAN THE TEST RUNNER
 	*****************************************************-->	
@@ -21,7 +19,7 @@
 	*****************************************************-->
 	
 	<target name="test.Compile">
-		<antcall target="fcsh.Compile">
+		<antcall target="mxmlc.Compile">
 			<param name="src" value="${testRunner.dir}/PixlibTest.mxml"/>
 			<param name="output" value="PixlibTestRunner.swf"/>
 			<param name="bin" value="${bin.dir}"/>

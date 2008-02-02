@@ -15,7 +15,7 @@ package com.bourre.log
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -24,44 +24,111 @@ package com.bourre.log
 	import com.bourre.events.EventChannel;
 
 	public class PixlibDebug 
+		implements Log
 	{
-		public static var isOn : Boolean = true;
-		private static var _CHANNEL : EventChannel;
-		
-		public function PixlibDebug()
+		private static var _oI : PixlibDebug;
+
+		protected var _channel : EventChannel;
+		protected var _bIsOn : Boolean;
+
+		public function PixlibDebug( constructorAccess : PrivateConstructorAccess )
 		{
-			
+			_channel = new PixlibDebugChannel();
+			on();
 		}
-		
+
+		public static function getInstance() : Log
+		{
+			if ( !( PixlibDebug._oI is PixlibDebug ) ) 
+				PixlibDebug._oI = new PixlibDebug( new PrivateConstructorAccess() );
+
+			return PixlibDebug._oI;
+		}
+
 		public static function get CHANNEL() : EventChannel
 		{
-			if ( !PixlibDebug._CHANNEL ) PixlibDebug._CHANNEL = new PixlibDebugChannel();
-			return PixlibDebug._CHANNEL;
+			return PixlibDebug.getInstance().getChannel();
 		}
-		
+
+		public static function get isOn() : Boolean
+		{
+			return PixlibDebug.getInstance().isOn();
+		}
+
+		public static function set isOn( b : Boolean ) : void
+		{
+			if ( b ) PixlibDebug.getInstance().on() else PixlibDebug.getInstance().off();
+		}
+
 		public static function DEBUG( o : * ) : void
 		{
-			if (PixlibDebug.isOn) Logger.DEBUG( o, PixlibDebug.CHANNEL );
+			PixlibDebug.getInstance().debug( o );
 		}
-		
+
 		public static function INFO( o : * ) : void
 		{
-			if (PixlibDebug.isOn) Logger.INFO( o, PixlibDebug.CHANNEL );
+			PixlibDebug.getInstance().info( o );
 		}
-		
+
 		public static function WARN( o : * ) : void
 		{
-			if (PixlibDebug.isOn) Logger.WARN( o, PixlibDebug.CHANNEL );
+			PixlibDebug.getInstance().warn( o );
 		}
-		
+
 		public static function ERROR( o : * ) : void
 		{
-			if (PixlibDebug.isOn) Logger.ERROR( o, PixlibDebug.CHANNEL );
+			PixlibDebug.getInstance().error( o );
 		}
-		
+
 		public static function FATAL( o : * ) : void
 		{
-			if (PixlibDebug.isOn) Logger.FATAL( o, PixlibDebug.CHANNEL );
+			PixlibDebug.getInstance().fatal( o );
+		}
+		
+		//
+		public function debug(o : *) : void
+		{
+			if ( isOn() ) Logger.DEBUG ( o, _channel );
+		}
+		
+		public function info(o : *) : void
+		{
+			if ( isOn() ) Logger.INFO ( o, _channel );
+		}
+		
+		public function warn(o : *) : void
+		{
+			if ( isOn() ) Logger.WARN ( o, _channel );
+		}
+		
+		public function error(o : *) : void
+		{
+			if ( isOn() ) Logger.ERROR ( o, _channel );
+		}
+		
+		public function fatal(o : *) : void
+		{
+			if ( isOn() ) Logger.FATAL ( o, _channel );
+		}
+		
+		public function getChannel() : EventChannel
+		{
+			return _channel;
+		}
+
+		public function isOn() : Boolean
+		{
+			return _bIsOn;
+		}
+
+		public function on() : void
+		{
+			_bIsOn = true;
+		}
+
+		public function off() : void
+		{
+			_bIsOn = false;
 		}
 	}
 }
@@ -70,6 +137,6 @@ import com.bourre.events.EventChannel;
 
 internal class PixlibDebugChannel 
 	extends EventChannel
-{
-	
-}
+{}
+
+internal class PrivateConstructorAccess {}

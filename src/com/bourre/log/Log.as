@@ -1,4 +1,4 @@
-package com.bourre.ioc.assembler.channel
+package com.bourre.log 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -15,13 +15,16 @@ package com.bourre.ioc.assembler.channel
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-
+	
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */
-	public interface ChannelListenerExpertListener
+	 */	import com.bourre.events.EventChannel;				
+	public interface Log 
 	{
-		function onRegisterChannelListener( e : ChannelListenerEvent ) : void;		function onUnregisterChannelListener( e : ChannelListenerEvent ) : void;
-	}
-}
+		function debug ( o : * ) : void;		function info ( o : * ) : void;		function warn ( o : * ) : void;		function error ( o : * ) : void;		function fatal ( o : * ) : void;
+		function getChannel() : EventChannel;
+		function isOn () : Boolean;
+		function on () : void;
+		function off () : void;
+	}}

@@ -20,6 +20,8 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.events.EventBroadcaster;	
+	
 	import flash.events.Event;
 
 	import com.bourre.commands.FrontController;
@@ -54,13 +56,16 @@ package com.bourre.plugin
 
 		protected function _initialize() : void
 		{
+			_oEBPrivate = new EventBroadcaster( this );
 			_oController = new FrontController( this );
+			_oEBPrivate.addListener( _oController );
+			
 			_oModelLocator = ModelLocator.getInstance( this );
 			_oViewLocator = ViewLocator.getInstance( this );
 				
 			_oABExternal = ApplicationBroadcaster.getInstance();
 			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
-			_oEBPrivate = getController().getBroadcaster();
+			
 
 			if( _oEBPublic ) _oEBPublic.addListener( this );
 		}

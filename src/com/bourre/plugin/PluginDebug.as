@@ -20,22 +20,27 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.collection.*;
-	import com.bourre.events.*;
-	import com.bourre.log.*;
+	import com.bourre.collection.HashMap;
+	import com.bourre.events.EventChannel;
+	import com.bourre.log.Log;
+	import com.bourre.log.Logger;
+	import com.bourre.log.PixlibStringifier;
 
 	public class PluginDebug
+		implements Log
 	{
 		public static var isOn : Boolean = true;
 		private static const _M : HashMap = new HashMap();
-		private var _channel : EventChannel;
-		private var _owner : Plugin;
-		
+
+		protected var _channel : EventChannel;
+		protected var _owner : Plugin;
+		protected var _bIsOn : Boolean;
+
 		public function PluginDebug(  access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 				_owner = owner;
 				_channel = owner.getChannel();
+				on();
 		}
 		
 		public function getOwner() : Plugin
@@ -43,12 +48,27 @@ package com.bourre.plugin
 			return _owner;
 		}
 		
+		public function isOn() : Boolean
+		{
+			return _bIsOn;
+		}
+		
+		public function on() : void
+		{
+			_bIsOn = true;
+		}
+		
+		public function off() : void
+		{
+			_bIsOn = false;
+		}
+
 		public function getChannel() : EventChannel
 		{
 			return _channel;
 		}
 	
-		public static function getInstance( owner : Plugin = null ) : PluginDebug
+		public static function getInstance ( owner : Plugin = null ) : PluginDebug
 		{
 			if ( owner == null ) owner = NullPlugin.getInstance();
 			if ( !(PluginDebug._M.containsKey( owner )) ) PluginDebug._M.put( owner, new PluginDebug( new PrivateConstructorAccess(), owner ) );
@@ -70,27 +90,27 @@ package com.bourre.plugin
 
 		public function debug( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.DEBUG( o, _channel );
+			if ( PluginDebug.isOn && _bIsOn ) Logger.DEBUG( o, _channel );
 		}
 		
 		public function info( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.INFO( o, _channel );
+			if ( PluginDebug.isOn && _bIsOn ) Logger.INFO( o, _channel );
 		}
 		
 		public function warn( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.WARN( o, _channel );
+			if ( PluginDebug.isOn && _bIsOn ) Logger.WARN( o, _channel );
 		}
 		
 		public function error( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.ERROR( o, _channel );
+			if ( PluginDebug.isOn && _bIsOn ) Logger.ERROR( o, _channel );
 		}
 		
 		public function fatal( o : * ) : void
 		{
-			if (PluginDebug.isOn) Logger.FATAL( o, _channel );
+			if ( PluginDebug.isOn && _bIsOn ) Logger.FATAL( o, _channel );
 		}
 		
 		/**

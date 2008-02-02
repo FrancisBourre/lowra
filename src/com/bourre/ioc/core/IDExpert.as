@@ -89,6 +89,9 @@ package com.bourre.ioc.core
 //			}
 		}
 
+		public function onRegisterPropertyOwner( e : PropertyEvent ) : void {}
+		public function onUnregisterPropertyOwner( e : PropertyEvent ) : void{}
+
 		private function _pushReference( refID : String, ownerID : String ) : void
 		{	
 			_c.add( refID );

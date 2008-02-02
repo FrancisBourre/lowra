@@ -1,4 +1,4 @@
-package com.bourre.ioc.control
+package com.bourre.ioc.control 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,34 +20,33 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import flash.events.Event;
+
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;	
 
 	public class BuildBoolean
-		implements IBuilder
+		extends AbstractCommand
 	{
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
+		override public function execute( e : Event = null ) : void 
 		{
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+
 			var value : String = "";
+			var args : Array = constructor.arguments;
+
 			if ( args != null && args.length > 0 ) value = ( args[0] ).toString();
 
-			if ( value.length <= 0 || Number(value)==0) 
+			if ( value.length <= 0 || Number( value ) == 0 ) 
 			{
-				PixlibDebug.WARN( this + ".build(" + value + ") failed." );
-				return false;
+				getLogger().warn( this + ".build(" + value + ") failed." );
+				constructor.result = false;
+
 			} else
 			{
-				return new Boolean( value == "true" || !isNaN(Number(value))&&Number(value)!=0 );
+				constructor.result =  Boolean( value == "true" || !isNaN( Number( value ) ) && Number( value ) != 0 );
 			}
-		}
-
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}
 }

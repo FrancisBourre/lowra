@@ -1,4 +1,4 @@
-package com.bourre.ioc.control
+package com.bourre.ioc.control 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,35 +20,35 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;
 
-	public class BuildUint 
-		implements IBuilder
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;	
+
+	public class BuildUint
+		extends AbstractCommand
 	{
-		import com.bourre.log.*;
-
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
+		override public function execute( e : Event = null ) : void 
 		{
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+
 			var n : Number = NaN;
+			var args : Array = constructor.arguments;
+
 			if ( args != null && args.length > 0 ) n = parseInt( ( args[0] ).toString() );
-			
-			if ( !isNaN(n) && n <= uint.MAX_VALUE && n >= uint.MIN_VALUE ) 
+
+			if ( !isNaN( n ) && n <= uint.MAX_VALUE && n >= uint.MIN_VALUE ) 
 			{
-				return uint( n );
-				
+				constructor.result = uint( n );
+
 			} else
 			{
-				PixlibDebug.FATAL( this + ".build(" + n + ") failed." );
-				return 0;
+				var msg : String = this + ".build(" + n + ") failed.";
+				getLogger().fatal( msg );
+				throw new IllegalArgumentException( msg );
 			}
-		}
-
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}
 }

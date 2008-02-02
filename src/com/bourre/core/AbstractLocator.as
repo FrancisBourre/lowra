@@ -19,14 +19,17 @@ package com.bourre.core
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */	import flash.utils.Dictionary;
+	 */	import flash.events.Event;
+	import flash.utils.Dictionary;
 	
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.TypedContainer;
 	import com.bourre.core.Locator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
+	import com.bourre.events.Broadcaster;
 	import com.bourre.events.EventBroadcaster;
+	import com.bourre.log.Log;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
 
@@ -39,9 +42,11 @@ package com.bourre.core
 		 */
 		protected var _m : HashMap;
 
-		protected var _oEB : EventBroadcaster;
+		private var _oEB : Broadcaster;
 
-		protected var _cType : Class;
+		private var _cType : Class;
+		
+		private var _logger : Log;
 
 		/**
 		 * Creates a new locator instance. If the <code>type</code>
@@ -51,11 +56,12 @@ package com.bourre.core
 		 * @param	type <code>Class</code> type for elements of this set
 		 * @param	type <code>Class</code> type for elements of this set
 		 */
-		public function AbstractLocator( type : Class = null, typeListener : Class = null ) 
+		public function AbstractLocator( type : Class = null, typeListener : Class = null, logger : Log = null ) 
 		{
 			_cType = ( type != null ) ? type : Object;
 			_m = new HashMap();
 			_oEB = new EventBroadcaster( this, typeListener );
+			_logger = (logger == null ) ? PixlibDebug.getInstance() : logger;
 		}
 
 		protected function onRegister( name : String = null, o : Object = null ) : void
@@ -66,6 +72,28 @@ package com.bourre.core
 		protected function onUnregister( name : String = null ) : void
 		{
 			// override me if you need me
+		}
+		
+		protected function broadcastEvent( e : Event ) : void
+		{
+			_oEB.broadcastEvent( e );
+		}
+		
+		protected function getBroadcaster() : Broadcaster
+		{
+			return _oEB;
+		}
+
+		/**
+		 * Returns the exclusive logger object owned by this locator.
+		 * It allow this logger to send logging message directly on
+		 * its owner logging channel.
+		 * 
+		 * @return	logger associated to the owner
+		 */
+		public function getLogger() : Log
+		{
+			return _logger;
 		}
 
 		/**
@@ -91,14 +119,14 @@ package com.bourre.core
 			if ( isTyped() && !( o is getType() ) )
 			{
 				msg = this + ".register() failed. Item must be '" + getType().toString() + "' typed.";
-				PixlibDebug.ERROR( msg );
+				getLogger().error ( msg );
 				throw new IllegalArgumentException( msg );
 			}
 
 			if ( _m.containsKey( name ) )
 			{
 				msg = " item is already registered with '" + name + "' name in " + this;
-				PixlibDebug.ERROR( msg );
+				getLogger().error ( msg );
 				throw new IllegalArgumentException( msg );
 
 				return false;
@@ -146,7 +174,7 @@ package com.bourre.core
 			} else
 			{
 				var msg : String = "Can't find '" + getType().toString() + "' item with '" + name + "' name in " + this;
-				PixlibDebug.FATAL( msg );
+				getLogger().fatal ( msg );
 				throw new NoSuchElementException( msg );
 			}
 		}
@@ -182,7 +210,7 @@ package com.bourre.core
 				} catch ( e : IllegalArgumentException )
 				{
 					e.message = this + ".add() fails. " + e.message;
-					PixlibDebug.ERROR( e.message );
+					_logger.error ( e.message );
 					throw( e );
 				}
 			}

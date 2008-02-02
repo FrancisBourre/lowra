@@ -21,6 +21,9 @@ package com.bourre.ioc.control
 	 * @version 1.0
 	 */
 	import com.bourre.collection.HashMap;
+	import com.bourre.commands.Command;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.parser.ContextTypeList;
 	import com.bourre.log.PixlibStringifier;	
 
@@ -64,14 +67,18 @@ package com.bourre.ioc.control
 			addType( ContextTypeList.FUNCTION, new BuildFunction() );
 		}
 
-		protected function addType( type : String, build : IBuilder ) : void
+		protected function addType( type : String, build : Command ) : void
 		{
 			_m.put( type, build );
 		}
-
-		public function getBuilder( type : String ) : IBuilder
+		
+		public function build( constructor : Constructor ) : *
 		{
-			return ( _m.containsKey( type ) ) ? _m.get( type ) as IBuilder : _m.get( ContextTypeList.INSTANCE ) as IBuilder;
+			var type : String = constructor.type;
+			var cmd : Command = ( _m.containsKey( type ) ) ? _m.get( type ) as Command : _m.get( ContextTypeList.INSTANCE ) as Command;
+			cmd.execute( new ValueObjectEvent( type, this, constructor ) );
+
+			return constructor.result;
 		}
 
 		/**
