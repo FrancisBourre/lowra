@@ -23,9 +23,10 @@ package com.bourre.ioc.assembler.method
 	import com.bourre.commands.Batch;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.error.NoSuchMethodException;
+	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.bean.BeanFactory;		
+	import com.bourre.ioc.control.BuildFactory;
+	import com.bourre.ioc.parser.ContextTypeList;		
 
 	public class MethodExpert 
 		extends AbstractLocator
@@ -62,26 +63,13 @@ package com.bourre.ioc.assembler.method
 
 		public function callMethod( id : String ) : void
 		{
-			var method : Method = locate( id ) as Method;
-
-			var f : Function;
 			var msg : String;
-			var owner : Object = BeanFactory.getInstance().locate( method.ownerID );
 
-			try
-			{
-				f = owner[ method.name ] as Function;
+			var method : Method = locate( id ) as Method;
+			var cons : Constructor = new Constructor( null, ContextTypeList.FUNCTION, [ method.ownerID + "." + method.name ] );
+			var f : Function = BuildFactory.getInstance().build( cons );
 
-			} catch ( error1 : Error )
-			{
-				msg = error1.message;
-				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + method.ownerID + "'. ";
-				msg += method.name + " method can't be found.";
-				getLogger().fatal( msg );
-				throw new NoSuchMethodException( msg );
-			}
-
-			var args : Array = PropertyExpert.getInstance().deserializeArguments( method.args );
+			var args : Array = PropertyExpert.getInstance().deserializeArguments( method.arguments );
 
 			try
 			{
@@ -90,7 +78,7 @@ package com.bourre.ioc.assembler.method
 			} catch ( error2 : Error )
 			{
 				msg = error2.message;
-				msg += " " + this + ".callMethod() failed on " + owner + " with id '" + method.ownerID + "'. ";
+				msg += " " + this + ".callMethod() failed on instance with id '" + method.ownerID + "'. ";
 				msg += "'" + method.name + "' method can't be called with these arguments: [" + args + "]";
 				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );

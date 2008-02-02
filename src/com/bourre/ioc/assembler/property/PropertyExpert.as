@@ -22,15 +22,12 @@ package com.bourre.ioc.assembler.property
 	 */
 	import com.bourre.commands.Batch;
 	import com.bourre.core.AbstractLocator;
-	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.bean.BeanEvent;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.bean.BeanFactoryListener;
 	import com.bourre.ioc.control.BuildFactory;
-	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.ioc.parser.ContextTypeList;
-	import com.bourre.utils.ObjectUtils;		
+	import com.bourre.ioc.parser.ContextTypeList;	
 
 	public class PropertyExpert 
 		extends AbstractLocator
@@ -56,7 +53,6 @@ package com.bourre.ioc.assembler.property
 			super( Array, PropertyExpertListener, null );
 
 			BeanFactory.getInstance().addListener( this );
-			addListener( IDExpert.getInstance() );
 		}
 		
 		override protected function onRegister( id : String = null, o : Object = null ) : void
@@ -76,39 +72,13 @@ package com.bourre.ioc.assembler.property
 
 		public function getValue( p : Property ) : *
 		{
-			var msg : String;
-
 			if ( p.method ) 
 			{
-				var a : Array = p.method.split( "." );
-				var target : Object = BeanFactory.getInstance().locate( a[0] );
-				var methodName : String = a[1];
-
-				if ( target.hasOwnProperty( methodName ) && target[ methodName ] is Function )
-				{
-					return target[ methodName ];
-
-				} else
-				{
-					msg = this + ".getValue() failed to retrieve method of '" + target + "' named '" + methodName + "'";
-					getLogger().fatal( msg );
-					throw new IllegalArgumentException( msg );
-				}
+				return BuildFactory.getInstance().build( new Constructor( null, ContextTypeList.FUNCTION, [ p.method ] ) );
 
 			} else if ( p.ref )
 			{
-				var ref : String = p.ref;
-
-				if ( ref.indexOf(".") == -1 )
-				{
-					return BeanFactory.getInstance().locate( p.ref );
-					
-				} else
-				{
-					var args : Array = ref.split(".");
-					var oRef : Object = BeanFactory.getInstance().locate( String( args.shift() ) );
-					return ObjectUtils.evalFromTarget( oRef, args.join(".") );
-				}
+				return BuildFactory.getInstance().build( new Constructor( null, ContextTypeList.INSTANCE, null, null, null, p.ref ) );
 
 			} else
 			{

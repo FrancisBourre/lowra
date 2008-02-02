@@ -44,7 +44,7 @@ package com.bourre.ioc.assembler.method
 			assertTrue(	"Method constructor doesn't have expected property", 
 						m.ownerID=="_test" && 
 						m.name == "lalala" && 
-						m.args[0] == p) ;
+						m.arguments[0] == p) ;
 		}
 		
 		public function testAddMethod():void
@@ -64,8 +64,8 @@ package com.bourre.ioc.assembler.method
 			assertTrue	 (	"MethodExpert addMethod method returned doesn't have expected properties", 
 							_method.ownerID == "_test" && 
 							_method.name == "setPosition" && 
-							_method.args[0] == i && 
-							_method.args[1] == j) ;
+							_method.arguments[0] == i && 
+							_method.arguments[1] == j) ;
 		}
 		
 		

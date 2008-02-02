@@ -26,15 +26,15 @@ package com.bourre.ioc.assembler.method
 	public class Method 
 		implements ValueObject
 	{
-		public var ownerID	: String;
-		public var name		: String;
-		public var args		: Array;
+		public var ownerID		: String;
+		public var name			: String;
+		public var arguments	: Array;
 
 		public function Method ( ownerID : String, name : String, args : Array )
 		{
 			this.ownerID	= ownerID;
 			this.name		= name ;
-			this.args		= args ;
+			this.arguments 	= args ;
 		}
 
 		/**
@@ -46,7 +46,7 @@ package com.bourre.ioc.assembler.method
 			return PixlibStringifier.stringify( this ) 	+ "("
 							+ "ownerID:" 	+ ownerID 	+ ", "
 							+ "name:" 		+ name 		+ ", "
-							+ "args:[" 		+ args 		+ "])";
+							+ "arguments:[" + arguments + "])";
 		}
 	}
 }

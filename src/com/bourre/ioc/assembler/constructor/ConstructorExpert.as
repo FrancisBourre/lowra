@@ -20,14 +20,11 @@ package com.bourre.ioc.assembler.constructor
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.collection.Iterator;
-	import com.bourre.collection.Set;
+	import com.bourre.commands.Batch;
 	import com.bourre.core.AbstractLocator;
-	import com.bourre.events.EventBroadcaster;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.control.BuildFactory;
-	import com.bourre.ioc.core.IDExpert;	
+	import com.bourre.ioc.control.BuildFactory;	
 
 	public class ConstructorExpert 
 		extends AbstractLocator
@@ -62,23 +59,20 @@ package com.bourre.ioc.assembler.constructor
 			broadcastEvent( new ConstructorEvent( ConstructorEvent.onUnregisterConstructorEVENT, id ) );
 		}
 
-		public function buildObject( id : String ) : *
+		public function buildObject( id : String ) : void
 		{
-			var cons : Constructor = locate( id ) as Constructor;
-			if ( cons.arguments != null )  cons.arguments = PropertyExpert.getInstance().deserializeArguments( cons.arguments );
-			return BuildFactory.getInstance().build( cons );
+			if ( isRegistered( id ) )
+			{
+				var cons : Constructor = locate( id ) as Constructor;
+				if ( cons.arguments != null )  cons.arguments = PropertyExpert.getInstance().deserializeArguments( cons.arguments );
+				BeanFactory.getInstance().register( id, BuildFactory.getInstance().build( cons ) );
+				unregister( id );
+			}
 		}
 
 		public function buildAllObjects() : void
 		{
-			var a : Set = IDExpert.getInstance().getReferenceList();
-			var iter : Iterator = a.iterator();
-
-			while( iter.hasNext() )
-			{
-				var id : String = iter.next() as String;
-				if ( isRegistered( id ) ) BeanFactory.getInstance().register( id, buildObject( id ) );
-			}
+			Batch.process( buildObject, getKeys() );
 		}
 
 		public function addListener( listener : ConstructorExpertListener ) : Boolean

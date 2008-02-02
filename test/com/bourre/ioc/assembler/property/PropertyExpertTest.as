@@ -56,8 +56,7 @@ package com.bourre.ioc.assembler.property
 			_oBF.register( "myRef", this );
 			
 			prop = {};
-			var i : Number = 13;
-			prop.x = i;
+			prop.x = 13;
 			
 			var n : Number = _oPE.getValue( new Property( "test", null, null, null, "myRef.prop.x" ) ) as Number;
 			

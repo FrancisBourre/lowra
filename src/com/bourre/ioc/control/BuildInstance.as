@@ -24,6 +24,7 @@ package com.bourre.ioc.control
 	import flash.utils.getDefinitionByName;
 
 	import com.bourre.commands.AbstractCommand;
+	import com.bourre.commands.Command;
 	import com.bourre.core.CoreFactory;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.ValueObjectEvent;
@@ -38,35 +39,54 @@ package com.bourre.ioc.control
 	{
 		override public function execute( e : Event = null ) : void 
 		{
-			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject() as Constructor;
 
-			var o : Object;
+			if ( constructor.ref )
+			{
+				var cmd : Command = new BuildRef();
+				cmd.execute( e );
 
+			} else
+			{
+				try
+				{
+					var isPlugin : Boolean = ClassUtils.inherit( getDefinitionByName( constructor.type ) as Class, AbstractPlugin );
+	
+					if ( isPlugin && constructor.id != null && constructor.id.length > 0 ) 
+						ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( constructor.id ) );
+	
+				} catch ( error1 : Error )
+				{
+					//
+				}
+	
+				try
+				{
+					constructor.result = BuildInstance.buildConstructor( constructor );
+
+				} catch( error2 : Error )
+				{
+					var msg : String = error2.message;
+					msg += " " + this + ".build(" + constructor.type + ") failed.";
+					getLogger().fatal( msg );
+					throw new IllegalArgumentException( msg );
+				}
+			}
+		}
+		
+		public static function buildConstructor( cons : Constructor ) : Object
+		{
 			try
 			{
-				var isPlugin : Boolean = ClassUtils.inherit( getDefinitionByName( constructor.type ) as Class, AbstractPlugin );
+				cons.result = CoreFactory.buildInstance( cons.type, cons.arguments, cons.factory, cons.singleton );
+				return cons.result;
 
-				if ( isPlugin && constructor.id != null && constructor.id.length > 0 ) 
-					ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( constructor.id ) );
-
-			} catch ( error1 : Error )
+			} catch ( e : Error )
 			{
-				//
+				throw e;
 			}
 
-			try
-			{
-				o = CoreFactory.buildInstance( constructor.type, constructor.arguments, constructor.factory, constructor.singleton );
-
-			} catch( error2 : Error )
-			{
-				var msg : String = error2.message;
-				msg += " " + this + ".build(" + constructor.type + ") failed.";
-				getLogger().fatal( msg );
-				throw new IllegalArgumentException( msg );
-			}
-
-			constructor.result = o;
+			return null;
 		}
 	}
 }
