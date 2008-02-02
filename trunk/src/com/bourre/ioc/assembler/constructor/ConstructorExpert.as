@@ -61,12 +61,20 @@ package com.bourre.ioc.assembler.constructor
 
 		public function buildObject( id : String ) : void
 		{
-			if ( isRegistered( id ) )
+			try
 			{
 				var cons : Constructor = locate( id ) as Constructor;
 				if ( cons.arguments != null )  cons.arguments = PropertyExpert.getInstance().deserializeArguments( cons.arguments );
 				BeanFactory.getInstance().register( id, BuildFactory.getInstance().build( cons ) );
 				unregister( id );
+
+			} catch ( e : Error )
+			{
+				if (!BeanFactory.getInstance().isRegistered( id ))
+				{
+					getLogger().fatal( e.message );
+					throw e;
+				}
 			}
 		}
 

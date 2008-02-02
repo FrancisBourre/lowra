@@ -23,12 +23,9 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.LoaderInfo;
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
-	import flash.text.TextField;
 	
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.CoreFactory;
@@ -259,27 +256,7 @@ package com.bourre.ioc.assembler.displayobject
 			{
 				var oParent : DisplayObjectContainer = BeanFactory.getInstance().locate( info.parentID ) as DisplayObjectContainer;
 
-				var oDo : DisplayObject;
-				var type : String = info.type;
-
-				switch( type )
-				{
-					case DisplayObjectExpert.SPRITE :
-						oDo = new Sprite();
-						break;
-						
-					case DisplayObjectExpert.TEXTFIELD :
-						oDo = new TextField();
-						break;
-						
-					case DisplayObjectExpert.MOVIECLIP :
-						oDo = new MovieClip( );
-						break;
-						
-					default :
-						oDo = CoreFactory.buildInstance( type ) as DisplayObject;
-						break;
-				}
+				var oDo : DisplayObject = CoreFactory.buildInstance( info.type ) as DisplayObject;
 
 				if ( !(oDo is DisplayObject) )
 				{
@@ -288,8 +265,8 @@ package com.bourre.ioc.assembler.displayobject
 					throw new IllegalArgumentException( msg );
 				}
 
-				oParent.addChild( oDo ) ;
-				BeanFactory.getInstance().register( info.ID, oDo ) ;
+				oParent.addChild( oDo );
+				BeanFactory.getInstance().register( info.ID, oDo );
 
 				_oEB.broadcastEvent( new DisplayObjectEvent( DisplayObjectEvent.onBuildDisplayObjectEVENT, oDo ) );
 				return true;
