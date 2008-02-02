@@ -20,16 +20,21 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;
+	import com.bourre.ioc.assembler.channel.ChannelListener;	
 	
+	import flash.net.URLRequest;
+
+	import com.bourre.core.HashCodeFactory;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
+	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.assembler.method.Method;
 	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.assembler.property.DictionaryItem;
 	import com.bourre.ioc.assembler.property.Property;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.parser.ContextTypeList;	
+	import com.bourre.ioc.parser.ContextTypeList;		
 
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
@@ -101,7 +106,7 @@ package com.bourre.ioc.assembler
 				}
 			}
 
-			ConstructorExpert.getInstance().addConstructor( ownerID, type, args, factory, singleton );
+			ConstructorExpert.getInstance().register( ownerID, new Constructor( ownerID, type, args, factory, singleton ) );
 		}
 
 		public function buildMethodCall( ownerID : String, methodCallName : String, args : Array = null ) : void
@@ -117,12 +122,14 @@ package com.bourre.ioc.assembler
 				}
 			}
 
-			MethodExpert.getInstance().addMethod( ownerID, methodCallName, args );
+			var method : Method = new Method( ownerID, methodCallName, args );
+			MethodExpert.getInstance().register( HashCodeFactory.getKey( method ), method );
 		}
 
 		public function buildChannelListener( ownerID : String, channelName : String ) : void
 		{
-			ChannelListenerExpert.getInstance().addChannelListener( ownerID, channelName );
+			var channelListener : ChannelListener = new ChannelListener( ownerID, channelName );
+			ChannelListenerExpert.getInstance().register( HashCodeFactory.getKey( channelListener ), channelListener );
 		}
 	}
 }

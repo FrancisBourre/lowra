@@ -15,32 +15,35 @@ package com.bourre.ioc.assembler.channel
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	
+
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.events.ValueObject;
+	import com.bourre.log.PixlibStringifier;		
 
-	import com.bourre.log.*;
-	
 	public class ChannelListener
+		implements ValueObject
 	{
-		public var listenerID : String;
-		public var channelName : String;
-		
+		public var listenerID 	: String;
+		public var channelName 	: String;
+
 		public function ChannelListener( listenerID : String, channelName : String )
 		{
-			this.listenerID = listenerID ;
-			this.channelName = channelName ;
+			this.listenerID 	= listenerID;
+			this.channelName 	= channelName;
 		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		public function toString() : String
 		{
-			return PixlibStringifier.stringify( this );
+			return PixlibStringifier.stringify( this ) 	+ "("
+					+ "listenerID:" 	+ listenerID 	+ ", "
+					+ "channelName:[" 	+ channelName 	+ "])";
 		}
 	}
 }

@@ -15,6 +15,8 @@
  */
 package com.bourre.commands
 {
+	import com.bourre.events.EventBroadcaster;	
+	
 	import flash.events.Event;
 	import flash.utils.Dictionary;
 	
@@ -22,8 +24,6 @@ package com.bourre.commands
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
-	import com.bourre.events.Broadcaster;
-	import com.bourre.events.EventBroadcaster;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
@@ -63,13 +63,6 @@ package com.bourre.commands
 		implements ASyncCommandListener
 	{
 		/**
-		 * A reference to the private event broadcaster of the plugin (when
-		 * used within a plugin), or to the global instance of the
-		 * <code>EventBroadcaster</code> class when used outside of the plugin
-		 * architecture.
-		 */
-		protected var _oBroadcaster : Broadcaster;
-		/**
 		 * A reference to the plugin owner of this front controller. When used 
 		 * outside of the plugin architecture, this property store a reference
 		 * to the global instance of the <code>NullPlugin</code> class.
@@ -88,35 +81,12 @@ package com.bourre.commands
 		 */
 		public function FrontController( owner : Plugin = null ) 
 		{
-			super( Command );
+			_owner = ( owner == null ) ? NullPlugin.getInstance() : owner;
+			if ( owner == null ) EventBroadcaster.getInstance().addListener( this );
 
-			setOwner( owner );
+			super( Command, null, PluginDebug.getInstance( getOwner() ) );
+
 			_oASyncCommands = new Dictionary();
-		}
-
-		/**
-		 * Defines which plugin own this front controller. If 
-		 * omitted, the global instance of the <code>NullPlugin</code
-		 * class will own this controller.
-		 * 
-		 * @param	owner	plugin object which own the controller
-		 */
-		final public function setOwner( owner : Plugin ) : void
-		{
-			if ( _oBroadcaster ) _oBroadcaster.removeListener( this );
-
-			if ( owner!= null )
-			{
-				_owner = owner;
-				_oBroadcaster = new EventBroadcaster( getOwner() );
-
-			} else
-			{
-				_owner = NullPlugin.getInstance();
-				_oBroadcaster = EventBroadcaster.getInstance();
-			}
-
-			_oBroadcaster.addListener( this );
 		}
 
 		/**
@@ -127,30 +97,6 @@ package com.bourre.commands
 		final public function getOwner() : Plugin
 		{
 			return _owner;
-		}
-
-		/**
-		 * Returns the exclusive logger object owned by the plugin.
-		 * It allow this controller to send logging message directly on
-		 * its owner logging channel.
-		 * 
-		 * @return	logger associated to the owner
-		 */
-		public function getLogger() : PluginDebug
-		{
-			return PluginDebug.getInstance( getOwner() );
-		}
-
-		/**
-		 * Returns a reference to the Event Broadcaster used
-		 * by this controller.
-		 * 
-		 * @return 	a reference to the Event Broadcaster used
-		 * 			by this controller
-		 */
-		final public function getBroadcaster() : Broadcaster
-		{
-			return _oBroadcaster;
 		}
 
 		override public function register( eventName : String, o : Object ) : Boolean

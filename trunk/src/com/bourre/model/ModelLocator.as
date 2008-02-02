@@ -36,7 +36,7 @@ package com.bourre.model
 		public function ModelLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
-			super( AbstractModel );
+			super( AbstractModel, null, PluginDebug.getInstance( getOwner() ) );
 		}
 
 		public static function getInstance( owner : Plugin = null ) : ModelLocator
@@ -49,11 +49,6 @@ package com.bourre.model
 		public function getOwner() : Plugin
 		{
 			return _owner;
-		}
-
-		public function getLogger() : PluginDebug
-		{
-			return PluginDebug.getInstance( getOwner() );
 		}
 
 		public function getModel( key : String ) : AbstractModel

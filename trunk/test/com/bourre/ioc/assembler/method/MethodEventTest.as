@@ -1,6 +1,6 @@
 package com.bourre.ioc.assembler.method
 {
-	import flexunit.framework.TestCase;
+	import flexunit.framework.TestCase;			
 
 	public class MethodEventTest extends TestCase
 	{
@@ -9,8 +9,8 @@ package com.bourre.ioc.assembler.method
 		
 		public override function setUp():void
 		{
-			_oM = new Method("owner", "method", []) ;
-			_oME = new MethodEvent(_oM) ;
+			_oM = new Method("owner", "method", []);
+			_oME = new MethodEvent( MethodEvent.onRegisterMethodEVENT, "id", _oM );
 		}
 		
 		public function testConstruct() :void

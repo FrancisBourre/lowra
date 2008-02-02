@@ -20,13 +20,12 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;	
+	import com.bourre.plugin.PluginDebug;		
 
 	final public class ViewLocator 
 		extends AbstractLocator
@@ -38,7 +37,7 @@ package com.bourre.view
 		public function ViewLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
-			super( AbstractView );
+			super( AbstractView, null, PluginDebug.getInstance( getOwner() ) );
 		}
 
 		public static function getInstance( owner : Plugin = null ) : ViewLocator
@@ -56,11 +55,6 @@ package com.bourre.view
 		public function getOwner() : Plugin
 		{
 			return _owner;
-		}
-
-		public function getLogger() : PluginDebug
-		{
-			return PluginDebug.getInstance( getOwner() );
 		}
 
 		public function getView( key : String ) : AbstractView

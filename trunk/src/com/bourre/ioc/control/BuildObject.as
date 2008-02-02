@@ -1,4 +1,4 @@
-package com.bourre.ioc.control
+package com.bourre.ioc.control 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,25 +20,19 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.log.*;
+	import flash.events.Event;
 	
-	public class BuildObject 
-		implements IBuilder
-	{
-		
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
-		{
-			return {};
-		}
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;	
 
-		public function toString() : String 
+	public class BuildObject
+		extends AbstractCommand
+	{
+		override public function execute( e : Event = null ) : void 
 		{
-			return PixlibStringifier.stringify( this );
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+			constructor.result = {};
 		}
 	}
 }

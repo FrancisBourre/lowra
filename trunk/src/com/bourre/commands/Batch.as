@@ -71,7 +71,7 @@ package com.bourre.commands
 		public static function process ( f : Function, a : Array, ...args ) : void
 		{
 			var l : Number = a.length;
-			while( --l > -1 ) f.apply( null, (args.length > 0 ) ? [a[l]].concat( args ) : [a[l]] );
+			for( var i : int; i < l; i++ ) f.apply( null, (args.length > 0 ) ? [a[i]].concat( args ) : [a[i]] );
 		}
 
 		/**

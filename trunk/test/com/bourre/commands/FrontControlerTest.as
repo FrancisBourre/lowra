@@ -43,13 +43,13 @@ package com.bourre.commands
 			
 		}
 		
-		public function testGetBroadcaster() : void
-		{
-			
-			assertEquals("Failed to get broadcaster ",EventBroadcaster.getInstance(), _oFC.getBroadcaster());
-
-			assertNotNull("Failed to get broadcaster ", _oFCOwner.getBroadcaster());
-		}
+//		public function testGetBroadcaster() : void
+//		{
+//			
+//			assertEquals("Failed to get broadcaster ",EventBroadcaster.getInstance(), _oFC.getBroadcaster());
+//
+//			assertNotNull("Failed to get broadcaster ", _oFCOwner.getBroadcaster());
+//		}
 		
 		public function testRunCommand() : void
 		{
@@ -110,7 +110,7 @@ package com.bourre.commands
 			var o : Object = {};
 			var e : Event = new Event( "onTest" );
 			_oFC.pushCommandInstance( "onTest", new Delegate( onTestRunDelegate, o ) );
-			_oFC.getBroadcaster().broadcastEvent( e );
+			EventBroadcaster.getInstance().broadcastEvent( e );
 			assertEquals( "", 5, o.n );
 			assertStrictlyEquals( "", e, o.e );
 		}

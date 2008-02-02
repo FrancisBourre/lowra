@@ -20,8 +20,6 @@ package com.bourre.service
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */	import com.bourre.core.AbstractLocator;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibDebug;
 	import com.bourre.service.ServiceLocatorListener;	
 
 	public class ServiceLocator 
@@ -29,19 +27,19 @@ package com.bourre.service
 	{
 		public function ServiceLocator() 
 		{
-			super( null, ServiceLocatorListener );
+			super( null, ServiceLocatorListener, null );
 		}
 
 		override protected function onRegister( key : String = null, service : Object = null ) : void
 		{
 			var e : ServiceLocatorEvent = new ServiceLocatorEvent( ServiceLocatorEvent.onRegisterServiceEVENT, key, this );
 			if ( service is Class ) {e.setServiceClass( service as Class );} else {e.setService( service as Service );}
-			_oEB.broadcastEvent( e );
+			broadcastEvent( e );
 		}
 
 		override protected function onUnregister( key : String = null ) : void
 		{
-			_oEB.broadcastEvent( new ServiceLocatorEvent( ServiceLocatorEvent.onUnregisterServiceEVENT, key, this ) );
+			broadcastEvent( new ServiceLocatorEvent( ServiceLocatorEvent.onUnregisterServiceEVENT, key, this ) );
 		}
 
 		public function registerService( key : String, service : Service ) : Boolean
@@ -63,7 +61,7 @@ package com.bourre.service
 
 			} catch ( e : Error )
 			{
-				PixlibDebug.FATAL( e.message );
+				getLogger().fatal( e.message );
 				throw e;
 			}
 			
@@ -87,11 +85,11 @@ package com.bourre.service
 
 		public function addListener( listener : ServiceLocatorListener ) : Boolean
 		{
-			return _oEB.addListener( listener );
+			return addListener( listener );
 		}
 
 		public function removeListener( listener : ServiceLocatorListener ) : Boolean
 		{
-			return _oEB.removeListener( listener );
+			return removeListener( listener );
 		}
 	}}

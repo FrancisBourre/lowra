@@ -1,4 +1,4 @@
-package com.bourre.ioc.control
+package com.bourre.ioc.control 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,61 +20,53 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;
 	import flash.utils.getDefinitionByName;
-	
+
+	import com.bourre.commands.AbstractCommand;
 	import com.bourre.core.CoreFactory;
 	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.log.*;
-	import com.bourre.plugin.*;
-	import com.bourre.utils.ClassUtils;		
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;
+	import com.bourre.plugin.AbstractPlugin;
+	import com.bourre.plugin.ChannelExpert;
+	import com.bourre.plugin.PluginChannel;
+	import com.bourre.utils.ClassUtils;	
 
-	public class BuildInstance 
-		implements IBuilder
+	public class BuildInstance
+		extends AbstractCommand
 	{
-
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
+		override public function execute( e : Event = null ) : void 
 		{
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
 
 			var o : Object;
 
 			try
 			{
-				var isPlugin : Boolean = ClassUtils.inherit( getDefinitionByName( type ) as Class, AbstractPlugin );
-				
-				if ( isPlugin && id != null && id.length > 0 ) 
-				{
-					ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( id ) );
-				}
+				var isPlugin : Boolean = ClassUtils.inherit( getDefinitionByName( constructor.type ) as Class, AbstractPlugin );
+
+				if ( isPlugin && constructor.id != null && constructor.id.length > 0 ) 
+					ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( constructor.id ) );
 
 			} catch ( error1 : Error )
 			{
 				//
 			}
 
-			
-
 			try
 			{
-				o = CoreFactory.buildInstance( type, args, factory, singleton );
+				o = CoreFactory.buildInstance( constructor.type, constructor.arguments, constructor.factory, constructor.singleton );
 
 			} catch( error2 : Error )
 			{
 				var msg : String = error2.message;
-				msg += " " + this + ".build(" + type + ") failed.";
-				PixlibDebug.FATAL( msg );
+				msg += " " + this + ".build(" + constructor.type + ") failed.";
+				getLogger().fatal( msg );
 				throw new IllegalArgumentException( msg );
 			}
 
-			return o;
-		}
-		
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
+			constructor.result = o;
 		}
 	}
 }

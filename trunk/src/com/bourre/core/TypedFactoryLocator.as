@@ -55,8 +55,8 @@ package com.bourre.core
 
 				} else
 				{
-					msg = this+".register(" + key + ") fails, '" + clazz + "' class doesn't extend '" + _cType + "' class.";
-					PixlibDebug.ERROR( msg ) ;
+					msg = this+".register(" + key + ") fails, '" + clazz + "' class doesn't extend '" + getType() + "' class.";
+					getLogger().error( msg ) ;
 					throw( new IllegalArgumentException( msg ) );
 					return false ;
 				}

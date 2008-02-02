@@ -1,4 +1,4 @@
-package com.bourre.ioc.control
+package com.bourre.ioc.control 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,36 +20,35 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;
 
-	import com.bourre.log.*;
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;	
 
-	public class BuildNumber 
-		implements IBuilder
+	public class BuildNumber
+		extends AbstractCommand
 	{
-	
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
+		override public function execute( e : Event = null ) : void 
 		{
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+
+			var args : Array = constructor.arguments;
 			var n : Number = NaN;
+
 			if ( args != null && args.length > 0 ) n = Number( ( args[0] ).toString() );
 
-			if ( isNaN(n) ) 
+			if ( isNaN( n ) ) 
 			{
-				PixlibDebug.FATAL( this + ".build(" + n + ") failed." );
-				return 0;
-				
+				var msg : String = this + ".build(" + n + ") failed.";
+				getLogger().fatal( msg );
+				throw new IllegalArgumentException( msg );
+
 			} else
 			{
-				return n;
+				constructor.result = n;
 			}
-		}
-
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 	}
 }

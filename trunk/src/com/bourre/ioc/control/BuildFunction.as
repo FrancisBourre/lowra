@@ -1,5 +1,6 @@
 package com.bourre.ioc.control 
-{	/*
+{
+	/*
 	 * Copyright the original author or authors.
 	 * 
 	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
@@ -18,16 +19,20 @@ package com.bourre.ioc.control
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */	public class BuildFunction 
-			implements IBuilder
-	{
+	 */
+	import flash.events.Event;
 
-		public function build ( type : String = null, 
-								args : Array = null,  
-								factory : String = null, 
-								singleton : String = null,
-								id : String = null ) : *
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;	
+
+	public class BuildFunction
+		extends AbstractCommand
+	{
+		override public function execute( e : Event = null ) : void 
 		{
-			var f : * = null;
-			return f;
-		}	}}
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+			constructor.result = null;
+		}
+	}
+}

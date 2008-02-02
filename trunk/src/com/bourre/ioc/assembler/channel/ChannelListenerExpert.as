@@ -18,23 +18,19 @@ package com.bourre.ioc.assembler.channel
 	
 	/**
 	 * @author Francis Bourre
-	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
-	import com.bourre.collection.TypedArray;
-	import com.bourre.events.*;
+	import com.bourre.commands.Batch;
+	import com.bourre.core.AbstractLocator;
+	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.log.*;
-	import com.bourre.plugin.PluginChannel;	
+	import com.bourre.plugin.PluginChannel;		
 
 	public class ChannelListenerExpert 
+		extends AbstractLocator
 	{
-		
 		private static var _oI : ChannelListenerExpert;
-		
-		private var _oEB : EventBroadcaster;
-		private var _aChannelListener : TypedArray;
-		
+
 		public static function getInstance() : ChannelListenerExpert
 		{
 			if ( !(ChannelListenerExpert._oI is ChannelListenerExpert) ) 
@@ -45,83 +41,47 @@ package com.bourre.ioc.assembler.channel
 		
 		public static function release():void
 		{
-			if ( ChannelListenerExpert._oI is ChannelListenerExpert ) 
-				ChannelListenerExpert._oI = null ;
+			ChannelListenerExpert._oI = null ;
 		}
 		
 		public function ChannelListenerExpert( access : PrivateConstructorAccess )
 		{
-			_oEB = new EventBroadcaster( this );
-			_aChannelListener = new TypedArray( ChannelListener );
+			super( ChannelListener, ChannelListenerExpertListener, null );
 		}
-		
+
+		override protected function onRegister( id : String = null, channelListener : Object = null ) : void
+		{
+			broadcastEvent( new ChannelListenerEvent( ChannelListenerEvent.onRegisterChannelListenerEVENT, id, channelListener as ChannelListener ) );
+		}
+
+		override protected function onUnregister( id : String = null ) : void
+		{
+			broadcastEvent( new ChannelListenerEvent( ChannelListenerEvent.onUnregisterChannelListenerEVENT, id ) );
+		}
+
 		public function assignAllChannelListeners() : void
 		{
-			var l : Number = _aChannelListener.length;
-			for ( var i : Number = 0; i < l; i++ ) assignChannelListener( _aChannelListener[i] );
+			Batch.process( assignChannelListener, getKeys() );
 		}
-		
-		public function assignChannelListener( o : ChannelListener ) : Boolean
+
+		public function assignChannelListener( id : String ) : Boolean
 		{
-			var listener : Object = BeanFactory.getInstance().locate( o.listenerID );
-			var channel : PluginChannel = PluginChannel.getInstance( o.channelName );
+			var channelListener : ChannelListener = locate( id ) as ChannelListener;
+
+			var listener : Object = BeanFactory.getInstance().locate( channelListener.listenerID );
+			var channel : PluginChannel = PluginChannel.getInstance( channelListener.channelName );
 
 			return ApplicationBroadcaster.getInstance().addListener( listener, channel );
 		}
-		
-		public function addChannelListener( listenerID : String, channelName : String ) : void
-		{
-			_aChannelListener.push( new ChannelListener( listenerID, channelName ) );
-		}
-		
-		/*public function buildChannelListener( listenerID : String, channel:* ) : void
-		{
-			if ( channel.attribute.channel is String ) 
-			{
-				_aChannelListener.push( _buildChannelListener( listenerID, channel.attribute ) );
-							
-			} else
-			{
-				var l : Number = channel.length;
-				for ( var i : Number = 0; i < l; i++ ) _aChannelListener.push( _buildChannelListener( listenerID, channel[i].attribute) );
-			}
-		}
-		
-		private function _buildChannelListener( listenerID : String, rawInfo : Object ) : ChannelListener
-		{
-			return new ChannelListener( listenerID, ContextAttributeList.getChannel( rawInfo ) );
-		}*/
-		
-		/**
-		 * Event system
-		 */
+
 		public function addListener( listener : ChannelListenerExpertListener ) : Boolean
 		{
-			return _oEB.addListener( listener );
+			return getBroadcaster().addListener( listener );
 		}
 
 		public function removeListener( listener : ChannelListenerExpertListener ) : Boolean
 		{
-			return _oEB.removeListener( listener );
-		}
-		
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
-		{
-			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
-		}
-		
-		public function removeEventListener( type : String, listener : Object ) : Boolean
-		{
-			return _oEB.removeEventListener( type, listener );
-		}
-		
-		/**
-		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
-		 */
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
+			return getBroadcaster().removeListener( listener );
 		}
 	}
 }

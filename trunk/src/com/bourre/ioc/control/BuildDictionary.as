@@ -20,26 +20,27 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.events.Event;
 	import flash.utils.Dictionary;
-	
-	import com.bourre.ioc.assembler.property.DictionaryItem;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
 
-	public class BuildDictionary 
-		implements IBuilder
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.constructor.Constructor;
+	import com.bourre.ioc.assembler.property.DictionaryItem;	
+
+	public class BuildDictionary
+		extends AbstractCommand
 	{
-		public function build ( type 		: String = null, 
-								args 		: Array = null,  
-								factory 	: String = null, 
-								singleton 	: String = null, 
-								id 			: String = null ) : *
+		override public function execute( e : Event = null ) : void 
 		{
+			var constructor : Constructor = ( e as ValueObjectEvent ).getValueObject( ) as Constructor;
+
 			var d : Dictionary = new Dictionary();
+			var args : Array = constructor.arguments;
 
 			if ( args.length <= 0 ) 
 			{
-				PixlibDebug.WARN( this + ".build(" + args + ") returns an empty Dictionary." );
+				getLogger().warn( this + ".build(" + args + ") returns an empty Dictionary." );
 
 			} else
 			{
@@ -55,16 +56,12 @@ package com.bourre.ioc.control
 
 					} else
 					{
-						PixlibDebug.WARN( this + ".build() adds item with a 'null' key for '"  + di.value +"' value." );
+						getLogger().warn( this + ".build() adds item with a 'null' key for '"  + di.value +"' value." );
 					}
 				}
 			}
 
-			return d;
+			constructor.result = d;
 		}
-
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
-		}
-	}}
+	}
+}

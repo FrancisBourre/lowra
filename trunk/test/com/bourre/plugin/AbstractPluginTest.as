@@ -1,17 +1,18 @@
 package com.bourre.plugin
 {
+	import flash.events.Event;
+	
+	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.events.EventChannel;
-	import flexunit.framework.TestCase;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.view.ViewLocator;
-	import com.bourre.events.ApplicationBroadcaster;
-	import flash.events.Event
-	import com.bourre.events.EventBroadcaster;
 	
+	import flexunit.framework.TestCase;	
+
 	public class AbstractPluginTest extends TestCase
 	{
-		private var _oPlug : MockPlugin
-		private var _oChanel : EventChannel
+		private var _oPlug : MockPlugin;
+		private var _oChanel : EventChannel;
 		
 		public override function setUp() : void
 		{
@@ -168,34 +169,32 @@ package com.bourre.plugin
 				myListener.evt);
 		}
 		
-		public function test_firePrivateEvent() : void
-		{
-			var myListener :MockPluginListener = new MockPluginListener()
-			var myEvent : Event = new Event("onMyEvent")
-			
-		
-			_oPlug.addPrivateListener(myListener)
-			
-			_oPlug.firePrivateEvent (myEvent)
-			
-			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
-				 myListener.isCAlled);
-
-			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
-				myEvent,
-				myListener.evt);
-		}
+//		public function test_firePrivateEvent() : void
+//		{
+//			var myListener :MockPluginListener = new MockPluginListener()
+//			var myEvent : Event = new Event("onMyEvent")
+//			
+//		
+//			_oPlug.addListener(myListener);
+//			
+//			_oPlug.firePrivateEvent (myEvent)
+//			
+//			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
+//				 myListener.isCAlled);
+//
+//			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
+//				myEvent,
+//				myListener.evt);
+//		}
 		
 	}
 }
 
-	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.AbstractPlugin;
-	import com.bourre.model.ModelLocator;
-	import com.bourre.view.ViewLocator;
-	import com.bourre.plugin.PluginListener;
-	import com.bourre.events.EventChannel;
-	import flash.events.Event;
+import flash.events.Event;
+
+import com.bourre.events.EventChannel;
+import com.bourre.plugin.AbstractPlugin;
+import com.bourre.plugin.PluginListener;	
 
 internal class MockPlugin extends AbstractPlugin
 {
@@ -204,10 +203,7 @@ internal class MockPlugin extends AbstractPlugin
 		super()
 	}
 	
-	public function addPrivateListener(obj:*) : void
-	{
-		getController().getBroadcaster().addListener(obj)
-	}
+
 	
 }
 
