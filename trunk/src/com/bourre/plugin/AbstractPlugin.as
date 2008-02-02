@@ -20,14 +20,13 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.events.EventBroadcaster;	
-	
 	import flash.events.Event;
-
+	
 	import com.bourre.commands.FrontController;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.events.Broadcaster;
+	import com.bourre.events.EventBroadcaster;
 	import com.bourre.events.EventChannel;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;

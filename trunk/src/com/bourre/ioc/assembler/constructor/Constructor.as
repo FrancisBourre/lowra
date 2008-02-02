@@ -30,20 +30,22 @@ package com.bourre.ioc.assembler.constructor
 		public var 		type 		: String;
 		public var 		arguments 	: Array;
 		public var 		factory 	: String;
-		public var 		singleton 	: String;
+		public var 		singleton 	: String;		public var 		ref 		: String;
 		public var		result 		: *;
 
 		public function Constructor(	id 			: String, 
 										type 		: String 	= null, 
 										args 		: Array 	= null, 
 										factory 	: String 	= null, 
-										singleton 	: String 	= null )
+										singleton 	: String 	= null,
+										ref			: String 	= null )
 		{
 			this.id 		= id;
 			this.type 		= type;
 			this.arguments 	= args;
 			this.factory 	= factory;
 			this.singleton 	= singleton;
+			this.ref = ref;
 		}
 
 		/**
@@ -57,7 +59,7 @@ package com.bourre.ioc.assembler.constructor
 							+ "type:" 		+ type 		+ ", "
 							+ "arguments:[" + arguments + "], "
 							+ "factory:" 	+ factory 	+ ", "
-							+ "singleton:" 	+ singleton + ")";
+							+ "singleton:" 	+ singleton + ", "							+ "ref:" 		+ ref 		+ ")";
 		}
 	}
 }

@@ -21,24 +21,17 @@ package com.bourre.ioc.core
 	 * @version 1.0
 	 */
 	import flash.utils.Dictionary;
-
-	import com.bourre.collection.HashMap;
-	import com.bourre.collection.Set;
+	
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
-	import com.bourre.ioc.assembler.property.PropertyEvent;
-	import com.bourre.ioc.assembler.property.PropertyExpertListener;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
 
 	public class IDExpert
-		implements PropertyExpertListener
 	{
 		private static var _oI : IDExpert;
 
 		private var _d : Dictionary;
-		private var _c : Set;
-		private var _m : HashMap;
 
 		/**
 		 * @return singleton instance of IDExpert
@@ -57,64 +50,11 @@ package com.bourre.ioc.core
 		public function IDExpert( access : PrivateConstructorAccess )
 		{
 			_d = new Dictionary( true );
-			_c = new Set();
-			_m = new HashMap();
 		}
 
-		public function onBuildProperty( e : PropertyEvent ) : void
-		{
-			var refID : String;
-
-			var methodName : String = e.getPropertyMethod();
-			if ( methodName != null )
-			{
-				var split : Array = methodName.split( ".");
-				_pushReference( split[0], e.getPropertyOwnerID() );
-
-			} else
-			{
-				refID = e.getPropertyRef();
-				if ( refID != null ) _pushReference( refID, e.getPropertyOwnerID() );
-			}
-
-//			if ( refID != null ) 
-//			{
-//				if ( refID.indexOf(".") != -1 )
-//				{
-//					var a : Array = refID.split(".");
-//					refID = a[0];
-//				}
-//
-//				_pushReference( refID, e.getPropertyOwnerID() );
-//			}
-		}
-
-		public function onRegisterPropertyOwner( e : PropertyEvent ) : void {}
-		public function onUnregisterPropertyOwner( e : PropertyEvent ) : void{}
-
-		private function _pushReference( refID : String, ownerID : String ) : void
-		{	
-			_c.add( refID );
-
-			var nRef : int = _c.indexOf( refID );
-			var nOwner : int = _c.indexOf( ownerID );
-			
-			if ( nRef > nOwner )
-			{
-				_c.removeAt( nRef );
-				_c.addAt( nOwner, refID );
-			}
-		}
-
-		public function getReferenceList() : Set
-		{
-			return _c;
-		}
-		
-		// check for id conflicts
 		public function isRegistered( id : String ) : Boolean
 		{
-			return (_d[ id ] == true) ? true : false;
+			return _d[ id ] == true;
 		}
 
 		public function register( id : String ) : Boolean
@@ -128,7 +68,6 @@ package com.bourre.ioc.core
 			} else
 			{
 				_d[ id ] = true;
-				_c.add( id );
 				return true;
 			}
 
@@ -140,7 +79,6 @@ package com.bourre.ioc.core
 			if ( isRegistered( id ) ) 
 			{
 				_d[ id ] = false;
-				_c.remove( id );
 				return true;
 
 			} else
