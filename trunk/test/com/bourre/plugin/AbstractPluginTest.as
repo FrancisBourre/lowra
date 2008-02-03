@@ -63,7 +63,7 @@ package com.bourre.plugin
 			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
 				 plugListener.isCAlled);
 			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
-				AbstractPlugin.onInitPluginEVENT,
+				PluginEvent.onInitPluginEVENT,
 				plugListener.evt.type);	
 		}
 		
@@ -76,7 +76,7 @@ package com.bourre.plugin
 			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
 				 myListener.isCAlled);
 			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
-				AbstractPlugin.onReleasePluginEVENT,
+				PluginEvent.onReleasePluginEVENT,
 				myListener.evt.type);	
 		}
 		
@@ -207,7 +207,10 @@ internal class MockPlugin extends AbstractPlugin
 	
 }
 
-internal class MockPluginListener implements PluginListener
+import com.bourre.plugin.PluginEvent;
+
+internal class MockPluginListener 
+	implements PluginListener
 {
 	public var isCAlled: Boolean
 	public var evt : Event
@@ -218,13 +221,13 @@ internal class MockPluginListener implements PluginListener
 		
 	}
 	
-	public function onInitPlugin( e : Event ) : void
+	public function onInitPlugin( e : PluginEvent ) : void
 	{
 		isCAlled = true
 		evt=e
 	}
 	
-	public function onReleasePlugin( e : Event ) : void
+	public function onReleasePlugin( e : PluginEvent ) : void
 	{
 		isCAlled = true
 		evt=e

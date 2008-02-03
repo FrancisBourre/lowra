@@ -38,15 +38,13 @@ package com.bourre.plugin
 	public class AbstractPlugin
 		implements Plugin
 	{
-		private var _oABExternal : ApplicationBroadcaster;
-		private var _oEBPublic : Broadcaster;
-		private var _oEBPrivate : Broadcaster;
+		protected var _oABExternal : ApplicationBroadcaster;
+		protected var _oEBPublic : Broadcaster;
+		protected var _oEBPrivate : Broadcaster;
+
 		private var _oController : FrontController;
 		private var _oModelLocator : ModelLocator;
 		private var _oViewLocator : ViewLocator;
-
-		public static const onInitPluginEVENT : String = "onInitPlugin";
-		public static const onReleasePluginEVENT : String = "onReleasePlugin";
 
 		public function AbstractPlugin() 
 		{
@@ -71,12 +69,12 @@ package com.bourre.plugin
 
 		public function fireOnInitPlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onInitPluginEVENT ) );
+			firePublicEvent( new PluginEvent( PluginEvent.onInitPluginEVENT, this ) );
 		}
 
 		public function fireOnReleasePlugin() : void
 		{
-			firePublicEvent( new Event( AbstractPlugin.onReleasePluginEVENT ) );
+			firePublicEvent( new PluginEvent( PluginEvent.onReleasePluginEVENT, this ) );
 		}
 
 		public function getChannel() : EventChannel
