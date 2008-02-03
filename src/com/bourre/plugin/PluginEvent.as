@@ -1,4 +1,4 @@
-package com.bourre.plugin
+package com.bourre.plugin 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -20,9 +20,26 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	public interface PluginListener
+	import com.bourre.events.BasicEvent;		
+
+	public class PluginEvent 
+		extends BasicEvent
 	{
-		function onInitPlugin( e : PluginEvent ) : void;
-		function onReleasePlugin( e : PluginEvent ) : void;
+		public static const onInitPluginEVENT : String = "onInitPlugin";
+		public static const onReleasePluginEVENT : String = "onReleasePlugin";
+
+		protected var _plugin : Plugin;
+
+		public function PluginEvent( sType : String, target : Object = null, plugin : Plugin = null )
+		{
+			super( sType, target );
+
+			_plugin = plugin;
+		}
+
+		public function getPlugin() : Plugin
+		{
+			return _plugin;
+		}
 	}
 }

@@ -56,7 +56,9 @@ package com.bourre.ioc.load
 		protected var _oApplicationAssembler : ApplicationAssembler;
 		protected var _oParserCollection : ParserCollection;
 
-		public function ApplicationLoader( target : DisplayObjectContainer, url : URLRequest = null )
+		public function ApplicationLoader( 	target : DisplayObjectContainer, 
+											autoExecute : Boolean = false, 
+											url : URLRequest = null )
 		{
 			setListenerType( ApplicationLoaderListener );
 
@@ -65,6 +67,8 @@ package com.bourre.ioc.load
 			setApplicationAssembler( new DefaultApplicationAssembler() );
 			DisplayObjectExpert.getInstance().setRootTarget( target );
 			_initParserCollection();
+
+			if ( autoExecute ) execute();
 		}
 
 		protected function _initParserCollection() : void
