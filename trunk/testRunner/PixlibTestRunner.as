@@ -9,6 +9,7 @@ import com.bourre.collection.*;
 import com.bourre.core.*;
 import com.bourre.encoding.*;
 import com.bourre.events.*;
+import com.bourre.ioc.*;
 import com.bourre.ioc.control.*;
 import com.bourre.ioc.assembler.*;
 import com.bourre.ioc.assembler.channel.* ;
@@ -100,6 +101,9 @@ private function createSuite() : TestSuite
 	//com.bourre.ioc.assembler.property
 	ts.addTestSuite( PropertyEventTest) ;
 	ts.addTestSuite( PropertyExpertTest ) ;
+	
+	// com.bourre.ioc
+	ts.addTestSuite( IOCTest );
 
 	// com.bourre.ioc.core
 	ts.addTestSuite ( IDExpertTest ) ;

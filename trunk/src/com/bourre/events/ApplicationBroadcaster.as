@@ -149,31 +149,33 @@ internal class InternalBroadcaster
 	override protected function _broadcastEvent( c : Collection, e : Event ) : void
 	{
 		var type : String = e.type;
-		var target : Object = e.target;
 		var a : Array = c.toArray();
 		var l : Number = a.length;
 
 		while ( --l > -1 ) 
 		{
 			var listener : Object = a[l];
-
-			if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
+			
+			if ( listener != _oSource )
 			{
-				if ( listener != target ) listener[type](e);
-
-			} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
-			{
-				listener.handleEvent(e);
-
-			} else 
-			{
-				var msg : String;
-				msg = this + ".broadcastEvent() failed, you must implement '" 
-				+ type + "' method or 'handleEvent' method in '" + 
-				getQualifiedClassName(listener) + "' class";
-
-				PixlibDebug.ERROR( msg );
-				throw( new UnsupportedOperationException( msg ) );
+				if ( listener.hasOwnProperty( type ) && listener[ type ] is Function )
+				{
+					listener[type](e);
+	
+				} else if ( listener.hasOwnProperty( "handleEvent" ) && listener.handleEvent is Function )
+				{
+					listener.handleEvent(e);
+	
+				} else 
+				{
+					var msg : String;
+					msg = this + ".broadcastEvent() failed, you must implement '" 
+					+ type + "' method or 'handleEvent' method in '" + 
+					getQualifiedClassName(listener) + "' class";
+	
+					PixlibDebug.ERROR( msg );
+					throw( new UnsupportedOperationException( msg ) );
+				}
 			}
 		}
 	}
