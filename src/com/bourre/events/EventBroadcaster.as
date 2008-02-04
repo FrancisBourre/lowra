@@ -77,7 +77,8 @@ package com.bourre.events
 	{
 		private static var _oI : EventBroadcaster = null;
 
-		private var _oSource : Object;
+		protected var _oSource : Object;
+
 		private var _mAll : Collection;
 		private var _mType : HashMap;
 		private var _mEventListener : HashMap;

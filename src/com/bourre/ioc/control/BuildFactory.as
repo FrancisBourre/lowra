@@ -20,6 +20,7 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.bean.BeanFactory;	
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Command;
 	import com.bourre.events.ValueObjectEvent;
@@ -72,11 +73,13 @@ package com.bourre.ioc.control
 			_m.put( type, build );
 		}
 		
-		public function build( constructor : Constructor ) : *
+		public function build( constructor : Constructor, id : String = null ) : *
 		{
 			var type : String = constructor.type;
 			var cmd : Command = ( _m.containsKey( type ) ) ? _m.get( type ) as Command : _m.get( ContextTypeList.INSTANCE ) as Command;
 			cmd.execute( new ValueObjectEvent( type, this, constructor ) );
+
+			if ( id ) BeanFactory.getInstance().register( id, constructor.result );
 
 			return constructor.result;
 		}
