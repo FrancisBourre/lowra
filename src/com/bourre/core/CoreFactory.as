@@ -27,6 +27,9 @@ package com.bourre.core
 		 * function retreive a reference to the singleton instance and then call
 		 * the factory method on it. If there is no singleton access, the function
 		 * call the factory method directly on the class.</li>
+		 * <li>If <code>singletonAccess</code> is specified and <code>factoryMethod</code>
+		 * parameter is null, this method will try to return an instance using singleton
+		 * access parameter as static method name of the class passed.</li>
 		 * <li>If there is neither a factory method nor a singleton accessor, the
 		 * function will instantiate the class using its constructor.</li>
 		 * </ol><p>
@@ -84,9 +87,8 @@ package com.bourre.core
 					try
 					{
 						i = clazz[ singletonAccess ].call();
-						
-					} 
-					catch ( eFirst : Error ) 
+
+					} catch ( eFirst : Error ) 
 					{
 						msg = qualifiedClassName + "." + singletonAccess + "()' singleton access failed.";
 						PixlibDebug.FATAL( msg );
@@ -96,24 +98,21 @@ package com.bourre.core
 					try
 					{
 						o = i[factoryMethod].apply( i, args );
-					
-					} 
-					catch ( eSecond : Error ) 
+
+					} catch ( eSecond : Error ) 
 					{
 						msg = qualifiedClassName + "." + singletonAccess + "()." + factoryMethod + "()' factory method call failed.";
 						PixlibDebug.FATAL( msg );
 						return null;
 					}
-					
-				} 
-				else
+
+				} else
 				{
 					try
 					{
 						o = clazz[factoryMethod].apply( clazz, args );
-						
-					} 
-					catch( eThird : Error )
+
+					} catch( eThird : Error )
 					{
 						msg = qualifiedClassName + "." + factoryMethod + "()' factory method call failed.";
 						PixlibDebug.FATAL( msg );
@@ -121,8 +120,21 @@ package com.bourre.core
 					}
 
 				}
-			} 
-			else
+
+			} else if ( singletonAccess )
+			{
+				try
+				{
+					o = clazz[ singletonAccess ].call();
+
+				} catch ( eFourth : Error ) 
+				{
+					msg = qualifiedClassName + "." + singletonAccess + "()' singleton call failed.";
+					PixlibDebug.FATAL( msg );
+					return null;
+				}
+				
+			} else
 			{
 				o = _buildInstance( clazz, args );
 			}
