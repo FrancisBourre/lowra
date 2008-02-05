@@ -286,43 +286,43 @@
 		</java>
 	</target>
 	<!-- 
-			Compile the passed-in ${src} file to the output ${output} file
-			in the ${bin} directory
-		-->
-		<target name="fcsh.Compile">
+		Compile the passed-in ${src} file to the output ${output} file
+		in the ${bin} directory
+	-->
+	<target name="fcsh.Compile">
+		
+		<condition property="includes.source" value="-includes='${includes}'" else="">
+			<isset property="includes"/>
+		</condition>
 			
-			<condition property="includes.source" value="-includes='${includes}'" else="">
-				<isset property="includes"/>
-			</condition>
-				
-			<condition property="excludes.source" value="-externs='${excludes}'" else="">
-				<isset property="excludes"/>
-			</condition>
+		<condition property="excludes.source" value="-externs='${excludes}'" else="">
+			<isset property="excludes"/>
+		</condition>
+		
+		<condition property="link.report" value="-link-report='${report}'" else="">
+			<isset property="report"/>
+		</condition>
+		
+		<ifac failonerror="true" delay="${iFac.delay}" verbose="true">
 			
-			<condition property="link.report" value="-link-report='${report}'" else="">
-				<isset property="report"/>
-			</condition>
+			<arg value="mxmlc "/>
+			<arg value="-load-config=${flex.config}"/>
+			<arg value="-source-path=${flex.framework.dir}"/>
+
+			<arg value="-source-path+=${src.dir}"/>
+			<arg value="-source-path+=${test.dir}"/>
+			<arg value="-source-path+=${testRunner.dir}"/>
 			
-			<ifac failonerror="true" delay="${iFac.delay}" verbose="true">
-				
-				<arg value="mxmlc "/>
-				<arg value="-load-config=${flex.config}"/>
-				<arg value="-source-path=${flex.framework.dir}"/>
+			<arg value="${includes.source}"/>
+			<arg value="${excludes.source}"/>
+			<arg value="${link.report}"/>
 
-				<arg value="-source-path+=${src.dir}"/>
-				<arg value="-source-path+=${test.dir}"/>
-				<arg value="-source-path+=${testRunner.dir}"/>
-				
-				<arg value="${includes.source}"/>
-				<arg value="${excludes.source}"/>
-				<arg value="${link.report}"/>
+			<arg value="-library-path+=${flexunit.swc}"/>	
 
-				<arg value="-library-path+=${flexunit.swc}"/>	
-
-				<arg value="-output=${bin.dir}/${output}"/>
-				<arg value="${src}"/>
-			</ifac>
-		</target>
+			<arg value="-output=${bin.dir}/${output}"/>
+			<arg value="${src}"/>
+		</ifac>
+	</target>
 	
 	<!--
 		Compile a dll using a temporary entry class
