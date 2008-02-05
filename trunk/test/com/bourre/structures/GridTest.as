@@ -207,6 +207,12 @@ package com.bourre.structures
    			assertTrue ( _g + ".containsAll() failed after adding '"+this+"' - test3 failed", _g.containsAll( g ) ); 	   			
    		}
    		
+   		public function testFill() : void
+   		{
+   			var g : Grid = new Grid ( new Dimension( 3, 2 ) );
+   			g.fill( Math.random() );   			
+		}
+   		
    		public function testSetContent () : void
    		{
    			var a1 : Array = [ 15, 15, 15, "15", "15", "15", this, this, this ];
