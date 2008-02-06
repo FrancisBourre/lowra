@@ -386,6 +386,40 @@ package com.bourre.structures
 			return false;
 		}
 		
+		public function addAllAt( p : Point, c : Grid ) : Boolean
+		{
+			isValidCollection( c );
+			isGridCoords( p );
+			isGridCoords( p.add( new Point( _vSize.width, _vSize.height ) ) );
+			
+			var i : GridIterator = c.iterator( ) as GridIterator;
+			
+			
+			
+			while ( i.hasNext() )
+			{
+				setVal( i.add( p ) , i.next() );
+			}
+			return true;
+		}
+		
+		public function removeAllAt( p : Point, c : Grid ) : Boolean
+		{
+			isValidCollection( c );
+			isGridCoords( p );
+			isGridCoords( p.add( new Point( _vSize.width, _vSize.height ) ) );			
+			
+			var b : Boolean = false;
+			var i : GridIterator = c.iterator( ) as GridIterator;
+			
+			while( i.hasNext() )
+			{
+				removeAt( i.add( p ) );
+				i.next();
+			} 
+			return b;
+		}
+		
 		/**
 		 * Retains only the elements in this queue that are contained
 		 * in the specified collection (optional operation). In other words,
