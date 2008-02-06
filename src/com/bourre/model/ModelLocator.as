@@ -58,7 +58,8 @@ package com.bourre.model
 				var model : AbstractModel = locate( key ) as AbstractModel;
 				return model;
 
-			} catch ( e : Error )
+			} 
+			catch ( e : Error )
 			{
 				throw( e );
 			}
