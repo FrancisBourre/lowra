@@ -255,15 +255,15 @@
 	-->
 	<target name="mxmlc.Compile">
 		
-		<condition property="includes.source" value="-includes='${includes}'" else="">
+		<condition property="includes.arg" value="-includes='${includes}'" else="">
 			<isset property="includes"/>
 		</condition>
 			
-		<condition property="excludes.source" value="-externs='${excludes}'" else="">
+		<condition property="excludes.arg" value="-externs='${excludes}'" else="">
 			<isset property="excludes"/>
 		</condition>
 		
-		<condition property="link.report" value="-link-report='${report}'" else="">
+		<condition property="report.arg" value="-link-report='${report}'" else="">
 			<isset property="report"/>
 		</condition>
 		
@@ -275,9 +275,9 @@
 			<arg line="-source-path+=${test.dir}"/>
 			<arg line="-source-path+=${testRunner.dir}"/>
 			
-			<arg line="${includes.source}"/>
-			<arg line="${excludes.source}"/>
-			<arg line="${link.report}"/>
+			<arg line="${includes.arg}"/>
+			<arg line="${excludes.arg}"/>
+			<arg line="${report.arg}"/>
 
 			<arg line="-library-path+=${flexunit.swc}"/>	
 
@@ -291,15 +291,15 @@
 	-->
 	<target name="fcsh.Compile">
 		
-		<condition property="includes.source" value="-includes='${includes}'" else="">
+		<condition property="includes.arg" value="-includes=${includes}" else="">
 			<isset property="includes"/>
 		</condition>
 			
-		<condition property="excludes.source" value="-externs='${excludes}'" else="">
+		<condition property="excludes.arg" value="-externs=${excludes}" else="">
 			<isset property="excludes"/>
 		</condition>
 		
-		<condition property="link.report" value="-link-report='${report}'" else="">
+		<condition property="report.arg" value="-link-report=${report}" else="">
 			<isset property="report"/>
 		</condition>
 		
@@ -313,9 +313,9 @@
 			<arg value="-source-path+=${test.dir}"/>
 			<arg value="-source-path+=${testRunner.dir}"/>
 			
-			<arg value="${includes.source}"/>
-			<arg value="${excludes.source}"/>
-			<arg value="${link.report}"/>
+			<arg value="${includes.arg}"/>
+			<arg value="${excludes.arg}"/>
+			<arg value="${report.arg}"/>
 
 			<arg value="-library-path+=${flexunit.swc}"/>	
 
@@ -337,11 +337,7 @@
 		
 		<antcall target="fcsh.Compile">
 			<param name="src" value="${src.dir}/${tempfile}.as"/>
-			<param name="output" value="${dll.name}.swf"/>
-			<param name="bin" value="${dll.dir}"/>
-			<param name="includes" value="${dll.includes}"/>
-			<param name="excludes" value="${dll.excludes}"/>
-			<param name="report" value="${dll.report}"/>
+			<param name="output" value="${name}.swf"/>
 		</antcall>
 		
 		<antcall target="dll.CleanTempEntry">
@@ -355,19 +351,17 @@
 	-->
 	<target name="dll.Test">
 		<antcall target="dll.Compile">
-			<param name="dll.name" value="TestDll"/>
-			<param name="dll.dir" value="${bin.dir}"/>
-			<param name="dll.includes" value="com.bourre.structures.Dimension"/>
-			<param name="dll.excludes" value=""/>
-			<param name="dll.report" value="${bin.dir}/dllreport.xml"/>
+			<param name="name" value="TestDll"/>
+			<param name="bin" value="${bin.dir}"/>
+			<param name="includes" value="com.bourre.structures.Dimension"/>
+			<param name="report" value="${bin.dir}/dllreport.xml"/>
 		</antcall>
 	</target>
 	
 	<!--
 		Generates a temporary *.as file containing an empty class which extends sprites
 		and which could be used as entry point for dll compilation
-	-->
-	
+	-->	
 	<target name="dll.CreateTempEntry">
 		<echo file="${src.dir}/${tempfile}.as">package
 {
