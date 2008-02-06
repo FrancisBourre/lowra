@@ -107,6 +107,9 @@ package com.bourre.commands
 			return (l != _aCommands.push( command ) );
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		override public function setOwner ( owner : Plugin ) : void
 		{
 			super.setOwner( owner );
