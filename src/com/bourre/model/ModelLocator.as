@@ -20,11 +20,13 @@ package com.bourre.model
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.collection.ArrayIterator;
 	import com.bourre.collection.HashMap;
+	import com.bourre.collection.Iterator;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;	
+	import com.bourre.plugin.PluginDebug;		
 
 	final public class ModelLocator 
 		extends AbstractLocator
@@ -41,8 +43,11 @@ package com.bourre.model
 
 		public static function getInstance( owner : Plugin = null ) : ModelLocator
 		{
-			if(owner==null) owner = NullPlugin.getInstance();
-			if ( !(ModelLocator._M.containsKey( owner )) ) ModelLocator._M.put( owner, new ModelLocator(new PrivateConstructorAccess() , owner) );
+			if ( owner == null ) owner = NullPlugin.getInstance();
+
+			if ( !(ModelLocator._M.containsKey( owner )) ) 
+				ModelLocator._M.put( owner, new ModelLocator(new PrivateConstructorAccess() , owner ) );
+
 			return ModelLocator._M.get( owner );
 		}
 
@@ -58,9 +63,8 @@ package com.bourre.model
 
 		override public function release() : void
 		{
-			var a : Array = _m.getValues();
-			var l : uint = a.length;
-			while( -- l > - 1 ) ( a[ l ] as AbstractModel ).release();
+			var i : Iterator = new ArrayIterator( _m.getValues() );
+			while( i.hasNext() ) i.next().release();
 			super.release();
 		}
 

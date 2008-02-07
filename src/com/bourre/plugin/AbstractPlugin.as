@@ -29,7 +29,6 @@ package com.bourre.plugin
 	import com.bourre.events.EventChannel;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;
-	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.plugin.PluginBroadcaster;
@@ -64,7 +63,7 @@ package com.bourre.plugin
 			firePublicEvent( new PluginEvent( PluginEvent.onInitPluginEVENT, this ) );
 		}
 
-		public function fireOnReleasePlugin() : void
+		protected function fireOnReleasePlugin() : void
 		{
 			firePublicEvent( new PluginEvent( PluginEvent.onReleasePluginEVENT, this ) );
 		}
@@ -116,7 +115,7 @@ package com.bourre.plugin
 		public function firePublicEvent( e : Event ) : void
 		{
 			if( _oEBPublic ) ( _oEBPublic as PluginBroadcaster ).firePublicEvent( e, this );
-				else PixlibDebug.WARN( this + " doesn't have public dispatcher" );
+				else getLogger().warn( this + " doesn't have public dispatcher" );
 		}
 
 		public function firePrivateEvent( e : Event ) : void
@@ -150,7 +149,7 @@ package com.bourre.plugin
 				
 			} else 
 			{
-				PixlibDebug.WARN( this + " doesn't have public dispatcher" );
+				getLogger().warn( this + " doesn't have public dispatcher" );
 				return false;
 			}
 		}
@@ -160,9 +159,10 @@ package com.bourre.plugin
 			if( _oEBPublic ) 
 			{
 				return _oEBPublic.removeListener( listener );
+
 			} else 
 			{
-				PixlibDebug.WARN( this + " doesn't have public dispatcher" );
+				getLogger().warn( this + " doesn't have public dispatcher" );
 				return false;
 			}
 		}
@@ -175,7 +175,7 @@ package com.bourre.plugin
 			
 			} else 
 			{
-				PixlibDebug.WARN( this + " doesn't have public dispatcher" );
+				getLogger().warn( this + " doesn't have public dispatcher" );
 				return false;
 			}
 		}
@@ -188,7 +188,7 @@ package com.bourre.plugin
 
 			} else 
 			{
-				PixlibDebug.WARN( this + " doesn't have public dispatcher" );
+				getLogger().warn( this + " doesn't have public dispatcher" );
 				return false;
 			}
 		}

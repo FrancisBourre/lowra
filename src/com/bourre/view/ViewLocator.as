@@ -20,12 +20,14 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.collection.ArrayIterator;
 	import com.bourre.collection.HashMap;
+	import com.bourre.collection.Iterator;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;		
+	import com.bourre.plugin.PluginDebug;	
 
 	final public class ViewLocator 
 		extends AbstractLocator
@@ -45,9 +47,7 @@ package com.bourre.view
 			if ( owner == null ) owner = NullPlugin.getInstance();
 
 			if ( !( ViewLocator._M.containsKey( owner ) ) ) 
-			{
 				ViewLocator._M.put( owner, new ViewLocator( new PrivateConstructorAccess(), owner ) );
-			}
 
 			return ViewLocator._M.get( owner );
 		}
@@ -62,7 +62,7 @@ package com.bourre.view
 			return locate( key ) as AbstractView;
 		}
 
-		public override function register( key : String, o : Object ) : Boolean
+		override public function register( key : String, o : Object ) : Boolean
 		{
 			if( key == null ) 
 				throw new NullPointerException ( "Cannot register a view with a null name" );
@@ -75,9 +75,8 @@ package com.bourre.view
 
 		override public function release() : void
 		{
-			var a : Array = _m.getValues();
-			var l : uint = a.length;
-			while( -- l > - 1 ) ( a[ l ] as AbstractView ).release();
+			var i : Iterator = new ArrayIterator( _m.getValues() );
+			while ( i.hasNext() ) i.next().release();
 			super.release();
 		}
 
