@@ -54,31 +54,31 @@ package com.bourre.plugin
 				 _oPlug2.getViewLocator() != ViewLocator.getInstance( ));
 		}
 		
-		public function test_fireOnInitPlugin() : void
-		{
-			var plugListener :MockPluginListener = new MockPluginListener()
-			_oPlug.addListener(plugListener)
-			_oPlug.fireOnInitPlugin()
-			
-			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
-				 plugListener.isCAlled);
-			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
-				PluginEvent.onInitPluginEVENT,
-				plugListener.evt.type);	
-		}
-		
-		public function test_fireOnReleasePlugin() : void
-		{
-			var myListener :MockPluginListener = new MockPluginListener()
-			_oPlug.addListener(myListener)
-			_oPlug.fireOnReleasePlugin()
-			
-			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
-				 myListener.isCAlled);
-			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
-				PluginEvent.onReleasePluginEVENT,
-				myListener.evt.type);	
-		}
+//		public function test_fireOnInitPlugin() : void
+//		{
+//			var plugListener :MockPluginListener = new MockPluginListener()
+//			_oPlug.addListener(plugListener)
+//			_oPlug.fireOnInitPlugin()
+//			
+//			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
+//				 plugListener.isCAlled);
+//			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
+//				PluginEvent.onInitPluginEVENT,
+//				plugListener.evt.type);	
+//		}
+//		
+//		public function test_fireOnReleasePlugin() : void
+//		{
+//			var myListener :MockPluginListener = new MockPluginListener()
+//			_oPlug.addListener(myListener)
+//			_oPlug.fireOnReleasePlugin()
+//			
+//			assertTrue(_oPlug+'.firePublicEvent() dont call the listener',
+//				 myListener.isCAlled);
+//			assertEquals(_oPlug+'.firePublicEvent() dont broadcast the good event',
+//				PluginEvent.onReleasePluginEVENT,
+//				myListener.evt.type);	
+//		}
 		
 		public function test_firePublicEvent() : void
 		{

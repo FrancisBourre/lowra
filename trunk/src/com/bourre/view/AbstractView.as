@@ -34,21 +34,21 @@ package com.bourre.view
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.structures.Dimension;		
+	import com.bourre.structures.Dimension;	
 
 	public class AbstractView 
 	{
 		public static const onInitEVENT : String = "onInit";
 		public static const onReleaseEVENT : String = "onRelease";
 
-		public var view : DisplayObjectContainer;
+		public var view : DisplayObject;
 
 		protected var _gl : GraphicLoader;
 		protected var _sName:String;
 		protected var _oEB:EventBroadcaster;
 		protected var _owner : Plugin;
 
-		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
+		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObject = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
 
@@ -96,7 +96,7 @@ package com.bourre.view
 			_initAbstractView( glName, null, (( name && (name != getName()) ) ? name : null) );
 		}
 
-		public function registerView( mc : DisplayObjectContainer, name : String = null ) : void
+		public function registerView( mc : DisplayObject, name : String = null ) : void
 		{
 			_initAbstractView( getName(), mc, (( name && (name != getName()) ) ? name : null) );
 		}
@@ -264,7 +264,7 @@ package com.bourre.view
 		}
 
 		//
-		private function _initAbstractView( glName : String, oView : DisplayObjectContainer, mvhName : String ) : void
+		private function _initAbstractView( glName : String, oView : DisplayObject, mvhName : String ) : void
 		{	
 			if ( oView != null )
 			{
