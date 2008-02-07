@@ -26,21 +26,19 @@ package com.bourre.plugin
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.events.Broadcaster;
-	import com.bourre.events.EventBroadcaster;
 	import com.bourre.events.EventChannel;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.ModelLocator;
+	import com.bourre.plugin.PluginBroadcaster;
 	import com.bourre.view.ViewLocator;	
 
 	public class AbstractPlugin
 		implements Plugin
 	{
-		protected var _oABExternal : ApplicationBroadcaster;
 		protected var _oEBPublic : Broadcaster;
-		protected var _oEBPrivate : Broadcaster;
 
 		private var _oController : FrontController;
 		private var _oModelLocator : ModelLocator;
@@ -53,21 +51,15 @@ package com.bourre.plugin
 
 		protected function _initialize() : void
 		{
-			_oEBPrivate = new EventBroadcaster( this );
 			_oController = new FrontController( this );
-			_oEBPrivate.addListener( _oController );
-			
 			_oModelLocator = ModelLocator.getInstance( this );
 			_oViewLocator = ViewLocator.getInstance( this );
-				
-			_oABExternal = ApplicationBroadcaster.getInstance();
-			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
-			
 
+			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
 			if( _oEBPublic ) _oEBPublic.addListener( this );
 		}
 
-		public function fireOnInitPlugin() : void
+		protected function fireOnInitPlugin() : void
 		{
 			firePublicEvent( new PluginEvent( PluginEvent.onInitPluginEVENT, this ) );
 		}
@@ -106,7 +98,7 @@ package com.bourre.plugin
 		{
 			if ( externalChannel != getChannel() ) 
 			{
-				_oABExternal.broadcastEvent( e, externalChannel );
+				ApplicationBroadcaster.getInstance().broadcastEvent( e, externalChannel );
 				
 			} else
 			{
@@ -123,18 +115,18 @@ package com.bourre.plugin
 
 		public function firePublicEvent( e : Event ) : void
 		{
-			if( _oEBPublic ) _oEBPublic.broadcastEvent( e );
+			if( _oEBPublic ) ( _oEBPublic as PluginBroadcaster ).firePublicEvent( e, this );
 				else PixlibDebug.WARN( this + " doesn't have public dispatcher" );
 		}
 
 		public function firePrivateEvent( e : Event ) : void
 		{
-			_oEBPrivate.broadcastEvent( e );
+			_oController.handleEvent( e );
 		}
 
 		public function release() : void
 		{
-			_oController.release( );
+			_oController.release();
 			_oModelLocator.release( );
 			_oViewLocator.release();
 
@@ -143,7 +135,6 @@ package com.bourre.plugin
 			if ( IDExpert.getInstance().isRegistered( key ) ) IDExpert.getInstance().unregister( key );
 			fireOnReleasePlugin();
 
-			_oEBPrivate.removeAllListeners();
 			_oEBPublic.removeAllListeners();
 
 			ApplicationBroadcaster.getInstance().releaseChannelDispatcher( getChannel() );

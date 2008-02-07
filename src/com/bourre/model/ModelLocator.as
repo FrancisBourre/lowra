@@ -53,18 +53,7 @@ package com.bourre.model
 
 		public function getModel( key : String ) : AbstractModel
 		{
-			try
-			{
-				var model : AbstractModel = locate( key ) as AbstractModel;
-				return model;
-
-			} 
-			catch ( e : Error )
-			{
-				throw( e );
-			}
-			
-			return null;
+			return locate( key ) as AbstractModel;
 		}
 
 		override public function release() : void

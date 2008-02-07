@@ -28,10 +28,6 @@ package com.bourre.plugin
 
 	public interface Plugin 
 	{
-		function  fireOnInitPlugin() : void;
-		function  fireOnReleasePlugin() : void;
-		
-		
 		function fireExternalEvent( e : Event, channel : EventChannel ) : void;
 		function firePublicEvent( e : Event ) : void;
 		function firePrivateEvent( e : Event ) : void;
