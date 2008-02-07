@@ -390,7 +390,7 @@ package com.bourre.structures
 		{
 			isValidCollection( c );
 			isGridCoords( p );
-			isGridCoords( p.add( new Point( _vSize.width, _vSize.height ) ) );
+			isGridCoords( p.add( new Point( _vSize.width-1, _vSize.height-1 ) ) );
 			
 			var i : GridIterator = c.iterator( ) as GridIterator;
 			
@@ -407,7 +407,7 @@ package com.bourre.structures
 		{
 			isValidCollection( c );
 			isGridCoords( p );
-			isGridCoords( p.add( new Point( _vSize.width, _vSize.height ) ) );			
+			isGridCoords( p.add( new Point( _vSize.width-1, _vSize.height-1 ) ) );			
 			
 			var b : Boolean = false;
 			var i : GridIterator = c.iterator( ) as GridIterator;

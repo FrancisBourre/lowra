@@ -26,7 +26,8 @@ package com.bourre.commands
 	import com.bourre.transitions.FPSBeacon;
 	import com.bourre.transitions.TickBeacon;
 	import com.bourre.transitions.TickListener;
-	import com.bourre.error.IllegalStateException;	
+	import com.bourre.error.IllegalStateException;
+	import com.bourre.plugin.Plugin;	
 
 	/**
 	 * A <code>LoopCommand</code> wrap a loop statement within a command. Loop
@@ -286,6 +287,13 @@ package com.bourre.commands
 			}
 		}
 		
+		override public function setOwner ( owner : Plugin ) : void
+		{
+			super.setOwner(owner );
+			if( _oCommand is AbstractCommand )
+				(_oCommand as AbstractCommand).setOwner(owner);
+		}
+
 		/**
 		 * Process the loop. At each call of this function
 		 * a real loop statement is performed until its
@@ -310,7 +318,7 @@ package com.bourre.commands
 				else
 				{
 					stop();
-					
+					_bIsDone = true;
 					fireOnLoopProgressEvent( _nIndex );
 					fireOnLoopEndEvent( _nIndex );
 					fireCommandEndEvent();

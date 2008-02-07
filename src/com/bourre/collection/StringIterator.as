@@ -40,28 +40,33 @@ package com.bourre.collection
 		private var _nIndex : Number;
 		private var _bRemoved : Boolean;
 		private var _bAdded : Boolean;
+		private var _nGap : Number;
 		
 		/**
 		 * Creates a new string iterator over the character
 		 * of the passed-in string.
 		 * 
 		 * @param	s	<code>String</code> target of this iterator
+		 * @param 	gap	
 		 * @param	i	index at which the iterator start
 		 * @throws 	<code>NullPointerException</code> — if the specified string is null
 		 * @throws 	<code>IndexOutOfBoundsException</code> — if the index is out of range
 		 */
-		public function StringIterator ( s : String, i : uint = 0 ) 
+		public function StringIterator ( s : String, gap : Number = 1, i : uint = 0 ) 
 		{
 			if( s == null )
 	    		throw new NullPointerException( "The target string of " + this + "can't be null" );
 	    	if( i > s.length )
 	    		throw new IndexOutOfBoundsException ( "The passed-in index " + i + " is not a valid for a string of length " + s.length );
-		
+			if( gap < 1 || gap > s.length || s.length % gap != 0 )
+				throw new IndexOutOfBoundsException ( "The passed-in gap " + gap + " is not a valid for a string of length " + s.length );
+			
 			_sString = s;
-			_nSize = _sString.length;
+			_nSize = _sString.length / gap;
 			_nIndex = i - 1;
 			_bRemoved = false;
 			_bAdded = false;
+			_nGap = gap;
 		}
 
 		/**
@@ -81,7 +86,7 @@ package com.bourre.collection
 				
 			_bAdded = false;
 	    	_bRemoved = false;
-			return _sString.substr( ++_nIndex, 1 );
+			return _sString.substr( ++_nIndex * _nGap, _nGap );
 		}
 		
 		/**
@@ -146,7 +151,7 @@ package com.bourre.collection
 				
 			_bAdded = false;
 	    	_bRemoved = false;
-			return _sString.substr( _nIndex--, 1 );
+			return _sString.substr( _nIndex-- * _nGap, _nGap );
 		}
 		/**
 		 * @inheritDoc
