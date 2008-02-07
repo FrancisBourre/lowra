@@ -32,6 +32,7 @@ package com.bourre.model
 	public class AbstractModel 
 	{
 		public static const onInitEVENT : String = "onInit";
+		public static const onReleaseEVENT : String = "onRelease";
 		
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
@@ -57,7 +58,12 @@ package com.bourre.model
 		
 		protected function onInit() : void
 		{
-			notifyChanged( new StringEvent( AbstractModel.onInitEVENT, getName() ) );
+			notifyChanged( new StringEvent( AbstractModel.onInitEVENT, this, getName() ) );
+		}
+		
+		protected function onRelease() : void
+		{
+			notifyChanged( new StringEvent( AbstractModel.onReleaseEVENT, this, getName() ) );
 		}
 		
 		public function setName( name : String ) : void
@@ -104,6 +110,9 @@ package com.bourre.model
 		{
 			_getBroadcaster().removeAllListeners();
 			ModelLocator.getInstance( getOwner() ).unregister( getName() );
+
+			onRelease();
+
 			_sName = null;
 		}
 	

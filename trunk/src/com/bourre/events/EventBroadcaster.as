@@ -79,11 +79,11 @@ package com.bourre.events
 
 		protected var _oSource : Object;
 
-		private var _mAll : Collection;
-		private var _mType : HashMap;
-		private var _mEventListener : HashMap;
-		private var _cType : Class;
-		private var _mDelegate : HashMap;
+		protected var _mAll : Collection;
+		protected var _mType : HashMap;
+		protected var _mEventListener : HashMap;
+		protected var _cType : Class;
+		protected var _mDelegate : HashMap;
 		
 		/**
 		 * Creates an new <code>EventBroadcaster</code> object with the passed-in

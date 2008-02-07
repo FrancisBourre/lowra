@@ -59,17 +59,7 @@ package com.bourre.view
 
 		public function getView( key : String ) : AbstractView
 		{
-			try
-			{
-				var view : AbstractView = locate( key ) as AbstractView;
-				return view;
-
-			} catch ( e : Error )
-			{
-				throw( e );
-			}
-			
-			return null;
+			return locate( key ) as AbstractView;
 		}
 
 		public override function register( key : String, o : Object ) : Boolean

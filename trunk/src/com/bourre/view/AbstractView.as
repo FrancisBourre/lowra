@@ -27,17 +27,19 @@ package com.bourre.view
 	
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.EventBroadcaster;
+	import com.bourre.events.StringEvent;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.structures.Dimension;	
+	import com.bourre.structures.Dimension;		
 
 	public class AbstractView 
 	{
 		public static const onInitEVENT : String = "onInit";
+		public static const onReleaseEVENT : String = "onRelease";
 
 		public var view : DisplayObjectContainer;
 
@@ -49,7 +51,7 @@ package com.bourre.view
 		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObjectContainer = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
-			
+
 			setOwner( owner );
 			if ( name != null ) _initAbstractView( name, mc, null );
 		}
@@ -61,7 +63,12 @@ package com.bourre.view
 
 		protected function onInit() : void
 		{
-			//
+			notifyChanged( new StringEvent( AbstractView.onInitEVENT, this, getName() ) );
+		}
+
+		protected function onRelease() : void
+		{
+			notifyChanged( new StringEvent( AbstractView.onReleaseEVENT, this, getName() ) );
 		}
 
 		public function getOwner() : Plugin
@@ -151,7 +158,16 @@ package com.bourre.view
 
 		public function canResolveUI ( label : String ) : Boolean
 		{
-			return resolveUI( label ) is DisplayObject;
+			try
+			{
+				return resolveUI( label ) is DisplayObject;
+
+			} catch ( e : Error )
+			{
+				return false;
+			}
+
+			return false;
 		}
 
 		public function resolveUI( label : String ) : DisplayObject 
@@ -170,7 +186,7 @@ package com.bourre.view
 
 				} else
 				{
-					getLogger().error( "AbstractView.resolveUI(" + label + ") failed." );
+					getLogger().error( this + ".resolveUI(" + label + ") failed." );
 					return null;
 				}
 			}
@@ -191,6 +207,8 @@ package com.bourre.view
 
 			if ( _gl != null ) _gl.release();
 
+			onRelease();
+			
 			_sName = null;
 		}
 
