@@ -99,6 +99,9 @@ package com.bourre.commands
 			return _owner;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		override public function register( eventName : String, o : Object ) : Boolean
 		{
 			try
