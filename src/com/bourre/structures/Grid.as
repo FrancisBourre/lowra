@@ -386,6 +386,26 @@ package com.bourre.structures
 			return false;
 		}
 		
+		/**
+		 * Copy the content of the passed-in grid at the specified coordinates.
+		 * The passed-in grid is paste into this grid such the top-left coordinates
+		 * will start at the specified <code>Point</code> argument.
+		 * 
+		 * @param	p	coordinates at which copy the grid
+		 * @param	c	grid to copy in this grid object
+		 * @return	<code>true</code> if the passed-in grid have been successfully added
+		 * 			at the specified coordinates in this grid
+		 * @throws 	<code>ClassCastException</code> — If the object's type
+		 * 			prevents it to be added into this grid
+		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in collection
+		 * 			type is not the same that the current one.	
+		 * @throws 	<code>IndexOutOfBoundsException</code> — If the passed-in point
+		 * 			is not valid coordinates for this grid.
+		 * @throws 	<code>IndexOutOfBoundsException</code> — If the passed-in grid
+		 * 			will overlap this grid when copying.		
+		 * @see		#isValidCollection() See isValidCollection for description of the rules for 
+		 * 			collaboration between typed and untyped collections.
+		 */
 		public function addAllAt( p : Point, c : Grid ) : Boolean
 		{
 			isValidCollection( c );
@@ -403,6 +423,30 @@ package com.bourre.structures
 			return true;
 		}
 		
+		/**
+		 * Removes the content of the passed-in grid at the specified coordinates.
+		 * The passed-in grid is removed from this grid such the top-left coordinates
+		 * will start at the specified <code>Point</code> argument.
+		 * <p>
+		 * The content of the passed-in grid is only removed in the bounds of the grid
+		 * in this grid space coordinates. Values which are also stored in the passed-in 
+		 * grid but whose coordinates aren't in the bounds of the operation aren't remove.
+		 * </p>
+		 * @param	p	coordinates at which remove the grid
+		 * @param	c	grid to remove from this grid object
+		 * @return	<code>true</code> if the passed-in grid have been successfully removed
+		 * 			at the specified coordinates in this grid
+		 * @throws 	<code>ClassCastException</code> — If the object's type
+		 * 			prevents it to be added into this grid
+		 * @throws 	<code>IllegalArgumentException</code> — If the passed-in collection
+		 * 			type is not the same that the current one.	
+		 * @throws 	<code>IndexOutOfBoundsException</code> — If the passed-in point
+		 * 			is not valid coordinates for this grid.
+		 * @throws 	<code>IndexOutOfBoundsException</code> — If the passed-in grid
+		 * 			will overlap this grid when removing.		
+		 * @see		#isValidCollection() See isValidCollection for description of the rules for 
+		 * 			collaboration between typed and untyped collections.
+		 */
 		public function removeAllAt( p : Point, c : Grid ) : Boolean
 		{
 			isValidCollection( c );

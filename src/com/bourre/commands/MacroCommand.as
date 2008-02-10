@@ -41,7 +41,7 @@ package com.bourre.commands
 		/**
 		 * Adds the passed-in command to this macro command.
 		 * 
-		 * @param 	command	command to add in this macro command
+		 * @param	command	command to add in this macro command
 		 * @return	<code>true</code> if the command have been
 		 * 			succesfully added. The <code>addCommand</code>
 		 * 			ensure that the command exist in the macro
