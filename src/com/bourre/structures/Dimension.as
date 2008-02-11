@@ -100,6 +100,11 @@ package com.bourre.structures
 			return new Dimension ( width, height );
 		}
 
+		public function scale ( n : Number ) : Dimension
+		{
+			return new Dimension( width * n, height * n );
+		}
+
 		/**
 		 * Returns a Point object with its x and y sets
 		 * respectively on width and height of this 
