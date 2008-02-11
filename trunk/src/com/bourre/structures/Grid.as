@@ -414,12 +414,12 @@ package com.bourre.structures
 			
 			var i : GridIterator = c.iterator( ) as GridIterator;
 			
-			
-			
 			while ( i.hasNext() )
 			{
-				setVal( i.add( p ) , i.next() );
+				var val : * = i.next();
+				setVal( i.add( p ) , val );
 			}
+			
 			return true;
 		}
 		
@@ -458,8 +458,9 @@ package com.bourre.structures
 			
 			while( i.hasNext() )
 			{
-				removeAt( i.add( p ) );
 				i.next();
+				removeAt( i.add( p ) );
+				
 			} 
 			return b;
 		}
