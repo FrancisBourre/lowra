@@ -112,4 +112,14 @@ package com.bourre.service
 		public function isRunning () : Boolean
 		{
 			return false;
+		}
+		
+		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
+		{
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
+		}
+
+		public function removeEventListener( type : String, listener : Object ) : Boolean
+		{
+			return _oEB.removeEventListener( type, listener );
 		}	}}

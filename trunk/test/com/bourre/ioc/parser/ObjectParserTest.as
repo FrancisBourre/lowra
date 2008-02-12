@@ -284,6 +284,20 @@ package com.bourre.ioc.parser
 		}
 
 		//
+		public function buildLoader (	ID 							: String, 
+										url 						: URLRequest, 
+										progressCallback 			: String 	= null, 
+										nameCallback 				: String 	= null, 
+										timeoutCallback 			: String 	= null, 
+										parsedCallback 				: String 	= null, 
+										methodsCallCallback 		: String 	= null, 
+										objectsBuiltCallback		: String 	= null, 
+										channelsAssignedCallback	: String 	= null, 
+										initCallback 				: String 	= null	) : void
+		{
+			//
+		}
+
 		public function buildDLL( url : String ) : void
 		{
 			//
