@@ -50,6 +50,7 @@ package com.bourre.ioc
 }
 
 import flash.events.Event;
+import flash.text.TextField;
 
 import com.bourre.commands.AbstractCommand;
 import com.bourre.events.StringEvent;
@@ -62,7 +63,7 @@ internal class Output
 {
 	override public function execute( e : Event = null ) : void
 	{
-		(getModelLocator().getModel( ModelList.modelTest ) as ModelTest).s = (e as StringEvent).getString();
+		(getModelLocator().getModel( ModelList.modelTest ) as ModelTest).setString( (e as StringEvent).getString() );
 	}
 }
 
@@ -71,17 +72,30 @@ internal class PrivateEventList
 	public static const onOutputString : String = "onOutputString";
 }
 
-
-
 internal class ModelTest 
 	extends AbstractModel
 {
-	public var s : String;
+	public static const onSetStringEVENT : String = "onSetString";
+
+	protected var _s : String;
 
 	public function ModelTest( owner : Plugin, id : String ) 
 	{
 		super( owner, id );
+		
+		setListenerType( ModelTestListener );
 	}
+
+	public function setString( s : String ) : void
+	{
+		_s = s;
+		notifyChanged( new StringEvent( ModelTest.onSetStringEVENT, this, s ) );
+	}
+}
+
+internal interface ModelTestListener
+{
+	function onSetString( e : StringEvent ) : void;
 }
 
 internal class ModelList
@@ -91,8 +105,9 @@ internal class ModelList
 
 internal class ViewTest 
 	extends AbstractView
+	implements ModelTestListener
 {
-	public var isInitialized : Boolean;
+	protected var _tf : TextField;
 
 	public function ViewTest( owner : Plugin ) 
 	{
@@ -101,7 +116,13 @@ internal class ViewTest
 	
 	override protected function onInit() : void
 	{
-		isInitialized = true;
+		if ( canResolveUI( "tf" ) ) _tf = resolveUI( "tf" ) as TextField;
+		super.onInit();
+	}
+	
+	public function onSetString( e : StringEvent ) : void
+	{
+		_tf.text = e.getString();
 	}
 }
 

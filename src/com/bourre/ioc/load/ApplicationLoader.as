@@ -40,6 +40,7 @@ package com.bourre.ioc.load
 	import com.bourre.ioc.parser.ContextParserEvent;
 	import com.bourre.ioc.parser.DLLParser;
 	import com.bourre.ioc.parser.DisplayObjectParser;
+	import com.bourre.ioc.parser.LoaderParser;
 	import com.bourre.ioc.parser.ObjectParser;
 	import com.bourre.ioc.parser.ParserCollection;
 	import com.bourre.load.AbstractLoader;
@@ -75,6 +76,7 @@ package com.bourre.ioc.load
 		{
 			var pc : ParserCollection = new ParserCollection();
 
+			pc.push( new LoaderParser( getApplicationAssembler() ) );
 			pc.push( new DLLParser( getApplicationAssembler() ) );
 			pc.push( new DisplayObjectParser( getApplicationAssembler() ) );
 			pc.push( new ObjectParser( getApplicationAssembler() ) );

@@ -36,4 +36,7 @@ package com.bourre.service
 		function fireResult() : void;
 		function fireError() : void;
 		function release() : void;
+
+		function addEventListener( type : String, listener : Object, ... rest ) : Boolean;
+		function removeEventListener( type : String, listener : Object ) : Boolean;
 	}}
