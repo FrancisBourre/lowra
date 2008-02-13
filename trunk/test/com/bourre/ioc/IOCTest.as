@@ -8,7 +8,7 @@ package com.bourre.ioc
 	import com.bourre.events.Broadcaster;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
 	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.bean.BeanFactory;
@@ -33,8 +33,7 @@ package com.bourre.ioc
 		public override function setUp():void
 		{
 			IDExpert.release();
-
-			DisplayObjectExpert.release();			PropertyExpert.release();			ConstructorExpert.release();			ChannelListenerExpert.release();			MethodExpert.release();
+			PropertyExpert.release();			ConstructorExpert.release();			ChannelListenerExpert.release();			MethodExpert.release();
 
 			BeanFactory.release();
 			GraphicLoaderLocator.release();

@@ -1,6 +1,6 @@
 package com.bourre.ioc.assembler.displayobject
 {
-	import com.bourre.ioc.parser.ContextTypeList;	
+	import flash.net.URLRequest;			import com.bourre.ioc.parser.ContextTypeList;	
 	
 	import flexunit.framework.TestCase;
 
@@ -43,14 +43,14 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function testEmptyDisplayObject () : void
 		{
-			var oDEI:DisplayObjectInfo = new DisplayObjectInfo("id", "parentid", true, "/swf/ici.swf") ;
+			var oDEI:DisplayObjectInfo = new DisplayObjectInfo("id", "parentid", true, new URLRequest("/swf/ici.swf")) ;
 			
 			assertFalse("DisplayObjectInfo isEmptyDisplayObject returns true when displayobject no empty",
 						oDEI.isEmptyDisplayObject()) ;
 						
 			assertEquals("DisplayObjectInfo default type isn't movieclip", ContextTypeList.MOVIECLIP, oDEI.type) ;
 			
-			var oDEI2:DisplayObjectInfo = new DisplayObjectInfo("id2", "parentid", true, "/swf/ici.swf", ContextTypeList.SPRITE ) ;
+			var oDEI2:DisplayObjectInfo = new DisplayObjectInfo("id2", "parentid", true, new URLRequest("/swf/ici.swf"), ContextTypeList.SPRITE ) ;
 			assertEquals("DisplayObjectInfos type isn't memorize", ContextTypeList.SPRITE , oDEI2.type) ;
 		}
 

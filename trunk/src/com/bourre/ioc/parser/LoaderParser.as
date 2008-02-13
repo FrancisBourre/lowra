@@ -21,7 +21,7 @@ package com.bourre.ioc.parser
 	 * @version 1.0
 	 */
 	import flash.net.URLRequest;
-	
+
 	import com.bourre.ioc.assembler.ApplicationAssembler;	
 
 	public class LoaderParser 
@@ -34,10 +34,8 @@ package com.bourre.ioc.parser
 
 		public override function parse( xml : * ) : void
 		{
-			var loaderXML : XMLList = xml[ ContextNodeNameList.APPLICATION_LOADER ];
-			for each ( var node : XML in loaderXML.* ) _parseNode( node );
+			for each ( var node : XML in xml[ ContextNodeNameList.APPLICATION_LOADER ] ) _parseNode( node );
 			delete xml[ ContextNodeNameList.APPLICATION_LOADER ];
-
 		}
 
 		protected function _parseNode( node : XML ) : void

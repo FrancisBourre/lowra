@@ -69,16 +69,7 @@ package com.bourre.ioc.parser
 				var isVisible : Boolean = visible ? (visible == "true") : true;
 				var type : String = ContextAttributeList.getDisplayType( xml );
 
-				if ( url.length > 0 )
-				{
-					// If we need to load a swf file.
-					getAssembler().buildDisplayObject( id, new URLRequest(url), parentID, isVisible, type );
-
-				} else
-				{
-					// If we need to build an empty DisplayObject.
-					getAssembler().buildEmptyDisplayObject( id, parentID, isVisible, type );
-				}
+				getAssembler().buildDisplayObject( id, parentID, url?new URLRequest(url):null, isVisible, type );
 			}
 
 			// Build property.

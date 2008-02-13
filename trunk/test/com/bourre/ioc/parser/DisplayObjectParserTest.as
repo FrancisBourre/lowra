@@ -3,7 +3,8 @@ package com.bourre.ioc.parser
 	import flash.net.URLRequest;
 	
 	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;	
+	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
@@ -15,7 +16,6 @@ package com.bourre.ioc.parser
 		implements ApplicationAssembler
 	{
 		private var _oParser : DisplayObjectParser;
-		private var _aEmptyDO : Array;
 		private var _aDO : Array;
 		private var _aProperty : Array;
 		private var _aMethod : Array;
@@ -23,11 +23,9 @@ package com.bourre.ioc.parser
 		public override function setUp():void
 		{
 			IDExpert.release();
-			DisplayObjectExpert.release() ;
 			BeanFactory.release();
 
 			_oParser = new DisplayObjectParser( this );
-			_aEmptyDO = new Array();
 			_aDO = new Array();
 			_aProperty = new Array();
 			_aMethod = new Array();
@@ -65,9 +63,9 @@ package com.bourre.ioc.parser
 			</beans>;
 			
 			_oParser.parse( xml );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildEmptyDisplayObject()", 1, _aEmptyDO.length );
+			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildEmptyDisplayObject()", 1, _aDO.length );
 			//
-			var o : Object = _aEmptyDO[ 0 ];
+			var o : Object = _aDO[ 0 ];
 			assertEquals( "unexpected id", "container", o.id );
 			assertEquals( "unexpected parentID", "root", o.parentID );
 			assertTrue( "unexpected isVisible", o.isVisible );
@@ -109,32 +107,31 @@ package com.bourre.ioc.parser
 			</beans>;
 			
 			_oParser.parse( xml );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildEmptyDisplayObject()", 1, _aEmptyDO.length );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildDisplayObject()", 3, _aDO.length );
+			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildDisplayObject()", 4, _aDO.length );
 			
 			var o : Object;
 			//
-			o = _aEmptyDO[ 0 ];
+			o = _aDO[ 0 ];
 			assertEquals( "unexpected id", "container", o.id );
 			assertEquals( "unexpected parentID", "root", o.parentID );
 			assertTrue( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.SPRITE, o.type );
 			//
-			o = _aDO[ 0 ];
+			o = _aDO[ 1 ];
 			assertEquals( "unexpected id", "tweenpix", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
 			assertEquals( "unexpected url", "http://www.tweenpix.net", (o.url as URLRequest).url );
 			assertFalse( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.MOVIECLIP, o.type );
 			//
-			o = _aDO[ 1 ];
+			o = _aDO[ 2 ];
 			assertEquals( "unexpected id", "osflash", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
 			assertEquals( "unexpected url", "http://www.osflash.org", (o.url as URLRequest).url );
 			assertTrue( "unexpected isVisible", o.isVisible );
 			assertEquals( "unexpected type", ContextTypeList.SPRITE, o.type );
 			//
-			o = _aDO[ 2 ];
+			o = _aDO[ 3 ];
 			assertEquals( "unexpected id", "google", o.id );
 			assertEquals( "unexpected parentID", "osflash", o.parentID );
 			assertEquals( "unexpected url", "http://www.google.fr", (o.url as URLRequest).url );
@@ -157,16 +154,15 @@ package com.bourre.ioc.parser
 			</beans>;
 			
 			_oParser.parse( xml );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildEmptyDisplayObject()", 1, _aEmptyDO.length );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildDisplayObject()", 1, _aDO.length );
+			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildDisplayObject()", 2, _aDO.length );
 			
 			var o : Object;
 			//
-			o = _aEmptyDO[ 0 ];
+			o = _aDO[ 0 ];
 			assertEquals( "unexpected id", "container", o.id );
 
 			//
-			o = _aDO[ 0 ];
+			o = _aDO[ 1 ];
 			assertEquals( "unexpected id", "button", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
 			assertEquals( "unexpected url", "http://www.tweenpix.net/button.swf", (o.url as URLRequest).url );
@@ -203,16 +199,15 @@ package com.bourre.ioc.parser
 			</beans>;
 			
 			_oParser.parse( xml );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildEmptyDisplayObject()", 1, _aEmptyDO.length );
-			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildDisplayObject()", 1, _aDO.length );
+			assertEquals( "DisplayObjectParser.parse() didn't call assembler.buildDisplayObject()", 2, _aDO.length );
 			
 			var o : Object;
 			//
-			o = _aEmptyDO[ 0 ];
+			o = _aDO[ 0 ];
 			assertEquals( "unexpected id", "container", o.id );
 
 			//
-			o = _aDO[ 0 ];
+			o = _aDO[ 1 ];
 			assertEquals( "unexpected id", "button", o.id );
 			assertEquals( "unexpected parentID", "container", o.parentID );
 			assertEquals( "unexpected url", "http://www.tweenpix.net/button.swf", (o.url as URLRequest).url );
@@ -230,6 +225,16 @@ package com.bourre.ioc.parser
 		}
 
 		//
+		public function setDisplayObjectBuilder( displayObjectExpert : DisplayObjectBuilder ) 	: void
+		{
+			
+		}
+
+		public function getDisplayObjectBuilder() : DisplayObjectBuilder
+		{
+			return null;
+		}
+
 		public function buildLoader (	ID 							: String, 
 										url 						: URLRequest, 
 										progressCallback 			: String 	= null, 
@@ -244,25 +249,16 @@ package com.bourre.ioc.parser
 			//
 		}
 
-		public function buildDLL( url : String ) : void
+		public function buildDLL( url : URLRequest ) : void
 		{
 			//
 		}
-		
-		public function buildEmptyDisplayObject( 	id : String,
-													parentID : String,
-													isVisible : Boolean,
-													type : String ) : void
-		{
-			_aEmptyDO.push( {id:id, parentID:parentID, isVisible:isVisible, type:type} );
-			
-		}
 
-		public function buildDisplayObject( id 			: String,
-											url 		: URLRequest,
-											parentID 	: String,
-											isVisible 	: Boolean, 
-											type : String ) : void
+		public function buildDisplayObject( id 							: String,
+											parentID 					: String, 
+											url 						: URLRequest= null,
+											isVisible 					: Boolean	= true,
+											type 						: String	= null	) : void
 		{
 			_aDO.push( {id:id, parentID:parentID, url:url, isVisible:isVisible, type:type} );
 		}

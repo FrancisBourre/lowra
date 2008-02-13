@@ -20,29 +20,34 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.net.URLRequest;
+	
+	import com.bourre.events.ValueObject;
 	import com.bourre.ioc.parser.ContextTypeList;
 	import com.bourre.log.PixlibStringifier;	
 
 	public class DisplayObjectInfo
+		implements ValueObject
 	{
 		public var ID 		: String;
 		public var parentID : String;
 		public var isVisible: Boolean;
 		public var type		: String;
-		private var _sURL	: String;
+		public var url : URLRequest;
+
 		private var _aChilds: Array;
 		
 		public function DisplayObjectInfo ( ID			: String, 
 											parentID	: String	= null, 
 											isVisible	: Boolean 	= true, 
-											url			: String 	= null, 
+											url 		: URLRequest = null, 
 											type		: String 	= null )
 		{
 			this.ID 		= ID;
 			this.parentID 	= parentID;
 			this.isVisible 	= isVisible;
 			this.type 		= (type == null) ? ContextTypeList.MOVIECLIP : type;
-			_sURL 			= url;
+			this.url 		= url;
 			_aChilds 		= new Array();
 		}
 		
@@ -68,7 +73,7 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function isEmptyDisplayObject() : Boolean
 		{
-			return ( _sURL == null );
+			return ( url == null );
 		}
 		
 		/**
@@ -78,7 +83,7 @@ package com.bourre.ioc.assembler.displayobject
 		public function toString() : String 
 		{
 			var s : String = " ";
-			s += "ID:" + ID + ", ";			s += "url:" + _sURL + ", ";
+			s += "ID:" + ID + ", ";			s += "url:" + url + ", ";
 			s += "parentID:" + parentID + ", ";			s += "isVisible:" + isVisible + ", ";			s += "url:" + type + ", ";			s += "hasChild:" + hasChild() + ", ";			s += "numChild:" + getNumChild();
 			
 			return PixlibStringifier.stringify( this ) + s;
