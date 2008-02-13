@@ -15,17 +15,16 @@ package com.bourre.ioc.assembler.displayobject
 
 	public class DisplayObjectExpertTest extends TestCase
 	{
-		private var _oDOE : DisplayObjectExpert ;
+		private var _oDOE : DisplayObjectBuilder;
 		private var _b : Boolean ;
 
 		public override function setUp():void
 		{
-			DisplayObjectExpert.release() ;
 			BeanFactory.release();
 			GraphicLoaderLocator.release();
 
 			_b = false ;
-			_oDOE = DisplayObjectExpert.getInstance();
+			_oDOE =  new DefaultDisplayObjectBuilder();
 		}
 
 		public function testConstruct() : void
@@ -56,10 +55,10 @@ package com.bourre.ioc.assembler.displayobject
 			var mc : MovieClip = new MovieClip();
 			_oDOE.setRootTarget( mc );
 
-			_oDOE.buildEmptyDisplayObject( "idEmpty" );
-			_oDOE.buildEmptyDisplayObject( "idEmptyChild", "idEmpty", true, ContextTypeList.SPRITE );
-			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync(onTestBuildEmptyDisplayObject, 5000, mc) );
-			_oDOE.load();
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "idEmpty", ContextNodeNameList.ROOT ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "idEmptyChild", "idEmpty", true, null, ContextTypeList.SPRITE ) );
+			_oDOE.addEventListener( DisplayObjectBuilderEvent.onDisplayObjectBuilderLoadInitEVENT, addAsync(onTestBuildEmptyDisplayObject, 5000, mc) );
+			_oDOE.execute();
 		}
 		
 		public function onTestBuildEmptyDisplayObject( e : Event, mc : Sprite ) : void
@@ -76,11 +75,11 @@ package com.bourre.ioc.assembler.displayobject
 			var mc : MovieClip = new MovieClip() ;
 			_oDOE.setRootTarget( mc ) ;
 
-			_oDOE.buildEmptyDisplayObject( "containerID" );
-			_oDOE.buildGraphicLoader( "photo1", new URLRequest("http://url_that_doesnt_exist/nav_logo.png"), "containerID" );
-			_oDOE.buildGraphicLoader( "photo2", new URLRequest( "http://www.google.fr/images/nav_logo2.png"), "containerID" );
-			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
-			_oDOE.load() ;
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "containerID", ContextNodeNameList.ROOT ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "photo1", "containerID", true, new URLRequest("http://url_that_doesnt_exist/nav_logo.png") ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "photo2", "containerID", true, new URLRequest( "http://www.google.fr/images/nav_logo2.png") ) );
+			_oDOE.addEventListener( DisplayObjectBuilderEvent.onDisplayObjectBuilderLoadInitEVENT, addAsync(onTestBuildGraphicLoader, 5000, mc) );
+			_oDOE.execute() ;
 		}
 		
 		public function onTestBuildGraphicLoader( e : Event, mc : MovieClip ) : void
@@ -96,13 +95,13 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function testEmptyLoadingQueue() : void
 		{
-			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
-			_oDOE.load() ;
+			_oDOE.addEventListener( DisplayObjectBuilderEvent.onDisplayObjectBuilderLoadInitEVENT, addAsync( onTestEmptyLoadingQueue, 5000 ) );
+			_oDOE.execute() ;
 		}
 
 		public function onTestEmptyLoadingQueue( e : Event ) : void
 		{
-			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty", e is DisplayObjectExpertEvent ) ;
+			assertTrue("DisplayObjectExpert.load doesn't call callback method when queue is empty", e is DisplayObjectBuilderEvent ) ;
 		}
 
 		public function testBuildDisplayList() : void
@@ -112,20 +111,20 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.setRootTarget( root ) ;
 			
 			//creation of the empty clips
-			_oDOE.buildEmptyDisplayObject( "clip1",	ContextNodeNameList.ROOT ) ;
-			_oDOE.buildEmptyDisplayObject( "clip2",	ContextNodeNameList.ROOT ) ;
-			_oDOE.buildEmptyDisplayObject( "clip11", "clip1" ) ;
-			_oDOE.buildEmptyDisplayObject( "clip12", "clip1" ) ;
-			_oDOE.buildEmptyDisplayObject( "clip111", "clip11" ) ;
-			_oDOE.buildEmptyDisplayObject( "clip121", "clip12" ) ;
-			_oDOE.buildEmptyDisplayObject( "clip122", "clip12", true, ContextTypeList.SPRITE ) ;
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip1",	ContextNodeNameList.ROOT ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip2",	ContextNodeNameList.ROOT ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip11", "clip1" ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip12", "clip1" ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip111", "clip11" ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip121", "clip12" ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "clip122", "clip12", true, null, ContextTypeList.SPRITE ) );
 			
 			//photos loaded in two clips (=> bitmap objects)
-			_oDOE.buildGraphicLoader( "photo1", new URLRequest( "http://www.google.fr/images/nav_logo.png" ), "clip111", true ) ;
-			_oDOE.buildGraphicLoader( "photo2", new URLRequest( "http://www.google.fr/images/nav_logo2.png" ), "clip122", true ) ;
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "photo1", "clip111", true, new URLRequest( "http://www.google.fr/images/nav_logo.png" ) ) );
+			_oDOE.buildDisplayObject( new DisplayObjectInfo( "photo2", "clip122", true, new URLRequest( "http://www.google.fr/images/nav_logo2.png" ) ) );
 			
-			_oDOE.addEventListener( DisplayObjectExpertEvent.onDisplayObjectExpertLoadInitEVENT, addAsync( onTestBuildDisplayList, 5000, root) );
-			_oDOE.load() ;
+			_oDOE.addEventListener( DisplayObjectBuilderEvent.onDisplayObjectBuilderLoadInitEVENT, addAsync( onTestBuildDisplayList, 5000, root) );
+			_oDOE.execute() ;
 		}
 
 		public function onTestBuildDisplayList( e : Event, root : MovieClip ) : void

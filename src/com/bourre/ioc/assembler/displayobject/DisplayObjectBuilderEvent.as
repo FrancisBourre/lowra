@@ -19,12 +19,11 @@ package com.bourre.ioc.assembler.displayobject
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
-	 */
-	import com.bourre.load.Loader;
+	 */	import com.bourre.load.Loader;
 	import com.bourre.load.LoaderEvent;
-	import com.bourre.load.QueueLoaderEvent;		
+	import com.bourre.load.QueueLoaderEvent;	
 
-	public class DisplayObjectExpertEvent 
+	public class DisplayObjectBuilderEvent 
 		extends LoaderEvent
 	{
 		public static const onLoadStartEVENT 		: String = QueueLoaderEvent.onLoadStartEVENT;
@@ -33,15 +32,16 @@ package com.bourre.ioc.assembler.displayobject
 		public static const onLoadTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT 		: String = QueueLoaderEvent.onLoadErrorEVENT;
 
-		public static const onDisplayObjectExpertLoadStartEVENT 	: String = "onDisplayObjectExpertLoadStart"; 
+		public static const onDisplayObjectBuilderLoadStartEVENT 	: String = "onDisplayObjectBuilderLoadStart"; 
 		public static const onDLLLoadStartEVENT 					: String = "onDLLLoadStart";	
 		public static const onDLLLoadInitEVENT 						: String = "onDLLLoadInit";	
 		public static const onDisplayObjectLoadStartEVENT 			: String = "onDisplayObjectLoadStart"; 
 		public static const onDisplayObjectLoadInitEVENT 			: String = "onDisplayObjectLoadInit"; 
-		public static const onDisplayObjectExpertLoadInitEVENT 		: String = "onDisplayObjectExpertLoadInit";
+		public static const onDisplayObjectBuilderLoadInitEVENT 	: String = "onDisplayObjectBuilderLoadInit";
 
-		public function DisplayObjectExpertEvent( type : String, loader : Loader = null, errorMessage : String = "" ) 
+		public function DisplayObjectBuilderEvent( type : String, loader : Loader = null, errorMessage : String = "" ) 
 		{
 			super( type, loader, errorMessage );
 		}
-	}}
+	}
+}

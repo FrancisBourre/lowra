@@ -23,16 +23,17 @@ package com.bourre.ioc.load
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
+
 	import com.bourre.error.NullPointerException;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
+	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpertEvent;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpertListener;
 	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.context.ContextLoader;
 	import com.bourre.ioc.context.ContextLoaderEvent;
@@ -50,23 +51,26 @@ package com.bourre.ioc.load
 
 	public class ApplicationLoader
 		extends AbstractLoader
-		implements LoaderListener, DisplayObjectExpertListener
+		implements LoaderListener, DisplayObjectBuilderListener
 	{
 		public static const DEFAULT_URL : URLRequest = new URLRequest( "applicationContext.xml" );
 
+		protected var _oRootTarget : DisplayObjectContainer;
+		protected var _oDisplayObjectBuilder : DisplayObjectBuilder;
 		protected var _oApplicationAssembler : ApplicationAssembler;
 		protected var _oParserCollection : ParserCollection;
 
-		public function ApplicationLoader( 	target : DisplayObjectContainer, 
+		public function ApplicationLoader( 	rootTarget : DisplayObjectContainer, 
 											autoExecute : Boolean = false, 
 											url : URLRequest = null )
 		{
 			setListenerType( ApplicationLoaderListener );
 
+			_oRootTarget = rootTarget;
 			setURL( url? url : ApplicationLoader.DEFAULT_URL );
 
 			setApplicationAssembler( new DefaultApplicationAssembler() );
-			DisplayObjectExpert.getInstance().setRootTarget( target );
+
 			_initParserCollection();
 
 			if ( autoExecute ) execute();
@@ -102,6 +106,16 @@ package com.bourre.ioc.load
 		public function setParserCollection( pc : ParserCollection ) : void
 		{
 			_oParserCollection = pc;
+		}
+		
+		public function getDisplayObjectBuilder() : DisplayObjectBuilder
+		{
+			return _oDisplayObjectBuilder;
+		}
+		
+		public function setDisplayObjectBuilder( displayObjectBuilder : DisplayObjectBuilder ) : void
+		{
+			_oDisplayObjectBuilder = displayObjectBuilder;
 		}
 
 		public function addApplicationLoaderListener( listener : ApplicationLoaderListener ) : Boolean
@@ -154,6 +168,11 @@ package com.bourre.ioc.load
 		{
 			var cp : ContextParser = new ContextParser( getParserCollection() );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
+
+			if ( getDisplayObjectBuilder() == null ) setDisplayObjectBuilder( new DefaultDisplayObjectBuilder() );
+			getDisplayObjectBuilder().setRootTarget( _oRootTarget );
+			getApplicationAssembler().setDisplayObjectBuilder( getDisplayObjectBuilder() );
+
 			cp.parse( xml );
 		}
 
@@ -161,8 +180,8 @@ package com.bourre.ioc.load
 		{
 			e.getContextParser().removeEventListener( ContextParserEvent.onContextParsingEndEVENT, this );
 
-			DisplayObjectExpert.getInstance().addListener( this );
-			DisplayObjectExpert.getInstance().load();
+			getDisplayObjectBuilder().addListener( this );
+			getDisplayObjectBuilder().execute();
 		}
 
 		/**
@@ -230,32 +249,32 @@ package com.bourre.ioc.load
 			PixlibDebug.INFO( "onBuildDisplayObject()" );
 		}
 
-		public function onDisplayObjectExpertLoadStart(e : DisplayObjectExpertEvent) : void
+		public function onDisplayObjectBuilderLoadStart( e : DisplayObjectBuilderEvent ) : void
 		{
 			PixlibDebug.INFO( "onDisplayObjectExpertLoadStart()" );
 		}
 
-		public function onDLLLoadStart(e : DisplayObjectExpertEvent) : void
+		public function onDLLLoadStart( e : DisplayObjectBuilderEvent ) : void
 		{
 			PixlibDebug.INFO( "onDLLLoadStart()" );
 		}
 
-		public function onDLLLoadInit(e : DisplayObjectExpertEvent) : void
+		public function onDLLLoadInit( e : DisplayObjectBuilderEvent ) : void
 		{
 			PixlibDebug.INFO( "onDLLLoadInit()" );
 		}
 
-		public function onDisplayObjectLoadStart(e : DisplayObjectExpertEvent) : void
+		public function onDisplayObjectLoadStart( e : DisplayObjectBuilderEvent ) : void
 		{
 			PixlibDebug.INFO( "onDisplayObjectLoadStart()" );
 		}
 
-		public function onDisplayObjectLoadInit(e : DisplayObjectExpertEvent) : void
+		public function onDisplayObjectLoadInit( e : DisplayObjectBuilderEvent ) : void
 		{
 			PixlibDebug.INFO( "onDisplayObjectLoadInit()" );
 		}
 
-		public function onDisplayObjectExpertLoadInit(e : DisplayObjectExpertEvent) : void
+		public function onDisplayObjectBuilderLoadInit( e : DisplayObjectBuilderEvent ) : void
 		{
 			PixlibDebug.INFO( "onDisplayObjectExpertLoadInit()" );
 

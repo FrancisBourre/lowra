@@ -1,16 +1,15 @@
 package com.bourre.ioc.parser
 {
-	import com.bourre.events.ApplicationBroadcaster;	
-	
 	import flash.net.URLRequest;
 	
+	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.ioc.assembler.*;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
 	
-	import flexunit.framework.TestCase;	
+	import flexunit.framework.TestCase;		
 
 	public class ObjectParserTest 
 		extends TestCase
@@ -25,7 +24,6 @@ package com.bourre.ioc.parser
 		public override function setUp():void
 		{
 			IDExpert.release();
-			DisplayObjectExpert.release() ;
 			BeanFactory.release();
 
 			_oParser = new ObjectParser( this );
@@ -284,6 +282,16 @@ package com.bourre.ioc.parser
 		}
 
 		//
+		public function setDisplayObjectBuilder( displayObjectExpert : DisplayObjectBuilder ) 	: void
+		{
+			
+		}
+
+		public function getDisplayObjectBuilder() : DisplayObjectBuilder
+		{
+			return null;
+		}
+
 		public function buildLoader (	ID 							: String, 
 										url 						: URLRequest, 
 										progressCallback 			: String 	= null, 
@@ -298,24 +306,16 @@ package com.bourre.ioc.parser
 			//
 		}
 
-		public function buildDLL( url : String ) : void
+		public function buildDLL( url : URLRequest ) : void
 		{
 			//
 		}
-		
-		public function buildEmptyDisplayObject( 	id : String,
-													parentID : String,
-													isVisible : Boolean,
-													type : String ) : void
-		{
-			
-		}
 
-		public function buildDisplayObject( id 			: String,
-											url			: URLRequest,
-											parentID 	: String, 
-											isVisible 	: Boolean, 
-											type : String ) : void
+		public function buildDisplayObject( ID 							: String,
+											parentID 					: String, 
+											url 						: URLRequest= null,
+											isVisible 					: Boolean	= true,
+											type 						: String	= null	) : void
 		{
 			//
 		}

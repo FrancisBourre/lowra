@@ -20,6 +20,8 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import flash.net.URLRequest;	
+	
 	import com.bourre.ioc.assembler.ApplicationAssembler;					
 
 	public class DLLParser 
@@ -40,5 +42,5 @@ package com.bourre.ioc.parser
 
 		protected function _parseNode( node : XML ) : void
 		{
-			getAssembler().buildDLL( ContextAttributeList.getURL( node ) );
+			getAssembler().buildDLL( new URLRequest( ContextAttributeList.getURL( node ) ) );
 		}	}}

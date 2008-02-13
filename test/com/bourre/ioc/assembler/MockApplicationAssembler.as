@@ -1,10 +1,22 @@
 package com.bourre.ioc.assembler
 {
-	import flash.net.URLRequest;	
+	import flash.net.URLRequest;
 	
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;		
+
 	public class MockApplicationAssembler 
 		implements ApplicationAssembler
 	{
+		public function setDisplayObjectBuilder( 	displayObjectExpert 		: DisplayObjectBuilder ) 	: void
+		{
+			
+		}
+
+		public function getDisplayObjectBuilder() : DisplayObjectBuilder
+		{
+			return null;
+		}
+
 		public function buildLoader (	ID 							: String, 
 										url 						: URLRequest, 
 										progressCallback 			: String 	= null, 
@@ -19,24 +31,16 @@ package com.bourre.ioc.assembler
 			//
 		}
 
-		public function buildEmptyDisplayObject( 	ID : String,
-													parentID : String,
-													isVisible : Boolean,
-													type : String ) : void
-		{
-			
-		}
-
-		public function buildDisplayObject( ID 			: String,
-											url : URLRequest,
-											parentID 	: String, 
-											isVisible 	: Boolean, 
-											type : String ) : void
+		public function buildDisplayObject( ID 							: String,
+											parentID 					: String, 
+											url 						: URLRequest= null,
+											isVisible 					: Boolean	= true,
+											type 						: String	= null	) : void
 		{
 			//
 		}
 
-		public function buildDLL( url : String ) : void
+		public function buildDLL( url : URLRequest ) : void
 		{
 			//
 		}

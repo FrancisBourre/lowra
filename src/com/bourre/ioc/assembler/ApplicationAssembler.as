@@ -21,9 +21,14 @@ package com.bourre.ioc.assembler
 	 * @version 1.0
 	 */
 	import flash.net.URLRequest;
+	
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;		
 
 	public interface ApplicationAssembler
 	{
+		function setDisplayObjectBuilder( 	displayObjectExpert 		: DisplayObjectBuilder ) 	: void;
+		function getDisplayObjectBuilder() 															: DisplayObjectBuilder;
+
 		function buildLoader( 				ID 							: String, 
 											url 						: URLRequest, 
 											progressCallback 			: String 	= null, 
@@ -33,39 +38,34 @@ package com.bourre.ioc.assembler
 											methodsCallCallback 		: String 	= null, 
 											objectsBuiltCallback		: String 	= null, 
 											channelsAssignedCallback	: String 	= null, 
-											initCallback 				: String 	= null	) : void;
-
-		function buildEmptyDisplayObject( 	ID 							: String,
-											parentID 					: String,
-											isVisible 					: Boolean,
-											type 						: String			) : void;
+											initCallback 				: String 	= null	) 		: void;
 
 		function buildDisplayObject( 		ID 							: String,
-											url 						: URLRequest,
 											parentID 					: String, 
-											isVisible 					: Boolean,
-											type 						: String			) : void;
+											url 						: URLRequest= null,
+											isVisible 					: Boolean	= true,
+											type 						: String	= null	) 		: void;
 
-		function buildDLL( 					url 						: String 			) : void;
+		function buildDLL( 					url 						: URLRequest 		) 		: void;
 
 		function buildProperty( 			ownerID 					: String, 
 											name 						: String 	= null, 
 											value 						: String 	= null, 
 											type 						: String 	= null, 
 											ref 						: String 	= null, 
-											method 						: String 	= null	) : void;
+											method 						: String 	= null	) 		: void;
 
 		function buildObject( 				id 							: String, 
 											type 						: String 	= null, 
 											args 						: Array 	= null, 
 											factory 					: String 	= null, 
-											singleton 					: String 	= null  ) : void;
+											singleton 					: String 	= null  ) 		: void;
 
 		function buildMethodCall( 			id 							: String, 
 											methodCallName 				: String, 
-											args 						: Array 	= null 	) : void;
+											args 						: Array 	= null 	) 		: void;
 
 		function buildChannelListener( 		id 							: String, 
-											channelName 				: String 			) : void;
+											channelName 				: String 			) 		: void;
 	}
 }

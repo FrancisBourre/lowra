@@ -27,7 +27,9 @@ package com.bourre.ioc.assembler
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectExpert;
+	import com.bourre.ioc.assembler.displayobject.DisplayLoaderInfo;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectInfo;
 	import com.bourre.ioc.assembler.method.Method;
 	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.assembler.property.DictionaryItem;
@@ -38,6 +40,18 @@ package com.bourre.ioc.assembler
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
 	{
+		protected var _oDOB : DisplayObjectBuilder;
+		
+		public function setDisplayObjectBuilder( displayObjectBuilder : DisplayObjectBuilder ) : void
+		{
+			_oDOB = displayObjectBuilder;
+		}
+
+		public function getDisplayObjectBuilder() : DisplayObjectBuilder
+		{
+			return _oDOB;
+		}
+
 		public function buildLoader (	ID 							: String, 
 										url 						: URLRequest, 
 										progressCallback 			: String 	= null, 
@@ -49,29 +63,30 @@ package com.bourre.ioc.assembler
 										channelsAssignedCallback	: String 	= null, 
 										initCallback 				: String 	= null	) : void
 		{
-			//
+			getDisplayObjectBuilder().buildDisplayLoader( new DisplayLoaderInfo( 	ID, 
+																					url, 
+																					progressCallback, 
+																					nameCallback, 
+																					timeoutCallback, 
+																					parsedCallback, 
+																					methodsCallCallback, 
+																					objectsBuiltCallback, 
+																					channelsAssignedCallback, 
+																					initCallback ) 				);
 		}
 
-		public function buildDLL( url : String ) : void
+		public function buildDLL( url : URLRequest ) : void
 		{
-			DisplayObjectExpert.getInstance().buildDLL( url );
+			getDisplayObjectBuilder().buildDLL( new DisplayObjectInfo( null, null, false, url ) );
 		}
-
-		public function buildEmptyDisplayObject( 	ID : String,
+		
+		public function buildDisplayObject( 		ID : String,
 													parentID : String,
-													isVisible : Boolean,
-													type : String ) : void
+													url : URLRequest = null,
+													isVisible : Boolean = true,
+													type : String = null ) : void
 		{
-			DisplayObjectExpert.getInstance().buildEmptyDisplayObject( ID, parentID, isVisible, type );
-		}
-
-		public function buildDisplayObject( ID 			: String,
-											url : URLRequest,
-											parentID 	: String, 
-											isVisible 	: Boolean, 
-											type : String ) : void
-		{
-			DisplayObjectExpert.getInstance().buildGraphicLoader( ID, url, parentID, isVisible, type );
+			getDisplayObjectBuilder().buildDisplayObject( new DisplayObjectInfo( ID, parentID, isVisible, url, type ) );
 		}
 
 		public function buildProperty( 	ownerID : String, 
