@@ -1,6 +1,6 @@
 package com.bourre.events 
 {
-	import flexunit.framework.TestCase;				
+	import flexunit.framework.TestCase;							
 
 	public class EventCallbackAdapterTest 
 		 extends TestCase
@@ -26,7 +26,7 @@ package com.bourre.events
 
 			assertEquals( "EventAdapter.handleEvent fails to convert StringEvent to String argument lowercased", "test", _result );
 		}
-		
+
 		public function stringCallback( s : String ) : void
 		{
 			_result = s;
@@ -56,6 +56,19 @@ package com.bourre.events
 		public function onNumberEvent( e : NumberEvent ) : void
 		{
 			_result = e.getNumber();
+		}
+		
+		public function testCallbackWithArguments() : void
+		{
+			_oEB.addListener(  new EventCallbackAdapter( NumberEventCallbackFactoryTest, onCallbackWithArguments, "login", "password" ) );
+			_oEB.broadcastEvent( new ValueObjectEvent( "fakeType", null, _userVO ) );
+
+			assertEquals( "EventAdapter.handleEvent fails to convert ValueObjectEvent to int argument", _userVO.age, _result[ 0 ] );			assertEquals( "EventAdapter.handleEvent fails to pass rest argument[0]", "login", _result[ 1 ] );			assertEquals( "EventAdapter.handleEvent fails to pass rest argument[1]", "password", _result[ 2 ] );
+		}
+		
+		public function onCallbackWithArguments( e : NumberEvent, login : String, password : String ) : void
+		{
+			_result = [e.getNumber(), login, password];
 		}	}}
 
 import flash.events.Event;
@@ -65,7 +78,7 @@ import com.bourre.events.*;
 internal class StringCallbackFactoryTest
 	implements ArgumentCallbackFactory
 {
-	public function getArguments( e : Event ) : Array
+	public function getArguments( e : Event, ... rest ) : Array
 	{
 		return [ (e as StringEvent).getString().toLowerCase() ];
 	}
@@ -80,7 +93,7 @@ internal class UserValueObject
 internal class VOCallbackFactoryTest
 	implements ArgumentCallbackFactory
 {
-	public function getArguments( e : Event ) : Array
+	public function getArguments( e : Event, ... rest ) : Array
 	{
 		var userVO : UserValueObject = (e as ValueObjectEvent).getValueObject() as UserValueObject;
 		return [ userVO.userName, userVO.age ];
@@ -90,9 +103,11 @@ internal class VOCallbackFactoryTest
 internal class NumberEventCallbackFactoryTest
 	implements ArgumentCallbackFactory
 {
-	public function getArguments( e : Event ) : Array
+	public function getArguments( e : Event, ... rest ) : Array
 	{
 		var userVO : UserValueObject = (e as ValueObjectEvent).getValueObject() as UserValueObject;
-		return [ new NumberEvent( e.type, null, userVO.age) ];
+		var a : Array = [ new NumberEvent( e.type, null, userVO.age ) ];
+		if ( rest.length > 0 ) a = a.concat( rest );
+		return a;
 	}
-}
+}

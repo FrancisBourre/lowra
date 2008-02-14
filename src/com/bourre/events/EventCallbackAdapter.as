@@ -21,7 +21,7 @@ package com.bourre.events
 	 * @version 1.0
 	 */
 	import flash.events.Event;
-	
+
 	import com.bourre.commands.Command;
 	import com.bourre.commands.Delegate;
 	import com.bourre.error.IllegalArgumentException;
@@ -34,11 +34,36 @@ package com.bourre.events
 		implements Command, TickListener
 	{
 		protected var _cArgumentCallbackFactoryClass : Class;
-		protected var _oCallbackTarget : Object;
-
-		public function EventCallbackAdapter( argumentCallbackFactoryClass : Class = null, callbackTarget : Object = null ) 
+		protected var _oCallbackTarget : Object;		protected var _a : Array;
+		public function EventCallbackAdapter( argumentCallbackFactoryClass : Class = null, callbackTarget : Object = null, ... rest ) 
 		{
 			if ( argumentCallbackFactoryClass != null ) setArgumentCallbackFactoryClass( argumentCallbackFactoryClass );			if ( callbackTarget != null ) setCallbackTarget( callbackTarget );
+			_a = rest;
+		}
+
+		public function getArguments() : Array
+		{
+			return _a;
+		}
+
+		public function setArguments( ... rest ) : void
+		{
+			if ( rest.length > 0 ) _a = rest;
+		}
+
+		public function setArgumentsArray( a : Array ) : void
+		{
+			if ( a.length > 0 ) _a = a;
+		}
+
+		public function addArguments( ... rest ) : void
+		{
+			if ( rest.length > 0 ) _a = _a.concat( rest );
+		}
+
+		public function addArgumentsArray( a : Array ) : void
+		{
+			if ( a.length > 0 ) _a = _a.concat( a );
 		}
 
 		public function setArgumentCallbackFactoryClass( argumentCallbackFactoryClass : Class ) : void
@@ -88,15 +113,17 @@ package com.bourre.events
 
 		public function getCallbackTargetCaller( event : Event ) : Delegate
 		{
+			var d : Delegate;
+
 			if ( _oCallbackTarget is Function )
 			{
-				return new Delegate( _oCallbackTarget as Function );
+				d = new Delegate( _oCallbackTarget as Function );
 
 			} else
 			{
 				try
 				{
-					return new Delegate( _oCallbackTarget[ event.type ] );
+					d = new Delegate( _oCallbackTarget[ event.type ] );
 
 				} catch ( e : Error )
 				{
@@ -104,8 +131,8 @@ package com.bourre.events
 					throw e;
 				}
 			}
-			
-			return null;
+
+			return d;
 		}
 
 		public function handleEvent( e : Event ) : void
@@ -119,7 +146,9 @@ package com.bourre.events
 			{
 				var argumentCallbackFactory : ArgumentCallbackFactory = getArgumentCallbackFactoryInstance();
 				var d : Delegate = getCallbackTargetCaller( event );
-				d.setArgumentsArray( argumentCallbackFactory.getArguments( event ) );
+				var a : Array = [ event ];
+				if ( _a != null && _a.length > 0 ) a = a.concat( _a );
+				d.setArgumentsArray( argumentCallbackFactory.getArguments.apply( null, a ) );
 				d.execute();
 
 			} catch( e : Error )
