@@ -71,7 +71,7 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( XMLToObjectDeserializerTest ); 
 
 	// com.bourre.events
-	ts.addTestSuite( ChannelBroadcasterTest );
+	ts.addTestSuite( ChannelBroadcasterTest );	ts.addTestSuite( EventCallbackAdapterTest );
 	ts.addTestSuite( EventBroadcasterTest );
 	ts.addTestSuite( EventChannelTest );
 	ts.addTestSuite( NumberEventTest );
