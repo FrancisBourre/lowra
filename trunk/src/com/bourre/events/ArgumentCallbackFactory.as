@@ -4,4 +4,4 @@ package com.bourre.events
 
 	public interface ArgumentCallbackFactory 
 	{
-		function getArguments( e : Event ) : Array;	}}
+		function getArguments( e : Event, ... rest ) : Array;	}}
