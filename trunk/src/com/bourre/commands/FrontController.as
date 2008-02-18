@@ -295,11 +295,11 @@ package com.bourre.commands
 		{
 			var o : Object;
 
-			try
+			if ( isRegistered( key ) ) 
 			{
-				o = super.locate( key );
+				o = _m.get( key );
 
-			} catch ( e : Error )
+			} else
 			{
 				var msg : String = "Can't find Command instance with '" + key + "' name in " + this;
 				getLogger().fatal( msg );
@@ -365,6 +365,15 @@ package com.bourre.commands
 					throw( e );
 				}
 			}
+		}
+		
+		/**
+		 * Returns the string representation of this instance.
+		 * @return the string representation of this instance
+		 */
+		override public function toString () : String
+		{
+			return super.toString() + ( _owner != null ? " of " + _owner : "" );
 		}
 	}
 }

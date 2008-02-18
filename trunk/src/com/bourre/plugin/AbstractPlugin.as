@@ -120,7 +120,14 @@ package com.bourre.plugin
 
 		public function firePrivateEvent( e : Event ) : void
 		{
-			_oController.handleEvent( e );
+			if ( _oController.isRegistered( e.type ) ) 
+			{
+				_oController.handleEvent( e );
+
+			} else
+			{
+				getLogger().debug( this + ".firePrivateEvent() fails to retrieve command associated with '" + e.type + "' event type." );
+			}
 		}
 
 		public function release() : void
