@@ -99,7 +99,7 @@ package com.bourre.load
 			return _q.size();
 		}
 
-		public function add( loader : Loader, name : String, url : URLRequest, context : LoaderContext = null ) : Boolean
+		public function add( loader : Loader, name : String, url : URLRequest = null, context : LoaderContext = null ) : Boolean
 		{
 			if ( name != null ) 
 			{
