@@ -84,36 +84,28 @@ package com.bourre.commands
 		 */
 		public function addCommand (command : Command) : Boolean
 		{
-			if( !isRunning() )
-			{
-				if( command == null ) return false;
+			if( command == null ) return false;
+			
+			if( command is AbstractCommand )
+				( command as AbstractCommand).setOwner( getOwner() );
 				
-				if( command is AbstractCommand )
-					( command as AbstractCommand).setOwner( getOwner() );
-					
-				var l : Number = _aCommands.length;
-				return (l != _aCommands.push( command ) );
-			}
-			return false;
+			var l : Number = _aCommands.length;
+			return (l != _aCommands.push( command ) );
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function removeCommand (command : Command) : Boolean
 		{
-			if( !isRunning() )
+			var id : Number = _aCommands.indexOf( command ); 
+
+			if ( id == -1 ) return false;
+			
+			while ( ( id = _aCommands.indexOf( command ) ) != -1 )
 			{
-				var id : Number = _aCommands.indexOf( command ); 
-	
-				if ( id == -1 ) return false;
-				
-				while ( ( id = _aCommands.indexOf( command ) ) != -1 )
-				{
-					_aCommands.splice( id, 1 );
-				}
-				return true;
+				_aCommands.splice( id, 1 );
 			}
-			return false;
+			return true;
 		}
 		/**
 		 * Starts the execution of the batch. The received event 
