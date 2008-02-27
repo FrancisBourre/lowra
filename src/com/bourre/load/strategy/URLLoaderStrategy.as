@@ -102,7 +102,12 @@ package com.bourre.load.strategy
 				_loader.removeEventListener( SecurityErrorEvent.SECURITY_ERROR, _onSecurityError );
 				_loader.removeEventListener( HTTPStatusEvent.HTTP_STATUS, _onHttpStatus );
 				_loader.removeEventListener( IOErrorEvent.IO_ERROR, _onIOError );
-				_loader.close();
+
+				try 
+				{
+        			_loader.close();
+
+    			} catch( error : Error ) {}
 			}
 		}
 
