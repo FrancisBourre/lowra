@@ -87,7 +87,12 @@ package com.bourre.load.strategy
 				_loader.contentLoaderInfo.removeEventListener( IOErrorEvent.IO_ERROR, _onIOError );
 		        _loader.contentLoaderInfo.removeEventListener( Event.INIT, _onInit );
 		        _loader.contentLoaderInfo.removeEventListener( Event.UNLOAD, _onUnLoad );
-				_loader.close();
+
+				try 
+				{
+        			_loader.close();
+
+    			} catch( error : Error ) {}
 			}
 		}
 
