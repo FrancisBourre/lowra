@@ -103,6 +103,8 @@ package com.bourre.load
 				}
 			}
 
+			if ( _target ) setTarget( _target );
+			
 			if ( _bAutoShow ) 
 			{
 				show();
