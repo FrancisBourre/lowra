@@ -26,6 +26,7 @@ import com.bourre.log.*;
 import com.bourre.media.sound.*;
 import com.bourre.plugin.*;
 import com.bourre.utils.*;
+import com.bourre.view.*;
 import com.bourre.structures.*;
 import com.bourre.transitions.*;
 
@@ -142,6 +143,10 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( RangeTest );
 	ts.addTestSuite( GridTest );
 
+	// com.bourre.view
+	ts.addTestSuite( AbstractViewTest );
+	
+	
 	// com.bourre.transitions
 	ts.addTestSuite( AbstractTweenTest );
 	ts.addTestSuite( AbstractMultiTweenTest );

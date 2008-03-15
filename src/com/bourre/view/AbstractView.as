@@ -194,6 +194,38 @@ package com.bourre.view
 			return target;
 		}
 
+		public function canResolveFunction ( label : String ) : Boolean
+		{
+			try
+			{
+				return resolveFunction( label ) is Function;
+
+			} catch ( e : Error )
+			{
+				return false;
+			}
+
+			return false;
+		}
+		
+		public function resolveFunction( label : String  ) : Function
+		{
+			var a : Array = label.split( "." );
+			var f : String = a.pop();
+			var target : DisplayObjectContainer  = resolveUI( a.join('.')) as DisplayObjectContainer ; 
+			
+			if ( target.hasOwnProperty( f ) &&  target[f] is Function  )
+			{
+				return target[f] ;
+
+			} else
+			{
+				getLogger().error( this + ".resolveFunction(" + label + ") failed." );
+				return null;
+			}
+			
+		}
+		
 		public function release() : void
 		{
 			_getBroadcaster().removeAllListeners();

@@ -58,6 +58,8 @@ package com.bourre.ioc.parser
 			var factory : String;
 			var singleton : String;
 
+			IDExpert.getInstance().register( id );
+			
 			// Build object.
 			type = ContextAttributeList.getType( xml );
 
@@ -115,7 +117,6 @@ package com.bourre.ioc.parser
 					}
 				}
 			}
-			IDExpert.getInstance().register( id );
 		}
 		
 		protected function getRecursiveObjects( xml : XML, type : String = null ) : Array
