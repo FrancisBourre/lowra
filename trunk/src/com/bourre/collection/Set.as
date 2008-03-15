@@ -1057,6 +1057,29 @@ package com.bourre.collection
 		{
 			return _aSet.concat();
 		}
+		
+		/**
+		* Swap two objects stored in the passed-in index
+		* <p>
+		* If the passed-in <code>index</code> are not valid index
+		* for this set, the function throw an 
+		* <code>IndexOutOfBoundsException</code> exception.
+		* </p><p>
+		* </p>
+		* @param index1 <code>uint</code> index of the first <code>Object</code>.
+		* @param index2 <code>uint</code> index of the second <code>Object</code>.
+		* @throws <code>IndexOutOfBoundsException</code> — The passed-in
+		* index are not valid index for this set
+		*/
+		public function swap ( index1 : uint, index2 : uint ) : void
+		{
+			isValidIndex( index1 );
+			isValidIndex( index2 );
+			
+			var save : Object = _aSet[ index1 ] ;
+			_aSet[ index1 ] = _aSet[ index2 ] ;
+			_aSet[ index2 ] = save ;
+		}
 
 		/**
 		 * Returns the <code>String</code> representation of
