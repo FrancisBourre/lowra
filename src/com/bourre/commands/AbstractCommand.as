@@ -18,10 +18,11 @@ package com.bourre.commands
 	import flash.events.Event;
 	
 	import com.bourre.error.UnimplementedVirtualMethodException;
-	import com.bourre.log.*;
-	import com.bourre.model.ModelLocator;
-	import com.bourre.plugin.*;
-	import com.bourre.view.ViewLocator;	
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.model.AbstractModel;
+	import com.bourre.plugin.Plugin;
+	import com.bourre.plugin.PluginDebug;
+	import com.bourre.view.AbstractView;	
 
 	/**
 	 * <code>AbstractCommand</code> provides a skeleton for commands which
@@ -42,7 +43,8 @@ package com.bourre.commands
 	 * </p>
 	 * @author	Francis Bourre
 	 */
-	public class AbstractCommand implements Command
+	public class AbstractCommand 
+		implements Command
 	{
 		/**
 		 * A reference to the plugin owner of this command.
@@ -111,27 +113,27 @@ package com.bourre.commands
 		}
 
 		/**
-		 * Returns a reference to the owner <code>ModelLocator</code>.
+		 * Returns a reference to the model <code>AbstractModel</code>.
 		 * It allow this command to locate any model and then manipulate
 		 * it as needed.
 		 * 
-		 * @return	a reference to the owner model locator
+		 * @return	a reference to the model registered with key argument
 		 */
-		public function getModelLocator() : ModelLocator
+		public function getModel( key : String ) : AbstractModel
 		{
-			return getOwner().getModelLocator();
+			return getOwner().getModel( key );
 		}
 		
 		/**
-		 * Returns a reference to the owner <code>ViewLocator</code>.
+		 * Returns a reference to the view <code>AbstractView</code>.
 		 * It allow this command to locate any view and then manipulate
 		 * it as needed.
 		 * 
-		 * @return	a reference to the owner view locator
+		 * @return	a reference to the view registered with key argument
 		 */
-		public function getViewLocator() : ViewLocator
+		public function getView( key : String ) : AbstractView
 		{
-			return getOwner().getViewLocator();
+			return getOwner().getView( key );
 		}
 
 		/**

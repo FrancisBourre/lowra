@@ -30,8 +30,10 @@ package com.bourre.plugin
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.log.PixlibStringifier;
+	import com.bourre.model.AbstractModel;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.plugin.PluginBroadcaster;
+	import com.bourre.view.AbstractView;
 	import com.bourre.view.ViewLocator;	
 
 	public class AbstractPlugin
@@ -39,9 +41,9 @@ package com.bourre.plugin
 	{
 		protected var _oEBPublic : Broadcaster;
 
-		private var _oController : FrontController;
-		private var _oModelLocator : ModelLocator;
-		private var _oViewLocator : ViewLocator;
+		protected var _oController : FrontController;
+		protected var _oModelLocator : ModelLocator;
+		protected var _oViewLocator : ViewLocator;
 
 		public function AbstractPlugin() 
 		{
@@ -56,6 +58,21 @@ package com.bourre.plugin
 
 			_oEBPublic = ApplicationBroadcaster.getInstance().getChannelDispatcher( getChannel(), this );
 			if( _oEBPublic ) _oEBPublic.addListener( this );
+		}
+		
+		protected function getController() : FrontController
+		{
+			return _oController;
+		}
+		
+		protected function getModelLocator() : ModelLocator
+		{
+			return _oModelLocator;
+		}
+
+		protected function getViewLocator() : ViewLocator
+		{
+			return _oViewLocator;
 		}
 
 		protected function fireOnInitPlugin() : void
@@ -73,19 +90,14 @@ package com.bourre.plugin
 			return ChannelExpert.getInstance().getChannel( this );
 		}
 
-		public function getController() : FrontController
+		public function getModel( key : String ) : AbstractModel
 		{
-			return _oController;
+			return _oModelLocator.getModel( key );
 		}
-
-		public function getModelLocator() : ModelLocator
+		
+		public function getView( key : String ) : AbstractView
 		{
-			return _oModelLocator;
-		}
-
-		public function getViewLocator() : ViewLocator
-		{
-			return _oViewLocator;
+			return _oViewLocator.getView( key );
 		}
 
 		public function getLogger() : PluginDebug

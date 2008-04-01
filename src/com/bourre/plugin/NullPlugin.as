@@ -21,12 +21,13 @@ package com.bourre.plugin
 	 * @version 1.0
 	 */
 	import flash.events.Event;
-
+	
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.PixlibStringifier;
+	import com.bourre.model.AbstractModel;
 	import com.bourre.model.ModelLocator;
-	import com.bourre.view.ViewLocator;	
-
+	import com.bourre.view.AbstractView;
+	import com.bourre.view.ViewLocator;		
 	final public class NullPlugin 
 		implements Plugin
 	{
@@ -89,19 +90,22 @@ package com.bourre.plugin
 			return PixlibStringifier.stringify( this );
 		}
 
-		public function getModelLocator() : ModelLocator
+		public function getModel( key : String ) : AbstractModel
 		{
-			return ModelLocator.getInstance( this );
+			return ModelLocator.getInstance( this ).getModel( key );
 		}
 		
-		public function getViewLocator() : ViewLocator
+		public function getView( key : String ) : AbstractView
 		{
-			return ViewLocator.getInstance( this );
+			return ViewLocator.getInstance( this ).getView( key );
 		}
 	}
 }
 
-internal class PrivateConstructorAccess {}
+internal class PrivateConstructorAccess 
+{
+}
 
 import com.bourre.events.EventChannel;
+
 internal class NullPluginChannel extends EventChannel{}
