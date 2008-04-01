@@ -23,8 +23,8 @@ package com.bourre.plugin
 	import flash.events.Event;
 	
 	import com.bourre.events.EventChannel;
-	import com.bourre.model.ModelLocator;
-	import com.bourre.view.ViewLocator;	
+	import com.bourre.model.AbstractModel;
+	import com.bourre.view.AbstractView;	
 
 	public interface Plugin 
 	{
@@ -34,8 +34,8 @@ package com.bourre.plugin
 		
 		function getChannel() : EventChannel;
 		function getLogger() : PluginDebug;
-
-		function getModelLocator() : ModelLocator;
-		function getViewLocator() : ViewLocator;
+		
+		function getModel( key : String ) : AbstractModel;
+		function getView( key : String ) : AbstractView;
 	}
 }
