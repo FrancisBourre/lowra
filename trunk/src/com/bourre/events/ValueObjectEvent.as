@@ -24,7 +24,7 @@ package com.bourre.events
 	 */
 	public class ValueObjectEvent extends BasicEvent
 	{
-		private var _o : ValueObject;
+		protected var _o : ValueObject;
 		
 		/**
 		 * Creates a new <code>ValueObjectEvent</code> object.

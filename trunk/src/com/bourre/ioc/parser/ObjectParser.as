@@ -106,8 +106,9 @@ package com.bourre.ioc.parser
 					var channelName : String = ContextAttributeList.getRef( listener );
 					if ( channelName )
 					{
-						getAssembler().buildChannelListener( id, channelName );
-	
+						var listenerArgs : Array = getArguments( listener, ContextNodeNameList.EVENT );
+						getAssembler().buildChannelListener( id, channelName, listenerArgs );
+
 					} else
 					{
 						msg = this + " encounters parsing error with '" + xml.name() + "' node, 'channel' attribute is mandatory in a 'listen' node.";

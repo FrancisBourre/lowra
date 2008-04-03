@@ -1,4 +1,4 @@
-package com.bourre.plugin
+package com.bourre.view 
 {
 	/*
 	 * Copyright the original author or authors.
@@ -15,28 +15,16 @@ package com.bourre.plugin
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	 
+	
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.events.Event;
-	
-	import com.bourre.commands.FrontController;
-	import com.bourre.events.EventChannel;
-	import com.bourre.model.AbstractModel;
-	import com.bourre.view.AbstractView;	
+	import com.bourre.events.StringEvent;			
 
-	public interface Plugin 
+	public interface ViewListener 
 	{
-		function fireExternalEvent( e : Event, channel : EventChannel ) : void;
-		function firePublicEvent( e : Event ) : void;
-		function firePrivateEvent( e : Event ) : void;
-
-		function getChannel() : EventChannel;
-		function getLogger() : PluginDebug;
-		
-		function getModel( key : String ) : AbstractModel;
-		function getView( key : String ) : AbstractView;
+		function onInitView( e : StringEvent ) : void;
+		function onReleaseView( e : StringEvent ) : void;
 	}
 }

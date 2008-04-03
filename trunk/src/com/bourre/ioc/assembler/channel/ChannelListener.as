@@ -21,18 +21,20 @@ package com.bourre.ioc.assembler.channel
 	 * @version 1.0
 	 */
 	import com.bourre.events.ValueObject;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;	
 
 	public class ChannelListener
 		implements ValueObject
 	{
 		public var listenerID 	: String;
 		public var channelName 	: String;
+		public var arguments 	: Array;
 
-		public function ChannelListener( listenerID : String, channelName : String )
+		public function ChannelListener( listenerID : String, channelName : String, args : Array = null )
 		{
 			this.listenerID 	= listenerID;
 			this.channelName 	= channelName;
+			this.arguments		= args;
 		}
 
 		/**
@@ -43,7 +45,8 @@ package com.bourre.ioc.assembler.channel
 		{
 			return PixlibStringifier.stringify( this ) 	+ "("
 					+ "listenerID:" 	+ listenerID 	+ ", "
-					+ "channelName:[" 	+ channelName 	+ "])";
+					+ "channelName:" 	+ channelName 	+ ", "
+					+ "arguments:[" 	+ arguments 	+ "])";
 		}
 	}
 }

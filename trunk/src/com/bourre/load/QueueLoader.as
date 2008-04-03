@@ -33,8 +33,9 @@ package com.bourre.load
 	public class QueueLoader 
 		extends AbstractLoader 
 	{
-		private var _q : Queue;
-		private var _currentLoader : Loader;
+		protected var _q : Queue;
+		protected var _currentLoader : Loader;
+
 		private static var _KEY : int = 0 ;
 
 		public function QueueLoader()

@@ -20,13 +20,7 @@ package com.bourre.ioc.assembler.channel
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.commands.Batch;
-	import com.bourre.core.AbstractLocator;
-	import com.bourre.events.ApplicationBroadcaster;
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.plugin.PluginChannel;		
-
-	public class ChannelListenerExpert 
+	import com.bourre.commands.Batch;	import com.bourre.core.AbstractLocator;	import com.bourre.events.ApplicationBroadcaster;	import com.bourre.ioc.bean.BeanFactory;	import com.bourre.plugin.PluginChannel;			public class ChannelListenerExpert 
 		extends AbstractLocator
 	{
 		private static var _oI : ChannelListenerExpert;
@@ -70,8 +64,26 @@ package com.bourre.ioc.assembler.channel
 
 			var listener : Object = BeanFactory.getInstance().locate( channelListener.listenerID );
 			var channel : PluginChannel = PluginChannel.getInstance( channelListener.channelName );
+			
+			var args : Array = channelListener.arguments;
+			
+			if ( args )
+			{
+				var l : int = args.length;
+				for ( var i : int; i < l; i++ )
+				{
+					var o : Object = args[ i ];
+					var method : String = o.method;
+					listener = ( method && listener.hasOwnProperty(method) && listener[method] is Function) ? listener[method] : listener[o.type];
+					ApplicationBroadcaster.getInstance().addEventListener( o.type, listener, channel );
+				}
 
-			return ApplicationBroadcaster.getInstance().addListener( listener, channel );
+				return true;
+
+			} else 
+			{
+				return ApplicationBroadcaster.getInstance().addListener( listener, channel );
+			}
 		}
 
 		public function addListener( listener : ChannelListenerExpertListener ) : Boolean
