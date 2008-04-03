@@ -66,6 +66,7 @@ package com.bourre.ioc.assembler
 											args 						: Array 	= null 	) 		: void;
 
 		function buildChannelListener( 		id 							: String, 
-											channelName 				: String 			) 		: void;
+											channelName 				: String, 
+											args 						: Array 	= null 	) 		: void;
 	}
 }

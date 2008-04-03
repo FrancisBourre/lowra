@@ -29,12 +29,12 @@ package com.bourre.ioc.assembler.displayobject
 	public class DefaultDisplayObjectBuilder 
 		implements DisplayObjectBuilder
 	{
-		private var _target						: DisplayObjectContainer;
-		private var _oEB 						: EventBroadcaster;
-		private var _dllQueue 					: QueueLoader;
-		private var _gfxQueue 					: QueueLoader;
-		private var _mDisplayObject				: HashMap;
-		private var _glDisplayLoader 			: GraphicLoader;
+		protected var _target						: DisplayObjectContainer;
+		protected var _oEB 						: EventBroadcaster;
+		protected var _dllQueue 					: QueueLoader;
+		protected var _gfxQueue 					: QueueLoader;
+		protected var _mDisplayObject				: HashMap;
+		protected var _glDisplayLoader 			: GraphicLoader;
 
 		public static const SPRITE : String = ContextTypeList.SPRITE;
 		public static const MOVIECLIP : String = ContextTypeList.MOVIECLIP;

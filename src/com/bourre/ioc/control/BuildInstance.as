@@ -62,31 +62,28 @@ package com.bourre.ioc.control
 	
 				try
 				{
-					constructor.result = BuildInstance.buildConstructor( constructor );
+					BuildInstance.buildConstructor( constructor );
 
 				} catch( error2 : Error )
 				{
 					var msg : String = error2.message;
-					msg += " " + this + ".build(" + constructor.type + ") failed.";
+					msg += " " + this + ".execute(" + constructor.type + ") failed.";
 					getLogger().fatal( msg );
 					throw new IllegalArgumentException( msg );
 				}
 			}
 		}
 		
-		public static function buildConstructor( cons : Constructor ) : Object
+		public static function buildConstructor( cons : Constructor ) : void
 		{
 			try
 			{
 				cons.result = CoreFactory.buildInstance( cons.type, cons.arguments, cons.factory, cons.singleton );
-				return cons.result;
 
 			} catch ( e : Error )
 			{
 				throw e;
 			}
-
-			return null;
 		}
 	}
 }

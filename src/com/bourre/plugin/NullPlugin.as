@@ -27,7 +27,8 @@ package com.bourre.plugin
 	import com.bourre.model.AbstractModel;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.view.AbstractView;
-	import com.bourre.view.ViewLocator;		
+	import com.bourre.view.ViewLocator;	
+
 	final public class NullPlugin 
 		implements Plugin
 	{

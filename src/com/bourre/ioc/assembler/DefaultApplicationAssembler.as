@@ -154,9 +154,9 @@ package com.bourre.ioc.assembler
 			MethodExpert.getInstance().register( HashCodeFactory.getKey( method ), method );
 		}
 
-		public function buildChannelListener( ownerID : String, channelName : String ) : void
+		public function buildChannelListener( ownerID : String, channelName : String, args : Array = null ) : void
 		{
-			var channelListener : ChannelListener = new ChannelListener( ownerID, channelName );
+			var channelListener : ChannelListener = new ChannelListener( ownerID, channelName, args );
 			ChannelListenerExpert.getInstance().register( HashCodeFactory.getKey( channelListener ), channelListener );
 		}
 	}

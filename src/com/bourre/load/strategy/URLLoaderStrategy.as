@@ -35,11 +35,11 @@ package com.bourre.load.strategy
 		public static const TEXT : String = URLLoaderDataFormat.TEXT;
 		public static const VARIABLES : String = URLLoaderDataFormat.VARIABLES;
 
-		private var _owner : Loader;
-		private var _loader : URLLoader;
-		private var _bytesLoaded : uint;
-		private var _bytesTotal : uint;
-		private var _sDataFormat : String;
+		protected var _owner : Loader;
+		protected var _loader : URLLoader;
+		protected var _bytesLoaded : uint;
+		protected var _bytesTotal : uint;
+		protected var _sDataFormat : String;
 
 		public static function isValidDataFormat( dataFormat : String ) : Boolean
 		{

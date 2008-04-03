@@ -31,8 +31,8 @@ package com.bourre.model
 
 	public class AbstractModel 
 	{
-		public static const onInitEVENT : String = "onInit";
-		public static const onReleaseEVENT : String = "onRelease";
+		public static const onInitModelEVENT : String = "onInitModel";
+		public static const onReleaseModelEVENT : String = "onReleaseModel";
 		
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
@@ -56,14 +56,14 @@ package com.bourre.model
 			
 		}
 		
-		protected function onInit() : void
+		protected function onInitModel() : void
 		{
-			notifyChanged( new StringEvent( AbstractModel.onInitEVENT, this, getName() ) );
+			notifyChanged( new StringEvent( AbstractModel.onInitModelEVENT, this, getName() ) );
 		}
 		
-		protected function onRelease() : void
+		protected function onReleaseModel() : void
 		{
-			notifyChanged( new StringEvent( AbstractModel.onReleaseEVENT, this, getName() ) );
+			notifyChanged( new StringEvent( AbstractModel.onReleaseModelEVENT, this, getName() ) );
 		}
 		
 		public function setName( name : String ) : void
@@ -111,17 +111,17 @@ package com.bourre.model
 			_getBroadcaster().removeAllListeners();
 			ModelLocator.getInstance( getOwner() ).unregister( getName() );
 
-			onRelease();
+			onReleaseModel();
 
 			_sName = null;
 		}
 	
-		public function addListener( listener : Object ) : Boolean
+		public function addListener( listener : ModelListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
 
-		public function removeListener( listener : Object ) : Boolean
+		public function removeListener( listener : ModelListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}

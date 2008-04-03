@@ -32,10 +32,10 @@ package com.bourre.load.strategy
 	public class LoaderStrategy 
 		implements LoadStrategy
 	{
-		private var _owner : com.bourre.load.Loader;
-		private var _loader : flash.display.Loader;
-		private var _bytesLoaded : uint;
-		private var _bytesTotal : uint;
+		protected var _owner : com.bourre.load.Loader;
+		protected var _loader : flash.display.Loader;
+		protected var _bytesLoaded : uint;
+		protected var _bytesTotal : uint;
 
 		public function LoaderStrategy()
 		{

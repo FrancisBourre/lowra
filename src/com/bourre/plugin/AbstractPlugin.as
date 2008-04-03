@@ -60,7 +60,7 @@ package com.bourre.plugin
 			if( _oEBPublic ) _oEBPublic.addListener( this );
 		}
 		
-		protected function getController() : FrontController
+		public function getController() : FrontController
 		{
 			return _oController;
 		}

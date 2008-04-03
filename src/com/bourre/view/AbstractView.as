@@ -26,6 +26,7 @@ package com.bourre.view
 	import flash.geom.Point;
 	
 	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.NoSuchElementException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.events.StringEvent;
 	import com.bourre.load.GraphicLoader;
@@ -34,12 +35,12 @@ package com.bourre.view
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.structures.Dimension;	
+	import com.bourre.structures.Dimension;		
 
 	public class AbstractView 
 	{
-		public static const onInitEVENT : String = "onInit";
-		public static const onReleaseEVENT : String = "onRelease";
+		public static const onInitViewEVENT : String = "onInitView";
+		public static const onReleaseViewEVENT : String = "onReleaseView";
 
 		public var view : DisplayObject;
 
@@ -61,14 +62,14 @@ package com.bourre.view
 			//
 		}
 
-		protected function onInit() : void
+		protected function onInitView() : void
 		{
-			notifyChanged( new StringEvent( AbstractView.onInitEVENT, this, getName() ) );
+			notifyChanged( new StringEvent( AbstractView.onInitViewEVENT, this, getName() ) );
 		}
 
-		protected function onRelease() : void
+		protected function onReleaseView() : void
 		{
-			notifyChanged( new StringEvent( AbstractView.onReleaseEVENT, this, getName() ) );
+			notifyChanged( new StringEvent( AbstractView.onReleaseViewEVENT, this, getName() ) );
 		}
 
 		public function getOwner() : Plugin
@@ -160,7 +161,7 @@ package com.bourre.view
 		{
 			try
 			{
-				return resolveUI( label ) is DisplayObject;
+				return resolveUI( label, true ) is DisplayObject;
 
 			} catch ( e : Error )
 			{
@@ -170,7 +171,7 @@ package com.bourre.view
 			return false;
 		}
 
-		public function resolveUI( label : String ) : DisplayObject 
+		public function resolveUI( label : String, tryToResolveUI : Boolean = false ) : DisplayObject 
 		{
 			var target : DisplayObject = this.view;
 
@@ -186,7 +187,13 @@ package com.bourre.view
 
 				} else
 				{
-					getLogger().error( this + ".resolveUI(" + label + ") failed." );
+					var msg : String;
+					if ( !tryToResolveUI ) 
+					{
+						msg = this + ".resolveUI(" + label + ") failed.";
+						getLogger().error( msg );
+						throw new NoSuchElementException( msg );
+					}
 					return null;
 				}
 			}
@@ -239,17 +246,17 @@ package com.bourre.view
 
 			if ( _gl != null ) _gl.release();
 
-			onRelease();
+			onReleaseView();
 			
 			_sName = null;
 		}
 
-		public function addListener( listener : Object ) : Boolean
+		public function addListener( listener : ViewListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
 
-		public function removeListener( listener : Object ) : Boolean
+		public function removeListener( listener : ViewListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
@@ -280,7 +287,7 @@ package com.bourre.view
 
 			} else
 			{
-				var msg : String = this + ".setName() failed. '" + name + "' is already registered in MovieClipHelperLocator.";
+				var msg : String = this + ".setName() failed. '" + name + "' is already registered in ViewLocator.";
 				getLogger().error( msg );
 				throw new IllegalArgumentException( msg );
 			}
@@ -321,7 +328,7 @@ package com.bourre.view
 			}
 
 			setName( mvhName?mvhName:glName );
-			onInit();
+			onInitView();
 		}
 
 		protected function _getBroadcaster() : EventBroadcaster
