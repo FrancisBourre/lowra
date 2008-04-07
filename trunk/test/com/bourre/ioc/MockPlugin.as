@@ -30,7 +30,7 @@ package com.bourre.ioc
 				view.registerView( doc, ViewList.viewTest );
 				view.show( );
 				
-				model.addListener( view );
+				model.addListener( view as ViewTest );
 			}
 			
 			firePublicEvent( new BasicEvent("echo") );
@@ -63,7 +63,7 @@ internal class Output
 {
 	override public function execute( e : Event = null ) : void
 	{
-		(getModelLocator().getModel( ModelList.modelTest ) as ModelTest).setString( (e as StringEvent).getString() );
+		(getModel( ModelList.modelTest ) as ModelTest).setString( (e as StringEvent).getString() );
 	}
 }
 
@@ -92,8 +92,8 @@ internal class ModelTest
 		notifyChanged( new StringEvent( ModelTest.onSetStringEVENT, this, s ) );
 	}
 }
-
-internal interface ModelTestListener
+import com.bourre.model.ModelListener;internal interface ModelTestListener
+	extends ModelListener
 {
 	function onSetString( e : StringEvent ) : void;
 }
@@ -114,15 +114,23 @@ internal class ViewTest
 		super( owner );
 	}
 	
-	override protected function onInit() : void
+	override protected function onInitView() : void
 	{
 		if ( canResolveUI( "tf" ) ) _tf = resolveUI( "tf" ) as TextField;
-		super.onInit();
+		super.onInitView();
 	}
 	
 	public function onSetString( e : StringEvent ) : void
 	{
-		_tf.text = e.getString();
+		_tf.text = e.getString( );
+	}
+	
+	public function onInitModel(e : StringEvent) : void
+	{
+	}
+	
+	public function onReleaseModel(e : StringEvent) : void
+	{
 	}
 }
 
