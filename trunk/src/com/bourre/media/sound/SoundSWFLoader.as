@@ -20,6 +20,7 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
+	import flash.display.DisplayObjectContainer;	
 	import flash.media.Sound;
 	import flash.system.ApplicationDomain;
 	
@@ -51,6 +52,20 @@ package com.bourre.media.sound
 				
 			return new clazz() ;	
 		}
-
+		
+		static public function getSoundInSWF( d : DisplayObjectContainer , sLinkageId : String) : Sound
+		{
+			var clazz : Class;
+			try
+			{
+				clazz = d.loaderInfo.applicationDomain.getDefinition( sLinkageId ) as Class;
+			} catch ( e : Error )
+			{
+				PixlibDebug.ERROR("com.bourre.media.sound.getSoundInSWF("+sLinkageId+") failed, '" + sLinkageId + "' class can't be found in specified SoundFactory application domain");
+				throw new ClassCastException("com.bourre.media.sound.getSoundInSWF"+sLinkageId+") failed, '" + sLinkageId + "' class can't be found in specified SoundFactory application domain") ;
+			}
+				
+			return new clazz() ;	
+		}
 	}
 }
