@@ -287,7 +287,7 @@ package com.bourre.ioc.parser
 			_aMethod.push( {id:id, methodCallName:methodCallName, args:args} );
 		}
 
-		public function buildChannelListener( id : String, channelName : String ) : void
+		public function buildChannelListener( id : String, channelName : String, args : Array = null ) : void
 		{
 			//
 		}

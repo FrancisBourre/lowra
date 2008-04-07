@@ -155,6 +155,7 @@ internal class MockCommand extends AbstractCommand
 		testclass.commandOwner = this.getOwner();
 	}
 }
+import com.bourre.model.AbstractModel;import com.bourre.view.AbstractView;
 
 internal class MockPlugin implements Plugin
 {
@@ -183,14 +184,14 @@ internal class MockPlugin implements Plugin
 			return  PluginDebug.getInstance();
 		}
 
-		public function getModelLocator() : ModelLocator
+		public function getModel( key : String ) : AbstractModel
 		{
-			return ModelLocator.getInstance();
+			return ModelLocator.getInstance().getModel( key );
 		}
 		
-		public function getViewLocator() : ViewLocator
+		public function getView( key : String ) : AbstractView
 		{
-			return ViewLocator.getInstance();
+			return ViewLocator.getInstance().getView( key );
 		}
 }
 

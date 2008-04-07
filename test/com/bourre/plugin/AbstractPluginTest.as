@@ -31,29 +31,6 @@ package com.bourre.plugin
 			
 		}
 		
-		public function test_GetMVC() : void
-		{
-			var _oPlug2 : AbstractPlugin = new MockPlugin()
-			
-			assertEquals("failed to create mockPlugin with the good channel", ApplicationBroadcaster.getInstance().NO_CHANNEL, _oPlug2.getChannel())			
-			//asser that 
-			assertNotNull(_oPlug+'.getController() is null', _oPlug.getController());
-			assertTrue(_oPlug+'.getController() is equal to getController of another object',
-				 _oPlug2.getController() != _oPlug.getController());
-			
-			assertNotNull(_oPlug+'.getModelLocator() is null', _oPlug.getModelLocator());
-			assertTrue(_oPlug+'.getModelLocator() is equal to getModelLocator of another object',
-				 _oPlug2.getModelLocator() != _oPlug.getModelLocator());
-			assertTrue(_oPlug+'.getModelLocator() is equal to the global getModelLocator',
-				 _oPlug2.getModelLocator() != ModelLocator.getInstance());
-				 
-			assertNotNull(_oPlug+'.getViewLocator() is null', _oPlug.getViewLocator());
-			assertTrue(_oPlug+'.getViewLocator() is equal to getViewLocator of another object',
-				 _oPlug2.getViewLocator() != _oPlug.getViewLocator());
-			assertTrue(_oPlug+'.getModelLocator() is equal to the global ViewLocator',
-				 _oPlug2.getViewLocator() != ViewLocator.getInstance( ));
-		}
-		
 //		public function test_fireOnInitPlugin() : void
 //		{
 //			var plugListener :MockPluginListener = new MockPluginListener()

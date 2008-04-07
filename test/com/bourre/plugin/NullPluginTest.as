@@ -46,18 +46,5 @@ package com.bourre.plugin
 			assertNotNull( "NullPlugin getLogger() return null", _nP.getLogger() );
 			assertTrue( "NullPlugin getLogger() not return an object 'PluginDebug'", _nP.getLogger() is PluginDebug );			
 		}
-		
-		public function testGetModelLocator() : void
-		{
-			assertNotNull( "NullPlugin getModelLocator() return null", _nP.getModelLocator() );
-			assertTrue( "NullPlugin getModelLocator() not return an object 'PluginDebug'", _nP.getModelLocator() is ModelLocator );			
-		}	
-		
-		public function testGetViewLocator() : void
-		{
-			assertNotNull( "NullPlugin getViewLocator() return null", _nP.getViewLocator() );
-			assertTrue( "NullPlugin getViewLocator() not return an object 'PluginDebug'", _nP.getViewLocator() is ViewLocator );			
-		}			
-			
 	}
 }
