@@ -27,8 +27,8 @@ package com.bourre.ioc.assembler.displayobject
 		extends LoaderEvent
 	{
 		public static const onLoadStartEVENT 		: String = QueueLoaderEvent.onLoadStartEVENT;
-		public static var onLoadInitEVENT			: String = QueueLoaderEvent.onLoadInitEVENT; 
-		public static var onLoadProgressEVENT		: String = QueueLoaderEvent.onLoadProgressEVENT; 
+		public static const onLoadInitEVENT			: String = QueueLoaderEvent.onLoadInitEVENT; 
+		public static const onLoadProgressEVENT		: String = QueueLoaderEvent.onLoadProgressEVENT; 
 		public static const onLoadTimeOutEVENT		: String = QueueLoaderEvent.onLoadTimeOutEVENT;
 		public static const onLoadErrorEVENT 		: String = QueueLoaderEvent.onLoadErrorEVENT;
 

@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.channel
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.commands.Batch;	import com.bourre.core.AbstractLocator;	import com.bourre.events.ApplicationBroadcaster;	import com.bourre.ioc.bean.BeanFactory;	import com.bourre.plugin.PluginChannel;			public class ChannelListenerExpert 
+	import com.bourre.log.PixlibDebug;		import com.bourre.commands.Batch;	import com.bourre.core.AbstractLocator;	import com.bourre.events.ApplicationBroadcaster;	import com.bourre.ioc.bean.BeanFactory;	import com.bourre.plugin.PluginChannel;			public class ChannelListenerExpert 
 		extends AbstractLocator
 	{
 		private static var _oI : ChannelListenerExpert;
@@ -61,13 +61,12 @@ package com.bourre.ioc.assembler.channel
 		public function assignChannelListener( id : String ) : Boolean
 		{
 			var channelListener : ChannelListener = locate( id ) as ChannelListener;
-
 			var listener : Object = BeanFactory.getInstance().locate( channelListener.listenerID );
 			var channel : PluginChannel = PluginChannel.getInstance( channelListener.channelName );
-			
+
 			var args : Array = channelListener.arguments;
 			
-			if ( args )
+			if ( args && args.length > 0 )
 			{
 				var l : int = args.length;
 				for ( var i : int; i < l; i++ )
