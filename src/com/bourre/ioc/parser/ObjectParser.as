@@ -99,11 +99,12 @@ package com.bourre.ioc.parser
 													ContextAttributeList.getName( method ),
 													getArguments( method, ContextNodeNameList.ARGUMENT ) );
 				}
-	
+
 				// Build channel listener.
 				for each ( var listener : XML in xml[ ContextNodeNameList.LISTEN ] )
 				{
 					var channelName : String = ContextAttributeList.getRef( listener );
+
 					if ( channelName )
 					{
 						var listenerArgs : Array = getArguments( listener, ContextNodeNameList.EVENT );
@@ -111,7 +112,7 @@ package com.bourre.ioc.parser
 
 					} else
 					{
-						msg = this + " encounters parsing error with '" + xml.name() + "' node, 'channel' attribute is mandatory in a 'listen' node.";
+						msg = this + " encounters parsing error with '" + xml.name() + "' node, 'ref' attribute is mandatory in a 'listen' node.";
 						PixlibDebug.FATAL( msg );
 						throw( new NullChannelException( msg ) );
 					}
