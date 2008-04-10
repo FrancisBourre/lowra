@@ -149,7 +149,7 @@ package com.bourre.commands
 		/**
 		 * Fires a private event directly on this command's owner. 
 		 */
-		protected function _firePrivateEvent( e : Event ) : void
+		protected function firePrivateEvent( e : Event ) : void
 		{
 			getOwner().firePrivateEvent( e );
 		}

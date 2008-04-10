@@ -32,22 +32,24 @@ package com.bourre.view
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderLocator;
 	import com.bourre.log.PixlibStringifier;
+	import com.bourre.model.ModelListener;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
 	import com.bourre.structures.Dimension;		
 
 	public class AbstractView 
+		implements ModelListener
 	{
-		public static const onInitViewEVENT : String = "onInitView";
-		public static const onReleaseViewEVENT : String = "onReleaseView";
+		public static const onInitViewEVENT 	: String = "onInitView";
+		public static const onReleaseViewEVENT 	: String = "onReleaseView";
 
-		public var view : DisplayObject;
+		public var view 		: DisplayObject;
 
-		protected var _gl : GraphicLoader;
-		protected var _sName:String;
-		protected var _oEB:EventBroadcaster;
-		protected var _owner : Plugin;
+		protected var _gl 		: GraphicLoader;
+		protected var _sName	: String;
+		protected var _oEB		: EventBroadcaster;
+		protected var _owner 	: Plugin;
 
 		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObject = null ) 
 		{
@@ -89,7 +91,7 @@ package com.bourre.view
 
 		public function notifyChanged( e : Event ) : void
 		{
-			_getBroadcaster().broadcastEvent( e );
+			getBroadcaster().broadcastEvent( e );
 		}
 
 		public function registerGraphicLoader( glName : String, name : String = null ) : void
@@ -235,7 +237,7 @@ package com.bourre.view
 		
 		public function release() : void
 		{
-			_getBroadcaster().removeAllListeners();
+			getBroadcaster().removeAllListeners();
 			ViewLocator.getInstance( getOwner() ).unregister( getName() );
 
 			if( view != null )
@@ -331,14 +333,22 @@ package com.bourre.view
 			onInitView();
 		}
 
-		protected function _getBroadcaster() : EventBroadcaster
+		protected function getBroadcaster() : EventBroadcaster
 		{
 			return _oEB;
 		}
 
-		protected function _firePrivateEvent( e : Event ) : void
+		protected function firePrivateEvent( e : Event ) : void
 		{
 			getOwner().firePrivateEvent( e );
+		}
+		
+		public function onInitModel( e : StringEvent ) : void
+		{
+		}
+		
+		public function onReleaseModel( e : StringEvent ) : void
+		{
 		}
 	}
 }

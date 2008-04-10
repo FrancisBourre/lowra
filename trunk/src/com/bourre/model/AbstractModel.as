@@ -31,12 +31,12 @@ package com.bourre.model
 
 	public class AbstractModel 
 	{
-		public static const onInitModelEVENT : String = "onInitModel";
+		public static const onInitModelEVENT 	: String = "onInitModel";
 		public static const onReleaseModelEVENT : String = "onReleaseModel";
 		
-		private var _oEB : EventBroadcaster;
-		private var _sName : String;
-		private var _owner : Plugin;
+		protected var _oEB 		: EventBroadcaster;
+		protected var _sName 	: String;
+		protected var _owner 	: Plugin;
 		
 		public function AbstractModel( owner : Plugin = null, name : String = null ) 
 		{
@@ -98,7 +98,7 @@ package com.bourre.model
 		
 		public function notifyChanged( e : Event ) : void
 		{
-			_getBroadcaster().broadcastEvent( e );
+			getBroadcaster().broadcastEvent( e );
 		}
 		
 		public function getName() : String
@@ -108,7 +108,7 @@ package com.bourre.model
 		
 		public function release() : void
 		{
-			_getBroadcaster().removeAllListeners();
+			getBroadcaster().removeAllListeners();
 			ModelLocator.getInstance( getOwner() ).unregister( getName() );
 
 			onReleaseModel();
@@ -137,16 +137,11 @@ package com.bourre.model
 		}
 		
 		//
-		protected function _getBroadcaster() : EventBroadcaster
+		protected function getBroadcaster() : EventBroadcaster
 		{
 			return _oEB;
 		}
-		
-		protected function _firePrivateEvent( e : Event ) : void
-		{
-			getOwner().firePrivateEvent( e );
-		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

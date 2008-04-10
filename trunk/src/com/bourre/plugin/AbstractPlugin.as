@@ -39,11 +39,10 @@ package com.bourre.plugin
 	public class AbstractPlugin
 		implements Plugin
 	{
-		protected var _oEBPublic : Broadcaster;
-
-		protected var _oController : FrontController;
-		protected var _oModelLocator : ModelLocator;
-		protected var _oViewLocator : ViewLocator;
+		protected var _oEBPublic 		: Broadcaster;
+		protected var _oController 		: FrontController;
+		protected var _oModelLocator 	: ModelLocator;
+		protected var _oViewLocator 	: ViewLocator;
 
 		public function AbstractPlugin() 
 		{
@@ -89,10 +88,20 @@ package com.bourre.plugin
 		{
 			return ChannelExpert.getInstance().getChannel( this );
 		}
+		
+		public function isModelRegistered( name : String ) : Boolean
+		{
+			return _oModelLocator.isRegistered( name );
+		}
 
 		public function getModel( key : String ) : AbstractModel
 		{
 			return _oModelLocator.getModel( key );
+		}
+		
+		public function isViewRegistered( name : String ) : Boolean
+		{
+			return _oViewLocator.isRegistered( name );
 		}
 		
 		public function getView( key : String ) : AbstractView
