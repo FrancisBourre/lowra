@@ -20,20 +20,21 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.events.BasicEvent;		
+	import com.bourre.events.ValueObject;
+	import com.bourre.events.ValueObjectEvent;		
 
-	public class PluginEvent 
-		extends BasicEvent
+		public class PluginEvent 
+		extends ValueObjectEvent
 	{
 		public static const onInitPluginEVENT : String = "onInitPlugin";
 		public static const onReleasePluginEVENT : String = "onReleasePlugin";
 
 		protected var _plugin : Plugin;
 
-		public function PluginEvent( sType : String, target : Object = null, plugin : Plugin = null )
+		public function PluginEvent( sType : String, target : Object = null, plugin : Plugin = null, valueObject : ValueObject = null )
 		{
-			super( sType, target );
-
+			
+			super( sType, target, valueObject );
 			_plugin = plugin;
 		}
 

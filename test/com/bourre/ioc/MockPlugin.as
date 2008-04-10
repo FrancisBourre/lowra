@@ -125,11 +125,11 @@ internal class ViewTest
 		_tf.text = e.getString( );
 	}
 	
-	public function onInitModel(e : StringEvent) : void
+	override public function onInitModel(e : StringEvent) : void
 	{
 	}
 	
-	public function onReleaseModel(e : StringEvent) : void
+	override public function onReleaseModel(e : StringEvent) : void
 	{
 	}
 }
