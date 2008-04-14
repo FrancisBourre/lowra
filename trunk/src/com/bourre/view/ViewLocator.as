@@ -78,6 +78,7 @@ package com.bourre.view
 			var i : Iterator = new ArrayIterator( _m.getValues() );
 			while ( i.hasNext() ) i.next().release();
 			super.release();
+			_owner = null ;
 		}
 
 		/**

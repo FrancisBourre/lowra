@@ -146,6 +146,11 @@ package com.bourre.load
 			var n : Number = Math.min( 100, Math.ceil( getBytesLoaded() / ( getBytesTotal() / 100 ) ) );
 			return ( isNaN(n) ) ? 0 : n;
 		}
+		
+		final public function isLoaded( ) : Boolean
+		{
+			return ( getBytesLoaded() / getBytesTotal() ) == 1 ;
+		}
 
 		public function getURL() : URLRequest
 		{

@@ -367,6 +367,12 @@ package com.bourre.commands
 			}
 		}
 		
+		override public function release() : void
+		{
+			super.release();
+			_owner = null ;
+		}
+		
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance

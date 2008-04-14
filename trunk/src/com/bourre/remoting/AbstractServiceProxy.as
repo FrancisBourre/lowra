@@ -21,7 +21,7 @@ package com.bourre.remoting {
 		{
 			_oEB = new EventBroadcaster( this );
 			setURL( sURL );
-			_sServiceName = sServiceName ? sServiceName : getQualifiedClassName( this );
+			_sServiceName = sServiceName ? sServiceName : getQualifiedClassName( this ).replace('::', '.') ;
 		}
 		
 		public function setURL( url : URLRequest ) : void
@@ -98,7 +98,7 @@ package com.bourre.remoting {
 		
 		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, o : ServiceResponder, ...args) : void
 		{
-			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ) , o ].concat(args);
+			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), o ].concat(args);
 			
 			var connection : RemotingConnection = getRemotingConnection();
 			connection.call.apply( connection, a );

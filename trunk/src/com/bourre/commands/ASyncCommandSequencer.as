@@ -81,6 +81,88 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Clear all the commands
+		 * @return 
+		 * 
+		 */
+		public function clear() : void
+		{
+			if(!_bIsRunning)
+			{
+				_aCommands = new Array();
+			}
+		}
+		
+		/**
+		 * 
+		 * @param indexCommand
+		 * @param oCommand
+		 * @return 
+		 * 
+		 */
+		public function addCommandBefore( indexCommand : ASyncCommand, oCommand : ASyncCommand ) : Boolean
+		{
+			var index : uint = _aCommands.indexOf(indexCommand) ;
+			if( oCommand == null && indexCommand != -1) return false;
+			
+			return addCommandAt(index - 1, oCommand) ;
+		}
+		
+		/**
+		 * 
+		 * @param indexCommand
+		 * @param oCommand
+		 * @return 
+		 * 
+		 */
+		public function addCommandAfter( indexCommand : ASyncCommand, oCommand : ASyncCommand ) : Boolean
+		{
+			var index : uint = _aCommands.indexOf(indexCommand) ;
+			if( oCommand == null && indexCommand != -1) return false;
+			
+			return addCommandAt(index, oCommand) ;
+		}
+		
+		/**
+		 * 
+		 * @param oCommand
+		 * @return 
+		 * 
+		 */
+		public function addCommandStart(oCommand : ASyncCommand ) : Boolean
+		{
+			return addCommandAt(0, oCommand) ;
+		}
+		
+		/**
+		 * 
+		 * @param oCommand
+		 * @return 
+		 * 
+		 */
+		public function addCommandEnd(oCommand : ASyncCommand ) : Boolean
+		{
+			return addCommandAt(_aCommands.length,oCommand) ;
+		}
+		
+		/**
+		 * 
+		 * @param p index at which the command is to be inserted.
+		 * @param oCommand
+		 * @return 
+		 * 
+		 */
+		protected function addCommandAt( index : uint, oCommand : ASyncCommand ) : Boolean
+		{
+			var l : uint = _aCommands.length;
+			
+			if( oCommand == null && index > l) return false;
+			
+			_aCommands.splice( index, 0, oCommand );
+			return (l != _aCommands.length );
+		}
+		
+		/**
 		 * 
 		 * @param oCommand
 		 * @return 
@@ -116,7 +198,7 @@ package com.bourre.commands
 		 */
 		public override function execute( e : Event = null ) : void
 		{
-			if( !isRunning() )
+			if( !isRunning() &&  getLength())
 			{
 				_bIsRunning = true;
 				_executeNextCommand ();

@@ -186,6 +186,7 @@ package com.bourre.core
 		public function release() : void
 		{
 			_m.clear();
+			_logger = null ;
 		}
 
 		/**

@@ -154,7 +154,7 @@ package com.bourre.load
 
 		override public function release() : void
 		{
-			if ( getContent() && _target.contains( getView() ) ) _target.removeChild( getView() );
+			if ( getContent() && _target && _target.contains( getView() ) ) _target.removeChild( getView() );
 
 			if ( _bMustUnregister ) 
 			{

@@ -80,9 +80,9 @@ package com.bourre.load
 					return;
 				}
 			}
-
-			loadNextEntry() ;
-			_onLoadStart();		
+			
+			_onLoadStart();
+			_processQueue() ;
 		}
 
 		public function isEmpty() : Boolean
@@ -129,6 +129,31 @@ package com.bourre.load
 
 		public function loadNextEntry() : void
 		{
+			removeListeners() ;
+			
+			_currentLoader = _q.poll() as Loader ;
+
+			if ( _sPrefixURL ) _currentLoader.prefixURL( _sPrefixURL );
+
+			addListeners() ;
+
+			_currentLoader.execute() ;
+		}
+		
+		protected function addListeners() : void
+		{
+			if ( _currentLoader )
+			{
+				_currentLoader.addEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
+				_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress);
+				_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
+				_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
+				_currentLoader.addEventListener(LoaderEvent.onLoadErrorEVENT,   onLoaderLoadError);
+			}
+		}
+		
+		protected function removeListeners() : void
+		{
 			if ( _currentLoader )
 			{
 				_currentLoader.removeEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
@@ -137,18 +162,6 @@ package com.bourre.load
 				_currentLoader.removeEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
 				_currentLoader.removeEventListener(LoaderEvent.onLoadErrorEVENT, 	onLoaderLoadError);
 			}
-
-			_currentLoader = _q.poll() as Loader ;
-
-			if ( _sPrefixURL ) _currentLoader.prefixURL( _sPrefixURL );
-
-			_currentLoader.addEventListener(LoaderEvent.onLoadInitEVENT, 	onLoaderLoadInit);
-			_currentLoader.addEventListener(LoaderEvent.onLoadProgressEVENT,onLoaderLoadProgress);
-			_currentLoader.addEventListener(LoaderEvent.onLoadTimeOutEVENT, onLoaderLoadTimeOut);
-			_currentLoader.addEventListener(LoaderEvent.onLoadStartEVENT, 	onLoaderLoadStart);
-			_currentLoader.addEventListener(LoaderEvent.onLoadErrorEVENT,   onLoaderLoadError);
-
-			_currentLoader.execute() ;
 		}
 
 		public function onLoaderLoadStart( e : LoaderEvent, ... rest ) : void
@@ -203,12 +216,8 @@ package com.bourre.load
 
 		private function _onLoadInit () : void
 		{
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadInitEVENT,		onLoaderLoadInit) ;
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadProgressEVENT, 	onLoaderLoadProgress) ;
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadTimeOutEVENT, 	onLoaderLoadTimeOut) ;
-			_currentLoader.removeEventListener  (LoaderEvent.onLoadStartEVENT, 		onLoaderLoadStart) ;
-			_currentLoader.removeEventListener	(LoaderEvent.onLoadErrorEVENT, 		onLoaderLoadError);
-
+			removeListeners() ;
+			
 			fireEventType(  QueueLoaderEvent.onLoadInitEVENT );
 		}		
 	}
