@@ -15,6 +15,8 @@
  */
 package com.bourre.events 
 {
+	import flash.events.Event;	
+	
 	import com.bourre.events.BasicEvent;
 	
 	/**
@@ -69,6 +71,16 @@ package com.bourre.events
 		public function getValue () : *
 		{
 			return _oValue;
+		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new IterationEvent(type, target, _nIndex, _oValue);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package com.bourre.events
 {
-	
+	import flash.events.Event;	
+
 	/**
 	 * An event object which carry any object.
 	 * 
@@ -33,6 +34,16 @@ package com.bourre.events
 		public function getObject() : Object
 		{
 			return _o;
+		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new ObjectEvent(type, target, _o);
 		}
 	}
 }

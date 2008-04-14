@@ -132,6 +132,16 @@ package com.bourre.events
 		{ 
 			return _oTarget; 
 		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new BasicEvent(type, target);
+		}
 
 		/**
 		 * Returns the string representation of this instance.
