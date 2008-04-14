@@ -63,6 +63,7 @@ package com.bourre.remoting
 		{
 			RemotingDebug.ERROR( rawFault );
 		
+			var  basicFaultEvent : BasicFaultEvent ;
 			/*
 			code
 			line
@@ -78,12 +79,19 @@ package com.bourre.remoting
 			correlationId
 			faultDetails
 			*/
-			
-			_fFault( new BasicFaultEvent(		rawFault.faultCode,
-												rawFault.correlationId,
-												rawFault.faultDetails, 
-												rawFault.faultString,
-												_oServiceMethod ) );
+			if( rawFault.hasOwnProperty('code'))
+				basicFaultEvent = new BasicFaultEvent(	rawFault.code,
+														rawFault.line,
+														rawFault.details, 
+														rawFault.description,
+														_oServiceMethod )  ;
+			else
+				basicFaultEvent = new BasicFaultEvent(	rawFault.faultCode,
+														rawFault.correlationId,
+														rawFault.faultDetails, 
+														rawFault.faultString,
+														_oServiceMethod ) ;
+			_fFault( basicFaultEvent );
 		}
 		
 		public function onDebugEvents( debugEvents : Array ) : void 

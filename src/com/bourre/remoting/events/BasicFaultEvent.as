@@ -66,11 +66,14 @@ package com.bourre.remoting.events {
 			return _sServiceMethodName;
 		}
 		
-		/*public function toString() : String 
+		override public function toString() : String 
 		{
 			return "BasicFaultEvent code: "+getCode()+
-					                "line: "+ getLine()
-		}*/
+					                "id: "+ getCorrelationId()+
+					                "detail" +getDetail+
+					                "description" + getDescription()+
+					                "methodname" + getServiceMethodName();
+		}
 		
 	}
 }

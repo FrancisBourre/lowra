@@ -164,8 +164,8 @@ package com.bourre.view
 			try
 			{
 				return resolveUI( label, true ) is DisplayObject;
-
-			} catch ( e : Error )
+			}
+			catch ( e : Error )
 			{
 				return false;
 			}
@@ -184,10 +184,8 @@ package com.bourre.view
 			{
 				var name : String = a[ i ];
 				if ( target is DisplayObjectContainer && (target as DisplayObjectContainer).getChildByName( name ) != null )
-				{
 					target = (target as DisplayObjectContainer).getChildByName( name );
-
-				} else
+				else
 				{
 					var msg : String;
 					if ( !tryToResolveUI ) 
@@ -207,9 +205,9 @@ package com.bourre.view
 		{
 			try
 			{
-				return resolveFunction( label ) is Function;
-
-			} catch ( e : Error )
+				return resolveFunction( label , true ) is Function;
+			}
+			catch ( e : Error )
 			{
 				return false;
 			}
@@ -217,19 +215,23 @@ package com.bourre.view
 			return false;
 		}
 		
-		public function resolveFunction( label : String  ) : Function
+		public function resolveFunction( label : String  , tryToResolveFunction : Boolean = false ) : Function
 		{
 			var a : Array = label.split( "." );
 			var f : String = a.pop();
 			var target : DisplayObjectContainer  = resolveUI( a.join('.')) as DisplayObjectContainer ; 
 			
 			if ( target.hasOwnProperty( f ) &&  target[f] is Function  )
-			{
 				return target[f] ;
-
-			} else
+			else
 			{
-				getLogger().error( this + ".resolveFunction(" + label + ") failed." );
+				var msg : String;
+				if ( !tryToResolveFunction ) 
+				{
+					msg = this + ".resolveFunction(" + label + ") failed.";
+					getLogger().error( msg );
+					throw new NoSuchElementException( msg );
+				}
 				return null;
 			}
 			
