@@ -48,5 +48,15 @@ package com.bourre.events
 		{
 			return _n;
 		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new NumberEvent(type, target, _n);
+		}
 	}
 }

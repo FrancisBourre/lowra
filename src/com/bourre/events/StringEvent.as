@@ -15,7 +15,8 @@
  */
 package com.bourre.events
 {
-
+	import flash.events.Event;	
+	
 	/**
 	 * An event object which carry a string value.
 	 * 
@@ -47,6 +48,16 @@ package com.bourre.events
 		public function getString() : String
 		{
 			return _s;
+		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new StringEvent(type, target, _s);
 		}
 	}
 }

@@ -15,6 +15,8 @@
  */
 package com.bourre.events
 {
+	import flash.events.Event;	
+	
 	/**
 	 * An event object which carry a boolean value.
 	 * 
@@ -46,6 +48,16 @@ package com.bourre.events
 		public function getBoolean() : Boolean
 		{
 			return _b;
+		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new BooleanEvent(type, target, _b);
 		}
 	}
 }

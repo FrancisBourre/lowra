@@ -15,6 +15,8 @@
  */
 package com.bourre.events
 {
+	import flash.events.Event;	
+	
 	/**
 	 * An event object which carry a value object.
 	 * 
@@ -47,6 +49,16 @@ package com.bourre.events
 		public function getValueObject() : ValueObject
 		{
 			return _o;
+		}
+		
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new ValueObjectEvent(type, target, _o);
 		}
 	}
 }
