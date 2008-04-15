@@ -105,7 +105,7 @@ package com.bourre.commands
 			var index : uint = _aCommands.indexOf(indexCommand) ;
 			if( oCommand == null && indexCommand != -1) return false;
 			
-			return addCommandAt(index - 1, oCommand) ;
+			return addCommandAt(index , oCommand) ;
 		}
 		
 		/**
@@ -120,7 +120,7 @@ package com.bourre.commands
 			var index : uint = _aCommands.indexOf(indexCommand) ;
 			if( oCommand == null && indexCommand != -1) return false;
 			
-			return addCommandAt(index, oCommand) ;
+			return addCommandAt(index + 1 , oCommand) ;
 		}
 		
 		/**
