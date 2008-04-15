@@ -42,7 +42,7 @@ package com.bourre.media.sound
 		   implements Suspendable , TickListener
 	{
 		/** TickBeacon to manage the time to fire onSoundProgress event */
-		private static var TICKBEACON : TickBeacon ;
+		protected static var TICKBEACON : TickBeacon ;
 
 		public static function setTickBeacon( beacon : TickBeacon ) : void
 		{

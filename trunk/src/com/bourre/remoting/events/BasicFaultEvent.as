@@ -70,7 +70,7 @@ package com.bourre.remoting.events {
 		{
 			return "BasicFaultEvent code: "+getCode()+
 					                "id: "+ getCorrelationId()+
-					                "detail" +getDetail+
+					                "detail" +getDetail()+
 					                "description" + getDescription()+
 					                "methodname" + getServiceMethodName();
 		}

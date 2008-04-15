@@ -1,4 +1,10 @@
-package com.bourre.remoting {
+package com.bourre.remoting 
+{
+	import com.bourre.commands.Delegate;	
+	
+	import flash.events.Event;	
+	import flash.events.NetStatusEvent;	
+	
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.remoting.events.BasicFaultEvent;
 	import com.bourre.remoting.events.BasicResultEvent;
@@ -81,7 +87,6 @@ package com.bourre.remoting {
 			_oEB.broadcastEvent( e );
 		}
 	
-		
 		/*
 		 * abstract calls
 		 */
@@ -93,6 +98,7 @@ package com.bourre.remoting {
 			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ) , o ].concat(args);
 			
 			var connection : RemotingConnection = getRemotingConnection();
+			connection.addEventListener(NetStatusEvent.NET_STATUS, _onNetStatus) ;
 			connection.call.apply( connection, a );
 		}
 		
@@ -101,9 +107,48 @@ package com.bourre.remoting {
 			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), o ].concat(args);
 			
 			var connection : RemotingConnection = getRemotingConnection();
+			connection.addEventListener(NetStatusEvent.NET_STATUS, _onNetStatus) ;
 			connection.call.apply( connection, a );
 		}
 		
+		protected function _onNetStatus ( e : NetStatusEvent ) : void
+		{
+			RemotingDebug.DEBUG( this + " _onNetStatus" + e.info.code);
+			var msg :String  ;
+			switch ( e.info.code ) 
+			{	
+				case 'NetConnection.Call.Failed' :	
+					msg = " The NetConnection.call method was not able to invoke the server-side method or command. "; 	
+					RemotingDebug.ERROR( this + msg  );
+					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					break;
+					
+				case 'NetConnection.Call.BadVersion' :	
+					msg = " Packet encoded in an unidentified format. "; 	
+					RemotingDebug.ERROR( this + msg  );
+					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					break;	
+					
+				case 'NetConnection.Connect.Failed' :
+					msg = " The connection attempt failed. "; 	
+					RemotingDebug.ERROR( this + msg  );
+					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					break;
+					
+				case 'NetConnection.Connect.Rejected' :
+					msg = " The client does not have permission to connect to the application, the application expected different parameters from those that were passed, or the application name specified during the connection attempt was not found on the server. "; 	
+					RemotingDebug.ERROR( this + msg  );
+					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					break;
+			}
+		}
+		
+		protected function fireErrorEvent( sServiceMethodName : ServiceMethod, errorCode : String = null, errorMessage : String = null ) : void
+		{
+			var e : BasicFaultEvent = new BasicFaultEvent( errorCode, "", "", errorMessage, sServiceMethodName);
+			_oEB.broadcastEvent( e );
+		}
+
 		/*
 		 * Getter & ToString
 		 */
