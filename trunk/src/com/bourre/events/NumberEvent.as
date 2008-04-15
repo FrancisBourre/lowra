@@ -15,7 +15,8 @@
  */
 package com.bourre.events
 {
-
+	import flash.events.Event;	
+	
 	/**
 	 * An event object which carry a numeric value.
 	 * 

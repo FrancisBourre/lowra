@@ -106,10 +106,25 @@ package com.bourre.collection
 			typedSet.add(789) ;
 			
 			typedSet.addAt(1, 456) ;
-			assertEquals("Set.addAt doesn't add the element at the right index", 1, typedSet.indexOf(456)) ;
-			assertEquals("Set.addAt doesn't add the element at the right index", 2, typedSet.indexOf(789)) ;
+			assertEquals("Set.addAt don't add the element at the right index", 1, typedSet.indexOf(456)) ;
+			assertEquals("Set.addAt don't add the element at the right index", 2, typedSet.indexOf(789)) ;
+			
+			typedSet.addAt( typedSet.size(), 1610 ) ;
+			
+			assertEquals("Set.addAt don't add the element at the end", 3, typedSet.indexOf(1610)) ;
+			
+			var b : Boolean = false;
+			try
+			{
+				typedSet.addAt( typedSet.size() + 1, 1610 ) ;
+			}
+			catch( e : Error )
+			{
+				b = true;
+			}
+			assertTrue("Set.addAt don't failed when adding an element outside of the range",b);
 		}
-		
+
 		public function testSize() : void
 		{
 			var typedSet:Set ;
