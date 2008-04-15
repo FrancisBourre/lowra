@@ -187,7 +187,7 @@ package com.bourre.collection
 		 */
 		public function addAt(index:uint, o:Object) : void
 		{
-			isValidIndex ( index );
+			isValidIndexForAdd( index );
 			if( isValidObject( o ) )			
 				_aSet.splice( index, 0, o );
 		}
@@ -355,7 +355,7 @@ package com.bourre.collection
 		 */
 		public function addAllAt( index : uint, c : Collection ) : Boolean
 		{
-			isValidIndex ( index );
+			isValidIndexForAdd( index );
 			isValidCollection( c );
 			
 			var i : Iterator = c.iterator();
@@ -878,6 +878,26 @@ package com.bourre.collection
 				PixlibDebug.ERROR( index + " is not a valid index for " +
 								   this + " of size " + size() );
 				throw new IndexOutOfBoundsException( index + " is not a valid index for " +
+													 this + " of size " + size() );
+			}
+		}
+		/**
+		 * Verify that the passed-in <code>uint</code> index is a
+		 * valid index for an insertion in this </code>Set</code>. 
+		 * If not, an <code>IndexOutOfBoundsException</code> exception 
+		 * is thrown.
+		 *  
+		 * @param	index 	<code>uint<code> index to verify
+		 * @throws 	<code>IndexOutOfBoundsException</code> — The passed-in
+		 * 			index is not a valid index for this set
+		 */
+		public function isValidIndexForAdd ( index : uint ) : void
+		{
+			if( index > size() )
+			{
+				PixlibDebug.ERROR( index + " is not a valid index for insertion in " +
+								   this + " of size " + size() );
+				throw new IndexOutOfBoundsException( index + "  is not a valid index for insertion in  " +
 													 this + " of size " + size() );
 			}
 		}
