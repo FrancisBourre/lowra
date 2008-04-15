@@ -43,23 +43,24 @@ package com.bourre.media.sound
 		
 		override protected function onInitialize() : void
 		{
-			if( getName() == null ) setName( getURL().url ) ;
-			
-			if ( !(SoundLoaderLocator.getInstance().isRegistered(getName())) )
+			if ( getName() != null ) 
 			{
-				_bMustUnregister = true;
-				SoundLoaderLocator.getInstance().register( getName(), this );
-
-			} else
-			{
-				_bMustUnregister = false;
-				var msg : String = this + " can't be registered to " + SoundLoaderLocator.getInstance() 
-									+ " with '" + getName() + "' name. This name already exists.";
-				PixlibDebug.ERROR(msg );
-				fireOnLoadErrorEvent( msg );
-				throw new IllegalArgumentException(msg);
+				if ( !(SoundLoaderLocator.getInstance().isRegistered(getName())) )
+				{
+					_bMustUnregister = true;
+					SoundLoaderLocator.getInstance().register( getName(), this );
+	
+				} else
+				{
+					_bMustUnregister = false;
+					var msg : String = this + " can't be registered to " + SoundLoaderLocator.getInstance() 
+										+ " with '" + getName() + "' name. This name already exists.";
+					PixlibDebug.ERROR(msg );
+					fireOnLoadErrorEvent( msg );
+					throw new IllegalArgumentException(msg);
+				}
 			}
-
+			
 			super.onInitialize();
 		}
 		

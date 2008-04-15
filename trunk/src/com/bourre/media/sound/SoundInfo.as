@@ -1,21 +1,27 @@
-/*
- * Copyright the original author or authors.
- * 
- * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.mozilla.org/MPL/MPL-1.1.html
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */	
 
+	 
 package com.bourre.media.sound 
 {
+	/*
+	 * Copyright the original author or authors.
+	 * 
+	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 * 
+	 *      http://www.mozilla.org/MPL/MPL-1.1.html
+	 * 
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 */	
+	
+	/**
+	 * @author Aigret Axel
+	 * @version 1.0
+	 */
 	import flash.events.Event;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
@@ -24,49 +30,79 @@ package com.bourre.media.sound
 	import com.bourre.collection.TypedArray;
 	import com.bourre.commands.Delegate;
 	import com.bourre.commands.Suspendable;
-	import com.bourre.events.BasicEvent;
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.media.sound.SoundInfoChannel;
 	import com.bourre.media.sound.SoundTransformInfo;
+	import com.bourre.transitions.MSBeacon;
+	import com.bourre.transitions.TickBeacon;
+	import com.bourre.transitions.TickListener;	
 
 	public class 	  SoundInfo 
-		   implements Suspendable
+		   implements Suspendable , TickListener
 	{
-		public  var DEBUG 		: Boolean = false;
-		private var _oEB : EventBroadcaster;
+		/** TickBeacon to manage the time to fire onSoundProgress event */
+		private static var TICKBEACON : TickBeacon ;
 
-		private static const PLAY : String  = "PLAY" ;
-		private static const STOP : String  = "STOP" ; 
-		private static const PAUSE : String = "PAUSE" ;
+		public static function setTickBeacon( beacon : TickBeacon ) : void
+		{
+			TICKBEACON = beacon ; 
+		}
 		
-		public static const onPlayEnd   : String  = "onPlayEnd" ;
-		public static const onPlayLoop  : String  = "onPlayLoop" ;
+		public function onTick( e : Event = null )  : void
+		{
+			for each( var souchChannelInfo : SoundInfoChannel in getChannel().toArray() )
+				if( souchChannelInfo.isPlaying() ) fireSoundEvent( SoundEvent.onSoundProgress , souchChannelInfo ) ;
+		}
+		
+		public    var DEBUG 		 : Boolean = false;
+		
+		public static const PLAY  : String  = "PLAY" ;
+		public static const STOP  : String  = "STOP" ; 
+		public static const PAUSE : String  = "PAUSE" ;
 		
 		/** The occurence of the sound for playing the sound */
-		private var _oSound : Sound;
+		protected var _oSound : Sound;
 		/** the global setting for the id */
-		private var _oSTI : SoundTransformInfo ;
+		protected var _oSTI : SoundTransformInfo ;
 		/** A list of <code>ChannelSoundInfo</code> that use this sound */
-		private var _aChannel : TypedArray;
-		/** Current state */
-		private var _sState : String ; 
+		protected var _aChannel : TypedArray;
 		
+		protected var _oEB 			 : EventBroadcaster;
+	
 		public function SoundInfo( oSound : Sound ,  oSTI : SoundTransformInfo = null )
 		{
+			
 			_oEB = new EventBroadcaster( this ) ; 
 			_oSound = oSound;
 			_oSTI = oSTI ? oSTI : new SoundTransformInfo() ;
+			initTickBeacon();
+			
 			resetChannel();
 		}
 		
+		protected function initTickBeacon() : void
+		{
+			if( !TICKBEACON )
+			{
+				var t : MSBeacon = new MSBeacon();
+				t.setTickPerSecond(15);
+				TICKBEACON = t ;
+			}
+			TICKBEACON.addTickListener(this);
+		}
+		
 		//channel
-		public function addChannel( channelSoundInfo : ChannelSoundInfo ) : void
+		protected function addChannel( channelSoundInfo : ChannelSoundInfo ) : void
 		{
 			if( !channelSoundInfo.hasSoundTransformInfo() )
 				channelSoundInfo.setSoundTransformInfo( _oSTI );
 			_aChannel.push( channelSoundInfo );
 		}
 		
+		/*
+		 * Returns an array of all SoundInfoChannel use by this SoundInfo
+		 */
 		public function getChannel(  ) : TypedArray
 		{
 			return _aChannel ;
@@ -87,30 +123,20 @@ package com.bourre.media.sound
 			return _oSTI.getSoundTransform() ;
 		}
 		
-		public function setState ( s : String ) : void
-		{
-			_sState = s ;
-		}
-		
-		public function getState() : String
-		{
-			return _sState;
-		}
-		
 		// Core feature 
 		public function playSound( loop : Number = 1 , soundTransformInfo : SoundTransformInfo = null) : void
 		{
 			if( DEBUG )PixlibDebug.DEBUG(this+".playSound "  );
 			if( loop == 0 ) loop = 1 ;
 			--loop;
-			
-			
+		
 			var soundChannel : SoundChannel =  getSound().play( 0 , 0 ,
 				 ( soundTransformInfo) ? soundTransformInfo.getSoundTransform() : getGlobalSoundTransform() );
 			var channelSoundInfo : ChannelSoundInfo = new ChannelSoundInfo( soundChannel , loop , soundTransformInfo )  ;
 			
 			addChannel( channelSoundInfo );
-			setState( SoundInfo.PLAY );
+			
+			fireSoundEvent( SoundEvent.onSoundPlay, channelSoundInfo) ;
 			
 			if( DEBUG ) PixlibDebug.DEBUG(this+".playSound loop"  + loop );
 			_playLoopSound(  channelSoundInfo  ) ;
@@ -123,28 +149,30 @@ package com.bourre.media.sound
 		}
 		
 		// LOOP
-		private function _playLoopSound(  channelSoundInfo : ChannelSoundInfo ) : void
+		protected function _playLoopSound(  channelSoundInfo : ChannelSoundInfo ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+"._playLoopSound ");
 			channelSoundInfo.getChannel().addEventListener( Event.SOUND_COMPLETE, Delegate.create( _onPlayLoopFinish , channelSoundInfo  ));
 		}
 		
-		private function _onPlayLoopFinish( channelSoundInfo : ChannelSoundInfo, e : Event ) : void
+		protected function _onPlayLoopFinish( channelSoundInfo : ChannelSoundInfo, e : Event ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+"._onPlayLoopFinish "+channelSoundInfo.getLoop());
+
 			channelSoundInfo.addLoop();
 			if( channelSoundInfo.isLoop() )
 			{
-				fireOnPlayLoopEvent(   );
+				fireSoundEvent( SoundEvent.onSoundLoop , channelSoundInfo) ;
 				var soundChannel : SoundChannel =  getSound().play( 0 , 0 , channelSoundInfo.getSoundTransform());
 				channelSoundInfo.setChannel( soundChannel ) ;
 				_playLoopSound(  channelSoundInfo );
-				
 			}
 			else
 			{
-				setState( SoundInfo.STOP );
-				fireOnPlayEndEvent(  );
+				// remove channel after finish playing
+				_aChannel.splice( _aChannel.toArray().indexOf( channelSoundInfo ) , 1) ;
+				// if we have no more channel the SoundInfo is stop, else we don't know 
+				fireSoundEvent( SoundEvent.onSoundEnd , channelSoundInfo) ;
 			}
 		}
 		
@@ -154,70 +182,90 @@ package com.bourre.media.sound
 			var aChannel : TypedArray = getChannel()	 ;	
 			
 			for each( var oCSI : ChannelSoundInfo in aChannel.toArray() )
+			{
 				oCSI.getChannel().stop();
+				fireSoundEvent( SoundEvent.onSoundStop, oCSI ) ;
+			}
 			
-			setState( SoundInfo.STOP );
-			resetChannel();
-
+			resetChannel();			
 		}
 		
 		public function pauseSound (  ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+".pauseSound ");	
-
-			
 			var aChannel : TypedArray = getChannel()	 ;	
-			
+
 			for each( var oCSI : ChannelSoundInfo in aChannel.toArray() )
 			{
 				oCSI.pause();
 				oCSI.getChannel().stop();
+				fireSoundEvent( SoundEvent.onSoundPause, oCSI) ;
 			}
-			setState( SoundInfo.PAUSE);
-			
-
 		}
 		
 		public function resumeSound (  ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+".resumeSound ");	
-	
 			var aChannel : TypedArray = getChannel()	 ;	
-			
 			
 			for each( var oCSI : ChannelSoundInfo in aChannel.toArray() )
 			{
-				
 				var soundChannel : SoundChannel =  getSound().play( oCSI.getPosition() , 0 , oCSI.getSoundTransform());
 				oCSI.resetPosition();
 				oCSI.setChannel( soundChannel ) ;
 				
-				if( oCSI.isLoop() ) 
-					_playLoopSound(  oCSI );
-			}
-			setState( SoundInfo.PLAY );
+				fireSoundEvent( SoundEvent.onSoundResume , oCSI) ;
 				
+				_playLoopSound(   oCSI );
+			}
 		}	
 		
+		public function getState( ) : String
+		{
+			return 	getCurrentState( ) ;
+		}
 		
 		public function isPlaying( ) : Boolean
 		{			
-			if( getState() == SoundInfo.PLAY )  return true; 
+			if( getCurrentState() == SoundInfo.PLAY )  return true; 
 			return false;
 		}
 		
 		public function isPause( )  : Boolean
 		{
-			if( getState() == SoundInfo.PAUSE )  return true; 
+			if( getCurrentState() == SoundInfo.PAUSE )  return true; 
 			return false;
 		}
 		
 		public function isStop( )  : Boolean
 		{
-			if( getState() == SoundInfo.STOP )  return true; 
+			if( getCurrentState() == SoundInfo.STOP )  return true; 
 			return false;
 		}
 		
+		/**
+		 * Return state in force order : PLAY PAUSE STOP ( in decrease )
+		 * If we have three channel with at least one playing , it return SoundInfo.PLAY
+		 * If no play channel but at least one pause , it return SoundInfo.PAUSE
+		 * If no channel it return SoundInfo.STOP
+		 */
+		protected function getCurrentState( ) : String
+		{
+			var sState : String = SoundInfo.STOP ;
+			var aChannel : Array = getChannel().toArray()	 ;	
+			
+			for ( var i : uint = 0 ; i < aChannel.length && sState != SoundInfo.PLAY ; ++i )
+			{
+				var oCSI : ChannelSoundInfo = aChannel[i] as ChannelSoundInfo ;
+				if( oCSI.isPause()   ) sState = SoundInfo.PAUSE ;
+				if( oCSI.isPlaying() ) sState = SoundInfo.PLAY  ;  
+			}
+			return sState ;
+		}
+		
+		/**
+		 * Implements Suspendable
+		 */
 		public function start() : void
 		{
 			resumeSound();
@@ -256,20 +304,27 @@ package com.bourre.media.sound
 			return _oEB.removeEventListener( type, listener );
 		}
 		
-		protected function fireOnPlayLoopEvent(   ) : void
+		public function addListener( listener : SoundInfoListener ) : Boolean
 		{
-			fireEvent(new BasicEvent(onPlayLoop , this  ));
+			return _oEB.addListener( listener );
+		}
+
+		public function removeListener( listener : SoundInfoListener ) : Boolean
+		{
+			return _oEB.removeListener( listener );
 		}
 		
-		protected function fireOnPlayEndEvent(   ) : void
+		protected function fireSoundEvent( type : String , soundInfoChannel : SoundInfoChannel ) : void
 		{
-			fireEvent(new BasicEvent(onPlayEnd , this  ));
+			fireEvent( new SoundEvent( type , this, soundInfoChannel ) );
 		}
 		
 		protected function fireEvent( e : Event ) : void
 		{
-			_oEB.broadcastEvent( e );
+			_oEB.broadcastEvent( e);
 		}
+		
+		
 	}
 }
 
@@ -278,9 +333,17 @@ import flash.media.SoundChannel;
 import flash.media.SoundLoaderContext;
 import flash.media.SoundTransform;
 import flash.net.URLRequest;
+
+import com.bourre.media.sound.SoundInfoChannel;
 import com.bourre.media.sound.SoundTransformInfo;
 
-internal class ChannelSoundInfo 
+/**
+ * ChannelSoundInfo is use to play and remember all information about a play iteration of a sound
+ * The time of live of this object in the array of soundInfo channel is during it's playing time including pause
+ * In case of stop , it is delete.
+ */
+internal class 		ChannelSoundInfo 
+		 implements SoundInfoChannel
 {
 	/** The soundChannel */
 	private var _oSoundChannel : SoundChannel;
@@ -295,11 +358,11 @@ internal class ChannelSoundInfo
 	
 	// Loop
 	/** Number of loop wanted*/
-	private var _nLoop : int ;
+	private var _nLoop : uint ;
 	/** Number of play iteration*/
-	private var _nPlayIteration : int ;
+	private var _nPlayIteration : uint ;
 	
-	public function ChannelSoundInfo( soundChannel : SoundChannel, loop : int = 0 , soundTranformInfo : SoundTransformInfo = null )
+	public function ChannelSoundInfo( soundChannel : SoundChannel, loop : uint = 0 , soundTranformInfo : SoundTransformInfo = null )
 	{
 		_oSoundChannel = soundChannel ;
 		setSoundTransformInfo( soundTranformInfo ) ;
@@ -325,6 +388,11 @@ internal class ChannelSoundInfo
 	{
 		return _nPosition ;
 	}
+	
+	public function getLoopIteration( ): uint
+	{
+		return _nPlayIteration ;
+	}
 
 	public function resetPosition( ) : void
 	{
@@ -337,10 +405,15 @@ internal class ChannelSoundInfo
 		_nPosition = _oSoundChannel.position ;
 		_bPause = true;
 	}
-	
+
 	public function isPause( ) : Boolean
 	{
 		return _bPause ; 
+	}
+	
+	public function isPlaying( ) : Boolean 
+	{
+		return !isPause() ;
 	}
 
 	public function addLoop() : void
@@ -354,7 +427,7 @@ internal class ChannelSoundInfo
 		return false; 
 	}
 	
-	public function getLoop() : Number
+	public function getLoop() : uint
 	{
 		return _nPlayIteration ;
 	}

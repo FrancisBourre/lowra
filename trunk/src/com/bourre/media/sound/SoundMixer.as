@@ -16,18 +16,12 @@
 
 package com.bourre.media.sound 
 {
-	import com.bourre.commands.Cancelable;	
-	import com.bourre.events.BasicEvent;	
-	
-	import flash.events.Event;
 	import flash.media.Sound;
 	
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Batch;
 	import com.bourre.commands.Suspendable;
 	import com.bourre.error.NoSuchElementException;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.events.StringEvent;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.media.sound.*;		
@@ -40,25 +34,28 @@ package com.bourre.media.sound
 	public class 	  SoundMixer
 		   implements Suspendable
 	{
-		private var _oEB : EventBroadcaster;
 		public  var DEBUG 		: Boolean = false;
 		/* 
 		 * Contains all Sound : idSound => SoundInfo
 		 * SoundInfo can contain many ChannelSoundInfo 
 		 */
 		private var _mSounds 	: HashMap ;		
+		/** Id name of this SoundMixer */
 		private var _sName 		: String  ; 
 		/**
 		 * If lock , play stop resume pause is ignore 
 		 */ 
 		private var _bLocked 	: Boolean = false;
 		
+		//private var _oEB : EventBroadcaster;
+		
+		
 		/**
 		 * Constructs a new SoundFactory instance.
 		 */
 		public function SoundMixer( name : String = null) 
 		{
-			_oEB = new EventBroadcaster( this ) ;
+			//_oEB = new EventBroadcaster( this ) ;
 			_mSounds = new HashMap();
 			if( name ) setName( name ) ;
 		
@@ -84,7 +81,7 @@ package com.bourre.media.sound
 		{
 			return _mSounds.getKeys();
 		}
-		
+
 		/*
 		 * Lock
 		 * If lock all play pause resume stop call will be ignore
@@ -105,33 +102,18 @@ package com.bourre.media.sound
 		}
 		
 		// Construct library
-		public function addSoundInfo(  soundInfo : SoundInfo  , id : String  ) : void
-		{
-			if( DEBUG ) PixlibDebug.DEBUG(this+".addSoundInfo" +  id + '   ' +soundInfo);
-			if( !isRegistered(id) )
-			{		
-				_mSounds.put( id , soundInfo );
-			}
-			else
-			{
-				PixlibDebug.ERROR(this+'.addSoundInfo('+id+") : '"+id+"' doesn't exist");					
-				throw new NoSuchElementException(this+'.addSoundInfo('+id+") : '"+id+"' doesn't exist") ;
-			}
-		
-		}
 		
 		public function addSound( sound : Sound , id : String , oSTI : SoundTransformInfo = null  ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+".addSound" + sound + '  ' +id + '   ' +oSTI);
-			if( !isRegistered(id) )
-			{		
+			if( !isRegistered(id)  )
+			{	
 				_mSounds.put( id, new SoundInfo( sound , oSTI ) );
 			}
 			else
 			{
 				PixlibDebug.ERROR(this+'.addSound('+id+") : '"+id+"' doesn't exist");					
 				throw new NoSuchElementException(this+'.addSound('+id+") : '"+id+"' doesn't exist") ;
-				
 			}
 		
 		}
@@ -147,6 +129,7 @@ package com.bourre.media.sound
 			if( _checkId(id , "removeSound" ) )
 			{	
 				stopSound( id ) ;
+				//TODO:  remove listener
 				_mSounds.remove( id ) ;
 			}
 					
@@ -163,22 +146,26 @@ package com.bourre.media.sound
 			}	
 		}
 		
-		public function getActivedSound( ) : Array
+		/**
+		 * 
+		 */
+		public function getSoundInfoWithState( sState : String = null ) : Array
 		{
 			var a : Array = new Array();
 			// retrieve all sound that have a channel in play mode and return the array of id
+			if( !sState ) return _mSounds.getValues() ;
+			
 			var aSound : Array =  _mSounds.getKeys();
 			for each( var sId : String in aSound )
 			{
 				var soundInfo : SoundInfo = _mSounds.get( sId ) ;
-				if( soundInfo.isPlaying() ) a.push( sId ) ;
+				if( soundInfo.getState() == sState ) a.push( sId ) ;
 			}
 			return a ;
 						
 		}
 		
 		// Manipulate id ( if unlock )
-		
 		public function playSoundLoop( id : String  ) : void
 		{
 			playSound( id , int.MAX_VALUE ); 
@@ -187,29 +174,15 @@ package com.bourre.media.sound
 		public function playSound( id : String , loop : Number = 1 , soundTransformInfo : SoundTransformInfo = null) : void
 		{
 			if( DEBUG )PixlibDebug.DEBUG(this+".playSound "  +id );
+			
 			if( _checkId(id ,"playSound" ) && !isLock() )
 			{
 				var soundInfo : SoundInfo = getSoundInfo( id ) ; 
-				soundInfo.addEventListener( SoundInfo.onPlayEnd , onSoundInfoEnd , soundInfo ,id ) ;
-				soundInfo.addEventListener( SoundInfo.onPlayLoop, onSoundInfoLoop  ,id ) ;
 				soundInfo.playSound( loop , soundTransformInfo )  ;
-				
 			}
 		}
 		
-		private function onSoundInfoLoop(  e : BasicEvent  , id : String ) : void
-		{
-			PixlibDebug.WARN(this+".onSoundInfoLoop "  +id );
-			fireOnPlayLoopEvent( id );
-		}
-
-		private function onSoundInfoEnd( e : BasicEvent , soundInfo : SoundInfo , id : String ) : void
-		{
-			PixlibDebug.WARN(this+".onSoundInfoEnd "  +id );
-			soundInfo.removeEventListener( SoundInfo.onPlayEnd , onSoundInfoEnd );
-			soundInfo.removeEventListener( SoundInfo.onPlayLoop , onSoundInfoLoop );
-			fireOnPlayLoopEvent( id );
-		}
+		
 
 		public function stopSound( id : String ) : void
 		{
@@ -303,7 +276,7 @@ package com.bourre.media.sound
 			return false;
 		}
 		
-		private function getSoundInfo( id:String ) : SoundInfo 
+		public function getSoundInfo( id : String ) : SoundInfo 
 		{ 
 			if( _checkId(id ,"getSoundInfo" ) )
 				return _mSounds.get( id ) as SoundInfo;
@@ -312,7 +285,7 @@ package com.bourre.media.sound
 		}
 		
 		// Event 
-		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
+		/*public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
@@ -322,20 +295,21 @@ package com.bourre.media.sound
 			return _oEB.removeEventListener( type, listener );
 		}
 		
-		protected function fireOnPlayLoopEvent(  s : String ) : void
+		
+		protected function fireLoopEvent(  id :String ) : void
 		{
-			fireEvent(new StringEvent(SoundInfo.onPlayLoop , this , s ));
+			fireEvent(new StringEvent( SoundEvent.onSoundLoop, this , id ) );
 		}
 		
-		protected function fireOnPlayEndEvent(  s : String ) : void
+		protected function fireEndEvent(  id :String ) : void
 		{
-			fireEvent(new StringEvent(SoundInfo.onPlayEnd , this , s ));
+			fireEvent( new StringEvent( SoundEvent.onSoundEnd, this, id ) );
 		}
 		
 		protected function fireEvent( e : Event ) : void
 		{
 			_oEB.broadcastEvent( e );
-		}
+		}*/
 
 		/**
 		 * Returns the string representation of this instance.
@@ -370,10 +344,14 @@ package com.bourre.media.sound
 		
 		public function isRunning() : Boolean
 		{
-			return getActivedSound().length > 0 ;
+			return getSoundInfoWithState( SoundInfo.PLAY ).length > 0 ;
 		}
 		
-		
+		public function release() : void
+		{
+			for each(var sSoundId : String in getRegisteredId())
+				removeSound( sSoundId ) ;
+		}
 	}
 }
 

@@ -20,6 +20,7 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
+	import flash.errors.IOError;	
 	import flash.events.*;
 	import flash.media.Sound;
 	import flash.media.SoundLoaderContext;
@@ -82,7 +83,13 @@ package com.bourre.media.sound
 				_loader.removeEventListener( IOErrorEvent.IO_ERROR, _onIOError );
 		        _loader.removeEventListener( Event.INIT, _onInit );
 		        _loader.removeEventListener( Event.UNLOAD, _onUnLoad );
-				_loader.close();
+				try // for local close file
+				{
+					_loader.close();
+				}catch( e : IOError ) 
+				{ 
+					
+				}
 			}
 		}
 
