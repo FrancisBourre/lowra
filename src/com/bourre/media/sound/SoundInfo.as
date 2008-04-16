@@ -25,7 +25,6 @@ package com.bourre.media.sound
 	import flash.events.Event;
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
-	import flash.media.SoundTransform;
 	
 	import com.bourre.collection.TypedArray;
 	import com.bourre.commands.Delegate;
@@ -108,7 +107,7 @@ package com.bourre.media.sound
 			return _aChannel ;
 		}
 		
-		public function resetChannel(): void
+		protected function resetChannel(): void
 		{
 			_aChannel = new TypedArray( ChannelSoundInfo );
 		}
@@ -118,21 +117,26 @@ package com.bourre.media.sound
 			return _oSound ;
 		}
 		
-		public function getGlobalSoundTransform() : SoundTransform
+		public function getSoundTransformInfo() : SoundTransformInfo
 		{
-			return _oSTI.getSoundTransform() ;
+			return _oSTI ;
 		}
 		
 		// Core feature 
+		public function playSoundLoop(  ) : void
+		{
+			playSound( int.MAX_VALUE ); 
+		}
+		
 		public function playSound( loop : Number = 1 , soundTransformInfo : SoundTransformInfo = null) : void
 		{
 			if( DEBUG )PixlibDebug.DEBUG(this+".playSound "  );
 			if( loop == 0 ) loop = 1 ;
 			--loop;
 		
-			var soundChannel : SoundChannel =  getSound().play( 0 , 0 ,
-				 ( soundTransformInfo) ? soundTransformInfo.getSoundTransform() : getGlobalSoundTransform() );
-			var channelSoundInfo : ChannelSoundInfo = new ChannelSoundInfo( soundChannel , loop , soundTransformInfo )  ;
+			var oSTI : SoundTransformInfo   =  soundTransformInfo ? soundTransformInfo : getSoundTransformInfo() ;
+			var soundChannel : SoundChannel =  getSound().play( 0 , 0 , oSTI.getSoundTransform() );
+			var channelSoundInfo : ChannelSoundInfo = new ChannelSoundInfo( soundChannel , loop , oSTI )  ;
 			
 			addChannel( channelSoundInfo );
 			
@@ -142,13 +146,7 @@ package com.bourre.media.sound
 			_playLoopSound(  channelSoundInfo  ) ;
 			
 		}
-		
-		public function playSoundLoop(  ) : void
-		{
-			playSound( int.MAX_VALUE ); 
-		}
-		
-		// LOOP
+
 		protected function _playLoopSound(  channelSoundInfo : ChannelSoundInfo ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+"._playLoopSound ");
@@ -365,8 +363,9 @@ internal class 		ChannelSoundInfo
 	public function ChannelSoundInfo( soundChannel : SoundChannel, loop : uint = 0 , soundTranformInfo : SoundTransformInfo = null )
 	{
 		_oSoundChannel = soundChannel ;
-		setSoundTransformInfo( soundTranformInfo ) ;
+		setSoundTransformInfo( soundTranformInfo) ;
 		
+		getSoundTransformInfo().addSoundChannel( _oSoundChannel ) ;
 		resetPosition( ) ;
 		
 		_nLoop = loop ;
@@ -382,6 +381,7 @@ internal class 		ChannelSoundInfo
 	public function setChannel( soundChannel : SoundChannel ) : void
 	{
 		_oSoundChannel = soundChannel ;
+		getSoundTransformInfo().addSoundChannel( _oSoundChannel ) ;
 	}
 	
 	public function getPosition( ) : Number 
