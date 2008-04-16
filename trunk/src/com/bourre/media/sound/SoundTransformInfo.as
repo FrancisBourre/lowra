@@ -20,17 +20,23 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.media.SoundTransform;		
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
+	
+	import com.bourre.collection.Iterator;
+	import com.bourre.collection.WeakCollection;		
 
 	public class SoundTransformInfo
 	{
-	
-		private var _sd		: SoundTransform;
-		private var _gain 	: Number;
+		protected var _oWCsoundChannel : WeakCollection ;
+		protected var _soundTransform : SoundTransform;
+		protected var _gain 	: Number;
 		
 		public function SoundTransformInfo( volume : Number = 1 , gain : Number = 1 , pan : Number = 0 )
 		{
-			_sd = new SoundTransform();
+			_soundTransform = new SoundTransform();
+			_oWCsoundChannel = new WeakCollection();
+			
 			setVolume(volume);
 			setGain(gain);
 			setPan(pan);
@@ -38,38 +44,59 @@ package com.bourre.media.sound
 		
 		public function getSoundTransform() : SoundTransform
 		{
-			return _sd;	
+			return _soundTransform ;	
 		}
 		
+		//TODO: compute gain in volume
 		public function getGain() : Number
 		{
-			return _gain;
+			return _gain ;
 		}
 		
 		public function setGain( n : Number ) : void
 		{
-			_gain = n;
+			_gain = n ;
+			//applySoundTransform() ;
 		}
 		
 		public function getVolume() : Number
 		{
-			return _sd.volume;
+			return _soundTransform.volume ;
 		}
 	
 		public function setVolume( n : Number) : void
 		{
-			_sd.volume = n;
+			_soundTransform.volume = n ;
+			applySoundTransform() ;
 		}
 		
 		public function getPan() : Number
 		{
-			return _sd.pan;
+			return _soundTransform.pan ;
 		}	
 	
 		public function setPan( n : Number ) : void
 		{
-			_sd.pan = n;
-		}		
+			_soundTransform.pan = n ;
+			applySoundTransform() ;
+		}	
+		
+		/** Use to apply when the property change */
+		public function addSoundChannel( o : SoundChannel ) : void
+		{
+			_oWCsoundChannel.add( o ) ;
+		}
+
+		protected function applySoundTransform() : void
+		{
+			var it : Iterator = _oWCsoundChannel.iterator() ;
+			while( it.hasNext() )
+			{
+				var soundChannel : SoundChannel = it.next() ;
+				soundChannel.soundTransform = _soundTransform ;
+			}
+			
+		}	
 	
 	}
 	
