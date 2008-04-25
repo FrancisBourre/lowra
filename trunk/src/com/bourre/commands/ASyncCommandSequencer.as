@@ -15,6 +15,8 @@
  */
 package com.bourre.commands
 {
+	import com.bourre.error.IllegalStateException;	
+	
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
@@ -189,6 +191,22 @@ package com.bourre.commands
 		public function getLength () : uint
 		{
 			return _aCommands.length;
+		}
+		
+		/**
+		 * 
+		 * @return the <code>ASyncCommand</code> that running at this time in the sequencer
+		 * 
+		 */
+		public function getRunningCommand () : ASyncCommand
+		{
+			if( isRunning() )
+				return _aCommands[ _nStep ];
+			else
+			{
+				throw new IllegalStateException(this + ".getRunningCommand cannot be call when the sequencer is not running ");
+				return null ;
+			}
 		}
 		
 		/**
