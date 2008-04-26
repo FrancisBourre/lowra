@@ -15,6 +15,8 @@
  */	 
 package com.bourre.transitions 
 {
+	import com.bourre.log.PixlibDebug;	
+	
 	import flash.utils.getTimer; 
 
 	/**
@@ -79,16 +81,19 @@ package com.bourre.transitions
 			var lt : Number = _nLastTime;
 			_nPlayHead += t - lt;
 			_nLastTime = t;
-			return t - _nStartTime >= _nDuration;
+		
+			return _nPlayHead >= _nDuration ; 
 		}
 		
 		public override function isReversedMotionFinished() : Boolean
 		{
+			PixlibDebug.FATAL( _nPlayHead ) ;
 			var t : Number = getTimer();
 			var lt : Number = _nLastTime;
 			_nPlayHead -= t - lt;
 			_nLastTime = t;
-			return _nStartTime - t <= 0;
+
+			return _nPlayHead <= 0 ; 
 		}
 	}
 }
