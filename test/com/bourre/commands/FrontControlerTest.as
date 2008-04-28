@@ -159,40 +159,51 @@ internal class MockCommand extends AbstractCommand
 
 internal class MockPlugin implements Plugin
 {
-		public function  fireOnInitPlugin() : void
-		{}
-		
-		public function  fireOnReleasePlugin() : void
-		{}
-		
-		public function fireExternalEvent( e : Event, channel : EventChannel ) : void
-		{}
-		
-		public function firePublicEvent( e : Event ) : void
-		{}
-		
-		public function firePrivateEvent( e : Event ) : void
-		{}
-		
-		public function getChannel() : EventChannel
-		{
-			return new AChannel();
-		}
-		
-		public function getLogger() : PluginDebug
-		{
-			return  PluginDebug.getInstance();
-		}
+	public function  fireOnInitPlugin() : void
+	{}
+	
+	public function  fireOnReleasePlugin() : void
+	{}
+	
+	public function fireExternalEvent( e : Event, channel : EventChannel ) : void
+	{}
+	
+	public function firePublicEvent( e : Event ) : void
+	{}
+	
+	public function firePrivateEvent( e : Event ) : void
+	{}
+	
+	public function getChannel() : EventChannel
+	{
+		return new AChannel();
+	}
+	
+	public function getLogger() : PluginDebug
+	{
+		return  PluginDebug.getInstance();
+	}
 
-		public function getModel( key : String ) : AbstractModel
-		{
-			return ModelLocator.getInstance().getModel( key );
-		}
-		
-		public function getView( key : String ) : AbstractView
-		{
-			return ViewLocator.getInstance().getView( key );
-		}
+	public function getModel( key : String ) : AbstractModel
+	{
+		return ModelLocator.getInstance().getModel( key );
+	}
+	
+	public function getView( key : String ) : AbstractView
+	{
+		return ViewLocator.getInstance().getView( key );
+	}
+	
+	public function isModelRegistered(name : String) : Boolean
+	{
+		return ModelLocator.getInstance().isRegistered(name);
+	}
+	
+	public function isViewRegistered(name : String) : Boolean
+	{
+		return ViewLocator.getInstance().isRegistered(name);
+	}
+
 }
 
 internal  class AChannel extends EventChannel
