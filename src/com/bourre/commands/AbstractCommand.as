@@ -114,9 +114,10 @@ package com.bourre.commands
 
 		/**
 		 * Returns a reference to the model <code>AbstractModel</code>.
-		 * It allow this command to locate any model and then manipulate
-		 * it as needed.
+		 * It allow this command to locate any model registered to
+		 * owner's <code>ModelLocator</code>.
 		 * 
+		 * @param	model's key
 		 * @return	a reference to the model registered with key argument
 		 */
 		public function getModel( key : String ) : AbstractModel
@@ -126,14 +127,39 @@ package com.bourre.commands
 		
 		/**
 		 * Returns a reference to the view <code>AbstractView</code>.
-		 * It allow this command to locate any view and then manipulate
-		 * it as needed.
+		 * It allow this command to locate any view registered to
+		 * owner's <code>ViewLocator</code>.
 		 * 
-		 * @return	a reference to the view registered with key argument
+		 * @param	view's key
+		 * @return	a reference to registered view
 		 */
 		public function getView( key : String ) : AbstractView
 		{
 			return getOwner().getView( key );
+		}
+
+		/**
+		 * Check if a model <code>AbstractModel</code> is registered
+		 * with passed key in owner's <code>ModelLocator</code>.
+		 * 
+		 * @param	model's key
+		 * @return	true if model a model <code>AbstractModel</code> is registered.
+		 */
+		public function isModelRegistered( key : String ) : Boolean
+		{
+			return getOwner().isModelRegistered( key );
+		}
+		
+		/**
+		 * Check if a view <code>AbstractView</code> is registered
+		 * with passed key in owner's <code>ViewLocator</code>.
+		 * 
+		 * @param	view's key
+		 * @return	true if model a view <code>AbstractView</code> is registered.
+		 */
+		public function isViewRegistered( key : String ) : Boolean
+		{
+			return getOwner().isViewRegistered( key );
 		}
 
 		/**

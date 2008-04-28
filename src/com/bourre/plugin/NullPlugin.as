@@ -99,11 +99,14 @@ package com.bourre.plugin
 		public function getView( key : String ) : AbstractView
 		{
 			return ViewLocator.getInstance( this ).getView( key );
+		}				public function isModelRegistered( key : String ) : Boolean		{
+			return ModelLocator.getInstance( this ).isRegistered( key );
+		}				public function isViewRegistered( key : String ) : Boolean		{
+			return ViewLocator.getInstance( this ).isRegistered( key );
 		}
 	}
 }
-
-internal class PrivateConstructorAccess 
+internal class PrivateConstructorAccess 
 {
 }
 

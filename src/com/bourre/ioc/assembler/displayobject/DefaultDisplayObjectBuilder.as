@@ -50,6 +50,11 @@ package com.bourre.ioc.assembler.displayobject
 
 			_oEB = new EventBroadcaster( this, DisplayObjectBuilderListener );
 		}
+		
+		public function size() : uint
+		{
+			return _dllQueue.size() + _gfxQueue.size();
+		}
 
 		public function setRootTarget( target : DisplayObjectContainer ) : void
 		{

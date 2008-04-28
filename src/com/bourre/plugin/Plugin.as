@@ -38,5 +38,7 @@ package com.bourre.plugin
 		
 		function getModel( key : String ) : AbstractModel;
 		function getView( key : String ) : AbstractView;
+		function isModelRegistered( name : String ) : Boolean;
+		function isViewRegistered( name : String ) : Boolean;
 	}
 }
