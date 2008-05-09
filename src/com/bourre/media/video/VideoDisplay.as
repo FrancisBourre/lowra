@@ -78,17 +78,20 @@ package com.bourre.media.video
 		
 		protected var _oMetaData 				: MetaData ; 
 	
-		public function VideoDisplay( bAutoPlay : Boolean = true, bAutoSize: Boolean = true, nBufferTime : Number = 2)
+		public function VideoDisplay( video      : Video   = null ,
+									  autoPlay   : Boolean = true ,
+									  autoSize   : Boolean = true ,
+									  bufferTime : Number  = 2)
 		{
 			super( null );
-			
-			_video = new Video();
-			
-			setAutoPlay( bAutoPlay );
-			setAutoSize( bAutoSize );
-			setBufferTime( nBufferTime );
+
+			_video = video ? video : new Video() ;
+
+			setAutoPlay( autoPlay );
+			setAutoSize( autoSize );
+			setBufferTime( bufferTime );
 			_bLoopPlayback = false;
-			
+
 			init();
 		}
 		
