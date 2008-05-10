@@ -1,7 +1,5 @@
-#labels Featured
-=Features request=
-
 #summary List here features you wanna see in lowRa.
+#labels Featured
 
 ==List==
  
