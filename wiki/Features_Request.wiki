@@ -1,6 +1,8 @@
 #labels Featured
 =Features request=
 
+#summary List here features you wanna see in lowRa.
+
 ==List==
  
   * use of firePrivateEvent for NullPlugin. This will dispatch an event using the EventBroadcaster.getInstance(). [ [http://groups.google.com/group/lowra/browse_thread/thread/9636a2e6ea0db62d email message] ]
