@@ -20,6 +20,7 @@ package com.bourre.view
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.bean.BeanFactory;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
@@ -312,10 +313,9 @@ package com.bourre.view
 			if ( oView != null )
 			{
 				this.view = oView;
-
 			} else
 			{
-				if( GraphicLoaderLocator.getInstance().isRegistered( glName ) )
+				if ( GraphicLoaderLocator.getInstance().isRegistered( glName )  )
 				{
 					_gl = GraphicLoaderLocator.getInstance().getGraphicLoader( glName );
 
@@ -329,6 +329,11 @@ package com.bourre.view
 						return;
 					}
 				}
+				else if ( ( BeanFactory.getInstance().isRegistered( glName ) &&  BeanFactory.getInstance().locate( glName ) is DisplayObject ) )
+				{					
+					this.view = ( BeanFactory.getInstance().locate( glName ) as DisplayObject );
+				}
+				
 			}
 
 			setName( mvhName?mvhName:glName );
