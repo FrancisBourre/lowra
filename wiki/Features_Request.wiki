@@ -3,7 +3,7 @@
 
 ==List==
  
-  * use of firePrivateEvent for NullPlugin. This will dispatch an event using the EventBroadcaster.getInstance(). [ [http://groups.google.com/group/lowra/browse_thread/thread/9636a2e6ea0db62d email message] ]
-  * add name to DisplayObject create via the DisplayObjectBuilder automatically. Name will be same as id. [ [http://groups.google.com/group/lowra/browse_thread/thread/c848d00e1b9d9b41 email message] ]
+  * ~~use of firePrivateEvent for NullPlugin. This will dispatch an event using the EventBroadcaster.getInstance(). [ [http://groups.google.com/group/lowra/browse_thread/thread/9636a2e6ea0db62d email message] ]~~
+  * ~~add name to DisplayObject create via the DisplayObjectBuilder automatically. Name will be same as id. [ [http://groups.google.com/group/lowra/browse_thread/thread/c848d00e1b9d9b41 email message] ]~~
   * register empty DisplayObject from root node to view. [  [http://groups.google.com/group/lowra/browse_thread/thread/95acd9ee1a7c9068 email message] ]
   * add AdancedSet [ [http://groups.google.com/group/lowra/browse_thread/thread/2c4d3afab1b89e5f email message] ]
