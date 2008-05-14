@@ -1,5 +1,5 @@
-package com.bourre.remoting 
-{
+package com.bourre.remoting {
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.commands.Delegate;	
 	
 	import flash.events.Event;	
@@ -98,54 +98,59 @@ package com.bourre.remoting
 			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ) , o ].concat(args);
 			
 			var connection : RemotingConnection = getRemotingConnection();
-			connection.addEventListener(NetStatusEvent.NET_STATUS, _onNetStatus) ;
+			connection.addEventListener(NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus,  responder.getFaultFunction()  )) ;
 			connection.call.apply( connection, a );
 		}
 		
-		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, o : ServiceResponder, ...args) : void
+		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args) : void
 		{
-			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), o ].concat(args);
+			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), responder ].concat(args);
 			
 			var connection : RemotingConnection = getRemotingConnection();
-			connection.addEventListener(NetStatusEvent.NET_STATUS, _onNetStatus) ;
+			connection.addEventListener(NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus, responder.getFaultFunction() )) ;
 			connection.call.apply( connection, a );
 		}
 		
-		protected function _onNetStatus ( e : NetStatusEvent ) : void
+		protected function _onNetStatus ( fFault : Function , e : NetStatusEvent ) : void
 		{
 			RemotingDebug.DEBUG( this + " _onNetStatus" + e.info.code);
-			var msg :String  ;
-			switch ( e.info.code ) 
+			var msg : String  ;
+			const code : String  = e.info.code ;
+			const target : ServiceMethod = e.target as ServiceMethod ;
+			switch ( code ) 
 			{	
 				case 'NetConnection.Call.Failed' :	
 					msg = " The NetConnection.call method was not able to invoke the server-side method or command. "; 	
 					RemotingDebug.ERROR( this + msg  );
-					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					fireErrorEvent( target, code, msg, fFault ) ;
 					break;
 					
 				case 'NetConnection.Call.BadVersion' :	
 					msg = " Packet encoded in an unidentified format. "; 	
 					RemotingDebug.ERROR( this + msg  );
-					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					fireErrorEvent( target, code, msg, fFault ) ;
 					break;	
 					
 				case 'NetConnection.Connect.Failed' :
 					msg = " The connection attempt failed. "; 	
 					RemotingDebug.ERROR( this + msg  );
-					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					fireErrorEvent( target, code, msg, fFault) ;
 					break;
 					
 				case 'NetConnection.Connect.Rejected' :
 					msg = " The client does not have permission to connect to the application, the application expected different parameters from those that were passed, or the application name specified during the connection attempt was not found on the server. "; 	
 					RemotingDebug.ERROR( this + msg  );
-					fireErrorEvent( e.target as ServiceMethod, e.info.code, msg ) ;
+					fireErrorEvent( target, code, msg,fFault ) ;
 					break;
 			}
 		}
 		
-		protected function fireErrorEvent( sServiceMethodName : ServiceMethod, errorCode : String = null, errorMessage : String = null ) : void
+		protected function fireErrorEvent( sServiceMethodName : ServiceMethod, errorCode : String = null, errorMessage : String = null , fFault : Function = null) : void
 		{
 			var e : BasicFaultEvent = new BasicFaultEvent( errorCode, "", "", errorMessage, sServiceMethodName);
+			PixlibDebug.FATAL( this + '.fireErrorEvent ' ) ;
+			PixlibDebug.FATAL( e ) ;
+			if(  fFault != null ) fFault( e ) ;
 			_oEB.broadcastEvent( e );
 		}
 
