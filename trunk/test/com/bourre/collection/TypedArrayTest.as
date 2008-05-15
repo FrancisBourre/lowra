@@ -158,5 +158,48 @@ package com.bourre.collection
 			assertEquals ( a + " don't contains expected value - test9 failed", a[0], 10 );
 			assertEquals ( _a + " don't contains expected value - test10 failed", _a[0], 22 );
 		}
+		
+		public function testForEach():void
+		{
+			_a.push(45);
+			_a.push(89);
+			_a.push(190);
+			
+			var b:Array = new Array();
+			
+			var noError:Boolean = true;
+			var msgError:String = "no error";
+			
+			try
+			{
+				for each (var i:Number in _a)
+				{
+					b.push(_a[i]);
+				}
+			}
+			catch (e:Error)
+			{
+				msgError = "in for each parsing: " + e.message;
+				noError = false;
+			}
+			
+			assertTrue(msgError, noError);
+			assertEquals("count values parsed", _a.size(), b.length);
+			var c:Array = _a.toArray();
+			
+			for each (var j:* in c)
+			{
+				var found:Boolean = false;
+				for each (var k:* in b)
+				{
+					if (j == k)
+					{
+						found = true;
+						break;
+					}
+				}
+				assertTrue("search all values parsed but '" + j + "' not found", found);
+			}
+		}
 	}
 }
