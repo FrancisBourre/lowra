@@ -48,8 +48,8 @@ package com.bourre.remoting
 
 		public function result( rawResult : * ) : void 
 		{
-			RemotingDebug.DEBUG( rawResult ) ;
-			rawResult = rawResult.hasOwnProperty('serverInfo') ? new RecordSet(rawResult) : rawResult;
+			RemotingDebug.DEBUG( rawResult ? rawResult : "null" ) ;
+			rawResult =  rawResult && rawResult.hasOwnProperty('serverInfo') ? new RecordSet(rawResult) : rawResult;
 			
 			_fResult( buildResultEvent( rawResult ) ) ;
 		}
