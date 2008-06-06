@@ -69,6 +69,11 @@ package com.bourre.ioc.bean
 			return _m.getValues() ;
 		}
 		
+		public function clear() : void
+		{
+			_m.clear();
+		}
+		
 		public function  locate ( key : String ) : Object
 		{
 			if ( isRegistered(key) )

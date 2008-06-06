@@ -464,12 +464,12 @@ package com.bourre.media.video
 		
 		override public function getBytesLoaded() : uint
 		{
-			return _stream.bytesLoaded;
+			return _stream ? _stream.bytesLoaded : 0 ;
 		}
 	
 		override public function getBytesTotal() : uint
 		{
-			return _stream.bytesTotal;
+			return _stream ? _stream.bytesTotal : 0 ;
 		}
 		
 		public function isAutoPlay() : Boolean
