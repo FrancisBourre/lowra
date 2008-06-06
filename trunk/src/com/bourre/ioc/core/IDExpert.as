@@ -57,6 +57,11 @@ package com.bourre.ioc.core
 			return _d[ id ] == true;
 		}
 
+		public function clear() : void
+		{
+			_d = new Dictionary( true );
+		}
+		
 		public function register( id : String ) : Boolean
 		{
 			if (  _d[ id ] ) 

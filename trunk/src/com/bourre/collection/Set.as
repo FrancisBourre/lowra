@@ -89,8 +89,8 @@ package com.bourre.collection
 	 */	
 	public class Set implements List, TypedContainer
 	{
-		private var _aSet : Array;
-		private var _oType : Class;
+		protected var _aSet : Array;
+		protected var _oType : Class;
 
 		/**
 		 * Creates a new set object. If the <code>type</code>
