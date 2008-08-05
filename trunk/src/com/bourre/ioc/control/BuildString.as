@@ -35,7 +35,7 @@ package com.bourre.ioc.control
 
 			var value : String = "";
 			var args : Array = constructor.arguments;
-			if ( args != null && args.length > 0 ) value = ( args[0] ).toString();
+			if ( args != null && args.length > 0 && args[0]) value = ( args[0] ).toString();
 			if ( value.length <= 0 ) getLogger().warn( this + ".build(" + value + ") returns empty String." );
 
 			constructor.result = value;
