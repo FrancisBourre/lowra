@@ -112,19 +112,19 @@ package com.bourre.commands
 		 */
 		public function fireCommandEndEvent() : void
 		{
+			_bIsRunning = false;
 			_oEB.broadcastEvent( _eOnCommandEnd );
 		}
 		
 		/**
 		 * By default the implementation of the <code>execute</code> method
-		 * in the <code>AbstratSyncCommand</code> dispatch immediately the 
-		 * <code>onCommandEnd</code> event.
+		 * in the <code>AbstratSyncCommand</code> set it like running
 		 * 
 		 * @param	e	An event that will be used as data source by the command. 
 		 */
 		public override function execute( e : Event = null) : void
 		{
-			fireCommandEndEvent();
+			_bIsRunning = true;
 		}
 		
 		/**
