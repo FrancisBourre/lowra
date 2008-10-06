@@ -62,7 +62,7 @@ package com.bourre.ioc.assembler.property
 
 		override protected function onUnregister( id : String = null ) : void
 		{
-			broadcastEvent( new PropertyEvent( PropertyEvent.onRegisterPropertyOwnerEVENT, id ) );
+			broadcastEvent( new PropertyEvent( PropertyEvent.onUnregisterPropertyOwnerEVENT, id ) );
 		}
 
 		public function setPropertyValue( p : Property, target : Object ) : void

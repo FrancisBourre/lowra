@@ -15,27 +15,27 @@
  */
 package com.bourre.events 
 {
-	import flash.events.Event;
-	import flash.utils.getQualifiedClassName;
-	
 	import com.bourre.collection.*;
 	import com.bourre.commands.Delegate;
 	import com.bourre.error.*;
-	import com.bourre.log.*;	
+	import com.bourre.log.*;
+
+	import flash.events.Event;
+	import flash.utils.getQualifiedClassName;	
 
 	/**
 	 * The <code>EventBroadcaster</code> class is the cornerstone of
-	 * the Lowra event system. The main reason which explain the presence
+	 * the Lowra event system. The main reason which explains the presence
 	 * of this object whereas the existence of the native <code>EventDispatcher</code>
 	 * class is the lack of flexibility of that class :
 	 * <ul>
 	 * <li>It's not possible to add an object as listener for many events in a single call.</li>
 	 * <li>It's not possible to force the presence of specific function in a listener object.</li>
 	 * <li>It's not possible to reuse an event previously dispatched without having to create
-	 * a custom event object which override the <code>clone</code> function.</li>
+	 * a custom event object which overrides the <code>clone</code> function.</li>
 	 * </ul>
 	 * <p>
-	 * With the <code>EventBroadcaster</code> class its possible to work with many kinds
+	 * With the <code>EventBroadcaster</code> class it's possible to work with many kinds
 	 * of listeners, as listed below :
 	 * <ul>
 	 * <li>Method closure, or delegate method. You simply have to pass a reference to the
@@ -48,11 +48,11 @@ package com.bourre.events
 	 * the <code>handleEvent</code> function is called with the event object as argument.</li>
 	 * </ul>
 	 * </p><p>
-	 * The Lowra's event broadcaster also offer many methods to dispath event from
+	 * The Lowra's event broadcaster also offer many methods to dispatch event from
 	 * different type of events object. More formally, it's possible to dispatch 
 	 * an event object, or an anonymous object which will be converted into a 
-	 * <code>DynBasicEvent</code> before the broadcast, all of this properties are
-	 * then copy into this event object.
+	 * <code>DynBasicEvent</code> before the broadcast, all of its properties are
+	 * then copied into this event object.
 	 * </p><p>
 	 * Another big difference with the native dispatcher is the fact that listeners
 	 * are systematically stored using weak references, restricting the usage of
@@ -82,9 +82,9 @@ package com.bourre.events
 		protected var _mAll : Collection;
 		protected var _mType : HashMap;
 		protected var _mEventListener : HashMap;
-		protected var _cType : Class;
 		protected var _mDelegate : HashMap;
-		
+		protected var _cType : Class;
+
 		/**
 		 * Creates an new <code>EventBroadcaster</code> object with the passed-in
 		 * <code>source</code> object as source for events. If the <code>source</code>
@@ -193,7 +193,12 @@ package com.bourre.events
 		 */
 		public function removeListenerCollection( type : String ) : void
 		{
-			_mType.remove( type );
+			if ( hasListenerCollection( type ) )
+			{
+				var i : Iterator = ( _mType.get( type ) as Collection ).iterator();
+				while ( i.hasNext() ) _removeReference( type, i.next() );
+				_mType.remove( type );
+			}
 		}
 
 		/**
@@ -214,18 +219,7 @@ package com.bourre.events
 		{
 			if (type == null)
 			{
-				if( listener is Function )
-				{
-					if( _mDelegate.containsKey( listener ) )
-					{
-						return _mAll.contains( _mDelegate.get( listener ) );
-					}
-					else return false;
-				}
-				else
-				{
-					return _mAll.contains( listener );
-				}
+				return _mAll.contains( listener );
 
 			} else
 			{
@@ -235,11 +229,11 @@ package com.bourre.events
 					{ 
 						if( _mDelegate.containsKey( listener ) )
 						{
-							return getListenerCollection( type ).contains( _mDelegate.get( listener ) );	
-						}
-						else return false;
-					}
-					else
+							return getListenerCollection( type ).contains( _mDelegate.get( listener ) );//TODO
+
+						} else return false;
+
+					} else
 					{
 						return getListenerCollection( type ).contains( listener );
 					}
@@ -291,7 +285,7 @@ package com.bourre.events
 			{
 				if ( _mAll.add( listener ) ) 
 				{
-					_flushRef( listener );
+					_flushReference( listener );
 					return true;
 
 				} else
@@ -325,7 +319,7 @@ package com.bourre.events
 
 			} else
 			{
-				var b : Boolean = _flushRef( listener );
+				var b : Boolean = _flushReference( listener );
 				b = b || _mAll.contains( listener );
 				_mAll.remove( listener );
 				return b;
@@ -399,7 +393,7 @@ package com.bourre.events
 
 				if ( getListenerCollection( type ).add( listener ) ) 
 				{
-					_storeRef( type, listener );
+					_storeReference( type, listener );
 					return true;
 
 				} else
@@ -432,7 +426,7 @@ package com.bourre.events
 
 				if ( c.remove( listener ) )
 				{
-					_removeRef( type, listener );
+					_removeReference( type, listener );
 					if ( c.isEmpty() ) removeListenerCollection( type );
 					return true;
 
@@ -490,8 +484,12 @@ package com.bourre.events
 		 */
 		public function dispatchEvent( o : Object ) : void
 		{
-			if( o["type"] == null ) 
-				PixlibDebug.WARN( "You attempt to broadcast an event which has no type, in " + this );
+			if( o["type"] == null )
+			{
+				var msg : String = this + ".dispatchEvent() fails. " + o + " event has no type.";
+				PixlibDebug.ERROR( msg );
+				throw new IllegalArgumentException( msg );
+			}
 
 			var e : DynBasicEvent = new DynBasicEvent( o["type"] );
 			for ( var p : String in o ) if (p != "type") e[p] = o[p];
@@ -592,20 +590,20 @@ package com.bourre.events
 		}
 
 		//
-		private function _storeRef( type : String, listener : Object ) : void
+		private function _storeReference( type : String, listener : Object ) : void
 		{
 			if ( !(_mEventListener.containsKey( listener )) ) _mEventListener.put( listener, new HashMap() );
 			_mEventListener.get( listener ).put( type, listener );
 		}
 
-		private function _removeRef( type : String, listener : Object ) : void
+		private function _removeReference( type : String, listener : Object ) : void
 		{
 			var m : HashMap = _mEventListener.get( listener );
 			m.remove( type );
 			if ( m.isEmpty() ) _mEventListener.remove( listener );
 		}
 
-		private function _flushRef( listener : Object ) : Boolean
+		private function _flushReference( listener : Object ) : Boolean
 		{
 			var b : Boolean = false;
 			var m : HashMap = _mEventListener.get( listener );

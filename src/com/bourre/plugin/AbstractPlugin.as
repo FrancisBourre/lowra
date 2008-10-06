@@ -20,21 +20,20 @@ package com.bourre.plugin
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.events.Event;
-	
 	import com.bourre.commands.FrontController;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.events.Broadcaster;
 	import com.bourre.events.EventChannel;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.AbstractModel;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.plugin.PluginBroadcaster;
 	import com.bourre.view.AbstractView;
-	import com.bourre.view.ViewLocator;	
+	import com.bourre.view.ViewLocator;
+	
+	import flash.events.Event;	
 
 	public class AbstractPlugin
 		implements Plugin
@@ -159,7 +158,6 @@ package com.bourre.plugin
 
 			var key : String = BeanFactory.getInstance().getKey( this );
 			BeanFactory.getInstance().unregister( key );
-			if ( IDExpert.getInstance().isRegistered( key ) ) IDExpert.getInstance().unregister( key );
 			fireOnReleasePlugin();
 
 			_oEBPublic.removeAllListeners();

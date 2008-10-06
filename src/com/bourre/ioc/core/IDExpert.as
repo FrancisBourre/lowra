@@ -20,34 +20,18 @@ package com.bourre.ioc.core
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.utils.Dictionary;
-	
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.utils.Dictionary;	
 
 	public class IDExpert
 	{
-		private static var _oI : IDExpert;
+		protected var _d : Dictionary;
 
-		private var _d : Dictionary;
-
-		/**
-		 * @return singleton instance of IDExpert
-		 */
-		public static function getInstance() : IDExpert 
-		{
-			if ( !(IDExpert._oI is IDExpert) ) IDExpert._oI = new IDExpert( new PrivateConstructorAccess() );
-			return IDExpert._oI;
-		}
-		
-		public static function release() : void
-		{
-			if ( IDExpert._oI is IDExpert ) IDExpert._oI = null;
-		}
-
-		public function IDExpert( access : PrivateConstructorAccess )
+		public function IDExpert()
 		{
 			_d = new Dictionary( true );
 		}
@@ -106,5 +90,3 @@ package com.bourre.ioc.core
 		}
 	}
 }
-
-internal class PrivateConstructorAccess {}

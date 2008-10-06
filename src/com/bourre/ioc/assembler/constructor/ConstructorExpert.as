@@ -23,7 +23,6 @@ package com.bourre.ioc.assembler.constructor
 	import com.bourre.commands.Batch;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.control.BuildFactory;	
 
 	public class ConstructorExpert 
@@ -66,12 +65,7 @@ package com.bourre.ioc.assembler.constructor
 				var cons : Constructor = locate( id ) as Constructor;
 				if ( cons.arguments != null )  cons.arguments = PropertyExpert.getInstance().deserializeArguments( cons.arguments );
 				BuildFactory.getInstance().build( cons, id );
-
 				unregister( id );
-
-			} else if ( !BeanFactory.getInstance().isRegistered( id ) )
-			{
-				//
 			}
 		}
 

@@ -21,16 +21,8 @@ package com.bourre.load
 	 * @author Cedric Nehemie
 	 * @version 1.0
 	 */
-	import com.bourre.error.NullPointerException;	
-
-	import flash.events.Event;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-
-	import com.bourre.collection.Queue;
-	import com.bourre.log.PixlibDebug;	
-
-	public class QueueLoader 
+	import com.bourre.collection.Queue;	import com.bourre.error.NullPointerException;	import com.bourre.log.PixlibDebug;		import flash.net.URLRequest;	import flash.system.LoaderContext;		
+	public class QueueLoader 
 		extends AbstractLoader 
 	{
 		protected var _q : Queue;
@@ -55,17 +47,8 @@ package com.bourre.load
 
 		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
-			super.load( url, context );
-		}
+			registerLoaderToPool( this );
 
-		public override function release() : void
-		{
-			clear();
-			super.release();
-		}
-
-		public override function execute( e : Event = null ) : void
-		{
 			var a : Array = _q.toArray();
 			var l : Number = a.length;
 
@@ -83,6 +66,12 @@ package com.bourre.load
 			
 			_onLoadStart();
 			_processQueue() ;
+		}
+
+		public override function release() : void
+		{
+			clear();
+			super.release();
 		}
 
 		public function isEmpty() : Boolean
@@ -111,17 +100,17 @@ package com.bourre.load
 					loader.setURL( url );
 					if ( context && loader is GraphicLoader ) ( loader as GraphicLoader ).setContext( context );
 
-				} else if ( loader.getURL().url )
+				} else if ( !loader.getURL().url )
 				{
 					PixlibDebug.WARN( this + ".add failed, you passed Loader argument without any url property." );
 				}
 
 			} else if( !(loader.getName()) )
 			{
-				PixlibDebug.WARN( "You passed Loader argument without any name property in " + this + ".enqueue()." );
+				PixlibDebug.WARN( "You passed Loader argument without any name property in " + this + ".add()." );
 			}
 
-			if (loader.getName() == null) loader.setName( 'library' + QueueLoader._KEY++);
+			if ( loader.getName() == null ) loader.setName( 'library' + QueueLoader._KEY++ );
 
 			_q.add(loader);
 			return loader.getName()!= null;
@@ -133,6 +122,7 @@ package com.bourre.load
 			
 			_currentLoader = _q.poll() as Loader ;
 
+			if ( isAntiCache() ) _currentLoader.setAntiCache( true );
 			if ( _sPrefixURL ) _currentLoader.prefixURL( _sPrefixURL );
 
 			addListeners() ;
@@ -199,26 +189,20 @@ package com.bourre.load
 
 		private function _onLoadStart() : void
 		{
-			fireEventType( QueueLoaderEvent.onLoadStartEVENT );
+			fireOnLoadStartEvent();
 		}
 
 		protected function _processQueue() : void
 		{
 			if ( isEmpty() )
 			{
-				_onLoadInit() ;
+				removeListeners() ;
+				fireOnLoadInitEvent();
 
 			} else
 			{
 				loadNextEntry() ;
 			}
-		}
-
-		private function _onLoadInit () : void
-		{
-			removeListeners() ;
-			
-			fireEventType(  QueueLoaderEvent.onLoadInitEVENT );
 		}		
 	}
 }

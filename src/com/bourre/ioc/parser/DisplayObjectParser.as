@@ -40,8 +40,25 @@ package com.bourre.ioc.parser
 		public override function parse( xml : * ) : void
 		{
 			var displayXML : XMLList = xml[ ContextNodeNameList.ROOT ];
-			for each ( var node : XML in displayXML.* ) _parseNode( node, ContextNodeNameList.ROOT );
-			delete xml[ ContextNodeNameList.ROOT ];
+
+			if ( displayXML.length() > 0  )
+			{
+				var rootID : String = displayXML.attribute( ContextAttributeList.ID  );
+				
+				if ( rootID )
+				{
+					getAssembler().buildRoot( rootID );
+
+				} else
+				{
+					var msg : String = this + "ID attribute is mandatory with 'root' node.";
+					PixlibDebug.FATAL( msg );
+					throw( new NullIDException( msg ) );
+				}
+
+				for each ( var node : XML in displayXML.* ) _parseNode( node, rootID );
+				delete xml[ ContextNodeNameList.ROOT ];
+			}
 		}
 
 		private function _parseNode( xml : XML, parentID : String = null ) : void
@@ -51,7 +68,6 @@ package com.bourre.ioc.parser
 			// Filter reserved nodes
 			if ( ContextNodeNameList.getInstance().nodeNameIsReserved( xml.name() ) ) return;
 
-			// Debug missing ids.
 			var id : String = ContextAttributeList.getID( xml );
 			if ( !id )
 			{
@@ -60,17 +76,14 @@ package com.bourre.ioc.parser
 				throw( new NullIDException( msg ) );
 			}
 
-			IDExpert.getInstance().register( id );
+			getAssembler().registerID( id );
 
-			if ( parentID )
-			{
-				var url : String = ContextAttributeList.getURL( xml );
-				var visible : String = ContextAttributeList.getVisible( xml );
-				var isVisible : Boolean = visible ? (visible == "true") : true;
-				var type : String = ContextAttributeList.getDisplayType( xml );
+			var url : String = ContextAttributeList.getURL( xml );
+			var visible : String = ContextAttributeList.getVisible( xml );
+			var isVisible : Boolean = visible ? (visible == "true") : true;
+			var type : String = ContextAttributeList.getDisplayType( xml );
 
-				getAssembler().buildDisplayObject( id, parentID, url?new URLRequest(url):null, isVisible, type );
-			}
+			getAssembler().buildDisplayObject( id, parentID, url?new URLRequest(url):null, isVisible, type );
 
 			// Build property.
 			for each ( var property : XML in xml[ ContextNodeNameList.PROPERTY ] )

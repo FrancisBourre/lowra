@@ -1,20 +1,13 @@
 package com.bourre.ioc.assembler.displayobject 
 {
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.LoaderInfo;
-	import flash.events.Event;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
-	
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.CoreFactory;
+	import com.bourre.core.HashCodeFactory;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.IllegalStateException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.events.ValueObject;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.parser.ContextNodeNameList;
 	import com.bourre.ioc.parser.ContextTypeList;
 	import com.bourre.load.GraphicLoader;
 	import com.bourre.load.GraphicLoaderEvent;
@@ -24,17 +17,26 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.load.QueueLoader;
 	import com.bourre.load.QueueLoaderEvent;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+	import flash.display.LoaderInfo;
+	import flash.events.Event;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;		
 
 	public class DefaultDisplayObjectBuilder 
 		implements DisplayObjectBuilder
 	{
-		protected var _target						: DisplayObjectContainer;
+		protected var _target					: DisplayObjectContainer;
+		protected var _rootID 					: String;
 		protected var _oEB 						: EventBroadcaster;
-		protected var _dllQueue 					: QueueLoader;
-		protected var _gfxQueue 					: QueueLoader;
-		protected var _mDisplayObject				: HashMap;
+		protected var _dllQueue 				: QueueLoader;
+		protected var _gfxQueue 				: QueueLoader;
+		protected var _mDisplayObject			: HashMap;
 		protected var _glDisplayLoader 			: GraphicLoader;
+		protected var _bIsAntiCache 			: Boolean;
 
 		public static const SPRITE : String = ContextTypeList.SPRITE;
 		public static const MOVIECLIP : String = ContextTypeList.MOVIECLIP;
@@ -49,8 +51,32 @@ package com.bourre.ioc.assembler.displayobject
 			_mDisplayObject = new HashMap();
 
 			_oEB = new EventBroadcaster( this, DisplayObjectBuilderListener );
+			_bIsAntiCache = false;
+		}
+
+		public function setAntiCache( b : Boolean ) : void
+		{
+			_bIsAntiCache = b;
+			_dllQueue.setAntiCache( b );
+			_gfxQueue.setAntiCache( b );
+		}
+
+		public function isAntiCache() : Boolean
+		{
+			return _bIsAntiCache;
+		}
+
+		public function getRootID() : String
+		{
+			return _rootID ? _rootID : generateRootID();
 		}
 		
+		protected function generateRootID() : String
+		{
+			_rootID = HashCodeFactory.getKey( this );
+			return _rootID;
+		}
+
 		public function size() : uint
 		{
 			return _dllQueue.size() + _gfxQueue.size();
@@ -58,17 +84,10 @@ package com.bourre.ioc.assembler.displayobject
 
 		public function setRootTarget( target : DisplayObjectContainer ) : void
 		{
-			if ( BeanFactory.getInstance().isRegistered( ContextNodeNameList.ROOT ) )
-			{
-				var msg : String = this + ".setRootTarget call failed. Root is already registered.";
-				PixlibDebug.ERROR( msg );
-				throw( new IllegalStateException( msg ) );
-
-			} else
+			if ( target is DisplayObjectContainer )
 			{
 				_target = target;
-				BeanFactory.getInstance().register( ContextNodeNameList.ROOT, _target );
-	
+
 				try
 				{
 					var param : Object = LoaderInfo( _target.root.loaderInfo ).parameters;
@@ -79,7 +98,11 @@ package com.bourre.ioc.assembler.displayobject
 					//
 				}
 
-				_mDisplayObject.put( ContextNodeNameList.ROOT, new DisplayObjectInfo ( ContextNodeNameList.ROOT ) );
+			} else
+			{
+				var msg : String = this + ".setRootTarget call failed. Argument is not a DisplayObjectContainer.";
+				PixlibDebug.ERROR( msg );
+				throw( new IllegalStateException( msg ) );
 			}
 		}
 
@@ -118,7 +141,15 @@ package com.bourre.ioc.assembler.displayobject
 			}
 			
 			_mDisplayObject.put( info.ID, info );
-			if ( _mDisplayObject.containsKey( info.parentID ) ) _mDisplayObject.get( info.parentID ).addChild( info );
+
+			if ( info.parentID ) 
+			{
+				_mDisplayObject.get( info.parentID ).addChild( info );
+
+			} else
+			{
+				_rootID = info.ID;
+			}
 		}
 
 		public function execute( e : Event = null ) : void
@@ -202,7 +233,8 @@ package com.bourre.ioc.assembler.displayobject
 		
 		public function buildDisplayList() : void
 		{
-			_buildDisplayList( ContextNodeNameList.ROOT );
+			BeanFactory.getInstance().register( getRootID(), _target );
+			_buildDisplayList( getRootID() );
 			fireEvent( DisplayObjectBuilderEvent.onDisplayObjectBuilderLoadInitEVENT );
 		}
 
@@ -212,7 +244,7 @@ package com.bourre.ioc.assembler.displayobject
 
 			if ( info != null )
 			{
-				if ( ID != ContextNodeNameList.ROOT )
+				if ( ID != getRootID() )
 				{
 					if ( info.isEmptyDisplayObject() )
 					{
@@ -222,6 +254,7 @@ package com.bourre.ioc.assembler.displayobject
 					{
 						if ( !_buildDisplayObject( info ) ) return;
 					}
+
 				}
 
 				// recursivity

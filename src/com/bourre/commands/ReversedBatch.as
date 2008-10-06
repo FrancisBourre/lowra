@@ -22,7 +22,8 @@ package com.bourre.commands
 	 * 
 	 * @author Francis Bourre
 	 */
-	public class ReversedBatch extends Batch
+	public class ReversedBatch 
+		extends Batch
 	{
 		/**
 		 * Executes the whole set of commands in the reversed order

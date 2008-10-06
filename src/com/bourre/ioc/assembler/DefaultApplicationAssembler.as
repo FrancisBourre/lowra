@@ -20,6 +20,8 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.core.IDExpert;	
+	
 	import flash.net.URLRequest;
 	
 	import com.bourre.core.HashCodeFactory;
@@ -40,11 +42,13 @@ package com.bourre.ioc.assembler
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler
 	{
+		protected var _oIE 	: IDExpert;
 		protected var _oDOB : DisplayObjectBuilder;
 		
 		public function setDisplayObjectBuilder( displayObjectBuilder : DisplayObjectBuilder ) : void
 		{
 			_oDOB = displayObjectBuilder;
+			_oIE = new IDExpert();
 		}
 
 		public function getDisplayObjectBuilder() : DisplayObjectBuilder
@@ -73,6 +77,11 @@ package com.bourre.ioc.assembler
 																					objectsBuiltCallback, 
 																					channelsAssignedCallback, 
 																					initCallback ) 				);
+		}
+		
+		public function buildRoot( ID : String ) : void
+		{
+			getDisplayObjectBuilder().buildDisplayObject( new DisplayObjectInfo( ID, null, true, null, null ) );
 		}
 
 		public function buildDLL( url : URLRequest ) : void
@@ -158,6 +167,11 @@ package com.bourre.ioc.assembler
 		{
 			var channelListener : ChannelListener = new ChannelListener( ownerID, channelName, args );
 			ChannelListenerExpert.getInstance().register( HashCodeFactory.getKey( channelListener ), channelListener );
+		}
+		
+		public function registerID( ID : String ) : Boolean
+		{
+			return _oIE.register( ID );
 		}
 	}
 }

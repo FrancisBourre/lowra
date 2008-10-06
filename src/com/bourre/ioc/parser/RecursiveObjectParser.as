@@ -58,7 +58,7 @@ package com.bourre.ioc.parser
 			var factory : String;
 			var singleton : String;
 
-			IDExpert.getInstance().register( id );
+			getAssembler().registerID( id );
 			
 			// Build object.
 			type = ContextAttributeList.getType( xml );

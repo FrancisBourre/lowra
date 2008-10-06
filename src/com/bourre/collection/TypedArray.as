@@ -665,18 +665,19 @@ package com.bourre.collection
 	    	return a ;
 	    }
 	    
-	   /*override flash_proxy function nextNameIndex (index:int):int
+		override flash_proxy function nextNameIndex ( index : int ) : int
 	    {
-	    	
+	    	return index < _a.length ? index + 1 : 0;
 	    }
 	    
-		override flash_proxy function nextName(index:int):String
+		override flash_proxy function nextName( index : int ) : String
 	    {
-	    	
+	    	return String( index - 1 );
     	}
     	
-    	override flash_proxy function nextValue(index:int):*
+    	override flash_proxy function nextValue( index : int ) : *
     	{
-    	}*/
+    		return _a[ index ];
+    	}
 	}
 }
