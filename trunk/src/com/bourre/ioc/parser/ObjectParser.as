@@ -53,7 +53,7 @@ package com.bourre.ioc.parser
 				throw( new NullIDException( msg ) );
 			}
 
-			IDExpert.getInstance().register( id );
+			getAssembler().registerID( id );
 
 			var type : String;
 			var args : Array;

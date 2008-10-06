@@ -36,4 +36,5 @@ package com.bourre.ioc.assembler.displayobject
 		function addListener( listener : DisplayObjectBuilderListener ) : Boolean;
 		function removeListener( listener : DisplayObjectBuilderListener ) : Boolean;
 		function addEventListener( type : String, listener : Object, ... rest ) : Boolean;
-		function removeEventListener( type : String, listener : Object ) : Boolean;	}}
+		function removeEventListener( type : String, listener : Object ) : Boolean;				function setAntiCache( b : Boolean) : void;
+		function isAntiCache() : Boolean;	}}

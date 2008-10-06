@@ -64,7 +64,7 @@ package com.bourre.load.strategy
 		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			_loader = new URLLoader( );
-			_loader.dataFormat = URLLoaderStrategy.isValidDataFormat( _sDataFormat ) ? URLLoaderStrategy.TEXT : _sDataFormat;
+			_loader.dataFormat = URLLoaderStrategy.isValidDataFormat( _sDataFormat ) ? _sDataFormat : URLLoaderStrategy.TEXT;
 
 			_loader.addEventListener( ProgressEvent.PROGRESS, _onProgress );
 			_loader.addEventListener( Event.COMPLETE, _onComplete );

@@ -20,6 +20,8 @@ package com.bourre.ioc.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
+	import com.bourre.ioc.assembler.property.PropertyExpert;	
+	
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
@@ -70,10 +72,14 @@ package com.bourre.ioc.load
 			setURL( url? url : ApplicationLoader.DEFAULT_URL );
 
 			setApplicationAssembler( new DefaultApplicationAssembler() );
-
 			_initParserCollection();
 
 			if ( autoExecute ) execute();
+		}
+
+		override public function setAntiCache( b : Boolean ) : void
+		{
+			
 		}
 
 		protected function _initParserCollection() : void
@@ -145,6 +151,7 @@ package com.bourre.ioc.load
 				cl.addEventListener( ContextLoaderEvent.onLoadTimeOutEVENT, this );
 				cl.addEventListener( ContextLoaderEvent.onLoadErrorEVENT, this );
 
+				if ( isAntiCache() ) cl.setAntiCache( true );
 				cl.load( getURL(), context );
 
 			} else
@@ -166,10 +173,18 @@ package com.bourre.ioc.load
 		 */
 		public function parseContext( xml : * ) : void
 		{
+			// release all
+			ChannelListenerExpert.getInstance().release();
+			ConstructorExpert.getInstance().release();
+			MethodExpert.getInstance().release( );
+			PropertyExpert.getInstance().release();
+			
+			
 			var cp : ContextParser = new ContextParser( getParserCollection() );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
-
+			
 			if ( getDisplayObjectBuilder() == null ) setDisplayObjectBuilder( new DefaultDisplayObjectBuilder() );
+			if ( isAntiCache() ) getDisplayObjectBuilder().setAntiCache( true );
 			getDisplayObjectBuilder().setRootTarget( _oRootTarget );
 			getApplicationAssembler().setDisplayObjectBuilder( getDisplayObjectBuilder() );
 
@@ -179,7 +194,6 @@ package com.bourre.ioc.load
 		protected function _onContextParsingEnd( e : ContextParserEvent ) : void
 		{
 			e.getContextParser().removeEventListener( ContextParserEvent.onContextParsingEndEVENT, this );
-
 			getDisplayObjectBuilder().addListener( this );
 			getDisplayObjectBuilder().execute();
 		}

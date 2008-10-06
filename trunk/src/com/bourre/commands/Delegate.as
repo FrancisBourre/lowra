@@ -15,12 +15,11 @@
  */
 package com.bourre.commands
 {
-	import flash.events.Event;
-	
-	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.transitions.TickListener;	
+	import com.bourre.transitions.TickListener;
+	
+	import flash.events.Event;	
 
 	/**
 	 * The Delegate encapsulate a method call as an object. 
@@ -33,7 +32,8 @@ package com.bourre.commands
 	 * 
 	 * @author	Francis Bourre
 	 */
-	public class Delegate implements Command, TickListener
+	public class Delegate 
+		implements Command, TickListener
 	{
 		/**
 		 * The method closure wrapped by this delegate
@@ -48,7 +48,7 @@ package com.bourre.commands
 		 * method is appended to the function arguments or not.
 		 */
 		protected var _bHasEventCallback : Boolean;
-		
+
 		/**
 		 * Creates a anonymous function which will wrap the call
 		 * to the passed-in function with the passed-in <code>rest</code>
@@ -64,18 +64,10 @@ package com.bourre.commands
 		{
 			return function( ... rest ) : *
 			{
-				try
-				{
-					return method.apply( null, rest.length>0? (args.length>0?args.concat(rest):rest) : (args.length>0?args:null) );
-
-				} catch( e : ArgumentError )
-				{
-					var msg : String = this + " execution failed, you passed incorrect number of arguments or wrong type";
-					PixlibDebug.FATAL( msg );
-					throw new ArgumentError( msg );
-				}
+				return method.apply( null, rest.length>0? (args.length>0?rest.concat(args):rest) : (args.length>0?args:null) );
 			};
-		} 
+		}
+
 		/**
 		 * Creates a new Delegate instance which encapsulate the call
 		 * to the passed-in function with the passed-in <code>rest</code>
@@ -91,7 +83,7 @@ package com.bourre.commands
 			_a = rest;
 			_bHasEventCallback = true;
 		}
-		
+
 		/**
 		 * If <code>true</code> the event passed to the execute
 		 * function will not be appended to the function arguments.
@@ -103,7 +95,7 @@ package com.bourre.commands
 		{
 			_bHasEventCallback = !b;
 		}
-		
+
 		/**
 		 * Returns the current array of arguments which will be
 		 * passed to the function when called.
@@ -125,7 +117,7 @@ package com.bourre.commands
 		{
 			if ( rest.length > 0 ) _a = rest;
 		}
-		
+
 		/**
 		 * Defines the arguments to pass to the function
 		 * 
@@ -135,7 +127,7 @@ package com.bourre.commands
 		{
 			if ( a.length > 0 ) _a = a;
 		}
-		
+
 		/**
 		 * Appends arguments to the current function's arguments.
 		 * 
@@ -146,7 +138,7 @@ package com.bourre.commands
 		{
 			if ( rest.length > 0 ) _a = _a.concat( rest );
 		}
-		
+
 		/**
 		 * Appends arguments to the current function's arguments.
 		 * 
@@ -157,7 +149,7 @@ package com.bourre.commands
 		{
 			if ( a.length > 0 ) _a = _a.concat( a );
 		}
-		
+
 		/**
 		 * Realizes the function call with the arguments defined
 		 * in this Delegate object.
@@ -171,22 +163,10 @@ package com.bourre.commands
 		 */
 		public function execute( event : Event = null ) : void
 		{
-			var a : Array = new Array();
-
-			if ( event != null && _bHasEventCallback ) a.push( event );
-			
-			try
-			{
-				_f.apply( null, ( _a.length > 0 ) ? a.concat( _a ) : ((a.length > 0 ) ? a : null) );
-
-			} catch( error : ArgumentError )
-			{
-				var msg : String = this + ".execute() failed, you passed incorrect number of arguments or wrong type";
-				PixlibDebug.FATAL( msg );
-				throw new IllegalArgumentException( msg );
-			}
+			var a : Array = event != null && _bHasEventCallback ? [event] : [];
+			_f.apply( null, ( _a.length > 0 ) ? a.concat( _a ) : ((a.length > 0 ) ? a : null) );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -194,7 +174,7 @@ package com.bourre.commands
 		{
 			execute( e );
 		}
-		
+
 		/**
 		 * Allow the delegate object to be added as listener
 		 * for any event type on any object which provide the
@@ -206,7 +186,7 @@ package com.bourre.commands
 		{
 			this.execute( e );
 		}
-		
+
 		/**
 		 * Calls the function with the current array of arguments.
 		 */
@@ -214,7 +194,7 @@ package com.bourre.commands
 		{
 			return _f.apply( null, _a );
 		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * 

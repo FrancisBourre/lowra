@@ -26,6 +26,8 @@ package com.bourre.ioc.assembler
 
 	public interface ApplicationAssembler
 	{
+		function registerID(				ID							: String			) 		: Boolean;
+
 		function setDisplayObjectBuilder( 	displayObjectExpert 		: DisplayObjectBuilder ) 	: void;
 		function getDisplayObjectBuilder() 															: DisplayObjectBuilder;
 
@@ -39,6 +41,8 @@ package com.bourre.ioc.assembler
 											objectsBuiltCallback		: String 	= null, 
 											channelsAssignedCallback	: String 	= null, 
 											initCallback 				: String 	= null	) 		: void;
+											
+		function buildRoot(					ID							: String			)		: void;
 
 		function buildDisplayObject( 		ID 							: String,
 											parentID 					: String, 

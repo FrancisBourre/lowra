@@ -21,12 +21,14 @@ package com.bourre.core
 	 * @version 1.0
 	 */	import flash.events.Event;
 	import flash.utils.Dictionary;
+	import flash.utils.getQualifiedClassName;
 	
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.TypedContainer;
 	import com.bourre.core.Locator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
+	import com.bourre.error.UnsupportedOperationException;
 	import com.bourre.events.Broadcaster;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.Log;
@@ -43,18 +45,17 @@ package com.bourre.core
 		protected var _m : HashMap;
 
 		private var _oEB : Broadcaster;
-
 		private var _cType : Class;
-		
 		private var _logger : Log;
 
 		/**
 		 * Creates a new locator instance. If the <code>type</code>
 		 * argument is defined, the locator is considered as typed, and
-		 * then the type of all elements inserted in this set is checked.
+		 * then the type of all elements inserted in this locator is checked.
 		 * 
-		 * @param	type <code>Class</code> type for elements of this set
-		 * @param	type <code>Class</code> type for elements of this set
+		 * @param	type 			<code>Class</code> type for locator elements.
+		 * @param	typeListener 	<code>Class</code> type for locator listeners.
+		 * @param	logger 			custom logger to output locator messages.
 		 */
 		public function AbstractLocator( type : Class = null, typeListener : Class = null, logger : Log = null ) 
 		{
@@ -317,6 +318,74 @@ package com.bourre.core
 		public function getValues() : Array
 		{
 			return _m.getValues();
+		}
+		
+		/**
+         * Takes all values of a Locator and pass them one by one as arguments
+         * to a method of an object.
+         * It's exactly the same concept as batch processing in audio or video
+         * software, when you choose to run the same actions on a group of files.
+         * <p>
+         * Basical example which sets _alpha value to .4 and scale to 50
+         * on all MovieClips nested in the Locator instance:
+         * </p>
+         * @example
+         * <listing>
+         * 
+         * function changeAlpha( mc : MovieClip, a : Number, s : Number )
+         * {
+         *      mc._alpha = a;
+         *      mc._xscale = mc._yscale = s;
+         * }
+         *
+         * myMovieClipLocator.processOnAllValues( changeAlpha, .4, 50 );
+         * </listing>
+         *
+         * @param	f		function to execute on each value stored in the locator.
+         * @param 	args	additionnal parameters.
+         */
+		public function processOnAllValues( f : Function, ...args ) : void
+		{
+			var a : Array = getValues();
+			var l : int = a.length;
+			for( var i : int; i < l; ++i ) f.apply( null, (args.length > 0 ) ? [a[i]].concat( args ) : [a[i]] );
+		}
+		
+		/**
+         * Takes all values of a Locator and call on each value the method name
+         * passed as 1st argument.
+         * <p>
+         * Basical example which plays all MovieClips from frame 10.
+         * </p>
+         * @example
+         * <listing>
+         *
+         * myMovieClipLocator.callMethodOnAllValues( "gotoAndPlay", 10 );
+         * </listing>
+         *
+         * @param	methodName	method name to call on each value stored in the locator.
+         * @param 	args		additionnal parameters.
+         */
+		public function callMethodOnAllValues( methodName : String, ...args ) : void
+		{
+			var a : Array = getValues();
+			var l : int = a.length;
+			for( var i : int; i < l; ++i )
+			{
+				var target : Object = a[i];
+				if ( target.hasOwnProperty( methodName ) && target[ methodName ] is Function )
+				{
+					(target[ methodName ]).apply( null, args );
+
+				} else
+				{
+					var msg : String;
+					msg = this + ".callMethodOnAllValues() failed. " + getQualifiedClassName(target) + 
+					"' class doesn't implement '" + methodName + "'";
+					PixlibDebug.ERROR( msg );
+					throw( new UnsupportedOperationException( msg ) );
+				}
+			}
 		}
 
 		/**
