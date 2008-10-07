@@ -1,18 +1,17 @@
-package com.bourre.remoting {
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.commands.Delegate;	
-	
-	import flash.events.Event;	
-	import flash.events.NetStatusEvent;	
-	
+package com.bourre.remoting 
+{
+	import com.bourre.commands.Delegate;
 	import com.bourre.events.EventBroadcaster;
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.remoting.events.BasicFaultEvent;
 	import com.bourre.remoting.events.BasicResultEvent;
 	import com.bourre.remoting.interfaces.ServiceProxyListener;
 	
+	import flash.events.Event;
+	import flash.events.NetStatusEvent;
 	import flash.net.URLRequest;
-	import flash.utils.getQualifiedClassName;	
-	
+	import flash.utils.getQualifiedClassName;		
+
 	/**
 	 * @author romain
 	 */

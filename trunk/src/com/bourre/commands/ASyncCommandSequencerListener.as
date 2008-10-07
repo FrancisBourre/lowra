@@ -15,8 +15,11 @@
  */
 package com.bourre.commands 
 {
-	import flash.events.Event;	
-
+	import flash.events.Event;
+	
+	/**
+	 * @author Cédric Néhémie
+	 */
 	public interface ASyncCommandSequencerListener extends ASyncCommandListener
 	{
 		function onCommandTimeout ( e : Event ) : void;

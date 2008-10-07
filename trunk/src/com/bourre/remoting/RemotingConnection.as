@@ -1,8 +1,9 @@
-package com.bourre.remoting {
-
-	import com.bourre.collection.HashMap;	
-	import flash.net.NetConnection;	
+package com.bourre.remoting 
+{
+	import com.bourre.collection.HashMap;
 	
+	import flash.net.NetConnection;		
+
 	/**
 	 * @author romain
 	 */

@@ -20,11 +20,11 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.events.Event;
-	
 	import com.bourre.commands.AbstractCommand;
 	import com.bourre.events.ValueObjectEvent;
-	import com.bourre.ioc.assembler.constructor.Constructor;	
+	import com.bourre.ioc.assembler.constructor.Constructor;
+	
+	import flash.events.Event;	
 
 	public class BuildObject
 		extends AbstractCommand

@@ -20,17 +20,18 @@ package com.bourre.service
 	import com.bourre.commands.AbstractCommand;
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.events.BasicEvent;
-	import com.bourre.events.EventBroadcaster;		
+	import com.bourre.events.EventBroadcaster;	
 
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	public class AbstractService extends AbstractCommand implements Service
+	public class AbstractService 
+		extends AbstractCommand implements Service
 	{
-		protected var _oEB : EventBroadcaster;
-		protected var _args : Array;
-		protected var _result : Object;
+		protected var _oEB 		: EventBroadcaster;
+		protected var _args 	: Array;
+		protected var _result 	: Object;
 
 		public function AbstractService() 
 		{

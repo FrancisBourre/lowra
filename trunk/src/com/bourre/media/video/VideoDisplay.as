@@ -1,18 +1,5 @@
 package com.bourre.media.video 
 {
-	import com.bourre.transitions.TickListener;	
-	
-	import flash.events.Event;
-	import flash.events.NetStatusEvent;
-	import flash.media.SoundTransform;
-	import flash.media.Video;
-	import flash.net.NetConnection;
-	import flash.net.NetStream;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-	
-	import com.bourre.commands.Command;
-	import com.bourre.commands.CommandManagerMS;
 	import com.bourre.commands.Delegate;
 	import com.bourre.commands.Suspendable;
 	import com.bourre.load.AbstractLoader;
@@ -22,7 +9,17 @@ package com.bourre.media.video
 	import com.bourre.media.video.VideoDisplayEvent;
 	import com.bourre.structures.Dimension;
 	import com.bourre.transitions.MSBeacon;
-	import com.bourre.transitions.TickBeacon;	
+	import com.bourre.transitions.TickBeacon;
+	import com.bourre.transitions.TickListener;
+	
+	import flash.events.Event;
+	import flash.events.NetStatusEvent;
+	import flash.media.SoundTransform;
+	import flash.media.Video;
+	import flash.net.NetConnection;
+	import flash.net.NetStream;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;		
 
 	/*
 	 * Copyright the original author or authors.

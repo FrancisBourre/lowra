@@ -1,28 +1,33 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.load
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
+	import com.bourre.collection.Queue;
+	import com.bourre.error.NullPointerException;
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;	
+	
 	/**
 	 * @author Francis Bourre
 	 * @author Cedric Nehemie
 	 * @version 1.0
 	 */
-	import com.bourre.collection.Queue;	import com.bourre.error.NullPointerException;	import com.bourre.log.PixlibDebug;		import flash.net.URLRequest;	import flash.system.LoaderContext;		
-	public class QueueLoader 
+	public class QueueLoader 
 		extends AbstractLoader 
 	{
 		protected var _q : Queue;
@@ -45,7 +50,7 @@ package com.bourre.load
 			return _currentLoader;
 		}
 
-		public override function load( url : URLRequest = null, context : LoaderContext = null ) : void
+		override public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			registerLoaderToPool( this );
 
@@ -68,7 +73,7 @@ package com.bourre.load
 			_processQueue() ;
 		}
 
-		public override function release() : void
+		override public function release() : void
 		{
 			clear();
 			super.release();
@@ -182,7 +187,7 @@ package com.bourre.load
 			_processQueue();
 		}
 
-		protected override function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
+		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
 			return new QueueLoaderEvent( type, this, errorMessage );
 		}

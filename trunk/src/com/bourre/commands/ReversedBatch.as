@@ -15,7 +15,7 @@
  */
 package com.bourre.commands
 {
-	import flash.events.Event;	
+	import flash.events.Event;		
 
 	/**
 	 * Extends <code>Batch</code> to process commands in the reversed order.

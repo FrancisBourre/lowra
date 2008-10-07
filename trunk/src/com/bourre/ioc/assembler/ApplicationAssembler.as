@@ -20,9 +20,9 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
 	
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;		
+	import flash.net.URLRequest;	
 
 	public interface ApplicationAssembler
 	{

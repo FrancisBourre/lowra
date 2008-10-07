@@ -20,10 +20,10 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.display.DisplayObjectContainer;
-
 	import com.bourre.commands.Command;
-	import com.bourre.events.ValueObject;	
+	import com.bourre.events.ValueObject;
+	
+	import flash.display.DisplayObjectContainer;	
 
 	public interface DisplayObjectBuilder 
 		extends Command

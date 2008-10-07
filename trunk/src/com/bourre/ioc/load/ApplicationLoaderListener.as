@@ -20,7 +20,7 @@ package com.bourre.ioc.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.load.LoaderListener;					
+	import com.bourre.load.LoaderListener;						
 
 	public interface ApplicationLoaderListener 
 		extends LoaderListener

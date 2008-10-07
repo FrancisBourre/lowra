@@ -1,28 +1,26 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.log 
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
+	import com.bourre.events.EventChannel;	
 
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.events.EventChannel;
-
 	public class PixlibDebug 
 		implements Log
 	{
@@ -31,7 +29,7 @@ package com.bourre.log
 		protected var _channel : EventChannel;
 		protected var _bIsOn : Boolean;
 
-		public function PixlibDebug( constructorAccess : PrivateConstructorAccess )
+		public function PixlibDebug( constructorAccess : ConstructorAccess )
 		{
 			_channel = new PixlibDebugChannel();
 			on();
@@ -40,7 +38,7 @@ package com.bourre.log
 		public static function getInstance() : Log
 		{
 			if ( !( PixlibDebug._oI is PixlibDebug ) ) 
-				PixlibDebug._oI = new PixlibDebug( new PrivateConstructorAccess() );
+				PixlibDebug._oI = new PixlibDebug( new ConstructorAccess() );
 
 			return PixlibDebug._oI;
 		}
@@ -139,4 +137,4 @@ internal class PixlibDebugChannel
 	extends EventChannel
 {}
 
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

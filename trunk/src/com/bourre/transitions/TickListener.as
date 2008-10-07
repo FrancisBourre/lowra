@@ -15,7 +15,7 @@
  */
 package com.bourre.transitions 
 {
-	import flash.events.Event;		
+	import flash.events.Event;			
 
 	/**
 	 * A <code>TickListener</code> object is an object which will

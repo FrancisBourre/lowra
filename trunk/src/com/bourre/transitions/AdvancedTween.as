@@ -15,7 +15,7 @@
  */	 
 package com.bourre.transitions
 {
-	import com.bourre.commands.ASyncCommand; 
+	import com.bourre.commands.ASyncCommand;	 
 
 	/**
 	 * The <code>AdvancedTween</code> interface extends <code>Tween</code> and

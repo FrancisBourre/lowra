@@ -21,7 +21,7 @@ package com.bourre.ioc.context
 	 * @author Olympe Dignat
 	 * @version 1.0
 	 */
-	import com.bourre.load.LoaderEvent;		
+	import com.bourre.load.LoaderEvent;			
 
 	public class ContextLoaderEvent
 		extends LoaderEvent

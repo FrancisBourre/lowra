@@ -15,12 +15,12 @@
  */
 package com.bourre.transitions
 {
+	import com.bourre.events.BasicEvent;
+	import com.bourre.log.PixlibStringifier;
+	
 	import flash.display.Shape;
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;	
+	import flash.events.EventDispatcher;	
 
 	/**
 	 * <code>FPSBeacon</code> provides tick to its listeners based

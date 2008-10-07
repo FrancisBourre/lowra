@@ -15,19 +15,18 @@
  */
 package com.bourre.commands
 {
-	import com.bourre.events.EventBroadcaster;	
-	
-	import flash.events.Event;
-	import flash.utils.Dictionary;
-	
 	import com.bourre.collection.HashMap;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
+	import com.bourre.events.EventBroadcaster;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.utils.ClassUtils;		
+	import com.bourre.utils.ClassUtils;
+	
+	import flash.events.Event;
+	import flash.utils.Dictionary;		
 
 	/**
 	 * A base class for an application specific front controller,

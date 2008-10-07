@@ -20,7 +20,6 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import com.bourre.commands.Batch;	
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.media.sound.SoundMixerLocatorEvent;
 	import com.bourre.media.sound.SoundMixerLocatorListener;		

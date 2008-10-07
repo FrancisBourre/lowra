@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.bourre.events
 {
-	import com.bourre.log.*;	
+	import com.bourre.log.PixlibStringifier;		
 
 	/**
 	 * The <code>DynBasicEvent</code> class extends the 

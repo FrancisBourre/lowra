@@ -15,14 +15,13 @@
  */
 package com.bourre.events
 {
-	import com.bourre.error.IllegalArgumentException;	
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.utils.ClassUtils;	
-	
-	import flash.events.Event;
-	
 	import com.bourre.collection.HashMap;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.utils.ClassUtils;
+	
+	import flash.events.Event;		
 
 	/**
 	 * The <code>ChannelBroadcaster</code> is a macro broadcaster

@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- package com.bourre.error
+package com.bourre.error
 {
-	public class IllegalStateException extends Error
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+	public class IllegalStateException 
+		extends Error
 	{		
 		public function IllegalStateException ( message : String = "" )
 		{

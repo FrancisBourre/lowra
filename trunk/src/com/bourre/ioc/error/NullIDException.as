@@ -1,7 +1,7 @@
 package com.bourre.ioc.error
 {
-	import com.bourre.log.PixlibStringifier;
-	
+	import com.bourre.log.PixlibStringifier;	
+
 	/*
 	 * Copyright the original author or authors.
 	 * 

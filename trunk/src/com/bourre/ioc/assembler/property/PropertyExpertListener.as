@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.property
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.assembler.property.PropertyEvent;		
+	import com.bourre.ioc.assembler.property.PropertyEvent;			
 
 	public interface PropertyExpertListener
 	{

@@ -1,31 +1,20 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.load
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
-	import flash.events.Event;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
-
 	import com.bourre.commands.ASyncCommand;
 	import com.bourre.commands.ASyncCommandListener;
 	import com.bourre.commands.AbstractSyncCommand;
@@ -34,8 +23,18 @@ package com.bourre.load
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.strategy.LoadStrategy;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
-
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.events.Event;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
+	import flash.utils.Dictionary;
+	import flash.utils.getTimer;	
+	
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	public class AbstractLoader 
 		implements 	com.bourre.load.Loader, ASyncCommand
 	{
@@ -346,11 +345,11 @@ package com.bourre.load
 	}
 }
 
-import flash.net.URLRequest;
-import flash.system.LoaderContext;
-
 import com.bourre.load.Loader;
 import com.bourre.load.strategy.LoadStrategy;
+
+import flash.net.URLRequest;
+import flash.system.LoaderContext;
 
 internal class NullLoadStrategy 
 	implements LoadStrategy

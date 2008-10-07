@@ -20,11 +20,11 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.media.SoundChannel;
-	import flash.media.SoundTransform;
-	
 	import com.bourre.collection.Iterator;
-	import com.bourre.collection.WeakCollection;		
+	import com.bourre.collection.WeakCollection;
+	
+	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;	
 
 	public class SoundTransformInfo
 	{

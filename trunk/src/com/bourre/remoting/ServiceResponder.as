@@ -1,12 +1,11 @@
 package com.bourre.remoting 
 {
-	import com.bourre.collection.RecordSet;	
+	import com.bourre.collection.RecordSet;
+	import com.bourre.remoting.events.BasicFaultEvent;
+	import com.bourre.remoting.events.BasicResultEvent;
+	
+	import flash.net.Responder;		
 
-	import flash.net.Responder;	
-	
-	import com.bourre.remoting.events.BasicFaultEvent;		
-	import com.bourre.remoting.events.BasicResultEvent;	
-	
 	/**
 	 * @author romain
 	 * @author Axel Aigret

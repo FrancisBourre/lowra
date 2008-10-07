@@ -15,7 +15,6 @@
  */
 package com.bourre.commands
 {
-	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.transitions.TickListener;
 	

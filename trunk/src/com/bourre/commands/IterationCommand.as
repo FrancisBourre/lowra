@@ -15,8 +15,8 @@
  */
 package com.bourre.commands 
 {
-	import com.bourre.collection.Iterable;
-	
+	import com.bourre.collection.Iterable;	
+
 	/**
 	 * <code>IterationCommand</code>s are used by a <code>LoopCommand</code> to perform
 	 * the concret iterations. <code>IterationCommand</code> interface simply aggregate

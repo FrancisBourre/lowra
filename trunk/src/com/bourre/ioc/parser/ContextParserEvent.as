@@ -20,8 +20,7 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import com.bourre.events.BasicEvent;				
+	import com.bourre.events.BasicEvent;					
 
 	public class ContextParserEvent 
 		extends BasicEvent

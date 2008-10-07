@@ -16,10 +16,10 @@
  
 package com.bourre.remoting
 {
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
 	
-	import flash.utils.getQualifiedClassName;
-		
+	import flash.utils.getQualifiedClassName;		
+
 	/**
 	 * @author Francis Bourre
 	 * @author Romain Flacher

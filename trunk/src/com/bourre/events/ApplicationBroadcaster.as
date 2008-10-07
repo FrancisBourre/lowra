@@ -15,6 +15,8 @@
  */
 package com.bourre.events
 {
+	import com.bourre.plugin.PluginBroadcaster;	
+
 	/**
 	 * The <code>ApplicationBroadcaster</code> class is a singleton
 	 * implementation of the <code>ChannelBroadcaster</code> class, 
@@ -46,8 +48,6 @@ package com.bourre.events
 	 * @see		ChannelBroadcaster
 	 * @see		com.bourre.plugin.ChannelExpert
 	 */
-	import com.bourre.plugin.PluginBroadcaster;	
-	
 	public class ApplicationBroadcaster	extends ChannelBroadcaster
 	{
 		private static var _oI : ApplicationBroadcaster;

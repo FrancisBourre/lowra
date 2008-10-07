@@ -20,9 +20,9 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.events.Event;
+	import com.bourre.media.sound.*;
 	
-	import com.bourre.media.sound.*;		
+	import flash.events.Event;	
 
 	public class SoundLoaderLocatorEvent 
 		extends Event 

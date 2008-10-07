@@ -20,16 +20,16 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.errors.IOError;	
+	import com.bourre.load.Loader;
+	import com.bourre.load.strategy.LoadStrategy;
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.errors.IOError;
 	import flash.events.*;
 	import flash.media.Sound;
 	import flash.media.SoundLoaderContext;
 	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-	
-	import com.bourre.load.Loader;
-	import com.bourre.load.strategy.LoadStrategy;
-	import com.bourre.log.PixlibStringifier;	
+	import flash.system.LoaderContext;		
 
 	public class SoundURLStrategy 
 		implements LoadStrategy

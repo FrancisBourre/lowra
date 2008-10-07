@@ -1,7 +1,8 @@
-package com.bourre.remoting.events {
-	import com.bourre.load.LoaderEvent;	
-	import com.bourre.remoting.RemotingCall;	
-	
+package com.bourre.remoting.events 
+{
+	import com.bourre.load.LoaderEvent;
+	import com.bourre.remoting.RemotingCall;		
+
 	/**
 	 * @author romain
 	 */

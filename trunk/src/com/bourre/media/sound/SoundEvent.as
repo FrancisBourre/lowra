@@ -21,7 +21,7 @@ package com.bourre.media.sound
 	 * @version 1.0
 	 */
 	import com.bourre.events.BasicEvent;
-	import com.bourre.media.sound.SoundInfoChannel;		
+	import com.bourre.media.sound.SoundInfoChannel;	
 
 	public class SoundEvent 
 		extends BasicEvent

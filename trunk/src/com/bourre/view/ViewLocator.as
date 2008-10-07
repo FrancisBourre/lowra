@@ -1,25 +1,20 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.view
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
 	import com.bourre.collection.ArrayIterator;
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Iterator;
@@ -29,14 +24,18 @@ package com.bourre.view
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;	
 
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	final public class ViewLocator 
 		extends AbstractLocator
 	{
-		protected static var _M : HashMap = new HashMap();
+		private static const _M : HashMap = new HashMap();
 
-		protected var _owner : Plugin;
+		private var _owner : Plugin;
 
-		public function ViewLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
+		public function ViewLocator( access : ConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
 			super( AbstractView, null, PluginDebug.getInstance( getOwner() ) );
@@ -47,7 +46,7 @@ package com.bourre.view
 			if ( owner == null ) owner = NullPlugin.getInstance();
 
 			if ( !( ViewLocator._M.containsKey( owner ) ) ) 
-				ViewLocator._M.put( owner, new ViewLocator( new PrivateConstructorAccess(), owner ) );
+				ViewLocator._M.put( owner, new ViewLocator( new ConstructorAccess(), owner ) );
 
 			return ViewLocator._M.get( owner );
 		}
@@ -91,4 +90,4 @@ package com.bourre.view
 		}
 	}
 }
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

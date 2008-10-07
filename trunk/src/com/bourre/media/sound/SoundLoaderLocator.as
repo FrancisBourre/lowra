@@ -23,7 +23,7 @@ package com.bourre.media.sound
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.media.sound.SoundLoader;
 	import com.bourre.media.sound.SoundLoaderLocatorEvent;
-	import com.bourre.media.sound.SoundLoaderLocatorListener;		
+	import com.bourre.media.sound.SoundLoaderLocatorListener;	
 
 	public class SoundLoaderLocator 
 		extends AbstractLocator

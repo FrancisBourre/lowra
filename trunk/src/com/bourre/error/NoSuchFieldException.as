@@ -15,11 +15,11 @@
  */	
 package com.bourre.error 
 {
-
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class NoSuchFieldException extends Error 
+	public class NoSuchFieldException 
+		extends Error 
 	{
 		public function NoSuchFieldException ( message : String )
 		{

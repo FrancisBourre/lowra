@@ -20,8 +20,8 @@ package com.bourre.ioc.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.load.LoaderEvent;
-	
+	import com.bourre.load.LoaderEvent;	
+
 	public class ApplicationLoaderEvent
 		extends LoaderEvent
 	{

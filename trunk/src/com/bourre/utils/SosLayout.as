@@ -13,35 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Francis Bourre
- * @version 1.0
- */
-
-package com.bourre.utils {
-	import flash.events.*;
-	import flash.net.XMLSocket;
+package com.bourre.utils 
+{
+	import com.bourre.collection.HashMap;
+	import com.bourre.log.LogEvent;
+	import com.bourre.log.LogLevel;
+	import com.bourre.log.LogListener;
+	import com.bourre.log.PixlibStringifier;
 	
-	import com.bourre.collection.*;
-	import com.bourre.log.*;	
+	import flash.events.DataEvent;
+	import flash.events.Event;
+	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
+	import flash.events.SecurityErrorEvent;
+	import flash.net.XMLSocket;		
 
+	/**
+	 * @author	Francis Bourre
+	 * @version 1.0
+	 */
 	public class SosLayout 
 		implements LogListener
 	{
-		private var _oXMLSocket : XMLSocket;
-		private var _bIsConnected : Boolean;
-		private var _aBuffer : Array;
-		private var _mFormat : HashMap;
+		protected var _oXMLSocket 	: XMLSocket;
+		protected var _bIsConnected : Boolean;
+		protected var _aBuffer 		: Array;
+		protected var _mFormat 		: HashMap;
 		
-		public static var IP : String = "localhost";
-		public static var PORT : Number = 4445;
+		public static var IP 		: String = "localhost";
+		public static var PORT 		: Number = 4445;
 		
-		public static const DEBUG_FORMAT:String = "DEBUG_FORMAT";
-		public static const INFO_FORMAT:String = "INFO_FORMAT";
-		public static const WARN_FORMAT:String = "WARN_FORMAT";
-		public static const ERROR_FORMAT:String = "ERROR_FORMAT";
-		public static const FATAL_FORMAT:String = "FATAL_FORMAT";
+		public static const DEBUG_FORMAT 	: String = "DEBUG_FORMAT";
+		public static const INFO_FORMAT 	: String = "INFO_FORMAT";
+		public static const WARN_FORMAT		: String = "WARN_FORMAT";
+		public static const ERROR_FORMAT	: String = "ERROR_FORMAT";
+		public static const FATAL_FORMAT	: String = "FATAL_FORMAT";
 		
 		public static var DEBUG_KEY:String = '<setKey><name>' + SosLayout.DEBUG_FORMAT + '</name><color>' + 0x1394D6 + '</color></setKey>\n';
 		public static var INFO_KEY:String = '<setKey><name>' + SosLayout.INFO_FORMAT + '</name><color>' + 0x12C9AC + '</color></setKey>\n';
@@ -51,7 +57,7 @@ package com.bourre.utils {
 		
 		private static var _oI : SosLayout = null;
 		
-		public function SosLayout( access : PrivateConstructorAccess )
+		public function SosLayout( access : ConstructorAccess )
 		{
 			_aBuffer = new Array();
 			_buildColorKeys();
@@ -64,15 +70,12 @@ package com.bourre.utils {
             _oXMLSocket.addEventListener( ProgressEvent.PROGRESS, onProgress );
             _oXMLSocket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
             
-            _oXMLSocket.connect (SosLayout.IP, SosLayout.PORT);
+            _oXMLSocket.connect ( SosLayout.IP, SosLayout.PORT );
 		}
 		
 		public static function getInstance() : SosLayout
 		{
-			if ( !(SosLayout._oI is SosLayout) ) 
-			{
-				SosLayout._oI = new SosLayout( new PrivateConstructorAccess() );
-			}
+			if ( !(SosLayout._oI is SosLayout) ) SosLayout._oI = new SosLayout( new ConstructorAccess() );
 			return SosLayout._oI;
 		}
 		
@@ -196,4 +199,4 @@ package com.bourre.utils {
 	}
 }
 
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

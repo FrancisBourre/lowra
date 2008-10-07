@@ -15,14 +15,14 @@
  */
 package com.bourre.commands
 {
-	import flash.events.Event;
-	
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.AbstractModel;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginDebug;
-	import com.bourre.view.AbstractView;	
+	import com.bourre.view.AbstractView;
+	
+	import flash.events.Event;	
 
 	/**
 	 * <code>AbstractCommand</code> provides a skeleton for commands which

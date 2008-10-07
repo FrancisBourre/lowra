@@ -13,13 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
 package com.bourre.transitions 
 {
-	import flash.utils.getTimer;	
-	
+	import flash.utils.getTimer;		
+
 	/**
-	 * 
 	 * @author	Cédric Néhémie
 	 */
 	public class TweenMS extends AbstractTween

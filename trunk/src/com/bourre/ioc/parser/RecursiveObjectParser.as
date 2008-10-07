@@ -22,10 +22,9 @@ package com.bourre.ioc.parser
 	 */
 	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullChannelException;
 	import com.bourre.ioc.error.NullIDException;
-	import com.bourre.plugin.PluginDebug;		
+	import com.bourre.plugin.PluginDebug;	
 
 	public class RecursiveObjectParser
 		extends AbstractParser

@@ -15,7 +15,7 @@
  */	
 package com.bourre.core 
 {
-	import com.bourre.error.ClassCastException;	
+	import com.bourre.error.ClassCastException;
 	import com.bourre.error.NoSuchFieldException;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.log.PixlibDebug;

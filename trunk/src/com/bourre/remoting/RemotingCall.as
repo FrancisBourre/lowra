@@ -1,18 +1,15 @@
-package com.bourre.remoting {
-	import com.bourre.load.LoaderEvent;	
-	import com.bourre.remoting.events.BasicResultEvent;	
-	import com.bourre.remoting.events.BasicFaultEvent;	
+package com.bourre.remoting 
+{
+	import com.bourre.load.AbstractLoader;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.remoting.events.BasicFaultEvent;
+	import com.bourre.remoting.events.BasicResultEvent;
+	import com.bourre.remoting.events.RemotingCallEvent;
+	import com.bourre.remoting.interfaces.ServiceProxyListener;
 	
-	import flash.system.LoaderContext;	
-	
-	import com.bourre.remoting.events.RemotingCallEvent;	
-	import com.bourre.log.PixlibDebug;	
-	
-	import flash.net.URLRequest;	
-	
-	import com.bourre.load.AbstractLoader;	
-	import com.bourre.remoting.interfaces.ServiceProxyListener;	
-	
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;		
+
 	/**
 	 * @author romain
 	 */

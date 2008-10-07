@@ -15,8 +15,8 @@
  */	
 package com.bourre.core
 {
-	import flash.utils.Dictionary;
-	
+	import flash.utils.Dictionary;	
+
 	/**
 	 * The <code>HashCodeFactory</code> class provides convenient methods
 	 * to emulate the behavior of the Java&trade; <code>Object.hashcode()</code>

@@ -14,7 +14,8 @@
  * limitations under the License.
  */	
 
-package com.bourre.media.sound {
+package com.bourre.media.sound 
+{
 	import com.bourre.collection.HashMap;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;	

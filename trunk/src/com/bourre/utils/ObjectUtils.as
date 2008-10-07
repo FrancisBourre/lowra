@@ -1,17 +1,40 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.utils
 {
 	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;
 	
 	import flash.display.DisplayObject;
 	import flash.net.registerClassAlias;
-	import flash.utils.*;
+	import flash.utils.ByteArray;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;	
 
+	/**
+	 * @author	Francis Bourre
+	 * @author	Cédric Néhémie
+	 * @version 1.0
+	 */
 	public class ObjectUtils
 	{
-		public function ObjectUtils( access : PrivateConstructorAccess )
+		public function ObjectUtils( access : ConstructorAccess )
 		{
-			
+			//
 		}
 
 		/**
@@ -20,7 +43,7 @@ package com.bourre.utils
 		 * @param   a	The array to clone
 		 * @return  a   new array cloned
 		 */
-		public static function clone( source : Object ) : Object 
+		public static function clone ( source : Object ) : Object 
 		{
 			if(source === null) return null ;
 			if ( source is DisplayObject ) throw new IllegalArgumentException( "" );
@@ -87,8 +110,9 @@ package com.bourre.utils
 
 				} else
 				{
-					PixlibDebug.ERROR( "ObjectUtils.evalFromTarget(" + target + ", " + toEval + ")" );
-					return null;
+					var msg : String = "ObjectUtils.evalFromTarget(" + target + ", " + toEval + ") failed.";
+					PixlibDebug.ERROR( msg );
+					throw new NoSuchElementException( msg );
 				}
 			}
 
@@ -97,4 +121,4 @@ package com.bourre.utils
 	}
 }
 
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

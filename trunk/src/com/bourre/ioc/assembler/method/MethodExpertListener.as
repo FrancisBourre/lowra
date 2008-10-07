@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.method
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.assembler.method.MethodEvent;			
+	import com.bourre.ioc.assembler.method.MethodEvent;				
 
 	public interface MethodExpertListener
 	{

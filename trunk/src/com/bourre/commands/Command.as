@@ -16,8 +16,8 @@
 
 package com.bourre.commands 
 {
-	import flash.events.Event;
-	
+	import flash.events.Event;	
+
 	/**
 	 * Encapsulate a request as an object, thereby letting you parameterize
 	 * clients with different requests, queue or log requests, 

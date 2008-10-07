@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.channel
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.events.BasicEvent;		
+	import com.bourre.events.BasicEvent;			
 
 	public class ChannelListenerEvent 
 		extends BasicEvent

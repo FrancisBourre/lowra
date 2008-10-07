@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Francis Bourre
- * @version 1.0
- */
-
 package com.bourre.log 
 {
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	public interface LogListener 
 	{
 		function onLog( e : LogEvent ) : void;

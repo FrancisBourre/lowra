@@ -15,8 +15,6 @@
  */
 package com.bourre.structures 
 {
-	import flash.geom.Point;
-	
 	import com.bourre.collection.Collection;
 	import com.bourre.collection.Iterator;
 	import com.bourre.collection.TypedContainer;
@@ -27,7 +25,9 @@ package com.bourre.structures
 	import com.bourre.error.NullPointerException;
 	import com.bourre.error.UnsupportedOperationException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.geom.Point;	
 
 	/** 
 	 * A <code>Grid</code> is basically a two dimensions data structure
@@ -889,12 +889,12 @@ package com.bourre.structures
 	}
 }
 
-import flash.geom.Point;
-
 import com.bourre.collection.Iterator;
 import com.bourre.error.IllegalStateException;
 import com.bourre.error.NoSuchElementException;
 import com.bourre.structures.Grid;
+
+import flash.geom.Point;
 
 internal class GridIterator extends Point implements Iterator
 {
