@@ -22,12 +22,12 @@ package com.bourre.collection
 	import com.bourre.error.NullPointerException;		
 
 	/**
-	 * The <code>ArrayIterator</code> utility provide a convenient way
-	 * to iterate in an array as you can do with a <code>List</code>.
+	 * The <code>ArrayIterator</code> class provides a convenient way
+	 * to iterate through each entry of an <code>Array</code> instance 
+	 * as you could do with a <code>List</code> instance.
 	 * <p>
-	 * Iterations performed by the array iterator are done in the index
-	 * order of the array. More formally the iterations are always realized
-	 * from <code>0</code> to the <code>length</code> of the passed-in array.
+	 * Iterations are performed from <code>0</code> to <code>length</code> 
+	 * of the passed-in array.
 	 * </p> 
 	 * @author 	Cedric Nehemie
 	 * @see		ListIterator
@@ -41,25 +41,25 @@ package com.bourre.collection
 	    protected var _bRemoved : Boolean;	    protected var _bAdded 	: Boolean;
 
 		/**
-		 * Creates a new iterator over the passed-in array.
+		 * Creates a new iterator for the passed-in array.
 		 * 
-		 * @param	a	<code>Array</code> target for this iterator
-		 * @param	i	index at which the iterator start
-		 * @throws 	<code>NullPointerException</code> — if the specified array is null
+		 * @param	a	<code>Array</code> iterator's target
+		 * @param	i	iterator's start index
+		 * @throws 	<code>NullPointerException</code> — if the array's target is null
 		 * @throws 	<code>IndexOutOfBoundsException</code> — if the index is out of range
 		 */
 		public function ArrayIterator ( a : Array, i : uint = 0 )
 	    {
-	    	if( a == null )
+	    	if ( a == null )
 	    	{
-	    		var msg0 : String = "The target array of " + this + "can't be null";
+	    		var msg0 : String = "Array target of " + this + "can't be null.";
 				PixlibDebug.ERROR ( msg0 );
 				throw new NullPointerException ( msg0 );
 	    	}
 
-	    	if( i > a.length )
+	    	if ( i > a.length )
 	    	{
-	    		var msg1 : String = "The passed-in index " + i + " is not a valid for an array of length " + a.length;
+	    		var msg1 : String = "'" + i + "' is not a valid index for an array with '" + a.length + "' length.";
 	    		PixlibDebug.ERROR ( msg1 );
 	    		throw new IndexOutOfBoundsException ( msg1 );
 	    	}
@@ -86,7 +86,7 @@ package com.bourre.collection
 	    {
 	    	if( !hasNext() )
 	    	{
-	    		var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+	    		var msg : String = this + " has no more element at '" + ( _nIndex + 1 ) +"' index.";
 				PixlibDebug.ERROR ( msg );
 				throw new NoSuchElementException ( msg );
 	    	}
@@ -109,7 +109,7 @@ package com.bourre.collection
 
 			} else
 			{
-				var msg : String = this + ".remove() have been already called for this iteration";
+				var msg : String = this + ".remove() has been already called in this iteration.";
 				PixlibDebug.ERROR ( msg );
 				throw new IllegalStateException ( msg );
 			}
@@ -128,7 +128,7 @@ package com.bourre.collection
 
 			} else
 			{
-				var msg : String = this + ".add() have been already called for this iteration";
+				var msg : String = this + ".add() has been already called in this iteration.";
 				PixlibDebug.ERROR ( msg );
 				throw new IllegalStateException ( msg );
 			}
@@ -157,7 +157,7 @@ package com.bourre.collection
 		{
 			if( !hasPrevious() )
 			{
-				var msg : String = this + " has no more elements at " + ( _nIndex );
+				var msg : String = this + " has no more element at '" + ( _nIndex ) + "' index.";
 				PixlibDebug.ERROR ( msg );
 				throw new NoSuchElementException ( msg );
 			}
@@ -188,7 +188,7 @@ package com.bourre.collection
 			} else
 			{
 				var msg : String = 	this + ".add() or " + this + ".remove() have been " +
-									"already called for this iteration, the set() operation cannot be done";
+									"already called in this iteration, the set() operation cannot be done";
 				PixlibDebug.ERROR ( msg );
 				throw new IllegalStateException ( msg );
 			}

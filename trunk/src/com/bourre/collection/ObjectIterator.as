@@ -22,15 +22,15 @@ package com.bourre.collection
 	import com.bourre.error.UnsupportedOperationException;	
 
 	/**
-	 * The <code>ObjectIterator</code> utility provide a convenient way
-	 * to iterate over properties of an object as you can do with a
-	 * <code>Collection</code>.
+	 * The <code>ObjectIterator</code> class provides a convenient way
+	 * to iterate through each property of an <code>Object</code> instance 
+	 * as you could do with a <code>Collection</code> instance.
 	 * <p>
-	 * Order of returned elements are not guarantee, the order is the
-	 * same than the <code>for...in</code> one.
+	 * Order of returned elements are not guaranteed, the order is the
+	 * same as the <code>for...in</code> one.
 	 * </p><p>
-	 * The object iterator can only iterate over the public properties
-	 * of the object, as the <code>for...in</code> construct does.
+	 * The object iterator can only iterate thorugh public properties
+	 * of an object, as the <code>for...in</code> loop does.
 	 * </p> 
 	 * @author 	Cédric Néhémie
 	 * @see		Iterator
@@ -45,10 +45,10 @@ package com.bourre.collection
 	    protected var _bRemoved : Boolean;
 		
 		/**
-		 * Creates a new object iterator over properties of
-		 * the passed-in object.
+		 * Creates a new iterator to iterate through
+		 * each property of the passed-in object.
 		 * 
-		 * @param	o	<code>Object</code> target for this iterator
+		 * @param	o	<code>Object</code> iterator's target
 		 */
 		public function ObjectIterator ( o : Object )
 		{
@@ -75,9 +75,9 @@ package com.bourre.collection
 		 */		
 		public function next () : *
 		{
-			if( !hasNext() )
+			if ( !hasNext() )
 			{
-				var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+				var msg : String = this + " has no more element at '" + ( _nIndex + 1 ) + "' index.";
 				PixlibDebug.ERROR ( msg );
 				throw new NoSuchElementException ( msg );
 			}
@@ -107,7 +107,7 @@ package com.bourre.collection
 
 			} else
 			{
-				var msg1 : String = this + ".remove() have been already called for this iteration";
+				var msg1 : String = this + ".remove() has been already called in this iteration.";
 				PixlibDebug.ERROR ( msg1 );
 				throw new IllegalStateException ( msg1 );
 			}
