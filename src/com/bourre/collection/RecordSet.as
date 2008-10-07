@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
 package com.bourre.collection 
 {
+	import com.bourre.error.IllegalArgumentException;	
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
 
@@ -24,39 +24,39 @@ package com.bourre.collection
 	 */
 	public class   RecordSet 
 		implements Iterable
-	{		private var _aColumNames : Array;
-		private var _aItems : Array;
-		
-		public function RecordSet( rawData : *  )
+	{		protected var _aColumNames 	: Array;
+		protected var _aItems 		: Array;
+
+		public function RecordSet ( rawData : *  )
 		{
 			parseRawData( rawData );
 		}
-		
-		public function clear() : void
+
+		public function clear () : void
 		{
-			_aColumNames = new Array();
-			_aItems = new Array();
+			_aColumNames = new Array( );
+			_aItems = new Array( );
 		}
-		
-		public function parseRawData( rawData : *  ) : void
+
+		public function parseRawData ( rawData : *  ) : void
 		{
-			clear();
+			clear( );
 			
 			_aColumNames = rawData.serverInfo.columnNames;
 	
 			var aItems : Array = rawData.serverInfo.initialData;
 			var i : Iterator = new ArrayIterator( aItems );
-			while( i.hasNext()) 
+			while( i.hasNext( )) 
 			{
-				var item : Object = new Object();
-				var aProperties  : Array = i.next();
+				var item : Object = new Object( );
+				var aProperties : Array = i.next( );
 				
 				var j : Iterator = new ArrayIterator( aProperties );
 				var n : int = 0 ;
-				while( j.hasNext()) 
+				while( j.hasNext( )) 
 				{
-					 // TODO: know if * or Object
-					var propertyValue : * = j.next();
+					// TODO: know if * or Object
+					var propertyValue : * = j.next( );
 					var propertyName : String = _aColumNames[ n++ ];
 					
 					item[ propertyName ] = propertyValue;
@@ -65,64 +65,66 @@ package com.bourre.collection
 				_aItems.push( item );
 			}
 		}
-		
-		public function getColumnNames(): Array 
+
+		public function getColumnNames () : Array 
 		{
 			return _aColumNames;
 		}
-		
-		public function getItems() : Array
+
+		public function getItems () : Array
 		{
 			return _aItems;
 		}
-		
-		public function getItemAt( n : Number ) : Object
+
+		public function getItemAt ( n : Number ) : Object
 		{
-			if (isEmpty())
+			if ( isEmpty( ) )
 			{
 				PixlibDebug.WARN( this + ".getItemAt(" + n + ") can't retrieve data, collection is empty." );
 				return null;
-			} else if ( n < 0 || n >= getLength() ) 
+
+			} else if ( n < 0 || n >= getLength( ) ) 
 			{
-				PixlibDebug.ERROR( 	this + ".getItemAt() was used with invalid value :'" + n + 
-									"', " + this + ".getLength() equals '" + getLength() + "'" );
+				var msg : String = this + ".getItemAt() was used with invalid value :'" + n + "', " + this + ".getLength() equals '" + getLength( ) + "'";
+				PixlibDebug.ERROR( msg );
+				throw new IllegalArgumentException( msg );
+				
 				return null;
+
 			} else
 			{
 				return _aItems[ n ];
 			}
 		}
-		
-		public function isEmpty() : Boolean
+
+		public function isEmpty () : Boolean
 		{
 			return _aItems.length == 0;
 		}
-		
-		public function columnIterator( ) : Iterator 
+
+		public function columnIterator ( ) : Iterator 
 		{
-			return new ArrayIterator( getColumnNames() );
+			return new ArrayIterator( getColumnNames( ) );
 		}
-		
-		public function iterator() : Iterator
+
+		public function iterator () : Iterator
 		{
-			return new ArrayIterator( getItems() );
+			return new ArrayIterator( getItems( ) );
 		}
-		
-		public function getLength() : Number
+
+		public function getLength () : Number
 		{
 			return _aItems.length;
 		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * 
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		public function toString () : String 
 		{
-			return PixlibStringifier.stringify( this )+ 'column['+ getColumnNames() +'] values['+ getItems() +']' ; 
+			return PixlibStringifier.stringify( this ) + 'column[' + getColumnNames( ) + '] values[' + getItems( ) + ']' ; 
 		}
-		
 	}
-
 }

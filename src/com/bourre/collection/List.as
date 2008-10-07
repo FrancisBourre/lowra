@@ -80,7 +80,8 @@ package com.bourre.collection
 	 * @author Cédric Néhémie
 	 * @see	Collection
 	 */
-	public interface List extends Collection
+	public interface List 
+		extends Collection
 	{
 		/**
 		 * Inserts the specified element at the specified position
@@ -196,7 +197,7 @@ package com.bourre.collection
 		 * @throws 	<code>IndexOutOfBoundsException</code> — if the index is out of
 		 * 		   	range (index < 0 || index > size()).
 		 */
-		function listIterator( index : uint = 0 ) : ListIterator;
+		function listIterator ( index : uint = 0 ) : ListIterator;
 		
 		/**
 		 * Removes the element at the specified position in this list

@@ -39,27 +39,28 @@ package com.bourre.collection
 	 * @author 	Francis Bourre
 	 * @see		Collection
 	 */
-	public class WeakCollection implements Collection
+	public class WeakCollection 
+		implements Collection
 	{
-		private var _d : Dictionary;
-		
+		protected var _d : Dictionary;
+
 		/**
 		 * Creates a new weak collection, which initially contains
 		 * the data from the passed-in array (optional operation).
 		 * 
 		 * @param	a	<code>Array</code> initializer for the collection 
 		 */
-		public function WeakCollection( a : Array = null )
+		public function WeakCollection ( a : Array = null )
 		{
 			clear();
-			
+
 			if ( a != null )
 			{
 				var l : int = a.length;
 				if ( l > 0 ) while( --l > -1 ) add( a[ l ] );
 			}
 		}
-		
+
 		/**
 		 * Adds the passed-in object into this collection.
 		 * Returns <code>true</code> if this collection changed
@@ -99,12 +100,16 @@ package com.bourre.collection
 		 * 								   // their properties are equals
 		 * </listing>
 		 */
-		public function add( o : Object ) : Boolean
+		public function add ( o : Object ) : Boolean
 		{
-			if ( !contains( o ) ) 
+			if ( !contains( o ) )
+			{
 				return _d[ o ] = true;
-			else 
+
+			} else 
+			{
 				return false;
+			}
 		}
 		
 		/**
@@ -120,7 +125,7 @@ package com.bourre.collection
 	     *         	call
 	     * @see 	#add() add()
 	     */
-		public function addAll( c : Collection ) : Boolean
+		public function addAll ( c : Collection ) : Boolean
 		{
 			var b : Boolean = false;
 			var i : Iterator = c.iterator();
@@ -133,7 +138,7 @@ package com.bourre.collection
 	     * This collection will be empty after this method returns unless it
 	     * throws an exception.
 	     */
-		public function clear() : void
+		public function clear () : void
 		{
 			_d = new Dictionary( true );
 		}
@@ -149,7 +154,7 @@ package com.bourre.collection
 		 * @return 	<code>true</code> if this set contains the specified
 		 * 			element.
 		 */
-		public function contains( o : Object ) : Boolean
+		public function contains ( o : Object ) : Boolean
 		{
 			return _d[ o ];
 		}
@@ -168,38 +173,41 @@ package com.bourre.collection
 		 *         	<code>null</code>.
 		 * @see    	#contains() contains()
 		 */
-		public function containsAll( c : Collection ) : Boolean
+		public function containsAll ( c : Collection ) : Boolean
 		{
 			if( c == null ) 
 			{
-				PixlibDebug.ERROR( "The passed-in collection is null in " + this );
-				throw new NullPointerException( "The passed-in collection is null in " + this );
+				var msg : String = "The passed-in collection is null in " + this;
+				PixlibDebug.ERROR ( msg );
+				throw new NullPointerException ( "The passed-in collection is null in " + this );
 			}
+
 			var i : Iterator = c.iterator();
 			while( i.hasNext() ) if ( _d[ i.next() ] != true ) return false;
 			return true;
 		}
+
 		/**
 	     * Returns <code>true</code> if this collection contains no elements.
 	     *
 	     * @return <code>true</code> if this collection contains no elements
 	     */
-		public function isEmpty() : Boolean
+		public function isEmpty () : Boolean
 		{
 			return size() == 0;
 		}
-		
+
 		/**
 		 * Returns an iterator over the elements in this collection. 
 		 * The elements are returned in no particular order.
 		 *
 		 * @return an iterator over the elements in this set.
 		 */
-		public function iterator() : Iterator
+		public function iterator () : Iterator
 		{
-			return new ConcretIterator( this );
+			return new ConcretIterator ( this );
 		}
-		
+
 		/**
 		 * Removes the specified element from this collection
 		 * if it is present. More formally,
@@ -226,7 +234,7 @@ package com.bourre.collection
 		 * trace( set.remove( "foo" ) ); // false, the passed-in value is no longer stored in this set
 		 * </listing>
 		 */
-		public function remove( o : Object ) : Boolean
+		public function remove ( o : Object ) : Boolean
 		{
 			if ( _d[ o ] ) 
 			{
@@ -239,7 +247,7 @@ package com.bourre.collection
 				return false;
 			}
 		}
-		
+
 		/**
 		 * Removes from this collection all of its elements that are contained
 		 * in the specified collection. If the specified <code>Collection</code>
@@ -278,12 +286,13 @@ package com.bourre.collection
 		 * // 2, 4, 'foo2', 'foo4' 
 		 * </listing>
 		 */
-		public function removeAll( c : Collection ) : Boolean
+		public function removeAll ( c : Collection ) : Boolean
 		{
-			if( c == null ) 
+			if ( c == null ) 
 			{
-				PixlibDebug.ERROR( "The passed-in collection is null in " + this );
-				throw new NullPointerException( "The passed-in collection is null in " + this );
+				var msg : String = "The passed-in collection is null in " + this;
+				PixlibDebug.ERROR ( msg );
+				throw new NullPointerException ( msg );
 			}
 			var b : Boolean = false;
 			var i : Iterator = c.iterator();
@@ -330,12 +339,13 @@ package com.bourre.collection
 		 * // 1, 3, 'foo1', 'foo3' 
 		 * </listing>
 		 */
-		public function retainAll( c : Collection ) : Boolean
+		public function retainAll ( c : Collection ) : Boolean
 		{
-			if( c == null ) 
+			if ( c == null ) 
 			{
-				PixlibDebug.ERROR( "The passed-in collection is null in " + this );
-				throw new NullPointerException( "The passed-in collection is null in " + this );
+				var msg : String = "The passed-in collection is null in " + this;
+				PixlibDebug.ERROR ( msg );
+				throw new NullPointerException ( msg );
 			}
 			
 			var b : Boolean = false;
@@ -354,7 +364,7 @@ package com.bourre.collection
 		 * 
 		 * @return <code>Number</code> of elements in this collection (its cardinality).
 		 */
-		public function size() : uint
+		public function size () : uint
 		{
 			return Math.max( toArray().length, 0 );
 		}
@@ -367,7 +377,7 @@ package com.bourre.collection
 		 * @return  <code>Array</code> containing all of the elements in this set.
 		 * @see		Collection#toArray() Collection.toArray()
 		 */
-		public function toArray() : Array
+		public function toArray () : Array
 		{
 			var a : Array = new Array();
 			for ( var k : Object in _d ) if ( _d[k] ) a.push( k );
@@ -381,7 +391,7 @@ package com.bourre.collection
 		 * @return <code>String</code> representation of
 		 * 		   this object.
 		 */
-		public function toString() : String 
+		public function toString () : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}
@@ -391,8 +401,10 @@ package com.bourre.collection
 import com.bourre.collection.*;
 import com.bourre.error.IllegalStateException;
 import com.bourre.error.NoSuchElementException;
+import com.bourre.log.PixlibDebug;
 
-internal class ConcretIterator implements Iterator
+internal class ConcretIterator 
+	implements Iterator
 {
 	private var _c : WeakCollection;
 	private var _nIndex : int;
@@ -400,13 +412,13 @@ internal class ConcretIterator implements Iterator
 	private var _a : Array;
 	private var _bRemoved : Boolean;
 
-	public function ConcretIterator( c : WeakCollection )
+	public function ConcretIterator ( c : WeakCollection )
 	{
-		_c = c;
-		_nIndex = -1;
-		_a = _c.toArray();
+		_c 			= c;
+		_nIndex 	= -1;
+		_a 			= _c.toArray();
 		_nLastIndex = _a.length - 1;
-		_bRemoved = false;
+		_bRemoved 	= false;
 	}
 
 	public function hasNext() : Boolean
@@ -417,7 +429,11 @@ internal class ConcretIterator implements Iterator
  	public function next() : *
  	{
  		if( !hasNext() )
-			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+ 		{
+ 			var msg : String = this + " has no more elements at " + ( _nIndex );
+			PixlibDebug.ERROR ( msg );
+			throw new NoSuchElementException ( msg );
+ 		}
 			
  		_bRemoved = false;
  		return _a[ ++_nIndex ];
@@ -425,16 +441,18 @@ internal class ConcretIterator implements Iterator
  	
     public function remove() : void
     {
-    	if( !_bRemoved )
+    	if ( !_bRemoved )
     	{
     		_c.remove( _a[ _nIndex ] );
 			_a = _c.toArray( );
 			_nLastIndex--;
 			_bRemoved = true;
-    	}
-    	else
+
+    	} else
 		{
-			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+			var msg : String = this + ".remove() have been already called for this iteration";
+			PixlibDebug.ERROR ( msg );
+			throw new IllegalStateException ( msg );
 		}
     }
 }

@@ -15,6 +15,7 @@
  */
 package com.bourre.collection 
 {
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.utils.ObjectUtils;
 	
@@ -39,8 +40,9 @@ package com.bourre.collection
 	 * a[ 1 ] = "20"; // throw an error
 	 * </listing>
 	 */
-	dynamic final public class TypedArray extends Proxy
-						 implements TypedContainer
+	dynamic final public class TypedArray 
+		extends Proxy
+		implements TypedContainer
 	{
 		private var _a : Array;
 		private var _t : Class;
@@ -68,16 +70,17 @@ package com.bourre.collection
 		public function TypedArray ( t : Class = null, ... args )
 		{
 			_t = t != null ? t : Object ;
-			
-			if( args.length == 1 && args[0] is uint )
+
+			if ( args.length == 1 && args[0] is uint )
 			{
 				_a = new Array ( args[ 0 ] );
-			}
-			else
+
+			} else
 			{
 				_a = new Array ();
 				var item : *;
 				var b : Boolean = false;
+
 				for each ( item in args )
 	            {
 	            	if( !matchType( item ) )
@@ -86,11 +89,13 @@ package com.bourre.collection
 	            		break;
 	            	}
 	            }
-	            if( b )
+
+	            if ( b )
 	            {
 	            	_throwTypeError( "Arguments contains elements of a type different than " +
 	            					 _t + " in new TypedArray( "+_t+", "+args+" )" );
 	            }
+
 	            _a.unshift.apply ( _a, args );
 			}
 		}
@@ -117,15 +122,17 @@ package com.bourre.collection
 	    public function push ( ... args ) : Number
 	    {
 	    	var b : Boolean = false;
+
         	for each ( var item : * in args )
         	{
-        		if( !matchType( item ) )
+        		if ( !matchType( item ) )
             	{
             		b = true;
             		break;
             	}
         	}
-        	if( b )
+
+        	if ( b )
         	{
         		_throwTypeError( "Arguments contains elements of a type different than " +
         						 _t + " in " + this + ".unshift( "+ args + " )" );
@@ -149,6 +156,7 @@ package com.bourre.collection
 	    public function unshift ( ... args ) : Number
 	    {
 	    	var b : Boolean = false;
+
         	for each ( var item : * in args )
         	{
         		if( !matchType( item ) )
@@ -157,7 +165,8 @@ package com.bourre.collection
             		break;
             	}
         	}
-        	if( b )
+
+        	if ( b )
         	{
         		_throwTypeError( "Arguments contains elements of a type different than " +
         						 _t + " in " + this + ".unshift( "+ args + " )" );
@@ -192,6 +201,7 @@ package com.bourre.collection
 	    public function splice ( startIndex : int, deleteCount : int, ... values ) : TypedArray
 	    {
         	var b : Boolean = false;
+
         	for each ( var item : * in values )
         	{
         		if( !matchType( item ) )
@@ -200,12 +210,13 @@ package com.bourre.collection
             		break;
             	}
         	}
-        	if( b )
+
+        	if ( b )
         	{
         		_throwTypeError( "Arguments contains elements of a type different than " +
         						 _t + " in " + this + ".splice( "+ startIndex +", "+ deleteCount +", "+ values + " )" );
         	}
-        	
+
         	return _fromArray( _a.splice.apply( _a, [ startIndex, deleteCount ].concat(values) ) );
 	    }
 	    
@@ -228,7 +239,7 @@ package com.bourre.collection
 			
         	mainloop: for each ( var arg : * in args )
         	{
-        		if( arg is Array )
+        		if ( arg is Array )
         		{
         			for each ( var item : * in arg )
         			{
@@ -238,22 +249,23 @@ package com.bourre.collection
             				break mainloop;
             			}
         			}
-        		}
-        		else
+
+        		} else
         		{
-        			if( !matchType( arg ) )
+        			if ( !matchType( arg ) )
         			{
         				b = true;
             			break mainloop;
         			}
         		}
         	}
+
         	if( b )
         	{
         		_throwTypeError( "Arguments contains elements of a type different than " +
         						 _t + " in " + this + ".concat( "+ args + " )" );
         	}
-        	    		    		
+    		
     		return _fromArray ( _a.concat.apply( _a, args ) );
 	    } 
 	    
@@ -279,7 +291,7 @@ package com.bourre.collection
 	    {	
     		return _fromArray ( _a.slice( startIndex, endIndex ) );
 	    }
-	    
+
 	    /**
 	     * Executes a test function on each item in the array and constructs a new array
 	     * for all items that return true for the specified function. If an item returns
@@ -321,7 +333,7 @@ package com.bourre.collection
 	    {
 	    	return _fromArray( _a.filter( callback, thisObject ) );
 	    }
-	    
+
 	    /**
 	     * Executes a function on each item in an array, and constructs a new array
 	     * of items corresponding to the results of the function on each item in the original array.
@@ -360,7 +372,7 @@ package com.bourre.collection
 	    {
 	    	return _fromArray( _a.map( callback, thisObject ) );
 	    }
-	    
+
 	    /**
 	     * Sorts the elements in an array. This method sorts according to Unicode values.
 	     * ASCII is a subset of Unicode.)
@@ -422,7 +434,6 @@ package com.bourre.collection
 	    {
 	    	return _fromArray( _a.sort.apply( _a, args ) );
 	    }
-	    
 
 	    /**
 	     * Sorts the elements in an array according to one or more fields in the array.
@@ -501,7 +512,7 @@ package com.bourre.collection
 	    {
 	    	return _fromArray( _a.sortOn( fieldName, options ) );
 	    }
-	    
+
 	    /**
 	     * Reverses the array in place.
 	     * 
@@ -520,7 +531,7 @@ package com.bourre.collection
 	    {
 	    	return _fromArray( _a.reverse() );
 	    }
-		
+
 		/**
 		 * Verify if the passed-in object can be inserted in the
 		 * current <code>TypedArray</code>.
@@ -533,7 +544,7 @@ package com.bourre.collection
 	    {
 	    	return ( o is _t || o == null );
 	    }
-	    
+
 	    /**
 	     * Return the current type allowed in the <code>TypedArray</code>
 	     * 
@@ -543,7 +554,7 @@ package com.bourre.collection
 	    {
 	    	return _t;
 	    }
-	    
+
 	    /**
 		 * Returns <code>true</code> if this array perform a verification
 		 * of the type of elements.
@@ -555,7 +566,7 @@ package com.bourre.collection
 		{
 			return _t != null;
 		}
-	    
+
 	     /**
 	    * Returns the <code>String</code> representation of the object.
 	    */
@@ -570,10 +581,10 @@ package com.bourre.collection
 				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
 			}	
 			parameter += "[" + _a + "]";
-			
+
 			return PixlibStringifier.stringify( this ) + parameter;
 	    }
-	    
+
 		/**
 		 * @private
 		 */
@@ -581,7 +592,7 @@ package com.bourre.collection
 		{
 	        return _a[ methodName ].apply( _a , args );
 	    }
-	
+
 		/**
 		 * @private
 		 */
@@ -589,7 +600,7 @@ package com.bourre.collection
 	    {
 	        return _a[ name ];
 	    }
-	
+
 		/**
 		 * @private
 		 */
@@ -601,16 +612,16 @@ package com.bourre.collection
 	     	}
 	     	_a[ name ] = value;
 	    }
-	    
+
 	    /**
 		 * @private
 		 */
 	    private function _throwTypeError ( m : String ) : void
 	    {
-	    	//PixlibDebug.ERROR( m );
+			//PixlibDebug.ERROR( m );
 	    	throw new TypeError ( m );
 	    }
-	    
+
 	    /**
 	     * Speed conversion of an array to a typed one.
 	     * @private
@@ -631,8 +642,7 @@ package com.bourre.collection
 	    {
 	    	_a = a;
 	    }
-	    
-	    
+
 	    /**
 	     * Return a copy of the internal untyped Array <code>TypedArray</code>
 	     * 
@@ -642,7 +652,7 @@ package com.bourre.collection
 	    {
 	    	return _a.concat();
 		}
-	    
+
 	    /**
 	     * Return the size of the <code>TypedArray</code>
 	     * 
@@ -652,7 +662,7 @@ package com.bourre.collection
 	    {
 	    	return _a.length ;
 	    }
-	    
+
 	     /**
 	     * Clone the typed array and return a new <code>TypedArray</code>
 	     * 
@@ -664,17 +674,17 @@ package com.bourre.collection
 	    	a._fill(ObjectUtils.cloneArray( _a ));
 	    	return a ;
 	    }
-	    
+
 		override flash_proxy function nextNameIndex ( index : int ) : int
 	    {
 	    	return index < _a.length ? index + 1 : 0;
 	    }
-	    
+
 		override flash_proxy function nextName( index : int ) : String
 	    {
 	    	return String( index - 1 );
     	}
-    	
+
     	override flash_proxy function nextValue( index : int ) : *
     	{
     		return _a[ index ];

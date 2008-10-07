@@ -69,17 +69,18 @@ package com.bourre.collection
 	 * trace ( queue.size() ); // 1 
 	 * </listing>
 	 */
-	public class Queue implements Collection, TypedContainer
+	public class Queue 
+		implements Collection, TypedContainer
 	{
-		private var _aQueue : Array;
-		private var _oType : Class;
+		protected var _aQueue 	: Array;
+		protected var _oType 	: Class;
 
 		/**
 		 * Create an empty <code>Queue</code> object. 
 		 */
 		public function Queue ( type : Class = null )
 		{
-			this._aQueue = new Array( );
+			_aQueue = new Array( );
 			_oType = type;
 		}
 
@@ -130,40 +131,41 @@ package com.bourre.collection
 		 * trace( queue.size() ); // 2
 		 * </listing>
 		 */
-		public function add (o : Object) : Boolean
+		public function add ( o : Object ) : Boolean
 		{
 			if( isValidType( o ) )
 			{
 				_aQueue.push( o );
 				return true;
 			}
+
 			return false;
 		}
 
 		/**
 		 * Removes a single instance of the specified element from this
-	     * queue, if this queue contains one or more such elements.
-	     * Returns <code>true</code> if this queue contained the specified
-	     * element (or equivalently, if this collection changed as a result
-	     * of the call).
-	     * <p>
-	     * In order to remove all occurences of an element you have to call
-	     * the <code>remove</code> method as long as the queue contains an
-	     * occurrence of the passed-in element. Typically, the construct to
-	     * remove all occurrences of an element should look like that :
-	     * <listing>
-	     * while( queue.contains( element ) ) queue.remove( element );
-	     * </listing>
-	     * </p><p>
+		 * queue, if this queue contains one or more such elements.
+		 * Returns <code>true</code> if this queue contained the specified
+		 * element (or equivalently, if this collection changed as a result
+		 * of the call).
+		 * <p>
+		 * In order to remove all occurences of an element you have to call
+		 * the <code>remove</code> method as long as the queue contains an
+		 * occurrence of the passed-in element. Typically, the construct to
+		 * remove all occurrences of an element should look like that :
+		 * <listing>
+		 * while( queue.contains( element ) ) queue.remove( element );
+		 * </listing>
+		 * </p><p>
 		 * If the current queue object is typed and if the passed-in object's  
 		 * type prevents it to be added (and then removed) in this queue,
 		 * the function throws a <code>ClassCastException</code>.
 		 * </p> 
-	     * @param	o <code>object</code> to be removed from this queue,
-	     * 			  if present.
+		 * @param	o <code>object</code> to be removed from this queue,
+		 * 			  if present.
 		 * @return 	<code>true</code> if the queue contained the 
 		 * 			specified element.
-	     * @throws 	<code>ClassCastException</code> — If the object's type
+		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this queue
 		 * @example Using the <code>Queue.remove()</code> method of an untyped queue : 
 		 * <listing>
@@ -210,6 +212,7 @@ package com.bourre.collection
 				_aQueue.splice( _aQueue.indexOf( o ), 1 );
 				return true;
 			}
+
 			return false;
 		}
 
@@ -229,7 +232,6 @@ package com.bourre.collection
 		public function contains ( o : Object ) : Boolean
 		{
 			isValidType( o );
-			
 			return _aQueue.indexOf( o ) != -1;
 		}
 
@@ -393,7 +395,7 @@ package com.bourre.collection
 				var iter : Iterator = c.iterator( );
 				var modified : Boolean = false;
 				
-				while(iter.hasNext( ))
+				while( iter.hasNext( ) )
 				{
 					var o : * = iter.next( );
 					if( isValidType( o ) )
@@ -402,9 +404,10 @@ package com.bourre.collection
 						modified = true;
 					}
 				}
-				
+
 				return modified;
 			}
+
 			return false;
 		}
 
@@ -460,16 +463,15 @@ package com.bourre.collection
 				var iter : Iterator = c.iterator( );
 				var find : Boolean = false;
 				
-				while(iter.hasNext( ))
+				while( iter.hasNext( ) )
 				{
-					var o : * = iter.next();
-					while( this.contains( o ) )
-					{
-						find = this.remove( o ) || find;
-					}
-				}			
+					var o : * = iter.next( );
+					while( this.contains( o ) ) find = this.remove( o ) || find;
+				}
+		
 				return find;
 			}
+
 			return false;
 		}
 
@@ -501,19 +503,16 @@ package com.bourre.collection
 		 */
 		public function containsAll ( c : Collection ) : Boolean
 		{
-			if( isValidCollection( c ) )
+			if ( isValidCollection( c ) )
 			{
 				var iter : Iterator = c.iterator( );
-				
+
 				//if one element is not in this collection return false
 				//else if all elements is in return true
-				while( iter.hasNext( ) )
-				{
-					if( !contains( iter.next( ) ) )
-						return false;
-				}
+				while( iter.hasNext( ) ) if( !contains( iter.next( ) ) ) return false;
 				return true;
 			}
+
 			return false;
 		}
 
@@ -562,37 +561,37 @@ package com.bourre.collection
 		 * // 1, 3, 'foo1', 'foo3' 
 		 * </listing>
 		 */
-		public function retainAll (c : Collection) : Boolean
+		public function retainAll ( c : Collection ) : Boolean
 		{
-			if( isValidCollection( c ) )
+			if ( isValidCollection( c ) )
 			{
 				var modified : Boolean = false;
 				var fin : int = _aQueue.length;
 				var id : int = 0;
-				while(id < fin)
+
+				while( id < fin )
 				{
-					var obj : * = _aQueue[id];
-					if(!c.contains( obj ))
+					var obj : * = _aQueue[ id ];
+					if( !c.contains( obj ) )
 					{
 						var fromIndex : int = 0;
-						while(true)
+						while( true )
 						{
 							fromIndex = _aQueue.indexOf( obj, fromIndex );
-							if(fromIndex == -1)
-							{
-								break;
-							}
+							if ( fromIndex == -1 ) break;
 							modified = true;
 							_aQueue.splice( fromIndex, 1 );
 							--fin;
 						}
-					}else
+					} else
 					{
 						++id;
 					}
 				}
+
 				return modified;
 			}
+
 			return false;
 		}
 
@@ -606,28 +605,28 @@ package com.bourre.collection
 			return _aQueue.length;
 		}
 
-	    /**
-	     * Retrieves, but does not remove, the head of this queue,
-	     * or returns <code>null</code> if this queue is empty.
-	     *
-	     * @return 	the head of this queue, or <code>null</code>
-	     * 			if this queue is empty
-	     */
+		/**
+		 * Retrieves, but does not remove, the head of this queue,
+		 * or returns <code>null</code> if this queue is empty.
+		 *
+		 * @return 	the head of this queue, or <code>null</code>
+		 * 			if this queue is empty
+		 */
 		public function peek () : Object
 		{
-			return _aQueue[0];
+			return _aQueue[ 0 ];
 		}
-		
+
 		/**
-	     * Retrieves and removes the head of this queue,
-	     * or returns <code>null</code> if this queue is empty.
-	     *
-	     * @return 	the head of this queue, or <code>null</code>
-	     * 		   	if this queue is empty
-	     */
+		 * Retrieves and removes the head of this queue,
+		 * or returns <code>null</code> if this queue is empty.
+		 *
+		 * @return 	the head of this queue, or <code>null</code>
+		 * 		   	if this queue is empty
+		 */
 		public function poll () : Object
 		{
-			return _aQueue.shift();
+			return _aQueue.shift( );
 		}
 
 		/**
@@ -637,11 +636,11 @@ package com.bourre.collection
 		 * @return  <code>true</code> if the object is elligible for this
 		 * 			queue object, either <code>false</code>.
 		 */
-		public function matchType (o : *) : Boolean
+		public function matchType ( o : * ) : Boolean
 		{
 			return o is _oType;
 		}
-				
+
 		/**
 		 * Returns <code>true</code> if this queue perform a verification
 		 * of the type of elements.
@@ -653,7 +652,7 @@ package com.bourre.collection
 		{
 			return _oType != null;
 		}
-		
+
 		/**
 		 * Return the class type of elements in this queue object.
 		 * <p>
@@ -667,7 +666,7 @@ package com.bourre.collection
 		{
 			return _oType;
 		} 
-		
+
 		/**
 		 * Verify that the passed-in <code>Collection</code> is a valid
 		 * collection for use with the <code>addAll</code>, <code>removeAll</code>,
@@ -700,29 +699,28 @@ package com.bourre.collection
 		 */
 		public function isValidCollection ( c : Collection ) : Boolean
 		{
-			if( c == null ) 
+			if ( c == null ) 
 			{
-				PixlibDebug.ERROR( "The passed-in collection is null in " + this );
-				throw new NullPointerException( "The passed-in collection is null in " + this );
-			}
-			else if( getType() != null )
+				var msg0 : String = "The passed-in collection is null in " + this;
+				PixlibDebug.ERROR( msg0 );
+				throw new NullPointerException( msg0 );
+			} else if ( getType( ) != null )
 			{
-				if( c is TypedContainer && ( c as TypedContainer ).getType() != getType() )
+				if ( c is TypedContainer && ( c as TypedContainer ).getType( ) != getType( ) )
 				{
-					PixlibDebug.ERROR( "The passed-in collection is not of the same type than " + this );
-					throw new IllegalArgumentException( "The passed-in collection is not of the same type than " + this );
-				}
-				else
+					var msg1 : String = "The passed-in collection is not of the same type than " + this;
+					PixlibDebug.ERROR( msg1 );
+					throw new IllegalArgumentException( msg1 );
+				} else
 				{
 					return true;
 				}
-			}
-			else
+			} else
 			{
 				return true;
 			}
 		}
-		
+
 		/**
 		 * Verify that the passed-in object type match the current 
 		 * <code>Queue</code> element's type. 
@@ -742,22 +740,23 @@ package com.bourre.collection
 		 */
 		public function isValidType ( o : Object ) : Boolean
 		{
-			if ( getType() != null)
+			if ( getType( ) != null)
 			{
 				if ( matchType( o ) )
 				{
 					return true;
-				}
-				else
+				} else
 				{
-					PixlibDebug.ERROR( o + " has a wrong type for " + this );
-					throw new ClassCastException( o + " has a wrong type for " + this ) ;
+					var msg : String = o + " has a wrong type for " + this;
+					PixlibDebug.ERROR( msg );
+					throw new ClassCastException( msg ) ;
 				}
+			} else
+			{
+				return true;
 			}
-			else
-				return true ;
 		}
-		
+
 		/**
 		 * Returns an array containing all the elements in this queue.
 		 * Obeys the general contract of the <code>Collection.toArray</code>
@@ -771,7 +770,7 @@ package com.bourre.collection
 		{
 			return _aQueue.concat( );
 		}
-		
+
 		/**
 		 * Returns the <code>String</code> representation of
 		 * this object. 
@@ -789,12 +788,12 @@ package com.bourre.collection
 		 */
 		public function toString () : String
 		{
-			var hasType : Boolean = getType() != null;
+			var hasType : Boolean = getType( ) != null;
 			var parameter : String = "";
 			
-			if( hasType )
+			if ( hasType )
 			{
-				parameter = getType().toString();
+				parameter = getType( ).toString( );
 				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
 			}
 			
@@ -807,15 +806,16 @@ import com.bourre.collection.Iterator;
 import com.bourre.collection.Queue;
 import com.bourre.error.IllegalStateException;
 import com.bourre.error.NoSuchElementException;
+import com.bourre.log.PixlibDebug;
 
 internal class QueueIterator 
 	implements Iterator
 {
-	private var _c : Queue;
-	private var _nIndex : int;
+	private var _c 			: Queue;
+	private var _nIndex 	: int;
 	private var _nLastIndex : int;
-	private var _a : Array;
-	private var _bRemoved : Boolean;
+	private var _a 			: Array;
+	private var _bRemoved 	: Boolean;
 
 	public function QueueIterator ( c : Queue )
 	{
@@ -833,11 +833,15 @@ internal class QueueIterator
 
 	public function next () : *
 	{
-		if( !hasNext() )
-			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
-			
+		if( !hasNext( ) )
+		{
+			var msg : String = this + " has no more elements at " + ( _nIndex );
+			PixlibDebug.ERROR( msg );
+			throw new NoSuchElementException( msg );
+		}
+
 		_bRemoved = true;
-		return _a[ ++_nIndex];
+		return _a[ ++_nIndex ];
 	}
 
 	public function remove () : void
@@ -848,10 +852,11 @@ internal class QueueIterator
 			_a = _c.toArray( );
 			_nLastIndex--;
 			_bRemoved = true;
-		}
-		else
+		} else
 		{
-			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+			var msg : String = this + ".remove() have been already called for this iteration";
+			PixlibDebug.ERROR( msg );
+			throw new IllegalStateException( msg );
 		}
 	}
 }
