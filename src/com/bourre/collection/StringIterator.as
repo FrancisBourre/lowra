@@ -15,10 +15,10 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.error.IllegalStateException;
-	import com.bourre.error.NoSuchElementException;
 	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.IllegalStateException;
 	import com.bourre.error.IndexOutOfBoundsException;
+	import com.bourre.error.NoSuchElementException;
 	import com.bourre.error.NullPointerException;	
 
 	/**

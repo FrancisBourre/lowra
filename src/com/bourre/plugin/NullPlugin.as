@@ -1,34 +1,33 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.plugin 
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
-	import flash.events.Event;
-	
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.AbstractModel;
 	import com.bourre.model.ModelLocator;
 	import com.bourre.view.AbstractView;
-	import com.bourre.view.ViewLocator;	
-
+	import com.bourre.view.ViewLocator;
+	
+	import flash.events.Event;	
+	
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	final public class NullPlugin 
 		implements Plugin
 	{
@@ -36,14 +35,14 @@ package com.bourre.plugin
 
 		private var _channel : NullPluginChannel;
 
-		public function NullPlugin ( access : PrivateConstructorAccess )
+		public function NullPlugin ( access : ConstructorAccess )
 		{
 			_channel = new NullPluginChannel();
 		}
 
 		public static function getInstance() : NullPlugin
 		{
-			if ( !(NullPlugin._oI is NullPlugin) ) NullPlugin._oI = new NullPlugin( new PrivateConstructorAccess() );
+			if ( !(NullPlugin._oI is NullPlugin) ) NullPlugin._oI = new NullPlugin( new ConstructorAccess() );
 			return NullPlugin._oI;
 		}
 
@@ -106,7 +105,7 @@ package com.bourre.plugin
 		}
 	}
 }
-internal class PrivateConstructorAccess 
+internal class ConstructorAccess 
 {
 }
 

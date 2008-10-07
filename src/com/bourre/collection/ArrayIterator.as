@@ -15,10 +15,10 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.error.IndexOutOfBoundsException;	
-	import com.bourre.error.NullPointerException;	
 	import com.bourre.error.IllegalStateException;
-	import com.bourre.error.NoSuchElementException;	
+	import com.bourre.error.IndexOutOfBoundsException;
+	import com.bourre.error.NoSuchElementException;
+	import com.bourre.error.NullPointerException;		
 
 	/**
 	 * The <code>ArrayIterator</code> utility provide a convenient way

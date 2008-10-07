@@ -15,11 +15,16 @@
  */
 package com.bourre.events 
 {
-	import com.bourre.collection.*;
+	import com.bourre.collection.Collection;
+	import com.bourre.collection.HashMap;
+	import com.bourre.collection.Iterator;
+	import com.bourre.collection.WeakCollection;
 	import com.bourre.commands.Delegate;
-	import com.bourre.error.*;
-	import com.bourre.log.*;
-
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.UnsupportedOperationException;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;
+	
 	import flash.events.Event;
 	import flash.utils.getQualifiedClassName;	
 

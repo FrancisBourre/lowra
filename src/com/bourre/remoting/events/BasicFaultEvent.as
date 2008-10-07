@@ -1,7 +1,8 @@
-package com.bourre.remoting.events {
-	import com.bourre.remoting.ServiceMethod;	
-	import com.bourre.events.BasicEvent;	
-	
+package com.bourre.remoting.events 
+{
+	import com.bourre.events.BasicEvent;
+	import com.bourre.remoting.ServiceMethod;		
+
 	/**
 	 * @author romain
 	 * @author Axel Aigret

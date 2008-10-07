@@ -1,8 +1,7 @@
 package com.bourre.remoting
 {
-	import flash.net.URLRequest;
-	import flash.utils.getQualifiedClassName;
-	
+	import flash.net.URLRequest;	
+
 	/**
 	 * @author romain
 	 */

@@ -15,11 +15,9 @@
  */
 package com.bourre.commands 
 {
-	import com.bourre.plugin.Plugin;	
+	import com.bourre.plugin.Plugin;
 	
-	import flash.events.Event;
-
-	import com.bourre.log.PixlibStringifier;	
+	import flash.events.Event;		
 
 	/**
 	 * <code>Batch</code> object encapsulate a set of <code>Commands</code>

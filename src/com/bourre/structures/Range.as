@@ -15,8 +15,8 @@
  */ 
 package com.bourre.structures
 {
-	import com.bourre.log.PixlibStringifier;
-	
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * A range represent a space of numeric values.
 	 * 

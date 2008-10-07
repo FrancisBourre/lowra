@@ -15,19 +15,19 @@
  */
 package com.bourre.commands 
 {
-	import flash.events.Event;
-	import flash.utils.getTimer;
-	
 	import com.bourre.collection.Iterator;
 	import com.bourre.commands.AbstractSyncCommand;
+	import com.bourre.error.IllegalStateException;
 	import com.bourre.events.IterationEvent;
 	import com.bourre.events.LoopEvent;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.plugin.Plugin;
 	import com.bourre.transitions.FPSBeacon;
 	import com.bourre.transitions.TickBeacon;
 	import com.bourre.transitions.TickListener;
-	import com.bourre.error.IllegalStateException;
-	import com.bourre.plugin.Plugin;	
+	
+	import flash.events.Event;
+	import flash.utils.getTimer;	
 
 	/**
 	 * A <code>LoopCommand</code> wrap a loop statement within a command. Loop

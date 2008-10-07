@@ -15,10 +15,10 @@
  */
 package com.bourre.events 
 {
-	import flash.utils.getQualifiedClassName;
-	
 	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.utils.getQualifiedClassName;	
 
 	/**
 	 * An <code>EventChannel</code> object defines a communication

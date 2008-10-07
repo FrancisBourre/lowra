@@ -15,16 +15,15 @@
  */
 package com.bourre.commands
 {
-	import com.bourre.error.IllegalStateException;	
-	
-	import flash.events.Event;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
-	
+	import com.bourre.error.IllegalStateException;
 	import com.bourre.events.BasicEvent;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.events.Event;
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;		
 
 	/*
 	 * Upgrade to IOC : 

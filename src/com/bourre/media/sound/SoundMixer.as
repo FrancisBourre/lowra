@@ -16,15 +16,15 @@
 
 package com.bourre.media.sound 
 {
-	import flash.media.Sound;
-	
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Batch;
 	import com.bourre.commands.Suspendable;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.media.sound.*;		
+	import com.bourre.media.sound.*;
+	
+	import flash.media.Sound;	
 
 	/**
 	 * @author Aigret Axel

@@ -15,11 +15,11 @@
  */	
 package com.bourre.error 
 {
-
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class NoSuchMethodException extends Error 
+	public class NoSuchMethodException 
+		extends Error 
 	{
 		public function NoSuchMethodException ( message: String )
 		{

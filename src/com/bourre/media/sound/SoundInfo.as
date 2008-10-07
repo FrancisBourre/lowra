@@ -22,10 +22,6 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.events.Event;
-	import flash.media.Sound;
-	import flash.media.SoundChannel;
-	
 	import com.bourre.collection.TypedArray;
 	import com.bourre.commands.Delegate;
 	import com.bourre.commands.Suspendable;
@@ -35,7 +31,11 @@ package com.bourre.media.sound
 	import com.bourre.media.sound.SoundTransformInfo;
 	import com.bourre.transitions.MSBeacon;
 	import com.bourre.transitions.TickBeacon;
-	import com.bourre.transitions.TickListener;	
+	import com.bourre.transitions.TickListener;
+	
+	import flash.events.Event;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;	
 
 	public class 	  SoundInfo 
 		   implements Suspendable , TickListener
@@ -326,14 +326,14 @@ package com.bourre.media.sound
 	}
 }
 
+import com.bourre.media.sound.SoundInfoChannel;
+import com.bourre.media.sound.SoundTransformInfo;
+
 import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.media.SoundLoaderContext;
 import flash.media.SoundTransform;
 import flash.net.URLRequest;
-
-import com.bourre.media.sound.SoundInfoChannel;
-import com.bourre.media.sound.SoundTransformInfo;
 
 /**
  * ChannelSoundInfo is use to play and remember all information about a play iteration of a sound

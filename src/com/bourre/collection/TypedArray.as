@@ -15,11 +15,11 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.utils.ObjectUtils;	
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.utils.ObjectUtils;
 	
-	import com.bourre.log.PixlibStringifier;	
+	import flash.utils.Proxy;
+	import flash.utils.flash_proxy;		
 
 	/**
 	 * <code>TypedArray</code> work the same way than a classical <code>Array</code>

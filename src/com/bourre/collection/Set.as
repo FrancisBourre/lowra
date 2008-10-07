@@ -1134,8 +1134,8 @@ package com.bourre.collection
 
 import com.bourre.collection.ListIterator;
 import com.bourre.collection.Set;
-import com.bourre.error.NoSuchElementException;
 import com.bourre.error.IllegalStateException;
+import com.bourre.error.NoSuchElementException;
 
 internal class SetIterator implements ListIterator
 {

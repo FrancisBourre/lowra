@@ -14,11 +14,8 @@
  * limitations under the License.
  */	
 
-package com.bourre.media.sound {
-	import flash.media.Sound;
-	import flash.media.SoundChannel;
-	import flash.system.ApplicationDomain;
-	
+package com.bourre.media.sound 
+{
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.TypedArray;
 	import com.bourre.error.ClassCastException;
@@ -26,7 +23,11 @@ package com.bourre.media.sound {
 	import com.bourre.error.IllegalStateException;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.system.ApplicationDomain;	
 
 	/**
 	 * <pre>

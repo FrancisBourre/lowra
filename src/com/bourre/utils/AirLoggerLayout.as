@@ -1,6 +1,36 @@
-package com.bourre.utils {
-	import flash.events.SecurityErrorEvent;	import flash.events.StatusEvent;	import flash.net.LocalConnection;	import flash.utils.clearInterval;	import flash.utils.getQualifiedClassName;	import flash.utils.setInterval;		import com.bourre.log.LogEvent;	import com.bourre.log.LogListener;	import com.bourre.log.PixlibStringifier;	
-	public class AirLoggerLayout implements LogListener
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.bourre.utils 
+{
+	import com.bourre.log.LogEvent;
+	import com.bourre.log.LogListener;
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.events.SecurityErrorEvent;
+	import flash.events.StatusEvent;
+	import flash.net.LocalConnection;
+	import flash.utils.clearInterval;
+	import flash.utils.getQualifiedClassName;
+	import flash.utils.setInterval;	
+
+	/**
+	 * @author	Cédric Néhémie
+	 */
+	public class AirLoggerLayout 
+		implements LogListener
 	{
 		/*---------------------------------------------------------------
 				STATIC MEMBERS
@@ -8,16 +38,16 @@ package com.bourre.utils {
 		
 		private static var _oI : AirLoggerLayout = null;
 		
-		protected static const LOCALCONNECTION_ID : String = "_AIRLOGGER_CONSOLE";
-		protected static const OUT_SUFFIX : String = "_IN";
-		protected static const IN_SUFFIX : String = "_OUT";
+		protected static const LOCALCONNECTION_ID 	: String = "_AIRLOGGER_CONSOLE";
+		protected static const OUT_SUFFIX 			: String = "_IN";
+		protected static const IN_SUFFIX 			: String = "_OUT";
 		
 		static protected var ALTERNATE_ID_IN : String = "";
 		
 		public static function getInstance () : AirLoggerLayout
 		{
 			if( _oI == null )
-				_oI = new AirLoggerLayout ( new PrivateConstructorAccess() );
+				_oI = new AirLoggerLayout ( new ConstructorAccess() );
 				
 			return _oI;
 		}
@@ -43,7 +73,7 @@ package com.bourre.utils {
 		
 		protected var _sName : String;
 		
-		public function AirLoggerLayout ( access : PrivateConstructorAccess )
+		public function AirLoggerLayout ( access : ConstructorAccess )
 		{
             try
             {
@@ -61,8 +91,8 @@ package com.bourre.utils {
 	            
 	            _bIdentified = false;
 				_bRequesting = false;
-            }
-            catch ( e : Error )
+
+            } catch ( e : Error )
             {
             	// TODO Notifier le AirLogger que le channel de requete est déja occupé
             	// se reconnecter sur un autre
@@ -223,8 +253,11 @@ package com.bourre.utils {
         }
 	}
 }
-import com.bourre.events.BasicEvent;
-internal class AirLoggerEvent extends BasicEvent
+
+import com.bourre.events.BasicEvent;
+
+internal class AirLoggerEvent 
+	extends BasicEvent
 {
 	public var message : *;
 	public var level : uint;
@@ -242,4 +275,4 @@ package com.bourre.utils {
 	}
 }
 
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

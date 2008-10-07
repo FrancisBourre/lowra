@@ -1,8 +1,8 @@
 package com.bourre.remoting.interfaces
 {
-	import com.bourre.remoting.events.BasicResultEvent;	
-	import com.bourre.remoting.events.BasicFaultEvent;	
-	
+	import com.bourre.remoting.events.BasicFaultEvent;
+	import com.bourre.remoting.events.BasicResultEvent;		
+
 	/**
 	 * 
 	 * @author romain

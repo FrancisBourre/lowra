@@ -15,22 +15,22 @@
  */
 package com.bourre.transitions 
 {
-	import flash.events.Event;
-	
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.core.AccessorComposer;
 	import com.bourre.core.AccessorFactory;
 	import com.bourre.error.IndexOutOfBoundsException;
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.utils.ClassUtils;	
+	import com.bourre.utils.ClassUtils;
+	
+	import flash.events.Event;	
 
 	/**
-	 * 
 	 * @author	Cédric Néhémie
 	 */
-	public class AbstractMultiTween extends AbstractSyncCommand	
-									implements AdvancedTween, TickListener
+	public class AbstractMultiTween 
+		extends AbstractSyncCommand	
+		implements AdvancedTween, TickListener
 	{	
 		static public function noEasing( t : Number,  b : Number,  c : Number, d : Number ) : Number 
 		{

@@ -1,6 +1,9 @@
-package com.bourre.utils {
-	import flash.net.SharedObject;		import com.bourre.log.PixlibDebug;	
-	/**
+package com.bourre.utils 
+{
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.net.SharedObject;	
+	/**
 	 * The original <code>SharedObjectUtils</code> class provide simple methods 
 	 * to save data on the local machine.
 	 * 

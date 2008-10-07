@@ -17,10 +17,9 @@ package com.bourre.commands
 {
 	import com.bourre.commands.AbstractSyncCommand;
 	import com.bourre.commands.MacroCommand;
-
-	import flash.events.Event;
+	import com.bourre.plugin.Plugin;
 	
-	import com.bourre.plugin.Plugin;	
+	import flash.events.Event;	
 
 	/**
 	 * An asynchronous batch behave as a normal batch, but is designed to handle 

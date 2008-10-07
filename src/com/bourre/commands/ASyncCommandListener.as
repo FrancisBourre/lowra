@@ -15,7 +15,7 @@
  */
 package com.bourre.commands
 {
-	import flash.events.Event;	
+	import flash.events.Event;		
 
 	/**
 	 * Interface for objects which want to be notified of the end of execution

@@ -15,12 +15,12 @@
  */
 package com.bourre.transitions 
 {
+	import com.bourre.events.BasicEvent;
+	import com.bourre.log.PixlibStringifier;
+	
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
-	import flash.utils.Timer;
-	
-	import com.bourre.events.BasicEvent;
-	import com.bourre.log.PixlibStringifier;	
+	import flash.utils.Timer;	
 
 	/**
 	 * <code>MSBeacon</code> provides tick to its listeners based

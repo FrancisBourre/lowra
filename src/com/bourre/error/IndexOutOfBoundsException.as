@@ -15,7 +15,12 @@
  */
  package com.bourre.error
 {
-	public class IndexOutOfBoundsException extends Error
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
+	public class IndexOutOfBoundsException 
+		extends Error
 	{
 		public function IndexOutOfBoundsException ( message : String = "" )
 		{

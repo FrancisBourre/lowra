@@ -20,10 +20,10 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;
-
 	import com.bourre.events.ValueObject;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.net.URLRequest;	
 
 	public class DisplayLoaderInfo 
 		implements ValueObject

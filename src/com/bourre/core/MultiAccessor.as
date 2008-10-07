@@ -15,7 +15,7 @@
  */	
 package com.bourre.core 
 {
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;			
 
 	/**
 	 * The <code>MultiAccessor</code> provides read and write access 

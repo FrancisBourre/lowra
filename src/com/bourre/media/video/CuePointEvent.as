@@ -1,7 +1,7 @@
 package com.bourre.media.video 
 {
-	import com.bourre.log.PixlibDebug;	
-	
+	import com.bourre.log.PixlibDebug;		
+
 	/*
 	 * Copyright the original author or authors.
 	 * 

@@ -20,9 +20,6 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.events.Event;
-	import flash.utils.getDefinitionByName;
-	
 	import com.bourre.commands.AbstractCommand;
 	import com.bourre.commands.Command;
 	import com.bourre.core.CoreFactory;
@@ -32,7 +29,10 @@ package com.bourre.ioc.control
 	import com.bourre.plugin.ChannelExpert;
 	import com.bourre.plugin.Plugin;
 	import com.bourre.plugin.PluginChannel;
-	import com.bourre.utils.ClassUtils;	
+	import com.bourre.utils.ClassUtils;
+	
+	import flash.events.Event;
+	import flash.utils.getDefinitionByName;	
 
 	public class BuildInstance
 		extends AbstractCommand

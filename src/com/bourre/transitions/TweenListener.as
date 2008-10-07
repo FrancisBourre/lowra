@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 package  com.bourre.transitions
-{ 	
+{
 	import com.bourre.commands.ASyncCommandListener;
-	import com.bourre.transitions.TweenEvent;	
-	
+	import com.bourre.transitions.TweenEvent; 	
+
 	/**
 	 * <code>TweenListener</code> defines rules for tween listeners.
 	 * <p>

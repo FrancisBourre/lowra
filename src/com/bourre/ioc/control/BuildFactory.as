@@ -20,13 +20,13 @@ package com.bourre.ioc.control
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.bean.BeanFactory;	
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Command;
 	import com.bourre.events.ValueObjectEvent;
 	import com.bourre.ioc.assembler.constructor.Constructor;
+	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.parser.ContextTypeList;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;		
 
 	public class BuildFactory
 	{

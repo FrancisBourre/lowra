@@ -20,10 +20,6 @@ package com.bourre.ioc.assembler
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.core.IDExpert;	
-	
-	import flash.net.URLRequest;
-	
 	import com.bourre.core.HashCodeFactory;
 	import com.bourre.ioc.assembler.channel.ChannelListener;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
@@ -37,7 +33,10 @@ package com.bourre.ioc.assembler
 	import com.bourre.ioc.assembler.property.DictionaryItem;
 	import com.bourre.ioc.assembler.property.Property;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.parser.ContextTypeList;	
+	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.ioc.parser.ContextTypeList;
+	
+	import flash.net.URLRequest;		
 
 	public class DefaultApplicationAssembler 
 		implements ApplicationAssembler

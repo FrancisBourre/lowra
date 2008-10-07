@@ -20,14 +20,12 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.error.NullChannelException;	
-
-	import flash.net.URLRequest;
-
 	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.ioc.error.NullChannelException;
 	import com.bourre.ioc.error.NullIDException;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.net.URLRequest;		
 
 	public class DisplayObjectParser
 		extends AbstractParser

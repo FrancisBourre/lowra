@@ -13,23 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Francis Bourre
- * @version 1.0
- */
-
 package com.bourre.log
 {
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	public class LogLevel
 	{
-		public static const ALL : LogLevel = new LogLevel( uint.MIN_VALUE, "ALL" );
-		public static const DEBUG : LogLevel = new LogLevel( 10000, "DEBUG" );
-		public static const INFO : LogLevel = new LogLevel( 20000, "INFO" );
-		public static const WARN:LogLevel = new LogLevel( 30000, "WARN" );
-		public static const ERROR:LogLevel = new LogLevel( 40000, "ERROR" );
-		public static const FATAL:LogLevel = new LogLevel( 50000, "FATAL" );
-		public static const OFF:LogLevel = new LogLevel( uint.MAX_VALUE, "OFF" );
+		public static const ALL 	: LogLevel = new LogLevel ( uint.MIN_VALUE, "ALL" );
+		public static const DEBUG 	: LogLevel = new LogLevel ( 10000, 			"DEBUG" );
+		public static const INFO 	: LogLevel = new LogLevel ( 20000, 			"INFO" );
+		public static const WARN	: LogLevel = new LogLevel ( 30000, 			"WARN" );
+		public static const ERROR	: LogLevel = new LogLevel ( 40000, 			"ERROR" );
+		public static const FATAL	: LogLevel = new LogLevel ( 50000, 			"FATAL" );
+		public static const OFF		: LogLevel = new LogLevel ( uint.MAX_VALUE, "OFF" );
 	
 		private var _sName : String;
 		private var _nLevel : Number;

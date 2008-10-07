@@ -15,11 +15,11 @@
  */
 package com.bourre.commands 
 {
-	import flash.events.Event;
-	
 	import com.bourre.events.BasicEvent;
 	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.events.Event;	
 
 	/**
 	 * <code>AbstractSyncCommand</code> provides a skeleton to create

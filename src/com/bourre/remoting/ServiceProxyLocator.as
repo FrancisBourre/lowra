@@ -1,14 +1,12 @@
 package com.bourre.remoting
 {
-	import flash.utils.Dictionary;	
+	import com.bourre.collection.HashMap;
+	import com.bourre.core.Locator;
+	import com.bourre.log.PixlibDebug;
 	
-	import com.bourre.log.PixlibDebug;	
-	
-	import flash.net.URLRequest;	
-	
-	import com.bourre.collection.HashMap;	
-	import com.bourre.core.Locator;	
-	
+	import flash.net.URLRequest;
+	import flash.utils.Dictionary;		
+
 	/**
 	 * @author romain
 	 */

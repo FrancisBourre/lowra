@@ -20,12 +20,6 @@ package com.bourre.ioc.load
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.ioc.assembler.property.PropertyExpert;	
-	
-	import flash.display.DisplayObjectContainer;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-
 	import com.bourre.error.NullPointerException;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
@@ -37,6 +31,7 @@ package com.bourre.ioc.load
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
 	import com.bourre.ioc.assembler.method.MethodExpert;
+	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.context.ContextLoader;
 	import com.bourre.ioc.context.ContextLoaderEvent;
 	import com.bourre.ioc.parser.ContextParser;
@@ -49,7 +44,11 @@ package com.bourre.ioc.load
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.LoaderListener;
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;	
 
 	public class ApplicationLoader
 		extends AbstractLoader
@@ -75,11 +74,6 @@ package com.bourre.ioc.load
 			_initParserCollection();
 
 			if ( autoExecute ) execute();
-		}
-
-		override public function setAntiCache( b : Boolean ) : void
-		{
-			
 		}
 
 		protected function _initParserCollection() : void
@@ -113,12 +107,12 @@ package com.bourre.ioc.load
 		{
 			_oParserCollection = pc;
 		}
-		
+
 		public function getDisplayObjectBuilder() : DisplayObjectBuilder
 		{
 			return _oDisplayObjectBuilder;
 		}
-		
+
 		public function setDisplayObjectBuilder( displayObjectBuilder : DisplayObjectBuilder ) : void
 		{
 			_oDisplayObjectBuilder = displayObjectBuilder;
@@ -178,11 +172,10 @@ package com.bourre.ioc.load
 			ConstructorExpert.getInstance().release();
 			MethodExpert.getInstance().release( );
 			PropertyExpert.getInstance().release();
-			
-			
+
 			var cp : ContextParser = new ContextParser( getParserCollection() );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
-			
+
 			if ( getDisplayObjectBuilder() == null ) setDisplayObjectBuilder( new DefaultDisplayObjectBuilder() );
 			if ( isAntiCache() ) getDisplayObjectBuilder().setAntiCache( true );
 			getDisplayObjectBuilder().setRootTarget( _oRootTarget );

@@ -15,7 +15,7 @@
  */	 
 package com.bourre.transitions
 {
-	import com.bourre.commands.Suspendable;		
+	import com.bourre.commands.Suspendable;			
 
 	/**
 	 * The <code>Tween</code> interface defines a tween, a property animation

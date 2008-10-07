@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-/**
- * @author Francis Bourre
- * @version 1.0
- */
-
 package com.bourre.utils
 {
+	import com.bourre.log.*;
+	
 	import flash.events.SecurityErrorEvent;
 	import flash.events.StatusEvent;
-	import flash.net.LocalConnection;
-	import com.bourre.log.*;
+	import flash.net.LocalConnection;	
 
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	public class FlashInspectorLayout 
 		implements LogListener
 	{
 		private static var _oI : FlashInspectorLayout = null;
 		private const LOCALCONNECTION_ID : String = "_luminicbox_log_console";
 		
-		private var _lc : LocalConnection;
-		private var _sID : String;
+		private var _lc 	: LocalConnection;
+		private var _sID 	: String;
 
-		public function FlashInspectorLayout( access : PrivateConstructorAccess )
+		public function FlashInspectorLayout( access : ConstructorAccess )
 		{
 			_lc = new LocalConnection();
 			_lc.addEventListener( StatusEvent.STATUS, onStatus);
@@ -46,10 +45,7 @@ package com.bourre.utils
 		
 		public static function getInstance() : FlashInspectorLayout
 		{
-			if ( !(FlashInspectorLayout._oI is FlashInspectorLayout) ) 
-			{
-				FlashInspectorLayout._oI = new FlashInspectorLayout( new PrivateConstructorAccess() );
-			}
+			if ( !(FlashInspectorLayout._oI is FlashInspectorLayout) ) FlashInspectorLayout._oI = new FlashInspectorLayout( new ConstructorAccess() );
 			return FlashInspectorLayout._oI;
 		}
 		
@@ -77,11 +73,10 @@ package com.bourre.utils
 		{
 			return PixlibStringifier.stringify( this );
 		}
-		
-		//
+
 		private function onStatus( event : StatusEvent ) : void 
 		{
-         //   trace( "onStatus( " + event + ")" );
+        	//
         }
 
         private function onSecurityError( event : SecurityErrorEvent ) : void 
@@ -91,4 +86,4 @@ package com.bourre.utils
 	}
 }
 
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

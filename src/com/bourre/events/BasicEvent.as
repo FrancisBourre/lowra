@@ -15,9 +15,9 @@
  */
 package com.bourre.events
 {
-	import flash.events.Event;
+	import com.bourre.log.PixlibStringifier;
 	
-	import com.bourre.log.*;	
+	import flash.events.Event;	
 
 	/**
 	 * The <code>BasicEvent</code> class adds the ability for

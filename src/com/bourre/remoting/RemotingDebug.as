@@ -1,10 +1,9 @@
-package com.bourre.remoting {
+package com.bourre.remoting 
+{
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.LogLevel;
-	import com.bourre.log.Logger;
-	
-	import flash.utils.getQualifiedClassName;	
-	
+	import com.bourre.log.Logger;	
+
 	/**
 	 * @author romain
 	 */
@@ -51,5 +50,6 @@ package com.bourre.remoting {
 }
 
 import com.bourre.events.EventChannel;
+
 internal class PrivateConstructorAccess {}  
 internal class RemotingDebugChannel extends EventChannel {} 

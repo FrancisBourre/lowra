@@ -1,7 +1,7 @@
 package com.bourre.media.video 
 {
 	import com.bourre.load.LoaderEvent;
-	import com.bourre.media.video.MetaData;			
+	import com.bourre.media.video.MetaData;	
 
 	/*
 	 * Copyright the original author or authors.

@@ -26,7 +26,7 @@ package com.bourre.ioc.assembler.method
 	import com.bourre.ioc.assembler.constructor.Constructor;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.control.BuildFactory;
-	import com.bourre.ioc.parser.ContextTypeList;		
+	import com.bourre.ioc.parser.ContextTypeList;	
 
 	public class MethodExpert 
 		extends AbstractLocator

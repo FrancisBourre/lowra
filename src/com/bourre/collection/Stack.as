@@ -15,7 +15,10 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.error.*;
+	import com.bourre.error.ClassCastException;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.IndexOutOfBoundsException;
+	import com.bourre.error.NullPointerException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
 
@@ -975,7 +978,8 @@ package com.bourre.collection
 	}
 }
 
-import com.bourre.collection.ListIterator;import com.bourre.collection.Stack;
+import com.bourre.collection.ListIterator;
+import com.bourre.collection.Stack;
 import com.bourre.error.IllegalStateException;
 import com.bourre.error.NoSuchElementException;
 

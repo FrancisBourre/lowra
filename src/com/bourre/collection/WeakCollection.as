@@ -15,10 +15,11 @@
  */
 package com.bourre.collection 
 {
-	import flash.utils.Dictionary;
-	
 	import com.bourre.error.NullPointerException;
-	import com.bourre.log.*;	
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.utils.Dictionary;	
 
 	/**
 	 * A weak collection stores element using weak references instead
@@ -388,8 +389,8 @@ package com.bourre.collection
 }
 
 import com.bourre.collection.*;
-import com.bourre.error.NoSuchElementException;
 import com.bourre.error.IllegalStateException;
+import com.bourre.error.NoSuchElementException;
 
 internal class ConcretIterator implements Iterator
 {

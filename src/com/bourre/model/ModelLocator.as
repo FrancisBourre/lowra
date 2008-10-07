@@ -1,41 +1,40 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.model
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-	
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
 	import com.bourre.collection.ArrayIterator;
 	import com.bourre.collection.HashMap;
 	import com.bourre.collection.Iterator;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.plugin.NullPlugin;
 	import com.bourre.plugin.Plugin;
-	import com.bourre.plugin.PluginDebug;		
+	import com.bourre.plugin.PluginDebug;	
 
+	/**
+	 * @author Francis Bourre
+	 * @version 1.0
+	 */
 	final public class ModelLocator 
 		extends AbstractLocator
 	{
-		protected static var _M : HashMap = new HashMap();
+		private static const _M : HashMap = new HashMap();
 
-		protected var _owner : Plugin;
+		private var _owner : Plugin;
 
-		public function ModelLocator( access : PrivateConstructorAccess, owner : Plugin = null ) 
+		public function ModelLocator( access : ConstructorAccess, owner : Plugin = null ) 
 		{
 			_owner = owner;
 			super( AbstractModel, null, PluginDebug.getInstance( getOwner() ) );
@@ -46,7 +45,7 @@ package com.bourre.model
 			if ( owner == null ) owner = NullPlugin.getInstance();
 
 			if ( !(ModelLocator._M.containsKey( owner )) ) 
-				ModelLocator._M.put( owner, new ModelLocator(new PrivateConstructorAccess() , owner ) );
+				ModelLocator._M.put( owner, new ModelLocator(new ConstructorAccess() , owner ) );
 
 			return ModelLocator._M.get( owner );
 		}
@@ -79,4 +78,4 @@ package com.bourre.model
 		}
 	}
 }
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

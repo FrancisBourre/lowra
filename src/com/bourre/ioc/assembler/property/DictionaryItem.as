@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.property
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import com.bourre.log.PixlibStringifier;											
+	import com.bourre.log.PixlibStringifier;												
 
 	public class DictionaryItem 
 	{

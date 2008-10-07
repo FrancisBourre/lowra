@@ -16,10 +16,10 @@
 package com.bourre.transitions 
 { 
 	/**
-	 * 
 	 * @author	Cédric Néhémie
 	 */
-	public class TweenFPS extends AbstractTween
+	public class TweenFPS 
+		extends AbstractTween
 	{
 		public function TweenFPS( 	target : Object,
 									setter : String, 

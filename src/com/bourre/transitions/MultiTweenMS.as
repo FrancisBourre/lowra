@@ -15,9 +15,9 @@
  */	 
 package com.bourre.transitions 
 {
-	import com.bourre.log.PixlibDebug;	
+	import com.bourre.log.PixlibDebug;
 	
-	import flash.utils.getTimer; 
+	import flash.utils.getTimer;		
 
 	/**
 	 * @author Francis Bourre

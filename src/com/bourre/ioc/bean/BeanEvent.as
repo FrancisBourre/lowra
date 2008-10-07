@@ -20,9 +20,8 @@ package com.bourre.ioc.bean
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
 	import com.bourre.events.BasicEvent;
-	import com.bourre.log.*;
+	import com.bourre.log.*;	
 
 	public class BeanEvent 
 		extends BasicEvent

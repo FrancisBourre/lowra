@@ -19,8 +19,8 @@ package com.bourre.core
 	import com.bourre.error.NoSuchMethodException;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;		
-	
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * The <code>MethodAccessor</code> provides read and write access 
 	 * to the specified method of an object. 

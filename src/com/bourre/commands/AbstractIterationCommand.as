@@ -15,12 +15,12 @@
  */
 package com.bourre.commands 
 {
-	import flash.events.Event;
-	
 	import com.bourre.collection.Iterator;
 	import com.bourre.error.UnimplementedVirtualMethodException;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;		
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.events.Event;	
 
 	/**
 	 * <code>AbstractIterationCommand</code> provides a skeleton

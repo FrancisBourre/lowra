@@ -1,9 +1,9 @@
 package com.bourre.media.video 
 {
-	import com.bourre.error.NoSuchElementException;	
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.structures.Dimension;	
-	
+	import com.bourre.error.NoSuchElementException;
+	import com.bourre.log.PixlibDebug;
+	import com.bourre.structures.Dimension;		
+
 	/*
 	 * Copyright the original author or authors.
 	 * 

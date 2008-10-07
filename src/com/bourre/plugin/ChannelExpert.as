@@ -1,49 +1,46 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.plugin
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
+	import com.bourre.collection.HashMap;
+	import com.bourre.events.ApplicationBroadcaster;
+	import com.bourre.events.EventChannel;
+	import com.bourre.log.PixlibStringifier;
+	
+	import flash.utils.Dictionary;	
 	
 	/**
 	 * @author Francis Bourre
 	 * @author Romain Flacher
 	 * @version 1.0
 	 */
-
-	import com.bourre.collection.HashMap;
-	import com.bourre.events.*;
-	import com.bourre.log.*;
-
-	import flash.utils.Dictionary;
-	
 	public class ChannelExpert
 	{
-		private static var _oI : ChannelExpert;
-		private static var _N : uint = 0;
+		private static var _oI 	: ChannelExpert;
+		private static var _N 	: uint = 0;
 
-		private var _m : HashMap;
-		private var _oRegistered : Dictionary;
+		private var _m 				: HashMap;
+		private var _oRegistered 	: Dictionary;
 		
 		/**
 		 * @return singleton instance of ChannelExpert
 		 */
 		public static function getInstance() : ChannelExpert 
 		{
-			if ( !( ChannelExpert._oI is ChannelExpert ) ) 
-				ChannelExpert._oI = new ChannelExpert( new PrivateConstructorAccess() );
-
+			if ( !( ChannelExpert._oI is ChannelExpert ) ) ChannelExpert._oI = new ChannelExpert( new ConstructorAccess() );
 			return ChannelExpert._oI;
 		}
 		
@@ -56,7 +53,7 @@ package com.bourre.plugin
 			}
 		}
 		
-		public function ChannelExpert( access : PrivateConstructorAccess )
+		public function ChannelExpert( access : ConstructorAccess )
 		{
 			_m = new HashMap();
 			_oRegistered = new Dictionary( true );
@@ -117,4 +114,4 @@ package com.bourre.plugin
 	}
 }
 
-internal class PrivateConstructorAccess {}
+internal class ConstructorAccess {}

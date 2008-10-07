@@ -15,10 +15,10 @@
  */
 package com.bourre.events 
 {
-	import flash.events.Event;	
-	
 	import com.bourre.events.BasicEvent;
 	
+	import flash.events.Event;		
+
 	/**
 	 * Event dispatched by the <code>LoopCommand</code> class
 	 * to its listeners.

@@ -15,7 +15,7 @@
  */
 package com.bourre.commands 
 {
-	import com.bourre.events.LoopEvent;
+	import com.bourre.events.LoopEvent;	
 
 	/**
 	 * Objects which want to listen to a <code>LoopCommand</code>

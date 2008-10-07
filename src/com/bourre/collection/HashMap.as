@@ -15,12 +15,8 @@
  */
 package com.bourre.collection
 {
-	import flash.utils.Dictionary;
-	
-	import com.bourre.error.NullPointerException;
-	import com.bourre.log.*;		
-
-	/**
+	import com.bourre.error.NullPointerException;	import com.bourre.log.PixlibDebug;	import com.bourre.log.PixlibStringifier;		import flash.utils.Dictionary;	
+	/**
 	 * An object that maps keys to values.  A map cannot contain duplicate keys;
 	 * each key can map to at most one value.
 	 * <p>

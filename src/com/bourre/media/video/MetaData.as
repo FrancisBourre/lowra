@@ -1,7 +1,7 @@
 package com.bourre.media.video 
 {
-	import com.bourre.structures.Dimension;	
-	
+	import com.bourre.structures.Dimension;		
+
 	/*
 	 * Copyright the original author or authors.
 	 * 

@@ -15,10 +15,10 @@
  */
 package com.bourre.structures 
 {
-	import flash.geom.Point;	
+	import com.bourre.log.PixlibStringifier;
 	
-	import com.bourre.log.PixlibStringifier;	
-	
+	import flash.geom.Point;		
+
 	/**
 	 * The Dimension class encapsulates the width and height
 	 * of an object (in double precision) in a single object.

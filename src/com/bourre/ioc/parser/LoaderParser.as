@@ -20,9 +20,9 @@ package com.bourre.ioc.parser
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-	import flash.net.URLRequest;
-
-	import com.bourre.ioc.assembler.ApplicationAssembler;	
+	import com.bourre.ioc.assembler.ApplicationAssembler;
+	
+	import flash.net.URLRequest;	
 
 	public class LoaderParser 
 		extends AbstractParser

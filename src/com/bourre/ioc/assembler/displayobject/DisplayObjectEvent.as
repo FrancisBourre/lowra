@@ -20,10 +20,9 @@ package com.bourre.ioc.assembler.displayobject
 	 * @author Francis Bourre
 	 * @version 1.0
 	 */
-
-	import flash.display.DisplayObject;
-
 	import com.bourre.events.BasicEvent;
+	
+	import flash.display.DisplayObject;	
 
 	public class DisplayObjectEvent 
 		extends BasicEvent

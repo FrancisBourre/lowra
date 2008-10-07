@@ -16,10 +16,9 @@
  
 package com.bourre.collection 
 {
-	
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * @author Francis Bourre
 	 */

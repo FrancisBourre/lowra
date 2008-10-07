@@ -1,7 +1,8 @@
 package com.bourre.core
 {
 	import com.bourre.log.PixlibDebug;
-	import flash.utils.getDefinitionByName;
+	
+	import flash.utils.getDefinitionByName;	
 
 	/**
 	 * A factory for object creation. The <code>CoreFactory</code>

@@ -1,7 +1,7 @@
 package com.bourre.pattern.memento
 {
-	import com.bourre.log.PixlibStringifier;
-	
+	import com.bourre.log.PixlibStringifier;	
+
 	/**
 	 * <code>CarTaker</code> is the class used to store states of an object and to redo and undo state of the object
 	 * 

@@ -24,7 +24,7 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;		
+	import flash.system.LoaderContext;	
 
 	public class DefaultDisplayObjectBuilder 
 		implements DisplayObjectBuilder

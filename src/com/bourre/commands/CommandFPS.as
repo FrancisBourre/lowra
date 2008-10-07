@@ -15,14 +15,14 @@
  */
 package com.bourre.commands 
 {
-	import flash.events.Event;
-	
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.transitions.FPSBeacon;
-	import com.bourre.transitions.TickListener;	
+	import com.bourre.transitions.TickListener;
+	
+	import flash.events.Event;	
 
 	/**
-	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class CommandFPS	implements TickListener
 	{
