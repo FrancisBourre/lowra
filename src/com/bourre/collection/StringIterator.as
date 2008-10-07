@@ -23,13 +23,12 @@ package com.bourre.collection
 	import com.bourre.error.NullPointerException;	
 
 	/**
-	 * The <code>StringIterator</code> utility provide a convenient way
-	 * to iterate over the character of a string as you can do with a
-	 * <code>List</code>.
+	 * The <code>StringIterator</code> class provides a convenient way
+	 * to iterate through each character of a string as you could do with 
+	 * a <code>List</code> instance.
 	 * <p>
-	 * Iterations performed by the string iterator are done in the index
-	 * order of the string. More formally the iterations are always realized
-	 * from <code>0</code> to the <code>length</code> of the passed-in string.
+	 * Iterations are performed from <code>0</code> to the <code>length</code> 
+	 * of the passed-in string.
 	 * </p>
 	 * @author 	Cédric Néhémie
 	 * @see		ListIterator
@@ -45,34 +44,34 @@ package com.bourre.collection
 		protected var _nGap 	: Number;
 
 		/**
-		 * Creates a new string iterator over the character
-		 * of the passed-in string.
+		 * Creates a new string iterator to iterate through
+		 * each character of the passed-in string.
 		 * 
-		 * @param	s	<code>String</code> target of this iterator
+		 * @param	s	<code>String</code> iterator's target
 		 * @param 	gap	
-		 * @param	i	index at which the iterator start
-		 * @throws 	<code>NullPointerException</code> — if the specified string is null
+		 * @param	i	iterator's start index
+		 * @throws 	<code>NullPointerException</code> — if the string's target is null
 		 * @throws 	<code>IndexOutOfBoundsException</code> — if the index is out of range
 		 */
 		public function StringIterator ( s : String, gap : Number = 1, i : uint = 0 ) 
 		{
 			if ( s == null )
 			{
-				var msg0 : String = "The target string of " + this + "can't be null";
+				var msg0 : String = "String target of " + this + "can't be null.";
 				PixlibDebug.ERROR( msg0 );
 				throw new NullPointerException( msg0 );
 			}
 
 	    	if ( i > s.length )
 	    	{
-	    		var msg1 : String = "The passed-in index " + i + " is not a valid for a string of length " + s.length;
+	    		var msg1 : String = "'" + i + "' is not a valid index for a string with '" + s.length +"' length.";
 				PixlibDebug.ERROR( msg1 );
 				throw new IndexOutOfBoundsException ( msg1 );
 	    	}
 
 			if ( gap < 1 || gap > s.length || s.length % gap != 0 )
 			{
-				var msg2 : String = "The passed-in gap " + gap + " is not a valid for a string of length " + s.length;
+				var msg2 : String = "'" + gap + "' is not a valid gap for a string with '" + s.length +"' length.";
 				PixlibDebug.ERROR( msg2 );
 				throw new IndexOutOfBoundsException ( msg2 );
 			}
@@ -100,7 +99,7 @@ package com.bourre.collection
 	    {
 	    	if ( !hasNext() )
 	    	{
-	    		var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+	    		var msg : String = this + " has no more element at '" + ( _nIndex + 1 ) +"' index.";
 	    		PixlibDebug.ERROR( msg );
 				throw new NoSuchElementException ( msg );
 	    	}
@@ -123,7 +122,7 @@ package com.bourre.collection
 
 			} else
 			{
-				var msg : String = this + ".remove() have been already called for this iteration";
+				var msg : String = this + ".remove() has been already called in this iteration.";
 				PixlibDebug.ERROR( msg );
 				throw new IllegalStateException ( msg );
 			}
@@ -139,8 +138,7 @@ package com.bourre.collection
 			{
 				if ( ( o as String ).length != 1 )
 				{
-					var msg0 : String = "The passed-in character couldn't be added in " + this + 
-										".add(), expected length 1, get " + (o as String).length;
+					var msg0 : String = this + ".add() failed, expected length '1', get '" + (o as String).length + "' length.";
 					PixlibDebug.ERROR ( msg0 );
 					throw new IllegalArgumentException ( msg0 );
 				}
@@ -151,7 +149,7 @@ package com.bourre.collection
 
 			} else
 			{
-				var msg1 : String = this + ".add() have been already called for this iteration";
+				var msg1 : String = this + ".add() has been already called in this iteration";
 				PixlibDebug.ERROR ( msg1 );
 				throw new IllegalStateException ( msg1 );
 			}
@@ -180,7 +178,7 @@ package com.bourre.collection
 		{
 			if ( !hasPrevious() )
 			{
-				var msg : String = this + " has no more elements at " + ( _nIndex );
+				var msg : String = this + " has no more element at '" + ( _nIndex ) +"' index.";
 				PixlibDebug.ERROR ( msg );
 				throw new NoSuchElementException ( msg );
 			}
@@ -208,8 +206,7 @@ package com.bourre.collection
 			{
 				if ( ( o as String ).length != 1 )
 				{
-					var msg0 : String = "The passed-in character couldn't be added in " + this + 
-										".add(), expected length 1, get " + (o as String).length;
+					var msg0 : String = this + ".add() failed, expected length 1, get '" + (o as String).length +"' length.";
 					PixlibDebug.ERROR ( msg0 );
 					throw new IllegalArgumentException ( msg0 );
 				}
@@ -219,7 +216,7 @@ package com.bourre.collection
 			} else
 			{
 				var msg1 : String = this + ".add() or " + this + ".remove() have been " +
-									"already called for this iteration, the set() operation cannot be done";
+									"already called in this iteration, the set() operation cannot be done";
 				PixlibDebug.ERROR ( msg1 );
 				throw new IllegalStateException ( msg1 );
 			}

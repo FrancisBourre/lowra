@@ -15,13 +15,22 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.log.PixlibDebug;	
 	import com.bourre.collection.Iterator;
 	import com.bourre.error.NoSuchElementException;
-	import com.bourre.error.UnsupportedOperationException;		
+	import com.bourre.error.UnsupportedOperationException;
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.utils.getQualifiedClassName;		
 
 	/**
-	 * @author Cédric Néhémie
+	 * The <code>XMLListIterator</code> class provides a convenient way
+	 * to iterate through each entry of an <code>XMLList</code> instance.
+	 * <p>
+	 * Iterations are performed from <code>0</code> to <code>length</code> 
+	 * of the passed-in XMLList instance.
+	 * </p> 
+	 * @author 	Cedric Nehemie
+	 * @see		ListIterator
 	 */
 	public class XMLListIterator 
 		implements Iterator 
@@ -30,6 +39,11 @@ package com.bourre.collection
 		protected var length 	: Number;
 		protected var index 	: Number;
 
+		/**
+		 * Creates a new iterator for the passed-in XMLList instance.
+		 * 
+		 * @param	list	<code>XMLList</code> iterator's target
+		 */
 		public function XMLListIterator ( list : XMLList )
 		{
 			this.list = list;
@@ -37,26 +51,35 @@ package com.bourre.collection
 			index = -1;
 		}
 
+		/**
+		 * @inheritDoc
+		 */
 		public function hasNext () : Boolean
 		{
 			return index + 1 < length;
 		}
-		
+
+		/**
+		 * @inheritDoc
+		 */
 		public function next () : *
 		{
 			if( !hasNext() )
 			{
-				var msg : String = this + " has no more elements at " + ( index + 1 );
+				var msg : String = this + " has no more element at '" + ( index + 1 ) +"' index.";
 				PixlibDebug.ERROR( msg );
 				throw new NoSuchElementException ( msg );
 			}
 			
 			return list[ ++index ];
 		}
-		
+
+		/**
+		 * @inheritDoc
+		 */
 		public function remove () : void
 		{
-			var msg : String = "remove is not currently supported by the XMLListIterator";
+			var msg : String = "remove is currently not supported in " + getQualifiedClassName( this );
 			PixlibDebug.ERROR( msg );
 			throw new UnsupportedOperationException(  );
 		}
