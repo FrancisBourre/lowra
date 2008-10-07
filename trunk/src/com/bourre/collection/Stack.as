@@ -52,8 +52,8 @@ package com.bourre.collection
 	 */
 	public class Stack implements List, TypedContainer
 	{
-		private var _aStack : Array;
-		private var _oType : Class;
+		protected var _aStack 	: Array;
+		protected var _oType 	: Class;
 		
 		/**
 		 * Create an empty Stack.
@@ -66,19 +66,15 @@ package com.bourre.collection
 		 * @throws 	<code>ClassCastException</code> — if the class of the specified
 		 * 		   	elements prevents it from being added to this list.
 		 */
-		public function Stack (type : Class = null, content : Array = null )
+		public function Stack ( type : Class = null, content : Array = null )
 		{
-			this._aStack = new Array();
-			this._oType = type;
-			
-			if( content )
+			_aStack = new Array ();
+			_oType = type;
+
+			if ( content )
 			{
 				var l : Number = content.length;
-				
-				for( var i : Number = 0; i < l ; i++ )
-				{
-					add ( content[ i ] );
-				}
+				for( var i : uint; i < l ; i++ ) add ( content[ i ] );
 			}
 		}
 		
@@ -126,12 +122,12 @@ package com.bourre.collection
 		 * trace( stack.size() ); // 2
 		 * </listing>
 		 */
-		public function add( o : Object ) : Boolean
+		public function add ( o : Object ) : Boolean
 		{
-			push(o);
+			push( o );
 			return true;
 		}
-		
+
 		/**
 		 * Inserts the specified element at the specified position
 		 * in this stack. Shifts the element currently at that
@@ -147,12 +143,12 @@ package com.bourre.collection
 		 * 		   	element prevents it from being added to this list.
 		 * @see		#add() add()
 		 */
-		public function addAt(index:uint, o:Object) : void
+		public function addAt ( index : uint, o : Object ) : void
 		{
 			isValidIndex ( index );
 			_aStack.splice( index, 0, o );
 		} 
-		
+
 		/**
 		 * Appends all of the elements in the specified Collection
 		 * to the end of this stack, in the order that
@@ -177,20 +173,15 @@ package com.bourre.collection
 	     * @see		#isValidCollection() See isValidCollection for description of the rules for 
 		 * 			collaboration between typed and untyped collections.
 		 */
-		public function addAll(c:Collection):Boolean
+		public function addAll ( c : Collection ) : Boolean
 		{
 			isValidCollection( c );
-			
 			var iter : Iterator = c.iterator();
 			var modified : Boolean = false;
-			while(iter.hasNext())
-			{
-				modified = add( iter.next() ) || modified;
-			}
+			while ( iter.hasNext() ) modified = add( iter.next() ) || modified;
 			return modified;
-			
 		}
-		
+
 		/**
 		 * Inserts all of the elements in the specified Collection into
 		 * this stack at the specified position. Shifts the element
@@ -217,21 +208,15 @@ package com.bourre.collection
 	     * @see		#isValidCollection() See isValidCollection for description of the rules for 
 		 * 			collaboration between typed and untyped collections.
 		 */
-		public function addAllAt( index : uint, c : Collection ) : Boolean
+		public function addAllAt ( index : uint, c : Collection ) : Boolean
 		{
 			isValidIndex ( index );
 			isValidCollection( c );
-			
 			var i : Iterator = c.iterator();
-			
-			while(i.hasNext())
-			{
-				addAt( index++, i.next() );
-			}
-			
+			while (i.hasNext()) addAt ( index++, i.next() );
 			return true;
 		}
-		
+
 		/**
 		 * Removes a single instance of the specified element from this
 	     * stack, if this stack contains one or more such elements.
@@ -296,16 +281,17 @@ package com.bourre.collection
 		 * }
 		 * </listing>
 		 */
-		public function remove( o : Object ) : Boolean
+		public function remove ( o : Object ) : Boolean
 		{
-			if( isValidType( o ) && contains( o ) )
+			if ( isValidType( o ) && contains( o ) )
 			{
 				_aStack.splice( _aStack.indexOf( o ), 1 );
 				return true;
 			}
+
 			return false;
 		}
-		
+
 		/**
 		 * Removes the element at the specified position in this stack.
 		 * Shifts any subsequent elements to the right (subtracts one from
@@ -339,13 +325,13 @@ package com.bourre.collection
 		 * }
 		 * </listing>
 		 */
-		public function removeAt( index : uint ) : Boolean
+		public function removeAt ( index : uint ) : Boolean
 		{
 			isValidIndex ( index );
 			_aStack.splice( index, 1 );
 			return true;			
 		}
-		
+
 		/**
 		 * Removes from this stack all of its elements that are contained
 		 * in the specified collection (optional operation). At the end
@@ -392,7 +378,7 @@ package com.bourre.collection
 		 * // 2, 4, 'foo2', 'foo4' 
 		 * </listing>
 		 */
-		public function removeAll( c : Collection ) : Boolean
+		public function removeAll ( c : Collection ) : Boolean
 		{
 			if( isValidCollection( c ) )
 			{	
@@ -402,16 +388,15 @@ package com.bourre.collection
 				while(iter.hasNext( ))
 				{
 					var o : * = iter.next();
-					while( this.contains( o ) )
-					{
-						find = this.remove( o ) || find;
-					}
-				}			
+					while( this.contains( o ) ) find = this.remove( o ) || find;
+				}
+		
 				return find;
 			}
+
 			return false;
 		}
-		
+
 		/**
 		 * Retains only the elements in this stack that are contained
 		 * in the specified collection (optional operation). In other words,
@@ -457,40 +442,41 @@ package com.bourre.collection
 		 * // 1, 3, 'foo1', 'foo3' 
 		 * </listing>
 		 */
-		public function retainAll(c:Collection):Boolean
+		public function retainAll ( c : Collection ) : Boolean
 		{
-			if( isValidCollection( c ) )
+			if ( isValidCollection( c ) )
 			{
 				var modified : Boolean = false;
 				var fin : int = _aStack.length;
 				var id : int = 0;
-				while(id < fin)
+
+				while( id < fin )
 				{
 					var obj : * = _aStack[id];
-					if(!c.contains( obj ))
+					if( !c.contains( obj ) )
 					{
 						var fromIndex : int = 0;
-						while(true)
+						while( true )
 						{
 							fromIndex = _aStack.indexOf( obj, fromIndex );
-							if(fromIndex == -1)
-							{
-								break;
-							}
+							if ( fromIndex == -1 ) break;
 							modified = true;
 							_aStack.splice( fromIndex, 1 );
 							--fin;
 						}
-					}else
+
+					} else
 					{
 						++id;
 					}
 				}
+
 				return modified;
 			}
+
 			return false;
 		}
-		
+
 		/**
 		 * Returns <code>true</code> if this stack contains at least
 		 * one occurence of the specified element. Moreformally,
@@ -504,11 +490,11 @@ package com.bourre.collection
 		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this stack
 		 */
-		public function contains(o:Object):Boolean
+		public function contains ( o : Object ) : Boolean
 		{
-			return _aStack.indexOf(o) != -1;
+			return _aStack.indexOf( o ) != -1;
 		}
-	
+
 		/**
 		 * Returns true if this <code>Stack</code> contains all of the elements
 		 * in the specified Collection.
@@ -519,9 +505,9 @@ package com.bourre.collection
 		 *         	in the specified collection.
 		 * @throws 	<code>NullPointerException</code> — if the passed in collection is null.
 		 */
-		public function containsAll(c:Collection):Boolean
+		public function containsAll ( c : Collection ) : Boolean
 		{
-			if( isValidCollection( c ) )
+			if ( isValidCollection( c ) )
 			{
 				var iter : Iterator = c.iterator( );
 				
@@ -532,11 +518,13 @@ package com.bourre.collection
 					if( !contains( iter.next( ) ) )
 						return false;
 				}
+
 				return true;
 			}
+
 			return false;
 		}
-		
+
 		/**
 		 * Searches for the first occurence of the given argument.
 		 * 
@@ -548,11 +536,11 @@ package com.bourre.collection
 		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this stack
 		 */
-		public function search( o : Object ) : int
+		public function search ( o : Object ) : int
 		{
-			return _aStack.indexOf(o);
+			return _aStack.indexOf( o );
 		}		
-		
+
 		/**
 		 * Searches for the first occurence of the given argument.
 		 * 
@@ -564,12 +552,12 @@ package com.bourre.collection
 		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this stack
 		 */
-		public function indexOf( o : Object ) : int
+		public function indexOf ( o : Object ) : int
 		{
 			isValidType( o );
 			return _aStack.indexOf(o);
 		}
-		
+
 		/**
 		 * Returns the index of the last occurrence of the specified
 		 * object in this <code>Stack</code>.
@@ -582,22 +570,22 @@ package com.bourre.collection
 		 * @throws 	<code>ClassCastException</code> — If the object's type
 		 * 			prevents it to be added into this stack	
 		 */
-		public function lastIndexOf( o : Object ) : int
+		public function lastIndexOf ( o : Object ) : int
 		{
 			isValidType( o );
-			return _aStack.lastIndexOf(o);
+			return _aStack.lastIndexOf( o );
 		}
-		
+
 		/**
 		 * Removes all of the elements from this <code>Stack</code>. 
 		 * The <code>Stack</code> will be empty after this call returns
 		 * (unless it throws an exception).
 		 */
-		public function clear():void
+		public function clear () : void
 		{
 			_aStack = new Array();
 		}
-		
+
 		/**
 		 * Returns an iterator over the elements in this list
 		 * in proper sequence. The elements are returned according
@@ -608,11 +596,11 @@ package com.bourre.collection
 		 * </p>
 		 * @return an iterator over the elements in this list in proper sequence.
 		 */
-		public function iterator():Iterator
+		public function iterator () : Iterator
 		{
-			return new StackIterator(this);
+			return new StackIterator( this );
 		}
-		
+
 		/**
 		 * Returns a list iterator of the elements in this list
 		 * (in proper sequence), starting at the specified position
@@ -637,10 +625,9 @@ package com.bourre.collection
 		 * @throws 	<code>IndexOutOfBoundsException</code> — index is out of range
 		 * 		   	(index < 0 || index > size()).
 		 */
-		public function listIterator( index : uint = 0 ) : ListIterator
+		public function listIterator ( index : uint = 0 ) : ListIterator
 		{
 			isValidIndex ( index );
-			
 			return new StackIterator ( this, index );
 		}
 
@@ -649,11 +636,11 @@ package com.bourre.collection
 		 * 
 		 * @return the number of components in this <code>Stack</code>.
 		 */
-		public function size():uint
+		public function size () : uint
 		{
 			return _aStack.length;
 		}
-	    
+
 	    /**
 		 * Returns the <code>Object</code> stored at the passed-in
 		 * <code>index</code> in this stack object.
@@ -672,7 +659,7 @@ package com.bourre.collection
 			isValidIndex ( index );
 			return _aStack[ index ];
 		}
-		
+
 		/**
 		 * Insert the passed-in <code>Object</code> in this stack
 		 * at the specified <code>index</code>. The method returns
@@ -702,11 +689,15 @@ package com.bourre.collection
 			isValidIndex ( index );
 			
 			if( isValidType( o ) )
+			{
 				return _aStack.splice( index, 1, o )[0];
-			else 
+
+			} else 
+			{
 				return false;
+			}
 		}
-	    
+
 		/**
 		 * Looks at the object at the top of this stack
 		 * without removing it from the stack.
@@ -714,11 +705,11 @@ package com.bourre.collection
 		 * @return the object at the top of this stack
 		 * 		   (the last item of the object).
 		 */
-		public function peek() :Object
+		public function peek () : Object
 		{
 			return _aStack[ size() - 1 ];
 		}
-	    
+
 		/**
 		 * Removes the object at the top of this stack and returns
 		 * that object as the value of this function.
@@ -726,11 +717,11 @@ package com.bourre.collection
 		 * @return The object at the top of this stack
 		 * 		   (the last item of the <code>Stack</code> object).
 		 */
-		public function pop() : Object
+		public function pop () : Object
 		{
 			return _aStack.pop();
 		}
-	    
+
 		/**
 		 * Pushes an item onto the top of this stack. 
 		 * This has exactly the same effect as:
@@ -740,16 +731,12 @@ package com.bourre.collection
 		 * @return 	the item argument.
 		 * @see		#add() add()
 		 */
-		public function push (item : Object) : Object
+		public function push ( item : Object ) : Object
 		{
-			if( isValidType( item ) )
-			{
-				_aStack.push(item);
-			}
+			if( isValidType( item ) ) _aStack.push( item );
 			return item;
 		}
-		
-		
+
 	    /**
 	     * Returns a view of the portion of this List between fromIndex,
 	     * inclusive, and toIndex, exclusive. (If fromIndex and ToIndex
@@ -761,19 +748,15 @@ package com.bourre.collection
 	     * @throws 	<code>IndexOutOfBoundsException</code> — fromIndex or toIndex are
 	     * 		   	out of range (index < 0 || index > size()).
 	     */
-	    public function subList( fromIndex:uint, toIndex:uint ) : List
+	    public function subList ( fromIndex:uint, toIndex:uint ) : List
 		{
 			isValidIndex( fromIndex );
 			isValidIndex( toIndex );
-			
 			var l : List = new Stack( getType() );
-			for(var i : Number = fromIndex;i < toIndex;i++)
-			{
-				l.add( _aStack[ i ] );
-			}
+			for ( var i : Number = fromIndex; i < toIndex; i++ ) l.add( _aStack[ i ] );
 			return l;
 		}
-		
+
 		/**
 		 * Verify that the passed-in <code>uint</code> index is a
 		 * valid index for this </code>Stack</code>. If not, an 
@@ -786,12 +769,11 @@ package com.bourre.collection
 		 */
 		public function isValidIndex ( index : uint ) : void
 		{
-			if( index >= size( ) )
+			if ( index >= size( ) )
 			{
-				PixlibDebug.ERROR( index + " is not a valid index for " +
-								   this + " of size " + size() );
-				throw new IndexOutOfBoundsException( index + " is not a valid index for " +
-													 this + " of size " + size() );
+				var msg : String = index + " is not a valid index for " + this + " of size " + size();
+				PixlibDebug.ERROR( msg );
+				throw new IndexOutOfBoundsException( msg );
 			}
 		}
 		
@@ -800,7 +782,7 @@ package com.bourre.collection
 		 *
 		 * @return <code>true</code> if this stack contains no elements.
 		 */
-		public function isEmpty():Boolean
+		public function isEmpty () : Boolean
 		{
 			return size() == 0;
 		}
@@ -838,26 +820,26 @@ package com.bourre.collection
 		 */
 		public function isValidCollection ( c : Collection ) : Boolean
 		{
-			if( c == null ) 
+			if ( c == null ) 
 			{
-				PixlibDebug.ERROR( "The passed-in collection is null in " + this );
-				throw new NullPointerException( "The passed-in collection is null in " + this );
-			}
-			else if( getType() != null )
+				var msg0 : String = "The passed-in collection is null in " + this;
+				PixlibDebug.ERROR ( msg0 );
+				throw new NullPointerException ( msg0 );
+
+			} else if ( getType() != null )
 			{
 				if( c is TypedContainer && ( c as TypedContainer ).getType() != getType() )
 				{
-					PixlibDebug.ERROR( "The passed-in collection " + c +
-									   " is not of the same type than " + this );
-					throw new IllegalArgumentException( "The passed-in collection " + c +
-														" is not of the same type than " + this );
-				}
-				else
+					var msg1 : String = "The passed-in collection " + c + " is not of the same type than " + this;
+					PixlibDebug.ERROR ( msg1 );
+					throw new IllegalArgumentException ( msg1 );
+
+				} else
 				{
 					return true;
 				}
-			}
-			else
+
+			} else
 			{
 				return true;
 			}
@@ -887,17 +869,20 @@ package com.bourre.collection
 				if ( matchType( o ) )
 				{
 					return true;
-				}
-				else
+
+				} else
 				{
-					PixlibDebug.ERROR( o + " has a wrong type for " + this );
-					throw new ClassCastException( o + " has a wrong type for " + this ) ;
+					var msg : String = o + " has a wrong type for " + this;
+					PixlibDebug.ERROR ( msg );
+					throw new ClassCastException ( msg ) ;
 				}
+
+			} else
+			{
+				return true;
 			}
-			else
-				return true ;
 		}
-				
+
 		/**
 		 * Verify if the passed-in object can be inserted in the
 		 * current <code>Stack</code>.
@@ -906,11 +891,11 @@ package com.bourre.collection
 		 * @return 	<code>true</code> if the object can be inserted in
 		 * the <code>Stack</code>, either <code>false</code>.
 		 */
-		public function matchType( o : * ) : Boolean
+		public function matchType ( o : * ) : Boolean
 		{
 			return o is _oType;
 		}
-		
+
 		/**
 		 * Returns <code>true</code> if this stack perform a verification
 		 * of the type of elements.
@@ -922,17 +907,17 @@ package com.bourre.collection
 		{
 			return _oType != null;
 		}
-		
+
 		/**
 	     * Return the current type allowed in the <code>Stack</code>
 	     * 
 	     * @return <code>Class</code> used to type checking.
 	     */
-		public function getType() : Class
+		public function getType () : Class
 		{
 			return _oType;
 		}
-		
+
 		/**
 		 * Returns an array containing all the elements in this stack.
 		 * Obeys the general contract of the <code>Collection.toArray</code>
@@ -942,11 +927,11 @@ package com.bourre.collection
 		 * 			in this stack.
 		 * @see		Collection#toArray() Collection.toArray()
 		 */
-		public function toArray() : Array
+		public function toArray () : Array
 		{
 			return _aStack.concat();
 		}
-		
+
 		/**
 		 * Returns the <code>String</code> representation of
 		 * this object. 
@@ -966,13 +951,13 @@ package com.bourre.collection
 		{
 			var hasType : Boolean = getType() != null;
 			var parameter : String = "";
-			
-			if( hasType )
+
+			if ( hasType )
 			{
 				parameter = getType().toString();
 				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
 			}
-			
+
 			return PixlibStringifier.stringify( this ) + parameter;
 		}
 	}
@@ -982,24 +967,26 @@ import com.bourre.collection.ListIterator;
 import com.bourre.collection.Stack;
 import com.bourre.error.IllegalStateException;
 import com.bourre.error.NoSuchElementException;
+import com.bourre.log.PixlibDebug;
 
-internal class StackIterator implements ListIterator
+internal class StackIterator 
+	implements ListIterator
 {
-	private var _c : Stack;
-	private var _nIndex : int;
+	private var _c 			: Stack;
+	private var _nIndex 	: int;
 	private var _nLastIndex : int;
-	private var _a : Array;
-	private var _bRemoved : Boolean;
-	private var _bAdded : Boolean;
+	private var _a 			: Array;
+	private var _bRemoved 	: Boolean;
+	private var _bAdded 	: Boolean;
 
 	public function StackIterator ( c : Stack, index : uint = 0 )
 	{
-		_c = c;
-		_nIndex = index - 1;
-		_a = c.toArray( );
-		_nLastIndex = _a.length - 1;
-		_bRemoved = false;
-		_bAdded = false;
+		_c 				= c;
+		_nIndex 		= index - 1;
+		_a 				= c.toArray( );
+		_nLastIndex 	= _a.length - 1;
+		_bRemoved 		= false;
+		_bAdded 		= false;
 	}
 
 	public function hasNext () : Boolean
@@ -1009,8 +996,12 @@ internal class StackIterator implements ListIterator
 
 	public function next () : *
 	{
-		if( !hasNext() )
-			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex + 1 ) );
+		if ( !hasNext() )
+		{
+			var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+			PixlibDebug.ERROR ( msg );
+			throw new NoSuchElementException ( msg );
+		}
 			
 	    _bRemoved = false;
 		_bAdded = false;
@@ -1019,8 +1010,12 @@ internal class StackIterator implements ListIterator
 	
 	public function previous () : *
 	{
-		if( !hasPrevious() )
-			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+		if ( !hasPrevious() )
+		{
+			var msg : String = this + " has no more elements at " + ( _nIndex );
+			PixlibDebug.ERROR ( msg );
+			throw new NoSuchElementException ( msg );
+		}
 			
 	    _bRemoved = false;
 		_bAdded = false;
@@ -1029,16 +1024,18 @@ internal class StackIterator implements ListIterator
 
 	public function remove () : void
 	{
-		if( !_bRemoved )
+		if ( !_bRemoved )
 		{
 			_c.remove( _a[_nIndex--] );
 			_a = _c.toArray( );
 			_nLastIndex--;
 			_bRemoved = true;
-		}
-		else
+
+		} else
 		{
-			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+			var msg : String = this + ".remove() have been already called for this iteration";
+			PixlibDebug.ERROR ( msg );
+			throw new IllegalStateException ( msg );
 		}
 	}
 
@@ -1050,10 +1047,12 @@ internal class StackIterator implements ListIterator
 			_a = _c.toArray( );
 			_nLastIndex++;
 			_bAdded = true;
-		}
-		else
+
+		} else
 		{
-			throw new IllegalStateException ( this + ".add() have been already called for this iteration" );
+			var msg : String = this + ".add() have been already called for this iteration";
+			PixlibDebug.ERROR ( msg );
+			throw new IllegalStateException ( msg );
 		}
 	}		
 
@@ -1077,10 +1076,12 @@ internal class StackIterator implements ListIterator
 		if( !_bAdded && !_bRemoved )
 		{
 			_c.set( _nIndex, o );
-		}
-		else
+
+		} else
 		{
-			throw new IllegalStateException ( this + ".set() can't be called after neither a remove() nor an add() call" );
+			var msg : String = this + ".set() can't be called after neither a remove() nor an add() call";
+			PixlibDebug.ERROR ( msg );
+			throw new IllegalStateException ( msg );
 		}
 	}
 }

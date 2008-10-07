@@ -59,21 +59,22 @@ package com.bourre.collection
 	 *
 	 * @author 	Francis Bourre
 	 */
-	public interface Collection extends Iterable
+	public interface Collection 
+		extends Iterable
 	{
 		/**
 	     * Returns the number of elements in this collection.
 	     * 
 	     * @return the number of elements in this collection
 	     */
-		function size() : uint;
+		function size () : uint;
 		
 		/**
 	     * Returns <code>true</code> if this collection contains no elements.
 	     *
 	     * @return <code>true</code> if this collection contains no elements
 	     */
-		function isEmpty() : Boolean;
+		function isEmpty () : Boolean;
 		
 		/**
 	     * Returns <code>true</code> if this collection contains the specified
@@ -87,7 +88,7 @@ package com.bourre.collection
 	     * @throws 	<code>NullPointerException</code> — if the specified element is null and this
 	     *         	collection does not support null elements (optional).
 	     */
-		function contains( o : Object ) : Boolean;
+		function contains ( o : Object ) : Boolean;
 		
 		/**
 	     * Returns an array containing all of the elements in this collection.  If
@@ -105,7 +106,7 @@ package com.bourre.collection
 	     * </p>
 	     * @return 	an array containing all of the elements in this collection
 	     */
-		function toArray() : Array;
+		function toArray () : Array;
 		
 		// Modification Operations
 		
@@ -140,7 +141,7 @@ package com.bourre.collection
 	     * @throws 	<code>IllegalArgumentException</code> — some aspect of this element prevents
 	     *         	it from being added to this collection.
 	     */
-		function add( o : Object ) : Boolean;
+		function add ( o : Object ) : Boolean;
 		
 		/**
 	     * Removes a single instance of the specified element from this
@@ -159,7 +160,7 @@ package com.bourre.collection
 	     * @throws 	<code>UnsupportedOperationException</code> — <code>remove</code> is not supported
 	     * 			by this collection.
 	     */
-		function remove( o : Object ) : Boolean;
+		function remove ( o : Object ) : Boolean;
 		
 		// Bulk Operations
 		
@@ -180,7 +181,7 @@ package com.bourre.collection
 	     *         	<code>null</code>.
 	     * @see    	#contains() contains()
 	     */
-		function containsAll( c : Collection ) : Boolean;
+		function containsAll ( c : Collection ) : Boolean;
 		
 		/**
 	     * Adds all of the elements in the specified collection to this collection
@@ -200,7 +201,7 @@ package com.bourre.collection
 	     *	       	specified collection prevents it from being added to this collection.
 	     * @see 	#add() add()
 	     */
-		function addAll( c : Collection ) : Boolean;
+		function addAll ( c : Collection ) : Boolean;
 		
 		/**
 	     * 
@@ -225,7 +226,7 @@ package com.bourre.collection
 	     * @see 	#remove() remove()
 	     * @see 	#contains() contains()
 	     */
-		function removeAll( c : Collection ) : Boolean;
+		function removeAll ( c : Collection ) : Boolean;
 		
 		/**
 	     * Retains only the elements in this collection that are contained in the
@@ -249,7 +250,7 @@ package com.bourre.collection
 	     * @see 	#remove() remove()
 	     * @see 	#contains() contains()
 	     */
-		function retainAll( c : Collection ) : Boolean;
+		function retainAll ( c : Collection ) : Boolean;
 		
 		/**
 	     * Removes all of the elements from this collection (optional operation).
@@ -259,6 +260,6 @@ package com.bourre.collection
 	     * @throws 	<code>UnsupportedOperationException</code> — if the <code>clear</code> method is
 	     *         	not supported by this collection.
 	     */
-		function clear() : void;
+		function clear () : void;
 	}
 }

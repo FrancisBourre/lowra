@@ -19,7 +19,6 @@ package com.bourre.collection
 	 * An iterator over a collection.
      * 
 	 * @author 	Francis Bourre
-	 * @version 1.0
 	 * @see		Iterable
 	 */
 	public interface Iterator
@@ -31,7 +30,7 @@ package com.bourre.collection
 		 * 
 		 * @return <code>true</code> if the iterator has more elements.
 		 */
-		function hasNext() : Boolean;
+		function hasNext () : Boolean;
 		
  		/**
  		 * Returns the next element in the iteration. Calling this method
@@ -41,7 +40,7 @@ package com.bourre.collection
  		 * @return	the next element in the iteration.
  		 * @throws 	<code>NoSuchElementException</code> — iteration has no more elements.
  		 */
- 		function next() : *;
+ 		function next () : *;
  		
         /**
          * Removes from the underlying collection the last element returned
@@ -56,6 +55,6 @@ package com.bourre.collection
          *          or the remove method has already been called after the last
          *          call to the next  method.
          */
-        function remove() : void;
+        function remove () : void;
 	}
 }

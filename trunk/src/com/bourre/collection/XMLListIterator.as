@@ -15,6 +15,7 @@
  */
 package com.bourre.collection 
 {
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.collection.Iterator;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.error.UnsupportedOperationException;		
@@ -22,11 +23,12 @@ package com.bourre.collection
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class XMLListIterator implements Iterator 
+	public class XMLListIterator 
+		implements Iterator 
 	{
-		private var list : XMLList;
-		private var length : Number;
-		private var index : Number;
+		protected var list 		: XMLList;
+		protected var length 	: Number;
+		protected var index 	: Number;
 
 		public function XMLListIterator ( list : XMLList )
 		{
@@ -43,14 +45,20 @@ package com.bourre.collection
 		public function next () : *
 		{
 			if( !hasNext() )
-				throw new NoSuchElementException ( this + " has no more elements at " + ( index + 1 ) );
+			{
+				var msg : String = this + " has no more elements at " + ( index + 1 );
+				PixlibDebug.ERROR( msg );
+				throw new NoSuchElementException ( msg );
+			}
 			
 			return list[ ++index ];
 		}
 		
 		public function remove () : void
 		{
-			throw new UnsupportedOperationException( "remove is not currently supported by the XMLListIterator" );
+			var msg : String = "remove is not currently supported by the XMLListIterator";
+			PixlibDebug.ERROR( msg );
+			throw new UnsupportedOperationException(  );
 		}
 	}
 }

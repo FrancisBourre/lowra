@@ -36,7 +36,8 @@ package com.bourre.collection
 	 * @author 	Cédric Néhémie
 	 * @see		Iterator
 	 */
-	public interface ListIterator extends Iterator
+	public interface ListIterator 
+		extends Iterator
 	{
 		/**
 		 * Inserts the specified element into the list (optional operation).

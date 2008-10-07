@@ -15,6 +15,7 @@
  */
 package com.bourre.collection 
 {
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.collection.Iterator;
 	import com.bourre.error.IllegalStateException;
 	import com.bourre.error.NoSuchElementException;
@@ -34,12 +35,13 @@ package com.bourre.collection
 	 * @author 	Cédric Néhémie
 	 * @see		Iterator
 	 */
-	public class ObjectIterator implements Iterator 
+	public class ObjectIterator 
+		implements Iterator 
 	{
-	    protected var _oObject : Object;
-	    protected var _aKeys : Array;
-		protected var _nSize : Number;
-		protected var _nIndex : Number;
+	    protected var _oObject 	: Object;
+	    protected var _aKeys 	: Array;
+		protected var _nSize 	: Number;
+		protected var _nIndex 	: Number;
 	    protected var _bRemoved : Boolean;
 		
 		/**
@@ -50,14 +52,14 @@ package com.bourre.collection
 		 */
 		public function ObjectIterator ( o : Object )
 		{
-			_oObject = o;
-			_aKeys = new Array();
+			_oObject 	= o;
+			_aKeys 		= new Array();
 			
 			for( var k : String in _oObject ) { _aKeys.push( k ); }
 			
-			_nIndex = -1;
-			_nSize = _aKeys.length;
-			_bRemoved = false;
+			_nIndex 	= -1;
+			_nSize 		= _aKeys.length;
+			_bRemoved 	= false;
 		}
 		
 		/**
@@ -74,7 +76,11 @@ package com.bourre.collection
 		public function next () : *
 		{
 			if( !hasNext() )
-				throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex + 1 ) );
+			{
+				var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+				PixlibDebug.ERROR ( msg );
+				throw new NoSuchElementException ( msg );
+			}
 				
 			_bRemoved = false;
 			return _oObject[ _aKeys[ ++_nIndex ] ];
@@ -91,15 +97,19 @@ package com.bourre.collection
 				{
 					_nIndex--;
 					_bRemoved = true;
-				}
-				else
+
+				} else
 				{
-					throw new UnsupportedOperationException( this + ".remove() can't delete " + _oObject + "." + _aKeys[ _nIndex ] );
+					var msg0 : String = this + ".remove() can't delete " + _oObject + "." + _aKeys[ _nIndex ];
+					PixlibDebug.ERROR ( msg0 );
+					throw new UnsupportedOperationException ( msg0 );
 				}
-			}
-			else
+
+			} else
 			{
-				throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+				var msg1 : String = this + ".remove() have been already called for this iteration";
+				PixlibDebug.ERROR ( msg1 );
+				throw new IllegalStateException ( msg1 );
 			}
 		}
 	}

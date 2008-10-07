@@ -84,7 +84,7 @@ package com.bourre.collection
 		/**
 		 * Creates a new empty hash map object.
 		 */
-		public function HashMap()
+		public function HashMap ()
 		{
 			_init();
 		}
@@ -92,11 +92,11 @@ package com.bourre.collection
 		/**
 		 * Realize the concret initialization for this map
 		 */
-		protected function _init() : void
+		protected function _init () : void
 		{
 			_n = 0;
-			_oKeyDico = new Dictionary( true );
-			_oValueDico = new Dictionary( true );
+			_oKeyDico = new Dictionary ( true );
+			_oValueDico = new Dictionary ( true );
 		}
 		
 	    /**
@@ -113,7 +113,7 @@ package com.bourre.collection
 	     *
 	     * @return <code>true</code> if this map contains no key-value mappings
 	     */
-		public function isEmpty() : Boolean
+		public function isEmpty () : Boolean
 		{
 			return ( _n == 0 );
 		}
@@ -129,16 +129,18 @@ package com.bourre.collection
 	     *         	key
 	     * @throws 	<code>NullPointerException</code> —  if the specified key is null
 	     */
-		public function containsKey( key : * ) : Boolean
+		public function containsKey ( key : * ) : Boolean
 		{
 			if( key == null )
 			{
-				PixlibDebug.ERROR( this + ".containsKey() failed. key can't be null" );
-				throw new NullPointerException( this + ".containsKey() failed. key can't be null" );
+				var msg :String = this + ".containsKey() failed. key can't be null";
+				PixlibDebug.ERROR ( msg );
+				throw new NullPointerException ( msg );
 			}
+
 			return _oKeyDico[ key ] != null;
 		}
-		
+
 		/**
 	     * Returns <code>true</code> if this map maps one or more keys to the
 	     * specified value.  More formally, returns <code>true</code> if and only if
@@ -149,11 +151,11 @@ package com.bourre.collection
 	     * @return <code>true</code> if this map maps one or more keys to the
 	     *         specified value
 	     */
-		public function containsValue( value : * ) : Boolean
+		public function containsValue ( value : * ) : Boolean
 		{
 			return _oValueDico[ value ] != null;
 		}
-		
+
 	    /**
 	     * Associates the specified value with the specified key in this map
 	     * (optional operation).  If the map previously contained a mapping for
@@ -173,7 +175,7 @@ package com.bourre.collection
 	     */
 		public function put ( key : *, value : * ) : *
 		{
-			if (key != null)
+			if ( key != null )
 			{
 				var oldVal : * = null;
 				
@@ -185,14 +187,15 @@ package com.bourre.collection
 				_oKeyDico[ key ] = value;
 				
 				return oldVal;
-			}
-			else
+
+			} else
 			{
-				PixlibDebug.ERROR( this + ".put() failed. key can't be null" );
-				throw new NullPointerException( this + ".put() failed. key can't be null" );
+				var msg : String = this + ".put() failed. key can't be null";
+				PixlibDebug.ERROR ( msg );
+				throw new NullPointerException ( msg );
 			}
 		}
-		
+
 		/**
 	     * Returns the value to which the specified key is mapped,
 	     * or <code>null</code> if this map contains no mapping for the key.
@@ -217,9 +220,11 @@ package com.bourre.collection
 		{
 			if( key == null )
 			{
-				PixlibDebug.ERROR( this + ".get() failed. key can't be null" );
-				throw new NullPointerException( this + ".get() failed. key can't be null" );
+				var msg : String = this + ".get() failed. key can't be null";
+				PixlibDebug.ERROR ( msg );
+				throw new NullPointerException ( msg );
 			}
+
 			return _oKeyDico[ key ];
 		}
 		
@@ -246,7 +251,7 @@ package com.bourre.collection
 	     *         	<code>null</code> if there was no mapping for <code>key</code>.
 	     * @throws 	<code>NullPointerException</code> —  if the specified key is null 
 	     */
-		public function remove( key : * ) : *
+		public function remove ( key : * ) : *
 		{
 			var value : *;
 			
@@ -254,11 +259,12 @@ package com.bourre.collection
 			{
 				_n--;
 				value = _oKeyDico[ key ];
-				
+
 				var count : uint = _oValueDico[ value ];
 				if (count > 1)
 				{
 					_oValueDico[ value ] = count - 1;
+
 				} else
 				{
 					delete _oValueDico[ value ];
@@ -275,7 +281,7 @@ package com.bourre.collection
 	     *
 	     * @return the number of key-value mappings in this map
 	     */
-		public function size() : Number
+		public function size () : Number
 		{
 			return _n;
 		}
@@ -285,30 +291,31 @@ package com.bourre.collection
 	     *
 	     * @return an array view of the keys contained in this map
 	     */
-		public function getKeys() : Array
+		public function getKeys () : Array
 		{
 			var a : Array = new Array();
 			for ( var key : * in _oKeyDico ) a.push( key );
 			return a;
 		}
+
 		/**
 	     * Returns an <code>Array</code> view of the values contained in this map.
 	     *
 	     * @return an array view of the values contained in this map
 	     */
-		public function getValues() : Array
+		public function getValues () : Array
 		{
 			var a : Array = new Array();
 			for each ( var value : * in _oKeyDico ) a.push( value );
 			return a;
 		}
-		
+
 		/**
 		 * Returns the string representation of this instance.
 		 * 
 		 * @return the string representation of this instance
 		 */
-		public function toString() : String 
+		public function toString () : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}

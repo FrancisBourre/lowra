@@ -15,6 +15,7 @@
  */
 package com.bourre.collection 
 {
+	import com.bourre.log.PixlibDebug;	
 	import com.bourre.error.IllegalStateException;
 	import com.bourre.error.IndexOutOfBoundsException;
 	import com.bourre.error.NoSuchElementException;
@@ -31,12 +32,13 @@ package com.bourre.collection
 	 * @author 	Cedric Nehemie
 	 * @see		ListIterator
 	 */
-	public class ArrayIterator implements ListIterator 
+	public class ArrayIterator 
+		implements ListIterator 
 	{
-	    private var _aArray : Array;
-	    private var _nSize : Number;
-	    private var _nIndex : Number;
-	    private var _bRemoved : Boolean;	    private var _bAdded : Boolean;
+	    protected var _aArray 	: Array;
+	    protected var _nSize 	: Number;
+	    protected var _nIndex 	: Number;
+	    protected var _bRemoved : Boolean;	    protected var _bAdded 	: Boolean;
 
 		/**
 		 * Creates a new iterator over the passed-in array.
@@ -49,15 +51,24 @@ package com.bourre.collection
 		public function ArrayIterator ( a : Array, i : uint = 0 )
 	    {
 	    	if( a == null )
-	    		throw new NullPointerException( "The target array of " + this + "can't be null" );
+	    	{
+	    		var msg0 : String = "The target array of " + this + "can't be null";
+				PixlibDebug.ERROR ( msg0 );
+				throw new NullPointerException ( msg0 );
+	    	}
+
 	    	if( i > a.length )
-	    		throw new IndexOutOfBoundsException ( "The passed-in index " + i + " is not a valid for an array of length " + a.length );
+	    	{
+	    		var msg1 : String = "The passed-in index " + i + " is not a valid for an array of length " + a.length;
+	    		PixlibDebug.ERROR ( msg1 );
+	    		throw new IndexOutOfBoundsException ( msg1 );
+	    	}
 		
-			_aArray = a;
-	        _nSize = a.length;
-	        _nIndex = i - 1;
-			_bRemoved = false;
-			_bAdded = false;
+			_aArray 	= a;
+	        _nSize 		= a.length;
+	        _nIndex 	= i - 1;
+			_bRemoved 	= false;
+			_bAdded 	= false;
 		}
 
 		/**
@@ -74,10 +85,14 @@ package com.bourre.collection
 	    public function next () : *
 	    {
 	    	if( !hasNext() )
-				throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex + 1 ) );
+	    	{
+	    		var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+				PixlibDebug.ERROR ( msg );
+				throw new NoSuchElementException ( msg );
+	    	}
 			
-	    	_bRemoved = false;
-			_bAdded = false;
+	    	_bRemoved 	= false;
+			_bAdded 	= false;
 			return _aArray[ ++_nIndex ];
 	    }
 		
@@ -91,12 +106,15 @@ package com.bourre.collection
 				_aArray.splice( _nIndex--, 1 );
 				_nSize--;
 				_bRemoved = true;
-			}
-			else
+
+			} else
 			{
-				throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+				var msg : String = this + ".remove() have been already called for this iteration";
+				PixlibDebug.ERROR ( msg );
+				throw new IllegalStateException ( msg );
 			}
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -104,15 +122,18 @@ package com.bourre.collection
 		{
 			if( !_bAdded )
 			{
-				_aArray.splice( _nIndex + 1, 0, o );
+				_aArray.splice ( _nIndex + 1, 0, o );
 				_nSize++;
 				_bAdded = true;
-			}
-			else
+
+			} else
 			{
-				throw new IllegalStateException ( this + ".add() have been already called for this iteration" );
+				var msg : String = this + ".add() have been already called for this iteration";
+				PixlibDebug.ERROR ( msg );
+				throw new IllegalStateException ( msg );
 			}
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -120,6 +141,7 @@ package com.bourre.collection
 		{
 			return _nIndex >= 0;
 		}
+
 		/**
 		 * @inheritDoc
 		 */
@@ -134,10 +156,14 @@ package com.bourre.collection
 		public function previous () : *
 		{
 			if( !hasPrevious() )
-				throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+			{
+				var msg : String = this + " has no more elements at " + ( _nIndex );
+				PixlibDebug.ERROR ( msg );
+				throw new NoSuchElementException ( msg );
+			}
 			
-	    	_bRemoved = false;
-			_bAdded = false;
+	    	_bRemoved 	= false;
+			_bAdded 	= false;
 			
 			return _aArray[ _nIndex-- ];
 		}
@@ -158,11 +184,13 @@ package com.bourre.collection
 			if( !_bRemoved && !_bAdded )
 			{
 				_aArray[ _nIndex ] = o;
-			}
-			else
+
+			} else
 			{
-				throw new IllegalStateException ( this + ".add() or " + this + ".remove() have been " +
-												  "already called for this iteration, the set() operation cannot be done" );
+				var msg : String = 	this + ".add() or " + this + ".remove() have been " +
+									"already called for this iteration, the set() operation cannot be done";
+				PixlibDebug.ERROR ( msg );
+				throw new IllegalStateException ( msg );
 			}
 		}
 	}

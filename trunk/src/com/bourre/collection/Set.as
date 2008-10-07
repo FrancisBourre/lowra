@@ -15,7 +15,10 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.error.*;
+	import com.bourre.error.ClassCastException;
+	import com.bourre.error.IllegalArgumentException;
+	import com.bourre.error.IndexOutOfBoundsException;
+	import com.bourre.error.NullPointerException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;	
 
@@ -87,10 +90,11 @@ package com.bourre.collection
 	 * trace( set.size() ); // 2
 	 * </listing>
 	 */	
-	public class Set implements List, TypedContainer
+	public class Set 
+		implements List, TypedContainer
 	{
-		protected var _aSet : Array;
-		protected var _oType : Class;
+		protected var _aSet 	: Array;
+		protected var _oType 	: Class;
 
 		/**
 		 * Creates a new set object. If the <code>type</code>
@@ -163,8 +167,8 @@ package com.bourre.collection
 			{
 				_aSet.splice( _aSet.length, 0, o );
 				return true ;
-			}
-			else
+
+			} else
 			{
 				return false ;
 			}				
@@ -188,8 +192,7 @@ package com.bourre.collection
 		public function addAt(index:uint, o:Object) : void
 		{
 			isValidIndexForAdd( index );
-			if( isValidObject( o ) )			
-				_aSet.splice( index, 0, o );
+			if( isValidObject( o ) ) _aSet.splice( index, 0, o );
 		}
 
 		/**
@@ -313,15 +316,13 @@ package com.bourre.collection
 		public function addAll (c : Collection) : Boolean
 		{
 			var modified : Boolean = false;
-			if (isValidCollection( c ))
+
+			if ( isValidCollection( c ) )
 			{
 				var iter : Iterator = c.iterator( );
-
-				while(iter.hasNext( ))
-				{
-					modified = add( iter.next( ) ) || modified;
-				}
+				while( iter.hasNext() ) modified = add( iter.next() ) || modified;
 			}
+
 			return modified;
 		}
 		
@@ -359,12 +360,7 @@ package com.bourre.collection
 			isValidCollection( c );
 			
 			var i : Iterator = c.iterator();
-			
-			while(i.hasNext())
-			{
-				addAt( index++, i.next() );
-			}
-			
+			while( i.hasNext() ) addAt( index++, i.next() );
 			return true;
 		}
 
@@ -425,7 +421,8 @@ package com.bourre.collection
 				_aSet.splice( _aSet.indexOf( o ), 1 );
 				find = true ;
 			}
-			return find ;
+
+			return find;
 		}
 
 		/**
@@ -517,11 +514,13 @@ package com.bourre.collection
 		public function removeAll ( c : Collection ) : Boolean
 		{
 			var find : Boolean = false;
-			if (isValidCollection( c ))
+
+			if ( isValidCollection( c ) )
 			{
 				var iter : Iterator = c.iterator( );
 				while( iter.hasNext( ) ) find = remove( iter.next( ) ) || find;
 			}
+
 			return find;
 		}
 
@@ -576,17 +575,17 @@ package com.bourre.collection
 		public function retainAll (c : Collection) : Boolean
 		{
 			var b : Boolean = false;
-			
-			if (isValidCollection( c ))
+
+			if ( isValidCollection( c ) )
 			{
 				var i : Iterator = iterator( );
-				
 				while( i.hasNext( ) )
 				{
 					var o : Object = i.next( );	
 					if ( !( c.contains( o ) ) ) b = remove( o ) || b;
 				}
 			}
+
 			return b;
 		}
 
@@ -605,10 +604,14 @@ package com.bourre.collection
 		 */
 		public function contains ( o : Object ) : Boolean
 		{
-			if (isValidType( o ))
+			if ( isValidType( o ) )
+			{
 				return _aSet.indexOf( o ) != -1;
-			else
-				return false ;
+
+			} else
+			{
+				return false;
+			}
 		}
 
 		/**
@@ -636,20 +639,16 @@ package com.bourre.collection
 		{
 			var b : Boolean = true ;
 			
-			if (isValidCollection( c ))
+			if ( isValidCollection( c ) )
 			{
 				var iter : Iterator = c.iterator( );
-				
 				while( iter.hasNext( ) )
 				{
 					var ok : Boolean = contains( iter.next( ) ) ;
-					if( ok == false ) 
-					{
-						b = false;
-					}
+					if( ok == false )  b = false;
 				}
-			}
-			else
+
+			} else
 			{
 				b = false ;
 			}
@@ -673,18 +672,23 @@ package com.bourre.collection
 		 */
 		public function equals ( o : Object ) : Boolean
 		{
-			if (o is Set)
+			if ( o is Set )
 			{
 				var _set : Set = o as Set;
-				if (_set.size( ) == size( ))
+
+				if ( _set.size( ) == size( ) )
 				{
 					return containsAll( _set ) ;
+
+				} else
+				{
+					return false;
 				}
-				else
-					return false ;
+
+			} else
+			{
+				return false;
 			}
-			else
-				return false ;
 		}
 
 		/**
@@ -718,7 +722,7 @@ package com.bourre.collection
 		public function lastIndexOf( o : Object ) : int
 		{
 			isValidType( o );
-			return _aSet.lastIndexOf(o);
+			return _aSet.lastIndexOf( o );
 		}
 
 		/**
@@ -771,7 +775,6 @@ package com.bourre.collection
 		public function listIterator( index : uint = 0 ) : ListIterator
 		{
 			isValidIndex ( index );
-			
 			return new SetIterator ( this, index );
 		}
 		
@@ -792,10 +795,8 @@ package com.bourre.collection
 			isValidIndex( toIndex );
 			
 			var l : List = new Stack( getType() );
-			for(var i : Number = fromIndex;i < toIndex;i++)
-			{
-				l.add( _aSet[ i ] );
-			}
+			for ( var i : Number = fromIndex; i < toIndex; i++ ) l.add( _aSet[ i ] );
+
 			return l;
 		}
 
@@ -855,10 +856,15 @@ package com.bourre.collection
 		public function set ( index : uint, o : Object ) : Object
 		{
 			isValidIndex( index );
-			if( isValidObject( o ) )
+
+			if ( isValidObject( o ) )
+			{
 				return _aSet.splice( index, 1, o )[0];
-			else
+
+			} else
+			{
 				return null;
+			}
 		}
 
 		/**
@@ -873,12 +879,11 @@ package com.bourre.collection
 		 */
 		public function isValidIndex ( index : uint ) : void
 		{
-			if( index >= size( ) )
+			if ( index >= size( ) )
 			{
-				PixlibDebug.ERROR( index + " is not a valid index for " +
-								   this + " of size " + size() );
-				throw new IndexOutOfBoundsException( index + " is not a valid index for " +
-													 this + " of size " + size() );
+				var msg : String = index + " is not a valid index for " + this + " of size " + size();
+				PixlibDebug.ERROR( msg );
+				throw new IndexOutOfBoundsException( msg );
 			}
 		}
 		/**
@@ -893,12 +898,11 @@ package com.bourre.collection
 		 */
 		public function isValidIndexForAdd ( index : uint ) : void
 		{
-			if( index > size() )
+			if ( index > size() )
 			{
-				PixlibDebug.ERROR( index + " is not a valid index for insertion in " +
-								   this + " of size " + size() );
-				throw new IndexOutOfBoundsException( index + "  is not a valid index for insertion in  " +
-													 this + " of size " + size() );
+				var msg : String = index + " is not a valid index for insertion in " + this + " of size " + size();
+				PixlibDebug.ERROR( msg );
+				throw new IndexOutOfBoundsException( msg );
 			}
 		}
 
@@ -934,29 +938,27 @@ package com.bourre.collection
 		 */
 		public function isValidCollection ( c : Collection ) : Boolean
 		{
-			if( c == null ) 
+			if ( c == null ) 
 			{
-				PixlibDebug.ERROR( "The passed-in collection is null in " + this );
-				throw new NullPointerException( "The passed-in collection is null in " + this );
-			}
-			else if( getType() != null )
+				var msg0 : String = "The passed-in collection is null in " + this;
+				PixlibDebug.ERROR( msg0 );
+				throw new NullPointerException( msg0 );
+
+			} else if ( getType() != null )
 			{
-				if( c is TypedContainer && ( c as TypedContainer ).getType() != getType() )
+				if ( c is TypedContainer && ( c as TypedContainer ).getType() != getType() )
 				{
-					PixlibDebug.ERROR( "The passed-in collection with type '" + 
-									   ( c as TypedContainer ).getType() +
-									   "' has not the same type than" + this );
-					
-					throw new IllegalArgumentException( "The passed-in collection with type '" + 
-													    ( c as TypedContainer ).getType() +
-													    "' has not the same type than" + this );
-				}
-				else
+					var msg1 : String = "The passed-in collection with type '" +  ( c as TypedContainer ).getType() + 
+										"' has not the same type than" + this;
+					PixlibDebug.ERROR( msg1 );
+					throw new IllegalArgumentException( msg1 );
+
+				} else
 				{
 					return true;
 				}
-			}
-			else
+
+			} else
 			{
 				return true;
 			}
@@ -975,11 +977,15 @@ package com.bourre.collection
 		 * 			prevents it to be added into this set
 		 */
 		public function isValidObject (o : Object) : Boolean
-		{				
+		{
 			if ( isValidType( o ) )
+			{
 				return ( !contains( o ) );
-			else 
-				return false ;
+
+			} else
+			{
+				return false;
+			}
 		}
 
 		/**
@@ -1001,20 +1007,23 @@ package com.bourre.collection
 		 */
 		public function isValidType ( o : Object ) : Boolean
 		{
-			if ( getType() != null)
+			if ( getType() != null )
 			{
 				if ( matchType( o ) )
 				{
 					return true;
-				}
-				else
+
+				} else
 				{
-					PixlibDebug.ERROR( o + " has a wrong type for " + this  );
-					throw new ClassCastException( o + " has a wrong type for " + this  ) ;
+					var msg : String = o + " has a wrong type for " + this;
+					PixlibDebug.ERROR( msg );
+					throw new ClassCastException( msg ) ;
 				}
+
+			} else
+			{
+				return true;
 			}
-			else
-				return true ;
 		}
 
 		/**
@@ -1077,7 +1086,7 @@ package com.bourre.collection
 		{
 			return _aSet.concat();
 		}
-		
+
 		/**
 		* Swap two objects stored in the passed-in index
 		* <p>
@@ -1095,7 +1104,6 @@ package com.bourre.collection
 		{
 			isValidIndex( index1 );
 			isValidIndex( index2 );
-			
 			var save : Object = _aSet[ index1 ] ;
 			_aSet[ index1 ] = _aSet[ index2 ] ;
 			_aSet[ index2 ] = save ;
@@ -1120,13 +1128,13 @@ package com.bourre.collection
 		{
 			var hasType : Boolean = getType() != null;
 			var parameter : String = "";
-			
+
 			if( hasType )
 			{
 				parameter = getType().toString();
 				parameter = "<" + parameter.substr( 7, parameter.length - 8 ) + ">";
 			}
-			
+
 			return PixlibStringifier.stringify( this ) + parameter;
 		}
 	}
@@ -1136,24 +1144,26 @@ import com.bourre.collection.ListIterator;
 import com.bourre.collection.Set;
 import com.bourre.error.IllegalStateException;
 import com.bourre.error.NoSuchElementException;
+import com.bourre.log.PixlibDebug;
 
-internal class SetIterator implements ListIterator
+internal class SetIterator 
+	implements ListIterator
 {
-	private var _c : Set;
-	private var _nIndex : int;
-	private var _nLastIndex : int;
-	private var _a : Array;
-	private var _bRemoved : Boolean;
-	private var _bAdded : Boolean;
+	private var _c 			: Set;
+	private var _nIndex 	: int;
+	private var _nLastIndex	: int;
+	private var _a 			: Array;
+	private var _bRemoved 	: Boolean;
+	private var _bAdded 	: Boolean;
 
 	public function SetIterator ( c : Set, index : uint = 0 )
 	{
-		_c = c;
-		_nIndex = index - 1;
-		_a = c.toArray( );
+		_c 			= c;
+		_nIndex 	= index - 1;
+		_a 			= c.toArray( );
 		_nLastIndex = _a.length - 1;
-		_bRemoved = false;
-		_bAdded = false;
+		_bRemoved 	= false;
+		_bAdded 	= false;
 	}
 
 	public function hasNext () : Boolean
@@ -1164,7 +1174,11 @@ internal class SetIterator implements ListIterator
 	public function next () : *
 	{
 		if( !hasNext() )
-			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex + 1 ) );
+		{
+			var msg : String = this + " has no more elements at " + ( _nIndex + 1 );
+			PixlibDebug.ERROR( msg );
+			throw new NoSuchElementException ( msg );
+		}
 			
 	    _bRemoved = false;
 		_bAdded = false;
@@ -1174,7 +1188,11 @@ internal class SetIterator implements ListIterator
 	public function previous () : *
 	{
 		if( !hasPrevious() )
-			throw new NoSuchElementException ( this + " has no more elements at " + ( _nIndex ) );
+		{
+			var msg : String = this + " has no more elements at " + ( _nIndex );
+			PixlibDebug.ERROR( msg );
+			throw new NoSuchElementException ( msg );
+		}
 			
 	    _bRemoved = false;
 		_bAdded = false;
@@ -1189,10 +1207,12 @@ internal class SetIterator implements ListIterator
 			_a = _c.toArray( );
 			_nLastIndex--;
 			_bRemoved = true;
-		}
-		else
+
+		} else
 		{
-			throw new IllegalStateException ( this + ".remove() have been already called for this iteration" );
+			var msg : String = this + ".remove() have been already called for this iteration";
+			PixlibDebug.ERROR( msg );
+			throw new IllegalStateException ( msg );
 		}
 	}
 
@@ -1204,10 +1224,12 @@ internal class SetIterator implements ListIterator
 			_a = _c.toArray( );
 			_nLastIndex++;
 			_bAdded = true;
-		}
-		else
+
+		} else
 		{
-			throw new IllegalStateException ( this + ".add() have been already called for this iteration" );
+			var msg : String = this + ".add() have been already called for this iteration";
+			PixlibDebug.ERROR( msg );
+			throw new IllegalStateException ( msg );
 		}
 	}		
 
@@ -1231,10 +1253,12 @@ internal class SetIterator implements ListIterator
 		if( !_bAdded && !_bRemoved )
 		{
 			_c.set( _nIndex, o );
-		}
-		else
+
+		} else
 		{
-			throw new IllegalStateException ( this + ".set() can't be called after neither a remove() nor an add() call" );
+			var msg : String = this + ".set() can't be called after neither a remove() nor an add() call";
+			PixlibDebug.ERROR( msg );
+			throw new IllegalStateException ( msg );
 		}
 	}
 }
