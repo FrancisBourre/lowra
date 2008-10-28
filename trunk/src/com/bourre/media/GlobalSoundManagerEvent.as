@@ -1,5 +1,7 @@
-package com.bourre.media.sound
-{	
+package com.bourre.media 
+{
+	import com.bourre.events.BasicEvent;		
+
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -15,40 +17,34 @@ package com.bourre.media.sound
 	 * See the License for the specific language governing permissions and
 	 * limitations under the License.
 	 */
-	 
+
 	/**
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.events.Event;
-	
-	import com.bourre.media.sound.*;	
-
-	public class SoundLoaderLocatorEvent 
-		extends Event 
+	public class GlobalSoundManagerEvent extends BasicEvent
 	{
-		public static var onRegisterGraphicLoaderEVENT : String = "onRegisterGraphicLoader";
-		public static var onUnregisterGraphicLoaderEVENT : String = "onUnregisterGraphicLoader";
+
+		public static var onGlobalSoundChangeEVENT : String = new String( "onGlobalSoundChange" );
+		
+		// Can be null if no global sound set
+		protected var _oSTDI : SoundTransformInfo; 
+		
+		public function GlobalSoundManagerEvent( oSTDI : SoundTransformInfo)
+		{ 
+			super( onGlobalSoundChangeEVENT );
+			_oSTDI =  oSTDI ;
+		}
 	
-		protected var _sName : String;
-		protected var _sl : SoundLoader ;
-		
-		public function SoundLoaderLocatorEvent( type : String, name : String, sl : SoundLoader )
+		public function getSoundTransformInfo() : SoundTransformInfo
 		{
-			super( type );
-			
-			_sName = name;
-			_sl = sl;
+			return _oSTDI;
 		}
 		
-		public function getName() : String
+		public function hasSoundTransformInfo() : Boolean
 		{
-			return _sName;
+			return _oSTDI != null ;
 		}
-		
-		public function getSoundLoader() : SoundLoader
-		{
-			return _sl;
-		}
+	
 	}
 }

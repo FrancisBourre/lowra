@@ -22,20 +22,20 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
+	import flash.events.Event;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	
 	import com.bourre.collection.TypedArray;
 	import com.bourre.commands.Delegate;
 	import com.bourre.commands.Suspendable;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.media.SoundTransformInfo;
 	import com.bourre.media.sound.SoundInfoChannel;
-	import com.bourre.media.sound.SoundTransformInfo;
 	import com.bourre.transitions.MSBeacon;
 	import com.bourre.transitions.TickBeacon;
-	import com.bourre.transitions.TickListener;
-	
-	import flash.events.Event;
-	import flash.media.Sound;
-	import flash.media.SoundChannel;	
+	import com.bourre.transitions.TickListener;	
 
 	public class 	  SoundInfo 
 		   implements Suspendable , TickListener
@@ -74,7 +74,7 @@ package com.bourre.media.sound
 			
 			_oEB = new EventBroadcaster( this ) ; 
 			_oSound = oSound;
-			_oSTI = oSTI ? oSTI : new SoundTransformInfo() ;
+			_oSTI = oSTI ? oSTI : SoundTransformInfo.NORMAL ;
 			initTickBeacon();
 			
 			resetChannel();
@@ -130,9 +130,9 @@ package com.bourre.media.sound
 		
 		public function playSound( loop : Number = 1 , soundTransformInfo : SoundTransformInfo = null) : void
 		{
-			if( DEBUG )PixlibDebug.DEBUG(this+".playSound "  );
-			if( loop == 0 ) loop = 1 ;
-			--loop;
+			if( DEBUG )PixlibDebug.DEBUG( this+".playSound " +getSound() );
+			if( loop <= 0 ) loop = 1 ;
+			--loop ;
 		
 			var oSTI : SoundTransformInfo   =  soundTransformInfo ? soundTransformInfo : getSoundTransformInfo() ;
 			var soundChannel : SoundChannel =  getSound().play( 0 , 0 , oSTI.getSoundTransform() );
@@ -142,14 +142,14 @@ package com.bourre.media.sound
 			
 			fireSoundEvent( SoundEvent.onSoundPlay, channelSoundInfo) ;
 			
-			if( DEBUG ) PixlibDebug.DEBUG(this+".playSound loop"  + loop );
+			if( DEBUG ) PixlibDebug.DEBUG(this+".playSound loop"  + loop  );
 			_playLoopSound(  channelSoundInfo  ) ;
 			
 		}
 
 		protected function _playLoopSound(  channelSoundInfo : ChannelSoundInfo ) : void
 		{
-			if( DEBUG ) PixlibDebug.DEBUG(this+"._playLoopSound ");
+			if( DEBUG ) PixlibDebug.DEBUG(this+"._playLoopSound "+ channelSoundInfo.getChannel() );
 			channelSoundInfo.getChannel().addEventListener( Event.SOUND_COMPLETE, Delegate.create( _onPlayLoopFinish , channelSoundInfo  ));
 		}
 		
@@ -218,6 +218,19 @@ package com.bourre.media.sound
 			}
 		}	
 		
+		public function setSoundTransform( o : SoundTransformInfo  ) : void
+		{
+			if( DEBUG ) PixlibDebug.DEBUG(this+".setSoundTransform "+ o );	
+			var aChannel : TypedArray = getChannel()	 ;	
+			
+			for each( var oCSI : ChannelSoundInfo in aChannel.toArray() )
+			{
+				var channelSTI : SoundTransformInfo = oCSI.getSoundTransformInfo( );
+				channelSTI.setSoundTransformInfo( o  ) ;
+			}
+		}
+		
+		
 		public function getState( ) : String
 		{
 			return 	getCurrentState( ) ;
@@ -239,6 +252,11 @@ package com.bourre.media.sound
 		{
 			if( getCurrentState() == SoundInfo.STOP )  return true; 
 			return false;
+		}
+		
+		public function isBuffering( )  : Boolean
+		{
+			return getSound().isBuffering ;
 		}
 		
 		/**
@@ -326,14 +344,14 @@ package com.bourre.media.sound
 	}
 }
 
-import com.bourre.media.sound.SoundInfoChannel;
-import com.bourre.media.sound.SoundTransformInfo;
-
 import flash.media.Sound;
 import flash.media.SoundChannel;
 import flash.media.SoundLoaderContext;
 import flash.media.SoundTransform;
 import flash.net.URLRequest;
+
+import com.bourre.media.SoundTransformInfo;
+import com.bourre.media.sound.SoundInfoChannel;
 
 /**
  * ChannelSoundInfo is use to play and remember all information about a play iteration of a sound

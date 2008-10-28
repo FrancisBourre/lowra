@@ -20,16 +20,16 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import com.bourre.load.Loader;
-	import com.bourre.load.strategy.LoadStrategy;
-	import com.bourre.log.PixlibStringifier;
-	
 	import flash.errors.IOError;
 	import flash.events.*;
 	import flash.media.Sound;
 	import flash.media.SoundLoaderContext;
 	import flash.net.URLRequest;
-	import flash.system.LoaderContext;		
+	import flash.system.LoaderContext;
+	
+	import com.bourre.load.Loader;
+	import com.bourre.load.strategy.LoadStrategy;
+	import com.bourre.log.PixlibStringifier;	
 
 	public class SoundURLStrategy 
 		implements LoadStrategy
@@ -49,6 +49,7 @@ package com.bourre.media.sound
 		{
 			_initLoaderStrategy();
 			_loader.load( request , context as SoundLoaderContext );
+			if(_owner) _owner.setContent( _loader );
 		}
 
 		public function getBytesLoaded() : uint
@@ -128,8 +129,6 @@ package com.bourre.media.sound
 		{
 			if ( _owner ) 
 			{
-				// in case of the sound the content is the loader itself
-				_owner.setContent( _loader );
 				// we send a on init in case of complete , we dont have init in sound
 				_owner.fireOnLoadInitEvent();
 			}

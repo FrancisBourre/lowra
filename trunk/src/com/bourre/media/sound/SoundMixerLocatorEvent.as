@@ -20,15 +20,15 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import com.bourre.media.sound.*;
+	import flash.events.Event;
 	
-	import flash.events.Event;	
+	import com.bourre.media.sound.*;	
 
 	public class SoundMixerLocatorEvent 
 		extends Event 
 	{
-		public static var onRegisterGraphicLoaderEVENT : String = "onRegisterGraphicLoader";
-		public static var onUnregisterGraphicLoaderEVENT : String = "onUnregisterGraphicLoader";
+		public static var onRegisterSoundMixerEVENT : String = "onRegisterSoundMixer";
+		public static var onUnregisterSoundMixerEVENT : String = "onUnregisterSoundMixer";
 	
 		protected var _sName : String;
 		protected var _sm : SoundMixer ;
