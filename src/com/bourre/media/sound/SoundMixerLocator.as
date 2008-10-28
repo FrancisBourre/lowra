@@ -21,8 +21,9 @@ package com.bourre.media.sound
 	 * @version 1.0
 	 */
 	import com.bourre.core.AbstractLocator;
+	import com.bourre.media.SoundTransformInfo;
 	import com.bourre.media.sound.SoundMixerLocatorEvent;
-	import com.bourre.media.sound.SoundMixerLocatorListener;		
+	import com.bourre.media.sound.SoundMixerLocatorListener;	
 
 	public class SoundMixerLocator 
 		extends AbstractLocator
@@ -47,12 +48,12 @@ package com.bourre.media.sound
 
 		override protected function onRegister( name : String = null, o : Object = null ) : void
 		{
-			broadcastEvent(new SoundMixerLocatorEvent( SoundMixerLocatorEvent.onRegisterGraphicLoaderEVENT, name, o as SoundMixer));
+			broadcastEvent(new SoundMixerLocatorEvent( SoundMixerLocatorEvent.onRegisterSoundMixerEVENT, name, o as SoundMixer));
 		}
 
 		override protected function onUnregister( name : String = null ) : void
 		{
-			broadcastEvent(new SoundMixerLocatorEvent( SoundMixerLocatorEvent.onUnregisterGraphicLoaderEVENT, name, null ) );
+			broadcastEvent(new SoundMixerLocatorEvent( SoundMixerLocatorEvent.onUnregisterSoundMixerEVENT, name, null ) );
 		} 
 
 		public function getSoundMixer( name : String ) : SoundMixer
@@ -70,31 +71,44 @@ package com.bourre.media.sound
 			return null;
 		}
 		
-		public function playAllSound( id : String = null, loop : uint  = 0 , soundTransformInfo : SoundTransformInfo = null ) : void
+		/**
+		 * If id , will play all sound with this id , in each SoundMixer
+		 * If not it , will play all sound in each SoundMixer
+		 */
+		public function playAll( id : String = null, loop : uint  = 0 , soundTransformInfo : SoundTransformInfo = null ) : void
 		{	
 			if( id ) performAll( "playSound", id , loop , soundTransformInfo ) ;
-			else  performAll( "playAllSound", null ,loop , soundTransformInfo ) ;
+			else  	 performAll( "playAllSound", null ,loop , soundTransformInfo ) ;
 		}
 		
-		public function pauseAllSound( id : String = null ) : void
+		public function pauseAll( id : String = null ) : void
 		{	
 			if( id ) performAll( "pauseSound", id  ) ;
-			else  performAll( "pauseAllSound", null) ;
+			else  	 performAll( "pauseAllSound", null) ;
 		}
 		
-		public function resumeAllSound( id : String = null ) : void
+		public function resumeAll( id : String = null ) : void
 		{	
 			if( id ) performAll( "resumeSound", id  ) ;
-			else  performAll( "resumeAllSound", null) ;
+			else  	 performAll( "resumeAllSound", null) ;
 		}
 		
-		public function stopAllSound( id : String = null ) : void
+		public function stopAll( id : String = null ) : void
 		{	
 			if( id ) performAll( "stopSound", id  ) ;
-			else  performAll( "stopAllSound", null) ;
+			else  	 performAll( "stopAllSound", null) ;
+		}
+		
+		public function setSoundTransformAll( id : String = null , soundTransformInfo : SoundTransformInfo = null ) : void
+		{	
+			if( id ) performAll( "setSoundTransform", id , soundTransformInfo  ) ;
+			else  	 performAll( "setSoundTransformAllSound", null ,  soundTransformInfo  ) ;
 		}
 			
-		
+		/**
+		 * If id call the function on all id of all SoundMixer
+		 * If no id , call the funciton on all sound in all SoundMixer
+		 */
 		private function performAll( sFunction : String , id : String , ... args ) : void 
 		{
 			for each( var oSoundMixer : SoundMixer in getValues() )

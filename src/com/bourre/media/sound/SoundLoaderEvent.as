@@ -20,7 +20,7 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import com.bourre.load.LoaderEvent;		
+	import com.bourre.load.LoaderEvent;			
 
 	public class SoundLoaderEvent 
 		extends LoaderEvent

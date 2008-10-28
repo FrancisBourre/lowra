@@ -20,16 +20,16 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
+	import flash.net.URLRequest;
+	import flash.system.ApplicationDomain;
+	import flash.system.LoaderContext;
+	
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.load.strategy.LoadStrategy;
 	import com.bourre.load.strategy.LoaderStrategy;
-	import com.bourre.log.PixlibDebug;
-	
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;	
+	import com.bourre.log.PixlibDebug;	
 
 	public class SoundLoader extends AbstractLoader
 	{

@@ -16,15 +16,17 @@
 
 package com.bourre.media.sound 
 {
+	import flash.media.Sound;
+	
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Batch;
 	import com.bourre.commands.Suspendable;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	import com.bourre.media.sound.*;
-	
-	import flash.media.Sound;	
+	import com.bourre.media.SoundTransformInfo;
+	import com.bourre.media.sound.*;	
 
 	/**
 	 * @author Aigret Axel
@@ -34,37 +36,47 @@ package com.bourre.media.sound
 	public class 	  SoundMixer
 		   implements Suspendable
 	{
+		/* use it to learn to manipulate SoundMixer */
 		public  var DEBUG 		: Boolean = false;
 		/* 
 		 * Contains all Sound : idSound => SoundInfo
 		 * SoundInfo can contain many ChannelSoundInfo 
 		 */
-		private var _mSounds 	: HashMap ;		
+		protected var _mSounds 	: HashMap ;		
 		/** Id name of this SoundMixer */
-		private var _sName 		: String  ; 
-		/**
-		 * If lock , play stop resume pause is ignore 
-		 */ 
-		private var _bLocked 	: Boolean = false;
-		
-		//private var _oEB : EventBroadcaster;
+		protected var _sName 		: String  ; 
+		/** If lock , play, stop, resume, pause, are ignore */ 
+		protected var _bLocked 	: Boolean = false;
 		
 		
 		/**
-		 * Constructs a new SoundFactory instance.
+		 * Constructs a new <code>SoundMixer</code> instance.
+		 * @param name (optionnal) The Sound Mixer name id , if present SoundMixer is register in the SoundMixerLocator
 		 */
 		public function SoundMixer( name : String = null) 
 		{
 			//_oEB = new EventBroadcaster( this ) ;
 			_mSounds = new HashMap();
 			if( name ) setName( name ) ;
-		
+			
 		}
 		
 		private function setName( name : String ) : void
 		{
-			_sName = name ;
-			SoundMixerLocator.getInstance().register( getName() , this );
+			if ( name != null ) 
+			{
+				_sName = name ;
+				
+				if ( !(SoundMixerLocator.getInstance().isRegistered( _sName )) )
+					SoundMixerLocator.getInstance().register( _sName , this );
+				else
+				{
+					var msg : String = this + " can't be registered to " + SoundMixerLocator.getInstance() 
+										+ " with '" + _sName  + "' name. This name already exists.";
+					PixlibDebug.ERROR( msg );
+					throw new IllegalArgumentException( msg );
+				}
+			}
 		} 
 		
 		public function getName() : String
@@ -84,7 +96,7 @@ package com.bourre.media.sound
 
 		/*
 		 * Lock
-		 * If lock all play pause resume stop call will be ignore
+		 * If lock all play, pause, resume, stop, call will be ignore
 		 */
 		public function lock( ) : void
 		{
@@ -187,7 +199,7 @@ package com.bourre.media.sound
 		public function stopSound( id : String ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+".stopSound "+id);
-			if( _checkId(id ,"stopSound" ) && !isLock())
+			if( _checkId( id ,"stopSound" ) && !isLock())
 			{			
 				var soundInfo : SoundInfo = getSoundInfo( id ) ; 
 				soundInfo.stopSound( )  ;
@@ -198,7 +210,7 @@ package com.bourre.media.sound
 		public function pauseSound ( id : String ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+".pauseSound "+id);	
-			if( _checkId(id ,"pauseSound" ) && !isLock() )
+			if( _checkId( id ,"pauseSound" ) && !isLock() )
 			{		
 				var soundInfo : SoundInfo = getSoundInfo( id ) ; 
 				soundInfo.pauseSound( )  ;
@@ -209,10 +221,21 @@ package com.bourre.media.sound
 		public function resumeSound ( id : String ) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+".resumeSound "+id);	
-			if( _checkId(id ,"resumeSound" ) && !isLock() )
+			if( _checkId( id ,"resumeSound" ) && !isLock() )
 			{		
 				var soundInfo : SoundInfo = getSoundInfo( id ) ; 
 				soundInfo.resumeSound( )  ;
+			}
+
+		}
+		
+		public function setSoundTransform( id : String  , o : SoundTransformInfo  ) : void
+		{
+			if( DEBUG ) PixlibDebug.DEBUG(this+".setSoundTransform "+id);	
+			if( _checkId( id ,"setSoundTransform" ) && !isLock() )
+			{		
+				var soundInfo : SoundInfo = getSoundInfo( id ) ; 
+				soundInfo.setSoundTransform( o ) ;
 			}
 
 		}
@@ -238,6 +261,10 @@ package com.bourre.media.sound
 			performAll ( stopSound ) ;
 		}
 		
+		public function setSoundTransformAllSound(  o : SoundTransformInfo) : void
+		{
+			performAll ( setSoundTransform , o ) ;
+		}
 		
 		private function performAll( f : Function, ... args ) : void
 		{
@@ -351,6 +378,9 @@ package com.bourre.media.sound
 		{
 			for each(var sSoundId : String in getRegisteredId())
 				removeSound( sSoundId ) ;
+				
+			if ( getName() && SoundMixerLocator.getInstance().isRegistered(getName()) ) 
+				 SoundMixerLocator.getInstance().unregister( getName() );
 		}
 	}
 }

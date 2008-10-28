@@ -42,17 +42,17 @@ package com.bourre.media.video
 		
 		public function getNameInfo() : String
 		{
-			return getCuePointInfo().name;
+			return getCuePointInfo().name as String;
 		}
 		
 		public function getTimeInfo() : String
 		{
-			return getCuePointInfo().time;
+			return getCuePointInfo().time as String;
 		}
 		
 		public function getTypeInfo() : String
 		{
-			return getCuePointInfo().type;
+			return getCuePointInfo().type as String; 
 		}
 		
 		/**

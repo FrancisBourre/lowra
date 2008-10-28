@@ -1,25 +1,26 @@
 package com.bourre.media.video 
 {
+	import flash.events.Event;
+	import flash.events.NetStatusEvent;
+	import flash.media.Video;
+	import flash.net.NetConnection;
+	import flash.net.NetStream;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;
+	
 	import com.bourre.commands.Delegate;
 	import com.bourre.commands.Suspendable;
+	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.load.AbstractLoader;
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.media.SoundTransformInfo;
 	import com.bourre.media.video.CuePointEvent;
 	import com.bourre.media.video.VideoDisplayEvent;
 	import com.bourre.structures.Dimension;
 	import com.bourre.transitions.MSBeacon;
 	import com.bourre.transitions.TickBeacon;
-	import com.bourre.transitions.TickListener;
-	
-	import flash.events.Event;
-	import flash.events.NetStatusEvent;
-	import flash.media.SoundTransform;
-	import flash.media.Video;
-	import flash.net.NetConnection;
-	import flash.net.NetStream;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;		
+	import com.bourre.transitions.TickListener;		
 
 	/*
 	 * Copyright the original author or authors.
@@ -45,9 +46,8 @@ package com.bourre.media.video
 	 	   extends    AbstractLoader 
 	 	   implements Suspendable , TickListener
 	{
-
 		
-		/** manage the time to fire onPlayHeadTimeChanged event */
+		/** manage the time to fire <code>VideoDisplayEvent.onPlayHeadTimeChangeEVENT</code> */
 		protected static var TICKBEACON : TickBeacon ;
 
 		public static function setTickBeacon( beacon : TickBeacon ) : void
@@ -60,7 +60,9 @@ package com.bourre.media.video
 			onPlayHeadTimeChanged( );
 		}
 		
+		/* use it to learn to manipulate VideoDisplay */
 		public    var DEBUG 					: Boolean   =  false ;
+		
 		protected var _video 					: Video ;
 		protected var _connection 				: NetConnection ;
 		protected var _stream 					: NetStream ;
@@ -74,19 +76,27 @@ package com.bourre.media.video
 		protected var _bLoopPlayback 			: Boolean ;
 		
 		protected var _oMetaData 				: MetaData ; 
-	
-		public function VideoDisplay( video      : Video   = null ,
+		protected var _oSTI 					: SoundTransformInfo ;
+		// If a load problem with net stream 
+		protected var _bLoadProblem  			: Boolean ; 
+
+		
+		public function VideoDisplay( name       : String  = null ,
+									  video      : Video   = null ,
 									  autoPlay   : Boolean = true ,
 									  autoSize   : Boolean = true ,
-									  bufferTime : Number  = 2)
+									  bufferTime : Number  = 2    ,
+									  soundTransform : SoundTransformInfo = null )
 		{
 			super( null );
 
 			_video = video ? video : new Video() ;
 
+			if( name ) setName( name ) ;
 			setAutoPlay( autoPlay );
 			setAutoSize( autoSize );
 			setBufferTime( bufferTime );
+			setSoundTransform( soundTransform ?  soundTransform : SoundTransformInfo.NORMAL );
 			_bLoopPlayback = false;
 
 			init();
@@ -98,6 +108,7 @@ package com.bourre.media.video
 			_bIsLoaded = false;
 			initTickBeacon();
 		}
+		
 		
 		protected function initTickBeacon() : void
 		{
@@ -111,14 +122,14 @@ package com.bourre.media.video
 
 		protected function onPlayHeadTimeChanged( ) : void
 		{
-			// will be fire if lastTimeStamp is in Metadata
+			// will be fire only if lastTimeStamp is in Metadata
 			if( getMetaData() && getMetaData().getLastTimeStamp() == getPlayheadTime() )
 			{
 				fireEventType( VideoDisplayEvent.onEndVideoEVENT );
 				setPlaying( false );
 			}
 			
-			if( !isLoaded() )
+			if( !isLoaded() && !_bLoadProblem )
 				fireOnLoadProgressEvent() ;
 			
 			fireEventType( VideoDisplayEvent.onPlayHeadTimeChangeEVENT );
@@ -132,16 +143,34 @@ package com.bourre.media.video
 			setURL( url );
 		}
 		
+		override protected function onInitialize() : void
+		{
+			if ( getName() != null ) 
+			{
+				if ( !(VideoDisplayLocator.getInstance().isRegistered(getName())) )
+					VideoDisplayLocator.getInstance().register( getName(), this );
+				else
+				{
+					var msg : String = this + " can't be registered to " + VideoDisplayLocator.getInstance() 
+										+ " with '" + getName() + "' name. This name already exists.";
+					PixlibDebug.ERROR( msg );
+					fireOnLoadErrorEvent( msg );
+					throw new IllegalArgumentException( msg );
+				}
+			}
+			super.onInitialize();
+		}
 		
 		protected function _load() : void
 		{
+			
 			if ( !getURL() )
 			{
 				PixlibDebug.ERROR( this + " can't play without any valid url property, loading fails." );
 			} 
 			else
 			{
-				
+				_bLoadProblem = false;
 				_connection = new NetConnection();
 				_connection.connect( null );
 				
@@ -159,6 +188,8 @@ package com.bourre.media.video
 				//_mcHolder.attachAudio( _stream );
 				
 				_stream.play( getURL().url );
+				_oSTI.addStream( _stream )  ;
+				
 				if ( !isAutoPlay() ) _stream.pause( );
 			
 				_bIsLoaded = true;
@@ -206,15 +237,17 @@ package com.bourre.media.video
 					var msg :String = this + " An error has occurred in playback for a reason other than those listed elsewhere in this table, such as the subscriber not having read access. "; 	
 					PixlibDebug.ERROR(msg  );
 					fireOnLoadErrorEvent( msg ) ;
+					_bLoadProblem = true;
 					break;
 					
 				case 'NetStream.Play.StreamNotFound' :
-					PixlibDebug.ERROR( this + " can't find FLV passed to the play() method. FLV url is '" + this.getURL() + "'" );
+					PixlibDebug.ERROR( this + " can't find FLV url passed to the play() method : '" + getURL().url + "'" );
 					fireOnLoadTimeOut();
+					_bLoadProblem = true;
 					break;
 						
 				case 'NetStream.Seek.InvalidTime' :
-					PixlibDebug.WARN( this + " seeks invalid time in '" + this.getURL() + "'." );
+					PixlibDebug.WARN( this + " seeks invalid time in '" + getURL().url + "'." );
 					break;
 					
 				case 'NetStream.Buffer.Full' :
@@ -347,6 +380,9 @@ package com.bourre.media.video
 			_connection.close();
 			_video.clear();
 			
+			if ( VideoDisplayLocator.getInstance().isRegistered(getName()) ) 
+				VideoDisplayLocator.getInstance().unregister( getName() );
+			
 			super.release();
 		}
 		
@@ -427,21 +463,30 @@ package com.bourre.media.video
 			}
 		}
 		
-		public function setSoundTransform( o : SoundTransform ) : void
+		// sound
+		public function setSoundTransform( o : SoundTransformInfo ) : void
 		{
-			if( _stream ) _stream.soundTransform = o ;
+			_oSTI = o ;
+			if( _stream ) _stream.soundTransform = _oSTI.getSoundTransform() ;
 		}
 		
+		public function getSoundTransform( ) : SoundTransformInfo
+		{
+			return _oSTI ;
+		}
+
 		public function getVolume() : Number
 		{
-			return _stream ? _stream.soundTransform.volume : 0 ;
+			return _stream ? _oSTI.getVolume() : 0 ;
 		}
 	
 		public function setVolume( n : Number ) : void
 		{
-			setSoundTransform( new SoundTransform( n ) );
+			_oSTI.setVolume( n ) ;
 		}
 	
+	
+		// AbstractLoader
 		override public function setURL( url : URLRequest ) : void
 		{
 			if ( url.url ) 
@@ -503,7 +548,6 @@ package com.bourre.media.video
 		 * Implements Suspendable 
 		 * stop is not stopVideo but pauseVideo
 		 */
-		
 		
 		// resume
 		public function start() : void

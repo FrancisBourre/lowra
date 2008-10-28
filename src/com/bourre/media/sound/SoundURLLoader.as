@@ -20,33 +20,24 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import com.bourre.load.AbstractLoader;
-	import com.bourre.media.sound.*;
+	import flash.media.Sound;
 	
-	import flash.media.Sound;	
+	import com.bourre.load.AbstractLoader;
+	import com.bourre.media.sound.*;	
 
 	public class SoundURLLoader extends SoundLoader
-	{
-
-		private var _bAutoPlay : Boolean;
-		
+	{	
 	
-		public function SoundURLLoader( name : String = null , autoPlay : Boolean = false )
+		public function SoundURLLoader( name : String = null  )
 		{
 			super( new SoundURLStrategy() );
 			if( name != null ) setName( name ) ;
-			_bAutoPlay = autoPlay;
-			
+
 		}
 		
 		public function getSound() : Sound
 		{
 			return getContent() as Sound ; 
-		}
-
-		public function setAutoPlay( b : Boolean ) : void
-		{
-			_bAutoPlay = b;
 		}
 
 		
