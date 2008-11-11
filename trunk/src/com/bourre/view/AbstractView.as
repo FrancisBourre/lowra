@@ -236,10 +236,9 @@ package com.bourre.view
 			}
 			
 		}
-		
+
 		public function release() : void
 		{
-			getBroadcaster().removeAllListeners();
 			ViewLocator.getInstance( getOwner() ).unregister( getName() );
 
 			if( view != null )
@@ -251,7 +250,7 @@ package com.bourre.view
 			if ( _gl != null ) _gl.release();
 
 			onReleaseView();
-			
+			getBroadcaster().removeAllListeners();
 			_sName = null;
 		}
 
