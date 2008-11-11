@@ -107,11 +107,9 @@ package com.bourre.model
 		
 		public function release() : void
 		{
-			getBroadcaster().removeAllListeners();
 			ModelLocator.getInstance( getOwner() ).unregister( getName() );
-
+			getBroadcaster().removeAllListeners();
 			onReleaseModel();
-
 			_sName = null;
 		}
 	

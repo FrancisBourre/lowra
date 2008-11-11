@@ -15,61 +15,39 @@
  */
 package com.bourre.utils 
 {
-	import com.bourre.collection.HashMap;
 	import com.bourre.log.LogEvent;
 	import com.bourre.log.LogLevel;
 	import com.bourre.log.LogListener;
 	import com.bourre.log.PixlibStringifier;
 	
-	import flash.events.DataEvent;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.net.XMLSocket;		
-
+	import flash.net.XMLSocket;	
 	/**
-	 * @author	Francis Bourre
-	 * @version 1.0
+	 * The <code>SosLayout</code> class provides a convenient way
+	 * to output messages through SOS Max console.
+	 * <p>
+	 * To get more details, visit: 
+	 * http://solutions.powerflasher.com/products/sosmax/ 
+	 * </p> 
+	 * @author 	Francis Bourre
 	 */
 	public class SosLayout 
 		implements LogListener
 	{
 		protected var _oXMLSocket 	: XMLSocket;
-		protected var _bIsConnected : Boolean;
 		protected var _aBuffer 		: Array;
-		protected var _mFormat 		: HashMap;
 		
 		public static var IP 		: String = "localhost";
-		public static var PORT 		: Number = 4445;
-		
-		public static const DEBUG_FORMAT 	: String = "DEBUG_FORMAT";
-		public static const INFO_FORMAT 	: String = "INFO_FORMAT";
-		public static const WARN_FORMAT		: String = "WARN_FORMAT";
-		public static const ERROR_FORMAT	: String = "ERROR_FORMAT";
-		public static const FATAL_FORMAT	: String = "FATAL_FORMAT";
-		
-		public static var DEBUG_KEY:String = '<setKey><name>' + SosLayout.DEBUG_FORMAT + '</name><color>' + 0x1394D6 + '</color></setKey>\n';
-		public static var INFO_KEY:String = '<setKey><name>' + SosLayout.INFO_FORMAT + '</name><color>' + 0x12C9AC + '</color></setKey>\n';
-		public static var WARN_KEY:String = '<setKey><name>' + SosLayout.WARN_FORMAT + '</name><color>' + 0xFFCC00 + '</color></setKey>\n';
-		public static var ERROR_KEY:String = '<setKey><name>' + SosLayout.ERROR_FORMAT + '</name><color>' + 0xFF6600 + '</color></setKey>\n';
-		public static var FATAL_KEY:String = '<setKey><name>' + SosLayout.FATAL_FORMAT + '</name><color>' + 0xFF0000 + '</color></setKey>\n';
-		
+		public static var PORT 		: Number = 4444;
+
 		private static var _oI : SosLayout = null;
 		
 		public function SosLayout( access : ConstructorAccess )
 		{
 			_aBuffer = new Array();
-			_buildColorKeys();
 			_oXMLSocket = new XMLSocket();
-			
-			_oXMLSocket.addEventListener( Event.CLOSE, onClose );
-            _oXMLSocket.addEventListener( Event.CONNECT, onConnect );
-            _oXMLSocket.addEventListener( DataEvent.DATA, onDataReceived );
-            _oXMLSocket.addEventListener( IOErrorEvent.IO_ERROR, onIOError );
-            _oXMLSocket.addEventListener( ProgressEvent.PROGRESS, onProgress );
-            _oXMLSocket.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError );
-            
+			_oXMLSocket.addEventListener( Event.CONNECT, _emptyBuffer );
+			_oXMLSocket.addEventListener( Event.CLOSE, _tryToReconnect );
             _oXMLSocket.connect ( SosLayout.IP, SosLayout.PORT );
 		}
 		
@@ -78,40 +56,22 @@ package com.bourre.utils
 			if ( !(SosLayout._oI is SosLayout) ) SosLayout._oI = new SosLayout( new ConstructorAccess() );
 			return SosLayout._oI;
 		}
-		
-		public function getFoldMessage( sTitre : String, sMessage : String, level : LogLevel ) : String
-		{
-			var s:String = "";
-			s += '<showFoldMessage key="' + _mFormat.get( level ) + '">';
-			s += '<title>' + sTitre + '</title>';
-			s += '<message>' + sMessage + '</message></showFoldMessage>';
-			return s;
-		}
-		
-		public function output(  o : Object, level : LogLevel ) : void
-		{
-			// TODO check if sLevel is important
-//			var sLevel : String = level? _mFormat.get( level ) : SosLayout.DEBUG_FORMAT;
-			
-			var s:String = getFoldMessage	(
-												unescape( String(o) ), 
-												level.getName() + " " + String(o),
-												level
-											);
 
-			if (_bIsConnected)
+		public function output(  o : Object, level : LogLevel ) : void
+		{						
+			if ( _oXMLSocket.connected )
 			{
-				_output( s );
+				_oXMLSocket.send( "!SOS<showMessage key='" + level.getName() + "'>" + String(o) + "</showMessage>\n" );
 				
 			} else
 			{	
-				_buffer( s );
+				_aBuffer.push( "!SOS<showMessage key='" + level.getName() + "'>" + String(o) + "</showMessage>\n" );
 			}
 		}
 		
 		public function clearOutput() : void
 		{
-			_oXMLSocket.send( "<clear/>\n" );
+			_oXMLSocket.send( "!SOS<clear/>\n" );
 		}
 		
 		public function onLog( e : LogEvent ) : void
@@ -129,72 +89,16 @@ package com.bourre.utils
 		}
 		
 		//
-		private function _buildColorKeys() : void
-		{
-			_mFormat = new HashMap();
-	
-			_mFormat.put( LogLevel.DEBUG, SosLayout.DEBUG_FORMAT );
-			_mFormat.put( LogLevel.INFO, SosLayout.INFO_FORMAT );
-			_mFormat.put( LogLevel.WARN, SosLayout.WARN_FORMAT );
-			_mFormat.put( LogLevel.ERROR, SosLayout.ERROR_FORMAT );
-			_mFormat.put( LogLevel.FATAL, SosLayout.FATAL_FORMAT );
-			
-			_buffer( SosLayout.DEBUG_KEY );
-			_buffer( SosLayout.INFO_KEY );
-			_buffer( SosLayout.WARN_KEY );
-			_buffer( SosLayout.ERROR_KEY );
-			_buffer( SosLayout.FATAL_KEY );
-		}
-		
-		
-		private function _buffer( s : String ) : void
-		{
-			_aBuffer.push( s );
-		}
-	
-		private function _output( s : String ) : void
-		{
-			_oXMLSocket.send( s );
-		}
-		
-		private function _emptyBuffer() : void
+		protected function _emptyBuffer( event : Event ) : void
 		{
 			var l : Number = _aBuffer.length;
-			for (var i : Number = 0; i<l; i++) _output( _aBuffer[i] );
+			for (var i : Number = 0; i<l; i++) _oXMLSocket.send( _aBuffer[i] );
 		}
 		
 		//
-		private function onClose( event : Event ) : void 
+		protected function _tryToReconnect( event : Event ) : void 
 		{
-            trace( "onClose(" + event + ")" );
-        }
-
-        private function onConnect( event : Event ) : void 
-        {
-            trace( "onConnect(" + event + ")" );
-            
-            _emptyBuffer();
-			_bIsConnected = true;
-        }
-
-        private function onDataReceived( event : DataEvent ) : void 
-        {
-            trace( "onDataReceived(" + event + ")" );
-        }
-
-        private function onIOError( event : IOErrorEvent ) : void 
-        {
-            trace( "onIOError(" + event + ")" );
-        }
-
-        private function onProgress( event : ProgressEvent ) : void 
-        {
-            trace( "onProgress( loaded:" + event.bytesLoaded + ", total: " + event.bytesTotal + ")" );
-        }
-
-        private function onSecurityError( event : SecurityErrorEvent ) : void 
-        {
-            trace( "onSecurityError(" + event + ")" );
+            // TODO try to reconnect every n seconds
         }
 	}
 }
