@@ -164,8 +164,8 @@ package com.bourre.view
 			try
 			{
 				return resolveUI( label, true ) is DisplayObject;
-			}
-			catch ( e : Error )
+
+			} catch ( e : Error )
 			{
 				return false;
 			}

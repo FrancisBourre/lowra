@@ -15,12 +15,12 @@
  */
 package com.bourre.utils
 {
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.log.*;
 	
 	import flash.events.SecurityErrorEvent;
 	import flash.events.StatusEvent;
 	import flash.net.LocalConnection;	
-
 	/**
 	 * @author Francis Bourre
 	 * @version 1.0
@@ -28,18 +28,19 @@ package com.bourre.utils
 	public class FlashInspectorLayout 
 		implements LogListener
 	{
-		private static var _oI : FlashInspectorLayout = null;
-		private const LOCALCONNECTION_ID : String = "_luminicbox_log_console";
+		private static var _oI 				: FlashInspectorLayout = null;
+		public const LOCALCONNECTION_ID 	: String = "_luminicbox_log_console";
 		
-		private var _lc 	: LocalConnection;
-		private var _sID 	: String;
+		protected var _lc 	: LocalConnection;
+		protected var _sID 	: String;
 
 		public function FlashInspectorLayout( access : ConstructorAccess )
 		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+
 			_lc = new LocalConnection();
 			_lc.addEventListener( StatusEvent.STATUS, onStatus);
             _lc.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
-
 			_sID = String( ( new Date()).getTime() );
 		}
 		
