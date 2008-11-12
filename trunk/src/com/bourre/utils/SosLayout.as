@@ -15,13 +15,14 @@
  */
 package com.bourre.utils 
 {
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.log.LogEvent;
 	import com.bourre.log.LogLevel;
 	import com.bourre.log.LogListener;
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.events.Event;
-	import flash.net.XMLSocket;	
+	import flash.net.XMLSocket;		
 	/**
 	 * The <code>SosLayout</code> class provides a convenient way
 	 * to output messages through SOS Max console.
@@ -44,6 +45,8 @@ package com.bourre.utils
 		
 		public function SosLayout( access : ConstructorAccess )
 		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+
 			_aBuffer = new Array();
 			_oXMLSocket = new XMLSocket();
 			_oXMLSocket.addEventListener( Event.CONNECT, _emptyBuffer );

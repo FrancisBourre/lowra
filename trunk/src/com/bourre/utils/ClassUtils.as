@@ -33,8 +33,8 @@ package com.bourre.utils
 		static public function inherit( childClass : Class, parentClass : Class) : Boolean 
 		{
 			var xml : XML = describeType(childClass);
-			var parent : String = getQualifiedClassName( parentClass);
-			return 	xml.factory.extendsClass.(@type == parent ).length() > 0 ||					xml.factory.implementsInterface.(@type == parent ).length() > 0 ;
+			var parent : String = getQualifiedClassName(parentClass);
+			return 	(xml.factory.extendsClass.@type).contains( parent ) || (xml.factory.implementsInterface.@type).contains( parent );
 		}
 		
 		/**
