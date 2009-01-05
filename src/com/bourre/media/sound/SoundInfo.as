@@ -153,7 +153,7 @@ package com.bourre.media.sound
 			channelSoundInfo.getChannel().addEventListener( Event.SOUND_COMPLETE, Delegate.create( _onPlayLoopFinish , channelSoundInfo  ));
 		}
 		
-		protected function _onPlayLoopFinish( channelSoundInfo : ChannelSoundInfo, e : Event ) : void
+		protected function _onPlayLoopFinish(e : Event, channelSoundInfo : ChannelSoundInfo) : void
 		{
 			if( DEBUG ) PixlibDebug.DEBUG(this+"._onPlayLoopFinish "+channelSoundInfo.getLoop());
 

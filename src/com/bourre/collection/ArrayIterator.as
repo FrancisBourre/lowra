@@ -101,7 +101,7 @@ package com.bourre.collection
 		 */
 		public function remove () : void
 		{
-			if( _bRemoved )
+			if( !_bRemoved )
 			{
 				_aArray.splice( _nIndex--, 1 );
 				_nSize--;
