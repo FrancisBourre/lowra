@@ -1,6 +1,7 @@
 package com.bourre.media.sound 
 {
-
+	import flash.media.SoundChannel;	
+	
 	/*
 	 * Copyright the original author or authors.
 	 * 
@@ -28,5 +29,6 @@ package com.bourre.media.sound
 		function isLoop( ) : Boolean
 		function getLoop( ) : uint
 		function getLoopIteration( ) : uint
+		function getChannel() : SoundChannel ;
 	}
 }

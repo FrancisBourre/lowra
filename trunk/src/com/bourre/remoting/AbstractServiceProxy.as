@@ -110,7 +110,7 @@ package com.bourre.remoting
 			connection.call.apply( connection, a );
 		}
 		
-		protected function _onNetStatus ( fFault : Function , e : NetStatusEvent ) : void
+		protected function _onNetStatus (e : NetStatusEvent, fFault : Function) : void
 		{
 			RemotingDebug.DEBUG( this + " _onNetStatus" + e.info.code);
 			var msg : String  ;
