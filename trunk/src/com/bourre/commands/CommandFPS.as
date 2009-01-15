@@ -56,11 +56,12 @@ package com.bourre.commands
 			return _push(oC, sN);
 		}
 		
-		public function delay(oC:Command) : void
+		public function delay(oC:Command) : String
 		{
 			var sN:String = _getNameID();
 			var d:Delegate = new Delegate( _delay, oC, sN);
 			_oT[sN] = d;
+			return sN;
 		}
 		
 		public function remove(oC:Command) : Boolean
