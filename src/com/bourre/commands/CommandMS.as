@@ -60,12 +60,13 @@ package com.bourre.commands
 			return _push( oC, nMs, sN );
 		}
 		
-		public function delay(oC:Command, nMs:Number) : void
+		public function delay(oC:Command, nMs:Number) : String
 		{
 			var sN:String = _getNameID();
 			var o:Object = _oT[sN] = new Object();
 			o.cmd = oC;
 			o.ID = setInterval( _delay, nMs, sN);
+			return sN;
 		}
 		
 		public function remove(oC:Command) : Boolean
