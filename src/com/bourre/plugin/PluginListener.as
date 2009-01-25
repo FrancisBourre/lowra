@@ -16,8 +16,11 @@
 package com.bourre.plugin
 {
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The PluginListener interface.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public interface PluginListener
 	{

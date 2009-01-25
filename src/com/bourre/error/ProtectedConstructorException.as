@@ -16,12 +16,23 @@
 package com.bourre.error
 {
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The ProtectedConstructorException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class ProtectedConstructorException
-		extends Error
+	public class ProtectedConstructorException extends Error
 	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
 		public function ProtectedConstructorException ( message : String = "" )
 		{
 			super( message );

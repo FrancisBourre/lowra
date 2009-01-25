@@ -21,8 +21,11 @@ package com.bourre.core
 	import com.bourre.utils.ClassUtils;
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The TypedFactoryLocator class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class TypedFactoryLocator 
 		extends AbstractLocator

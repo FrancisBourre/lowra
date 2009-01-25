@@ -56,7 +56,7 @@ package com.bourre.collection
 	 * <li>A typed collection will always fail when attempting to add, remove, retain
 	 * or contains an untyped collection.</li>
 	 * </ul></p>
-	 *
+	 * 
 	 * @author 	Francis Bourre
 	 */
 	public interface Collection 

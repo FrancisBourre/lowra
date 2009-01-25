@@ -15,14 +15,18 @@
  */
 package com.bourre.utils 
 {
-	import flash.utils.describeType;
-	import flash.utils.getQualifiedClassName;		
-
-	/**
+	import com.bourre.error.PrivateConstructorException;		import flash.utils.describeType;	import flash.utils.getQualifiedClassName;	
+	/**
+	 * Set of class utilities functions.
+	 * 
 	 * @author	Cédric Néhémie
 	 */
 	public class ClassUtils
 	{		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
 		/**
 		 * Verify that the passed-in <code>childClass</code> is a descendant of the 
 		 * specified <code>parentClass</code>.
@@ -82,5 +86,18 @@ package com.bourre.utils
 			}
 			return true;
 		} 
+		
+		
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+		
+		/** @private */
+		function ClassUtils( access : ConstructorAccess ) 
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+		}
 	}
 }
+
+internal class ConstructorAccess {}

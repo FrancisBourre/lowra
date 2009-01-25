@@ -15,14 +15,26 @@
  */
 package com.bourre.error
 {
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The IllegalStateException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class IllegalStateException 
-		extends Error
+	public class IllegalStateException extends Error
 	{		
-		public function IllegalStateException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function IllegalStateException( message : String = "" )
 		{
 			super( message );
 		}

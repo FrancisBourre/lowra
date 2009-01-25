@@ -36,8 +36,7 @@ package com.bourre.collection
 	 * Elements in a <code>Queue</code> are orderered according
 	 * to a FIFO (first-in-first-out) order.
 	 * </p>
-	 * @author 	Romain Flacher
-	 * @author 	Cédric Néhémie
+	 * 
 	 * @example 
 	 * Using an untyped <code>Queue</code>
 	 * <listing>var queue : Queue = new Queue ();
@@ -68,6 +67,9 @@ package com.bourre.collection
 	 * trace ( queue.peek() ); // 20
 	 * trace ( queue.size() ); // 1 
 	 * </listing>
+	 * 
+	 * @author 	Romain Flacher
+	 * @author 	Cédric Néhémie
 	 */
 	public class Queue 
 		implements Collection, TypedContainer

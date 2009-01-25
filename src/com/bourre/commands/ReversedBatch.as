@@ -22,8 +22,7 @@ package com.bourre.commands
 	 * 
 	 * @author Francis Bourre
 	 */
-	public class ReversedBatch 
-		extends Batch
+	public class ReversedBatch extends Batch
 	{
 		/**
 		 * Executes the whole set of commands in the reversed order
@@ -34,9 +33,9 @@ package com.bourre.commands
 		 * </p>
 		 * @param	e	event object to relay to the sub-commands.
 		 */
-		public override function execute ( e : Event = null ) : void
+		public override function execute( e : Event = null ) : void
 		{
-			var l : int = size();
+			var l : int = size( );
 			while( --l > -1 ) _aCommands[ l ].execute( e ) ;
 		}
 	}

@@ -2,12 +2,20 @@
 	<application-loader>
 -->
 <!ELEMENT application-loader EMPTY>
-<!ATTLIST application-loader built-callback CDATA #IMPLIED
-							 init-callback CDATA #IMPLIED
+<!ATTLIST application-loader start-callback CDATA #IMPLIED
 							 name-callback CDATA #IMPLIED
+							 load-callback CDATA #IMPLIED
 							 progress-callback CDATA #IMPLIED
 							 timeout-callback CDATA #IMPLIED
+							 error-callback CDATA #IMPLIED
+							 init-callback CDATA #IMPLIED
+							 parsed-callback CDATA #IMPLIED
+							 objects-built-callback CDATA #IMPLIED
+							 channels-assigned-callback CDATA #IMPLIED
+							 methods-call-callback CDATA #IMPLIED
+							 complete-callback CDATA #IMPLIED
 							 url CDATA #REQUIRED>
+
 
 <!-- 
 	<argument>
@@ -28,6 +36,14 @@
 <!ELEMENT dll EMPTY>
 <!ATTLIST dll url CDATA #REQUIRED>
 
+<!-- 
+	<resources>
+-->
+<!ELEMENT rsc EMPTY>
+<!ATTLIST rsc url CDATA #REQUIRED
+			  id CDATA #REQUIRED
+			  type	(binary|text) #IMPLIED>
+			  
 <!-- 
 	<include>
 -->

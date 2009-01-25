@@ -1,38 +1,40 @@
 <html>
 	<head>
-		<title>LowRA API Documentation</title>
-		<link rel="stylesheet" href="../../docs/style.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../../docs/print.css" type="text/css" media="print" />
-		<script language="javascript" type="text/javascript" src="../../docs/asdoc.js" />
-
+		<title>How to use LoopCommand and IterationCommand - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
 	</head>
 	<body>
 		<script type="text/javascript" language="javascript">
-		<!--
 			asdocTitle = 'How to use LoopCommand and IterationCommand - LowRA API Documentation';
-			var baseRef = '../../docs/';
+			var baseRef = '../';
 			window.onload = configPage;
-		--></script>
+		</script>
 		
 		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
 			<tr>
 			
 				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
 				<td align="right" class="titleTableTopNav">
-					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
-					   	href="../../docs/package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
-					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
-						href="../../docs/class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
-					<a 	onclick="loadClassListFrame('../../docs/index-list.html')" 
-						href="../../docs/.all-index-A.html">Index</a>&nbsp;|&nbsp;
-					<a 	href="../../docs/index.html?howto/howto-loopcommands.html&amp;class-list.html" id="framesLink1">Frames</a>
+                	<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../.all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/howto-loopcommands.html&amp;all-classes.html" id="framesLink1">Frames</a>
 					<a 	onclick="parent.location=document.location" 
 						href="" 
 						style="display:none;" 
 						id="noFramesLink1">No&nbsp;Frames</a>
 				</td>
 				<td rowspan="3" align="right" class="titleTableLogo">
-					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../docs/images/logo.jpg">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
 				</td>
 			</tr>
 			<tr class="titleTableRow2">
@@ -46,7 +48,7 @@
 			</tr>
 		</table
 		
-		<script type="text/javascript" language="javascript">
+		><script type="text/javascript" language="javascript">
 		<!--
 		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
 		{
@@ -71,18 +73,20 @@ commands.
 The main idea is that loop command represent the statement itself, and iteration command
 represent the inner statement part.
 For example, in the statement below : 
-<div class="listing"><pre>while( i.hasNext() )
+<div class="listing"><pre class="prettyprint">
+while( i.hasNext() )
 {
 	trace( i.next() );
-}</pre></div>
+}
+</pre></div>
 </p>
 <p>
 The part below is transformed in a LoopCommand object : 
-<div class="listing"><pre>while( i.hasNext() )</pre></div>
+<div class="listing"><pre class="prettyprint">while( i.hasNext() )</pre></div>
 </p>
 <p>
 All the part below is transformed in an IterationCommand :
-<div class="listing"><pre>{
+<div class="listing"><pre class="prettyprint">{
 	trace( i.next() );
 }</pre></div>
 </p>
@@ -108,7 +112,7 @@ an <code>IterationEvent</code> as argument. The iteration command now can perfor
 with the data carried by the event object.
 <p>
 Below an example of a concret <code>IterationCommand</code> based on the real statement above.
-<div class="listing"><pre>package 
+<div class="listing"><pre class="prettyprint">package 
 {
 	import flash.events.Event;
 
@@ -125,7 +129,7 @@ Below an example of a concret <code>IterationCommand</code> based on the real st
 }	
 </pre></div>
 Afterwards, the code below creates a <code>LoopCommand</code> and start it :
-<div class="listing"><pre>package
+<div class="listing"><pre class="prettyprint">package
 {
 	import flash.display.Sprite;
 	import flash.event.Event;
@@ -209,7 +213,7 @@ loop finished after 10 iterations
 Now, let say that we replace the <code>execute</code> method of our
 <code>TraceIteration</code> command by : 
 
-<div class="listing"><pre>override public function execute ( e : Event = null ) : void
+<div class="listing"><pre class="prettyprint">override public function execute ( e : Event = null ) : void
 {
 	var t : Number = getTimer();
 	// forcing an execution time of 5ms
@@ -241,6 +245,13 @@ loop finished after 10 iterations
 
 </p>
 		</div>
-		
+		 <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
 	</body>
 </html>

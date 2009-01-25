@@ -16,7 +16,11 @@
 package com.bourre.transitions 
 { 
 	/**
-	 * @author	Cédric Néhémie
+	 * The TweenFPS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Cédric Néhémie
 	 */
 	public class TweenFPS 
 		extends AbstractTween

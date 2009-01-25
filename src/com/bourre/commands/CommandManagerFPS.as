@@ -18,6 +18,10 @@ package com.bourre.commands
 	import com.bourre.transitions.FPSBeacon;	
 
 	/**
+	 * The CommandManagerFPS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
 	 * @author 	Francis Bourre
 	 */
 	public class CommandManagerFPS 

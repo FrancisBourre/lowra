@@ -1,30 +1,39 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+	 
 package com.bourre.media
 {
-	import flash.events.Event;	
-	
-	import com.bourre.events.EventBroadcaster;	
+	import com.bourre.error.PrivateConstructorException;
+	import com.bourre.events.EventBroadcaster;
 	import com.bourre.media.sound.SoundMixerLocator;
-	import com.bourre.media.video.VideoDisplayLocator;	
-
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
+	import com.bourre.media.video.VideoDisplayLocator;
 	
+	import flash.events.Event;		
+
 	/**
-	 * @author Aigret Axel
-	 * @version 1.0
+	 * The GlobalSoundManager class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * <p>
+	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
+	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
+	 * </p>
+	 * 
+	 * @author 	Aigret Axel
 	 */
 	public class GlobalSoundManager 
 	{
@@ -33,7 +42,7 @@ package com.bourre.media
 		protected var _oSTI : SoundTransformInfo ;
 		private   var _oEB : EventBroadcaster;
 
-		/*
+		/**
 		 * GlobalSoundManager is a singleton that permit to change all sound of your application in same time
 		 * In case of you don't use always sound and video of lowra, you can listen the <code>GlobalSoundManagerEvent.onGlobalSoundChangeEVENT</code>
 		 * 
@@ -42,8 +51,10 @@ package com.bourre.media
 		 * 
 		 * By putting NaN you will just change the gain ( 0.2 ) , the other properties of SoundTransformInfo will still the same.
 		 */
-		public function GlobalSoundManager( o : ConstructorAccess )
+		public function GlobalSoundManager( access : ConstructorAccess )
 		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+			
 			_oEB = new EventBroadcaster( this ) ;
 		}
 

@@ -32,22 +32,26 @@ package com.bourre.core
 	import flash.utils.getQualifiedClassName;	
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The AbstractLocator class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class AbstractLocator 
 		implements Locator, TypedContainer
 	{
+		private var _oEB : Broadcaster;
+		private var _cType : Class;
+		private var _logger : Log;
+		
 		/**
 		 * Map storing <code>String</code> keys associated with
 		 * <code>Object</code> values.
 		 */
 		protected var _m : HashMap;
-
-		private var _oEB : Broadcaster;
-		private var _cType : Class;
-		private var _logger : Log;
-
+		
+		
 		/**
 		 * Creates a new locator instance. If the <code>type</code>
 		 * argument is defined, the locator is considered as typed, and
@@ -64,22 +68,44 @@ package com.bourre.core
 			_oEB = new EventBroadcaster( this, typeListener );
 			_logger = (logger == null ) ? PixlibDebug.getInstance() : logger;
 		}
-
+		
+		/**
+		 * Call this method to do something when an object is registered 
+		 * in locator.
+		 * 
+		 * @param	name	Name of the registered object
+		 * @param	o		The registered object
+		 */
 		protected function onRegister( name : String = null, o : Object = null ) : void
 		{
 			// override me if you need me
 		}
-
+		
+		/**
+		 * Call this method to do something when an object is unregistered 
+		 * from locator.
+		 * 
+		 * @param	name	Name of the registered object
+		 * @param	o		The registered object
+		 */
 		protected function onUnregister( name : String = null ) : void
 		{
 			// override me if you need me
 		}
 		
+		/**
+		 * @copy com.bourre.events.Broadcaster#broadcastEvent()
+		 */
 		protected function broadcastEvent( e : Event ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
 		
+		/**
+		 * Returns event <code>Broadcaster</code> owned by this locator.
+		 * 
+		 * @return The event <code>Broadcaster</code> owned by this locator.
+		 */
 		protected function getBroadcaster() : Broadcaster
 		{
 			return _oEB;
@@ -112,7 +138,18 @@ package com.bourre.core
 		{
 			return _m.containsKey( name );
 		}
-
+		
+		/**
+		 * Registers passed-in object with identifier name to this locator.
+		 * 
+		 * @param	name	Key identifier
+		 * @param	o		Object to store
+		 * 
+		 * @return 	<code>true</code> if success
+		 * 			
+		 * @throws 	<code>IllegalArgumentException</code> — Key or object 
+		 * 			are already defined in this locator.
+		 */
 		public function register( name : String, o : Object ) : Boolean
 		{
 			var msg : String;
@@ -139,7 +176,14 @@ package com.bourre.core
 				return true;
 			}
 		}
-
+		
+		/**
+		 * Unregisters object registered with identifier name.
+		 * 
+		 * @param	name	Key identifier
+		 * 
+		 * @return 	<code>true</code> if success
+		 */
 		public function unregister( name : String ) : Boolean
 		{
 			if ( isRegistered( name ) )

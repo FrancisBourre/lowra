@@ -27,18 +27,79 @@ package com.bourre.load
 	import flash.system.LoaderContext;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 *  Dispatched when loader starts loading.
+	 *  
+	 *  @eventType com.bourre.load.GraphicLoaderEvent.onLoadStartEVENT
+	 */
+	[Event(name="onLoadStart", type="com.bourre.load.GraphicLoaderEvent")]
+	
+	/**
+	 *  Dispatched when loading is finished.
+	 *  
+	 *  @eventType com.bourre.load.GraphicLoaderEvent.onLoadInitEVENT
+	 */
+	[Event(name="onLoadInit", type="com.bourre.load.GraphicLoaderEvent")]
+	
+	/**
+	 *  Dispatched during loading progression.
+	 *  
+	 *  @eventType com.bourre.load.GraphicLoaderEvent.onLoadProgressEVENT
+	 */
+	[Event(name="onLoadProgress", type="com.bourre.load.GraphicLoaderEvent")]
+	
+	/**
+	 *  Dispatched when a timeout occurs during loading.
+	 *  
+	 *  @eventType com.bourre.load.GraphicLoaderEvent.onLoadTimeOutEVENT
+	 */
+	[Event(name="onLoadTimeOut", type="com.bourre.load.GraphicLoaderEvent")]
+	
+	/**
+	 *  Dispatched when an error occurs during loading.
+	 *  
+	 *  @eventType com.bourre.load.GraphicLoaderEvent.onLoadErrorEVENT
+	 */
+	[Event(name="onLoadError", type="com.bourre.load.GraphicLoaderEvent")]
+	
+	/**
+	 * The GraphicLoader class is used to load SWF files or image (JPG, PNG, 
+	 * or GIF) files. 
+	 * 
+	 * @example
+	 * <pre class="prettyprint">
+	 * 
+	 * var loader : GraphicLoader = new GraphicLoader( mcContainer, -1, true );
+	 * loader.load( new URLRequest( "logo.swf" );
+	 * </pre>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class GraphicLoader extends AbstractLoader
 	{
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+				
 		private var _target : DisplayObjectContainer;
 		private var _index : int;
 		private var _bAutoShow : Boolean;
 		private var _bMustUnregister : Boolean;
 		private var _oContext : LoaderContext;
 		private var _oBitmapContainer : Sprite;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates new <code>GraphicLoader</code> instance.
+		 * 
+		 * @param	target		(optional) Container of loaded display object
+		 * @param	index		(optional) Index of loaded display object in target 
+		 * 						display list
+		 * @param	autoShow	(optional) Loaded object visibility
+		 */		
 		public function GraphicLoader( target : DisplayObjectContainer = null, index : int = -1, autoShow : Boolean = true )
 		{
 			super( new LoaderStrategy() );
@@ -48,12 +109,22 @@ package com.bourre.load
 			_bAutoShow = autoShow;
 			_bMustUnregister = false;
 		}
-
+		
+		/**
+		 * Returns the container of loaded object.
+		 * 
+		 * @return The container of loaded object.
+		 */
 		public function getTarget() : DisplayObjectContainer
 		{
 			return _target;
 		}
-
+		
+		/**
+		 * Sets the container of loaded display object.
+		 * 
+		 * @param	target	Container of loaded display object
+		 */
 		public function setTarget( target : DisplayObjectContainer ) : void
 		{
 			_target = target ;
@@ -70,18 +141,29 @@ package com.bourre.load
 				}
 			} 
 		}
-
+		
+		/**
+		 * Returns a GraphicLoaderEvent event for loader instance.
+		 * 
+		 * @return A GraphicLoaderEvent event for loader instance.
+		 */
 		override protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
 			return new GraphicLoaderEvent( type, this, errorMessage );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		override public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( context ) setContext( context );
 			super.load( url, getContext() );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		override protected function onInitialize() : void
 		{
 			if ( getName() != null ) 
@@ -115,7 +197,10 @@ package com.bourre.load
 
 			super.onInitialize();
 		}
-
+		
+		/**
+		 * Defines the new content ( display object ) of the loader.
+		 */
 		override public function setContent( content : Object ) : void
 		{	
 			if ( content is Bitmap )
@@ -130,27 +215,44 @@ package com.bourre.load
 
 			super.setContent( content );
 		}
-
+		
+		/**
+		 * Shows the display object.
+		 */
 		public function show() : void
 		{
 			getView().visible = true;
 		}
-
+		
+		/**
+		 * Hides the display object.
+		 */
 		public function hide() : void
 		{
 			getView().visible = false;
 		}
-
+		
+		/**
+		 * Returns <code>true</code> if display object is visible.
+		 * 
+		 * @return <code>true</code> if display object is visible.
+		 */
 		public function isVisible() : Boolean
 		{
 			return getView().visible;
 		}
-
+		
+		/**
+		 * 
+		 */
 		public function setAutoShow( b : Boolean ) : void
 		{
 			_bAutoShow = b;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		override public function release() : void
 		{
 			if ( getContent() && _target && _target.contains( getView() ) ) _target.removeChild( getView() );
@@ -163,17 +265,27 @@ package com.bourre.load
 
 			super.release();
 		}
-
+		
+		/**
+		 * Returns the display object.
+		 * 
+		 * @return The display object.
+		 */
 		public function getView() : DisplayObjectContainer
 		{
 			return _oBitmapContainer ? _oBitmapContainer : getContent() as DisplayObjectContainer;
 		}
-
+		
+		/**
+		 * Returns the <code>applicationDomain</code> of loaded display object.
+		 * 
+		 * @return The <code>applicationDomain</code> of loaded display object.
+		 */
 		public function getApplicationDomain() : ApplicationDomain
 		{
 			return ( getStrategy() as LoaderStrategy ).getContentLoaderInfo().applicationDomain;
 		}
-
+		
 		final public function setContext ( context : LoaderContext ):void
 		{
 			_oContext = context;

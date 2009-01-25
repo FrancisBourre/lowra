@@ -16,11 +16,22 @@
 package com.bourre.log
 {
 	/**
+	 * Stringifier allow string representation of an object.
+	 * 
+	 * <p>Stringifier interface must be implemented by all stringifier 
+	 * implementations.
+	 * 
+	 * @see BasicStringifier	 * @see PixlibStringifier
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public interface Stringifier
 	{
+		/**
+		 * Returns string representation of passed-in target object.
+		 * 
+		 * @return String representation of passed-in target object.
+		 */
 		function stringify( target : * ) : String;
 	}
 }

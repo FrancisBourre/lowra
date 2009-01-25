@@ -40,6 +40,7 @@ package com.bourre.collection
 	 * or contains an untyped container.</li>
 	 * </ul>
 	 * </p> 
+	 * 
 	 * @author	Cédric Néhémie
 	 * @see		Queue
 	 * @see		Set

@@ -30,6 +30,7 @@ package com.bourre.collection
 	 * Iterations are performed from <code>0</code> to the <code>length</code> 
 	 * of the passed-in string.
 	 * </p>
+	 * 
 	 * @author 	Cédric Néhémie
 	 * @see		ListIterator
 	 */

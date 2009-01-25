@@ -35,22 +35,54 @@ package com.bourre.view
 	import flash.geom.Point;	
 	
 	/**
+	 * Abstract implementation of View part of the MVC implementation.
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
-	public class AbstractView 
-		implements ModelListener
+	public class AbstractView implements ModelListener
 	{
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onInitView</code> event.
+		 * 
+		 * @eventType onInitView
+		 */	
 		public static const onInitViewEVENT 	: String = "onInitView";
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onReleaseView</code> event.
+		 * 
+		 * @eventType onReleaseView
+		 */	
 		public static const onReleaseViewEVENT 	: String = "onReleaseView";
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public properties
+		//--------------------------------------------------------------------
+				
 		public var view 		: DisplayObject;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+				
 		protected var _gl 		: GraphicLoader;
 		protected var _sName	: String;
 		protected var _oEB		: EventBroadcaster;
 		protected var _owner 	: Plugin;
-
+	
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
 		public function AbstractView( owner : Plugin = null, name : String = null, mc : DisplayObject = null ) 
 		{
 			_oEB = new EventBroadcaster( this );
@@ -63,32 +95,53 @@ package com.bourre.view
 		{
 			//
 		}
-
+		
+		/**
+		 * Broadcasts <code>onInitView</code> event to listeners.
+		 */
 		protected function onInitView() : void
 		{
 			notifyChanged( new StringEvent( AbstractView.onInitViewEVENT, this, getName() ) );
 		}
-
+		
+		/**
+		 * Broadcasts <code>onReleaseView</code> event to listeners.
+		 */
 		protected function onReleaseView() : void
 		{
 			notifyChanged( new StringEvent( AbstractView.onReleaseViewEVENT, this, getName() ) );
 		}
-
+		
+		/**
+		 * Returns plugin owner.
+		 */
 		public function getOwner() : Plugin
 		{
 			return _owner;
 		}
-
+		
+		/**
+		 * Sets the plugin owner for model.
+		 * 
+		 * <p>if owner is <code>null</code>, use <code>NullPlugin</code> 
+		 * instance.</p>
+		 */
 		public function setOwner( owner : Plugin ) : void
 		{
 			_owner = owner ? owner : NullPlugin.getInstance();
 		}
-
+		
+		/**
+		 * Returns model logger tunnel.
+		 */
 		public function getLogger() : PluginDebug
 		{
 			return PluginDebug.getInstance( getOwner() );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#broadcastEvent()
+		 */
 		public function notifyChanged( e : Event ) : void
 		{
 			getBroadcaster().broadcastEvent( e );
@@ -236,7 +289,17 @@ package com.bourre.view
 			}
 			
 		}
-
+		
+		/**
+		 * Releases view.
+		 * 
+		 * <p>
+		 * <ul>
+		 * 	<li>Unregisters view from view locator.</li>
+		 * 	<li>Dispatched "onReleaseView" event.</li>
+		 * 	<li>Removes all event listeners.</li>
+		 * </ul>
+		 */
 		public function release() : void
 		{
 			ViewLocator.getInstance( getOwner() ).unregister( getName() );
@@ -253,27 +316,39 @@ package com.bourre.view
 			getBroadcaster().removeAllListeners();
 			_sName = null;
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addListener()
+		 */
 		public function addListener( listener : ViewListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeListener()
+		 */
 		public function removeListener( listener : ViewListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addEventListener()
+		 */
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeEventListener()
+		 */
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
 		}
-
+		
 		public function isVisible() : Boolean
 		{
 			return view.visible;

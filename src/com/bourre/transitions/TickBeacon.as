@@ -44,6 +44,7 @@ package com.bourre.transitions
 	 * take care of not registering twice an object, in order to prevent time
 	 * scale breaks.
 	 * </p>
+	 * 
 	 * @author	Francis Bourre
 	 * @author	Cédric Néhémie
 	 * @see		TickListener

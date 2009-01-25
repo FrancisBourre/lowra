@@ -25,9 +25,34 @@ package com.bourre.transitions
 	import com.bourre.utils.ClassUtils;
 	
 	import flash.events.Event;		
-
+	
 	/**
-	 * @author	Cédric Néhémie
+	 *  Dispatched when tween start.
+	 *  
+	 *  @eventType com.bourre.transitions.TweenEvent.onStartEVENT
+	 */
+	[Event(name="onStart", type="com.bourre.transitions.TweenEvent")]
+	
+	/**
+	 *  Dispatched when tween stop.
+	 *  
+	 *  @eventType com.bourre.transitions.TweenEvent.onStopEVENT
+	 */
+	[Event(name="onStop", type="com.bourre.transitions.TweenEvent")]
+	
+	/**
+	 *  Dispatched when tweened property value change.
+	 *  
+	 *  @eventType com.bourre.transitions.TweenEvent.onMotionChangedEVENT
+	 */
+	[Event(name="onMotionChanged", type="com.bourre.transitions.TweenEvent")]
+	
+	/**
+	 * The AbstractTween class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Cédric Néhémie
 	 */
 	public class AbstractTween 
 		extends AbstractSyncCommand 
@@ -42,20 +67,35 @@ package com.bourre.transitions
 		// INSTANCES MEMBERS
 		//-------------------------------------------------------------------------
 		
+		/** @private */
 		protected var _nStart	   		 : Number; 
+		/** @private */
 		protected var _nEnd		   		 : Number;
+		/** @private */
 		protected var _nStartValue 		 : Number;
+		/** @private */
 		protected var _nEndValue   		 : Number;
+		/** @private */
 		protected var _nDuration   		 : Number;
+		/** @private */
 		protected var _nPlayHead   		 : Number;
+		/** @private */
 		protected var _fEasing	   	  	 : Function;
+		/** @private */
 		protected var _bReversedMotion 	 : Boolean;
+		/** @private */
 		protected var _oSetter 			 : Accessor;
+		/** @private */
 		protected var _oBeacon  		 : TickBeacon;
+		/** @private */
 		protected var _eOnStart 		 : TweenEvent;
+		/** @private */
 		protected var _eOnStop 			 : TweenEvent;
+		/** @private */
 		protected var _eOnMotionChanged  : TweenEvent;
+		/** @private */
 		protected var _eOnMotionFinished : TweenEvent;
+		
 		
 		//-------------------------------------------------------------------------
 		// PUBLIC MEMBERS

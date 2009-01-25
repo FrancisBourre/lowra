@@ -18,14 +18,57 @@ package com.bourre.log
 	import com.bourre.events.EventChannel;	
 	
 	/**
+	 * Logging interface.
+	 * 
+	 * @see PixlibDebug	 * @see Log
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public interface Log 
 	{
-		function debug ( o : * ) : void;		function info ( o : * ) : void;		function warn ( o : * ) : void;		function error ( o : * ) : void;		function fatal ( o : * ) : void;
+		/**
+		 * Logs passed-in message with a log level defined  
+		 * at 'debug' mode.
+		 */
+		function debug ( o : * ) : void;
+		
+		/**
+		 * Logs passed-in message with a log level defined  
+		 * at 'info' mode.
+		 */		function info ( o : * ) : void;
+		
+		/**
+		 * Logs passed-in message with a log level defined  
+		 * at 'warn' mode.
+		 */		function warn ( o : * ) : void;
+		
+		/**
+		 * Logs passed-in message with a log level defined  
+		 * at 'error' mode.
+		 */		function error ( o : * ) : void;
+		
+		/**
+		 * Logs passed-in message with a log level defined  
+		 * at 'fatal' mode.
+		 */		function fatal ( o : * ) : void;
+		
+		/**
+		 * Returns event channel used for communication.
+		 */
 		function getChannel() : EventChannel;
+		
+		/**
+		 * Returns <code>true</code> if logging tunnel is opened.
+		 */
 		function isOn () : Boolean;
+		
+		/**
+		 * Opens the logging tunnel.
+		 */
 		function on () : void;
+		
+		/**
+		 * Closes the logging tunnel.
+		 */
 		function off () : void;
 	}}

@@ -16,8 +16,11 @@
 package com.bourre.service 
 {
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The Service Listener class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */	public interface ServiceListener 
 	{
 		function onDataResult	( event : ServiceEvent ) : void;

@@ -28,6 +28,7 @@ package com.bourre.events
 	 * properties and finally broadcasted as any other event
 	 * object. 
 	 * </p>
+	 * 
 	 * @author 	Francis Bourre
 	 * @see		BasicEvent
 	 * @see		EventBroadcaster#dispatchEvent()

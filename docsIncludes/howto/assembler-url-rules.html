@@ -1,0 +1,193 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'lowRA Assembler URL rules' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
+	<head>
+		<title>lowRA Assembler URL rules -LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+        
+    <style type="text/css">
+<!--
+.decayLeft {
+	padding-left: 50px;
+}
+.bonus {
+	border: 1px dashed #333;
+	margin: 0px;
+	padding: 10px;
+}
+-->
+    </style>
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'lowRA Assembler URL rules - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+			
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/assembler-url-rules.html&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					lowRA Assembler URL rules
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("lowRA Assembler URL rules");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+		  <h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#conventions">Conventions</a></li>
+	</ol>
+<p>&nbsp;</p>
+<p>
+<a name="overview"></a>
+<h1>Overview</h1>
+<p>
+	You will find below the various methods to define <code>url</code> for all loadeable elements defined in the xml application context file for LowRA IoC.
+</p>
+<p>&nbsp;</p>
+
+<a name="conventions"></a>
+<h1>Conventions :</h1> 
+<p>URL can be defined for nodes <a href="reference-assembler.html#dll">&lt;dll&gt;</a>, <a href="reference-assembler.html#rsc">&lt;rsc&gt;</a> and <a href="reference-assembler.html#custom">display object</a> node in the display tree.</p>
+<div class="listing">
+  <pre class="prettyprint">&lt;bean&gt;<br>	&lt;dll url=&quot;myDLL.swf&quot; /&gt;<br><br>	&lt;rsc id=&quot;style&quot; url=&quot;styles.css&quot; /&gt;<br><br>	&lt;root id=&quot;root&quot;&gt;
+		&lt;sprite id=&quot;logo&quot; url=&quot;assets/logo.swf&quot; /&gt;
+	&lt;/root&gt;<br>&lt;/bean&gt;
+  </pre></div>
+<p>In classic way, all url are relative to the application container ( html container in most of cases ), but it is possible to manage <code>url</code> with LowRA features too.</p>
+<p><br>
+</p>
+<div class="decayLeft">
+    <h3><a name="flashvars"></a>Flashvars prefix</h3>
+    <p>LowRA  support <code>Flashvars</code> definition to group externals files into dedicated folders.<br>
+    The IoC engine manage 5 flashvars definition for external files definition.</p>
+    <dl>
+      <dt><span class="label">context</span><br>
+      <dd>the name of the xml application file to load</dd>
+      <dt><span class="label">config</span><br>
+      <dd>the name of folder containing configuration files, like the xml context file</dd>
+      <dt><span class="label">dll</span><br>
+      <dd>the name of folder containing all dll files</dd>
+      <dt><span class="label">resource</span><br>
+      <dd>the name of folder containing all ressoures files</dd>
+      <dt><span class="label">gfx</span><br>
+      <dd>the name of folder containing all graphics files</dd>
+      </dt>
+    </dl>
+	<p>Flashvars can be defined in html container ( or direcly using URL query ).<br>
+	  Example of a simple html container (using <a href="http://code.google.com/p/swfobject/">swfobject</a> )
+	<div class="listing"><pre class="prettyprint">&lt;script type=&quot;text/javascript&quot;&gt;<br>	var flashvars = {};<br>	flashvars.config = &quot;config/&quot;;<br>	flashvars.context = &quot;applicationContext.xml&quot;;<br>	flashvars.dll = &quot;dll/&quot;;<br>	flashvars.gfx = &quot;content/&quot;;<br>	flashvars.resource = &quot;resources/&quot;;<br>			<br>	var params = {};<br>	params.allowFullScreen = &quot;false&quot;;<br>	params.allowscriptaccess = &quot;always&quot;;<br>			<br>	var attributes = {};<br>	attributes.id = &quot;ds&quot;;<br>	attributes.styleclass = &quot;container&quot;;<br>			<br>	swfobject.embedSWF( &quot;assembler.swf&quot;, &quot;flashContent&quot;, &quot;960&quot;, &quot;600&quot;, &quot;9.0.115&quot;, &quot;dll/expressInstall.swf&quot;, flashvars, params, attributes );<br>&lt;/script&gt;</pre>
+      </div>
+	</p>
+     <p>Automatically, when flashvars are defined, all files's url are prefixed with passed-in path.<br>
+       So here, we load the <code>config/applicationContext.xml</code> file as main xml file.<br>
+       All ddls file  should be contained in a folder named <code>dll</code>, resources on <code>resources</code> folder and ...
+     </p>
+     <p>Better organization of files and more, it is possible to swtich content changing only the flashvars value.</p>
+     <p><u>Note</u> : if no <code>Flashvars</code> are defined, url still relative to the html container. </p>
+     <div class="bonus"><h3>Bonus</h3>
+     <p>As Flashvars definition support URL Query, it is possible to overwrite Flashvars defined in html container with new values using url query.<br>
+       So, we can change many things at runtime without changing the html container, neither the application context file too.<br>
+       Example : </p>
+     <div class="listing">
+       <pre class="prettyprint">http://www.mysite.com?context=applicationContext-test.xml&amp;dll=dll-demo&amp;resources=fr</pre>
+     </div>
+     Here <code>context</code>, <code>dll</code> flashvars are overwritten with new values.
+     </div>
+     <p>&nbsp;</p>
+     <p>But now... <em>&quot;If I want  to change only one dll url ? I can't because all dlls are now prefixed with <code>flashvars.dll</code> path value ?&quot;</em><br>
+       Of course you can..., if <code>url</code> is absolute, prefix is not added and if you want to define a real relative path without the prefix system, you can use the &quot;Forced relative&quot; definition.
+       <br />
+       <br />
+       
+     </p>
+    <h3><a name="relative"></a>Forced relative</h3>
+    <p>All files are correctly organized into folder, Flashvars are configured, but you want a &quot;special case&quot; for a dll, resource or graphic file ?<br>
+    Forced relative definition is what you want.</p>
+    <p>To keep the &quot;classic&quot; relative definition, just prefix <code>url</code> with a <code>#//</code><br />Loading engine will ignore Flashvars prefix if this keyword is present.</p>
+    <div class="listing">
+      <pre class="prettyprint">&lt;bean&gt;<br>	&lt;dll url=&quot;myDLL.swf&quot; /&gt; &lt;!-- use Flashvars definition --&gt;
+	&lt;dll url=&quot;#//myTestDLL.swf&quot; /&gt; &lt;!-- keep real relative path --&gt;<br>&lt;/bean&gt;
+    </pre>
+    </div>
+    <p>&nbsp;</p>
+    <p><u>Note</u> : It is possible to change the keyword value. <br>
+      Default is <code>#//</code>, but if want to change it, you have to  modify the application assembler and recompile it.<br>
+      In code, juste set the new value for keyword like this : 
+    </p>
+    <div class="listing">
+      <pre class="prettyprint">DefaultDisplayObjectBuilder.RELATIVE_PATH = &quot;myKeyword&quot;;
+      </pre>
+    </div>
+</div>
+	</div>
+		
+         <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>

@@ -18,6 +18,10 @@ package com.bourre.commands
 	import flash.events.Event;
 	
 	/**
+	 * The ASyncCommandSequencerListener interface.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public interface ASyncCommandSequencerListener extends ASyncCommandListener

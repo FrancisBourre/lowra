@@ -18,12 +18,20 @@ package com.bourre.model
 	import com.bourre.events.StringEvent;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The ModelListener interface defines rules for model listeners.
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public interface ModelListener 
 	{
+		/**
+		 * Triggered when model is initialized.
+		 */
 		function onInitModel	( e : StringEvent ) : void;
+		
+		/**
+		 * Triggered when model is released.
+		 */
 		function onReleaseModel	( e : StringEvent ) : void;
 	}
 }

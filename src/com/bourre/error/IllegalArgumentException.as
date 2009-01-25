@@ -15,14 +15,26 @@
  */
 package com.bourre.error
 {
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The IllegalArgumentException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class IllegalArgumentException
-		extends Error
+	public class IllegalArgumentException extends Error
 	{
-		public function IllegalArgumentException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function IllegalArgumentException( message : String = "" )
 		{
 			super( message );
 		}

@@ -30,6 +30,8 @@ package com.bourre.core
 	 * hashcode factory will return a different identifier for all instances
 	 * even if their properties are equals.
 	 * </p>
+	 * 
+	 * @author Francis Bourre
 	 */
 	public class HashCodeFactory
 	{

@@ -21,14 +21,15 @@ package com.bourre.load
 	
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;	
-	
+
 	/**
-	 * @author Francis Bourre
-	 * @author Cedric Nehemie
-	 * @version 1.0
+	 * The QueueLoader class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre	 * @author 	Cedric Nehemie
 	 */
-	public class QueueLoader 
-		extends AbstractLoader 
+	public class QueueLoader extends AbstractLoader 
 	{
 		protected var _q : Queue;
 		protected var _currentLoader : Loader;

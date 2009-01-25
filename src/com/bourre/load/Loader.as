@@ -22,12 +22,22 @@ package com.bourre.load
 	import flash.system.LoaderContext;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The Loader interface defines rules for loader implementations.
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public interface Loader 
-		extends ASyncCommand
+	public interface Loader extends ASyncCommand
 	{
+		/**
+		 * Loads content.
+		 * 
+		 * @param	request	The absolute or relative URL of the content to load.
+		 * @param	context	(optional) A LoaderContext object, which has properties that define the following: 
+		 * <ul>
+		 * 	<li>Whether or not to check for the existence of a policy file upon loading the object</li>
+		 * 	<li>The ApplicationDomain for the loaded object</li>
+		 * 	<li>The SecurityDomain for the loaded object</li></ul>
+		 */
 		function load( url : URLRequest = null, context : LoaderContext = null ) : void;
 		function getURL() : URLRequest;
 		function setURL( url : URLRequest ) : void;
@@ -35,6 +45,10 @@ package com.bourre.load
 		function getName() : String;
 		function setName( name : String ) : void;
 		function getPerCent() : Number;
+		
+		/**
+		 * Returns loading strategy used by the loader.
+		 */
 		function getStrategy() : LoadStrategy;
 		function addListener( listener : LoaderListener ) : Boolean;
 		function removeListener( listener : LoaderListener ) : Boolean;

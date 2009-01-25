@@ -15,13 +15,26 @@
  */	
 package com.bourre.error 
 {
+
 	/**
-	 * @author Cédric Néhémie
+	 * The NoSuchFieldException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class NoSuchFieldException 
-		extends Error 
+	public class NoSuchFieldException extends Error 
 	{
-		public function NoSuchFieldException ( message : String )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function NoSuchFieldException( message : String )
 		{
 			super( message );
 		}

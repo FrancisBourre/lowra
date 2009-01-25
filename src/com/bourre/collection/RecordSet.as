@@ -20,10 +20,13 @@ package com.bourre.collection
 	import com.bourre.log.PixlibStringifier;	
 
 	/**
+	 * Recordet class.
+	 * 
+	 * <p>TODO Documentation</p>
+	 * 
 	 * @author Francis Bourre
 	 */
-	public class   RecordSet 
-		implements Iterable
+	public class   RecordSet implements Iterable
 	{		protected var _aColumNames 	: Array;
 		protected var _aItems 		: Array;
 

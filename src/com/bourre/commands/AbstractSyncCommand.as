@@ -41,6 +41,7 @@ package com.bourre.commands
 	 * the Command pattern implementation in LowRA</a> document for more details
 	 * on the commands package structure.
 	 * </p>
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class AbstractSyncCommand extends AbstractCommand implements ASyncCommand

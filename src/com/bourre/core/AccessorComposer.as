@@ -35,6 +35,7 @@ package com.bourre.core
 	 * Note : Of course, only public members of the target object could be accessed
 	 * by an accessor instance.
 	 * </p>
+	 * 
 	 * @author	Cédric Néhémie
 	 * @see		Accessor
 	 * @see		com.bourre.transitions.AbstractTween

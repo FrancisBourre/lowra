@@ -29,6 +29,7 @@ package com.bourre.collection
 	 * Iterations are performed from <code>0</code> to <code>length</code> 
 	 * of the passed-in XMLList instance.
 	 * </p> 
+	 * 
 	 * @author 	Cedric Nehemie
 	 * @see		ListIterator
 	 */

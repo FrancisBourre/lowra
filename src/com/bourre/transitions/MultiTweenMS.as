@@ -20,8 +20,11 @@ package com.bourre.transitions
 	import flash.utils.getTimer;		
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The MultiTweenMS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class MultiTweenMS extends AbstractMultiTween
 	{

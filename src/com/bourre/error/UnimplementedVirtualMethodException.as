@@ -15,13 +15,25 @@
  */
 package com.bourre.error
 {
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The UnimplementedVirtualMethodException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class UnimplementedVirtualMethodException 
-		extends Error
+	public class UnimplementedVirtualMethodException extends Error
 	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
 		public function UnimplementedVirtualMethodException( message : String = "" )
 		{
 			super( message );

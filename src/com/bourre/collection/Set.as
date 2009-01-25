@@ -53,10 +53,7 @@ package com.bourre.collection
 	 * Such exceptions are marked as "optional" in the specification for this
 	 * class. 
 	 * </p>
-	 * @author  Olympe Dignat
-	 * @author 	Cédric Néhémie
-	 * @see 	Collection
-	 * @see		TypedContainer
+	 * 
 	 * @example Using an untyped <code>Set</code>
 	 * <listing>
 	 * var set : Set = new Set();
@@ -89,6 +86,11 @@ package com.bourre.collection
 	 * 
 	 * trace( set.size() ); // 2
 	 * </listing>
+	 * 
+	 * @author  Olympe Dignat
+	 * @author 	Cédric Néhémie
+	 * @see 	Collection
+	 * @see		TypedContainer
 	 */	
 	public class Set 
 		implements List, TypedContainer

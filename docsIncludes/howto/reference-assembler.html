@@ -11,17 +11,19 @@
 	-->
 	
 	<head>
-		<title>LowRA Assembler Reference -LowRA API Documentation</title>
-		<link rel="stylesheet" href="../../docs/style.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="../../docs/print.css" type="text/css" media="print" />
-		<script language="javascript" type="text/javascript" src="../../docs/asdoc.js"></script>
+		<title>lowRA Assembler Reference - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
 
 	</head>
 	<body>
 		<script type="text/javascript" language="javascript">
 		<!--
 			asdocTitle = 'LowRA Assembler Reference - LowRA API Documentation';
-			var baseRef = '../../docs/';
+			var baseRef = '../';
 			window.onload = configPage;
 		--></script>
 		
@@ -30,20 +32,22 @@
 			
 				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
 				<td align="right" class="titleTableTopNav">
-					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
-					   	href="../../docs/package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
-					<a 	onclick="loadClassListFrame('../../docs/all-classes.html')" 
-						href="../../docs/class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
-					<a 	onclick="loadClassListFrame('../../docs/index-list.html')" 
-						href="../../docs/all-index-A.html">Index</a>&nbsp;|&nbsp;
-					<a 	href="../../docs/index.html?howto/reference-assembler.html&amp;class-list.html" id="framesLink1">Frames</a>
+                	<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/reference-assembler.html&amp;all-classes.html" id="framesLink1">Frames</a>
 					<a 	onclick="parent.location=document.location" 
 						href="" 
 						style="display:none;" 
 						id="noFramesLink1">No&nbsp;Frames</a>
 				</td>
 				<td rowspan="3" align="right" class="titleTableLogo">
-					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../../docs/images/logo.jpg">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
 				</td>
 			</tr>
 			<tr class="titleTableRow2">
@@ -58,7 +62,7 @@
 		</table
 		
 		
-		<script type="text/javascript" language="javascript">
+		><script type="text/javascript" language="javascript">
 		<!--
 		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
 		{
@@ -111,22 +115,22 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <h1>Conventions :</h1> 
 <ul>
 	<li><code>&lt;foo&gt;</code> : A node of type <code>foo</code> such as : 
-	<div class="listing"><pre>&lt;foo&gt;
+	<div class="listing"><pre class="prettyprint">&lt;foo&gt;
 	Some content in the node
 &lt;/foo&gt;</pre></li>
 	<li><code>&lt;%custom%&gt;</code> : A node where <code>%custom%</code> is the user
 	defined node name. It means that the node name is only significant for the user,
 	the assembler will use attributes of the node instead of the node name.
 	<p>Example, the two following declarations produce the same result : </p>
-	<div class="listing"><pre>&lt;plugin id="somePlugin" type="MyPluginClass" /&gt;</pre></div>
-	<div class="listing"><pre>&lt;object id="somePlugin" type="MyPluginClass" /&gt;</pre></div></li>
+	<div class="listing"><pre class="prettyprint">&lt;plugin id="somePlugin" type="MyPluginClass" /&gt;</pre></div>
+	<div class="listing"><pre class="prettyprint">&lt;object id="somePlugin" type="MyPluginClass" /&gt;</pre></div></li>
 	<li><code>@foo</code> : A node attribute called <code>foo</code> 
 	such as :
-	 <div class="listing"><pre>&lt;node foo="some value" /&gt;</pre></div>
+	 <div class="listing"><pre class="prettyprint">&lt;node foo="some value" /&gt;</pre></div>
 	The <code>@</code> prefix only means that the name refer to a node attribute.
 	</li>
 	<li><code>#foo</code> : Refer to the id <code>foo</code> such as :
-	<div class="listing"><pre>&lt;node id="foo" /&gt;</pre>
+	<div class="listing"><pre class="prettyprint">&lt;node id="foo" /&gt;</pre>
 	The <code>#</code> prefix only means that the name refer to the value of the 
 	id attribute of a node.</li>
 	<li><code>Foo</code> : Refer to class name <code>Foo</code>.</li>
@@ -240,6 +244,12 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 	<include> 
 -->	
 		<tr class="row0">
+		  <td class="summaryTablePaddingCol">&nbsp;</td>
+		  <td class="summaryTableSecondCol"><a href="#rsc">&lt;rsc&gt; </a></td>
+		  <td class="summaryTableLastCol"><a href="#beans">&lt;beans&gt;</a></td>
+		  <td class="summaryTableLastCol"> Loads the specified  file as a application resource. </td>
+	  </tr>
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#include">&lt;include&gt;</a>
@@ -254,7 +264,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<item> 
 -->	
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#item">&lt;item&gt;</a>
@@ -269,7 +279,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<key> 
 -->	
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#key">&lt;key&gt;</a>
@@ -284,7 +294,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<listen> 
 -->			
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#listen">&lt;listen&gt;</a>
@@ -300,7 +310,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<method-call> 
 -->			
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#method-call">&lt;method-call&gt;</a>
@@ -316,7 +326,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<property> 
 -->			
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#property">&lt;property&gt;</a>
@@ -332,7 +342,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<root> 
 -->			
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#root">&lt;root&gt;</a>
@@ -349,7 +359,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	<value> 
 -->			
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				<a href="#value">&lt;value&gt;</a>
@@ -375,20 +385,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	built-callback
 -->	
-		<tr class="row1">
-			<td class="summaryTablePaddingCol">&nbsp;</td>
-			<td class="summaryTableSecondCol">
-				built-callback
-			</td>
-			<td class="summaryTableLastCol">
-				<a href="#application-loader">&lt;application-loader&gt;</a>
-			</td>
-			<td class="summaryTableLastCol">
-				Name of the function to call on the application loader when
-				the build is completed.
-			</td>
-		</tr>
-<!-- 
+	  <!-- 
 	delay
 -->		
 		<tr class="row0">
@@ -457,41 +454,12 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 			</td>
 		</tr>
 <!-- 
-	init-callback
+	methodk
 -->		
-		<tr class="row0">
-			<td class="summaryTablePaddingCol">&nbsp;</td>
-			<td class="summaryTableSecondCol">
-				init-callback
-			</td>
-			<td class="summaryTableLastCol">
-				<a href="#application-loader">&lt;application-loader&gt;</a>
-			</td>
-			<td class="summaryTableLastCol">
-				Name of the function to call on the application loader when
-				all loading are finished.
-			</td>
-		</tr>
-<!-- 
-	method
-	
-		<tr class="row0">
-			<td class="summaryTablePaddingCol">&nbsp;</td>
-			<td class="summaryTableSecondCol">
-				method
-			</td>
-			<td class="summaryTableLastCol">
-				<a href="#argument">&lt;argument&gt;</a>
-			</td>
-			<td class="summaryTableLastCol">
-				Description
-			</td>
-		</tr>
--->	
-<!-- 
+	<!-- 
 	name
 -->		
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				name
@@ -507,42 +475,13 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	name-callback
 -->	
-		<tr class="row0">
-			<td class="summaryTablePaddingCol">&nbsp;</td>
-			<td class="summaryTableSecondCol">
-				name-callback
-			</td>
-			<td class="summaryTableLastCol">
-				<a href="#application-loader">&lt;application-loader&gt;</a>
-			</td>
-			<td class="summaryTableLastCol">
-				Name of the function to call on the application loader when
-				a new loading start. The function is called with the name
-				of the lib file currently in loading.
-			</td>
-		</tr>
-<!-- 
+	  <!-- 
 	progress-callback
 -->	
-		<tr class="row1">
-			<td class="summaryTablePaddingCol">&nbsp;</td>
-			<td class="summaryTableSecondCol">
-				progress-callback
-			</td>
-			<td class="summaryTableLastCol">
-				<a href="#application-loader">&lt;application-loader&gt;</a>
-			</td>
-			<td class="summaryTableLastCol">
-				Name of the function to call on the application loader during
-				the loading of a file. The function is called with the percentage
-				of file's loaded.
-			</td>
-		</tr>
-			
-<!-- 
+	  <!-- 
 	ref
 -->	
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				ref
@@ -563,7 +502,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	root-ref
 -->	
-		<tr class="row1">
+		<tr class="row0">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				root-ref
@@ -580,7 +519,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	singleton-access
 -->	
-		<tr class="row0">
+		<tr class="row1">
 			<td class="summaryTablePaddingCol">&nbsp;</td>
 			<td class="summaryTableSecondCol">
 				singleton-access
@@ -598,21 +537,7 @@ the file defining the context ( applicationContext.xml ) for LowRA IoC.
 <!-- 
 	timeout-callback
 -->	
-		<tr class="row1">
-			<td class="summaryTablePaddingCol">&nbsp;</td>
-			<td class="summaryTableSecondCol">
-				timeout-callback
-			</td>
-			<td class="summaryTableLastCol">
-				<a href="#application-loader">&lt;application-loader&gt;</a>
-			</td>
-			<td class="summaryTableLastCol">
-				Name of the function to call on the application loader when 
-				a loading fail due to a timeout.
-			</td>
-		</tr>
-
-<!-- 
+	  <!-- 
 	type
 -->	
 		<tr class="row0">
@@ -736,41 +661,181 @@ are dispatched to the loader instance.
 
 <span class="label">Attributes</span>
 <p>
-<table border="0" cellpadding="2" cellspacing="0" width="100%"><tbody>
+<table border="0" cellpadding="4" cellspacing="0" width="100%"><tbody>
+<tr class="row0">
+  <td></td>
+  <td><span class="label">url</span></td>
+  <td>URL of the *.swf file.</td>
+</tr>
+<tr class="row1">
+  <td></td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
 <tr class="row0">
 	<td width="20"></td>
-	<td width="15%"><span class="label">built-callback</span> </td>
-	<td>Name of the function to call on the application loader when the build is completed.</td>
+	<td width="15%" valign="top"><span class="label">start-callback</span> </td>
+	<td><p>Name of the function to call on the application loader when xml context treatment starts.<br>
+	    <br>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row0">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">url</span>:String</code> - URL of loaded xml context file</td>
+        	    <td width="181">&nbsp;</td>
+      	    </tr>
+        	  <tr>
+        	    <td>&nbsp;</td>
+        	    <td><code><span class="label">size</span>:uint</code> - Numbers of elements to load</td>
+        	    <td>&nbsp;</td>
+      	    </tr>
+      	  </table>
+    </td>
+</tr>
+<tr class="row1">
+  <td></td>
+  <td valign="top"><span class="label">name-callback</span> </td>
+  <td>
+  	Name of the function to call on the application loader when application state change<br>
+    <br>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row1">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">state</span>:String</code> - Application state
+                 <br>Possible states are :
+                <dl>
+                    <dt>PARSE
+                    <dd>Engine parse the xml context file
+                    
+                    <dt>DLL
+                    <dd>DLL section starts loading
+                    
+                    <dt>RSC
+                    <dd>Resources section starts loading
+                    
+                    <dt>GFX
+                    <dd>Display tree starts loading
+                    
+                    <dt>BUILD
+                    <dd>Engine build objects, assign channels, and call method-call
+                    
+                    <dt>RUN
+                    <dd>Loading, parsing, building are finished; application is ready.
+                </dl>
+                </td>
+        	    <td width="181">&nbsp;</td>
+      	  </table>
+   
+  </td>
+</tr>
+<tr class="row0">
+  <td></td>
+  <td valign="top"><span class="label">load-callback</span> </td>
+  <td>Name of the function to call on the application loader when a new loading process start.<br/>
+  <br>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row0">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">url</span>:String</code> - URL of current loaded element</td>
+        	    <td width="181">&nbsp;</td>
+              </tr>
+      	  </table>
+  </td>
 </tr>
 <tr class="row1">
 	<td></td>
-	<td><span class="label">init-callback</span> </td>
-	<td>Name of the function to call on the application loader when all loading are finished.</td>
+	<td valign="top"><span class="label">progress-callback</span> </td>
+	<td>Name of the function to call on the application loader during each loading the process.<br />
+    <br>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row1">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">url</span>:String</code> - URL of current loaded element</td>
+        	    <td width="181">&nbsp;</td>
+              </tr>
+               <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">percent</span>:Number</code> - Loading progression</td>
+        	    <td width="181">&nbsp;</td>
+               </tr>
+      	  </table>
+    </td>
 </tr>
 <tr class="row0">
 	<td></td>
-	<td><span class="label">name-callback</span> </td>
-	<td>Name of the function to call on the application loader when a new process start
-	(loading, parsing, assembling, etc...).</td>
-</tr>
-<tr class="row1">
-	<td></td>
-	<td><span class="label">progress-callback</span> </td>
-	<td>Name of the function to call on the application loader during the process. A number,
-	which represent the current progression, is passed to the function.</td>
-</tr>
-<tr class="row0">
-	<td></td>
-	<td><span class="label">timeout-callback</span> </td>
+	<td valign="top"><span class="label">timeout-callback</span> </td>
 	<td>Name of the function to call on the application loader when a loading fail due
-	to a timeout.</td>
+	to a timeout.
+    <br>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row0">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">url</span>:String</code> - URL of current loaded element</td>
+        	    <td width="181">&nbsp;</td>
+              </tr>
+      	  </table>
+        </td>
 </tr>
 <tr class="row1">
 	<td></td>
-	<td><span class="label">url</span> </td>
-	<td>URL of the *.swf file.</td>
+	<td valign="top"><span class="label">error-callback</span></td>
+	<td>&nbsp;
+    <br>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row1">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">url</span>:String</code> - URL of current loaded element</td>
+        	    <td width="181">&nbsp;</td>
+              </tr>
+      	  </table>
+        </td>
 </tr>
-</tbody></table>
+<tr class="row0">
+  <td></td>
+  <td valign="top"><span class="label">init-callback</span></td>
+  <td>Name of the function to call on the application loader when current loading element is complete.<br/><br/>
+	    <span class="label">Parameters :</span>
+        	<table width="553" border="0" class="row0">
+        	  <tr>
+        	    <td width="25">&nbsp;</td>
+        	    <td width="333"><code><span class="label">url</span>:String</code> - URL of current loaded element</td>
+        	    <td width="181">&nbsp;</td>
+              </tr>
+      	  </table>
+        </td>
+</tr>
+<tr class="row1">
+  <td></td>
+  <td valign="top"><span class="label">parsed-callback</span></td>
+  <td>Name of the function to call on the application loader when all xml content is parsed.</td>
+</tr>
+<tr class="row0">
+  <td></td>
+  <td valign="top"><span class="label">objects-built-callback</span></td>
+  <td>Name of the function to call on the application loader when all objects are built</td>
+</tr>
+<tr class="row1">
+  <td></td>
+  <td valign="top"><span class="label">channels-assigned-callback</span></td>
+  <td>Name of the function to call on the application loader when all communication channels are initialized</td>
+</tr>
+<tr class="row0">
+  <td></td>
+  <td valign="top"><span class="label">methods-callback</span></td>
+  <td>Name of the function to call on the application loader when all 'method-call' are called</td>
+</tr>
+<tr class="row1">
+  <td></td>
+  <td valign="top"><span class="label">complete-callback</span></td>
+  <td>Name of the function to call on the application loader when IoC process is finished</td>
+</tr>
+</tbody>
+</table>
 </p>
 
 <!--
@@ -791,10 +856,10 @@ defined in the assembler context file.
 	<a href="#custom">&lt;%custom%&gt;</a>,
 	<a href="#method-call">&lt;method-call&gt;</a>
 	
-	<p>
+  <p>
 		When used directly inside a <code>&lt;%custom%&gt;</code> node, arguments are
 		passed to the constructor of the class specified in <code>@type</code>.
-	</p>
+  </p>
 </p>
 
 <span class="label">Children</span>
@@ -861,20 +926,22 @@ Included context must also defines the <code>&lt;beans&gt;</code> root node.
 	<a href="#application-loader">&lt;application-loader&gt;</a>,
 	<a href="#custom">&lt;%custom%&gt;</a>,
 	<a href="#dll">&lt;dll&gt;</a>,
+    <a href="#rsc">&lt;rsc&gt;</a>,
 	<a href="#include">&lt;include&gt;</a>,
 	<a href="#root">&lt;root&gt;</a>
 	
-	<p>There is no restriction in the order of the children, order of node execution
+  <p>There is no restriction in the order of the children, order of node execution
 	is defined by the assembler while parsing is completed : 
-	<ol>
+  <ol>
 		 <li><code>&lt;application-loader&gt;</code> is created (if set)</li>
 		 <li><code>&lt;include&gt;</code> nodes are loaded</li>
 		 <li><code>&lt;dll&gt;</code> nodes are loaded</li>
+		 <li><code>&lt;rsc&gt;</code> resources are loaded</li>
 		 <li><code>&lt;root&gt;</code> children are loaded or created and added on the stage</li>
 		 <li><code>&lt;%custom%&gt;</code> children of the <code>&lt;beans&gt;</code>
 			are created</li>
 		 <li><code>&lt;method-call&gt;</code> nodes are processed for each entity</li>
-	</ol>
+  </ol>
 	
 	</p>	
 </p>
@@ -912,10 +979,10 @@ be considered as part of the display list, nested
 	<a href="#custom">&lt;%custom%&gt;</a>,
 	<a href="#root">&lt;root&gt;</a>
 	
-	<p>
+  <p>
 		For details on nested <code>&lt;%custom%&gt;</code> see the 
 		<strong>Children</strong> part.
-	</p>
+  </p>
 </p>
 
 <span class="label">Children</span>
@@ -927,12 +994,12 @@ be considered as part of the display list, nested
 	<a href="#method-call">&lt;method-call&gt;</a>, 
 	<a href="#property">&lt;property&gt;</a>
 	
-	<p>
+  <p>
 		<code>&lt;%custom%&gt;</code> nodes can be nested only when they
 		are children of the <code>&lt;root&gt;</code> node. In that context
 		each child will be added to the display list as a child of their
 		parent node.
-	</p>
+  </p>
 </p>
 
 <span class="label">Cardinality</span>
@@ -962,7 +1029,7 @@ be considered as part of the display list, nested
 </tr>
 <tr class="row0">
 	<td width="20"></a></td>
-	<td width="15%"><span class="label">id</span></td>
+	<td width="15%" valign="top"><span class="label">id</span></td>
 	<td>Defines the identifier of this node in the beans 
 	namespace. You can use the <code>@id</code> of the
 	object in all nodes which provide a <code>@ref</code>,
@@ -978,7 +1045,7 @@ be considered as part of the display list, nested
 </tr>
 <tr class="row1">
 	<td width="20"></a></td>
-	<td width="15%"><span class="label">singleton-access</span></td>
+	<td width="15%" valign="top"><span class="label">singleton-access</span></td>
 	<td>Defines the name of the function which return the
 	singleton instance of a class. Used when <code>@factory</code>
 	is defined. If set the creation of the object will correspond to :
@@ -1050,6 +1117,65 @@ the current assembler, and then instanciate them later.
 </p>
 
 <!--
+	<rsc>
+-->
+<a name="rsc"></a>
+<div class="detailSectionHeader">&lt;rsc&gt;</div>
+<p></p>
+
+<p>
+  	 Loads the specified *.swf file as a Dynamically Loaded Library (dll).
+All dlls files are loaded in the same <code>ApplicationDomain</code> object.
+More formally, the <code>&lt;dll&gt;</code> behave as the <code>import</code>
+statement, it allow developers to includes classes compiled in a swf file in
+the current assembler, and then instanciate them later.
+</p>
+
+<span class="label">Context</span>
+<p>
+	<a href="#beans">&lt;beans&gt;</a>
+</p>
+
+<span class="label">Children</span>
+<p>
+	No
+</p>
+
+<span class="label">Cardinality</span>
+<p>
+	0 - *
+</p>
+
+<span class="label">Attributes</span>
+<p>
+<table border="0" cellpadding="2" cellspacing="0" width="100%">
+  <tbody>
+    <tr class="row0">
+      <td width="20">&nbsp;</td>
+      <td><span class="label">id</span></td>
+      <td>Defines the identifier of this node in the beans 
+        namespace. </td>
+    </tr>
+    <tr class="row1">
+      <td width="15"></a></td>
+      <td width="286"><span class="label">url</span></td>
+      <td>URL of the *.swf file to load.</td>
+    </tr>
+    <tr class="row0">
+      <td>&nbsp;</td>
+      <td valign="top"><span class="label">deserializer-class</span></td>
+      <td>Defines
+        the concret deserializer class to use for parsing the node content.<br />
+        The <code>@deserializer-class</code> must implements the <code>Deserializer</code> interface of the <code>com.bourre.encoding</code> package.<br />
+        <br/>
+        Class must be contained in current application context; use <a href="#dll">&lt;dll&gt;</a> node to load the class.</td>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+
+<!--
 	<include>
 -->
 <a name="include"></a>
@@ -1116,16 +1242,16 @@ don't accept any attributes, but require two child :
 <span class="label">Context</span>
 <p>
 	<a href="#custom">&lt;%custom% type="Dictionary"&gt;</a>
-	<p>
+  <p>
 		The <code>&lt;item&gt;</code> node is only available for <code>&lt;%custom%&gt;</code>
 		nodes whose <code>@type</code> is <code>Dictionary</code>.
-	</p>	
+  </p>	
 </p>
 
 <span class="label">Children</span>
 <p>
 	<a href="#key">&lt;key&gt;</a>, <a href="#key">&lt;value&gt;</a>
-	<p></p>
+  <p></p>
 </p>
 
 <span class="label">Cardinality</span>
@@ -1439,7 +1565,8 @@ attribute defined.
 	of the LowRA assembler.
 </p>
 
-<div class="listing"><pre>
+<div class="listing">
+  <pre class="prettyprint">
 &lt;?xml version="1.0"?&gt;
 &lt;!DOCTYPE beans SYSTEM "http://lowra.googlecode.com/svn/trunk/tools/assembler.dtd"&gt;
 
@@ -1449,14 +1576,20 @@ attribute defined.
 			to make your application working. --&gt;
 
 	&lt;dll url="dll/FakePluginListenerDLL2.swf"/&gt;	
+	
+    
+    &lt;!-- 	You can insert here all the resources files you need 
+			to make your application working. --&gt;
 
+    &lt;rsc id=&quot;info&quot; url="resource/readme.txt" /&gt;
+    &lt;rsc id=&quot;css&quot; url="resource/style.css" deserializer-class=&quot;com.bourre.encoding.CSSDesrializer&quot; /&gt;	
 
 
 	&lt;!-- That's your application loader config (if you need one) --&gt;
 
 	&lt;!--&lt;application-loader url="swf/loader.swf" 
 						progress-callback="onProgress" 
-						built-callback="onBuild"/&gt;--&gt;
+						complete-callback="onBuild"/&gt;--&gt;
 
 
 
@@ -1644,6 +1777,15 @@ attribute defined.
 		 End File
 *****************************************************************************-->
 
-		</div>
+	
+    
+     	<div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
 	</body>
 </html>

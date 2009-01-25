@@ -20,10 +20,8 @@ package com.bourre.structures
 	/**
 	 * A range represent a space of numeric values.
 	 * 
-	 * @author Francis Bourre
-	 * @author Cédric Néhémie
 	 * @example Simple examples of <code>Range</code> usage
-	 * <listing>
+	 * <pre class="prettyprint">
 	 *   var r1 : Range = new Range(10, 100);
 	 *   var r2 : Range = new Range(5, 50);
 	 *   var r3 : Range = new Range(60, 600);
@@ -31,7 +29,10 @@ package com.bourre.structures
 	 *   var b1 : Boolean = r1.overlap(r2); //true
 	 *   var b2 : Boolean = r2.overlap(r3); //false
 	 *   var b3 : Boolean = r1.overlap(r3); //true
-	 * </listing>
+	 * </pre>
+	 * 
+	 * @author Francis Bourre
+	 * @author Cédric Néhémie
 	 */
 	public class Range
 	{

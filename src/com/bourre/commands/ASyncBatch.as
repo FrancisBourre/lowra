@@ -33,6 +33,7 @@ package com.bourre.commands
 	 * and so, dispatch an <code>onCommandEnd</code> event at the execution end
 	 * of all commands.
 	 * </p> 
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class ASyncBatch extends AbstractSyncCommand implements MacroCommand, ASyncCommandListener

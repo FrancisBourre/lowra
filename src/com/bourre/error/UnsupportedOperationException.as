@@ -15,14 +15,26 @@
  */
 package com.bourre.error 
 {
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The UnsupportedOperationException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class UnsupportedOperationException 
-		extends Error
+	public class UnsupportedOperationException extends Error
 	{
-		public function UnsupportedOperationException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function UnsupportedOperationException( message : String = "" )
 		{
 			super( message );
 		}

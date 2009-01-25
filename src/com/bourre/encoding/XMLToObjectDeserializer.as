@@ -23,22 +23,41 @@ package com.bourre.encoding
 	import flash.geom.Point;
 	 
 	/**
+	 * XML object deserializer.
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
+	 * 
+	 * @see Deserializer
 	 */
-	public class XMLToObjectDeserializer 
-		implements Deserializer
+	public class XMLToObjectDeserializer implements Deserializer
 	{
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+				
 		protected var _m : HashMap;
 		protected var _bDeserializeAttributes : Boolean;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public properties
+		//--------------------------------------------------------------------
+				
 		public var pushInArray : Boolean;
 
 		public static var DEBUG_IDENTICAL_NODE_NAMES : Boolean = false;
 		public static var PUSHINARRAY_IDENTICAL_NODE_NAMES : Boolean = true;
 		public static var ATTRIBUTE_TARGETED_PROPERTY_NAME : String = null;
 		public static var DESERIALIZE_ATTRIBUTES : Boolean = false;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Creates instance.
+		 */	
 		public function XMLToObjectDeserializer ()
 		{
 			_m = new HashMap() ;
@@ -56,7 +75,10 @@ package com.bourre.encoding
 		}
 
 		/**
-		 * Lancement du parcours du xml
+		 * @inheritDoc.
+		 * 
+		 * <p>Returns content is a <code>XML</code> instance if deserialization 
+		 * process is success.</p>
 		 */
 		public function deserialize( serializedContent : Object, target : Object = null ) : Object
 		{
@@ -68,7 +90,7 @@ package com.bourre.encoding
 
 		public function	deserializeNode ( target : Object, node : XML ) : Object
 		{
-			var member:String = node.name();
+			var member:String = node.name().toString();
 			var obj : Object = {};
 			
 			if (node.attribute("type").length()== 0 && !node.hasSimpleContent())

@@ -21,6 +21,7 @@ package com.bourre.media.sound
 	 * @version 1.0
 	 */
 	import com.bourre.core.AbstractLocator;
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.media.sound.SoundLoader;
 	import com.bourre.media.sound.SoundLoaderLocatorEvent;
 	import com.bourre.media.sound.SoundLoaderLocatorListener;	
@@ -30,9 +31,10 @@ package com.bourre.media.sound
 	{
 		private static var _oI : SoundLoaderLocator = null;
 
-		public function SoundLoaderLocator( o : ConstructorAccess )
+		public function SoundLoaderLocator( access : ConstructorAccess )
 		{
 			super(SoundLoader, SoundLoaderLocatorListener );
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
 		}
 
 		public static function getInstance() : SoundLoaderLocator

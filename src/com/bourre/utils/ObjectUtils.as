@@ -17,6 +17,7 @@ package com.bourre.utils
 {
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.error.NoSuchElementException;
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.log.PixlibDebug;
 	
 	import flash.display.DisplayObject;
@@ -26,16 +27,15 @@ package com.bourre.utils
 	import flash.utils.getQualifiedClassName;	
 
 	/**
-	 * @author	Francis Bourre
-	 * @author	Cédric Néhémie
-	 * @version 1.0
+	 * Set of object utilities functions.
+	 * 
+	 * @author	Francis Bourre	 * @author	Cédric Néhémie
 	 */
 	public class ObjectUtils
 	{
-		public function ObjectUtils( access : ConstructorAccess )
-		{
-			//
-		}
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
 
 		/**
 		 * Clone the content of an array
@@ -117,6 +117,16 @@ package com.bourre.utils
 			}
 
 			return target;
+		}
+		
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+		
+		/** @private */		
+		function ObjectUtils( access : ConstructorAccess )
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
 		}
 	}
 }

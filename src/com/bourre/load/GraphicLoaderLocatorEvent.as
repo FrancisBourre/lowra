@@ -18,18 +18,95 @@ package com.bourre.load
 	import flash.events.Event;	
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The GraphicLoaderLocatorEvent class represents the event object passed 
+	 * to the event listener for <code>GraphicLoaderLocator</code> events.
+	 * 
+	 * @author 	Francis Bourre
+	 * 
+	 * @see GraphicLoaderLocator
 	 */
-	public class GraphicLoaderLocatorEvent 
-		extends Event 
+	public class GraphicLoaderLocatorEvent extends Event 
 	{
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onRegisterGraphicLoader</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getName()</code>
+		 *     	</td><td>The registration key</td>
+		 *     </tr>
+		 *     <tr>
+		 *     	<td><code>getGraphicLib()</code>
+		 *     	</td><td>The Graphic loader object</td>
+		 *     </tr>
+		 * </table>
+		 * 
+		 * @eventType onRegisterGraphicLoader
+		 */	
 		public static const onRegisterGraphicLoaderEVENT 	: String = "onRegisterGraphicLoader";
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onUnregisterGraphicLoader</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getName()</code>
+		 *     	</td><td>The registration key</td>
+		 *     </tr>
+		 *     <tr>
+		 *     	<td><code>getGraphicLib()</code>
+		 *     	</td><td>The Graphic loader object</td>
+		 *     </tr>
+		 * </table>
+		 * 
+		 * @eventType onUnregisterGraphicLoader
+		 */	
 		public static const onUnregisterGraphicLoaderEVENT 	: String = "onUnregisterGraphicLoader";
-	
+		
+		
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/** @private */		
 		protected var _sName 	: String;
+		
+		/** @private */		
 		protected var _gl 		: GraphicLoader;
 		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates a new <code>GraphicLoaderLocatorEvent</code> object.
+		 * 
+		 * @param	type			Name of the event type
+		 * @param	name			Registration key
+		 * @param	gl				Graphic loader object
+		 */	
 		public function GraphicLoaderLocatorEvent( type : String, name : String, gl : GraphicLoader ) 
 		{
 			super( type );
@@ -38,11 +115,21 @@ package com.bourre.load
 			_gl = gl;
 		}
 		
+		/**
+		 * Returns the registration key carried by this event.
+		 * 
+		 * @return The registration key carried by this event.
+		 */
 		public function getName() : String
 		{
 			return _sName;
 		}
 		
+		/**
+		 * Returns the graphic loader object carried by this event.
+		 * 
+		 * @return The graphic loader object carried by this event.
+		 */
 		public function getGraphicLib() : GraphicLoader
 		{
 			return _gl;

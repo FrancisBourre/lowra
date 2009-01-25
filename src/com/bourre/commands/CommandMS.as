@@ -21,6 +21,10 @@ package com.bourre.commands
 	import flash.utils.setInterval;
 
 	/**
+	 * The CommandMS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
 	 * @author 	Francis Bourre
 	 */
 	public class CommandMS

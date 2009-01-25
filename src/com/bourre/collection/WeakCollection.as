@@ -36,6 +36,7 @@ package com.bourre.collection
 	 * In current state of the art the weak collection allow any types
 	 * for its elements. 
 	 * </p>  
+	 * 
 	 * @author 	Francis Bourre
 	 * @see		Collection
 	 */

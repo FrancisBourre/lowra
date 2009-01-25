@@ -18,8 +18,9 @@ package com.bourre.events
 	import flash.events.Event;		
 
 	/**
+	 * The Broadcaster interface.
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public interface Broadcaster 
 	{

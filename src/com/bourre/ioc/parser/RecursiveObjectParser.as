@@ -1,44 +1,62 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
 package com.bourre.ioc.parser
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-	 
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
 	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
 	import com.bourre.ioc.error.NullChannelException;
 	import com.bourre.ioc.error.NullIDException;
 	import com.bourre.plugin.PluginDebug;	
-
-	public class RecursiveObjectParser
-		extends AbstractParser
+	
+	/**
+	 * Recursive parser.
+	 * 
+	 * @author Francis Bourre
+	 */
+	public class RecursiveObjectParser extends AbstractParser
 	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	assembler	(optional) Application assembler to use
+		 */	
 		public function RecursiveObjectParser( assembler : ApplicationAssembler = null )
 		{
 			super( assembler );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public override function parse( xml : * ) : void
 		{
 			for each ( var node : XML in xml.* ) _parseNode( node );
 		}
-
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/** @private */	
 		protected function _parseNode( xml : XML ) : void
 		{
 			var msg : String;
@@ -118,6 +136,7 @@ package com.bourre.ioc.parser
 			}
 		}
 		
+		/** @private */	
 		protected function getRecursiveObjects( xml : XML, type : String = null ) : Array
 		{
 			var aKeyChildsName : Array = [ ContextNodeNameList.ARGUMENT, ContextNodeNameList.PROPERTY, ContextNodeNameList.METHOD_CALL, ContextNodeNameList.LISTEN] ;

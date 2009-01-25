@@ -17,8 +17,11 @@ package com.bourre.transitions
 { 
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The MultiTweenFPS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class MultiTweenFPS extends AbstractMultiTween
 	{

@@ -75,6 +75,7 @@ package com.bourre.events
 	 * accept the registration of objects which implements or extends the
 	 * specified <code>Class</code>.
 	 * </p>
+	 * 
 	 * @author Francis Bourre
 	 */
 	public class EventBroadcaster 

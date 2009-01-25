@@ -37,6 +37,7 @@ package com.bourre.commands
 	 * Note : There's no restriction concerning class which would implements both <code>Suspendable</code>
 	 * and <code>Cancelable</code> interfaces.
 	 * </p>
+	 * 
 	 * @author 	Cédric Néhémie
 	 * @see		Runnable
 	 * @see		Cancelable

@@ -29,11 +29,12 @@ package com.bourre.collection
 	 * Iterations are performed from <code>0</code> to <code>length</code> 
 	 * of the passed-in array.
 	 * </p> 
+	 * 
 	 * @author 	Cedric Nehemie
+	 * 
 	 * @see		ListIterator
 	 */
-	public class ArrayIterator 
-		implements ListIterator 
+	public class ArrayIterator implements ListIterator 
 	{
 	    protected var _aArray 	: Array;
 	    protected var _nSize 	: Number;

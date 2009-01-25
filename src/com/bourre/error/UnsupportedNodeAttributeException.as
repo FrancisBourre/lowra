@@ -15,14 +15,26 @@
  */
 package com.bourre.error
 {
+
 	/**
-	 * @author Cédric Néhémie
-	 * @version 1.0
+	 * The UnsupportedNodeAttributeException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Cédric Néhémie
 	 */
-	public class UnsupportedNodeAttributeException 
-		extends Error
+	public class UnsupportedNodeAttributeException extends Error
 	{
-		public function UnsupportedNodeAttributeException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function UnsupportedNodeAttributeException( message : String = "" )
 		{
 			super( message );
 		}

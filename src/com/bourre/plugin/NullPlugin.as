@@ -15,6 +15,7 @@
  */
 package com.bourre.plugin 
 {
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.PixlibStringifier;
 	import com.bourre.model.AbstractModel;
@@ -23,13 +24,15 @@ package com.bourre.plugin
 	import com.bourre.view.ViewLocator;
 	
 	import flash.events.Event;	
-	
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The NullPlugin class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	final public class NullPlugin 
-		implements Plugin
+	final public class NullPlugin implements Plugin
 	{
 		private static var _oI : NullPlugin = null;
 
@@ -37,6 +40,8 @@ package com.bourre.plugin
 
 		public function NullPlugin ( access : ConstructorAccess )
 		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+			
 			_channel = new NullPluginChannel();
 		}
 

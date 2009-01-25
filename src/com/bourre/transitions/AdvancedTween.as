@@ -35,6 +35,7 @@ package com.bourre.transitions
 	 * <a href='MultiTweenMS.html'>MultiTweenMS</a>, <a href='TweenFPS.html'>TweenFPS</a> 
 	 * and <a href='cTweenMS.html'>TweenMS</a> for concret implementations.
 	 * </p>
+	 * 
 	 * @author	Francis Bourre
 	 * @author	Cédric Néhémie
 	 * @see		Tween

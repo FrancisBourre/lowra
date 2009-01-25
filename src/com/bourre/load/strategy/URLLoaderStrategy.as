@@ -30,29 +30,71 @@ package com.bourre.load.strategy
 	import flash.system.LoaderContext;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The URLLoaderStrategy class define a loading strategy using 
+	 * Lowra URL loader.
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class URLLoaderStrategy 
-		implements LoadStrategy
+	public class URLLoaderStrategy implements LoadStrategy
 	{
+		//--------------------------------------------------------------------
+		// Constants
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Specifies that downloaded data is received as raw binary data. 
+		 */	
 		public static const BINARY : String = URLLoaderDataFormat.BINARY;
+		
+		/**
+		 * Specifies that downloaded data is received as text. 
+		 */
 		public static const TEXT : String = URLLoaderDataFormat.TEXT;
+		
+		/**
+		 * Specifies that downloaded data is received as URL-encoded variables. 
+		 */
 		public static const VARIABLES : String = URLLoaderDataFormat.VARIABLES;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/** @private */		
 		protected var _owner : Loader;
+		
+		/** @private */	
 		protected var _loader : URLLoader;
+		
+		/** @private */	
 		protected var _bytesLoaded : uint;
+		
+		/** @private */	
 		protected var _bytesTotal : uint;
+		
+		/** @private */	
 		protected var _sDataFormat : String;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
 		public static function isValidDataFormat( dataFormat : String ) : Boolean
 		{
 			return (dataFormat == URLLoaderStrategy.TEXT || 
 					dataFormat == URLLoaderStrategy.BINARY || 
 					dataFormat == URLLoaderStrategy.VARIABLES);
 		}
-
+		
+		/**
+		 * Creates new <code>URLLoaderStrategy</code> instance.
+		 * 
+		 * @param	dataFormat	(optional) Downloaded data format
+		 * 
+		 * @see #setDataFormat()
+		 */
 		public function URLLoaderStrategy( dataFormat : String = null )
 		{
 			_bytesLoaded = 0;
@@ -60,12 +102,33 @@ package com.bourre.load.strategy
 
 			setDataFormat( dataFormat );
 		}
-
+		
+		/**
+		 * Sets how the downloaded data is received.
+		 * 
+		 * <p>If the value of the dataFormat property is 
+		 * <code>URLLoaderDataFormat.TEXT</code>, 
+		 * the received data is a string containing the text of 
+		 * the loaded file.</p>
+		 * <p>If the value of the dataFormat property is 
+		 * <code>URLLoaderDataFormat.BINARY</code>, the received data is 
+		 * a ByteArray object containing the raw binary data.</p>
+		 * <p>If the value of the dataFormat property is 
+		 * <code>URLLoaderDataFormat.VARIABLES</code>, the received data is 
+		 * a URLVariables object containing the URL-encoded variables.</p>
+		 * 
+		 * <p>The default is <code>URLLoaderStrategy.TEXT</code></p>
+		 * 
+		 * @param	dataFormat	Downloaded data format
+		 */
 		public function setDataFormat( dataFormat : String ) : void
 		{
 			_sDataFormat = dataFormat;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			_loader = new URLLoader( );
@@ -81,22 +144,34 @@ package com.bourre.load.strategy
 			if ( context != null ) PixlibDebug.WARN( this + ".load() doesn't support LoaderContext argument." ); 
 			_loader.load( request ) ;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getBytesLoaded() : uint
 		{
 			return _bytesLoaded;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getBytesTotal() : uint
 		{
 			return _bytesTotal;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function setOwner( owner : Loader ) : void
 		{
 			_owner = owner;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function release() : void
 		{
 			if ( _loader ) 
@@ -118,6 +193,7 @@ package com.bourre.load.strategy
 
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		public function toString() : String 
@@ -125,7 +201,11 @@ package com.bourre.load.strategy
 			return PixlibStringifier.stringify( this );
 		}
 
-		//
+				
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
 		protected function _onProgress( e : ProgressEvent ) : void
 		{
 			_bytesLoaded = e.bytesLoaded;

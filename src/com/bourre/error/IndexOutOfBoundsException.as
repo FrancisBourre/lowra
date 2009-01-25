@@ -16,13 +16,24 @@
  package com.bourre.error
 {
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The IndexOutOfBoundsException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class IndexOutOfBoundsException 
-		extends Error
+	public class IndexOutOfBoundsException  extends Error
 	{
-		public function IndexOutOfBoundsException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function IndexOutOfBoundsException( message : String = "" )
 		{
 			super( message );
 		}

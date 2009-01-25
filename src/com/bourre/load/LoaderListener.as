@@ -15,16 +15,37 @@
  */
 package com.bourre.load
 {
+
 	/**
+	 * All loaders listener must implements this interface.
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public interface LoaderListener 
 	{
-		function onLoadStart	( e : LoaderEvent ) : void;
-		function onLoadInit		( e : LoaderEvent ) : void;
-		function onLoadProgress	( e : LoaderEvent ) : void;
-		function onLoadTimeOut	( e : LoaderEvent ) : void;
-		function onLoadError	( e : LoaderEvent ) : void;
+		/**
+		 * Triggered when loading starts.
+		 */
+		function onLoadStart( e : LoaderEvent ) : void;
+		
+		/**
+		 * Triggered when loading is finished.
+		 */
+		function onLoadInit( e : LoaderEvent ) : void;
+
+		/**
+		 * Triggered during loading progession.
+		 */
+		function onLoadProgress( e : LoaderEvent ) : void;
+
+		/**
+		 * Triggered when the loading time causes a tiemout.
+		 */
+		function onLoadTimeOut( e : LoaderEvent ) : void;
+
+		/**
+		 * Triggered when an error occurs during loading
+		 */
+		function onLoadError( e : LoaderEvent ) : void;
 	}
 }

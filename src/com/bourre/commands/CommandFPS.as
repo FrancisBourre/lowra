@@ -22,6 +22,10 @@ package com.bourre.commands
 	import flash.events.Event;	
 
 	/**
+	 * The CommandFPS class.
+	 * 
+	 * <p>TODO documentation.</p>
+	 * 
 	 * @author 	Francis Bourre
 	 */
 	public class CommandFPS	implements TickListener

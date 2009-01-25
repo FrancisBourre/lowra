@@ -15,6 +15,7 @@
  */
 package com.bourre.events
 {
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.plugin.PluginBroadcaster;	
 
 	/**
@@ -90,6 +91,8 @@ package com.bourre.events
 		public function ApplicationBroadcaster ( access : PrivateConstructorAccess )
 		{
 			super( PluginBroadcaster, SYSTEM_CHANNEL );
+			
+			if ( !(access is PrivateConstructorAccess) ) throw new PrivateConstructorException();
 		}
 
 		/**

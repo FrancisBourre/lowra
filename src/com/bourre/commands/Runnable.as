@@ -48,6 +48,7 @@ package com.bourre.commands
 	 * many possible ending for an asynchronous process, such failure, success
 	 * or user interruption, it is the reason why there's many interface which
 	 * extends the <code>Runnable</code> interface to define process ending rules.	 * </p>
+	 * 
 	 * @author	Cédric Néhémie
 	 */
 	public interface Runnable 
