@@ -20,10 +20,18 @@ package com.bourre.error
 	 * command don't retreive the needed data from the passed-in event
 	 * 
 	 * @author Cédric Néhémie
-	 * @version 1.0
 	 */
 	public class UnreachableDataException extends Error
 	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
 		public function UnreachableDataException( message : String = "" )
 		{
 			super( message );

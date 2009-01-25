@@ -19,8 +19,11 @@ package com.bourre.plugin
 	import com.bourre.events.ValueObjectEvent;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The PluginEvent class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class PluginEvent 
 		extends ValueObjectEvent

@@ -34,6 +34,7 @@ package com.bourre.transitions
 	 * of the class, concret <code>TickListener</code> may use that instance
 	 * by default when starting or stopping their animations.
 	 * </p>
+	 * 
 	 * @author	Cédric Néhémie
 	 * @see		TickBeacon
 	 */

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
 package com.bourre.service 
 {
 	import com.bourre.collection.Collection;
@@ -23,8 +24,11 @@ package com.bourre.service
 	import com.bourre.events.EventBroadcaster;	
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The AbstractService class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class AbstractService 
 		extends AbstractCommand implements Service

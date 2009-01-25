@@ -16,16 +16,19 @@
 package com.bourre.plugin
 {
 	import com.bourre.collection.HashMap;
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.events.ApplicationBroadcaster;
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.utils.Dictionary;	
-	
+
 	/**
-	 * @author Francis Bourre
-	 * @author Romain Flacher
-	 * @version 1.0
+	 * The ChannelExpert class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre	 * @author 	Romain Flacher
 	 */
 	public class ChannelExpert
 	{
@@ -55,6 +58,8 @@ package com.bourre.plugin
 		
 		public function ChannelExpert( access : ConstructorAccess )
 		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+			
 			_m = new HashMap();
 			_oRegistered = new Dictionary( true );
 		}

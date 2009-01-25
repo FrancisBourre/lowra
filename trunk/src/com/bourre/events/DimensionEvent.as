@@ -15,26 +15,60 @@
  */
 package com.bourre.events 
 {
-	import com.bourre.events.BasicEvent;
-	import com.bourre.structures.Dimension;	
-
+	import com.bourre.events.BasicEvent;	import com.bourre.structures.Dimension;
+	import flash.events.Event;	
+	
 	/**
-	 * @author Aigret Axel
-	 * @version 1.0
+	 * An event object which carry a <code>Dimension</code> value.
+	 * 
+	 * @author 	Aigret Axel
+	 * 
+	 * @see com.bourre.structures.Dimension
 	 */
 	public class DimensionEvent extends BasicEvent 
 	{
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+
 		protected var _oDimension : Dimension ; 
 
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates a new <code>DimensionEvent</code> object.
+		 * 
+		 * @param	type		Name of the event type
+		 * @param	target		Target of this event
+		 * @param	dimension	Dimension object carried by this event
+		 */
 		public function DimensionEvent(type : String, target : Object = null , dimension : Dimension = null )
 		{
-			super( type , target);
+			super( type, target );
 			_oDimension = dimension ;
 		}
-		
+
+		/**
+		 * Returns the dimension object carried by this event.
+		 * 
+		 * @return	The dimension value carried by this event.
+		 */
 		public function getDimension( ) : Dimension 
 		{
 			return _oDimension ; 
+		}
+
+		/**
+		 * Clone the event
+		 * 
+		 * @return	a clone of the event
+		 */
+		override public function clone() : Event
+		{
+			return new DimensionEvent( type, target, _oDimension );
 		}
 	}
 }

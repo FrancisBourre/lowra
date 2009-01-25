@@ -119,16 +119,11 @@
 			<arg line="+flexlib='${FLEX_HOME}/frameworks'"/>
 			
 			<arg line="-load-config=${flex.config}"/>
+			<arg line="-templates-path=${build.dir}/asdoc-templates" />
 			
 			<arg line="-source-path=${src.dir}"/>
 			<arg line="-doc-sources=${src.dir}"/>
 			<arg line="-output=${docs.dir}"/>
-			
-			<!-- GENERAL TITLES & DESCRIPTION -->
-			
-			<arg line="-footer='${project.name} API Documentation - 2008'"/>
-			<arg line="-main-title='${project.name} API Documentation'"/>
-			<arg line="-window-title='${project.name} API Documentation'"/>
 			
 			<!-- PACKAGES DESCRIPTION -->
 			
@@ -140,7 +135,58 @@
 			
 			<arg line="-package com.bourre.core 
 						'Core utilities for objects handling.'"/>
-		
+			
+			<arg line="-package com.bourre.encoding 
+						'Contains encoder / decoder for file content.'"/>
+			
+			<arg line="-package com.bourre.ioc 
+					'Contains the IoC framework.'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler 
+					'Contains classes to build xml IoC context'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.channel 
+					'Contains classes to build communication channels'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.constructor 
+					'Contains classes to build context objects'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.displayobject 
+					'Contains classes to build display objects'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.displayobject.loader
+						'Contains classes to manage Display Loaders'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.method
+						'Contains classes to call 'method-call' defined in xml context'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.property
+						'Contains classes to apply defined property in xml context'"/>
+			
+			<arg line="-package com.bourre.ioc.assembler.resource
+						'Contains classes to load external resources'"/>
+			
+			<arg line="-package com.bourre.ioc.bean
+						'Contains classes to access xml context built objects'"/>
+			
+			<arg line="-package com.bourre.ioc.context
+						'Contains classes to load xml context'"/>
+			
+			<arg line="-package com.bourre.ioc.control
+						'Contains classes to build context objects'"/>
+			
+			<arg line="-package com.bourre.ioc.core
+						'Contains core IoC classes'"/>
+			
+			<arg line="-package com.bourre.ioc.error
+						'Contains exception classes'"/>
+			
+			<arg line="-package com.bourre.ioc.load
+						'Contains xml content loading classes'"/>
+			
+			<arg line="-package com.bourre.ioc.parser
+						'Contains xml context parser classes'"/>
+			
 			<arg line="-package com.bourre.error 
 						'Custom exceptions class thrown by LowRA components.'"/>
 			
@@ -158,12 +204,30 @@
 			<arg line="-package com.bourre.log 
 						'Provides a set of tools application logging and objects stringification'"/>
 			
+			<arg line="-package com.bourre.media
+						'Contains a complete set of classes for video and sound treatment'"/>
+						
+			<arg line="-package com.bourre.media.sound
+						'Contains a complete set of classes for sound treatment'"/>
+						
+			<arg line="-package com.bourre.media.video
+						'Contains a complete set of classes for video treatment'"/>
+			
 			<arg line="-package com.bourre.model
 						'Base objects for model part of the LowRA MVC implementation'"/>
 			
 			<arg line="-package com.bourre.plugin
 						'Base objects for plugin creation and communication'"/>
-		
+			
+			<arg line="-package com.bourre.remoting
+						'Contains a complete set of classes for remoting communication'"/>
+			
+			<arg line="-package com.bourre.remoting.events
+						'Contains set of classes for remoting events'"/>
+			
+			<arg line="-package com.bourre.remoting.interfaces
+						'Contains set of interfaces for remoting process'"/>
+			
 			<arg line="-package com.bourre.service
 						'Contains abstract classes and utilities for remoting request 
 						 and service-based communication'"/>
@@ -179,8 +243,6 @@
 			
 			<arg line="-package com.bourre.view
 						'Base objects for view part of the LowRA MVC implementation'"/>
-			
-					
 		</java>
 		
 	</target>

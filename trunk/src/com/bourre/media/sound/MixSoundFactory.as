@@ -19,8 +19,10 @@ package com.bourre.media.sound
 	import com.bourre.collection.HashMap;
 	import com.bourre.error.NoSuchElementException;
 	import com.bourre.log.PixlibDebug;	
-
+	
 	/**
+	 * The MixSoundFactory class.
+	 * 
 	 * <pre>
 	 * You can control the SoundFactory with :
 	 * 		a master volume
@@ -31,11 +33,14 @@ package com.bourre.media.sound
 	 * the real volume for this sound is 0.25.
 	 * </pre>
 	 * 
+	 * <p>
+	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
+	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
+	 * </p>
+	 * 
 	 * @author Francis Bourre 	(Pixlib.com.bourre.media.sound.MixSoundFactory)
 	 * @author Steve Lombard 	(rewrite for lowRa)
-	 * @version 1.0
 	 */
-	 
 	public class MixSoundFactory extends SoundFactory
 	{
 		private var _nVolume : Number = 1;

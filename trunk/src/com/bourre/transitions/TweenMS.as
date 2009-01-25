@@ -18,7 +18,11 @@ package com.bourre.transitions
 	import flash.utils.getTimer;		
 
 	/**
-	 * @author	Cédric Néhémie
+	 * The TweenMS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Cédric Néhémie
 	 */
 	public class TweenMS extends AbstractTween
 	{

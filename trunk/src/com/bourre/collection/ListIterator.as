@@ -33,6 +33,7 @@ package com.bourre.collection
 	 * are defined to operate on the last element returned by a call
 	 * to <code>next()</code> or <code>previous()</code>.
 	 * </p>
+	 * 
 	 * @author 	Cédric Néhémie
 	 * @see		Iterator
 	 */

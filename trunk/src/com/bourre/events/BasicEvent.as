@@ -32,6 +32,7 @@ package com.bourre.events
 	 * a look to the <code>QueueLoader</code> class fo a concret 
 	 * usage of this concept.
 	 * </p> 
+	 * 
 	 * @author 	Francis Bourre
 	 * @see		com.bourre.load.QueueLoader
 	 */	

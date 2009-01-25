@@ -60,6 +60,7 @@ package com.bourre.collection
 	 * the specified behavior of underlying <code>Object</code> methods wherever the
 	 * implementor deems it appropriate.
 	 * </p>
+	 * 
 	 * @author  Francis Bourre
 	 */
 	public class HashMap 

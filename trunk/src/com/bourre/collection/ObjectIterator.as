@@ -32,6 +32,7 @@ package com.bourre.collection
 	 * The object iterator can only iterate thorugh public properties
 	 * of an object, as the <code>for...in</code> loop does.
 	 * </p> 
+	 * 
 	 * @author 	Cédric Néhémie
 	 * @see		Iterator
 	 */

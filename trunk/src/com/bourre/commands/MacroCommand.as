@@ -33,6 +33,7 @@ package com.bourre.commands
 	 * implementation had better tom also implements the <code>ASyncCommand</code>
 	 * interface to provide a feedback for its execution end.
 	 * </p>  
+	 * 
 	 * @author	Francis Bourre
 	 * @see		com.bourre.collection.Collection
 	 */

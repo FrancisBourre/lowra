@@ -15,14 +15,26 @@
  */
 package com.bourre.error
 {
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The PrivateConstructorException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class PrivateConstructorException 
-		extends Error
+	public class PrivateConstructorException extends Error
 	{
-		public function PrivateConstructorException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function PrivateConstructorException( message : String = "" )
 		{
 			super( message );
 		}

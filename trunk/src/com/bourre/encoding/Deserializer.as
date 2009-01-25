@@ -16,11 +16,15 @@
 package com.bourre.encoding 
 {
 	/**
+	 * Deserializer interface defines rules for deserialization implementation.
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public interface Deserializer 
 	{
+		/**
+		 * Returns <code>serializedContent</code> deserialization result.
+		 */
 		function deserialize( serializedContent : Object, target : Object = null ) : Object;
 	}
 }

@@ -32,9 +32,7 @@ package com.bourre.collection
 	 * <p>
 	 * When a stack is first created, it contains no items.
 	 * </p>
-	 * @author Romain Flacher
-	 * @author Cédric Néhémie
-	 * @see List
+	 * 
 	 * @example Using a <code>Stack</code>
 	 * <listing>
 	 * var stack : Stack = new Stack ( Number );
@@ -49,6 +47,10 @@ package com.bourre.collection
 	 * 	trace( e );
 	 * }
 	 * </listing>
+	 * 
+	 * @author Romain Flacher
+	 * @author Cédric Néhémie
+	 * @see List
 	 */
 	public class Stack implements List, TypedContainer
 	{

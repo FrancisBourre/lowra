@@ -52,7 +52,9 @@ package com.bourre.pattern.memento
 				_aStack = _aStack.slice(1, _maxSize - 1) ;
 			}
 			
-			_aStack.push(m) ;
+//			_aStack.push(m) ; //FIXME push(m) or push(memento) ?
+			_aStack.push( memento );
+			
 			_curIndex = _aStack.length ;
 		}
 		
@@ -100,7 +102,7 @@ package com.bourre.pattern.memento
 		{
 			if(index >= 0 && index < _aStack.length)
 			{
-				_curIndex = index
+				_curIndex = index;
 			}
 		}
 		

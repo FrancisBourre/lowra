@@ -1,67 +1,110 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.bourre.ioc.assembler.displayobject 
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
-	/**
-	 * @author Francis Bourre
-	 * @version 1.0
-	 */
 	import com.bourre.events.ValueObject;
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.net.URLRequest;	
-
-	public class DisplayLoaderInfo 
-		implements ValueObject
+	
+	/**
+	 * <p>Value object to store Display loader configuration defined in 
+	 * xml context.</p>
+	 * 
+	 * @author Francis Bourre
+	 */
+	public class DisplayLoaderInfo implements ValueObject
 	{
+		//--------------------------------------------------------------------
+		// Public properties
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Display loader identifier.
+		 * 
+		 * @default null
+		 */	
 		public var id 						: String;
+		
+		/**
+		 * Display loader content url.
+		 * 
+		 * @default null
+		 */	
 		public var url 						: URLRequest;
-		public var progressCallback 		: String;
+		
+		public var startCallback			: String;
 		public var nameCallback 			: String;
+		
+		public var loadCallback				: String;
+		public var progressCallback			: String;
 		public var timeoutCallback 			: String;
+		public var errorCallback 			: String;
+		public var initCallback 			: String;
+		
 		public var parsedCallback 			: String;
-		public var methodsCallCallback 		: String;
 		public var objectsBuiltCallback 	: String;
 		public var channelsAssignedCallback : String;
-		public var initCallback 			: String;
-
+		public var methodsCallCallback 		: String;
+		
+		public var completeCallback			: String;
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 */			
 		public function DisplayLoaderInfo(	id 							: String, 
 											url 						: URLRequest, 
-											progressCallback 			: String 	= null, 
+											startCallback 				: String 	= null,
 											nameCallback 				: String 	= null, 
+											loadCallback 				: String 	= null, 
+											progressCallback 			: String 	= null, 
 											timeoutCallback 			: String 	= null, 
+											errorCallback 				: String 	= null, 
+											initCallback 				: String 	= null, 
 											parsedCallback 				: String 	= null, 
-											methodsCallCallback 		: String 	= null, 
 											objectsBuiltCallback		: String 	= null, 
 											channelsAssignedCallback	: String 	= null, 
-											initCallback 				: String 	= null	) 
+											methodsCallCallback 		: String 	= null, 
+											completeCallback 			: String 	= null	) 
 		{
 			this.id = id;
 			this.url = url;
-			this.progressCallback = progressCallback;
+			
+			this.startCallback = startCallback;
 			this.nameCallback = nameCallback;
+			
+			this.loadCallback = loadCallback;
+			this.progressCallback = progressCallback;
 			this.timeoutCallback = timeoutCallback;
+			this.errorCallback = errorCallback;
+			this.initCallback = initCallback;
+			
 			this.parsedCallback = parsedCallback;
-			this.methodsCallCallback = methodsCallCallback;
 			this.objectsBuiltCallback = objectsBuiltCallback;
 			this.channelsAssignedCallback = channelsAssignedCallback;
-			this.initCallback = initCallback;
+			this.methodsCallCallback = methodsCallCallback;
+			
+			this.completeCallback = completeCallback;
 		}
-
+		
 		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
@@ -71,14 +114,18 @@ package com.bourre.ioc.assembler.displayobject
 			return PixlibStringifier.stringify( this ) 	+ "("
 			+ "id:" 						+ id 						+ ", "
 			+ "url:" 						+ url 						+ ", "
-			+ "progressCallback:" 			+ progressCallback 			+ ", "
+			
+			+ "startCallback:" 				+ startCallback 			+ ", "
 			+ "nameCallback:" 				+ nameCallback 				+ ", "
-			+ "timeoutCallback:" 			+ timeoutCallback 			+ ", "
+			
+			+ "loadCallback:" 				+ loadCallback 				+ ", "			+ "progressCallback:" 			+ progressCallback 			+ ", "
+			+ "timeoutCallback:" 			+ timeoutCallback 			+ ", "			+ "errorCallback:" 				+ errorCallback 			+ ", "			+ "initCallback:" 				+ initCallback 				+ ", "
+			
 			+ "parsedCallback:" 			+ parsedCallback 			+ ", "
-			+ "methodsCallCallback:"		+ methodsCallCallback 		+ ", "
 			+ "objectsBuiltCallback:" 		+ objectsBuiltCallback 		+ ", "
 			+ "channelsAssignedCallback:" 	+ channelsAssignedCallback 	+ ", "
-			+ "initCallback:" 				+ initCallback 				+ ")";
+			+ "methodsCallCallback:"		+ methodsCallCallback 		+ ", "
+						+ "completeCallback:" 			+ completeCallback 			+ ")";
 		}
 	}
 }

@@ -15,34 +15,82 @@
  */
 package com.bourre.log
 {
+	import com.bourre.error.PrivateConstructorException;		
+
 	/**
+	 * The PixlibStringifier class is the main access point to 
+	 * string representation processing of an object.
+	 * 
+	 * <p>Defines custom stringifier process using <code>Stringifier</code> interface 
+	 * and concrete implementations.</p>
+	 * 
+	 * @example
+	 * <pre class="prettyprint">
+	 * 
+	 * PixlibStringifier.setStringifier( new BasicStringifier() );
+	 * PixlibStringifier.stringify( myInstance );
+	 * </pre>
+	 * 
+	 * @see Stringifier	 * @see BasicStringifier
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
 	public class PixlibStringifier
 	{
-		private static var _STRINGIFIER : Stringifier = new BasicStringifier();
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+
+		private static var _STRINGIFIER : Stringifier = new BasicStringifier( );
+
 		
-		public function PixlibStringifier( o : ConstructorAccess )
-		{
-			//
-		}
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
 		
+		/**
+		 * Sets the concrete stringifier to use for process.
+		 * 
+		 * @param	o Stringifier concrete implementation
+		 * 
+		 * @see BasicStringifier
+		 */
 		public static function setStringifier( o : Stringifier ) : void
 		{
 			PixlibStringifier._STRINGIFIER = o;
 		}
 		
+		/**
+		 * Returns the current used stringifier.
+		 */
 		public static function getStringifier() : Stringifier
 		{
 			return PixlibStringifier._STRINGIFIER;
 		}
-	
+		
+		/**
+		 * Process stringify processing.
+		 * 
+		 * @param	target	Object to stringify
+		 */
 		public static function stringify( target : * ) : String 
 		{
 			return PixlibStringifier._STRINGIFIER.stringify( target );
 		}
+
+		
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+		
+		/** @private */
+		function PixlibStringifier( access : ConstructorAccess )
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException( );
+		}		
 	}
 }
 
-internal class ConstructorAccess {}
+internal class ConstructorAccess 
+{
+}

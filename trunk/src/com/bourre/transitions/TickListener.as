@@ -42,6 +42,7 @@ package com.bourre.transitions
 	 * dynamically change the beacon it will listen, even if it's already
 	 * playing when the call occurs.
 	 * </p> 
+	 * 
 	 * @author 	Francis Bourre
 	 * @author 	Cédric Néhémie
 	 * @see		TickBeacon

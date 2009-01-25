@@ -16,6 +16,9 @@
 package com.bourre.service 
 {
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The ServiceLocatorListener class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */	public interface ServiceLocatorListener {}}

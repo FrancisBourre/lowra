@@ -15,14 +15,8 @@
  */
 package com.bourre.collection 
 {
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.log.PixlibStringifier;
-	import com.bourre.utils.ObjectUtils;
-	
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;		
-
-	/**
+	import com.bourre.log.PixlibStringifier;	import com.bourre.utils.ObjectUtils;		import flash.utils.Proxy;	import flash.utils.flash_proxy;		
+	/**
 	 * <code>TypedArray</code> work the same way than a classical <code>Array</code>
 	 * but all elements in a <code>TypedArray</code> have to be of the same type.
 	 * <p>
@@ -33,12 +27,14 @@ package com.bourre.collection
 	 * </p><p>
 	 * The <code>TypedArray</code> is final, you cannot extend it.
 	 * </p>
-	 * @author Cédric Néhémie
+	 * 
 	 * @example Using a <code>TypedArray</code> directly
 	 * <listing>var a : TypedArray = new TypedArray ( Number );
 	 * a[ 0 ] = 20; // no error
 	 * a[ 1 ] = "20"; // throw an error
 	 * </listing>
+	 * 
+	 * @author Cédric Néhémie
 	 */
 	dynamic final public class TypedArray 
 		extends Proxy

@@ -21,9 +21,12 @@ package com.bourre.remoting
 	import flash.utils.getQualifiedClassName;		
 
 	/**
+	 * The ServiceMethod class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
 	 * @author Francis Bourre
 	 * @author Romain Flacher
-	 * @version 1.0
 	 */
 	public class ServiceMethod 
 	{

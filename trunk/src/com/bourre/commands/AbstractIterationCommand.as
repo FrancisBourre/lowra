@@ -34,6 +34,7 @@ package com.bourre.commands
 	 * <a href="../../../../docs/howto/howto-loopcommands.html">How to use LoopCommand
 	 * and IterationCommand</a> document.
 	 * </p>
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class AbstractIterationCommand implements IterationCommand 

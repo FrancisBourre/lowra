@@ -43,7 +43,7 @@ package com.bourre.media.sound
 	 * </pre>
 	 * 
 	 * @example
-	 * <pre>
+	 * <pre class="prettyprint">
 	 * import com.bourre.media.sound.SoundFactory;
 	 * import com.bourre.media.load.GraphicLoader; 
 	 * import com.bourre.media.load.GraphicLoaderEvent;
@@ -84,11 +84,14 @@ package com.bourre.media.sound
 	 * }
 	 * </pre>
 	 * 
+	 * <p>
+	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
+	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
+	 * </p>
+	 * 
 	 * @author Francis Bourre 	(Pixlib.com.bourre.media.sound.SoundFactory)
 	 * @author Steve Lombard 	(rewrite for lowRa)
-	 * @version 1.0
 	 */		
-	 	 
 	public class SoundFactory
 	{
 		/**

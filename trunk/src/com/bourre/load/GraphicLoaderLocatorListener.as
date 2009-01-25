@@ -16,12 +16,30 @@
 package com.bourre.load
 {
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The GraphicLoaderLocatorListener interface defines rules for 
+	 * <code>GraphicLoaderLocator</code> listeners.
+	 * 
+	 * @author 	Francis Bourre
+	 * 
+	 * @see GraphicLoader
+	 * @see GraphicLoaderLocator	 * @see GraphicLoaderLocatorEvent
 	 */
 	public interface GraphicLoaderLocatorListener
 	{
+		/**
+		 *  Dispatched when graphic loader is registered in 
+		 *  <code>GraphicLoaderLocator</code> locator.
+		 *  
+		 *  @eventType com.bourre.load.GraphicLoaderLocatorEvent.onRegisterGraphicLoaderEVENT
+		 */
 		function onRegisterGraphicLoader	( e : GraphicLoaderLocatorEvent ) : void;
+		
+		/**
+		 *  Dispatched when graphic loader is unregistered from 
+		 *  <code>GraphicLoaderLocator</code> locator.
+		 *  
+		 *  @eventType com.bourre.load.GraphicLoaderLocatorEvent.onUnregisterGraphicLoaderEVENT
+		 */
 		function onUnregisterGraphicLoader	( e : GraphicLoaderLocatorEvent ) : void;
 	}
 }

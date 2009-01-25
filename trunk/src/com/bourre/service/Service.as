@@ -19,8 +19,11 @@ package com.bourre.service
 	import com.bourre.commands.ASyncCommand;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The Service interface.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public interface Service extends ASyncCommand
 	{

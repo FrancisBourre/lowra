@@ -15,14 +15,26 @@
  */
 package com.bourre.error
 {
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The NullPointerException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class NullPointerException
-		extends Error
+	public class NullPointerException extends Error
 	{
-		public function NullPointerException ( message : String = "" )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function NullPointerException( message : String = "" )
 		{
 			super( message );
 		}

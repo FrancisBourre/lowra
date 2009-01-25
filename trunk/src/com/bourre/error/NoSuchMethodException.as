@@ -15,13 +15,26 @@
  */	
 package com.bourre.error 
 {
+
 	/**
-	 * @author Cédric Néhémie
+	 * The NoSuchMethodException exception.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Cédric Néhémie
 	 */
-	public class NoSuchMethodException 
-		extends Error 
+	public class NoSuchMethodException extends Error 
 	{
-		public function NoSuchMethodException ( message: String )
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	message	Exception message
+		 */
+		public function NoSuchMethodException( message : String )
 		{
 			super( message );
 		}

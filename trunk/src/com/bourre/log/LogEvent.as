@@ -18,17 +18,55 @@ package com.bourre.log
 	import flash.events.Event;
 
 	/**
+	 * The LogEvent class represents the event object passed 
+	 * to the event listener for Logger events.
+	 * 
+	 * @see Logger
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
 	 */
-	public class LogEvent 
-		extends Event
+	public class LogEvent extends Event
 	{
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onLog</code> event.
+		 * 
+		 * @eventType onLog
+		 */	
 		public static const onLogEVENT : String = "onLog";
 		
+		
+		//--------------------------------------------------------------------
+		// Public properties
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Log level for current logging message.
+		 * @default null
+		 */		
 		public var level : LogLevel;
+		
+		/**
+		 * Message
+		 * @default *
+		 */	
 		public var message : *;
 		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 * 
+		 * @param	level	LogLevel status
+		 * @param	message	Message to send
+		 */		
 		public function LogEvent( level : LogLevel, message : * = undefined )
 		{
 			super( LogEvent.onLogEVENT, false, false );
@@ -37,6 +75,14 @@ package com.bourre.log
 			this.message = message;
 		}
 		
+		/**
+		 * Duplicates an instance of an Event subclass. 
+		 * 
+		 * <p>The new Event object includes all the properties of the 
+		 * original.</p>
+		 * 
+		 * @return	A new Event object that is identical to the original.
+		 */
 		public override function clone() : Event 
 		{
             return new LogEvent( level, message );
@@ -44,7 +90,8 @@ package com.bourre.log
         
         /**
 		 * Returns the string representation of this instance.
-		 * @return the string representation of this instance
+		 * 
+		 * @return The string representation of this instance
 		 */
 		public override function toString() : String 
 		{

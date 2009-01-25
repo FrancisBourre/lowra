@@ -27,6 +27,7 @@ package com.bourre.core
 	 * allow a single access point for all <code>*.swf</code> files loaded
 	 * by an application. 
 	 * </p>
+	 * 
 	 * @author	Francis Bourre
 	 */
 	public interface Locator

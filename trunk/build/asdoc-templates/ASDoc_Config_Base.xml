@@ -1,0 +1,50 @@
+<!--
+
+	ADOBE SYSTEMS INCORPORATED
+	Copyright 2006 Adobe Systems Incorporated
+	All Rights Reserved.
+
+	NOTICE: Adobe permits you to use, modify, and distribute this file
+	in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!-- this file normally should not be edited.  Use the command-line
+     parameters for ASDoc instead -->
+<asDocConfig>
+  <options buildNum="asd3_0_b2_1" docversion="3" standalone="false" livedocs="false" includePrivate="false" verbose="false" splitIndex="true" showVersions="true" showMXMLOnly="false" showConventions="false" showReview="true" />
+  <keywords show="false" num="500" />
+  
+  <feedback show="true" type="email">
+	<feedbackEmail>
+		<label>Submit Feedback</label>
+		<address>gmail.com</address>
+	</feedbackEmail>
+  </feedback>
+  
+  <warnings langversion="false" playerversion="false"/>
+  <includeExamplesDirectory>../../../../doc/examples</includeExamplesDirectory>
+  <title>LowRA API Documentation</title> 
+  <windowTitle>LowRA API Documentation</windowTitle>
+  <footer><![CDATA[LowRA API documentation 2008- 2009]]></footer>
+  <license><![CDATA[Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1]]></license>
+  <languageElements show="false" functions="false" operators="false" statements="false" />
+  <namespaces hideAll="true">
+   	<namespace hide="true">mx_internal</namespace>
+	<namespace hide="false" summaryDisplay="protected">flash_proxy</namespace>
+	<namespace hide="false" summaryDisplay="protected">object_proxy</namespace>
+	<namespace hide="false">mx_inner</namespace>
+  </namespaces>
+  <!--
+  <packages hideAll="false">
+  	<package hide="true">mx.messaging.channels.amfx</package>
+  </packages>
+  -->
+  
+  <annotate>
+	<item type="package" name="com.bourre.ioc">
+		<annotation type="text">(Only for application with IoC architecture)</annotation>
+	</item>
+  </annotate>
+  
+</asDocConfig>

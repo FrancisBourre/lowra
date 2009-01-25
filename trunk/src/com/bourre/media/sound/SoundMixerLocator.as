@@ -21,6 +21,7 @@ package com.bourre.media.sound
 	 * @version 1.0
 	 */
 	import com.bourre.core.AbstractLocator;
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.media.SoundTransformInfo;
 	import com.bourre.media.sound.SoundMixerLocatorEvent;
 	import com.bourre.media.sound.SoundMixerLocatorListener;	
@@ -30,9 +31,11 @@ package com.bourre.media.sound
 	{
 		private static var _oI : SoundMixerLocator = null;
 
-		public function SoundMixerLocator( o : ConstructorAccess )
+		public function SoundMixerLocator( access : ConstructorAccess )
 		{
 			super( SoundMixer, SoundLoaderLocatorListener );
+			
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
 		}
 
 		public static function getInstance() : SoundMixerLocator

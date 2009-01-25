@@ -18,18 +18,100 @@ package com.bourre.service
 	import com.bourre.events.BasicEvent;	
 	
 	/**
+	 * <p>The ServiceLocatorEvent class represents the event object passed 
+	 * to the event listener for <strong>ServiceLocator</strong> events.</p>
+	 * 
 	 * @author Francis Bourre
-	 * @version 1.0
+	 * 
+	 * @see ServiceLocator
 	 */
-	public class ServiceLocatorEvent 
-		extends BasicEvent
+	public class ServiceLocatorEvent extends BasicEvent
 	{
-		public static const onRegisterServiceEVENT 		: String = "onRegisterService";		public static const onUnregisterServiceEVENT 	: String = "onUnregisterService";
-
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onRegisterConstructor</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+	     * <table class="innertable">
+	     *     <tr><th>Property</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>type</code></td>
+	     *     	<td>Dispatched event type</td>
+	     *     </tr>
+	     *     
+	     *     <tr><th>Method</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>getServiceLocator()</code>
+	     *     	</td><td>The locator</td>
+	     *     </tr>
+	     *     <tr>
+	     *     	<td><code>getService()</code>
+	     *     	</td><td>The the service</td>
+	     *     </tr>
+	     * </table>
+	     *  
+		 * @eventType onRegisterService
+		 */		
+		public static const onRegisterServiceEVENT 		: String = "onRegisterService";
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onRegisterConstructor</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+	     * <table class="innertable">
+	     *     <tr><th>Property</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>type</code></td>
+	     *     	<td>Dispatched event type</td>
+	     *     </tr>
+	     *     
+	     *     <tr><th>Method</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>getServiceLocator()</code>
+	     *     	</td><td>The locator</td>
+	     *     </tr>
+	     *     <tr>
+	     *     	<td><code>getService()</code>
+	     *     	</td><td>The the service</td>
+	     *     </tr>
+	     * </table>
+	     *  
+		 * @eventType onUnregisterService
+		 */				public static const onUnregisterServiceEVENT 	: String = "onUnregisterService";
+		
+		
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/** @private */		
 		protected var _key : String;
-		protected var _service : Service;		protected var _serviceClass : Class;
+		
+		/** @private */		
+		protected var _service : Service;
+		
+		/** @private */				protected var _serviceClass : Class;
+		
+		/** @private */		
 		protected var _serviceLocator : ServiceLocator;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates a new <code>ServiceLocatorEvent</code> object.
+		 * 
+		 * @param	type			Name of the event type
+		 * @param	key				Registration ID
+		 * @param	serviceLocator	ServiceLocator object carried by this event
+		 */			
 		public function ServiceLocatorEvent( type : String, key : String, serviceLocator : ServiceLocator ) 
 		{
 			super( type );

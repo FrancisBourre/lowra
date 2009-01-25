@@ -29,6 +29,7 @@ package com.bourre.commands
 	 * of all commands. The event dispatched with the <code>onCommandEnd</code>
 	 * event is the one dispatched by the last sub-command.
 	 * </p> 
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class ASyncQueue extends ASyncBatch 

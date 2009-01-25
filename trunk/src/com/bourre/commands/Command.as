@@ -34,6 +34,7 @@ package com.bourre.commands
 	 * pattern implementation in LowRA</a> document for more details on 
 	 * the commands package structure.
 	 * </p> 
+	 * 
 	 * @author 	Francis Bourre
 	 * @see		ASyncCommand
 	 */

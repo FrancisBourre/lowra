@@ -30,8 +30,11 @@ package com.bourre.plugin
 	import flash.events.Event;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The AbstractPlugin class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class AbstractPlugin
 		implements Plugin

@@ -22,7 +22,11 @@ package com.bourre.utils
 	import flash.utils.flash_proxy;	
 
 	/**
-	 * @author Cédric Néhémie
+	 * Cookies manager.
+	 * 
+	 * TODO Documentation
+	 * 
+	 * @author	Cédric Néhémie
 	 */
 	dynamic public class Cookie extends Proxy 
 	{

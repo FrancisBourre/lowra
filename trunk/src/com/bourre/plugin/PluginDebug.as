@@ -16,14 +16,18 @@
 package com.bourre.plugin
 {
 	import com.bourre.collection.HashMap;
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.events.EventChannel;
 	import com.bourre.log.Log;
 	import com.bourre.log.Logger;
 	import com.bourre.log.PixlibStringifier;	
-	
+
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The PluginDebug class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class PluginDebug
 		implements Log
@@ -37,6 +41,8 @@ package com.bourre.plugin
 
 		public function PluginDebug(  access : ConstructorAccess, owner : Plugin = null ) 
 		{
+				if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+				
 				_owner = owner;
 				_channel = owner.getChannel();
 				on();

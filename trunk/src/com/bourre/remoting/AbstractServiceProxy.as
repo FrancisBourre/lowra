@@ -1,3 +1,19 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
 package com.bourre.remoting 
 {
 	import com.bourre.commands.Delegate;
@@ -6,147 +22,153 @@ package com.bourre.remoting
 	import com.bourre.remoting.events.BasicFaultEvent;
 	import com.bourre.remoting.events.BasicResultEvent;
 	import com.bourre.remoting.interfaces.ServiceProxyListener;
-	
+
 	import flash.events.Event;
 	import flash.events.NetStatusEvent;
 	import flash.net.URLRequest;
 	import flash.utils.getQualifiedClassName;		
 
 	/**
-	 * @author romain
+	 * The AbstractServiceProxy class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class AbstractServiceProxy {
+	public class AbstractServiceProxy 
+	{
 		
 		private var _oEB : EventBroadcaster;
 		private var _sURL : URLRequest;
 		private var _sServiceName : String;
-	
-	
-		public function AbstractServiceProxy( sURL : URLRequest, sServiceName : String =  null) 
+
+		
+		public function AbstractServiceProxy( sURL : URLRequest, sServiceName : String = null) 
 		{
 			_oEB = new EventBroadcaster( this );
 			setURL( sURL );
-			_sServiceName = sServiceName ? sServiceName : getQualifiedClassName( this ).replace('::', '.') ;
+			_sServiceName = sServiceName ? sServiceName : getQualifiedClassName( this ).replace( '::', '.' ) ;
 		}
-		
+
 		public function setURL( url : URLRequest ) : void
 		{
 			_sURL = url;
 		}
-		
+
 		public function getURL() : URLRequest
 		{
 			return _sURL;
 		}
-		
+
 		public function getRemotingConnection() : RemotingConnection
 		{
 			return RemotingConnection.getRemotingConnection( _sURL.url );
 		}
-		
+
 		public function setCredentials( sUserID : String, sPassword : String ) : void
 		{
-			getRemotingConnection().setCredentials( sUserID, sPassword );
+			getRemotingConnection( ).setCredentials( sUserID, sPassword );
 		}
-		
+
 		/*
 		 * Event system
 		 */
 		public function addListener( oL : ServiceProxyListener ) : void
 		{
-			_oEB.addListener(oL);
+			_oEB.addListener( oL );
 		}
-		
+
 		public function removeListener( oL : ServiceProxyListener ) : void
 		{
-			_oEB.removeListener(oL);
+			_oEB.removeListener( oL );
 		}
-		
-		public function addEventListener( e:ServiceMethod, oL : *, f:Function,  ... rest) : void
+
+		public function addEventListener( e : ServiceMethod, oL : *, f : Function,  ... rest) : void
 		{
-			var a : Array = [ e.toString(), oL , f ] ; 
+			var a : Array = [ e.toString( ), oL , f ] ; 
 			_oEB.addEventListener.apply( _oEB, rest.length > 0 ? a.concat( rest ) : a );
 		}
-		
-		public function removeEventListener( e:ServiceMethod, oL : * ) : void
+
+		public function removeEventListener( e : ServiceMethod, oL : * ) : void
 		{
-			_oEB.removeEventListener(e.toString(), oL);
+			_oEB.removeEventListener( e.toString( ), oL );
 		}
+
 		/*
 		 * ServiceResponder callbacks
 		 */
 		public function onResult( e : BasicResultEvent ) : void
 		{
-			e.redirectType();
+			e.redirectType( );
 			_oEB.broadcastEvent( e );
 		}
-		
+
 		public function onFault( e : BasicFaultEvent ) : void
 		{
 			_oEB.broadcastEvent( e );
 		}
-	
+
 		/*
 		 * abstract calls
 		 */
 		public function callServiceMethod( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args ) : void
 		{
-			var o : ServiceResponder = responder? responder : getServiceResponder();
+			var o : ServiceResponder = responder ? responder : getServiceResponder( );
 			o.setServiceMethodName( oServiceMethodName );
 			
-			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ) , o ].concat(args);
+			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ) , o ].concat( args );
 			
-			var connection : RemotingConnection = getRemotingConnection();
-			connection.addEventListener(NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus,  responder.getFaultFunction()  )) ;
+			var connection : RemotingConnection = getRemotingConnection( );
+			connection.addEventListener( NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus, responder.getFaultFunction( ) ) ) ;
 			connection.call.apply( connection, a );
 		}
-		
+
 		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args) : void
 		{
-			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), responder ].concat(args);
+			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), responder ].concat( args );
 			
-			var connection : RemotingConnection = getRemotingConnection();
-			connection.addEventListener(NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus, responder.getFaultFunction() )) ;
+			var connection : RemotingConnection = getRemotingConnection( );
+			connection.addEventListener( NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus, responder.getFaultFunction( ) ) ) ;
 			connection.call.apply( connection, a );
 		}
-		
-		protected function _onNetStatus (e : NetStatusEvent, fFault : Function) : void
+
+		protected function _onNetStatus(e : NetStatusEvent, fFault : Function) : void
 		{
-			RemotingDebug.DEBUG( this + " _onNetStatus" + e.info.code);
+			RemotingDebug.DEBUG( this + " _onNetStatus" + e.info.code );
 			var msg : String  ;
-			const code : String  = e.info.code ;
+			const code : String = e.info.code ;
 			const target : ServiceMethod = e.target as ServiceMethod ;
 			switch ( code ) 
 			{	
 				case 'NetConnection.Call.Failed' :	
 					msg = " The NetConnection.call method was not able to invoke the server-side method or command. "; 	
-					RemotingDebug.ERROR( this + msg  );
+					RemotingDebug.ERROR( this + msg );
 					fireErrorEvent( target, code, msg, fFault ) ;
 					break;
 					
 				case 'NetConnection.Call.BadVersion' :	
 					msg = " Packet encoded in an unidentified format. "; 	
-					RemotingDebug.ERROR( this + msg  );
+					RemotingDebug.ERROR( this + msg );
 					fireErrorEvent( target, code, msg, fFault ) ;
 					break;	
 					
 				case 'NetConnection.Connect.Failed' :
 					msg = " The connection attempt failed. "; 	
-					RemotingDebug.ERROR( this + msg  );
-					fireErrorEvent( target, code, msg, fFault) ;
+					RemotingDebug.ERROR( this + msg );
+					fireErrorEvent( target, code, msg, fFault ) ;
 					break;
 					
 				case 'NetConnection.Connect.Rejected' :
 					msg = " The client does not have permission to connect to the application, the application expected different parameters from those that were passed, or the application name specified during the connection attempt was not found on the server. "; 	
-					RemotingDebug.ERROR( this + msg  );
-					fireErrorEvent( target, code, msg,fFault ) ;
+					RemotingDebug.ERROR( this + msg );
+					fireErrorEvent( target, code, msg, fFault ) ;
 					break;
 			}
 		}
-		
+
 		protected function fireErrorEvent( sServiceMethodName : ServiceMethod, errorCode : String = null, errorMessage : String = null , fFault : Function = null) : void
 		{
-			var e : BasicFaultEvent = new BasicFaultEvent( errorCode, "", "", errorMessage, sServiceMethodName);
+			var e : BasicFaultEvent = new BasicFaultEvent( errorCode, "", "", errorMessage, sServiceMethodName );
 			PixlibDebug.FATAL( this + '.fireErrorEvent ' ) ;
 			PixlibDebug.FATAL( e ) ;
 			if(  fFault != null ) fFault( e ) ;
@@ -160,21 +182,20 @@ package com.bourre.remoting
 		{
 			return new ServiceResponder( fResult, fFault );
 		}
-		
-		public function getServiceName(): String
+
+		public function getServiceName() : String
 		{
 			return _sServiceName ;
 		}
-		
+
 		public function getFullyQualifiedMethodName( oServiceMethodName : ServiceMethod  ) : String 
 		{
-			return getServiceName() + "." + oServiceMethodName.toString() ; 
+			return getServiceName( ) + "." + oServiceMethodName.toString( ) ; 
 		}
-		
+
 		public function toString() : String
 		{
-			return getQualifiedClassName( this ) + getServiceName();
+			return getQualifiedClassName( this ) + getServiceName( );
 		}
 	}
-	
 }

@@ -55,6 +55,7 @@ package com.bourre.commands
 	 * the Command pattern implementations in LowRA</a> document for more details
 	 * on the commands package structure.
 	 * </p>
+	 * 
 	 * @author Francis Bourre
 	 */
 	public class FrontController 

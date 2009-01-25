@@ -16,7 +16,7 @@
 package com.bourre.transitions
 {
 	import com.bourre.commands.Suspendable;			
-
+	
 	/**
 	 * The <code>Tween</code> interface defines a tween, a property animation
 	 * performed on a target object over a period of time. That animation
@@ -33,6 +33,7 @@ package com.bourre.transitions
 	 * See the <a href='../commands/Accessor.html'>Accessor</a> interface
 	 * for a description of members access.
 	 * </p> 
+	 * 
 	 * @author	Cédric Néhémie
 	 * @see		com.bourre.code.Accessor
 	 * @see		com.bourre.commands.TimelineCommand

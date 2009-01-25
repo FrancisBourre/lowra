@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
 package com.bourre.load
 {
 	import com.bourre.commands.ASyncCommand;
@@ -29,14 +30,51 @@ package com.bourre.load
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
 	import flash.utils.Dictionary;
-	import flash.utils.getTimer;	
+	import flash.utils.getTimer;
+		
+	/**
+	 *  Dispatched when loader starts loading.
+	 *  
+	 *  @eventType com.bourre.load.LoaderEvent.onLoadStartEVENT
+	 */
+	[Event(name="onLoadStart", type="com.bourre.load.LoaderEvent")]
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 *  Dispatched when loading is finished.
+	 *  
+	 *  @eventType com.bourre.load.LoaderEvent.onLoadInitEVENT
 	 */
-	public class AbstractLoader 
-		implements 	com.bourre.load.Loader, ASyncCommand
+	[Event(name="onLoadInit", type="com.bourre.load.LoaderEvent")]
+	
+	/**
+	 *  Dispatched during loading progression.
+	 *  
+	 *  @eventType com.bourre.load.LoaderEvent.onLoadProgressEVENT
+	 */
+	[Event(name="onLoadProgress", type="com.bourre.load.LoaderEvent")]
+	
+	/**
+	 *  Dispatched when a timeout occurs during loading.
+	 *  
+	 *  @eventType com.bourre.load.LoaderEvent.onLoadTimeOutEVENT
+	 */
+	[Event(name="onLoadTimeOut", type="com.bourre.load.LoaderEvent")]
+	
+	/**
+	 *  Dispatched when an error occurs during loading.
+	 *  
+	 *  @eventType com.bourre.load.LoaderEvent.onLoadErrorEVENT
+	 */
+	[Event(name="onLoadError", type="com.bourre.load.LoaderEvent")]
+	
+	/**
+	 * The AbstractLoader class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
+	 */
+	public class AbstractLoader implements 	com.bourre.load.Loader, ASyncCommand
 	{
 		static private var _oPool : Dictionary = new Dictionary();
 
@@ -88,17 +126,28 @@ package com.bourre.load
 			_sPrefixURL = "";
 			_bIsRunning = false;
 		}
-
+		
+		/**
+		 * Execute the request according to the current command data.
+		 * 
+		 * @see load()
+		 */
 		public function execute( e : Event = null ) : void
 		{
 			load();
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getStrategy () : LoadStrategy
 		{
 			return _loadStrategy;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function load( url : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			if ( url ) setURL( url );
@@ -294,7 +343,12 @@ package com.bourre.load
 		{
 			_oEB.broadcastEvent( e );
 		}
-
+		
+		/**
+		 * Returns a loader event for current loader instance.
+		 * 
+		 * @return A loader event for current loader instance.
+		 */
 		protected function getLoaderEvent( type : String, errorMessage : String = "" ) : LoaderEvent
 		{
 			return new LoaderEvent( type, this, errorMessage );

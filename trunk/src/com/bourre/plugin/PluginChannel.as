@@ -16,11 +16,15 @@
 package com.bourre.plugin
 {
 	import com.bourre.collection.HashMap;
+	import com.bourre.error.PrivateConstructorException;
 	import com.bourre.events.EventChannel;	
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The PluginChannel class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class PluginChannel
 		extends EventChannel
@@ -30,6 +34,8 @@ package com.bourre.plugin
 		public function PluginChannel( access : ConstructorAccess, channelName : String )
 		{
 			super( channelName );
+			
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
 		}
 		
 		public static function getInstance( channelName : String ) : PluginChannel

@@ -22,8 +22,11 @@ package com.bourre.plugin
 	import flash.events.Event;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The Plugin interface.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public interface Plugin 
 	{

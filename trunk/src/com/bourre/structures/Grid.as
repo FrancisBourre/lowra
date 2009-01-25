@@ -32,6 +32,7 @@ package com.bourre.structures
 	/** 
 	 * A <code>Grid</code> is basically a two dimensions data structure
 	 * based on the <code>Collection</code> interface.
+	 * 
 	 * <p>
 	 * By default a <code>Grid</code> object is an untyped collection that
 	 * allow duplicate and <code>null</code> elements. You can set your own
@@ -57,7 +58,9 @@ package com.bourre.structures
 	 * 	<li><code>fill</code> : Use it to fill the grid with the same value in all cells.</li>
 	 * </ul>
 	 * </p> 
+	 * 
 	 * @author	Cédric Néhémie
+	 * 
 	 * @see		com.bourre.collection.Collection	 * @see		com.bourre.collection.TypedContainer
 	 */
 	public class Grid implements Collection, TypedContainer

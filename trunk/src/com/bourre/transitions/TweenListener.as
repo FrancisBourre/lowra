@@ -24,8 +24,10 @@ package  com.bourre.transitions
 	 * All instances which want to listen to <code>AdvancedTween</code> progression, 
 	 * must implement <code>TweenListener</code> interface.
 	 * </p>
+	 * 
 	 * @author	Francis Bourre
 	 * @author	Cédric Néhémie
+	 * 
 	 * @see 	TweenEvent	 * @see 	AdvancedTween
 	 */
 	public interface TweenListener extends ASyncCommandListener

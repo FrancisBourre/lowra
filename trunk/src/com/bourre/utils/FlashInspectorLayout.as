@@ -21,35 +21,87 @@ package com.bourre.utils
 	import flash.events.SecurityErrorEvent;
 	import flash.events.StatusEvent;
 	import flash.net.LocalConnection;	
+	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The FlashInspectorLayout class provides a convenient way
+	 * to output messages through FlashInspector console.
+	 * 
+	 * @example Add FlashInspectorLayout as Log listener
+	 * <pre class="prettyprint">
+	 * 
+	 * //Add console for all channels
+	 * Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance() );
+	 * 
+	 * //Add console for a dedicated channel
+	 * Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance(), PixlibDebug.CHANNEL );
+	 * </pre>
+	 * 
+	 * @example Output message
+	 * <pre class="prettyprint">
+	 * 
+	 * //Simple ouput
+	 * Logger.DEBUG( "My message" );
+	 * 
+	 * //Channel target
+	 * Logger.WARN( "My messsage", PixlibDebug.CHANNEL );
+	 * 
+	 * //Channel use
+	 * PixlibDebug.ERROR( "My error" );
+	 * </pre>
+	 * 
+	 * @see com.bourre.log.Logger
+	 * @see com.bourre.log.LogListener
+	 * @see com.bourre.log.LogLevel
+	 * 
+	 * @author	Francis Bourre
 	 */
-	public class FlashInspectorLayout 
-		implements LogListener
+	public class FlashInspectorLayout implements LogListener
 	{
-		private static var _oI 				: FlashInspectorLayout = null;
+		//--------------------------------------------------------------------
+		// Constants
+		//--------------------------------------------------------------------
+				
 		public const LOCALCONNECTION_ID 	: String = "_luminicbox_log_console";
 		
-		protected var _lc 	: LocalConnection;
-		protected var _sID 	: String;
-
-		public function FlashInspectorLayout( access : ConstructorAccess )
-		{
-			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
-
-			_lc = new LocalConnection();
-			_lc.addEventListener( StatusEvent.STATUS, onStatus);
-            _lc.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
-			_sID = String( ( new Date()).getTime() );
-		}
 		
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+				
+		private static var _oI 				: FlashInspectorLayout = null;
+		
+		
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/** @private */		
+		protected var _lc 	: LocalConnection;
+		
+		/** @private */	
+		protected var _sID 	: String;
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Returns unique instance.
+		 */
 		public static function getInstance() : FlashInspectorLayout
 		{
 			if ( !(FlashInspectorLayout._oI is FlashInspectorLayout) ) FlashInspectorLayout._oI = new FlashInspectorLayout( new ConstructorAccess() );
 			return FlashInspectorLayout._oI;
 		}
 		
+		/**
+		 * Triggered when a log message is sent to the <code>Logger</code> and 
+		 * the FlashInspector is registered as Log listener.
+		 * 
+		 * @param	e	<code>LogEvent</code> event containing information about 
+		 * 				the message to log.
+		 */
 		public function onLog( e : LogEvent ) : void
 		{
 			var o:Object = new Object();
@@ -74,7 +126,23 @@ package com.bourre.utils
 		{
 			return PixlibStringifier.stringify( this );
 		}
+		
+		
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+		
+		/** @private */		
+		function FlashInspectorLayout( access : ConstructorAccess )
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
 
+			_lc = new LocalConnection();
+			_lc.addEventListener( StatusEvent.STATUS, onStatus);
+            _lc.addEventListener( SecurityErrorEvent.SECURITY_ERROR, onSecurityError);
+			_sID = String( ( new Date()).getTime() );
+		}
+		
 		private function onStatus( event : StatusEvent ) : void 
 		{
         	//

@@ -25,14 +25,23 @@ package com.bourre.events
 	 */
 	public class BooleanEvent extends BasicEvent
 	{
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+				
 		private var _b : Boolean;
 		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
 		/**
 		 * Creates a new <code>BooleanEvent</code> object.
 		 * 
-		 * @param	type	name of the event type
-		 * @param	target	target of this event
-		 * @param	bool	boolean value carried by this event
+		 * @param	type	Name of the event type
+		 * @param	target	Target of this event
+		 * @param	bool	Boolean value carried by this event
 		 */
 		public function BooleanEvent( type : String, target : Object = null, bool : Boolean = false )
 		{

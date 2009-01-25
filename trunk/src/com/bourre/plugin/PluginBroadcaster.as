@@ -23,8 +23,11 @@ package com.bourre.plugin
 	import flash.utils.getQualifiedClassName;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The PluginBroadcaster class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class PluginBroadcaster 
 		extends EventBroadcaster

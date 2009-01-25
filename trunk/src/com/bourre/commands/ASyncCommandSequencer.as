@@ -26,14 +26,16 @@ package com.bourre.commands
 	import flash.utils.Timer;		
 
 	/*
-	 * Upgrade to IOC : 
+	 * TODO Upgrade to IOC : 
 	 *  - remove abstract protection hack and call super with constructor argument
 	 *  - uncomment extends elements 
 	 *  - refactor add and remove listener return
 	 */
 
 	/**
+	 * The AsyncCommandSequencer class.
 	 * 
+	 * <p>TODO Documentation.</p>
 	 * 
 	 * @author 	Cédric Néhémie
 	 * @see		AbstractSyncCommand

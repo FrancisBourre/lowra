@@ -29,55 +29,99 @@ package com.bourre.load.strategy
 	import flash.utils.ByteArray;	
 
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The LoaderStrategy class define a loading strategy using Adobe 
+	 * com.bourre.load.Loader loader.
+	 * 
+	 * @author 	Francis Bourre
 	 */
-	public class LoaderStrategy 
-		implements LoadStrategy
+	public class LoaderStrategy implements LoadStrategy
 	{
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/** @private */		
 		protected var _owner : com.bourre.load.Loader;
+		
+		/** @private */	
 		protected var _loader : flash.display.Loader;
+		
+		/** @private */	
 		protected var _bytesLoaded : uint;
+		
+		/** @private */	
 		protected var _bytesTotal : uint;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates new <code>LoaderStrategy</code> instance.
+		 */		
 		public function LoaderStrategy()
 		{
 			_bytesLoaded = 0;
 			_bytesTotal = 0;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function load( request : URLRequest = null, context : LoaderContext = null ) : void
 		{
 			_initLoaderStrategy();
 			_loader.load( request, context );
 		}
-
+		
+		/**
+		 * Loads from binary data stored in a ByteArray object. 
+		 * 
+		 * @param	bytes	A ByteArray object.
+		 * @param	context	A LoaderContext object.
+		 */
 		public function loadBytes( bytes : ByteArray, context : LoaderContext = null ) : void
 		{
 			_initLoaderStrategy();
 			_loader.loadBytes( bytes, context );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getBytesLoaded() : uint
 		{
 			return _bytesLoaded;
 		}
-
+		
+		/**
+		 * Returns informations about loaded content.
+		 */
 		public function getContentLoaderInfo () : LoaderInfo
 	  	{
 	  		return _loader.contentLoaderInfo;
 	  	}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getBytesTotal() : uint
 		{
 			return _bytesTotal;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function setOwner( owner : com.bourre.load.Loader ) : void
 		{
 			_owner = owner;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function release() : void
 		{
 			if ( _loader ) 
@@ -101,14 +145,19 @@ package com.bourre.load.strategy
 
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}
+		
 
-		//
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+				
 		protected function _initLoaderStrategy() : void
 		{
 			_loader = new flash.display.Loader();

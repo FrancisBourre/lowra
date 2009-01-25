@@ -22,14 +22,14 @@ package com.bourre.structures
 	/**
 	 * The Dimension class encapsulates the width and height
 	 * of an object (in double precision) in a single object.
-	 * <p>
-	 * Normally the values of width and height are non-negative
+	 * 
+	 * <p>Normally the values of width and height are non-negative
 	 * integers. The constructors that allow you to create
 	 * a dimension do not prevent you from setting a negative
 	 * value for these properties. If the value of width or height
 	 * is negative, the behavior of some methods defined by other
-	 * objects is undefined. 
-	 * </p>
+	 * objects is undefined.</p>
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class Dimension 

@@ -1,39 +1,45 @@
+/*
+ * Copyright the original author or authors.
+ * 
+ * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.mozilla.org/MPL/MPL-1.1.html
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+ 
 package com.bourre.media
 {
-	/*
-	 * Copyright the original author or authors.
-	 * 
-	 * Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 * 
-	 *      http://www.mozilla.org/MPL/MPL-1.1.html
-	 * 
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 */
-
-	/**
-	 * @author Aigret Axel
-	 * @version 1.0
-	 */
-	import com.bourre.log.PixlibDebug;	
-	import com.bourre.log.PixlibStringifier;	
-	import com.bourre.media.GlobalSoundManager;	
+	
+	import com.bourre.collection.Iterator;
+	import com.bourre.collection.WeakCollection;
+	import com.bourre.log.PixlibStringifier;
+	import com.bourre.media.GlobalSoundManager;
 	
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
-	import flash.net.NetStream;
+	import flash.net.NetStream;		
 	
-	import com.bourre.collection.Iterator;
-	import com.bourre.collection.WeakCollection;	
-
+	/**
+	 * The SoundTransformInfo class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * <p>
+	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
+	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
+	 * </p>
+	 * 
+	 * @author 	Aigret Axel
+	 */
 	public class SoundTransformInfo
 	{
-		
 		public static const NORMAL : SoundTransformInfo			 = new SoundTransformInfo( 1, 1, 0);
 		public static const NORMAL_LEFT : SoundTransformInfo 	 = new SoundTransformInfo( 1, 1,-1);
 		public static const NORMAL_RIGHT : SoundTransformInfo 	 = new SoundTransformInfo( 1, 1, 1);

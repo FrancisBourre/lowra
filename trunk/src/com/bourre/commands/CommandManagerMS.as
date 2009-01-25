@@ -16,6 +16,10 @@
 package com.bourre.commands
 {
 	/**
+	 * The CommandManagerMS class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
 	 * @author 	Francis Bourre
 	 */
 	public class CommandManagerMS 

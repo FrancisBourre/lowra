@@ -18,8 +18,11 @@ package com.bourre.service
 	import com.bourre.events.BasicEvent;	
 	
 	/**
-	 * @author Francis Bourre
-	 * @version 1.0
+	 * The ServiceEvent class.
+	 * 
+	 * <p>TODO Documentation.</p>
+	 * 
+	 * @author 	Francis Bourre
 	 */
 	public class ServiceEvent 
 		extends BasicEvent
