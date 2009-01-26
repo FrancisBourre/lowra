@@ -30,11 +30,11 @@ package com.bourre.ioc.assembler.resource
 		/**
 		 *  Dispatched when a resource is registered.
 		 */
-		function onRegisterConstructor( e : ResourceEvent ) : void;
+		function onRegisterResource( e : ResourceEvent ) : void;
 		
 		/**
 		 *  Dispatched when a resource is unregistered.
 		 */
-		function onUnregisterConstructor( e : ResourceEvent ) : void;
+		function onUnregisterResource( e : ResourceEvent ) : void;
 	}
 }

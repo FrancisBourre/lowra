@@ -80,7 +80,7 @@ package com.bourre.ioc.parser
 			var msg : String;
 
 			// Filter reserved nodes
-			if ( ContextNodeNameList.getInstance().nodeNameIsReserved( xml.name() ) ) return;
+			if ( ContextNodeNameList.getInstance().nodeNameIsReserved( xml.name().toString() ) ) return;
 
 			var id : String = ContextAttributeList.getID( xml );
 			if ( !id )

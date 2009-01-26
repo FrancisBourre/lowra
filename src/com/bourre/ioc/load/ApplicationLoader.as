@@ -15,9 +15,6 @@
  */
 package com.bourre.ioc.load 
 {
-	import com.bourre.ioc.load.FlashVarsUtil;
-	import com.bourre.ioc.load.ApplicationLoaderEvent;
-	import com.bourre.ioc.load.ApplicationLoaderListener;
 	import com.bourre.error.NullPointerException;
 	import com.bourre.events.ValueObjectEvent;
 	import com.bourre.ioc.assembler.ApplicationAssembler;
@@ -30,12 +27,16 @@ package com.bourre.ioc.load
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
+	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;
 	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
+	import com.bourre.ioc.assembler.resource.ResourceExpert;
 	import com.bourre.ioc.bean.BeanFactory;
 	import com.bourre.ioc.context.ContextLoader;
 	import com.bourre.ioc.context.ContextLoaderEvent;
-	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;
+	import com.bourre.ioc.load.ApplicationLoaderEvent;
+	import com.bourre.ioc.load.ApplicationLoaderListener;
+	import com.bourre.ioc.load.FlashVarsUtil;
 	import com.bourre.ioc.parser.ContextParser;
 	import com.bourre.ioc.parser.ContextParserEvent;
 	import com.bourre.ioc.parser.DLLParser;
@@ -53,7 +54,7 @@ package com.bourre.ioc.load
 	import flash.external.ExternalInterface;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;	
-	
+
 	/**
 	 *  Dispatched when a context item file starts loading.
 	 *  
@@ -163,7 +164,7 @@ package com.bourre.ioc.load
 		//--------------------------------------------------------------------
 		
 		/** Default URL Request for applicationContext file. */
-		public static const DEFAULT_URL : URLRequest = new URLRequest( "applicationContext .xml" );
+		public static const DEFAULT_URL : URLRequest = new URLRequest( "applicationContext.xml" );
 
 		/** Enabled or not the debugging feature during application loading. */
 		public static var DEBUG_LOADING_ENABLED : Boolean = false;	
@@ -358,6 +359,7 @@ package com.bourre.ioc.load
 			ConstructorExpert.getInstance( ).release( );
 			MethodExpert.getInstance( ).release( );
 			PropertyExpert.getInstance( ).release( );
+			ResourceExpert.getInstance( ).release( );
 
 			var cp : ContextParser = new ContextParser( getParserCollection( ) );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
