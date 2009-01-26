@@ -440,7 +440,7 @@ package com.bourre.ioc.load
 			
 			fireOnApplicationState( ApplicationLoaderEvent.RUN_STATE );
 			
-			removeListener( _oProxy );
+			if( _oProxy != null ) removeListener( _oProxy );
 		}
 		
 		
