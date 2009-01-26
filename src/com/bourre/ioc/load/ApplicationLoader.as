@@ -620,10 +620,11 @@ package com.bourre.ioc.load
 			{
 				var url : String = ExternalInterface.call( "eval", "document.location.href" ); 
 				var args : String = url.split( "?" )[1];
-				args = args.split( "#" )[0]; //SWFAddress deep link exception
 
 				if ( args != null )
 				{
+					args = args.split( "#" )[0]; //SWFAddress deep link exception
+					
 					var params : Array = args.split( "&" );
 					for (var i : int = 0; i < params.length ; i++)
 					{
