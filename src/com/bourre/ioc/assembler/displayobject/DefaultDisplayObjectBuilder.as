@@ -158,13 +158,6 @@ package com.bourre.ioc.assembler.displayobject
 		public static const MOVIECLIP : String = ContextTypeList.MOVIECLIP;
 		public static const TEXTFIELD : String = ContextTypeList.TEXTFIELD;
 
-		/** 
-		 * Defines wildcard to search to identify an absolute path.
-		 * 
-		 * @default ://
-		 */
-		public static const ABSOLUTE_PATH : String = "://";
-
 		
 		//--------------------------------------------------------------------
 		// Protected properties
@@ -196,19 +189,7 @@ package com.bourre.ioc.assembler.displayobject
 		/** @private */
 		protected var _bIsAntiCache : Boolean;
 
-		
-		//--------------------------------------------------------------------
-		// Public properties
-		//--------------------------------------------------------------------
-		
-		/**
-		 * Defines wildcard to search to identify a forced relative path.
-		 * 
-		 * @default #//
-		 */
-		public static var RELATIVE_PATH : String = "#//";
-
-		
+				
 		//--------------------------------------------------------------------
 		// Public API
 		//--------------------------------------------------------------------
@@ -288,10 +269,6 @@ package com.bourre.ioc.assembler.displayobject
 				{
 					//
 				}
-				finally
-				{
-					checkFlashvars( );
-				}
 			} 			else
 			{
 				var msg : String = this + ".setRootTarget call failed. Argument is not a DisplayObjectContainer.";
@@ -329,7 +306,7 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			var info : DisplayObjectInfo = valueObject as DisplayObjectInfo;
 			
-			info.url = getURLRequest( info.url, FlashVarsUtil.getDLLPathKey( ) );
+			info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getDLLPathKey( ) );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, false );
 			_dllQueue.add( gl, ContextNodeNameList.DLL + _dllQueue.size( ), info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
@@ -348,7 +325,7 @@ package com.bourre.ioc.assembler.displayobject
 				loader.setDataFormat( URLLoaderDataFormat.BINARY );
 			}
 			
-			info.url = getURLRequest( info.url, FlashVarsUtil.getResourcePathKey( ) );
+			info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getResourcePathKey( ) );
 			
 			ResourceExpert.getInstance().register( info.id, info );
 			
@@ -364,8 +341,8 @@ package com.bourre.ioc.assembler.displayobject
 			
 			if ( !info.isEmptyDisplayObject( ) )
 			{
-				info.url = getURLRequest( info.url, FlashVarsUtil.getGFXPathKey( ) );
-
+				info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getGFXPathKey( ) );
+				
 				var gl : GraphicLoader = new GraphicLoader( null, -1, info.isVisible );
 				_gfxQueue.add( gl, info.ID, info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
 			}
@@ -635,49 +612,7 @@ package com.bourre.ioc.assembler.displayobject
 			_rootID = HashCodeFactory.getKey( this );
 			return _rootID;
 		}
-
-		/**
-		 * Returns clean URL address using passed-in base url and optional prefix one.
-		 * 
-		 * @param	request		Original request defined in xml context
-		 * @param	optional	Prefix to insert to build correct url link
-		 */
-		protected function getURLRequest( request : URLRequest, prefix : String = "") : URLRequest
-		{
-			if( request.url.indexOf( ABSOLUTE_PATH ) < 0 && request.url.indexOf( RELATIVE_PATH ) < 0 )
-			{
-				request.url = BeanFactory.getInstance( ).locate( prefix ).toString( ) + request.url;
-			}
-			else if( request.url.indexOf( RELATIVE_PATH ) == 0 )
-			{
-				request.url = request.url.substr( RELATIVE_PATH.length );
-			}
-			
-			return request;
-		}
-
-		/**
-		 * Checks if all needed needed flashvars are registred in the Beanfactory.
-		 * 
-		 * <p>If some are not registered, inits them to default empty string.</p>
-		 */
-		protected function checkFlashvars( ) : void
-		{
-			var bean : BeanFactory = BeanFactory.getInstance( );
-			
-			if( !bean.isRegistered( FlashVarsUtil.getDLLPathKey( ) ) )
-				bean.register( FlashVarsUtil.getDLLPathKey( ), ApplicationLoader.DEFAULT_DLL_PATH );
-				
-			if( !bean.isRegistered( FlashVarsUtil.getGFXPathKey( ) ) )
-				bean.register( FlashVarsUtil.getGFXPathKey( ), ApplicationLoader.DEFAULT_GFX_PATH );
-			
-			if( !bean.isRegistered( FlashVarsUtil.getConfigPathKey( ) ) )
-				bean.register( FlashVarsUtil.getConfigPathKey( ), ApplicationLoader.DEFAULT_CONFIG_PATH );
-			
-			if( !bean.isRegistered( FlashVarsUtil.getResourcePathKey( ) ) )
-				bean.register( FlashVarsUtil.getResourcePathKey( ), ApplicationLoader.DEFAULT_RSC_PATH );
-		}
-
+		
 		/**
 		 * Broadcasts event.
 		 */

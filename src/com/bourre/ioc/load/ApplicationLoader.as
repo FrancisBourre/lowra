@@ -165,7 +165,14 @@ package com.bourre.ioc.load
 		
 		/** Default URL Request for applicationContext file. */
 		public static const DEFAULT_URL : URLRequest = new URLRequest( "applicationContext.xml" );
-
+		
+		/** 
+		 * Defines wildcard to search to identify an absolute path.
+		 * 
+		 * @default ://
+		 */
+		public static const ABSOLUTE_PATH : String = "://";
+		
 		/** Enabled or not the debugging feature during application loading. */
 		public static var DEBUG_LOADING_ENABLED : Boolean = false;	
 		
@@ -192,7 +199,7 @@ package com.bourre.ioc.load
 		
 		/** @private */
 		protected var _oParserCollection : ParserCollection;
-
+		
 		
 		//--------------------------------------------------------------------
 		// Public properties
@@ -212,11 +219,41 @@ package com.bourre.ioc.load
 
 		/** Default path for resources files. */
 		public static var DEFAULT_RSC_PATH : String = "";
-
+		
+		/**
+		 * Defines wildcard to search to identify a forced relative path.
+		 * 
+		 * @default #//
+		 */
+		public static var RELATIVE_PATH : String = "#//";
+		
 		
 		//--------------------------------------------------------------------
 		// Public API
 		//--------------------------------------------------------------------
+		
+		/**
+		 * Returns clean URL address using passed-in base url and optional prefix one.
+		 * 
+		 * @param	request		Original request defined in xml context
+		 * @param	optional	Prefix to insert to build correct url link
+		 */
+		public static function getURLRequest( request : URLRequest, prefix : String = "") : URLRequest
+		{
+			if( request.url.indexOf( ABSOLUTE_PATH ) < 0 && request.url.indexOf( RELATIVE_PATH ) < 0 )
+			{
+				if( BeanFactory.getInstance().isRegistered( prefix ) )
+				{
+					request.url = BeanFactory.getInstance( ).locate( prefix ).toString( ) + request.url;
+				}
+			}
+			else if( request.url.indexOf( RELATIVE_PATH ) == 0 )
+			{
+				request.url = request.url.substr( RELATIVE_PATH.length );
+			}
+			
+			return request;
+		}
 		
 		/**
 		 * Creates loader instance.
@@ -661,6 +698,7 @@ package com.bourre.ioc.load
 			else
 			{
 				contextFile = param.hasOwnProperty( FlashVarsUtil.CONTEXT_FILE ) ? param[ FlashVarsUtil.CONTEXT_FILE ] : DEFAULT_CONTEXT_FILE;	
+				BeanFactory.getInstance().register( FlashVarsUtil.getContextFileKey(), contextFile );
 			}
 			
 			var contextPath : String;
@@ -671,7 +709,9 @@ package com.bourre.ioc.load
 			else
 			{
 				contextPath = param.hasOwnProperty( FlashVarsUtil.CONFIG_PATH ) ? param[ FlashVarsUtil.CONFIG_PATH ] : DEFAULT_CONFIG_PATH;	
+				BeanFactory.getInstance().register( FlashVarsUtil.getConfigPathKey(), contextPath );
 			}
+			
 			var contextURL : URLRequest = new URLRequest( contextPath + contextFile );
 			setURL( contextURL );
 			
