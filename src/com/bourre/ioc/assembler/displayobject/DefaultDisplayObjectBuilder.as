@@ -308,7 +308,7 @@ package com.bourre.ioc.assembler.displayobject
 			info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getDLLPathKey( ) );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, false );
-			_dllQueue.add( gl, ContextNodeNameList.DLL + + HashCodeFactory.getNextKey(), info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
+			_dllQueue.add( gl, ContextNodeNameList.DLL + HashCodeFactory.getNextKey(), info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
 		}
 		
 		/**
