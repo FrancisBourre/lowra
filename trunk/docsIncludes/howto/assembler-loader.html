@@ -1,0 +1,181 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'Application Display Loader' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
+	<head>
+		<title>Application Display Loader - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'Application Display Loader - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+				
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/assembler-loader.html&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+						
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					Application Display Loader
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("Application Display Loader");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+			<p><h1>Summary</h1>
+		  <ol>
+	<li><a href="#node">&lt;application-loader&gt; node</a></li>
+	<li><a href="#callback">Callback implementations</a></li>
+	<li><a href="#build">Build Display loader</a></li>
+	</ol>
+<p>&nbsp;</p>
+
+			<a name="node" id="node"></a>
+            <h1>&lt;application-loader&gt; node</h1>
+            <p>
+            Display object loader is defined using the <code>&lt;application-loader&gt;</code> node in xml context file.<br>
+            You can see full note properties on the<a href="reference-assembler.html#application-loader"> Assembler References</a> document.</p>
+            <p>Loader can listen many application events like : </p>
+            <ul>
+              <li>Application states </li>
+              <li>Elements loading</li>
+              <li>IoC processing</li>
+              <li>...</li>
+            </ul>
+            <p>This is a full definition for a <code>&lt;application-loader&gt;</code> node which listen all applications events. :</p><div class="listing"><pre class="prettyprint">&lt;application-loader url=&quot;loader.swf&quot; <br>   start-callback=&quot;onStartApplication&quot; <br>   name-callback=&quot;onNameCallback&quot;<br>  <br>   load-callback=&quot;onLoadCallback&quot;<br>   progress-callback=&quot;onProgressCallback&quot;<br>   timeout_callback=&quot;onTimeoutCallback&quot;<br>   error-callback=&quot;onErrorCallback&quot;<br>   init-callback=&quot;onInitCallback&quot;<br>  <br>   parsed-callback=&quot;onParsedCallback&quot;<br>   objects-built-callback=&quot;onBuiltCallback&quot;<br>   channels-assigned-callback=&quot;onChannelsCallback&quot;<br>   methods-call-callback=&quot;onMethodsCallback&quot;<br>  <br>   complete-callback=&quot;onCompleteCallback&quot;<br>  /&gt;</pre>
+            </div>
+            </p>
+            <p>Define only callbacks you want, but when it defined, callback method name must be defined into the loader.swf content.<br>
+            Let's see differents callbacks signature.            </p>
+            <p>&nbsp;</p>
+          
+          <a name="callback" id="callback"></a>
+          <h1>Callback implementations</h1>
+            <p>
+                Here is the list of all callbacks signature to be compliant with IoC loading system.<br>
+            The name of the methods depends on what has been indicated in the xml context; but this the default one.</p>
+          <div class="listing">
+            <pre class="prettyprint">
+function onStartApplication( url : String, size : uint ) : void;
+              
+function onNameCallback( state : String ) : void;<br>
+function onLoadCallback( url : String ) : void;<br>
+function onProgressCallback( url : String, percent : Number ) : void;<br>
+function onTimeoutCallback( url : String ) : void;<br>
+function onErrorCallback( url : String ) : void;
+<br>function onInitCallback( url : String ) : void;<br>
+function onParsedCallback( ) : void;<br>
+function onBuiltCallback( ) : void;
+<br>function onChannelsCallback( ) : void;<br>
+function onMethodsCallback( ) : void;
+<br>function onCompleteCallback( ) : void;</pre>
+          </div><br>
+            </p>
+            <a name="build" id="build"></a>
+          <h1>Build Display loader</h1>
+          <p>
+            LowRA offers tools to build quickly a clean display loader.<br>
+            In Flash or in pure Actionscript code, the class <strong>AbstractDisplayLoader</strong> or the interface <strong>DisplayLoader</strong> gives really great helpers.<br>
+            ( contained in the  com.bourre.ioc.assembler.displayobject.loader package )
+            </p>
+            <p> First thing to do, is to create a concrete implementation of the loader class.<br>
+            2 possibilities : </p>
+            <ol>
+              <li>extends the abstract class <strong>AbstractDisplayLoader</strong> and override methods you need.</li>
+              <li>implements the interface <strong>DisplayLoader</strong> and implements methods you need.</li>
+            </ol>
+            <p>Using these helpers, callback names are default as example, so you don't have to deal with name association.<br>
+              This an example of a concrete implementation of 
+            <strong>AbstractDisplayLoader</strong> :</p>
+            <div class="listing">
+              <pre class="prettyprint">public class CustomDisplayLoader extends AbstractDisplayLoader<br>{<br>		<br>	public function AbstractDisplayLoader()<br>	{<br>	}<br>		<br>		<br>	override public function onStartApplication( url : String, size : uint ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC start processing on &quot; + url + &quot; for &quot; + size + &quot; elements&quot; );<br>	}<br>		<br>	override public function onNameCallback( state : String ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC processing state change to &quot; + state );<br>	}<br>		<br>	override public function onLoadCallback( url : String ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC start loading &quot; + url + &quot; element&quot; );<br>	}<br>		<br>	override public function onProgressCallback( url : String, percent : Number ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC loading progression for &quot; + url + &quot; = &quot; + percent );<br>	}<br>		<br>	override public function onTimeoutCallback( url : String ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC loading timeout for &quot; + url );<br>	}<br>		<br>	override public function onErrorCallback( url : String ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC loading error for &quot; + url );<br>	}<br>		<br>	override public function onInitCallback( url : String ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC loading finished for &quot; + url );<br>	}<br>		<br>	override public function onParsedCallback( ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC context parsed&quot; );<br>	}<br>		<br>	override public function onBuiltCallback( ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC objects built&quot; );<br>	}<br>		<br>	override public function onChannelsCallback( ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC channels assigned&quot; );<br>	}<br>		<br>	override public function onMethodsCallback( ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC methods called&quot; );<br>	}<br>	<br>	override public function onCompleteCallback( ) : void<br>	{
+		PixlibDebug.INFO( &quot;IoC engine completed&quot; );<br>	}</pre></div>
+            <p>Of course, you don't have to override all methods, but just needed ones.</p>
+            <p>As <strong>AbstractDisplayLoader</strong> extends <strong>MovieClip</strong> class, you can use our IDE to compile and create the loader.swf like classic swf file.<br>
+              If you use the Flash IDE, just define the new CustomDispayLoader as Document class of your swf and compile.</p>
+            <p><strong>AbstractDisplayLoader</strong> and <strong>DisplayLoader</strong> are not coupled with  LowRA API, so loader  still really light.</p>
+            <p>More informations about LowRA helpers on API documentation : </p>
+            <ul>
+              <li><a href="../com/bourre/ioc/assembler/displayobject/loader/AbstractDisplayLoader.html">AbstractDisplayLoader</a> class</li>
+              <li><a href="../com/bourre/ioc/assembler/displayobject/loader/DisplayLoader.html">DisplayLoader</a> interface</li>
+            </ul>
+    </div>
+		
+        <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>
