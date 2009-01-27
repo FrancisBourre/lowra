@@ -48,7 +48,6 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;	
 
@@ -309,7 +308,7 @@ package com.bourre.ioc.assembler.displayobject
 			info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getDLLPathKey( ) );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, false );
-			_dllQueue.add( gl, ContextNodeNameList.DLL + _dllQueue.size( ), info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
+			_dllQueue.add( gl, ContextNodeNameList.DLL + + HashCodeFactory.getNextKey(), info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
 		}
 		
 		/**
@@ -363,7 +362,17 @@ package com.bourre.ioc.assembler.displayobject
 		 */
 		public function buildDisplayList() : void
 		{
-			BeanFactory.getInstance( ).register( getRootID( ), _target );
+			var bf : BeanFactory = BeanFactory.getInstance();
+			
+			if( !bf.isRegistered( getRootID() ) && !bf.isBeanRegistered( _target ) ) 
+			{
+				bf.register( getRootID( ), _target );
+			}
+			else
+			{
+				PixlibDebug.WARN( this + "::display ID already registered :" + getRootID() );
+			}
+			
 			_buildDisplayList( getRootID( ) );
 			fireEvent( DisplayObjectBuilderEvent.onDisplayObjectBuilderLoadInitEVENT );
 		}

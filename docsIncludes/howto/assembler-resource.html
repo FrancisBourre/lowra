@@ -1,0 +1,212 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'How to rsc node to load resources' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
+	<head>
+		<title>How to rsc node to load resources - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'How to use rsc node to load resources - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+			
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/assembler-resource.html&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					How to &lt;rsc&gt; node to load resources
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("How to rsc node to load resources");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+			<h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#basic">Text resource</a></li>
+	<li><a href="#binary">Binary resource</a></li>
+	<li><a href="#deserialization">Deserialization</a></li>
+	</ol>
+<p>&nbsp;</p>
+<p>
+<a name="overview"></a>
+<h1>Overview</h1>
+<p>
+	You will find below the various methods to define <code>resources</code> to load during application assembling of LowRA IoC.
+</p>
+<p>Resources are files that are loaded at the same time as application display object and dynamic libraries ( &lt;dll&gt; ).<br>
+To define a resource to load, just use the &lt;rsc&gt; node in your xml context.<br>
+You can find the &lt;rsc&gt; node reference on the <a href="reference-assembler.html#rsc">Assembler References</a> document.</p>
+<p>&nbsp;</p>
+
+<a name="text" id="text"></a>
+<h1>Text resource :</h1> 
+<p>  This is a simple text file : </p>
+<div class="listing">
+  <pre class="prettyprint">LowRA AS3 Framework</pre>
+</div>
+<p>I want to load this file as resource for my application and I don't want to it manually in my source code.<br>
+  Use &lt;rsc&gt; node for this stuff.
+</p>
+<div class="listing">
+  <pre class="prettyprint">&lt;bean&gt;
+	&lt;rsc id=&quot;info&quot; url=&quot;myTextFile.txt&quot; /&gt;
+&lt;/bean&gt;</pre>
+</div>
+<p>When IoC engine has loaded the file, the content is registered in the <strong>BeanFactory</strong> with the &quot;<em>info</em>&quot; identifier.<br>
+  (As IoC ID rules, ID must be unique here too.)<br>
+  So, to reteive this content in source code, you just
+have to use the magic BeanFactory : </p>
+<div class="listing">
+  <pre class="prettyprint">var info : String = BeanFactory.getInstance().locate( &quot;info&quot; ) as String;
+PixlibDebug.DEBUG( &quot;What is it ? + info ); // output : What is it ? LowRA AS3 Framework</pre>
+</div>
+<p>&nbsp;</p>
+<a name="binary" id="binary"></a>
+<h1>Binary resource :</h1> 
+<p>All binary file format supported by the Flash player can be loaded as resources.<br>
+  Loading an image as resource : </p>
+<div class="listing">
+  <pre class="prettyprint">&lt;bean&gt;
+	&lt;rsc id=&quot;logo&quot; url=&quot;myLogo.jpg&quot; type=&quot;binary&quot; /&gt;
+&lt;/bean&gt;</pre>
+</div>
+<p>Simple. One thing to do, is to defined the <code>type</code> attribute to &quot;<em>binary</em>&quot; ( default is &quot;<em>text</em>&quot; ).<br>
+  When IoC engine has loaded the file, content will be store on ByteArray format.
+</p>
+<p>Example : SWF Cloning</p>
+<div class="listing">
+  <pre class="prettyprint">&lt;bean&gt;
+	&lt;rsc id=&quot;footer&quot; url=&quot;footer.swf&quot; /&gt;
+&lt;/bean&gt;</pre>
+</div>
+<div class="listing">
+  <pre class="prettyprint">
+var db : ByteArray = BeanFactory.getInstance().locate( "footer" ) as ByteArray;
+
+var loader : Loader = new Loader();
+loader.x = 0;
+loader.y = 400;
+loader.loadBytes( db );
+
+addChild( loader );</pre>
+</div>
+<p><u>Note</u> : can be really useful for content caching too.</p>
+<p>&nbsp;</p>
+<a name="deserialization" id="deserialization"></a>
+<h1>Deserialization  :</h1> 
+<p>In section above, loaded file content are registered in &quot;raw&quot; format.<br>
+  But we can force the auto deserialization of loaded resource.</p>
+<p>First thing to do, import the necessary classes in context to deserialize content.<br>
+  LowRA offers 3basic deserializers : </p>
+<ul>
+  <li><strong>XMLToObjectDeserializer</strong></li>
+  <li><strong>CSSDeserializer</strong></li>
+  <li><strong>DisplayDeserializer</strong></li>
+  </ul>
+<p>To use deserialization, you have to load the dedicated Dynamic Library into context.<br>
+  For example, the <strong>CSSDeserializer</strong> : </p>
+<div class="listing">
+  <pre class="prettyprint">&lt;bean&gt;
+	&lt;dll url=&quot;CSSDeserializerDLL.swf&quot; /&gt;
+&lt;/bean&gt;</pre>
+</div>
+<p>Now, the <strong>Deserializer</strong> class is loaded into application context, and class is available.</p>
+<p>Now, we have to specify what kind of deserializer we want to use for specific resource.<br>
+  Always for a css stylesheet : </p>
+<div class="listing">
+  <pre class="prettyprint">&lt;bean&gt;
+	&lt;dll url=&quot;CSSDeserializerDLL.swf&quot; /&gt;
+
+	&lt;rsc id=&quot;myStyle&quot; url=&quot;styles.css&quot; deserializer-class=&quot;com.bourre.encoding.CSSDeserializer&quot; /&gt;
+&lt;/bean&gt;</pre>
+</div>
+<p>How it work ?<br>
+  Just pass the full classpath of the deserializer class you want to use into the <span class="prettyprint"><code>deserializer-class</code></span> attribute.<br>
+  Behind the scene, when file is loaded, the engine bluid a deserializer instance using this classpath, and deserialize the file content.<br>
+  <u>Be careful</u>, it is the deserialized content which is registered into <strong>BeanFactory</strong>. ( raw data is no more available ).</p>
+<p>Retreive our CSS Style :</p>
+<div class="listing">
+  <pre class="prettyprint">
+var style : StyleSheet = BeanFactory.getInstance().locate( "myStyle" ) as StyleSheet;
+
+var tx : TextField = new TextField();
+tx.styleSheet = style;
+tx.htmlText = &quot;&lt;span class='title'&gt;My title here&lt;/span&gt;&quot;;
+
+addChild( tx );</pre>
+</div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+		</div>
+		
+        <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>
