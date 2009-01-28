@@ -99,7 +99,7 @@
               <li>IoC processing</li>
               <li>...</li>
             </ul>
-            <p>This is a full definition for a <code>&lt;application-loader&gt;</code> node which listen all applications events. :</p><div class="listing"><pre class="prettyprint">&lt;application-loader url=&quot;loader.swf&quot; <br>   start-callback=&quot;onStartApplication&quot; <br>   name-callback=&quot;onNameCallback&quot;<br>  <br>   load-callback=&quot;onLoadCallback&quot;<br>   progress-callback=&quot;onProgressCallback&quot;<br>   timeout_callback=&quot;onTimeoutCallback&quot;<br>   error-callback=&quot;onErrorCallback&quot;<br>   init-callback=&quot;onInitCallback&quot;<br>  <br>   parsed-callback=&quot;onParsedCallback&quot;<br>   objects-built-callback=&quot;onBuiltCallback&quot;<br>   channels-assigned-callback=&quot;onChannelsCallback&quot;<br>   methods-call-callback=&quot;onMethodsCallback&quot;<br>  <br>   complete-callback=&quot;onCompleteCallback&quot;<br>  /&gt;</pre>
+            <p>This is a full definition for a <code>&lt;application-loader&gt;</code> node which listen all applications events. :</p><div class="listing"><pre class="prettyprint">&lt;application-loader url=&quot;loader.swf&quot; <br>   start-callback=&quot;onStartApplication&quot; <br>   name-callback=&quot;onNameCallback&quot;<br>  <br>   load-callback=&quot;onLoadCallback&quot;<br>   progress-callback=&quot;onProgressCallback&quot;<br>   timeout-callback=&quot;onTimeoutCallback&quot;<br>   error-callback=&quot;onErrorCallback&quot;<br>   init-callback=&quot;onInitCallback&quot;<br>  <br>   parsed-callback=&quot;onParsedCallback&quot;<br>   objects-built-callback=&quot;onBuiltCallback&quot;<br>   channels-assigned-callback=&quot;onChannelsCallback&quot;<br>   methods-call-callback=&quot;onMethodsCallback&quot;<br>  <br>   complete-callback=&quot;onCompleteCallback&quot;<br>  /&gt;</pre>
             </div>
             </p>
             <p>Define only callbacks you want, but when it defined, callback method name must be defined into the loader.swf content.<br>
@@ -145,7 +145,7 @@ function onMethodsCallback( ) : void;
               This an example of a concrete implementation of 
             <strong>AbstractDisplayLoader</strong> :</p>
             <div class="listing">
-              <pre class="prettyprint">public class CustomDisplayLoader extends AbstractDisplayLoader<br>{<br>		<br>	public function AbstractDisplayLoader()<br>	{<br>	}<br>		<br>		<br>	override public function onStartApplication( url : String, size : uint ) : void<br>	{
+              <pre class="prettyprint">public class CustomDisplayLoader extends AbstractDisplayLoader<br>{<br>		<br>	public function CustomDisplayLoader()<br>	{<br>	}<br>		<br>		<br>	override public function onStartApplication( url : String, size : uint ) : void<br>	{
 		PixlibDebug.INFO( &quot;IoC start processing on &quot; + url + &quot; for &quot; + size + &quot; elements&quot; );<br>	}<br>		<br>	override public function onNameCallback( state : String ) : void<br>	{
 		PixlibDebug.INFO( &quot;IoC processing state change to &quot; + state );<br>	}<br>		<br>	override public function onLoadCallback( url : String ) : void<br>	{
 		PixlibDebug.INFO( &quot;IoC start loading &quot; + url + &quot; element&quot; );<br>	}<br>		<br>	override public function onProgressCallback( url : String, percent : Number ) : void<br>	{
