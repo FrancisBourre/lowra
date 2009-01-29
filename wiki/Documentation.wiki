@@ -1,4 +1,4 @@
-#summary You will find below various links about how to use LowRA
+#summary How to use LowRA
 #labels Phase-Implementation,Featured
 
 <br>
