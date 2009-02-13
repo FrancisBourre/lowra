@@ -16,10 +16,17 @@
     * [http://lowra.customactions.net/doc/howto/assembler-loader.html Application Display Loader]
     * [http://lowra.customactions.net/doc/howto/howto-compile-dll.html How to compile DLL file]
     * [http://lowra.customactions.net/doc/howto/plugin-communication.html Plugins communication]
+    * [http://lowra.customactions.net/doc/howto/assembler-customize.html Customize IoC Asembler]
+    * [http://lowra.customactions.net/doc/howto/assembler-runtime.html Customize IoC Asembler]
 
 <br>
 == Frameworks bases ==
 
     * [http://lowra.customactions.net/doc/howto/howto-commands.html How to use the Command pattern]
     * [http://lowra.customactions.net/doc/howto/howto-loopcommands.html How to use LoopCommand and IterationCommand]
+    
+
+<br>
+== Extras ==
+
     * [http://lowra.customactions.net/doc/howto/fdt-template.html Eclipse FDT 3 Templates]
