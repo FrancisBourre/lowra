@@ -17,7 +17,7 @@
     * [http://lowra.customactions.net/doc/howto/howto-compile-dll.html How to compile DLL file]
     * [http://lowra.customactions.net/doc/howto/plugin-communication.html Plugins communication]
     * [http://lowra.customactions.net/doc/howto/assembler-customize.html Customize IoC Asembler]
-    * [http://lowra.customactions.net/doc/howto/assembler-runtime.html Customize IoC Asembler]
+    * [http://lowra.customactions.net/doc/howto/assembler-runtime.html Loading IoC context at runtime]
 
 <br>
 == Frameworks bases ==
