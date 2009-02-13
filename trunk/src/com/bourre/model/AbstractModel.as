@@ -73,9 +73,14 @@ package com.bourre.model
 		//--------------------------------------------------------------------
 		// Protected properties
 		//--------------------------------------------------------------------
-
+		
+		/** Dedicated Broadcaster for this model. */
 		protected var _oEB : EventBroadcaster;
+		
+		/** Model identifier. */
 		protected var _sName : String;
+		
+		/** Plugin owner. */
 		protected var _owner : Plugin;
 
 		

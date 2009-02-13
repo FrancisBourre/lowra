@@ -56,6 +56,14 @@ package com.bourre.log
 		 */	
 		public var message : *;
 		
+		/**
+		 * Name of the used channel by this 
+		 * logging event.
+		 * 
+		 * @default null
+		 */
+		public var channel : String;
+		
 		
 		//--------------------------------------------------------------------
 		// Public API

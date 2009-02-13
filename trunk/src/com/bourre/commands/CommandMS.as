@@ -21,20 +21,30 @@ package com.bourre.commands
 	import flash.utils.setInterval;
 
 	/**
-	 * The CommandMS class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The CommandMS class manages a Commands list to execute 
+	 * on using timer tick.
 	 * 
 	 * @author 	Francis Bourre
+	 * 
+	 * @see CommandManagerMS
 	 */
 	public class CommandMS
 	{
+		/** @private */
 		protected var _oT:Object;
+		
+		/** @private */
 		protected var _nID:Number;
+		
+		/** @private */
 		protected var _nL : Number;
-			
+		
+		/** @private */
 		protected static var _EXT:String = '_C_';
 		
+		/**
+		 * Creates new <code>CommandMS</code> instance.
+		 */
 		public function CommandMS()
 		{
 			_oT = new Object();
@@ -42,6 +52,17 @@ package com.bourre.commands
 			_nL = 0;
 		}
 		
+		/**
+		 * Adds passed-in command to execution list and execute it now.
+		 * 
+		 * <p>An identifier name is automatically build</p>
+		 * 
+		 * @param	oC	Command to add
+		 * 
+		 * @return The command identifier name in list
+		 * 
+		 * @see #pushWithName()
+		 */
 		public function push(oC:Command, nMs:Number) : String
 		{
 			var sN:String = _getNameID();
@@ -50,6 +71,14 @@ package com.bourre.commands
 			return _push( oC, nMs, sN );
 		}
 		
+		/**
+		 * Adds passed-in command to execution list and executes it now.
+		 * 
+		 * @param	oC	Command to add		 * @param	nMs	Command execution timer
+		 * @param	sN	Command identifier
+		 * 
+		 * @return The command identifier name in list
+		 */
 		public function pushWithName(oC:Command, nMs:Number, sN:String=null) : String
 		{
 			if (sN == null) 
@@ -64,6 +93,17 @@ package com.bourre.commands
 			return _push( oC, nMs, sN );
 		}
 		
+		/**
+		 * Stores passed-in command and wait for 
+		 * passed-in timer before executes it.<br />
+		 * Command is removed after execution.
+		 * 
+		 * <p>An identifier name is automatically build</p>
+		 * 
+		 * @param	oC	Command to delayed		 * @param	nMs	Command execution timer
+		 * 
+		 * @return The command identifier name in list
+		 */
 		public function delay(oC:Command, nMs:Number) : String
 		{
 			var sN:String = _getNameID();
@@ -73,55 +113,122 @@ package com.bourre.commands
 			return sN;
 		}
 		
+		/**
+		 * Removes passed-in command from execution list.
+		 * 
+		 * @param	oC	Command to remove
+		 * 
+		 * @return <code>true</code> if command is removed
+		 */
 		public function remove(oC:Command) : Boolean
 	  	{
 			for (var s:String in _oT) if (_oT[s].cmd == oC) return _remove(s);
 			return false;
 	  	}
 		
+		/**
+		 * Removes command registered with passed-in name from 
+		 * execution list.
+		 * 
+		 * @param	name	Name of the command remove
+		 * 
+		 * @return <code>true</code> if command is removed
+		 * 
+		 * @see #push()
+		 * @see #pushWithName()
+		 * @see #delay()
+		 */
 		public function removeWithName(sN:String) : Boolean
 		{
 			return (_oT.hasOwnProperty(sN)) ? _remove(sN) : false;
 		}
 		
+		
+		/**
+		 * Excludes passed-in command from execution list.
+		 * 
+		 * <p>Command still in buffer, use <code>resume()</code> to 
+		 * replace command in execution list.</p>
+		 * 
+		 * @param	oC	Command to exclude form execution list.
+		 */
 		public function stop(oC:Command) : Boolean
 		{
 			for (var s:String in _oT) if (_oT[s].cmd == oC) return _stop(s);
 			return false;
 		}
-
+		
+		/**
+		 * Excludes command registered with passed-in name 
+		 * from execution list.
+		 * 
+		 * <p>Command still in buffer, use <code>resumeWithName()</code> to 
+		 * replace command in execution list.</p>
+		 * 
+		 * @param	sN	Command identifier
+		 */
 		public function stopWithName(sN:String) : Boolean
 		{
 			return (_oT.hasOwnProperty(sN)) ? _stop(sN) : false;
 		}
 		
+		/**
+		 * Submits passed-in command into execution list.
+		 * 
+		 * @param	oC	Command to submit to execution list.
+		 */
 		public function resume(oC:Command) : Boolean
 		{
 			for (var s:String in _oT) if (_oT[s].cmd == oC) return _notify(s);
 			return false;
 		}
 		
+		/**
+		 * Submits command registered with passed-in name 
+		 * into execution list.
+		 * 
+		 * @param	sN	Command identifier
+		 */
 		public function resumeWithName(sN:String) : Boolean
 		{
 			return (_oT.hasOwnProperty(sN)) ? _notify(sN) : false;
 		}
 		
+		/**
+		 * Returns execution list length.
+		 * 
+		 * @return The execution list length.
+		 */
 		public function getLength() : Number
 		{
 			return _nL;
 		}
 		
+		/**
+		 * Removes all objects from execution list and from buffer.
+		 */
 		public function removeAll() : void
 		{
 			for (var s:String in _oT) _remove(s);
 		}
 		
+		/**
+		 * Returns string representation of instance.
+		 * 
+		 * @return The string representation of instance.
+		 */
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
 		}
 		
-		//
+		/**
+		 * Registers passed-in command with passed-in name.
+		 * 
+		 * @param	oC	Command to push
+		 * @param	nMs	Command execution timer
+		 * @param	sN	Command identifier
+		 */
 		protected function _push(oC:Command, nMs:Number, sN:String) : String
 		{
 			var o:Object = new Object();
@@ -136,6 +243,9 @@ package com.bourre.commands
 			return sN;
 		}
 		
+		/**
+		 * Returns a unique identifier.
+		 */
 		protected function _getNameID() : String
 		{
 			while (_oT.hasOwnProperty(CommandMS._EXT + _nID)) _nID++;
@@ -150,18 +260,35 @@ package com.bourre.commands
 			return true;
 		}
 		
+		/**
+		 * Removes command registered with passed-in identifier.
+		 * 
+		 * @param	s	 Command identifier
+		 */
 		protected function _stop(s:String) : Boolean
 		{
 			clearInterval(_oT[s].ID);
 			return true;
 		}
 		
+		/**
+		 * Adds command registered with passed-in identifier into 
+		 * execution list.
+		 * 
+		 * @param	s	 Command identifier
+		 */
 		protected function _notify(s:String) : Boolean
 		{
 			_oT[s].ID = setInterval( Command(_oT[s].cmd).execute, _oT[s].ms);
 			return true;
 		}
 		
+		/**
+		 * Executes a delay call.
+		 * 
+		 * @param	oC	Command to execute
+		 * @param	sN	Command identifier
+		 */
 		protected function _delay(sN:String) : void
 		{
 			var o:Object = _oT[sN];

@@ -22,7 +22,7 @@ package com.bourre.ioc.control
 	import flash.events.Event;	
 	
 	/**
-	 * <p>Command to build Boolean object.</p>
+	 * Command to build Boolean object.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

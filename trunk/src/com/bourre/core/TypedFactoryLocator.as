@@ -21,20 +21,55 @@ package com.bourre.core
 	import com.bourre.utils.ClassUtils;
 
 	/**
-	 * The TypedFactoryLocator class.
+	 * The TypedFactoryLocator locator allow to store Class resource.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @example
+	 * <pre class="prettyprint">
+	 * 
+	 * var locator : TypedFactoryLocator = new TypedFactoryLocator( Plugin );
+	 * locator.register( "abstract", AbstractPlugin ); //return true
+	 * locator.register( "custom", MyPlugin ); //return true
+	 * locator.register( "sprite", Sprite ); //throw IllegalArgumentException and return false
+	 * </pre>
 	 * 
 	 * @author 	Francis Bourre
 	 */
-	public class TypedFactoryLocator 
-		extends AbstractLocator
+	public class TypedFactoryLocator extends AbstractLocator
 	{
+		/**
+		 * Creates new <code>TypedFactoryLocator</code> instance.
+		 * 
+		 * @param	type	Class type to store in this locator.
+		 */
 		public function TypedFactoryLocator( type : Class )
 		{
 			super( type );
 		}
-
+		
+		/**
+		 * Registers passed-in object with identifier name to this locator.
+		 * 
+		 * <p>As this locator is <i>typed</i>, object to store must 
+		 * extends ( or implements for interface case ), the class type of 
+		 * this locator.</p>
+		 * 
+		 * @example
+		 * <pre class="prettyprint">
+		 * 
+		 * var locator : TypedFactoryLocator = new TypedFactoryLocator( Plugin );
+		 * locator.register( "abstract", AbstractPlugin ); //return true
+		 * locator.register( "custom", MyPlugin ); //return true
+		 * locator.register( "sprite", Sprite ); //throw IllegalArgumentException and return false
+		 * </pre>
+		 * 
+		 * @param	name	Key identifier
+		 * @param	o		Object to store
+		 * 
+		 * @return 	<code>true</code> if success
+		 * 			
+		 * @throws 	<code>IllegalArgumentException</code> — Key or object 
+		 * 			are already defined in this locator.
+		 */
 		override public function register ( key : String, o : Object ) : Boolean
 		{
 			var msg : String;
@@ -71,7 +106,18 @@ package com.bourre.core
 				return false ;
 			}
 		}
-
+		
+		/**
+		 * Builds and returns new instance using Class registered 
+		 * with passed-in key in locator.
+		 * 
+		 * @param	key	Class registration identifier
+		 * 
+		 * @return	A new instance of registered Class
+		 * 
+		 * @throws 	<code>NoSuchElementException</code> — There is no Class 
+		 * 			associated with the passed-in key
+		 */
 		public function build( key : String ) : Object
 		{
 			var clazz : Class = locate( key ) as Class;

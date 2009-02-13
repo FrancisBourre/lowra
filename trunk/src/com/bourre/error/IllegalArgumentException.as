@@ -17,9 +17,9 @@ package com.bourre.error
 {
 
 	/**
-	 * The IllegalArgumentException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A IllegalArgumentException exception is thrown when the arguments 
+	 * supplied in a function do not match the arguments defined for 
+	 * that function.
 	 * 
 	 * @author 	Francis Bourre
 	 */

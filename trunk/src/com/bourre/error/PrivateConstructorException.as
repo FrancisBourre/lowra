@@ -17,9 +17,10 @@ package com.bourre.error
 {
 
 	/**
-	 * The PrivateConstructorException exception.
+	 * A PrivateConstructorException exception is thrown when trying 
+	 * to access private constructor of a class.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * <p>Abstract class implementation rule.</p>
 	 * 
 	 * @author 	Francis Bourre
 	 */

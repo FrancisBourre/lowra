@@ -19,14 +19,10 @@ package com.bourre.media.video
 	import com.bourre.log.PixlibDebug;		
 
 	/**
-	 * The CuePointEvent class.
+	 * The CuePointEvent class represents the event object passed 
+	 * to the event listener when VideoDisplay receive video cue points.
 	 * 
-	 * <p>TODO Documentation.</p>
-	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
+	 * @see VideoDisplay
 	 * 
 	 * @author 	Aigret Axel
 	 */
@@ -35,6 +31,13 @@ package com.bourre.media.video
 
 		private var _oCuePointInfo : Object;
 		
+		/**
+		 * Creates new <code>CuePointEvent</code> instance.
+		 * 
+		 * @param	type			Name of the event type
+		 * @param	video			VideoDisplay object carried by this event
+		 * @pram	cuePointInfo	Raw cue points definitions for passed-in VideoDisplay
+		 */
 		public function CuePointEvent ( type : String, video : VideoDisplay, cuePointInfo : Object ) 
 		{
 			super( type , video );
@@ -42,7 +45,12 @@ package com.bourre.media.video
 			_oCuePointInfo = cuePointInfo;
 			PixlibDebug.INFO(  "CuePointEvent "+ toString());
 		}
-
+		
+		/**
+		 * Returns the cue points object carried by this event.
+		 * 
+		 * @return	The cue points object carried by this event.
+		 */
 		public function getCuePointInfo() : Object
 		{
 			return _oCuePointInfo;
@@ -65,6 +73,7 @@ package com.bourre.media.video
 		
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		override public function toString() : String 

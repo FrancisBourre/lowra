@@ -1,0 +1,15 @@
+/*
+* @exampleText XML context definition (runtime.xml)
+*/
+<beans>
+	<dll url="MonitoringPluginDLL" />
+	
+	<root id="local">
+		<logo id="logo" url="assets/logo.jpg" visible="true" />
+	</root>
+	
+	<plugin id="monitor" type="lowra.plugins.utils.MonitoringPlugin">
+		<property name="x" value="100" />
+		<property name="y" value="0" />
+	</plugin>
+</beans>

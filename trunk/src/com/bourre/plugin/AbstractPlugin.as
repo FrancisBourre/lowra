@@ -30,25 +30,61 @@ package com.bourre.plugin
 	import flash.events.Event;	
 	
 	/**
-	 * The AbstractPlugin class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 *  Dispatched when plugin is initialized.
+	 *  
+	 *  @eventType com.bourre.plugin.PluginEvent.onInitPluginEVENT
+	 */
+	[Event(name="onInitPlugin", type="com.bourre.plugin.PluginEvent")]
+	
+	/**
+	 *  Dispatched when plugin is released.
+	 *  
+	 *  @eventType com.bourre.plugin.PluginEvent.onReleasePluginEVENT
+	 */
+	[Event(name="onReleasePlugin", type="com.bourre.plugin.PluginEvent")]
+	
+	
+	/**
+	 * Abstract implementation of <code>Plugin</code>.
 	 * 
 	 * @author 	Francis Bourre
 	 */
-	public class AbstractPlugin
-		implements Plugin
+	public class AbstractPlugin implements Plugin
 	{
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/**Public Braodcaster */
 		protected var _oEBPublic 		: Broadcaster;
+		
+		/** Plugin FronController */
 		protected var _oController 		: FrontController;
+		
+		/** Locator for models */
 		protected var _oModelLocator 	: ModelLocator;
+		
+		/** Locator for views */
 		protected var _oViewLocator 	: ViewLocator;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates new <code>AbstractPlugin</code> instance.
+		 */
 		public function AbstractPlugin() 
 		{
 			_initialize();
 		}
-
+		
+		/**
+		 * Starts plugin initialisation.
+		 * 
+		 * <p>builds all locator, and event channel.</p>
+		 */
 		protected function _initialize() : void
 		{
 			_oController = new FrontController( this );
@@ -59,61 +95,101 @@ package com.bourre.plugin
 			if( _oEBPublic ) _oEBPublic.addListener( this );
 		}
 		
+		/**
+		 * Returns plugin's FrontController.
+		 */
 		public function getController() : FrontController
 		{
 			return _oController;
 		}
 		
+		/**
+		 * Returns plugin's model locator.
+		 */
 		protected function getModelLocator() : ModelLocator
 		{
 			return _oModelLocator;
 		}
-
+		
+		/**
+		 * Returns plugin's view locator.
+		 */
 		protected function getViewLocator() : ViewLocator
 		{
 			return _oViewLocator;
 		}
-
+		
+		/**
+		 * Fires <code>onInitPlugin</code> event type.
+		 * 
+		 * @event onInitPlugin com.bourre.plugin.PluginEvent When plugin is initialized
+		 */
 		protected function fireOnInitPlugin() : void
 		{
 			firePublicEvent( new PluginEvent( PluginEvent.onInitPluginEVENT, this ) );
 		}
-
+		
+		/**
+		 * Fires <code>onReleasePlugin</code> event type.
+		 * 
+		 * @event onReleasePlugin com.bourre.plugin.PluginEvent When plugin is released
+		 */
 		protected function fireOnReleasePlugin() : void
 		{
 			firePublicEvent( new PluginEvent( PluginEvent.onReleasePluginEVENT, this ) );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getChannel() : EventChannel
 		{
 			return ChannelExpert.getInstance().getChannel( this );
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function isModelRegistered( name : String ) : Boolean
 		{
 			return _oModelLocator.isRegistered( name );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getModel( key : String ) : AbstractModel
 		{
 			return _oModelLocator.getModel( key );
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function isViewRegistered( name : String ) : Boolean
 		{
 			return _oViewLocator.isRegistered( name );
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function getView( key : String ) : AbstractView
 		{
 			return _oViewLocator.getView( key );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getLogger() : PluginDebug
 		{
 			return PluginDebug.getInstance( this );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function fireExternalEvent( e : Event, externalChannel : EventChannel ) : void
 		{
 			if ( externalChannel != getChannel() ) 
@@ -127,18 +203,27 @@ package com.bourre.plugin
 				throw new IllegalArgumentException( msg );
 			}
 		}
-
+		
+		/**
+		 * @private
+		 */
 		public function handleEvent ( e : Event = null ):void
 		{
 			
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function firePublicEvent( e : Event ) : void
 		{
 			if( _oEBPublic ) ( _oEBPublic as PluginBroadcaster ).firePublicEvent( e, this );
 				else getLogger().warn( this + " doesn't have public dispatcher" );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function firePrivateEvent( e : Event ) : void
 		{
 			if ( _oController.isRegistered( e.type ) ) 
@@ -150,7 +235,13 @@ package com.bourre.plugin
 				getLogger().debug( this + ".firePrivateEvent() fails to retrieve command associated with '" + e.type + "' event type." );
 			}
 		}
-
+		
+		/**
+		 * Releases instance.
+		 * 
+		 * <p>All locators are releases.<br />
+		 * Event controller and channel too.</p>
+		 */
 		public function release() : void
 		{
 			_oController.release();
@@ -167,7 +258,10 @@ package com.bourre.plugin
 			PluginDebug.release( this );
 			ChannelExpert.getInstance().releaseChannel( this );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addListener()
+		 */
 		public function addListener( listener : PluginListener ) : Boolean
 		{
 			if( _oEBPublic ) 
@@ -180,7 +274,10 @@ package com.bourre.plugin
 				return false;
 			}
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeListener()
+		 */
 		public function removeListener( listener : PluginListener ) : Boolean
 		{
 			if( _oEBPublic ) 
@@ -193,7 +290,10 @@ package com.bourre.plugin
 				return false;
 			}
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addEventListener()
+		 */
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			if( _oEBPublic ) 
@@ -206,7 +306,10 @@ package com.bourre.plugin
 				return false;
 			}
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeEventListener()
+		 */
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			if( _oEBPublic ) 

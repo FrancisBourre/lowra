@@ -20,8 +20,8 @@ package com.bourre.ioc.assembler.channel
 	import com.bourre.events.BasicEvent;			
 	
 	/**
-	 * <p>The ChannelListenerEvent class represents the event object passed 
-	 * to the event listener for <strong>ChannelListenerExpert</strong> events.</p>
+	 * The ChannelListenerEvent class represents the event object passed 
+	 * to the event listener for <strong>ChannelListenerExpert</strong> events.
 	 * 
 	 * @see ChannelListenerExpert
 	 * 

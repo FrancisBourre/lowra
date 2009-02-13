@@ -24,7 +24,7 @@ package com.bourre.ioc.parser
 	import com.bourre.utils.ClassUtils;	
 	
 	/**
-	 * <p>Abstract implementation for IoC xml node parsers.</p>
+	 * Abstract implementation for IoC xml node parsers.
 	 * 
 	 * @author Francis Bourre
 	 */

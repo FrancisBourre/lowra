@@ -780,7 +780,13 @@
 		<xsl:param name="href" />
 		<xsl:param name="fileName" />
 		<xsl:param name="fileName2" />
-
+		
+        <xsl:if test="$showPackages">
+			<a href="{$baseRef}annexes.html" onclick="loadClassListFrame('{$baseRef}all-classes.html')">Annexes</a>
+			<!-- <xsl:if test="$showAllClasses or $showIndex or $showLanguageElements"> -->
+				<xsl:text>&#xA0;|&#xA0;</xsl:text>
+			<!-- </xsl:if> -->
+		</xsl:if>
 		<xsl:if test="$showPackages">
 			<a href="{$baseRef}package-summary.html" onclick="loadClassListFrame('{$baseRef}all-classes.html')">All&#xA0;Packages</a>
 			<!-- <xsl:if test="$showAllClasses or $showIndex or $showLanguageElements"> -->

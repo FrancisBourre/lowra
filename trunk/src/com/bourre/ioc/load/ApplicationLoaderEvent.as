@@ -17,8 +17,8 @@
 package com.bourre.ioc.load
 {
 	/**
-	 * <p>The ApplicationLoaderEvent class represents the event object passed 
-	 * to the event listener for <strong>ApplicationLoader</strong> events.</p>
+	 * The ApplicationLoaderEvent class represents the event object passed 
+	 * to the event listener for <strong>ApplicationLoader</strong> events.
 	 * 
 	 * @see ApplicationLoader
 	 * 
@@ -340,8 +340,14 @@ package com.bourre.ioc.load
 		
 		/** Constante to identify 'Loading' state of application. */
 		public static const LOAD_STATE : String = "LOAD";		
+		/** Constante to identify 'pre processing' state of application. */
+		public static const PREPROCESS_STATE : String = "PREPROCESS";
+		
 		/** Constante to identify 'Parsing' state of application. */
 		public static const PARSE_STATE : String = "PARSE";
+		
+		/** Constante to identify 'Include loading' state of application. */
+		public static const INCLUDE_STATE : String = "INCLUDE";
 		
 		/** Constante to identify 'DLL loading' state of application. */
 		public static const DLL_STATE : String = "DLL";

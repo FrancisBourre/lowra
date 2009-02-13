@@ -68,16 +68,20 @@ package com.bourre.load
 	[Event(name="onLoadError", type="com.bourre.load.LoaderEvent")]
 	
 	/**
-	 * The AbstractLoader class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The AbstractLoader class gives abstract implementation of a 
+	 * loader object.
 	 * 
 	 * @author 	Francis Bourre
 	 */
 	public class AbstractLoader implements 	com.bourre.load.Loader, ASyncCommand
 	{
 		static private var _oPool : Dictionary = new Dictionary();
-
+		
+		/**
+		 * @private
+		 * 
+		 * Allow to avoid gc on local loader.
+		 */
 		static protected function registerLoaderToPool ( o : Loader ) : void
 		{
 			if( _oPool[ o ] == null )
@@ -89,7 +93,10 @@ package com.bourre.load
 				PixlibDebug.WARN( o + " is already registered in the loading pool" );
 			}
 		}
-
+		
+		/**
+		 * @private
+		 */
 		static protected function unregisterLoaderFromPool ( o : Loader ) : void
 		{
 			if( _oPool[ o ] != null )
@@ -101,7 +108,7 @@ package com.bourre.load
 				PixlibDebug.WARN( o + " is not registered in the loading pool" );
 			}
 		}
-
+		
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
@@ -114,7 +121,12 @@ package com.bourre.load
 		private var _bIsRunning : Boolean;
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
-
+		
+		/**
+		 * Creates new <code>AbstractLoader</code> instance.
+		 * 
+		 * @param	strategy	Loading strategy to use in this loader.
+		 */
 		public function AbstractLoader( strategy : LoadStrategy = null )
 		{
 			_loadStrategy = (strategy != null) ? strategy : new NullLoadStrategy();
@@ -167,157 +179,259 @@ package com.bourre.load
 				throw new NullPointerException( msg );
 			}
 		}
-
+		
+		/**
+		 * @protected
+		 */
 		protected function onInitialize() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 			fireEventType( LoaderEvent.onLoadInitEVENT );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.EventBroadcaster#setListenerType()
+		 */
 		final protected function setListenerType( type : Class ) : void
 		{
 			_oEB.setListenerType( type );
 		}
-
+		
+		/**
+		 * Returns the number of bytes loaded.
+		 * 
+		 * @return The number of bytes loaded
+		 */
 		public function getBytesLoaded() : uint
 		{
 			return _loadStrategy.getBytesLoaded();
 		}
-
+		
+		/**
+		 * Returns the total number of bytes to load.
+		 * 
+		 * @return The total number of bytes to load
+		 */
 		public function getBytesTotal() : uint
 		{
 			return _loadStrategy.getBytesTotal();
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		final public function getPerCent() : Number
 		{
 			var n : Number = Math.min( 100, Math.ceil( getBytesLoaded() / ( getBytesTotal() / 100 ) ) );
 			return ( isNaN(n) ) ? 0 : n;
 		}
 		
+		/**
+		 * Returns <code>true</code> if all bytes are loaded.
+		 * 
+		 * @return	<code>true</code> if all bytes are loaded.
+		 */
 		final public function isLoaded( ) : Boolean
 		{
 			return ( getBytesLoaded() / getBytesTotal() ) == 1 ;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getURL() : URLRequest
 		{
 			return _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function setURL( url : URLRequest ) : void
 		{
 			_oURL = url;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		final public function addASyncCommandListener( listener : ASyncCommandListener, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener( AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		final public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
 			return _oEB.removeEventListener(  AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addListener()
+		 */
 		public function addListener( listener : LoaderListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeListener()
+		 */
 		public function removeListener( listener : LoaderListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addEventListener()
+		 */
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeEventListener()
+		 */
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getName() : String
 		{
 			return _sName;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function setName( sName : String ) : void
 		{
 			_sName = sName;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function setAntiCache( b : Boolean ) : void
 		{
 			_bAntiCache = b;
 		}
-
+		
+		/**
+		 * Returns <code>true</code> if 'anticache' system is on.
+		 * 
+		 * @return <code>true</code> if 'anticache' system is on.
+		 */
 		public function isAntiCache() : Boolean
 		{
 			return _bAntiCache;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function prefixURL( sURL : String ) : void
 		{
 			_sPrefixURL = sURL;
 		}
-
+		
+		/**
+		 * Returns the loading timeout limit
+		 * 
+		 * @see #setTimeOut()
+		 */
 		final public function getTimeOut() : Number
 		{
 			return _nTimeOut;
 		}
-
+		
+		/**
+		 * Sets a loading timeout limit.
+		 */
 		final public function setTimeOut( n : Number ) : void
 		{
 			_nTimeOut = Math.max( 1000, n );
 		}
-
+		
+		/**
+		 * Releases instance and all registered listeners.
+		 */
 		public function release() : void
 		{
 			_loadStrategy.release();
 			_oEB.removeAllListeners();
 		}
-		public function getContent() : Object
+		
+		/**
+		 * Returns loaded content.
+		 * 
+		 * @return The loaded content
+		 */		public function getContent() : Object
 		{
 			return _oContent;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function setContent( content : Object ) : void
 		{	
 			_oContent = content;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function fireOnLoadProgressEvent() : void
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		final public function fireOnLoadInitEvent() : void
 		{
 			_bIsRunning = false;
 			onInitialize();
 			unregisterLoaderFromPool( this );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function fireOnLoadStartEvent() : void
 		{
 			fireEventType( LoaderEvent.onLoadStartEVENT );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function fireOnLoadErrorEvent( message : String = "" ) : void
 		{
 			fireEventType( LoaderEvent.onLoadErrorEVENT, message );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function fireOnLoadTimeOut() : void
 		{
 			unregisterLoaderFromPool( this );
 			fireEventType( LoaderEvent.onLoadTimeOutEVENT );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		final public function fireCommandEndEvent() : void
 		{
 			fireEventType( AbstractSyncCommand.onCommandEndEVENT );
@@ -333,12 +447,24 @@ package com.bourre.load
 			return PixlibStringifier.stringify( this );
 		}
 
-		//
+		/**
+		 * Dispatches event using passed-in type and optional error message.
+		 * 
+		 * @param	type			Event type so dispatch
+		 * @param	errorMessage	(optional) Error message to carry
+		 * 
+		 * @see #fireEvent()
+		 */
 		protected function fireEventType( type : String, errorMessage : String = "" ) : void
 		{
 			fireEvent( getLoaderEvent( type, errorMessage ) );
 		}
-
+		
+		/**
+		 * Dispatched passed-in event to all registered listeners.
+		 * 
+		 * @param	e	Event to dispatch
+		 */
 		protected function fireEvent( e : Event ) : void
 		{
 			_oEB.broadcastEvent( e );
@@ -346,6 +472,8 @@ package com.bourre.load
 		
 		/**
 		 * Returns a loader event for current loader instance.
+		 * 
+		 * @param	type	Event type to dispatch
 		 * 
 		 * @return A loader event for current loader instance.
 		 */
@@ -360,7 +488,10 @@ package com.bourre.load
 			var d : Date = new Date();
 			return String( d.getTime() );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function run () : void
 		{
 			if ( !isRunning() )
@@ -375,7 +506,10 @@ package com.bourre.load
 				throw new IllegalStateException( msg );
 			}
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function isRunning () : Boolean
 		{
 			return _bIsRunning;

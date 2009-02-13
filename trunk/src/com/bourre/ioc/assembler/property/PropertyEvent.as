@@ -20,8 +20,8 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.ioc.assembler.property.Property;	
 	
 	/**
-	 * <p>The PropertyEvent class represents the event object passed 
-	 * to the event listener for <strong>PropertyExpert</strong> events.</p>
+	 * The PropertyEvent class represents the event object passed 
+	 * to the event listener for <strong>PropertyExpert</strong> events.
 	 * 
 	 * @see PropertyExpert
 	 * 

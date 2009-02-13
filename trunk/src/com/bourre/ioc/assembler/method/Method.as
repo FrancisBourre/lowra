@@ -19,7 +19,7 @@ package com.bourre.ioc.assembler.method
 	import com.bourre.log.PixlibStringifier;	
 
 	/**
-	 * <p>Method class.</p>
+	 * Method class.
 	 * 
 	 * @author Francis Bourre
 	 */

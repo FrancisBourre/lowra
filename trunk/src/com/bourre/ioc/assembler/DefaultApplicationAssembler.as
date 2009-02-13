@@ -34,7 +34,7 @@ package com.bourre.ioc.assembler
 	
 	import flash.net.URLRequest;	
 	/**
-	 * <p>Default application assembler implementation.</p>
+	 * Default application assembler implementation.
 	 * 
 	 * @author Francis Bourre
 	 */	public class DefaultApplicationAssembler implements ApplicationAssembler

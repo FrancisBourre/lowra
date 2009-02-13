@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
 package com.bourre.plugin
 {
 	import com.bourre.collection.HashMap;
@@ -20,32 +21,61 @@ package com.bourre.plugin
 	import com.bourre.events.EventChannel;	
 
 	/**
-	 * The PluginChannel class.
+	 * The PluginChannel class defines event channel for a target plugin.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * <p>Each plugin has only one event channel.</p>
 	 * 
 	 * @author 	Francis Bourre
 	 */
-	public class PluginChannel
-		extends EventChannel
+	public class PluginChannel extends EventChannel
 	{
-		private static var _M : HashMap = new HashMap();
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+
+		private static var _M : HashMap = new HashMap( );
+
 		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Returns a <code>PluginChannel</code> registered with passed-in name.
+		 * 
+		 * <p>If channel not exist, it will be created and register using name 
+		 * argument.</p>
+		 * 
+		 * @param	channelName	Name of the event channel to retreive or 
+		 * 			to create.
+		 * 			
+		 * 	@return Plugin channel with channelName name.
+		 */	
+		public static function getInstance( channelName : String ) : PluginChannel
+		{
+			if ( !(PluginChannel._M.containsKey( channelName )) )
+				PluginChannel._M.put( channelName, new PluginChannel( new ConstructorAccess( ), channelName ) );
+				
+			return PluginChannel._M.get( channelName ) as PluginChannel;
+		}
+
+		
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+		
+		/**
+		 * @private
+		 */
 		public function PluginChannel( access : ConstructorAccess, channelName : String )
 		{
 			super( channelName );
 			
-			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
-		}
-		
-		public static function getInstance( channelName : String ) : PluginChannel
-		{
-			if ( !(PluginChannel._M.containsKey( channelName )) )
-				PluginChannel._M.put( channelName, new PluginChannel( new ConstructorAccess(), channelName ) );
-				
-			return PluginChannel._M.get( channelName ) as PluginChannel;
-		}
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException( );
+		}		
 	}
 }
 
-internal class ConstructorAccess{}
+internal class ConstructorAccess
+{
+}

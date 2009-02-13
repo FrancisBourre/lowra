@@ -17,9 +17,9 @@ package com.bourre.error
 {
 
 	/**
-	 * The UnsupportedOperationException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A UnsupportedOperationException exception is thrown when trying 
+	 * to access a method that is implemented as "unsupported" by the 
+	 * developer.
 	 * 
 	 * @author 	Francis Bourre
 	 */

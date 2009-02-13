@@ -20,8 +20,8 @@ package com.bourre.ioc.assembler
 	import flash.net.URLRequest;	
 	
 	/**
-	 * The ApplicationAssembler defines rules for assembler 
-	 * listeners.
+	 * The ApplicationAssembler defines rules for concrete assembler 
+	 * implementations.
 	 * 
 	 * @author Francis Bourre
 	 */

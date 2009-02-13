@@ -130,6 +130,8 @@ package com.bourre.log
 		{	
 			if ( e.level.getLevel() >= _oLevel.getLevel() ) 
 			{
+				if( oChannel != null ) e.channel = oChannel.toString();
+				
 				_oCB.broadcastEvent( e, oChannel );
 				return true;
 			} else

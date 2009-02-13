@@ -33,11 +33,6 @@ package com.bourre.media.sound
 	 * the real volume for this sound is 0.25.
 	 * </pre>
 	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
-	 * 
 	 * @author Francis Bourre 	(Pixlib.com.bourre.media.sound.MixSoundFactory)
 	 * @author Steve Lombard 	(rewrite for lowRa)
 	 */

@@ -17,9 +17,9 @@ package com.bourre.error
 {
 
 	/**
-	 * The UnimplementedVirtualMethodException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A UnimplementedVirtualMethodException exception is thrown when calling  
+	 * a method defined in an abstract class taht is not implemented in concrete 
+	 * class in use.
 	 * 
 	 * @author 	Francis Bourre
 	 */

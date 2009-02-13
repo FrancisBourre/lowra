@@ -23,20 +23,30 @@ package com.bourre.plugin
 	import flash.utils.getQualifiedClassName;	
 	
 	/**
-	 * The PluginBroadcaster class.
+	 * The PluginBroadcaster class extends EventBroadcaster to add dedicated Plugin 
+	 * features.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * <p>Implements the <code>firePlublicEvent()</code> method to dispatch event 
+	 * to all plugin listeners.</p>
 	 * 
 	 * @author 	Francis Bourre
 	 */
-	public class PluginBroadcaster 
-		extends EventBroadcaster
+	public class PluginBroadcaster extends EventBroadcaster
 	{
+		/**
+		 * Creates new <code>PluginBroadcaster</code> istance.
+		 */
 		public function PluginBroadcaster ( source : Object = null, type : Class = null )
 		{
 			super( source, type );
 		}
-
+		
+		/**
+		 * Dispatched passed-in event to all passed-in plugin listeners.
+		 * 	
+		 * @param	e		Event to dispatch
+		 * @param	owner	Plugin owner of this event
+		 */
 		public function firePublicEvent ( e : Event, owner : Plugin ) : void
 		{
 			if( e.target == null && e is BasicEvent ) ( e as BasicEvent ).target = _oSource;

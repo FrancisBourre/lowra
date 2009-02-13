@@ -56,8 +56,8 @@ package com.bourre.ioc.context
 	
 	
 	/**
-	 * <p>Context loader implementation based on the 
-	 * <code>XMLLoader</code> system.</p>
+	 * Context loader implementation based on the 
+	 * <code>XMLLoader</code> system.
 	 * 
 	 * @author Francis Bourre
 	 */

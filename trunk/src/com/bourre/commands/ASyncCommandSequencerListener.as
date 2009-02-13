@@ -18,11 +18,12 @@ package com.bourre.commands
 	import flash.events.Event;
 	
 	/**
-	 * The ASyncCommandSequencerListener interface.
+	 * The ASyncCommandSequencerListener interface defines rules for 
+	 * <code>ASyncCommandSequencer</code> listeners.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @author 	Cédric Néhémie
 	 * 
-	 * @author Cédric Néhémie
+	 * @see ASyncCommandSequencer
 	 */
 	public interface ASyncCommandSequencerListener extends ASyncCommandListener
 	{

@@ -21,8 +21,8 @@ package com.bourre.ioc.assembler.resource
 	import flash.net.URLRequest;	
 	
 	/**
-	 * <p>Value object to store resource configuration defined in 
-	 * xml context.</p>
+	 * Value object to store resource configuration defined in 
+	 * xml context.
 	 * 
 	 * @author Romain Ecarnot
 	 */

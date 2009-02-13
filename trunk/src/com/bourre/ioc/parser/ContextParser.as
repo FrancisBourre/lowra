@@ -34,7 +34,7 @@ package com.bourre.ioc.parser
 	[Event(name="onContextParsingEnd", type="com.bourre.ioc.parser.ContextParserEvent")]
 	
 	/**
-	 * <p>IoC Context parser.</p>
+	 * IoC Context parser.
 	 * 
 	 * <p>When context is loaded, this class parse content to build concrete 
 	 * object using xml node definition.</p>

@@ -43,11 +43,6 @@ package com.bourre.media.video
 	 * 
 	 * <p>TODO Documentation.</p>
 	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
-	 * 
 	 * @author 	Aigret Axel
 	 */
 	public class      VideoDisplay 

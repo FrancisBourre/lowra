@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8"?><templates><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Acces the BeanFactory locator" enabled="true" name="bf">BeanFactory.getInstance().locate( ${key} )</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates abstract class" enabled="true" name="class_abstract">package ${enclosing_package} 
+{
+	import com.bourre.error.PrivateConstructorException;
+	
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; is abstract implementation for...
+	 * 
+	 * &lt;p&gt;Use &lt;code class="prettyprint"&gt;getConstructorAccess()&lt;/code&gt; to 
+	 * extends class.&lt;/p&gt;
+	 * 
+	 * @see #getConstructorAccess()
+	 * 
+	 * @author ${user}
+	 */
+	public class ${enclosing_type} 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		${cursor}
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Gives access to &lt;code&gt;${enclosing_type}&lt;/code&gt; contructor.
+		 * 
+		 * @example
+		 * &lt;pre class="prettyprint"&gt;
+		 * package
+		 * {
+		 * 	public class MyExtension extends ${enclosing_type}
+		 * 	{
+		 * 		super( getConstructorAccess() );
+		 * 	}
+		 * }
+		 * &lt;/pre&gt;
+		 */
+		protected function getConstructorAccess(  ) : ConstructorAccess
+		{
+			return ConstructorAccess.instance;
+		}
+		
+				
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+				
+		/**
+		 * @private
+		 */
+		function ${enclosing_type}( access : ConstructorAccess )
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+		}
+	}
+}
+
+internal class ConstructorAccess 
+{
+	static public const instance : ConstructorAccess = new ConstructorAccess();
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty command class" enabled="true" name="class_command">package ${enclosing_package} 
+{
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.error.UnreachableDataException;
+	
+	import flash.events.Event;
+
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; command.
+	 *
+	 * @see	#execute()
+	 *
+	 * @author ${user}	 
+	 */
+	public class ${enclosing_type} extends AbstractCommand 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 */		
+		public function ${enclosing_type}( )
+		{
+			
+		}
+		
+		/**
+		 * Executes command.
+		 * 
+		 * @param	event	event object that will be used as data source by the command
+		 *  
+		 * @throws 	&lt;code&gt;UnreachableDataException&lt;/code&gt; — Stateless command
+		 * 			use the passed-in event as data source for its execution,
+		 * 			so the event must provide the right data for the current
+		 * 			&lt;code&gt;Command&lt;/code&gt; object.
+		 */
+		override public function execute( event : Event = null ) : void 
+		{
+			if( event == null )
+			{
+				var msg : String = this + ".execute() failed, event data is unreachable";
+				getLogger().error( msg );
+				throw( new UnreachableDataException( msg ) );
+			}
+			else
+			{
+				${cursor}
+			}
+		}
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty synchronous command class" enabled="true" name="class_command_sync">package ${enclosing_package} 
+{
+	import com.bourre.commands.AbstractSyncCommand;
+	import com.bourre.error.UnreachableDataException;
+	
+	import flash.events.Event;
+
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; sync command.
+	 *
+	 * @see	#execute()
+	 *
+	 * @author ${user}	 
+	 */
+	public class ${enclosing_type} extends AbstractSyncCommand 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 */		
+		public function ${enclosing_type}( )
+		{
+			super(  );
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function execute( event : Event = null ) : void 
+		{
+			if( event == null )
+			{
+				var msg : String = this + ".execute() failed, event data is unreachable";
+				getLogger().error( msg );
+				throw( new UnreachableDataException( msg ) );
+			}
+			else
+			{
+				${cursor}
+				
+				fireCommandEndEvent();
+			}
+		}
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates constants definition class" enabled="true" name="class_constants">package ${enclosing_package} 
+{
+
+	/**
+	 * Constants definition.
+	 * 
+	 * @author ${user}
+	 */
+	public final class ${enclosing_type} 
+	{
+		//--------------------------------------------------------------------
+		// Constants
+		//--------------------------------------------------------------------
+		
+		/**
+		 *
+		 */
+		public static const ${NAME} : ${TYPE} = ${cursor}	
+			
+		
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+				
+		/**
+		 * @private
+		 */
+		function ${enclosing_type}(  ) { 	}
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates debug class" enabled="true" name="class_debug">
+package ${enclosing_package}
+{
+	import com.bourre.events.EventChannel;
+	import com.bourre.log.Logger;	
+
+	/**
+	 * &lt;code&gt;${enclosing_type}&lt;/code&gt; class.
+	 * 
+	 * @author ${user}
+	 */
+	public class Tester
+	{
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+
+		private static var _CHANNEL : EventChannel;
+
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * You can disable or enable the debug by switching
+		 * the &lt;code&gt;isOn&lt;/code&gt; property with &lt;code&gt;true|false&lt;/code&gt;.
+		 * 
+		 * @default true
+		 */
+		public static var isOn : Boolean = true;
+
+		/**
+		 * Returns the &lt;code&gt;EventChannel&lt;/code&gt; instance.
+		 * 
+		 * @return The &lt;code&gt;EventChannel&lt;/code&gt; instance.
+		 */
+		public static function get CHANNEL() : EventChannel
+		{
+			if ( !${enclosing_type}._CHANNEL ) ${enclosing_type}._CHANNEL = new ${enclosing_type}Channel( );
+			return ${enclosing_type}._CHANNEL;
+		}
+
+		/**
+		 * Dispath a log on the &lt;code&gt;Logger&lt;/code&gt; instance with
+		 * &lt;code&gt;DEBUG&lt;/code&gt; level.
+		 * 
+		 * @param 	o	Any data to log.
+		 */
+		public static function DEBUG( o : * ) : void
+		{
+			if (${enclosing_type}.isOn) Logger.DEBUG( o, ${enclosing_type}.CHANNEL );
+		}
+
+		/**
+		 * Dispath a log on the &lt;code&gt;Logger&lt;/code&gt; instance with
+		 * &lt;code&gt;INFO&lt;/code&gt; level.
+		 * 
+		 * @param 	o	Any data to log.
+		 */
+		public static function INFO( o : * ) : void
+		{
+			if (${enclosing_type}.isOn) Logger.INFO( o, ${enclosing_type}.CHANNEL );
+		}
+
+		/**
+		 * Dispath a log on the &lt;code&gt;Logger&lt;/code&gt; instance with
+		 * &lt;code&gt;WARN&lt;/code&gt; level.
+		 * 
+		 * @param 	o	Any data to log.
+		 */
+		public static function WARN( o : * ) : void
+		{
+			if (${enclosing_type}.isOn) Logger.WARN( o, ${enclosing_type}.CHANNEL );
+		}
+
+		/**
+		 * Dispath a log on the &lt;code&gt;Logger&lt;/code&gt; instance with
+		 * &lt;code&gt;ERROR&lt;/code&gt; level.
+		 * 
+		 * @param 	o	Any data to log.
+		 */
+		public static function ERROR( o : * ) : void
+		{
+			if (${enclosing_type}.isOn) Logger.ERROR( o, ${enclosing_type}.CHANNEL );
+		}
+
+		/**
+		 * Dispath a log on the &lt;code&gt;Logger&lt;/code&gt; instance with
+		 * &lt;code&gt;FATAL&lt;/code&gt; level.
+		 * 
+		 * @param 	o	Any data to log.
+		 */
+		public static function FATAL( o : * ) : void
+		{
+			if (${enclosing_type}.isOn) Logger.FATAL( o, ${enclosing_type}.CHANNEL );
+		}
+	}
+}
+
+import com.bourre.events.EventChannel;
+
+internal class ${enclosing_type}Channel extends EventChannel 
+{
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty model class" enabled="true" name="class_model">package ${enclosing_package} 
+{
+	import com.bourre.model.AbstractModel;
+	import com.bourre.plugin.Plugin;
+
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; model.
+	 * 
+	 * @author ${user}
+	 */
+	public class ${enclosing_type} extends AbstractModel 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates instance.
+		 */		
+		public function ${enclosing_type}(owner : Plugin = null )
+		{
+			super( owner, ${cursor} );
+		}
+		
+		
+	}
+}
+	</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates Singleton class" enabled="true" name="class_singleton">package ${enclosing_package} 
+{
+	import com.bourre.log.PixlibStringifier;	
+	import com.bourre.error.PrivateConstructorException;
+	
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; class.
+	 * 
+	 * @author ${user}
+	 */
+	public class ${enclosing_type}
+	{
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+			
+		private static  var _oI : ${enclosing_type} ;
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Returns singleton instance of &lt;code&gt;${enclosing_type}&lt;/code&gt; class.
+		 * 
+		 * @return The singleton instance of &lt;code&gt;${enclosing_type}&lt;/code&gt; class.
+		 */	
+		public static function getInstance() : ${enclosing_type}
+		{
+			if ( !(${enclosing_type}._oI is ${enclosing_type}) ) ${enclosing_type}._oI = new ${enclosing_type}( ConstructorAccess.instance );
+			return ${enclosing_type}._oI;
+		}
+		
+		/**
+		 * Releases singleton instance.
+		 */
+		public static function release() : void
+		{
+			if ( ${enclosing_type}._oI is ${enclosing_type} ) ${enclosing_type}._oI = null;
+		}
+		
+		/**
+		 * Returns string representation of instance.
+		 * 
+		 * @return The string representation of instance.
+		 */
+		public function toString() : String
+		{
+			return PixlibStringifier.stringify( this );
+		}
+		
+
+		//--------------------------------------------------------------------
+		// Private implementation
+		//--------------------------------------------------------------------
+				
+		/**
+		 * @private
+		 */
+		function ${enclosing_type}( access : ConstructorAccess )
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
+		}
+	}
+}
+
+internal class ConstructorAccess 
+{
+	static public const instance : ConstructorAccess = new ConstructorAccess();
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty view class" enabled="true" name="class_view">package ${enclosing_package} 
+{
+	import com.bourre.plugin.Plugin;
+	import com.bourre.view.AbstractView;
+	
+	import flash.display.DisplayObject;
+	
+	/**
+	 * The &lt;code&gt;${enclosing_type} &lt;/code&gt; view.
+	 *
+	 * @author ${user}
+	 */
+	public class ${enclosing_type} extends AbstractView 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Creates instance.
+		 */
+		public function ${enclosing_type}( owner : Plugin = null, mc : DisplayObject = null )
+		{
+			super( owner, ${cursor}, mc );
+		}
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/**
+		 * @private
+		 * View is initialized.
+		 */
+		override protected function onInitView() : void
+		{
+			
+		}		
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty view class" enabled="true" name="class_view_container">package ${enclosing_package} 
+{
+	import com.bourre.plugin.Plugin;
+	import com.bourre.view.AbstractView;
+	
+	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
+
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; view. 
+	 *
+	 * @author ${user}
+	 */
+	public class ${enclosing_type} extends AbstractView 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Creates instance.
+		 */
+		public function ${enclosing_type}( owner : Plugin = null, mc : DisplayObject = null )
+		{
+			super( owner, ${cursor}, mc );
+		}
+		
+		/**
+		 * Returns &lt;code&gt;DisplayObjectContainer&lt;/code&gt; instance of current 
+		 * view.
+		 * 
+		 * @return The &lt;code&gt;DisplayObjectContainer&lt;/code&gt; instance of current 
+		 * view.
+		 */
+		public function getContainer(  ) : DisplayObjectContainer
+		{
+			return view as DisplayObjectContainer;
+		}
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/**
+		 * @private
+		 * View is initialized.
+		 */
+		override protected function onInitView() : void
+		{
+			
+		}		
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty view class" enabled="true" name="class_view_ioc">package ${enclosing_package} 
+{
+	import com.bourre.plugin.Plugin;
+	import com.bourre.view.AbstractView;
+	
+	/**
+	 * The &lt;code&gt;${enclosing_type} &lt;/code&gt; view.
+	 *
+	 * @author ${user}
+	 */
+	public class ${enclosing_type} extends AbstractView 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Creates instance.
+		 */
+		public function ${enclosing_type}( owner : Plugin = null )
+		{
+			super( owner, ${cursor} );
+		}
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/**
+		 * @private
+		 * View is initialized.
+		 */
+		override protected function onInitView() : void
+		{
+			
+		}		
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Creates an empty view class" enabled="true" name="class_view_ioc_container">package ${enclosing_package} 
+{
+	import com.bourre.plugin.Plugin;
+	import com.bourre.view.AbstractView;
+	
+	import flash.display.DisplayObjectContainer;
+
+	/**
+	 * The &lt;code&gt;${enclosing_type}&lt;/code&gt; view. 
+	 *
+	 * @author ${user}
+	 */
+	public class ${enclosing_type} extends AbstractView 
+	{
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Creates instance.
+		 */
+		public function ${enclosing_type}( owner : Plugin = null )
+		{
+			super( owner, ${cursor} );
+		}
+		
+		/**
+		 * Returns &lt;code&gt;DisplayObjectContainer&lt;/code&gt; instance of current 
+		 * view.
+		 * 
+		 * @return The &lt;code&gt;DisplayObjectContainer&lt;/code&gt; instance of current 
+		 * view.
+		 */
+		public function getContainer(  ) : DisplayObjectContainer
+		{
+			return view as DisplayObjectContainer;
+		}
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/**
+		 * @private
+		 * View is initialized.
+		 */
+		override protected function onInitView() : void
+		{
+			
+		}		
+	}
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Insert a BeanFactory bean test" enabled="true" name="if_beanbean">if( BeanFactory.getInstance().isBeanRegistered( ${bean} ) )
+{
+	${cursor}		
+}
+else
+{
+			
+}</template><template autoinsert="true" context="com.powerflasher.fdt.ui.editor.template.as3" deleted="false" description="Insert a BeanFactory key test" enabled="true" name="if_beankey">if( BeanFactory.getInstance().isRegistered( ${key} ) )
+{
+		${cursor}			
+}
+else
+{
+
+}</template></templates>

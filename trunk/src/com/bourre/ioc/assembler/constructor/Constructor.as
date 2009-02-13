@@ -20,9 +20,10 @@ package com.bourre.ioc.assembler.constructor
 	import com.bourre.log.PixlibStringifier;	
 	
 	/**
-	 * <p>Constructor class.</p>
+	 * The Constructor class store informations during xml context 
+	 * parsing on "how to build an object".
 	 * 
-	 * TODO Documentation
+	 * <p>TODO Documentation</p>
 	 * 
 	 * @author Francis Bourre
 	 */

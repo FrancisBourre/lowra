@@ -15,47 +15,8 @@
  */
 package com.bourre.ioc.load 
 {
-	import com.bourre.error.NullPointerException;
-	import com.bourre.events.ValueObjectEvent;
-	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
-	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
-	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
-	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
-	import com.bourre.ioc.assembler.displayobject.DisplayLoaderInfo;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
-	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;
-	import com.bourre.ioc.assembler.method.MethodExpert;
-	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.assembler.resource.ResourceExpert;
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.context.ContextLoader;
-	import com.bourre.ioc.context.ContextLoaderEvent;
-	import com.bourre.ioc.load.ApplicationLoaderEvent;
-	import com.bourre.ioc.load.ApplicationLoaderListener;
-	import com.bourre.ioc.load.FlashVarsUtil;
-	import com.bourre.ioc.parser.ContextParser;
-	import com.bourre.ioc.parser.ContextParserEvent;
-	import com.bourre.ioc.parser.DLLParser;
-	import com.bourre.ioc.parser.DisplayObjectParser;
-	import com.bourre.ioc.parser.LoaderParser;
-	import com.bourre.ioc.parser.ObjectParser;
-	import com.bourre.ioc.parser.ParserCollection;
-	import com.bourre.ioc.parser.RSCParser;
-	import com.bourre.load.AbstractLoader;
-	import com.bourre.load.LoaderEvent;
-	import com.bourre.load.LoaderListener;
-	import com.bourre.log.PixlibDebug;
-	
-	import flash.display.DisplayObjectContainer;
-	import flash.external.ExternalInterface;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;	
-
-	/**
+	import com.bourre.commands.Delegate;	import com.bourre.error.NullPointerException;	import com.bourre.events.ValueObjectEvent;	import com.bourre.ioc.assembler.ApplicationAssembler;	import com.bourre.ioc.assembler.DefaultApplicationAssembler;	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;	import com.bourre.ioc.assembler.constructor.ConstructorExpert;	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;	import com.bourre.ioc.assembler.displayobject.DisplayLoaderInfo;	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent;	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;	import com.bourre.ioc.assembler.method.MethodExpert;	import com.bourre.ioc.assembler.property.PropertyExpert;	import com.bourre.ioc.assembler.resource.ResourceExpert;	import com.bourre.ioc.bean.BeanFactory;	import com.bourre.ioc.context.ContextLoader;	import com.bourre.ioc.context.ContextLoaderEvent;	import com.bourre.ioc.context.processor.ContextProcessor;	import com.bourre.ioc.load.ApplicationLoaderEvent;	import com.bourre.ioc.load.ApplicationLoaderListener;	import com.bourre.ioc.load.FlashVarsUtil;	import com.bourre.ioc.parser.ContextParser;	import com.bourre.ioc.parser.ContextParserEvent;	import com.bourre.ioc.parser.DLLParser;	import com.bourre.ioc.parser.DisplayObjectParser;	import com.bourre.ioc.parser.LoaderParser;	import com.bourre.ioc.parser.ObjectParser;	import com.bourre.ioc.parser.ParserCollection;	import com.bourre.ioc.parser.RSCParser;	import com.bourre.load.AbstractLoader;	import com.bourre.load.LoaderEvent;	import com.bourre.load.LoaderListener;	import com.bourre.log.PixlibDebug;		import flash.display.DisplayObjectContainer;	import flash.external.ExternalInterface;	import flash.net.URLRequest;	import flash.system.LoaderContext;	
+	/**
 	 *  Dispatched when a context item file starts loading.
 	 *  
 	 *  @eventType com.bourre.ioc.load.ApplicationLoaderEvent.onLoadStartEVENT
@@ -102,7 +63,7 @@ package com.bourre.ioc.load
 	 *  
 	 *  Possible values for state are : 
 	 * <ul>
-	 * 	<li>ApplicationLoaderEvent.LOAD_STATE</li>
+	 * 	<li>ApplicationLoaderEvent.LOAD_STATE</li>	 * 	<li>ApplicationLoaderEvent.PREPROCESS_STATE</li>
 	 * 	<li>ApplicationLoaderEvent.PARSE_STATE</li>
 	 * 	<li>ApplicationLoaderEvent.DLL_STATE</li>
 	 * 	<li>ApplicationLoaderEvent.RSC_STATE</li>
@@ -152,7 +113,7 @@ package com.bourre.ioc.load
 	[Event(name="onApplicationInit", type="com.bourre.ioc.load.ApplicationLoaderEvent")]
 	
 	/**
-	 * <p>IoC Context loader.</p>
+	 * IoC Context loader.
 	 * 
 	 * @author Francis Bourre
 	 */
@@ -182,7 +143,7 @@ package com.bourre.ioc.load
 		//--------------------------------------------------------------------
 		
 		private var _oProxy : ApplicationLoaderListener;
-
+		
 		
 		//--------------------------------------------------------------------
 		// Protected properties
@@ -199,6 +160,15 @@ package com.bourre.ioc.load
 		
 		/** @private */
 		protected var _oParserCollection : ParserCollection;
+		
+		/** @private */
+		protected var _aVariables : Array;
+
+		/** @private */
+		protected var _aMethods : Array;
+
+		/** @private */
+		protected var _aProcessor : Array;
 		
 		
 		//--------------------------------------------------------------------
@@ -275,6 +245,10 @@ package com.bourre.ioc.load
 			initQueryURL( );
 			initContext( );
 			
+			_aVariables = new Array( );
+			_aMethods = new Array( );
+			_aProcessor = new Array( );
+			
 			setApplicationAssembler( new DefaultApplicationAssembler( ) );
 			
 			_initParserCollection( );
@@ -311,6 +285,79 @@ package com.bourre.ioc.load
 		public function setParserCollection( pc : ParserCollection ) : void
 		{
 			_oParserCollection = pc;
+		}
+		
+		/**
+		 * Sets new pair name / value for variable replacement when context 
+		 * file will be laoded.
+		 * 
+		 * @param	name	Name of the variable to replace.
+		 * @param	value	New value for this variable.
+		 * 
+		 * @example Variable definition somewhere in the xml context :
+		 * <pre class="prettyprint">
+		 * 
+		 * ${POSITION_X}
+		 * </pre>
+		 * 
+		 * @example Setting this variable using setVariable() method :
+		 * <pre class="prettyprint">
+		 * 
+		 * rtLoader.setVariable( "POSITION_X", 200 );
+		 * </pre>
+		 */
+		public function setVariable( name : String, value : Object ) : void
+		{
+			_aVariables.push( new Variable( name, value ) );
+		}
+		
+		/**
+		 * Adds new preprocessing method.
+		 * 
+		 * <p>Preprocessing act after xml loading and before context parsing.<br />
+		 * Used to transform context data on fly.</p>
+		 * 
+		 * @param	processingMethod	Method to call.<br/>
+		 * 								Method must accept an XML object as first argument 
+		 * 								and return an XML object when completed.
+		 * 	@param	...					Additionals parameters to pass to method when 
+		 * 								executing.
+		 * 								
+		 * @example
+		 * <pre class="prettyprint">
+		 * 
+		 * var oLoader : ApplicationLoader = new ApplicationLoader( this, false );
+		 * oLoader.addProcessingMethod( ProcessingHelper.changeObjectAttribute, "cross", "visible", "false" );
+		 * oLoader.addProcessingMethod( ProcessingHelper.changePropertyValue, "cross", "x", 600 );
+		 * oLoader.addProcessingMethod( ProcessingHelper.addResource, "newStyle", "myStyle.css" );
+		 * </pre>
+		 * 
+		 * @see com.bourre.ioc.context.processor.ProcessingHelper 
+		 */
+		public function addProcessingMethod( processingMethod : Function, ...args ) : void
+		{
+			var d : Delegate = new Delegate( processingMethod );
+			d.setArgumentsArray( args );
+			
+			_aMethods.push( d );
+		}
+		
+		/**
+		 * Adds new pre processing processor.
+		 * 
+		 * <p>Preprocessing act after xml loading and before context parsing.<br />
+		 * Used to transform context data on fly.</p>
+		 * 
+		 * @example
+		 * <pre class="prettyprint">
+		 * 
+		 * var oLoader : ApplicationLoader = new ApplicationLoader( this, false );
+		 * oLoader.addProcessor( new LocalisationProcessor() );
+		 * </pre>
+		 */
+		public function addProcessor( processor : ContextProcessor ) : void
+		{
+			_aProcessor.push( processor );
 		}
 
 		/**
@@ -385,22 +432,37 @@ package com.bourre.ioc.load
 				throw new NullPointerException( msg );
 			}
 		}
-
+		
 		/**
+		 * @private
+		 * 
 		 * Parses the loaded xml.
+		 * 
+		 * <p>Checks for context include before parsing the context.</p>
 		 */
 		public function parseContext( xml : * ) : void
 		{
-			// release all
+			xml = preprocess( xml );
+			
+			processParsing( xml );
+		}
+		
+		/**
+		 * @private
+		 * 
+		 * Parses the context xml.
+		 */
+		public function processParsing( xml : * ) : void
+		{
 			ChannelListenerExpert.getInstance( ).release( );
 			ConstructorExpert.getInstance( ).release( );
 			MethodExpert.getInstance( ).release( );
 			PropertyExpert.getInstance( ).release( );
 			ResourceExpert.getInstance( ).release( );
-
+			
 			var cp : ContextParser = new ContextParser( getParserCollection( ) );
 			cp.addEventListener( ContextParserEvent.onContextParsingEndEVENT, _onContextParsingEnd );
-
+			
 			if ( getDisplayObjectBuilder( ) == null ) setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
 			if ( isAntiCache( ) ) getDisplayObjectBuilder( ).setAntiCache( true );
 			getDisplayObjectBuilder( ).setRootTarget( _oRootTarget );
@@ -408,9 +470,14 @@ package com.bourre.ioc.load
 			
 			fireOnApplicationState( ApplicationLoaderEvent.PARSE_STATE ); 
 			
+			if( ApplicationLoader.DEBUG_LOADING_ENABLED ) //ADD TO LOWRA
+			{
+				PixlibDebug.DEBUG( this + ":: xml context to parse" );
+				PixlibDebug.DEBUG( xml.toString( ) );
+			}
+			
 			cp.parse( xml );
 		}
-		
 		
 		/**
 		 * Broadcasts <code>ApplicationLoaderEvent.onApplicationStartEVENT</code> 
@@ -480,6 +547,8 @@ package com.bourre.ioc.load
 			fireOnApplicationState( ApplicationLoaderEvent.RUN_STATE );
 			
 			if( _oProxy != null ) removeListener( _oProxy );
+			
+			release();
 		}
 		
 		
@@ -649,6 +718,67 @@ package com.bourre.ioc.load
 		//--------------------------------------------------------------------
 		
 		/**
+		 * Do preprocessing actions on xml context before parsing.
+		 * 
+		 * @param	xml	Content to process
+		 */
+		protected function preprocess( xml : XML ) : XML
+		{
+			fireOnApplicationState( ApplicationLoaderEvent.PREPROCESS_STATE );
+			
+			//Variables
+			if( _aVariables.length > 0 )
+			{
+				var src : String = xml.toString( );
+				for each (var variable : Variable in _aVariables) 
+				{
+					src = src.split( variable.name ).join( variable.value );
+				}
+				xml = new XML( src );
+			}
+			
+			//Methods
+			for each (var method : Delegate in _aMethods) 
+			{
+				method.setArgumentsArray( [ xml ].concat( method.getArguments( ) ) );
+				
+				var mr : XML = xml;
+				
+				try
+				{
+					mr = method.callFunction( );
+				}
+				catch( e : Error ) 
+				{
+				}
+				finally
+				{
+					xml = mr;
+				}
+			}
+			
+			//Processors
+			for each (var processor : ContextProcessor in _aProcessor ) 
+			{
+				var pr : XML = xml;
+				
+				try
+				{
+					pr = processor.process( xml );
+				}
+				catch( e : Error ) 
+				{
+				}
+				finally
+				{
+					xml = pr;
+				}
+			}
+			
+			return xml;
+		}
+		
+		/**
 		 * Retreives Query URL.
 		 * 
 		 * <p>Uses query URL to overwrite existing Flashvars for exemple.</p>
@@ -747,5 +877,27 @@ package com.bourre.ioc.load
 		{
 			return new ApplicationLoaderEvent( type, this, errorMessage );
 		}
+	}
+}
+
+internal class Variable
+{
+	private var _name : String;
+	private var _value : Object;
+
+	public function get name( ) : String
+	{
+		return _name;
+	}
+
+	public function get value( ) : String
+	{
+		return _value.toString( );
+	}
+
+	public function Variable( name : String, value : Object )
+	{
+		_name = "${" + name + "}";
+		_value = value;
 	}
 }

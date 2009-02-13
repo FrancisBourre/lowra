@@ -20,19 +20,13 @@ package com.bourre.media.sound
 	import com.bourre.events.BasicEvent;
 	import com.bourre.media.sound.SoundInfoChannel;	
 	
-	//TODO documentation
 	/**
-	 * The SoundEvent class.
-	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
+	 * The SoundEvent class represents the event object passed 
+	 * to the event listener for <strong>BeanFactory</strong> events.
 	 * 
 	 * @author Axel Aigret 
 	 */
-	public class SoundEvent 
-		extends BasicEvent
+	public class SoundEvent extends BasicEvent
 	{
 		public static const onSoundPlay 	: String = "onSoundPlay";
 		public static const onSoundProgress : String = "onSoundProgress";
@@ -43,9 +37,19 @@ package com.bourre.media.sound
 		public static const onSoundResume 	: String = "onSoundResume";
 		public static const onSoundStop 	: String = "onSoundStop";
 		
+		/** @private */
 		protected var _sound 			: SoundInfo ;
+		
+		/** @private */
 		protected var _soundInfoChannel : SoundInfoChannel ;
 		
+		
+		/**
+		 * Creates a new <code>SoundEvent</code> object.
+		 * 
+		 * @param	type				Name of the event type
+		 * @param	sound				SoundInfo object carried by this event		 * @param	soundInfoChannel	SoundInfoChannel object carried by this event
+		 */	
 		public function SoundEvent( type : String, sound : SoundInfo , soundInfoChannel : SoundInfoChannel )
 		{
 			_sound 			  = sound ;
@@ -53,12 +57,22 @@ package com.bourre.media.sound
 			super( type, _sound );
 			
 		}
-
+		
+		/**
+		 * Returns the SoundInfo object carried by this event.
+		 * 
+		 * @return	The SoundInfo value carried by this event.
+		 */
 		public function getSoundInfo() : SoundInfo
 		{
 			return _sound;
 		}
 		
+		/**
+		 * Returns the SoundInfoChannel object carried by this event.
+		 * 
+		 * @return	The SoundInfoChannel value carried by this event.
+		 */
 		public function getSoundInfoChannel( ) : SoundInfoChannel 
 		{
 			return _soundInfoChannel  ;

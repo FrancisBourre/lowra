@@ -32,14 +32,12 @@ package com.bourre.core
 	import flash.utils.getQualifiedClassName;	
 
 	/**
-	 * The AbstractLocator class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The AbstractLocator class gives an abstract implementation for 
+	 * <code>Locator</code> objects.
 	 * 
 	 * @author 	Francis Bourre
 	 */
-	public class AbstractLocator 
-		implements Locator, TypedContainer
+	public class AbstractLocator implements Locator, TypedContainer
 	{
 		private var _oEB : Broadcaster;
 		private var _cType : Class;

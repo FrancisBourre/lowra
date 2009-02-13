@@ -18,8 +18,8 @@ package com.bourre.service
 	import com.bourre.events.BasicEvent;	
 	
 	/**
-	 * <p>The ServiceLocatorEvent class represents the event object passed 
-	 * to the event listener for <strong>ServiceLocator</strong> events.</p>
+	 * The ServiceLocatorEvent class represents the event object passed 
+	 * to the event listener for <strong>ServiceLocator</strong> events.
 	 * 
 	 * @author Francis Bourre
 	 * 

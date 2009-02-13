@@ -1,0 +1,219 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'How to use include feature' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
+	<head>
+		<title>How to load context at runtime - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'How to load context at runtime - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+			
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/assembler-runtime.html&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					How to load context at runtime
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("How to use include feature");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+	
+
+	<div class="MainContent">
+    <h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#conventions">Example</a></li>
+	<li><a href="#url">URL Rules</a></li>
+	<li><a href="#tree">The display tree</a></li>
+	<li><a href="#cross">Cross references</a></li>
+	<li><a href="#processing">Pre processing</a></li>
+	</ol>
+<p>&nbsp;</p>
+
+			<a name="overview"></a>
+            <h1>Overview</h1>
+            <p>
+              You will find below the  method to load xml context at runtime.<br>
+                Welcome to dynamic context for LowRA IoC.
+            </p>
+          <p>&nbsp;</p>
+          
+          <a name="convention"></a>
+          <h1>Example</h1>
+            <p>          Main application is loaded and so your main xml context too( main application context file, resources, and more... ).<br>
+          Application has started, and all works well.<br>
+          After user actions or at some point in your application, you need a new plugin ( and its context definition ), to add features to our application now; and only &quot;<strong>at runtime</strong>&quot;. You don't want to include this plugin all the time in your main xml context.<br>
+              <br>
+              Example of this possible context file ( monitorContext.xml ) which add the Kairos Monitor support application.
+      <div class="listing"><pre class="prettyprint">
+&lt;beans&gt;<br>	&lt;dll url=&quot;MonitoringPluginDLL.swf&quot; /&gt;<br>	<br>	&lt;plugin id=&quot;Monitor&quot; type=&quot;lowra.plugins.utils.MonitoringPlugin&quot;&gt;<br>		&lt;property name=&quot;x&quot; value=&quot;200&quot; /&gt;
+		&lt;property name=&quot;y&quot; value=&quot;0&quot; /&gt;
+		&lt;property name=&quot;alpha&quot; value=&quot;0.5&quot; /&gt;<br>	&lt;/plugin&gt;<br>&lt;/beans&gt;<br></pre>
+</div>
+                <p><br />
+To load context at runtime, use the <strong> com.bourre.ioc.load.runtime.RuntimeContextLoader</strong> class.</p>
+                <p>Example :</p>
+                <div class="listing">
+                  <pre class="prettyprint">var rtLoader : RuntimeContextLoader = new RuntimeContextLoader(  );<br>rtLoader.addEventListener( ApplicationLoaderEvent.onApplicationInitEVENT, onComplete );<br>rtLoader.load( new URLRequest( &quot;config/runtimeContext.xml&quot; ) );</pre>
+</div>
+                <p><br />
+                When the context file is loaded, Kairos Monitor is available in your application.<br>
+                You can listen all events defined in <a href="../com/bourre/ioc/load/ApplicationLoaderEvent.html#constantSummary">ApplicationLoaderEvent</a> class (like classic context loading).</p>
+                
+                </p>
+                <p>&nbsp;</p>
+                <p><a name="url"></a>
+                </p>
+          <h1>URL rules</h1>
+            <p> All url in loaded file are under IoC URL manager control. <br>
+      You can take a look at<a href="assembler-url-rules.html"> this tutorial</a> for more informations.
+      <p>But we can force  url to be &quot;<strong>relative</strong>&quot; to the context&quot;. ( <em>sandbox</em> <em>rules</em> )<br>
+            In this way, all url defined in xml context ( and in included context if defined ) must be relative to the path of the loaded context file.<br>
+            This technic allow to encapsulate context, plugin, file and all content in a single and dedicated folder for example.
+      <p>If you want to create a clean package for Kairos Monitor, you can :
+<ol>
+              <li>Create a monitor folder </li>
+              <li>Copy all needed files into this folder</li>
+              <li>Create xml context and define all url relative to his file.</li>
+            </ol>
+            <p>To load a runtime context using &quot;<em>sandbox</em>&quot; technic, simple define the <code>#sandbox</code> property to true.</p>
+            <div class="listing">
+              <pre class="prettyprint">var rtLoader : RuntimeContextLoader = new RuntimeContextLoader(  );
+rtLoader.sandbox = true;<br>rtLoader.addEventListener( ApplicationLoaderEvent.onApplicationInitEVENT, onComplete );<br>rtLoader.load( new URLRequest( &quot;db/monitor/context.xml&quot; ) );</pre>
+            </div>
+            <p>&nbsp;</p>
+<p><a name="tree"></a>
+<h1>The Display tree</h1>
+           <p>
+                Display trees can be loaded to.      </p>
+      <div class="listing">
+        <pre class="prettyprint">&lt;beans&gt;<br>	&lt;dll url=&quot;MonitoringPluginDLL.swf&quot; /&gt;<br>	
+	&lt;root=&quot;layer&quot;&gt;
+		&lt;logo id=&quot;logo&quot; url=&quot;../assets/logo.jpg&quot; /&gt;
+	&lt;/root&gt;
+	<br>	&lt;plugin id=&quot;Monitor&quot; type=&quot;lowra.plugins.utils.MonitoringPlugin&quot;&gt;<br>		&lt;property name=&quot;x&quot; value=&quot;200&quot; /&gt;
+		&lt;property name=&quot;y&quot; value=&quot;0&quot; /&gt;
+		&lt;property name=&quot;alpha&quot; value=&quot;0.5&quot; /&gt;<br>	&lt;/plugin&gt;<br>&lt;/beans&gt;</pre>
+</div>
+          <p><strong>Important</strong> : you have to define a target container for the <strong>RuntimeContextLoader</strong> otherwise the loaded display tree is ignored.</p>
+      <div class="listing">
+        <pre class="prettyprint">
+var container : DisplayObjectContainer : BeanFactory.getInstance().locate( ContextNodeNameList.ROOT ) as DisplayObjectContainer;
+
+var rtLoader : RuntimeContextLoader = new RuntimeContextLoader( container );<br>rtLoader.addEventListener( ApplicationLoaderEvent.onApplicationInitEVENT, onComplete );<br>rtLoader.load( new URLRequest( &quot;config/runtimeContext.xml&quot; ) );</pre>
+</div>
+          <p>The <code>id</code> attribute of your loaded root is important as it define the container where display tree content will be inserted.<br>
+            For example, you define an the <code>id</code>
+     like this : </p>
+          <div class="listing">
+            <pre class="prettyprint">&lt;beans&gt;
+	&lt;root=&quot;layer&quot;&gt;
+		&lt;logo id=&quot;logo&quot; url=&quot;../assets/logo.jpg&quot; /&gt;
+	&lt;/root&gt;<br>&lt;/beans&gt;</pre>
+          </div>
+          <p>The logo is added to the container defined by the <strong>RunTimeContextLoader</strong>. ( constructor argument )<br>
+          So you can get reference to this container using :</p>
+          <div class="listing">
+            <pre class="prettyprint">var loadedLayer : DisplayObjectContainer = BeanFactory.getInstance().locate( &quot;layer&quot; ) as DisplayObjectContainer;</pre>
+          </div>
+          <p>But, if you define the <code>id</code> as :</p>
+          <div class="listing">
+            <pre class="prettyprint">&lt;beans&gt;
+	&lt;root=&quot;root&quot;&gt;
+		&lt;logo id=&quot;logo&quot; url=&quot;../assets/logo.jpg&quot; /&gt;
+	&lt;/root&gt;<br>&lt;/beans&gt;</pre>
+          </div>
+          <p>The same <code>id</code> as your main context display list root object, then loaded display object will be added to this root container, and the container ( &quot;layer&quot; ) can no longer be accessible.<br>
+          So take care of root <code>id</code> definition. </p>
+      <p>&nbsp;</p>
+          
+           <a name="cross"></a>
+<h1>Cross references</h1>
+      <p>
+          All loaded objects are registered in the global context, so we can use cross reference to target an object, channel or whatever you want in the global IoC context.</p>
+      <p>&nbsp;</p>
+<a name="processing" id="processing"></a>
+<h1>Pre processing</h1>
+      <p>
+          As <strong>RuntimeContextLoader</strong> extends <strong>ApplicationLoader</strong> class, context pre processing is also available.<br>
+        You can take a look at<a href="assembler-customize.html#processing"> this tutorial</a> for more informations about pre processing.</p>
+      <p>For variables substitution, we can use URL Query definition, like this :      </p>
+      <div class="listing">
+        <pre class="prettyprint">
+var rtLoader : RuntimeContextLoader = new RuntimeContextLoader( );<br>rtLoader.addEventListener( ApplicationLoaderEvent.onApplicationInitEVENT, onComplete );<br>rtLoader.load( new URLRequest( &quot;config/runtimeContext.xml?POSITION_X=200&amp;POSITION_Y=50&quot; ) );</pre>
+      </div>
+<p>&nbsp;</p>
+          
+	</div>
+		
+        <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+    </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>

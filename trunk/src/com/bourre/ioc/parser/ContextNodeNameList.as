@@ -20,7 +20,7 @@ package com.bourre.ioc.parser
 	import com.bourre.log.PixlibStringifier;	
 
 	/**
-	 * <p>Enumeration of nodes name compliant with Lowra context assembler.</p>
+	 * Enumeration of nodes name compliant with Lowra context assembler.
 	 * 
 	 * @author Francis Bourre
 	 */

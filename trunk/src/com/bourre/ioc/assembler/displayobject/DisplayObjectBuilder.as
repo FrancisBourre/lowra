@@ -18,10 +18,11 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.commands.Command;
 	import com.bourre.events.ValueObject;
 	
-	import flash.display.DisplayObjectContainer;	
-	
+	import flash.display.DisplayObjectContainer;
+	import flash.net.URLRequest;	
+
 	/**
-	 * <p>All Display object builder must implement this interface.</p>
+	 * All Display object builder must implement this interface.
 	 * 
 	 * @author Francis Bourre
 	 * 
@@ -38,6 +39,18 @@ package com.bourre.ioc.assembler.displayobject
 		 * Sets the root target for display list creation.
 		 */
 		function setRootTarget( target : DisplayObjectContainer ) : void;
+		
+		/**
+		 * Retreives and returns correct url using <code>request</code> base url 
+		 * and the possible <code>prefix</code> to insert.
+		 * 
+		 * <p>Use IoC url manager to build correct url link.<br />
+		 * See documentation annexes for more informations about url engine.</p>
+		 * 
+		 * @return	The correct url using <code>request</code> base url 
+		 * and the possible <code>prefix</code> to insert.
+		 */
+		function getURLRequest( request : URLRequest, prefix : String = null ) : URLRequest;
 		
 		/**
 		 * Builds a display loader using passed-in <code>ValueObject</code> 

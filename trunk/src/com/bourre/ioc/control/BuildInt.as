@@ -24,7 +24,7 @@ package com.bourre.ioc.control
 	import flash.events.Event;	
 	
 	/**
-	 * <p>Command to build int object.</p>
+	 * Command to build int object.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

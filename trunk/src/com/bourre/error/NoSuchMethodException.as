@@ -17,11 +17,13 @@ package com.bourre.error
 {
 
 	/**
-	 * The NoSuchMethodException exception.
+	 * A NoSuchMethodException exeption is thrown when the method name 
+	 * supplied is not a method of target object in use.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @author 	Francis Bourre
 	 * 
-	 * @author 	Cédric Néhémie
+	 * @see com.bourre.core.AccessorFactory#getAccessor()
+	 * @see com.bourre.core.MethodAccessor
 	 */
 	public class NoSuchMethodException extends Error 
 	{

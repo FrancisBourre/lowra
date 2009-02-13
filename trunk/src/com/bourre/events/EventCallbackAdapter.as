@@ -28,7 +28,7 @@ package com.bourre.events
 	/**
 	 * The EventCallbackAdapter class.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * TODO Documentation.
 	 * 
 	 * @author 	Francis Bourre
 	 */

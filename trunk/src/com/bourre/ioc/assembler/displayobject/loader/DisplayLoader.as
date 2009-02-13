@@ -34,7 +34,7 @@ package com.bourre.ioc.assembler.displayobject.loader
 		 * @param	url		Context file currently in use
 		 * @pram	size	Elements queues size
 		 */
-		function onStartApplication( url : String, size : uint ) : void;
+		function onStartApplication( url : String, size : uint = 0 ) : void;
 		
 		/**
 		 * Triggered when 'name-callback' is called from IoC engine.

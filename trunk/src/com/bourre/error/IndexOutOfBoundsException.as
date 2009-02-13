@@ -16,9 +16,9 @@
  package com.bourre.error
 {
 	/**
-	 * The IndexOutOfBoundsException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A IndexOutOfBoundsException exception is thrown when the index supplied 
+	 * is not valid for data structure which try to access data using this 
+	 * index.
 	 * 
 	 * @author 	Francis Bourre
 	 */

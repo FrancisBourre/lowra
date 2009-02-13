@@ -24,21 +24,34 @@ package com.bourre.plugin
 	import flash.utils.Dictionary;	
 
 	/**
-	 * The ChannelExpert class.
+	 * The ChannelExpert class is a repository for 
+	 * <code>EventChannel</code> object.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see com.bourre.events.EventChannel
 	 * 
-	 * @author 	Francis Bourre	 * @author 	Romain Flacher
+	 * @author 	Francis Bourre
+	 * @author 	Romain Flacher
 	 */
 	public class ChannelExpert
 	{
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+				
 		private static var _oI 	: ChannelExpert;
 		private static var _N 	: uint = 0;
 
 		private var _m 				: HashMap;
 		private var _oRegistered 	: Dictionary;
 		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
 		/**
+		 * Returns singleton instance of ChannelExpert.
+		 * 
 		 * @return singleton instance of ChannelExpert
 		 */
 		public static function getInstance() : ChannelExpert 
@@ -47,6 +60,9 @@ package com.bourre.plugin
 			return ChannelExpert._oI;
 		}
 		
+		/**
+		 * Releases instance.
+		 */
 		public static function release():void
 		{
 			if ( ChannelExpert._oI is ChannelExpert ) 
@@ -56,6 +72,9 @@ package com.bourre.plugin
 			}
 		}
 		
+		/**
+		 * @private
+		 */
 		public function ChannelExpert( access : ConstructorAccess )
 		{
 			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
@@ -64,6 +83,13 @@ package com.bourre.plugin
 			_oRegistered = new Dictionary( true );
 		}
 		
+		/**
+		 * Returns <code>EventChannel</code> for passed-in plugin.
+		 * 
+		 * @param	plugin	Plugin to check
+		 * 
+		 * @return <code>EventChannel</code> for passed-in plugin.
+		 */
 		public function getChannel( o : Plugin ) : EventChannel
 		{
 			if( _oRegistered[o] == null )
@@ -88,6 +114,11 @@ package com.bourre.plugin
 			}
 		}
 		
+		/**
+		 * Releases event channel of passed-in plugin
+		 * 
+		 * @param	plugin	Plugin to check
+		 */
 		public function releaseChannel( o : Plugin ) : Boolean
 		{
 			if( _oRegistered[o] )
@@ -103,6 +134,11 @@ package com.bourre.plugin
 			}
 		}
 		
+		/**
+		 * Registers passed-in event channel in hashmap.
+		 * 
+		 * @param channel Event channel to store.
+		 */
 		public function registerChannel( channel : EventChannel ) : void
 		{
 			_m.put( ChannelExpert._N, channel );

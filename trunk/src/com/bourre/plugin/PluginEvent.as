@@ -17,32 +17,103 @@ package com.bourre.plugin
 {
 	import com.bourre.events.ValueObject;
 	import com.bourre.events.ValueObjectEvent;	
-	
+
 	/**
-	 * The PluginEvent class.
+	 * The PluginEvent class represents the event object passed 
+	 * to the event listener for <strong>Plugin</strong> events.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see Plugin
 	 * 
-	 * @author 	Francis Bourre
+	 * @author Francis Bourre
 	 */
-	public class PluginEvent 
-		extends ValueObjectEvent
+	public class PluginEvent extends ValueObjectEvent
 	{
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onInitPlugin</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+	     * <table class="innertable">
+	     *     <tr><th>Property</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>type</code></td>
+	     *     	<td>Dispatched event type</td>
+	     *     </tr>
+	     *     
+	     *     <tr><th>Method</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>getPlugin()</code>
+	     *     	</td><td>The plugin carried by this event</td>
+	     *     </tr>
+	     * </table>
+	     * 
+		 * @eventType onInitPlugin
+		 */		
 		public static const onInitPluginEVENT 		: String = "onInitPlugin";
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onReleasePlugin</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+	     * <table class="innertable">
+	     *     <tr><th>Property</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>type</code></td>
+	     *     	<td>Dispatched event type</td>
+	     *     </tr>
+	     *     
+	     *     <tr><th>Method</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>getPlugin()</code>
+	     *     	</td><td>The plugin carried by this event</td>
+	     *     </tr>
+	     * </table>
+	     * 
+		 * @eventType onReleasePlugin
+		 */	
 		public static const onReleasePluginEVENT 	: String = "onReleasePlugin";
-
+		
+		
+		//--------------------------------------------------------------------
+		// Protected properties
+		//--------------------------------------------------------------------
+		
+		/** @private */		
 		protected var _plugin : Plugin;
-
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates a new <code>ConstructorEvent</code> object.
+		 * 
+		 * @param	sType		Name of the event type
+		 * @param	target		TODO doumentation		 * @param	plugin		Constructor object carried by this event
+		 * @param	valueObject	TODO doumentation
+		 */	
 		public function PluginEvent( sType : String, target : Object = null, plugin : Plugin = null, valueObject : ValueObject = null )
 		{
 			
 			super( sType, target, valueObject );
+			
 			_plugin = plugin;
 		}
-
+		
+		/**
+		 * Returns the plugin object carried by this event.
+		 * 
+		 * @return	The plugin value carried by this event.
+		 */
 		public function getPlugin() : Plugin
 		{
-			return _plugin;
+			return ( _plugin != null ) ? _plugin : getTarget() as Plugin;
 		}
 	}
 }

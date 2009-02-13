@@ -24,6 +24,8 @@ package com.bourre.encoding
 	{
 		/**
 		 * Returns <code>serializedContent</code> deserialization result.
+		 * 
+		 * @return The <code>serializedContent</code> deserialization result.
 		 */
 		function deserialize( serializedContent : Object, target : Object = null ) : Object;
 	}

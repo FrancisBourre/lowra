@@ -17,11 +17,12 @@ package com.bourre.error
 {
 
 	/**
-	 * The NoSuchFieldException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A NoSuchFieldException exception is thrown rwhen the property name 
+	 * supplied is not a property of target object in use.
 	 * 
 	 * @author 	Francis Bourre
+	 * 
+	 * @see com.bourre.core.AccessorFactory#getAccessor()	 * @see com.bourre.core.PropertyAccessor
 	 */
 	public class NoSuchFieldException extends Error 
 	{

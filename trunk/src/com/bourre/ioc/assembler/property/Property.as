@@ -20,7 +20,7 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.log.PixlibStringifier;	
 	
 	/**
-	 * <p>Property class.</p>
+	 * Property class.
 	 * 
 	 * @author Francis Bourre
 	 */

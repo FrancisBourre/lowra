@@ -16,7 +16,7 @@
 package com.bourre.error
 {
 	/**
-	 * Throw an <code>UnreachableDataException</code> when a stateless
+	 * A UnreachableDataException exception is thrown when a stateless
 	 * command don't retreive the needed data from the passed-in event
 	 * 
 	 * @author Cédric Néhémie

@@ -23,7 +23,7 @@
   </feedback>
   
   <warnings langversion="false" playerversion="false"/>
-  <includeExamplesDirectory>../../../../doc/examples</includeExamplesDirectory>
+  <includeExamplesDirectory>../../examplesIncludes</includeExamplesDirectory>
   <title>LowRA API Documentation</title> 
   <windowTitle>LowRA API Documentation</windowTitle>
   <footer><![CDATA[LowRA API documentation 2008- 2009]]></footer>

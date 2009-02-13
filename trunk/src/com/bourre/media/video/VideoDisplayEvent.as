@@ -20,24 +20,25 @@ package com.bourre.media.video
 	import com.bourre.media.video.MetaData;	
 
 	/**
-	 * The VideoDisplayEvent class.
+	 * The VideoDisplayEvent class represents the event object passed 
+	 * to the event listener for VideoDisplay events.
 	 * 
-	 * <p>TODO Documentation.</p>
-	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
+	 * @see VideoDisplay
 	 * 
 	 * @author 	Aigret Axel
 	 */
 	public class VideoDisplayEvent extends LoaderEvent 
 	{
-
+		//--------------------------------------------------------------------
+		// Constants
+		//--------------------------------------------------------------------
+				
 		public static var onPlayHeadTimeChangeEVENT : String = new String( "onPlayHeadTimeChange" );
 		public static var onStartStreamEVENT : String 		 = new String( "onStartStream" );
+		
 		/** Send when video is stop manually or finish itself*/
 		public static var onStopStreamEVENT : String 		 = new String( "onStopStream" );
+		
 		/** WORK ONLY WITH METADATA send when video has finish */
 		public static var onEndVideoEVENT : String 			 = new String( "onEndVideo" );
 		public static var onMetaDataEVENT : String 			 = new String( "onMetaData" );
@@ -47,31 +48,53 @@ package com.bourre.media.video
 		public static var onCuePointEVENT : String 			 = new String( "onCuePoint" );
 		public static var onErrorEVENT : String 			 = new String( "onError" );
 		
+		
+		/**
+		 * Creates new <code>VideodisplayEvent</code> instance.
+		 * 
+		 * @param	type			Name of the event type
+		 * @param	videoDisplay	VideoDisplay object carried by this event
+		 * @param	errorMessage	(optional) Error message carried by this event
+		 */
 		public function VideoDisplayEvent( type : String , videoDisplay : VideoDisplay ,  errorMessage : String = "" )
 		{ 
 			super(type, videoDisplay , errorMessage);
 		}
 		
+		/**
+		 * Returns the VideoDisplay object carried by this event.
+		 * 
+		 * @return	The VideoDisplay value carried by this event.
+		 */
 		public function getVideoDisplay() : VideoDisplay
 		{
 			return getLoader() as VideoDisplay ; 
 		}
-
+		
+		/**
+		 * Returns duration of video carried by this event.
+		 */
 		public function getDuration() : Number
 		{
 			return getVideoDisplay().getDuration();
 		}
-	
+		
+		/**
+		 * Returns playhead position of video carried by this event.
+		 */
 		public function getPlayheadTime() : Number
 		{
-			return getVideoDisplay().getDuration();
+			return getVideoDisplay().getPlayheadTime();
 		}
 		
+		/**
+		 * Returns video metada carried by this event.
+		 */
 		public function getMetaData( ) : MetaData 
 		{
 			return getVideoDisplay().getMetaData();
 		}
-	
+		
 		/*public function getFormattedPlayheadTime() : String
 		{
 			return  StringUtils.getFormattedTime( Math.round(VideoDisplay( _oLib ).getPlayheadTime()) );
