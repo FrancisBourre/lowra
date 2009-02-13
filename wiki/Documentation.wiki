@@ -30,3 +30,4 @@
 == Extras ==
 
     * [http://lowra.customactions.net/doc/howto/fdt-template.html Eclipse FDT 3 Templates]
+    * [http://lowra.customactions.net/doc/howto/xml-template.html Eclipse XML Templates]
