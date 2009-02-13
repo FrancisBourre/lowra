@@ -20,8 +20,8 @@ package com.bourre.ioc.assembler.constructor
 	import com.bourre.events.BasicEvent;				
 	
 	/**
-	 * <p>The ConstructorEvent class represents the event object passed 
-	 * to the event listener for <strong>ConstructorExpert</strong> events.</p>
+	 * The ConstructorEvent class represents the event object passed 
+	 * to the event listener for <strong>ConstructorExpert</strong> events.
 	 * 
 	 * @author Francis Bourre
 	 * 

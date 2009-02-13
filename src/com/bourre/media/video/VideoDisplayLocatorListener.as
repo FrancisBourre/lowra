@@ -17,20 +17,31 @@
 package com.bourre.media.video
 {
 	/**
-	 * The VideoDisplayLocatorListener interface.
-	 * 
-	 * <p>TODO Documentation.</p>
-	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
+	 * The VideoDisplayLocatorListener interface defines rules for 
+	 * <code>VideoDisplayLocator</code> listeners.
 	 * 
 	 * @author 	Aigret Axel
+	 * 
+	 * @see VideoDisplay
+	 * @see VideoDisplayLocator
+	 * @see VideoDisplayLocatorEvent
 	 */
 	public interface VideoDisplayLocatorListener
 	{
+		/**
+		 *  Dispatched when VideoDisplay object is registered in 
+		 *  <code>VideoDisplayLocator</code> locator.
+		 *  
+		 *  @eventType com.bourre.media.video.VideoDisplayLocatorEvent.onRegisterVideoDisplayEVENT
+		 */
 		function onRegisterVideo( e : VideoDisplayLocatorListener ) : void;
+		
+		/**
+		 *  Dispatched when VideoDisplay object is unregistered from 
+		 *  <code>VideoDisplayLocator</code> locator.
+		 *  
+		 *  @eventType com.bourre.media.video.VideoDisplayLocatorEvent.onUnregisterVideoDisplayEVENT
+		 */
 		function onUnregisterVideo( e : VideoDisplayLocatorListener ) : void;
 	}
 }

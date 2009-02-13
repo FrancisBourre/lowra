@@ -21,7 +21,6 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.core.HashCodeFactory;
 	import com.bourre.encoding.Deserializer;
 	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.error.IllegalStateException;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.events.ValueObject;
 	import com.bourre.events.ValueObjectEvent;
@@ -48,6 +47,7 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.net.URLLoaderDataFormat;
+	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;	
 
@@ -143,7 +143,7 @@ package com.bourre.ioc.assembler.displayobject
 	[Event(name="onRSCLoadInit", type="com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent")]
 	
 	/**
-	 * <p>Default display object builder implementation.</p>
+	 * Default display object builder implementation.
 	 * 
 	 * @author Francis Bourre
 	 */
@@ -272,10 +272,10 @@ package com.bourre.ioc.assembler.displayobject
 			{
 				var msg : String = this + ".setRootTarget call failed. Argument is not a DisplayObjectContainer.";
 				PixlibDebug.ERROR( msg );
-				throw( new IllegalStateException( msg ) );
+				throw( new IllegalArgumentException( msg ) );
 			}
 		}
-
+		
 		/**
 		 * @inheritDoc
 		 */
@@ -283,7 +283,15 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			return _target;
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function getURLRequest( request : URLRequest, prefix : String = null ) : URLRequest
+		{
+			return ApplicationLoader.getURLRequest( request, prefix );
+		}
+		
 		/**
 		 * @inheritDoc
 		 */
@@ -305,7 +313,7 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			var info : DisplayObjectInfo = valueObject as DisplayObjectInfo;
 			
-			info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getDLLPathKey( ) );
+			info.url = getURLRequest( info.url, FlashVarsUtil.getDLLPathKey( ) );
 
 			var gl : GraphicLoader = new GraphicLoader( null, -1, false );
 			_dllQueue.add( gl, ContextNodeNameList.DLL + HashCodeFactory.getNextKey(), info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
@@ -324,7 +332,7 @@ package com.bourre.ioc.assembler.displayobject
 				loader.setDataFormat( URLLoaderDataFormat.BINARY );
 			}
 			
-			info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getResourcePathKey( ) );
+			info.url = getURLRequest( info.url, FlashVarsUtil.getResourcePathKey( ) );
 			
 			ResourceExpert.getInstance().register( info.id, info );
 			
@@ -340,7 +348,7 @@ package com.bourre.ioc.assembler.displayobject
 			
 			if ( !info.isEmptyDisplayObject( ) )
 			{
-				info.url = ApplicationLoader.getURLRequest( info.url, FlashVarsUtil.getGFXPathKey( ) );
+				info.url = getURLRequest( info.url, FlashVarsUtil.getGFXPathKey( ) );
 				
 				var gl : GraphicLoader = new GraphicLoader( null, -1, info.isVisible );
 				_gfxQueue.add( gl, info.ID, info.url, new LoaderContext( false, ApplicationDomain.currentDomain ) );
@@ -685,7 +693,7 @@ package com.bourre.ioc.assembler.displayobject
 			
 			return false;
 		}
-
+		
 		
 		//--------------------------------------------------------------------
 		// Private implementation

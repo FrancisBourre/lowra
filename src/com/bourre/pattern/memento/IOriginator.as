@@ -1,7 +1,7 @@
 package com.bourre.pattern.memento
 {
 	/**
-	 * <code>IOriginator</code> is an interface used to save and set the state of an object
+	 * <code>IOriginator</code> is an interface used to save and set the state of an object.
 	 * 
 	 * <p>Implements this interface to define specific originator for specific object.</p>
 	 * 

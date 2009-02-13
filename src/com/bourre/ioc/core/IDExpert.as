@@ -23,7 +23,7 @@ package com.bourre.ioc.core
 	import flash.utils.Dictionary;	
 	
 	/**
-	 * <p>IoC Identifier manager.</p>
+	 * IoC Identifier manager.
 	 * 
 	 * @author Francis Bourre
 	 */

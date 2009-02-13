@@ -42,7 +42,7 @@ package com.bourre.ioc.bean
 	[Event(name="onUnregisterBean", type="com.bourre.ioc.bean.BeanEvent")]
 	
 	/**
-	 * <p>Bean factory manager.</p>
+	 * Bean factory manager.
 	 * 
 	 * @author Francis Bourre
 	 * @author Olympe Dignat

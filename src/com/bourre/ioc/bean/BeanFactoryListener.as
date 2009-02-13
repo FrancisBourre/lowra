@@ -16,7 +16,7 @@
 package com.bourre.ioc.bean
 {
 	/**
-	 * <p>All bean factory listeners must implement this iterface.</p>
+	 * All bean factory listeners must implement this iterface.
 	 * 
 	 * @see BeanFactory
 	 * 

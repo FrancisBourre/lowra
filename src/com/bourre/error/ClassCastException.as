@@ -17,9 +17,8 @@ package com.bourre.error
 {
 
 	/**
-	 * The ClassCastException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A ClassCastException exception is throw when the actual type of 
+	 * an operand is different from the expected type.
 	 * 
 	 * @author 	Francis Bourre
 	 */

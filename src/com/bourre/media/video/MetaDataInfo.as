@@ -25,11 +25,6 @@ package com.bourre.media.video
 	 * 
 	 * <p>TODO Documentation.</p>
 	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
-	 * 
 	 * @author 	Aigret Axel
 	 */
 	public class MetaDataInfo implements MetaData 
@@ -53,6 +48,11 @@ package com.bourre.media.video
 		/** File position for key time   */
 		protected var _aKFilePositions 	: Array ;
 		
+		/**
+		 * Creates new <code>MetaDataInfo</code> instance.
+		 * 
+		 * @param	o	Raw meta information
+		 */
 		public function MetaDataInfo( o : Object ) 
 		{
 			_oMetaData = o;
@@ -74,6 +74,9 @@ package com.bourre.media.video
 		
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function getDuration() : Number
 		{
 			return _nDuration ; 
@@ -84,6 +87,9 @@ package com.bourre.media.video
 			return _nLastTimeStamp ; 
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		public function getSize() : Dimension
 		{
 			return new Dimension(_nWidth, _nHeight) ; 

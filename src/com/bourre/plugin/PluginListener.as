@@ -15,16 +15,31 @@
  */
 package com.bourre.plugin
 {
+
 	/**
-	 * The PluginListener interface.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The PluginListener interface defines rules for objects 
+	 * which want to listen all of plugin events.
 	 * 
 	 * @author 	Francis Bourre
 	 */
 	public interface PluginListener
 	{
-		function onInitPlugin		( e : PluginEvent ) : void;
-		function onReleasePlugin	( e : PluginEvent ) : void;
+		/**
+		 * Triggered when plugin is initialized.
+		 * 
+		 * @param	e	Event dispatched
+		 * 
+		 * @see PluginEvent
+		 */
+		function onInitPlugin( e : PluginEvent ) : void;
+
+		/**
+		 * Triggered when plugin is released.
+		 * 
+		 * @param	e	Event dispatched
+		 * 
+		 * @see PluginEvent
+		 */
+		function onReleasePlugin( e : PluginEvent ) : void;
 	}
 }

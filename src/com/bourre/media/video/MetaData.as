@@ -23,17 +23,23 @@ package com.bourre.media.video
 	 * 
 	 * <p>TODO Documentation.</p>
 	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
-	 * 
 	 * @author 	Aigret Axel
 	 */
 	public interface MetaData 
 	{
+		/**
+		 * Returns the duration of the video file, in seconds.
+		 * 
+		 * @return The duration of the video file, in seconds.
+		 */
 		function getDuration() : Number
 		function getLastTimeStamp() : Number
+		
+		/**
+		 * Returns the size of the video file, in seconds.
+		 * 
+		 * @return The size of the video file, in seconds.
+		 */
 		function getSize() : Dimension
 		function hasKeyFrames() : Boolean
 		function getKeyTimes() : Array

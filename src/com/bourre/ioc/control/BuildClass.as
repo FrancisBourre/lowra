@@ -24,7 +24,7 @@ package com.bourre.ioc.control
 	import flash.utils.getDefinitionByName;	
 	
 	/**
-	 * <p>Command to build Class object.</p>
+	 * Command to build Class object.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

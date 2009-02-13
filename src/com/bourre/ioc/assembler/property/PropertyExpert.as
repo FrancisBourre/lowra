@@ -51,8 +51,6 @@ package com.bourre.ioc.assembler.property
 	 * The PropertyExpert class is a locator for 
 	 * <code>Property</code> object.
 	 * 
-	 * <p>TODO Documentation
-	 * 
 	 * @see Property
 	 * 
 	 * @author Francis Bourre
@@ -97,7 +95,7 @@ package com.bourre.ioc.assembler.property
 		 */
 		override protected function onRegister( id : String = null, o : Object = null ) : void
 		{
-			broadcastEvent( new PropertyEvent( PropertyEvent.onRegisterPropertyOwnerEVENT, id ) );
+			broadcastEvent( new PropertyEvent( PropertyEvent.onRegisterPropertyOwnerEVENT, id, o as Property ) );
 		}
 		
 		/**

@@ -72,10 +72,17 @@ package com.bourre.view
 		//--------------------------------------------------------------------
 		// Protected properties
 		//--------------------------------------------------------------------
-				
+		
+		/** Associated GraphicLoader. */	
 		protected var _gl 		: GraphicLoader;
+		
+		/** View identifier. */
 		protected var _sName	: String;
+		
+		/** Dedicated Broadcaster for this view. */
 		protected var _oEB		: EventBroadcaster;
+		
+		/** Plugin owner. */
 		protected var _owner 	: Plugin;
 	
 		

@@ -20,13 +20,14 @@ package com.bourre.ioc.assembler.displayobject.loader
 	import com.bourre.ioc.load.ApplicationLoaderEvent;
 	import com.bourre.ioc.load.ApplicationLoaderListener;
 	import com.bourre.load.LoaderEvent;
+	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.net.URLRequest;		
 
-	/**	 * <p>Proxy to allow connection between <code>ApplicationLoaderListener</code> and 
-	 * a generic Display Loader object.</p>
+	/**	 * Proxy to allow connection between <code>ApplicationLoaderListener</code> and 
+	 * a generic Display Loader object.
 	 * 
 	 * @see DisplayLoader
 	 * @see AbstractDisplayLoader
@@ -176,7 +177,14 @@ package com.bourre.ioc.assembler.displayobject.loader
 		{
 			if( callback.length > 0 && _oTarget.hasOwnProperty( callback ) )
 			{
-				_oTarget[callback].apply( _oTarget, args );
+				try
+				{
+					_oTarget[callback].apply( _oTarget, args );
+				}
+				catch( e : Error )
+				{
+					PixlibDebug.ERROR( this + "::" + callback + "(" + args + ") fails : " + e.message );
+				}
 			}
 		}
 		

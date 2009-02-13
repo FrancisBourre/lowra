@@ -19,7 +19,7 @@ package com.bourre.error
 	/**
 	 * The IllegalStateException exception.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * TODO Documentation.
 	 * 
 	 * @author 	Francis Bourre
 	 */

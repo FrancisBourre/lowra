@@ -17,9 +17,7 @@ package com.bourre.error
 {
 
 	/**
-	 * The NullPointerException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A NullPointerException is thrown when the arguments supplied is null.
 	 * 
 	 * @author 	Francis Bourre
 	 */

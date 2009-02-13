@@ -26,9 +26,11 @@ package com.bourre.plugin
 	import flash.events.Event;	
 
 	/**
-	 * The NullPlugin class.
+	 * The NullPlugin class defines a default plugin to use if none is defined 
+	 * current application.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * <p>Can be used to allow Front controller, locators and event channel 
+	 * concept on non IoC application.
 	 * 
 	 * @author 	Francis Bourre
 	 */
@@ -37,45 +39,71 @@ package com.bourre.plugin
 		private static var _oI : NullPlugin = null;
 
 		private var _channel : NullPluginChannel;
-
-		public function NullPlugin ( access : ConstructorAccess )
+		
+		/**
+		 * @private
+		 */
+		function NullPlugin ( access : ConstructorAccess )
 		{
 			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException();
 			
 			_channel = new NullPluginChannel();
 		}
-
+		
+		/**
+		 * Returns singleton instance of <code>NullPlugin</code> class.
+		 * 
+		 * @return The singleton instance of <code>NullPlugin</code> class.
+		 */
 		public static function getInstance() : NullPlugin
 		{
 			if ( !(NullPlugin._oI is NullPlugin) ) NullPlugin._oI = new NullPlugin( new ConstructorAccess() );
 			return NullPlugin._oI;
 		}
-
+		
+		/**
+		 * @private
+		 */
 		public function fireOnInitPlugin() : void
 		{
 			
 		}
-
+		
+		/**
+		 * @private
+		 */
 		public function fireOnReleasePlugin() : void
 		{
 			
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function fireExternalEvent( e : Event, channel : EventChannel ) : void
 		{
 			
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function firePublicEvent( e : Event ) : void
 		{
 			
 		}
-
+	
+		/**
+		 * @inheritDoc
+		 */
 		public function firePrivateEvent( e : Event ) : void
 		{
 			
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function getChannel() : EventChannel
 		{
 			return _channel;
@@ -87,26 +115,35 @@ package com.bourre.plugin
 		}
 
 		/**
+		 * @inheritDoc
+		 */
+		public function getModel( key : String ) : AbstractModel
+		{
+			return ModelLocator.getInstance( this ).getModel( key );
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function getView( key : String ) : AbstractView
+		{
+			return ViewLocator.getInstance( this ).getView( key );
+		}				public function isModelRegistered( key : String ) : Boolean		{
+			return ModelLocator.getInstance( this ).isRegistered( key );
+		}		
+		/**
+		 * @inheritDoc
+		 */		public function isViewRegistered( key : String ) : Boolean		{
+			return ViewLocator.getInstance( this ).isRegistered( key );
+		}
+		
+		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */
 		public function toString() : String 
 		{
 			return PixlibStringifier.stringify( this );
-		}
-
-		public function getModel( key : String ) : AbstractModel
-		{
-			return ModelLocator.getInstance( this ).getModel( key );
-		}
-		
-		public function getView( key : String ) : AbstractView
-		{
-			return ViewLocator.getInstance( this ).getView( key );
-		}				public function isModelRegistered( key : String ) : Boolean		{
-			return ModelLocator.getInstance( this ).isRegistered( key );
-		}				public function isViewRegistered( key : String ) : Boolean		{
-			return ViewLocator.getInstance( this ).isRegistered( key );
 		}
 	}
 }

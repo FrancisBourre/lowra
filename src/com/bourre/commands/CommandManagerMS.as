@@ -15,31 +15,47 @@
  */
 package com.bourre.commands
 {
+	import com.bourre.error.PrivateConstructorException;	
+	
 	/**
-	 * The CommandManagerMS class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The CommandManagerMS class defines singleton access to 
+	 * <code>CommandMS</code> object.
 	 * 
 	 * @author 	Francis Bourre
+	 * 
+	 * @see CommandMS
 	 */
-	public class CommandManagerMS 
-		extends CommandMS
+	public class CommandManagerMS extends CommandMS
 	{
 		private static var _oI : CommandManagerMS;
-
+		
+		/**
+		 * Returns singleton instance of <code>CommandManagerMS</code>
+		 * 
+		 * @return The singleton instance of <code>CommandManagerMS</code>
+		 */
 		public static function getInstance() : CommandManagerMS
 		{
 			if ( !(CommandManagerMS._oI is CommandManagerMS) ) CommandManagerMS._oI = new CommandManagerMS( new ConstructorAccess() );
 			return CommandManagerMS._oI;
 		}
-
+		
+		/**
+		 * Releases instance.
+		 */
 		public static function release() : void
 		{
 			CommandManagerMS._oI.removeAll();
 			CommandManagerMS._oI = null;
 		}
-
-		public function CommandManagerMS ( o : ConstructorAccess ) {}
+		
+		/**
+		 * @private
+		 */
+		public function CommandManagerMS ( access : ConstructorAccess )
+		{
+			if ( !(access is ConstructorAccess) ) throw new PrivateConstructorException( );
+		}
 	}
 }
 internal class ConstructorAccess {}

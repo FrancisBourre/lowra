@@ -16,7 +16,7 @@
 package com.bourre.ioc.parser
 {
 	import com.bourre.error.PrivateConstructorException;			/**
-	 * <p>Enumeration of possible attribute name in the xml context.</p>
+	 * Enumeration of possible attribute name in the xml context.
 	 * 
 	 * @author Francis Bourre
 	 */
@@ -36,7 +36,8 @@ package com.bourre.ioc.parser
 		public static const VISIBLE : 						String = "visible";
 		public static const SINGLETON_ACCESS : 				String = "singleton-access";
 		public static const METHOD : 						String = "method";
-
+		public static const ROOT_REF : 						String = "root-ref";
+		
 		public static const START_CALLBACK : 				String = "start-callback";
 		public static const NAME_CALLBACK : 				String = "name-callback";
 		public static const LOAD_CALLBACK : 				String = "load-callback";		public static const PROGRESS_CALLBACK : 			String = "progress-callback";
@@ -147,7 +148,15 @@ package com.bourre.ioc.parser
 		{
 			return xml.attribute( ContextAttributeList.METHOD );
 		}
-
+		
+		/**
+		 * Returns <code>root-ref</code> attibute value.
+		 */
+		public static function getRootRef( xml : XML ) : String
+		{
+			return xml.attribute( ContextAttributeList.ROOT_REF );
+		}
+		
 		/**
 		 * Returns <code>start-callback</code> attibute value.
 		 */

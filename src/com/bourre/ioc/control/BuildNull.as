@@ -23,7 +23,7 @@ package com.bourre.ioc.control
 	import flash.events.Event;	
 	
 	/**
-	 * <p>Command to build null object.</p>
+	 * Command to build null object.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

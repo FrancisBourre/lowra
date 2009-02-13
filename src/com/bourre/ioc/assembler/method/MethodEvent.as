@@ -19,8 +19,8 @@ package com.bourre.ioc.assembler.method
 	import com.bourre.ioc.assembler.method.Method;	
 	
 	/**
-	 * <p>The MethodEvent class represents the event object passed 
-	 * to the event listener for <strong>MethodExpert</strong> events.</p>
+	 * The MethodEvent class represents the event object passed 
+	 * to the event listener for <strong>MethodExpert</strong> events.
 	 * 
 	 * @author Francis Bourre
 	 * 

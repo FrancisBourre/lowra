@@ -26,8 +26,8 @@ package com.bourre.ioc.control
 	import flash.events.Event;	
 	
 	/**
-	 * <p>Command to build object using reference identifier store 
-	 * into <code>Constructor</code> parameter.</p>
+	 * Command to build object using reference identifier store 
+	 * into <code>Constructor</code> parameter.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

@@ -19,8 +19,8 @@ package com.bourre.ioc.assembler.resource
 	import com.bourre.events.BasicEvent;				
 	
 	/**
-	 * <p>The ResourceEvent class represents the event object passed 
-	 * to the event listener for <strong>ResourceExpert</strong> events.</p>
+	 * The ResourceEvent class represents the event object passed 
+	 * to the event listener for <strong>ResourceExpert</strong> events.
 	 * 
 	 * @see ResourceExpert
 	 * 

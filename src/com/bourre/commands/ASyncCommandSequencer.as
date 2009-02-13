@@ -29,15 +29,13 @@ package com.bourre.commands
 	 * TODO Upgrade to IOC : 
 	 *  - remove abstract protection hack and call super with constructor argument
 	 *  - uncomment extends elements 
-	 *  - refactor add and remove listener return
 	 */
 
 	/**
-	 * The AsyncCommandSequencer class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The AsyncCommandSequencer manage <code>ASyncCommand</code> execution list.
 	 * 
 	 * @author 	Cédric Néhémie
+	 * 
 	 * @see		AbstractSyncCommand
 	 * @see		ASyncCommand
 	 * @see		ASyncCommandListener
@@ -54,8 +52,9 @@ package com.bourre.commands
 		private var _eOnCommandTimeout : BasicEvent;
 		
 		/**
+		 * Creates new <code>ASyncCommandSequencer</code> instance.
 		 * 
-		 * @param nTimeout
+		 * @param nTimeout	Timout detection limit
 		 */
 		public function ASyncCommandSequencer ( nTimeout : int = -1 )
 		{
@@ -70,10 +69,11 @@ package com.bourre.commands
 		}		
 		
 		/**
+		 * Adds passed-in command to sequencer.
 		 * 
-		 * @param oCommand
-		 * @return 
+		 * @param oCommand	An ASyncCommand command to add
 		 * 
+		 * @return <code>true</code> if command is successfully added
 		 */
 		public function addCommand( oCommand : ASyncCommand ) : Boolean
 		{
@@ -84,9 +84,7 @@ package com.bourre.commands
 		}
 		
 		/**
-		 * Clear all the commands
-		 * @return 
-		 * 
+		 * Clear all the commands list.
 		 */
 		public function clear() : void
 		{
@@ -97,10 +95,19 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Adds passed-in command to sequencer before passed-in indexed command 
+		 * in sequencer.
 		 * 
-		 * @param indexCommand
-		 * @param oCommand
-		 * @return 
+		 * <p><code>indexCommand</code> must be registered in sequencer to find 
+		 * his position.<br />
+		 * The <code>oCommand</code> command is inserted before 
+		 * <code>indexCommand</code> command.</p>
+		 * 
+		 * @param	indexCommand	Command to search
+		 * @param	oCommand		Command to add before <code>indexCommand</code> 
+		 * 							command.
+		 * 							
+		 * @return	<code>true</code> if <code>oCommand</code> is was successfully inserted.
 		 * 
 		 */
 		public function addCommandBefore( indexCommand : ASyncCommand, oCommand : ASyncCommand ) : Boolean
@@ -112,10 +119,19 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Adds passed-in command to sequencer after passed-in indexed command 
+		 * in sequencer.
 		 * 
-		 * @param indexCommand
-		 * @param oCommand
-		 * @return 
+		 * <p><code>indexCommand</code> must be registered in sequencer to find 
+		 * his position.<br />
+		 * The <code>oCommand</code> command is added after 
+		 * <code>indexCommand</code> command.</p>
+		 * 
+		 * @param	indexCommand	Command to search
+		 * @param	oCommand		Command to add after <code>indexCommand</code> 
+		 * 							command.
+		 * 							
+		 * @return	<code>true</code> if <code>oCommand</code> is was successfully inserted.
 		 * 
 		 */
 		public function addCommandAfter( indexCommand : ASyncCommand, oCommand : ASyncCommand ) : Boolean
@@ -127,10 +143,11 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Adds passed-in command in first position in sequencer.
 		 * 
-		 * @param oCommand
-		 * @return 
+		 * @param	oCommand	Command to add
 		 * 
+		 * @return	<code>true</code> if <code>oCommand</code> is was successfully inserted.
 		 */
 		public function addCommandStart(oCommand : ASyncCommand ) : Boolean
 		{
@@ -138,10 +155,11 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Adds passed-in command at last position in sequencer.
 		 * 
-		 * @param oCommand
-		 * @return 
+		 * @param	oCommand	Command to add
 		 * 
+		 * @return	<code>true</code> if <code>oCommand</code> is was successfully inserted.
 		 */
 		public function addCommandEnd(oCommand : ASyncCommand ) : Boolean
 		{
@@ -149,11 +167,11 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Adds passed-in command at index position in sequencer.
 		 * 
-		 * @param p index at which the command is to be inserted.
-		 * @param oCommand
-		 * @return 
+		 * @param	index		Index for insertion (must be valid)		 * @param	oCommand	Command to add
 		 * 
+		 * @return	<code>true</code> if <code>oCommand</code> is was successfully inserted.
 		 */
 		protected function addCommandAt( index : uint, oCommand : ASyncCommand ) : Boolean
 		{
@@ -166,9 +184,11 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Removes passed-in command from sequencer.
 		 * 
-		 * @param oCommand
-		 * @return 
+		 * @param	oCommand	Command to remove
+		 * 
+		 * @return <code>true</code> if command was successfully removed.
 		 * 
 		 */
 		public function removeCommand( oCommand : ASyncCommand ):Boolean
@@ -185,9 +205,9 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Returns sequencer list size.
 		 * 
-		 * @return 
-		 * 
+		 * @return The sequencer list size.
 		 */
 		public function getLength () : uint
 		{
@@ -195,6 +215,7 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Returns the <code>ASyncCommand</code> that running at this time in the sequencer.
 		 * 
 		 * @return the <code>ASyncCommand</code> that running at this time in the sequencer
 		 * 
@@ -211,8 +232,9 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Starts sequencer execution.
 		 * 
-		 * @param e
+		 * @param	e	Ignored in this process
 		 * 
 		 */
 		public override function execute( e : Event = null ) : void
@@ -225,9 +247,7 @@ package com.bourre.commands
 		}
 				
 		/**
-		 * 
-		 * @param e
-		 * 
+		 * @inheritDoc
 		 */
 		public function onCommandEnd( e : Event):void
 		{
@@ -248,50 +268,39 @@ package com.bourre.commands
 
 		
 		/**
-		 * 
-		 * @param t
-		 * @param o
-		 * 
+		 * @copy com.bourre.events.Broadcaster#addEventListener()
 		 */
-		public function addEventListener ( t : String, o : * ) : void
+		public function addEventListener ( t : String, o : * ) : Boolean
 		{
-			_oEB.addEventListener( t, o );
+			return _oEB.addEventListener( t, o );
 		}
 		
 		/**
-		 * 
-		 * @param t
-		 * @param o
-		 * 
+		 * @copy com.bourre.events.Broadcaster#removeEventListener()
 		 */
-		public function removeEventListener ( t : String, o : * ) : void
+		public function removeEventListener ( t : String, o : * ) : Boolean
 		{
-			_oEB.removeEventListener( t, o );
+			return _oEB.removeEventListener( t, o );
 		}
 		
 		/**
-		 * 
-		 * @param o
-		 * 
+		 * @copy com.bourre.events.Broadcaster#addListener()
 		 */
-		public function addListener ( o : ASyncCommandSequencerListener ) : void
+		public function addListener ( o : ASyncCommandSequencerListener ) : Boolean
 		{
-			_oEB.addListener( o );
+			return _oEB.addListener( o );
 		}
 		
 		/**
-		 * 
-		 * @param o
-		 * 
+		 * @copy com.bourre.events.Broadcaster#removeListener()
 		 */
-		public function removeListener ( o : ASyncCommandSequencerListener ) : void
+		public function removeListener ( o : ASyncCommandSequencerListener ) : Boolean
 		{
-			_oEB.removeListener( o );
+			return _oEB.removeListener( o );
 		}
 		
 		/**
-		 * 
-		 * 
+		 * Executes next method, if available.
 		 */
 		private function _executeNextCommand () : void
 		{
@@ -309,8 +318,9 @@ package com.bourre.commands
 		}
 		
 		/**
+		 * Triggered when a timeout occurs during sequencer processing.
 		 * 
-		 * @param e
+		 * @param	e	TimerEvent event.
 		 * 
 		 */
 		public function _onTimeout ( e : TimerEvent ) : void
@@ -342,9 +352,7 @@ package com.bourre.commands
 		}
 		
 		/**
-		 * 
-		 * @return 
-		 * 
+		 * @inheritDoc
 		 */
 		public override function toString () : String
 		{

@@ -25,7 +25,7 @@ package com.bourre.ioc.control
 	import flash.utils.Dictionary;	
 	
 	/**
-	 * <p>Command to build Dictionnay object.</p>
+	 * Command to build Dictionnay object.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

@@ -21,8 +21,8 @@ package com.bourre.ioc.assembler.displayobject
 	import flash.net.URLRequest;	
 	
 	/**
-	 * <p>Value object to store Display loader configuration defined in 
-	 * xml context.</p>
+	 * Value object to store Display loader configuration defined in 
+	 * xml context.
 	 * 
 	 * @author Francis Bourre
 	 */

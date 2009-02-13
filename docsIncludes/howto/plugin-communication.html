@@ -1,0 +1,403 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'IoC Plugins communication' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
+	<head>
+		<title>IoC Plugins communication - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'IoC Plugins communication - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+				
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/plugin-communication.html&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+						
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					IoC Plugins communication
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("IoC Plugins communication");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+		  <h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#internal">Private communication</a></li>
+	<li><a href="#public">Public communication</a></li>
+	<li><a href="#external">External communication</a></li>
+	</ol>
+<p>&nbsp;</p>
+<p>
+<a name="overview"></a>
+<h1>Overview</h1>
+<p>
+	You will find below the various methods to use communication channel for LowRA IoC plugin.</p>
+<p>A plugin can have : </p>
+<ul>
+  <li>some <strong>private</strong> events to make communication flow beetween each part of the plugin</li>
+  <li>some <strong>public</strong> events to communicate with others plugins</li>
+  <li>some <strong>external</strong> events to communicate with dedicated plugin.</li>
+  </ul>
+<p>&nbsp;</p>
+<a name="internal" id="internal"></a>
+<h1>Private communication</h1>
+<p>The <strong>private</strong> ( or internal ) events make communication flow beetween each part of the plugin.</p>
+<p>Private events are used to execute <strong>Command</strong> associated with passed-in <strong>event type</strong>. ( <strong>FrontController</strong> design )<br>
+  All  stuff are done by the <strong>FrontController</strong> defined for each plugin instance. </p>
+<p>First, take a look to a very basic Plugin implementation : </p>
+<div class="listing">
+  <pre class="prettyprint">
+package  
+{
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.parser.ContextNodeNameList;
+	import com.bourre.plugin.AbstractPlugin;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;	
+
+	public class PluginA extends AbstractPlugin 
+	{
+		public static const onClickAButtonEVENT : String = "onClickAButton";
+
+		public function PluginA( ) 
+		{
+			super( );	
+			
+			buildButton( );
+		}
+		
+		public function buildButton( ) : void
+		{
+			var button : Sprite = new Sprite( );
+			button.graphics.beginFill( 0x000000, 1 );
+			button.graphics.drawRect( 10, 10, 100, 20 );
+			button.graphics.endFill( );
+			button.buttonMode = true;
+			button.addEventListener( MouseEvent.CLICK, onClickHander );
+			
+			var root : DisplayObjectContainer = BeanFactory.getInstance( ).locate( ContextNodeNameList.ROOT ) as DisplayObjectContainer;
+			root.addChild( button );
+		}
+
+		public function onClickHander( event : MouseEvent ) : void
+		{
+			
+		}
+	}
+}</pre></div>
+<p>Really simple; just add a button on the root container.<br>
+  Adds event listener to &quot;<code>MouseEvent.CLICK</code>&quot; button event type. </p>
+<p>When button was clicked, we want to  inform user the button was clicked ( opening a dialog box on simply logging message throw logger targets ), main goal is to show message to user.<br>
+  We can simply use the <code>MouseEvent.CLICK</code> handler,but here, we will define a dedicated <strong>Command</strong> to encapsulate the &quot;show message to user process&quot;.<br>
+  So, we can call this command anywhere in Plugin ( in models, in views, in others commands ) when we have to show a message to user. ( encapsulation power ! )<br>
+  This is a simple <strong>Command</strong> named : <strong>ShowMessage</strong>.as</p>
+<div class="listing">
+  <pre class="prettyprint">
+package  
+{
+	import com.bourre.commands.AbstractCommand;
+	import com.bourre.error.UnreachableDataException;
+	import com.bourre.events.StringEvent;
+	
+	import flash.events.Event;	
+
+	public class ShowMessage extends AbstractCommand 
+	{
+		public function ShowMessage( )
+		{
+			
+		}
+		
+		override public function execute( event : Event = null ) : void 
+		{
+			if( event == null || !( event is StringEvent ) )
+			{
+				var msg : String = this + ".execute() failed, event data is unreachable";
+				getLogger().error( msg );
+				throw( new UnreachableDataException( msg ) );
+			}
+			else
+			{
+				getLogger().debug( getOwner() + "say : " + StringEvent( event ).getString() );
+			}
+		}
+	}
+}</pre>
+</div>
+<p><strong>ShowMessage</strong> only logs message using LowRA Logging API (enough for this example).</p>
+<p>Now we have to associated this command with an event type ( <strong>FrontController</strong> rules ), thus, when want to execute <strong>ShowMessage</strong> command,  will just send this event.<br>
+  To associate <strong>Command</strong> with event type, use the <strong>FrontController</strong> defined in current plugin. </p>
+<div class="listing">
+  <pre class="prettyprint">
+public function initController() : void
+{
+	var c : FrontController = getController( );	
+	c.pushCommandClass( onShowMessageEVENT, ShowMessage );
+}</pre>
+</div>
+<p>Okay, now all is ready. Command is implemented, Event type is associated.<br>
+  To execute <strong>ShowMessage</strong> command, just dispatch the associated event type using <strong>FrontController</strong> broadcaster. <br>
+    To do this, use the <code>firePrivateEvent()</code> method. <br>
+    So our method named <code>onClickHandler()</code> become : </p>
+<div class="listing">
+  <pre class="prettyprint">
+public function onClickHander( event : MouseEvent ) : void
+{
+	firePrivateEvent( new StringEvent( onShowMessageEVENT, this, &quot;Button was clicked&quot; ) );
+}</pre>
+</div>
+
+<p>When button was clicked, private event is dispatched using FrontController. Command associated with event type brodcasted is found and executed.<br>
+  In output panel, we have a message like : &quot;<em>PluginA say : <span class="prettyprint">Button was clicked</span></em>&quot;.<br>
+</p>
+<p><strong>Summary</strong> : <br>
+  Private ( or internal ) events dispatching : events are broadcasted only in current plugin.</p>
+<ul>
+  <li>Create dedicated <strong>Command</strong> ( encapsulation )</li>
+  <li>Associate Command with <strong>Event type</strong> ( FrontController )</li>
+  <li>Dispatch event using <strong><code>firePrivateEvent( )</code></strong> method</li>
+</ul>
+<p>&nbsp;</p>
+<p> <a name="public" id="public"></a></p>
+<h1>Public communication</h1>
+<p>
+	The <strong>public</strong> events make communication with all plugins defined in IoC context.<br>
+	We have to define communication between plugins in the xml context. ( without specific definition, no communications are allowed ).</p>
+<p>First, define a new Plugin to show comminucation with our <strong>PluginA</strong> plugin, named it <strong>PluginB</strong> : </p>
+<div class="listing">
+  <pre class="prettyprint">
+package  
+{
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.parser.ContextNodeNameList;
+	import com.bourre.plugin.AbstractPlugin;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;	
+
+	public class PluginB extends AbstractPlugin 
+	{
+		public function PluginB( ) 
+		{
+			super( );	
+		}
+	}
+}</pre>
+</div>
+<p>Example scenario : we want to use <strong>PluginB</strong> as &quot;<em>Message display</em>&quot; for all messages from <strong>PluginA</strong>.<br>
+  So, <strong>PluginB</strong> should implement event handler for the &quot;<code>PluginA.onShowMessageEVENT</code>&quot; event.<br>
+  Let's implement it now and this is the new <strong>PluginB</strong> implementation : </p>
+<div class="listing">
+  <pre class="prettyprint">
+package  
+{
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.parser.ContextNodeNameList;
+	import com.bourre.plugin.AbstractPlugin;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;	
+
+	public class PluginB extends AbstractPlugin 
+	{
+		public function PluginB( ) 
+		{
+			super( );	
+		}
+		
+		public function onShowMessage( event : StringEvent ) : void
+		{
+			getLogger().debug( &quot;I receive a message from application : &quot; + event.getString() );
+		}
+	}
+}</pre>
+</div>
+<p><strong><u>Important</u></strong> : The event handler name must be the same as event type broadcasted.<br>
+  Here, PluginA will dispatch a &quot;<em>onShowMessage</em>&quot; event type, so PluginB must implement a <code>onShowMessage()</code> method.</p>
+<p><strong>PluginB</strong> is ready to receive <strong>PluginA</strong> event; we have to built communication between this two plugins.<br>
+  Communication is done in xml context : </p>
+<div class="listing">
+  <pre class="prettyprint">
+&lt;beans&gt;
+	&lt;dll url=&quot;PluginADLL.swf&quot; /&gt;<br>	&lt;dll url=&quot;PluginBDLL.swf&quot; /&gt;<br>	
+	&lt;root id=&quot;root&quot; /&gt;<br>
+	&lt;plugin id=&quot;pluginA&quot; type=&quot;PluginA&quot; /&gt;
+	
+	&lt;plugin id=&quot;pluginB&quot; type=&quot;PluginB&quot;&gt;
+		&lt;listen ref=&quot;pluginA&quot; /&gt;
+	&lt;/plugin&gt;
+&lt;/beans&gt;</pre></div>
+<p>Communication is define using the <a href="reference-assembler.html#listen">&lt;listen&gt;</a> context node.<br>
+  Here we pass the reference to PluginA to tell the PluginB : &quot;<em>Hey PluginB ! you have to listen all public events from PluginA ok ?</em>&quot; <br>
+  You can listen to as many plugin as you want. 
+</p>
+<p>PluginB is ready, communication is defined in context.<br>
+  Last step, PluginA have to dispatch this event type into the public communication channel.<br>
+To dispatch public events ( so events which can be listened by others plugin ), we have to call the <code>firePublicEvent( )</code> method.<br>
+Example, our <code>PluginA.onClickHandler() </code>become :</p>
+<div class="listing">
+  <pre class="prettyprint">
+public function onClickHander( event : MouseEvent ) : void
+{
+	firePublicEvent( new StringEvent( onShowMessageEVENT, this, &quot;Button was clicked&quot; ) );
+}</pre>
+</div>
+<p>When button on <strong>PluginA</strong> was clicked, the output is now : &quot;<span class="prettyprint"><em>I receive a message from application : </em></span><em><span class="prettyprint">Button was clicked</span></em>&quot;<br>
+  Great, is <strong>PluginB</strong> who received the message ! </p>
+<p><strong>Summary</strong> : <br>
+Public events dispatching :</p>
+<ul>
+  <li>Plugin which listen event must implement correct event handler</li>
+  <li>Communication must be defined in context using <a href="reference-assembler.html#listen">&lt;listen&gt;</a> node</li>
+  <li>Plugin which dispatch event must use <code>firePublicEvent()</code> method</li>
+  </ul>
+<p>&nbsp;</p>
+<a name="external" id="external"></a>
+<h1>External communication</h1>
+<p>The <strong>external </strong>( or targeted ) events make communication between specific plugin in IoC context.</p>
+<p>Taking the same example as for &quot;<a href="#public">Public commnication</a>&quot;, now<strong> PluginA</strong> don't want to dispatch public event.<br>
+  <strong>PluginA</strong> want to dispatch his <code>#onShowMessageEVENT</code> to a specific plugin in context; here our <strong>PluginB</strong> plugin. </p>
+<p><strong>PluginB</strong> implementation does not change; event handler must defined to be triggered by the event API.</p>
+<p><strong>PluginA</strong> must be modified to store a reference to &quot;<em>which plugin is targeted for event communication</em>&quot;.<br>
+  In fact, we can define this reference in two ways : </p>
+<ul>
+  <li>Using IoC xml <strong>context</strong></li>
+  <li>Using <strong>BeanFactory</strong> to retreive reference in context directly in plugin instance</li>
+  </ul>
+<p> To avoid coupling, it is better to set this reference by the xml <strong>context</strong>, like this :</p>
+<div class="listing">
+  <pre class="prettyprint">
+&lt;beans&gt;
+	&lt;dll url=&quot;PluginADLL.swf&quot; /&gt;<br>	&lt;dll url=&quot;PluginBDLL.swf&quot; /&gt;<br>	
+	&lt;root id=&quot;root&quot; /&gt;<br>
+	&lt;plugin id=&quot;pluginA&quot; type=&quot;PluginA&quot;&gt;
+		&lt;method-call name=&quot;registerChannel&quot;&gt;
+			&lt;argument ref=&quot;pluginB&quot; /&gt;
+		&lt;/method-call&gt;
+	&lt;/plugin&gt;
+	
+	&lt;plugin id=&quot;pluginB&quot; type=&quot;PluginB&quot; /&gt;
+&lt;/beans&gt;</pre>
+</div>
+<p>No more <code>&lt;listen&gt;</code> node definition; events are no more public.<br>
+  We call a new <code><strong>PluginA</strong>#registerChannel( )</code> method to store the reference to the targeted plugin for communication, here the <strong>PluginB</strong>.<br>
+  <u>Note</u> : I decide to add a new method to register channel, but it is possible to pass this reference directly in PluginA constructor. </p>
+<p><br>
+  This is the implementation of this <code>registerChannel( )</code>: </p>
+<div class="listing">
+  <pre class="prettyprint">
+private var _oMsgChannel : EventChannel;
+
+public function registerChannel( target : Plugin ) : void
+{
+	_oMsgChannel = target.getChannel();
+}</pre></div>
+<p>Reference to dedicated plugin is done.<br>
+  To fire events throw this specific communication channel, we use the <code>#fireExternalEvent( )</code> method  :</p>
+<div class="listing">
+  <pre class="prettyprint">
+public function onClickHander( event : MouseEvent ) : void
+{
+	fireExternalEvent( new StringEvent( onShowMessageEVENT, this, &quot;Button was clicked&quot; ), _oMsgChannel );
+}</pre></div>
+<p>When button on <strong>PluginA</strong> was clicked, the output is now : &quot;<span class="prettyprint"><em>I receive a message from application : </em></span><em><span class="prettyprint">Button was clicked</span></em>&quot;<br>
+Great, is <strong>PluginB</strong> only who received the message ! </p>
+<p><strong>Summary</strong> : <br>
+External events dispatching :</p>
+<ul>
+  <li>Plugin which listen event must implement correct event handler</li>
+  <li>A reference to targeted channel must be define ( in xml context or using BeanFactory locator )</li>
+  <li>Plugin which dispatch event must use <code>fireExternalEvent()</code> method</li>
+  </ul>
+<p>Note : If you want to store channel reference using <strong>BeanFactory</strong> locator, so without any xml context information, simply retreive targeted plugin instance, and get the channel : </p>
+<div class="listing">
+  <pre class="prettyprint">
+public function onClickHander( event : MouseEvent ) : void
+{
+	var targetPlugin : Plugin : BeanFactory.getInstance().locate( &quot;pluginB&quot; ) as Plugin;
+	var targetChannel : EventChannel = targetPlugin.getChannel();
+
+	fireExternalEvent( new StringEvent( onShowMessageEVENT, this, &quot;Button was clicked&quot; ), targetChannel );
+}</pre>
+</div>
+<p>Problem with this way : if you change the <code>ID</code> of the <strong>PluginB</strong> in xml context, you have to recompile the <strong>PluginA</strong>. (  coupling is bad ).</p>
+		</div>
+		
+        <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>

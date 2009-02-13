@@ -19,9 +19,9 @@ package com.bourre.ioc.assembler.property
 	import com.bourre.log.PixlibStringifier;												
 	
 	/**
-	 * <p>DictionaryItem class.</p>
+	 * DictionaryItem class.
 	 * 
-	 * TODO Documentation
+	 * <p>TODO Documentation</p>
 	 * 
 	 * @author Francis Bourre
 	 */

@@ -133,7 +133,10 @@ package com.bourre.transitions
 		/*-----------------------------------------------
 		 *	TickListener IMPLEMENTATION
 		 *-----------------------------------------------*/
-
+		
+		/**
+		 * @inheritDoc
+		 */	
 		public function onTick( e : Event = null ) : void
 		{
 			if ( _bReversedMotion ? isReversedMotionFinished() : isMotionFinished() )
@@ -150,6 +153,9 @@ package com.bourre.transitions
 		 *	Tween IMPLEMENTATION
 		 *-----------------------------------------------*/
 		
+		/**
+		 * @inheritDoc
+		 */	
 		public function setEasing( f : Function ) : void
 		{
 			_fEasing = ( f != null ) ?  f : AbstractTween.noEasing;
@@ -159,6 +165,9 @@ package com.bourre.transitions
 		 *	Suspendable IMPLEMENTATION
 		 *-----------------------------------------------*/
 		
+		/**
+		 * @inheritDoc
+		 */	
 		public function reset() : void
 		{
 			_nPlayHead = 0;
@@ -168,7 +177,10 @@ package com.bourre.transitions
 			
 			_oSetter.setValue( _nStart );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */	
 		public function start() : void
 		{
 			if ( isNaN( _nStartValue ) ) 
@@ -183,6 +195,9 @@ package com.bourre.transitions
 			}			
 		}
 		
+		/**
+		 * @inheritDoc
+		 */	
 		public function stop() : void
 		{
 			_oBeacon.removeTickListener(this);
@@ -194,6 +209,9 @@ package com.bourre.transitions
 		 *	Command IMPLEMENTATION
 		 *-----------------------------------------------*/
 		 
+		/**
+		 * @inheritDoc
+		 */	
 		override public function execute( e : Event = null ) : void
 		{
 			reset();
@@ -316,22 +334,34 @@ package com.bourre.transitions
 		{
 			return _nEndValue;
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addListener()
+		 */
 		public function addListener( listener : TweenListener ) : Boolean
 		{
 			return _oEB.addListener( listener );
 		}
-
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeListener()
+		 */
 		public function removeListener( listener : TweenListener ) : Boolean
 		{
 			return _oEB.removeListener( listener );
 		}
 		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addEventListener()
+		 */
 		public function addEventListener( type : String, listener : Object, ... rest ) : Boolean
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
 		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeEventListener()
+		 */
 		public function removeEventListener( type : String, listener : Object ) : Boolean
 		{
 			return _oEB.removeEventListener( type, listener );

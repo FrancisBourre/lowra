@@ -24,7 +24,7 @@ package com.bourre.ioc.control
 	import flash.events.Event;	
 	
 	/**
-	 * <p>Command to build Array object.</p>
+	 * Command to build Array object.
 	 * 
 	 * @see Constructor	 * @see ConstructorExpert
 	 * 

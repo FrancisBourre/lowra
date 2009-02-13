@@ -31,7 +31,7 @@ package com.bourre.ioc.control
 	import flash.utils.getDefinitionByName;	
 	
 	/**
-	 * <p>Command to build dynamic instance.</p>
+	 * Command to build dynamic instance.
 	 * 
 	 * @see ConstructorExpert
 	 * 

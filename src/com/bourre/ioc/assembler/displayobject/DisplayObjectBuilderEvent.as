@@ -20,8 +20,8 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.load.QueueLoaderEvent;	
 	
 	/**
-	 * <p>The DisplayObjectBuilderEvent class represents the event object passed 
-	 * to the event listener for <strong>DisplayObjectBuilder</strong> events.</p>
+	 * The DisplayObjectBuilderEvent class represents the event object passed 
+	 * to the event listener for <strong>DisplayObjectBuilder</strong> events.
 	 * 
 	 * @author Francis Bourre
 	 * 

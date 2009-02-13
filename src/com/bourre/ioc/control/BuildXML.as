@@ -26,7 +26,7 @@ package com.bourre.ioc.control
 	import flash.events.Event;	
 	
 	/**
-	 * <p>Command to build XML object.</p>
+	 * Command to build XML object.
 	 * 
 	 * @see Constructor
 	 * @see ConstructorExpert

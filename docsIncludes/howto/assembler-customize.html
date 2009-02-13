@@ -1,0 +1,320 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'Customize IoC Assembler' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'YourFileNameHere' by the 
+	-->
+	
+	<head>
+		<title>Customize IoC Assembler - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'Customize IoC Assembler - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+				
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/assembler-customize&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+						
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					Customize IoC Assembler
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("Customize IoC Assembler");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+        
+         <h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#build">Builds custom IoC assembler</a></li>
+	<li><a href="#variable">Variables substitution</a></li>
+	<li><a href="#processing">Pre processing methods</a></li>
+	<li><a href="#processor">Processor</a></li>
+	</ol>
+<p>&nbsp;</p>
+
+			<a name="overview"></a>
+          <h1>Overview</h1>
+            <p>To play with <strong>IoC</strong> architecture, we have to use a <strong>xml context</strong> and an <strong>ApplicationLoader</strong> loader to load, parse, and built everything in context.<br>
+              <strong>LowRA</strong> comes with a default system to define this xml context and a default ApplicationLoader instanciation.<br>
+This helper is <a href="../com/bourre/ioc/DefaultApplicationRunner.html">com.bourre.ioc.DefaultApplicationRunner</a> class.<br>
+This helper just create a basic ApplicationLoader instance, and starts xml content loading. </p>
+            <p>              Let's show how to build custom IoC runner. ( the famous &quot;<em><strong>assembler.swf</strong></em>&quot; file ). </p>
+<p>&nbsp;</p>
+          <a name="build" id="build"></a>
+      <h1>Builds custom IoC assembler</h1>
+            <p>Easy way is to extends the <strong>DefaultApplicationRunner</strong> class as it implements all needed features, but we can build new one from scratch too.</p>
+            <p><strong>DefaultApplicationRunner</strong> extends <strong>Sprite</strong> class ( to be a main class ) and implements the <strong>ApplicationLoaderListener</strong> interface to listen to all <strong>IoC</strong> steps.<br>
+              Just override some methods to custom your process, for example :
+            </p>
+          <div class="listing">
+              <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function initStage( ) : void<br>		{<br>			stage.align = StageAlign.TOP_LEFT;<br>			stage.scaleMode = StageScaleMode.SHOW_ALL;	<br>		}
+	}
+}</pre>
+          </div>
+          <p>To customize <strong>ApplicationLoader</strong> instaniation, just override the<code> #createApplicationLoader()</code> method : <br>
+          Example, set <em>'anticache'</em> system to <code>false</code>. </p>
+          <div class="listing">
+            <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function createApplicationLoader( ) : ApplicationLoader<br>		{<br>			var loader : ApplicationLoader = new ApplicationLoader( this, false );<br>			oLoader.setAntiCache( false );<br>			oLoader.setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );<br>			oLoader.addListener( this );<br>			<br>			return loader;<br>		}
+	}
+}</pre>
+          </div>
+          <p>You can also add <a href="#variable">variables substitution</a>, <a href="#processing">pre processing</a> ( or <a href="#processor">processor</a> ) actions overriding the <code>#preprocess()</code> method.</p>
+          <div class="listing">
+            <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function preprocess( ) : void<br>		{<br>			oLoader.addProcessingMethod( ProcessingHelper.addResource, &quot;newStyle&quot;, &quot;myStyle.css&quot; );<br>			oLoader.addProcessor( new AddDefaultDLLProcessor()  );<br>		}
+	}
+}</pre>
+          </div>
+          <p>Just compile this new class like a classic swf file, and use it as main application entry point ( <em>assembler.swf</em> );</p>
+          <p>&nbsp;</p>
+			 <a name="variable"></a>
+      <h1>Variables substitution</h1>
+          <p><strong>ApplicationLoader </strong>class allow to replace variables defined in loaded context file.<br>
+      For example, we want to change the position of a Kairos monitor when context is loaded, using custom value.</p>
+            <p>              First step, make  dynamic properties in your context file :
+              <br>
+          </p>
+          <div class="listing">
+              <pre class="prettyprint">&lt;beans&gt;<br>	&lt;dll url=&quot;MonitoringPluginDLL.swf&quot; /&gt;<br><br>	&lt;plugin id=&quot;Monitor&quot; type=&quot;lowra.plugins.utils.MonitoringPlugin&quot;&gt;<br>		&lt;property name=&quot;x&quot; value=&quot;${POSITION_X}&quot; /&gt;
+		&lt;property name=&quot;y&quot; value=&quot;${POSITION_Y}&quot; /&gt;
+		&lt;property name=&quot;alpha&quot; value=&quot;0.5&quot; /&gt;<br>	&lt;/plugin&gt;<br>&lt;/beans&gt;</pre>
+          </div>
+          <p>          Now, we have just to set the new values for these variables before parsing the context file.            <br>
+          Override the <code>#preprocess()</code> method of your IoC runner ( assembler ). </p>
+          <div class="listing">
+            <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function preprocess( ) : void<br>		{<br>			oLoader.setVariable( &quot;POSITION_X&quot;, 200 );<br>			oLoader.setVariable( &quot;POSITION_Y&quot;, 50 );<br>		}
+	}
+}</pre>
+          </div>
+            <p>When file is loaded and before the IoC parsing, the loader replace the variables name with defined values.<br>
+          </p>
+<p>&nbsp;</p>
+     <a name="processing" id="processing"></a>
+            <h1>Pre Processing</h1>
+            <p><strong>ApplicationLoader</strong> allow to apply <strong>pre processing</strong> actions before starting context parser. <br>
+      As <a href="#variable">Variable substitution</a>, pre processing allow to modify the loaded XML data, but here, we don't have to define special variable ( <em>${XXX}</em> ) in context to change, we can acces all xml content.</p>
+            <p>To add pre processing action, just use the <strong>ApplicationLoader</strong><code>#addProcessingMethod()</code> method. ( or <a href="#processor"><code>#addProcessor()</code></a> if you use <strong>ContextProcessor</strong> implementation ).<br>
+      This is the signature :      </p>
+            <div class="listing">
+              <pre class="prettyprint">
+public function addProcessingMethod( processingMethod : Function, ...rest ) : void;</pre>
+</div>
+            <p>So, we have to pass a method reference first and then optionals parameters.<br>
+            The passed-in <code>processingMethod</code> has a basic signature like : </p>
+          <div class="listing">
+              <pre class="prettyprint">function processingMethod( xml : XML ) : XML;</pre></div>
+            <p><u>Summary</u> : A <code>processingMethod</code> must return an XML object and wait for an XML object as first argumen (and can wait for optional arguments too ).<br>
+      Example :</p>
+            <div class="listing">
+              <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function preprocess( ) : void<br>		{<br>			oLoader.addProcessingMethod( displayXML, &quot;Processing example&quot; );<br>		}
+		
+		public function displayXML( xml : XML, title : String ) : XML
+		{	
+			PixlibDebug.INFO( title );
+			PixlibDebug.INFO( xml.toXMLString() );
+
+			return xml;
+		}
+	}
+}</pre>
+            </div>
+            <p>As you can see, optionals parameters passed to <code>#addProcessingMethod()</code> method are automatically added when calling the <code>processingMethod</code>.<br>
+              You can add as many processors  you want. XML passed and returns is changed on each processing step.          </p>
+          <p>            Let's show a concrete example now.<br>
+            LowRA comes with an helper class to play with xml context content. <br>
+            Helper is <strong>com.bourre.ioc.context.processor.ProcessingHelper</strong> utility class. <br>
+            Take a look at <a href="../com/bourre/ioc/context/processor/ProcessingHelper.html">API Documentation</a> for more information about this helper. </p>
+      <p>Example of  a more complex pre processing : </p>
+      <div class="listing">
+        <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function preprocess( ) : void<br>		{<br>			oLoader.addProcessingMethod( ProcessingHelper.changeObjectAttribute, &quot;cross&quot;, &quot;visible&quot;, &quot;false&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.changeObjectAttribute, &quot;cross&quot;, &quot;type&quot;, &quot;Sprite&quot;, true );<br>			oLoader.addProcessingMethod( ProcessingHelper.changePropertyValue, &quot;cross&quot;, &quot;x&quot;, 600 );<br>			oLoader.addProcessingMethod( ProcessingHelper.changePropertyValue, &quot;cross&quot;, &quot;alpha&quot;, 0.5 );<br>			oLoader.addProcessingMethod( ProcessingHelper.changeObjectID, &quot;obj&quot;, &quot;myNewOBJ&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.changeMethodArgumentValue, &quot;cross&quot;, &quot;test&quot;, 0, &quot;onChange&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.changeMethodArgumentValue, &quot;cross&quot;, &quot;test&quot;, 1, null, &quot;String&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.changeMethodArgumentValue, &quot;cross&quot;, &quot;test&quot;, 2, &quot;44&quot;, &quot;int&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.changeMethodArgumentValue, &quot;cross&quot;, &quot;test&quot;, 3, &quot;myNewOBJ&quot; );
+			oLoader.addProcessingMethod( ProcessingHelper.addDLL, &quot;MyNewDLL.swf&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.addResource, &quot;newStyle&quot;, &quot;myStyle.css&quot; );<br>			oLoader.addProcessingMethod( ProcessingHelper.addNode, node );<br>		}
+	}
+}</pre>
+      </div>
+      <p>Node used for addNode() preprocessing example : </p>
+            <div class="listing">
+              <pre class="prettyprint">var node : XML = &lt;object id='obj2' type='Object'&gt;&lt;property name='p4' value='hello4' /&gt;&lt;/object&gt;;</pre></div>
+            <p>This is ouput diff between loaded XML and pre processing result : </p>
+          <table width="100%" border="0">
+              <tr>
+                <td width="50%" align="center"><span class="label">loaded xml content</span></td>
+                <td width="50%" align="center"><span class="label">pre processing result</span></td>
+              </tr>
+              <tr>
+                <td><div class="listing">
+                  <pre class="prettyprint">&lt;beans&gt;<br>	&lt;root id=&quot;root&quot;&gt;<br>	<br>		&lt;avatar id=&quot;cross&quot; url=&quot;cross.png&quot; visible=&quot;true&quot;&gt;<br>			&lt;property name=&quot;x&quot; value=&quot;0&quot; /&gt;<br>			&lt;property name=&quot;alpha&quot; value=&quot;1&quot; /&gt;<br>			<br>			&lt;method-call name=&quot;test&quot;&gt;&lt;!-- for example only --&gt;<br>				&lt;argument value=&quot;Romain&quot; type=&quot;String&quot; /&gt;<br>				&lt;argument value=&quot;Ecarnot&quot; /&gt;<br>				&lt;argument value=&quot;31&quot; type=&quot;Number&quot; /&gt;<br>				&lt;argument ref=&quot;obj&quot; /&gt;<br>			&lt;/method-call&gt;<br>		&lt;/avatar&gt;<br>		<br>	&lt;/root&gt;<br>	<br>	&lt;object id=&quot;obj&quot; type=&quot;Object&quot;&gt;<br>		&lt;property name=&quot;p1&quot; value=&quot;hello1&quot;/&gt;<br>		&lt;property name=&quot;p2&quot; value=&quot;hello2&quot;/&gt;<br>	&lt;/object&gt;<br>	<br>	&lt;dictionary id=&quot;dico&quot; type=&quot;Dictionary&quot;&gt;<br>		&lt;item&gt; &lt;key value=&quot;o&quot;/&gt; &lt;value ref=&quot;obj&quot;/&gt; &lt;/item&gt;<br>	&lt;/dictionary&gt;<br>&lt;/beans&gt;<br><br><br><br><br><br><br>
+
+</pre>
+                </div></td>
+                <td><div class="listing">
+                  <pre class="prettyprint">&lt;beans&gt;<br>	&lt;root id=&quot;root&quot;&gt;<br>	<br>		&lt;avatar id=&quot;cross&quot; url=&quot;cross.png&quot; visible=&quot;false&quot; type=&quot;Sprite&quot;&gt;<br>			&lt;property name=&quot;x&quot; value=&quot;600&quot; /&gt;<br>			&lt;property name=&quot;alpha&quot; value=&quot;0.5&quot; /&gt;<br>			<br>			&lt;method-call name=&quot;test&quot;&gt;&lt;!-- for example only --&gt;<br>				&lt;argument value=&quot;OnChange&quot; type=&quot;String&quot; /&gt;<br>				&lt;argument value=&quot;Ecarnot&quot; type=&quot;String&quot; /&gt;<br>				&lt;argument value=&quot;44&quot; type=&quot;int&quot; /&gt;<br>				&lt;argument ref=&quot;myNewOBJ&quot; /&gt;<br>			&lt;/method-call&gt;<br>		&lt;/avatar&gt;<br>		<br>	&lt;/root&gt;<br>	<br>	&lt;object id=&quot;myNewOBJ&quot; type=&quot;Object&quot;&gt;<br>		&lt;property name=&quot;p1&quot; value=&quot;hello1&quot;/&gt;<br>		&lt;property name=&quot;p2&quot; value=&quot;hello2&quot;/&gt;<br>	&lt;/object&gt;<br>	<br>	&lt;dictionary id=&quot;dico&quot; type=&quot;Dictionary&quot;&gt;<br>		&lt;item&gt; &lt;key value=&quot;o&quot;/&gt; &lt;value ref=&quot;myNewOBJ&quot;/&gt; &lt;/item&gt;<br>	&lt;/dictionary&gt;
+
+	&lt;dll url=&quot;MyNewDLL.swf&quot;/&gt;  
+	&lt;rsc id=&quot;newStyle&quot; url=&quot;myStyle.css&quot;/&gt; 
+
+	&lt;object id=&quot;obj2&quot; type=&quot;object&quot;&gt;
+		&lt;property name=&quot;p4&quot; value=&quot;hello4&quot;/&gt;  
+	&lt;/object&gt; <br>&lt;/beans&gt;</pre>
+                </div></td>
+              </tr>
+      </table>
+          <p>After pre processing, the IoC parser starts his job as normally.<br>
+            <br>
+            </p>
+ <a name="processor" id="processor"></a>
+      <h1>Processor</h1>
+            <p>
+            Instead of using inner function for pre processing ( <a href="#processing">see Pre processing methods</a> ), LowRA offer <a href="../com/bourre/ioc/context/processor/ContextProcessor.html">ContextProcessor</a> implementations.<br>
+            Use the 	<strong>ApplicationLoader</strong><code>#addProcessor()</code> to add a new <strong>ContextProcessor</strong> to pre processing list. </p>
+            <div class="listing">
+              <pre class="prettyprint">
+package com.project.ioc.CustomRunner
+{
+	import com.bourre.ioc.DefaultApplicationRunner;
+
+	public class CustomRunner extends DefaultApplicationRunner
+	{
+		override protected function preprocess( ) : void<br>		{<br>			oLoader.addProcessor( new AddDefaultDLLProcessor()  );<br>		}
+	}
+}</pre>
+            </div>
+            <p><span class="prettyprint"><strong>AddDefaultDLLProcessor</strong></span> implementation sample : </p>
+            <div class="listing">
+              <pre class="prettyprint">
+package com.ioc.processors
+{
+	import com.bourre.ioc.context.processor.ContextProcessor;
+
+	public class AddDefaultDLLProcessor implements ContextProcessor
+	{
+		public function process( xml : XML ) : XML
+		{
+			xml.appendChild( _getDLLNode( &quot;DimensionDLL.swf&quot; ) );<br>			xml.appendChild( _getDLLNode( &quot;RangeDLL.swf&quot; ) );
+			xml.appendChild( _getDLLNode( &quot;XMLToObjectDeserializerDLL.swf&quot; ) );
+<br>			return xml;
+		}
+
+		private function _getDLLNode( url : String ) : XML
+		{
+			var dll : XML = &lt;{ContextNodeNameList.DLL} /&gt;;<br>			dll.@[ContextAttributeList.URL] = url;
+
+			return dll; 
+		}
+	}
+}</pre>
+            </div>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+          <p>&nbsp;</p>
+		</div>
+		
+        <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>

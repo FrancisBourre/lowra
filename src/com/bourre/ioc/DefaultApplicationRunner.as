@@ -205,15 +205,26 @@ package com.bourre.ioc
 		 */
 		protected function loadContext( ) : void
 		{
+			oLoader = createApplicationLoader();
+			
 			preprocess( );
 			
-			oLoader = new ApplicationLoader( this, false );
-			oLoader.setAntiCache( true );
-			oLoader.setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
-			oLoader.addListener( this );
 			oLoader.execute( );
 		}
 		
+		/**
+		 * Creates new basic ApplicationLoader instance.
+		 */
+		protected function createApplicationLoader( ) : ApplicationLoader
+		{
+			var loader : ApplicationLoader = new ApplicationLoader( this, false );
+			oLoader.setAntiCache( true );
+			oLoader.setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
+			oLoader.addListener( this );
+			
+			return loader;
+		}
+
 		/**
 		 * Runs actions before application loading
 		 * 

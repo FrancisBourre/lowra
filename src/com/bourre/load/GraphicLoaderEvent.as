@@ -46,7 +46,7 @@ package com.bourre.load
 		 *     
 		 *     <tr><th>Method</th><th>Value</th></tr>
 		 *     <tr>
-		 *     	<td><code>getFileLoader()</code>
+		 *     	<td><code>getGraphicLoader()</code>
 		 *     	</td><td>The loader object</td>
 		 *     </tr>
 		 * </table>
@@ -69,11 +69,11 @@ package com.bourre.load
 		 *     
 		 *     <tr><th>Method</th><th>Value</th></tr>
 		 *     <tr>
-		 *     	<td><code>getFileLoader()</code>
+		 *     	<td><code>getGraphicLoader()</code>
 		 *     	</td><td>The loader object</td>
 		 *     </tr>
 		 *     <tr>
-		 *     	<td><code>getFileContent()</code>
+		 *     	<td><code>getView()</code>
 		 *     	</td><td>The loaded file content</td>
 		 *     </tr>
 		 * </table>
@@ -96,7 +96,7 @@ package com.bourre.load
 		 *     
 		 *     <tr><th>Method</th><th>Value</th></tr>
 		 *     <tr>
-		 *     	<td><code>getFileLoader()</code>
+		 *     	<td><code>getGraphicLoader()</code>
 		 *     	</td><td>The loader object</td>
 		 *     </tr>
 		 * </table>
@@ -119,7 +119,7 @@ package com.bourre.load
 		 *     
 		 *     <tr><th>Method</th><th>Value</th></tr>
 		 *     <tr>
-		 *     	<td><code>getFileLoader()</code>
+		 *     	<td><code>getGraphicLoader()</code>
 		 *     	</td><td>The loader object</td>
 		 *     </tr>
 		 * </table>
@@ -142,7 +142,7 @@ package com.bourre.load
 		 *     
 		 *     <tr><th>Method</th><th>Value</th></tr>
 		 *     <tr>
-		 *     	<td><code>getFileLoader()</code>
+		 *     	<td><code>getGraphicLoader()</code>
 		 *     	</td><td>The loader object</td>
 		 *     </tr>
 		 * </table>

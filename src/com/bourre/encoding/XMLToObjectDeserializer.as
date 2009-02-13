@@ -20,8 +20,8 @@ package com.bourre.encoding
 	import com.bourre.error.UnsupportedNodeAttributeException;
 	import com.bourre.log.PixlibDebug;
 	
-	import flash.geom.Point;
-	 
+	import flash.geom.Point;	
+
 	/**
 	 * XML object deserializer.
 	 * 
@@ -83,7 +83,14 @@ package com.bourre.encoding
 		public function deserialize( serializedContent : Object, target : Object = null ) : Object
 		{
 			if ( target == null ) target = {};
-			var xml : XML = serializedContent as XML;
+			
+			var xml : XML;
+			if( serializedContent is String )
+			{
+				xml = new XML( serializedContent as String );
+			}
+			else xml = serializedContent as XML;
+			
 			for each ( var property : XML in xml.* ) deserializeNode( target, property ) ;
 			return target ;
 		}

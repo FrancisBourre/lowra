@@ -5,9 +5,11 @@ package com.bourre.core
 	import flash.utils.getDefinitionByName;	
 
 	/**
-	 * A factory for object creation. The <code>CoreFactory</code>
-	 * can build any object of any type. The <code>CoreFactory</code>
-	 * is intensively used in the IoC assembler of LowRA.
+	 * A factory for object creation. 
+	 * 
+	 * <p>The <code>CoreFactory</code> can build any object of any type.<br>
+	 * The <code>CoreFactory</code> is intensively used in 
+	 * the IoC assembler of LowRA.
 	 * 
 	 * @author	Francis Bourre
 	 */
@@ -144,7 +146,7 @@ package com.bourre.core
 		}
 		
 		/**
-		 * A map between number of arguments and buld function
+		 * A map between number of arguments and build function
 		 * @private
 		 */
 		static private var _A : Array = [	_build0,_build1,_build2,_build3,_build4,_build5,_build6,_build7,_build8,_build9,

@@ -26,18 +26,29 @@ package com.bourre.ioc.control
 	import com.bourre.log.PixlibStringifier;	
 	
 	/**
-	 * <p>BuildFactory class.</p>
+	 * The BuildFactory class store command to build objects of different 
+	 * types.
 	 * 
-	 * TODO Documentation
+	 * <p>Each command is associated with targeted object type to build.<br />
+	 * When an object with type definition is find, check if a command exist, 
+	 * if yes, command is executed to build correct object instance.</p>
+	 * 
+	 * <p>Defaults commands are already implemented in LowRA core, take a look 
+	 * at <a href="com/bourre/ioc/control/package-detail.html">com.bourre.ioc.control</a> 
+	 * package.</p>
 	 * 
 	 * @author Francis Bourre
+	 * 
+	 * @see com.bourre.ioc.control LowRA builder commands
 	 */
 	public class BuildFactory
 	{
 		private static var _oI : BuildFactory = null;
 
 		/**
-		 * @return singleton instance of BuildFactory
+		 * Returns singleton instance of BuildFactory.
+		 * 
+		 * @return The singleton instance of BuildFactory
 		 */
 		public static function getInstance() : BuildFactory 
 		{
@@ -46,18 +57,27 @@ package com.bourre.ioc.control
 		}
 
 		private var _m : HashMap;
-
+		
+		/**
+		 * @private
+		 */
 		public function BuildFactory( access : PrivateConstructorAccess )
 		{
 			if ( !(access is PrivateConstructorAccess) ) throw new PrivateConstructorException();
 			
 			init();
 		}
-
+		
+		/**
+		 * Inits builder hashmap with default builder instances defined 
+		 * in LowRA core.
+		 * 
+		 * @see com.bourre.ioc.control LowRA builder commands
+		 */
 		public function init() : void
 		{
 			_m = new HashMap();
-
+			
 			addType( ContextTypeList.ARRAY, new BuildArray() );
 			addType( ContextTypeList.BOOLEAN, new BuildBoolean() );
 			addType( ContextTypeList.INSTANCE, new BuildInstance() );
@@ -73,12 +93,27 @@ package com.bourre.ioc.control
 			addType( ContextTypeList.XML, new BuildXML() );
 			addType( ContextTypeList.FUNCTION, new BuildFunction() );
 		}
-
+		
+		/**
+		 * Adds new builder command for passed-in type of object.
+		 * 
+		 * @param	type	Type of object to monitor
+		 * @param	build	Command to execute to build object of passed-in type 
+		 */
 		protected function addType( type : String, build : Command ) : void
 		{
 			_m.put( type, build );
 		}
 		
+		/**
+		 * Builds object using passed-in Constructor definition.
+		 * 
+		 * @param	contructor	Contructor definition to build correct instance
+		 * @param	id			(optional) if not <code>null</code>, built object 
+		 * 						is registered in the BeanFactory store.
+		 * 						
+		 * 	@return Built object
+		 */
 		public function build( constructor : Constructor, id : String = null ) : *
 		{
 			var type : String = constructor.type;
@@ -89,9 +124,10 @@ package com.bourre.ioc.control
 
 			return constructor.result;
 		}
-
+		
 		/**
 		 * Returns the string representation of this instance.
+		 * 
 		 * @return the string representation of this instance
 		 */
 		public function toString() : String 

@@ -19,8 +19,8 @@ package com.bourre.ioc.bean
 	import com.bourre.events.BasicEvent;	
 	
 	/**
-	 * <p>The BeanEvent class represents the event object passed 
-	 * to the event listener for <strong>BeanFactory</strong> events.</p>
+	 * The BeanEvent class represents the event object passed 
+	 * to the event listener for <strong>BeanFactory</strong> events.
 	 * 
 	 * @see BeanFactory
 	 * 

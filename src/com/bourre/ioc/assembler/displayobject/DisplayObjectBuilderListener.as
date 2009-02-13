@@ -19,7 +19,7 @@ package com.bourre.ioc.assembler.displayobject
 	import com.bourre.load.LoaderListener;	
 	
 	/**
-	 * <p>Display object builder listeners must implement this interface.</p>
+	 * Display object builder listeners must implement this interface.
 	 *  
 	 * @author Francis Bourre
 	 */

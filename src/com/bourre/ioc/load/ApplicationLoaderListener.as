@@ -18,7 +18,7 @@ package com.bourre.ioc.load
 	import com.bourre.load.LoaderListener;	
 
 	/**
-	 * <p>Application loader listener implementation.</p>
+	 * Application loader listener implementation.
 	 * 
 	 * <p>All objects that want to listen to the loading of the application 
 	 * must implement this interface</p>.

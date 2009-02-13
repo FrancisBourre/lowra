@@ -17,9 +17,10 @@ package com.bourre.error
 {
 
 	/**
-	 * The UnsupportedNodeAttributeException exception.
+	 * A UnsupportedNodeAttributeException exception is thrown when 
+	 * attibute value supplied can't be use by current process.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see com.bourre.encoding.XMLToObjectDeserializer#getInstance()	 * @see com.bourre.encoding.XMLToObjectDeserializer#getPoint()
 	 * 
 	 * @author 	Cédric Néhémie
 	 */

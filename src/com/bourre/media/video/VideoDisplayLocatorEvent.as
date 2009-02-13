@@ -19,25 +19,81 @@ package com.bourre.media.video
 	import flash.events.Event;	
 	
 	/**
-	 * The VideoDisplayLocatorEvent class.
+	 * The VideoDisplayLocatorEvent class represents the event object passed 
+	 * to the event listener for VideoDisplayLocator events.
 	 * 
-	 * <p>TODO Documentation.</p>
-	 * 
-	 * <p>
-	 * <span class='classHeaderTableLabel'>Language Version :</span> ActionScript 3.0<br/>
-	 * <span class='classHeaderTableLabel'>Runtime Versions :</span> Flash Player 9
-	 * </p>
+	 * @see VideoDisplayLocator
 	 * 
 	 * @author 	Aigret Axel
 	 */
 	public class VideoDisplayLocatorEvent extends Event 
 	{
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onRegisterVideoDisplay</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getName()</code>
+		 *     	</td><td>The registration key</td>
+		 *     </tr>
+		 *     <tr>
+		 *     	<td><code>getVideoDisplay()</code>
+		 *     	</td><td>The VideoDisplay object</td>
+		 *     </tr>
+		 * </table>
+		 * 
+		 * @eventType onRegisterVideoDisplay
+		 */	
 		public static var onRegisterVideoDisplayEVENT : String = "onRegisterVideoDisplay";
+		
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onUnregisterVideoDisplay</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getName()</code>
+		 *     	</td><td>The registration key</td>
+		 *     </tr>
+		 * </table>
+		 * 
+		 * @eventType onUnregisterVideoDisplay
+		 */	
 		public static var onUnregisterVideoDisplayEVENT : String = "onUnregisterVideoDisplay";
-	
+		
+		
+		/** @private */
 		protected var _sName : String;
+		
+		/** @private */
 		protected var _oVideo : VideoDisplay ;
 		
+		
+		/**
+		 * Creates new <code>VideoDisplayLocatorEvent</code> instance.
+		 * 
+		 * @param	type			Name of the event type
+		 * @param	name			Registration key
+		 * @param	videoDisplay	VideoDisplay object
+		 */
 		public function VideoDisplayLocatorEvent( type : String, name : String, videoDisplay : VideoDisplay )
 		{
 			super( type );
@@ -46,11 +102,21 @@ package com.bourre.media.video
 			_oVideo = videoDisplay ;
 		}
 		
+		/**
+		 * Returns the registration key carried by this event.
+		 * 
+		 * @return The registration key carried by this event.
+		 */
 		public function getName() : String
 		{
 			return _sName;
 		}
 		
+		/**
+		 * Returns the VideoDisplay object carried by this event.
+		 * 
+		 * @return The VideoDisplay object carried by this event.
+		 */
 		public function getVideoDisplay() : VideoDisplay
 		{
 			return _oVideo;

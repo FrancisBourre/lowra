@@ -40,7 +40,25 @@ package com.bourre.load
 	 * The GraphicLoaderLoacator store and register 
 	 * <code>GraphicLoader</code> objects.
 	 * 
+	 * @example 
+	 * <pre class="prettyprint">
+	 * 
+	 * public function loadFile( ) : void
+	 * {
+	 * 	var loader : GraphicLoader = new GraphicLoader( );
+	 * 	loader.setName( "MyLogo" );
+	 * 	loader.load( new URLRequest( "logo.jpg" );
+	 * }
+	 * 
+	 * public function anotherFunction( ) :void
+	 * {
+	 * 	var logo : DisplayObject = GraphicLoaderLocator.getInstance().getGraphicLoader( "MyLogo" ).getView();
+	 * }
+	 * </pre>
+	 * 
 	 * @author 	Francis Bourre
+	 * 
+	 * @see GraphicLoader
 	 */
 	public class GraphicLoaderLocator extends AbstractLocator
 	{

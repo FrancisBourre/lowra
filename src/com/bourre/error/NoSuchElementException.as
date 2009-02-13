@@ -17,9 +17,8 @@ package com.bourre.error
 {
 
 	/**
-	 * The NoSuchElementException exception.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * A NoSuchElementException exception is thrown when the object supplied 
+	 * in a function or process is not find in current data structure.
 	 * 
 	 * @author 	Francis Bourre
 	 */

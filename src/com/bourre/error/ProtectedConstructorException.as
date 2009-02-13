@@ -16,9 +16,9 @@
 package com.bourre.error
 {
 	/**
-	 * The ProtectedConstructorException exception.
+	 * @private
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * FIXME Remove this exception type as it is never use ?
 	 * 
 	 * @author 	Francis Bourre
 	 */

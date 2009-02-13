@@ -45,7 +45,7 @@ package com.bourre.ioc.assembler.displayobject.loader
 		/**
 		 * @inheritDoc
 		 */
-		public function onStartApplication( url : String, size : uint ) : void
+		public function onStartApplication( url : String, size : uint = 0 ) : void
 		{
 		}
 		
