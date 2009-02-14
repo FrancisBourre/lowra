@@ -95,12 +95,11 @@ package com.bourre.plugin
 		 * Creates a new <code>ConstructorEvent</code> object.
 		 * 
 		 * @param	sType		Name of the event type
-		 * @param	target		TODO doumentation		 * @param	plugin		Constructor object carried by this event
-		 * @param	valueObject	TODO doumentation
+		 * @param	target		Object which dispatch this event		 * @param	plugin		Constructor object carried by this event
+		 * @param	valueObject	Plugin carried by this event
 		 */	
 		public function PluginEvent( sType : String, target : Object = null, plugin : Plugin = null, valueObject : ValueObject = null )
 		{
-			
 			super( sType, target, valueObject );
 			
 			_plugin = plugin;

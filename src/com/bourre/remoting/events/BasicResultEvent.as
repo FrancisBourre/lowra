@@ -17,31 +17,64 @@
 package com.bourre.remoting.events 
 {
 	import com.bourre.events.BasicEvent;
-	import com.bourre.remoting.ServiceMethod;		
+	import com.bourre.remoting.ServiceMethod;	
 
 	/**
-	 * The BasicResultEvent interface.
+	 * The BasicResultEvent class represents the event object passed 
+	 * to the event listener for <strong>ServiceResponder</strong> events.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see com.bourre.remoting.ServiceResponder
 	 * 
 	 * @author Romain Flacher
 	 * @author Axel Aigret
 	 */
-	public class BasicResultEvent extends BasicEvent {
-		
+	public class BasicResultEvent extends BasicEvent 
+	{
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onResult</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getResult()</code>
+		 *     	</td><td>The service call result</td>
+		 *     </tr>
+		 * </table>
+		 * 
+		 * @eventType onResult
+		 */	
 		public static const onResultEVENT : String = "onResult";
-		
+
 		private var _oResult : *;
 		private var _oServiceMethod : ServiceMethod;
 		
-		public function BasicResultEvent(  result : *, sServiceMethodName : ServiceMethod ) 
+		/**
+		 * Creates new <code>BasicResultEvent</code> instance.
+		 * 
+		 * @param	result	Service call result
+		 * @param	methodName	Service method which has been called
+		 */
+		public function BasicResultEvent(  result : *, methodName : ServiceMethod ) 
 		{
 			super( BasicResultEvent.onResultEVENT );
 			
 			_oResult = result;
-			_oServiceMethod = sServiceMethodName;
+			_oServiceMethod = methodName;
 		}
 		
+		/**
+		 * Returns service call result.
+		 * 
+		 * @return The service call result
+		 */
 		public function getResult() : *
 		{
 			return _oResult;
@@ -51,14 +84,17 @@ package com.bourre.remoting.events
 		// we can use onResult + functionname onResultlogin onResultgetListName / or on + functionname
 		public function redirectType() : void
 		{
-			if (_oServiceMethod is ServiceMethod) setType( _oServiceMethod.toString());
+			if (_oServiceMethod is ServiceMethod) setType( _oServiceMethod.toString( ) );
 		}
 		
+		/**
+		 * Returns service methosd name carried by this event.
+		 * 
+		 * @return The service methosd name carried by this event.
+		 */
 		public function getServiceMethode() : ServiceMethod
 		{
 			return _oServiceMethod;
 		}
-	
-		
 	}
 }

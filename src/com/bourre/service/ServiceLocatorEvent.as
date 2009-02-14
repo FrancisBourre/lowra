@@ -16,7 +16,7 @@
 package com.bourre.service 
 {
 	import com.bourre.events.BasicEvent;	
-	
+
 	/**
 	 * The ServiceLocatorEvent class represents the event object passed 
 	 * to the event listener for <strong>ServiceLocator</strong> events.
@@ -33,57 +33,57 @@ package com.bourre.service
 		
 		/**
 		 * Defines the value of the <code>type</code> property of the event 
-		 * object for a <code>onRegisterConstructor</code> event.
+		 * object for a <code>onRegisterService</code> event.
 		 * 
 		 * <p>The properties of the event object have the following values:</p>
-	     * <table class="innertable">
-	     *     <tr><th>Property</th><th>Value</th></tr>
-	     *     <tr>
-	     *     	<td><code>type</code></td>
-	     *     	<td>Dispatched event type</td>
-	     *     </tr>
-	     *     
-	     *     <tr><th>Method</th><th>Value</th></tr>
-	     *     <tr>
-	     *     	<td><code>getServiceLocator()</code>
-	     *     	</td><td>The locator</td>
-	     *     </tr>
-	     *     <tr>
-	     *     	<td><code>getService()</code>
-	     *     	</td><td>The the service</td>
-	     *     </tr>
-	     * </table>
-	     *  
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getServiceLocator()</code>
+		 *     	</td><td>The locator</td>
+		 *     </tr>
+		 *     <tr>
+		 *     	<td><code>getService()</code>
+		 *     	</td><td>The the service</td>
+		 *     </tr>
+		 * </table>
+		 *  
 		 * @eventType onRegisterService
 		 */		
-		public static const onRegisterServiceEVENT 		: String = "onRegisterService";
-		
+		public static const onRegisterServiceEVENT : String = "onRegisterService";
+
 		/**
 		 * Defines the value of the <code>type</code> property of the event 
-		 * object for a <code>onRegisterConstructor</code> event.
+		 * object for a <code>onUnregisterService</code> event.
 		 * 
 		 * <p>The properties of the event object have the following values:</p>
-	     * <table class="innertable">
-	     *     <tr><th>Property</th><th>Value</th></tr>
-	     *     <tr>
-	     *     	<td><code>type</code></td>
-	     *     	<td>Dispatched event type</td>
-	     *     </tr>
-	     *     
-	     *     <tr><th>Method</th><th>Value</th></tr>
-	     *     <tr>
-	     *     	<td><code>getServiceLocator()</code>
-	     *     	</td><td>The locator</td>
-	     *     </tr>
-	     *     <tr>
-	     *     	<td><code>getService()</code>
-	     *     	</td><td>The the service</td>
-	     *     </tr>
-	     * </table>
-	     *  
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getServiceLocator()</code>
+		 *     	</td><td>The locator</td>
+		 *     </tr>
+		 *     <tr>
+		 *     	<td><code>getService()</code>
+		 *     	</td><td>The the service</td>
+		 *     </tr>
+		 * </table>
+		 *  
 		 * @eventType onUnregisterService
-		 */				public static const onUnregisterServiceEVENT 	: String = "onUnregisterService";
-		
+		 */				public static const onUnregisterServiceEVENT : String = "onUnregisterService";
+
 		
 		//--------------------------------------------------------------------
 		// Protected properties
@@ -91,15 +91,15 @@ package com.bourre.service
 		
 		/** @private */		
 		protected var _key : String;
-		
+
 		/** @private */		
 		protected var _service : Service;
-		
+
 		/** @private */				protected var _serviceClass : Class;
-		
+
 		/** @private */		
 		protected var _serviceLocator : ServiceLocator;
-		
+
 		
 		//--------------------------------------------------------------------
 		// Public API
@@ -134,7 +134,7 @@ package com.bourre.service
 		{
 			_service = service;
 		}
-		
+
 		public function getServiceClass() : Class
 		{
 			return _service is Class ? _service as Class : null;

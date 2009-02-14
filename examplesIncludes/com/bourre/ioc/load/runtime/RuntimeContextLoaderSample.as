@@ -4,6 +4,7 @@
 package com.bourre.ioc.load.runtime 
 {
 	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.context.processor.ProcessingHelper;
 	import com.bourre.ioc.load.ApplicationLoaderEvent;
 	import com.bourre.ioc.parser.ContextNodeNameList;
 	import com.bourre.load.LoaderEvent;
@@ -11,7 +12,7 @@ package com.bourre.ioc.load.runtime
 	
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import flash.net.URLRequest;	
+	import flash.net.URLRequest;		
 
 	public class RuntimeContextLoaderSample 
 	{
@@ -25,10 +26,10 @@ package com.bourre.ioc.load.runtime
 			loader.sandbox = true;
 			loader.addEventListener( ApplicationLoaderEvent.onApplicationInitEVENT, onLoadContext );
 			
-//			loader.addProcessor( ContextUtils.changeObjectAttribute, "logo", "visible", "false" );
-//			loader.addProcessor( ContextUtils.changePropertyValue, "monitor", "x", 200 );//			loader.addProcessor( ContextUtils.changePropertyValue, "monitor", "y", 200 );
-//			loader.addProcessor( ContextUtils.addResource, "newStyle", "myStyle.css" );
-//			loader.addProcessor( ContextUtils.addNode, node );
+			loader.addProcessingMethod( ProcessingHelper.changeObjectAttribute, "logo", "visible", "false" );
+			loader.addProcessingMethod( ProcessingHelper.changePropertyValue, "monitor", "x", 200 );			loader.addProcessingMethod( ProcessingHelper.changePropertyValue, "monitor", "y", 200 );
+			loader.addProcessingMethod( ProcessingHelper.addResource, "newStyle", "myStyle.css" );
+			loader.addProcessingMethod( ProcessingHelper.addNode, node );
 			
 			loader.load( new URLRequest ( "runtime.xml" ) );
 		}

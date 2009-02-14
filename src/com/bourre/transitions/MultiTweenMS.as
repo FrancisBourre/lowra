@@ -17,12 +17,13 @@ package com.bourre.transitions
 {
 	import com.bourre.log.PixlibDebug;
 	
-	import flash.utils.getTimer;		
+	import flash.utils.getTimer;	
 
 	/**
-	 * The MultiTweenMS class.
+	 * The MultiTweenMS class allow tweening of many properties 
+	 * at the same time using a <code>MSBeacon</code> timer.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see MSBeacon
 	 * 
 	 * @author 	Francis Bourre
 	 */
@@ -36,10 +37,18 @@ package com.bourre.transitions
 		private var _nStartTime : Number;
 		private var _nLastTime : Number;
 		
+		
 		//-------------------------------------------------------------------------
 		// PUBLIC API
 		//-------------------------------------------------------------------------
-				
+		
+		/**
+		 * Creates new <code>MultiTweenMS</code> instance.
+		 * 
+		 * @param	targets		Tween target
+		 * @param	setters		Setter accessor list
+		 * @param	endValues	End values for all tweened properties		 * @param	startValues	Start values for all tweened properties		 * @param	easing		Easing function to use for tweening		 * @param	getters		Getter accessor list
+		 */
 		public function MultiTweenMS(  targets : Object, 
 								   		setters : Array, 
 								   		endValues : Array, 
@@ -52,6 +61,9 @@ package com.bourre.transitions
 			_oBeacon = MSBeacon.getInstance();
 		}
 		
+		/**
+		 * @inheritDoc
+		 */	
 		override public function start() : void
 		{
 				if( _nStopTime != 0 )
@@ -62,23 +74,28 @@ package com.bourre.transitions
 			super.start();
 		}
 		
+		/**
+		 * @inheritDoc
+		 */	
 		override public function stop() : void
 		{
 			super.stop();
 			_nStopTime = getTimer();
 		}
 		
+		/**
+		 * @inheritDoc
+		 */	
 		override public function reset() : void
 		{
 			_nStopTime = 0;
 			super.reset();
 		}
-
-		//-------------------------------------------------------------------------
-		// VIRTUAL METHODS IMPLEMENTATION
-		//-------------------------------------------------------------------------
 		
-		public override function isMotionFinished() : Boolean
+		/**
+		 * @inheritDoc
+		 */	
+		override public function isMotionFinished() : Boolean
 		{
 			var t : Number = getTimer();
 			var lt : Number = _nLastTime;
@@ -88,7 +105,10 @@ package com.bourre.transitions
 			return _nPlayHead >= _nDuration ; 
 		}
 		
-		public override function isReversedMotionFinished() : Boolean
+		/**
+		 * @inheritDoc
+		 */	
+		override public function isReversedMotionFinished() : Boolean
 		{
 			PixlibDebug.FATAL( _nPlayHead ) ;
 			var t : Number = getTimer();

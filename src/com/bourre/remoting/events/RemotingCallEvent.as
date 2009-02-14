@@ -17,21 +17,91 @@
 package com.bourre.remoting.events 
 {
 	import com.bourre.load.LoaderEvent;
-	import com.bourre.remoting.RemotingCall;		
+	import com.bourre.remoting.RemotingCall;	
 
 	/**
-	 * The RemotingCallEvent interface.
+	 * The RemotingCallEvent class represents the event object passed 
+	 * to the event listener for <strong>RemotingCall</strong> events.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see com.bourre.remoting.RemotingCall
 	 * 
 	 * @author Romain Flacher
 	 */
 	public class RemotingCallEvent extends LoaderEvent
 	{
-		private var _oResult : Object;
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onLoadInit</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+	     * <table class="innertable">
+	     *     <tr><th>Property</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>type</code></td>
+	     *     	<td>Dispatched event type</td>
+	     *     </tr>
+	     *     
+	     *     <tr><th>Method</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>getLib()</code>
+	     *     	</td><td>The RemotingCall object</td>
+	     *     </tr>
+	     *     <tr>
+	     *     	<td><code>getResult()</code>
+	     *     	</td><td>The remoting call result</td>
+	     *     </tr>
+	     * </table>
+	     * 
+		 * @eventType onLoadInit
+		 */
 		public static var onLoadInitEVENT : String = LoaderEvent.onLoadInitEVENT;
+		
+		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onLoadError</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+	     * <table class="innertable">
+	     *     <tr><th>Property</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>type</code></td>
+	     *     	<td>Dispatched event type</td>
+	     *     </tr>
+	     *     
+	     *     <tr><th>Method</th><th>Value</th></tr>
+	     *     <tr>
+	     *     	<td><code>getLib()</code>
+	     *     	</td><td>The RemotingCall object</td>
+	     *     </tr>
+	     * </table>
+	     * 
+		 * @eventType onLoadError
+		 */
 		public static var onLoadErrorEVENT : String = LoaderEvent.onLoadErrorEVENT;
 		
+		
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+				
+		private var _oResult : Object;
+		
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Creates new <code>RemotingCallEvent</code> instance.
+		 * 
+		 * @param	e		Event type
+		 * @param	oLib	RemotingCall instance
+		 * @param	result	Remoting call result
+		 */
 		public function RemotingCallEvent( e : String, oLib : RemotingCall, result : Object = null)
 		{
 			super( e, oLib );
@@ -39,11 +109,21 @@ package com.bourre.remoting.events
 			_oResult = result;
 		}
 		
+		/**
+		 * Returns the RemotingCall object carried by this event.
+		 * 
+		 * @return	The RemotingCall object carried by this event.
+		 */
 		public function getLib() : RemotingCall
 		{
 			return _loader as RemotingCall;
 		}
 		
+		/**
+		 * Returns the Remoting call result carried by this event.
+		 * 
+		 * @return	The Remoting call result carried by this event.
+		 */
 		public function getResult() : Object
 		{
 			return _oResult;

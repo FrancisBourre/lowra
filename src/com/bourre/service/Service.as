@@ -17,27 +17,81 @@ package com.bourre.service
 {
 	import com.bourre.collection.Collection;
 	import com.bourre.commands.ASyncCommand;	
-	
+
 	/**
-	 * The Service interface.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The Service interface defines rules for remoting service.
 	 * 
 	 * @author 	Francis Bourre
 	 */
 	public interface Service extends ASyncCommand
 	{
+		/**
+		 * @private
+		 */
 		function setResult( result : Object ) : void;
+		
+		/**
+		 * Returns the service treatment result.
+		 * 
+		 * @return The service treatment result.
+		 */
 		function getResult() : Object;
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#addListener()
+		 */
 		function addServiceListener( listener : ServiceListener ) : Boolean;
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeListener()
+		 */
 		function removeServiceListener( listener : ServiceListener ) : Boolean;
+		
+		/**
+		 * @copy com.bourre.events.EventBroadcaster#getListenerCollection()
+		 */
 		function getServiceListener() : Collection;
+		
+		/**
+		 * Defines arguments to use for this service.
+		 * 
+		 * @param	...	argument list
+		 */
 		function setArguments( ... rest ) : void;
+		
+		/**
+		 * Returns arguments used by this service.
+		 * 
+		 * @return arguments used by this service.
+		 */
 		function getArguments() : Object;
+		
+		/**
+		 * Dispatches event to tell listeners that a result is 
+		 * available. 
+		 */
 		function fireResult() : void;
+		
+		/**
+		 * Dispatches an  error event to tell listeners that an error 
+		 * occurs. 
+		 */
 		function fireError() : void;
+		
+		/**
+		 * Releases service.
+		 * 
+		 * <p>Event broadcaster, service arguments and result are released.</p>
+		 */
 		function release() : void;
 
+		/**
+		 * @copy com.bourre.events.Broadcaster#addEventListener()
+		 */
 		function addEventListener( type : String, listener : Object, ... rest ) : Boolean;
+		
+		/**
+		 * @copy com.bourre.events.Broadcaster#removeListener()
+		 */
 		function removeEventListener( type : String, listener : Object ) : Boolean;
 	}}

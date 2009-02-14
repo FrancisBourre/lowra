@@ -15,10 +15,30 @@
  */
 package com.bourre.service 
 {
+
 	/**
-	 * The ServiceLocatorListener class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The ServiceLocatorListener interface defines rules for 
+	 * <code>ServiceLocatorEvent</code> listeners.
 	 * 
 	 * @author 	Francis Bourre
-	 */	public interface ServiceLocatorListener {}}
+	 * 
+	 * @see Service
+	 * @see ServiceLocator
+	 * @see ServiceLocatorEvent
+	 */	public interface ServiceLocatorListener 
+	{
+		/**
+		 *  Dispatched when a service is registered in 
+		 *  <code>ServiceLocator</code> locator.
+		 *  
+		 *  @eventType com.bourre.service.ServiceLocatorEvent.onRegisterServiceEVENT
+		 */
+		function onRegisterService( e : ServiceLocatorEvent) : void;		
+		/**
+		 *  Dispatched when a service is unregistered from 
+		 *  <code>ServiceLocator</code> locator.
+		 *  
+		 *  @eventType com.bourre.service.ServiceLocatorEvent.onUnregisterServiceEVENT
+		 */
+		function onUnregisterService( e : ServiceLocatorEvent ) : void;
+	}}
