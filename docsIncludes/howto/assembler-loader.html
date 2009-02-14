@@ -113,7 +113,7 @@
             The name of the methods depends on what has been indicated in the xml context; but this the default one.</p>
           <div class="listing">
             <pre class="prettyprint">
-function onStartApplication( url : String, size : uint ) : void;
+function onStartApplication( url : String, size : uint = 0 ) : void;
               
 function onNameCallback( state : String ) : void;<br>
 function onLoadCallback( url : String ) : void;<br>
@@ -145,7 +145,7 @@ function onMethodsCallback( ) : void;
               This an example of a concrete implementation of 
             <strong>AbstractDisplayLoader</strong> :</p>
             <div class="listing">
-              <pre class="prettyprint">public class CustomDisplayLoader extends AbstractDisplayLoader<br>{<br>		<br>	public function CustomDisplayLoader()<br>	{<br>	}<br>		<br>		<br>	override public function onStartApplication( url : String, size : uint ) : void<br>	{
+              <pre class="prettyprint">public class CustomDisplayLoader extends AbstractDisplayLoader<br>{<br>		<br>	public function CustomDisplayLoader()<br>	{<br>	}<br>		<br>		<br>	override public function onStartApplication( url : String, size : uint = 0 ) : void<br>	{
 		PixlibDebug.INFO( &quot;IoC start processing on &quot; + url + &quot; for &quot; + size + &quot; elements&quot; );<br>	}<br>		<br>	override public function onNameCallback( state : String ) : void<br>	{
 		PixlibDebug.INFO( &quot;IoC processing state change to &quot; + state );<br>	}<br>		<br>	override public function onLoadCallback( url : String ) : void<br>	{
 		PixlibDebug.INFO( &quot;IoC start loading &quot; + url + &quot; element&quot; );<br>	}<br>		<br>	override public function onProgressCallback( url : String, percent : Number ) : void<br>	{

@@ -1,0 +1,219 @@
+<html>
+	
+	<!-- 
+			IMPORTANT
+			
+			To setup the title of the page use find/replace, 
+			and replace 'IoC context Pre processing' by the html text of your title
+			
+			To setup the link which make the page return the the with-frame content
+			use find/replace and replace 'assembler-processor' by the 
+	-->
+	
+	<head>
+		<title>IoC context Pre processing - LowRA API Documentation</title>
+		<link rel="stylesheet" href="../style.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="../print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="../prettify.css" type="text/css"  />
+		<script language="javascript" type="text/javascript" src="../asdoc.js"></script>
+		<script type="text/javascript" language="javascript" src="../prettify.js"></script>
+
+	</head>
+	<body>
+		<script type="text/javascript" language="javascript">
+		<!--
+			asdocTitle = 'IoC context Pre processing - LowRA API Documentation';
+			var baseRef = '../';
+			window.onload = configPage;
+		--></script>
+		
+		<table id="titleTable" cellspacing="0" cellpadding="0" class="titleTable">
+			<tr>
+				
+				<td align="left" class="titleTableTitle">LowRA API Documentation</td>
+				<td align="right" class="titleTableTopNav">
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../annexes.html">Annexes</a>&nbsp;|&nbsp;
+                    <a 	onclick="loadClassListFrame('../all-classes.html')" 
+					   	href="../package-summary.html">All&nbsp;Packages</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../all-classes.html')" 
+						href="../class-summary.html">All&nbsp;Classes</a>&nbsp;|&nbsp;
+					<a 	onclick="loadClassListFrame('../index-list.html')" 
+						href="../all-index-A.html">Index</a>&nbsp;|&nbsp;
+					<a 	href="../index.html?howto/assembler-processor.html&amp;all-classes.html" id="framesLink1">Frames</a>
+					<a 	onclick="parent.location=document.location" 
+						href="" 
+						style="display:none;" 
+						id="noFramesLink1">No&nbsp;Frames</a>
+						
+				</td>
+				<td rowspan="3" align="right" class="titleTableLogo">
+					<img alt="Adobe Logo" title="Adobe Logo" class="logoImage" src="../images/logo.jpg">
+				</td>
+			</tr>
+			<tr class="titleTableRow2">
+				<td align="left" id="subTitle" class="titleTableSubTitle">
+					IoC context Pre processing
+				</td>	
+				<td class="titleTableSubTitle">&nbsp;</td>		
+			</tr>
+			<tr class="titleTableRow3">
+				<td colspan="2">&nbsp;</td>
+			</tr>
+		</table
+		
+		
+		><script type="text/javascript" language="javascript">
+		<!--
+		if (!isEclipse() || window.name != ECLIPSE_FRAME_NAME) 
+		{
+			titleBar_setSubTitle("IoC context Pre processing");
+			
+			titleBar_setSubNav(false,	false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false,	   false,
+							   false,   false
+							   );
+		}
+		--></script>
+		
+		<div class="MainContent">
+		  <h1>Summary</h1>
+
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li><a href="#context">ContextProcessor objects</a></li>
+	<li><a href="#node">Pre processor node</a></li>
+	<li><a href="#adapter">Pre Processor adapter</a> </li>
+	<li><a href="#summary">Pre Processing summary</a></li>
+	</ol>
+<p>&nbsp;</p>
+
+			<a name="overview"></a>
+          <h1>Overview</h1>
+            <p>
+              <strong>LowRA</strong> offers tools to apply <em>pre processing</em> jobs on the IoC xml context using <a href="assembler-customize.html">ApplicationLoader</a> features.<br>
+              <em>Pre processing</em> jobs may also be defined using directly the xml context file, let's show how it work.<br>
+          Welcome to dynamic pre processing system.
+          </p>
+          <p>&nbsp;</p>
+          
+          <a name="context" id="context"></a>
+            <h1>ContextProcessor objects</h1>
+            <p>
+          <strong>LowRA</strong> implements a <code><a href="../com/bourre/ioc/context/processor/ContextProcessor.html">ContextProcessor</a></code> interface to define basic rules for xml context preprocessing.<br>
+          Each processor you want to implement must implement this interface.<br>
+          Take a look at a context processor sample : </p>
+            <div class="listing">
+              <pre class="prettyprint">
+package com.project
+{
+	import com.bourre.ioc.context.processor.ContextProcessor;
+
+	public class CustomProcessor implements ContextProcessor<br>	{
+		public function CustomProcessor( ...args ) 
+		{
+
+		}
+
+		public function process( xml : XML ) : XML
+		{
+			//do preprocessing on passed-in xml content here.
+
+			return xml;
+		}
+	}
+ }</pre></div>
+            <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          
+          <a name="node" id="node"></a>
+            <h1>PreProcessor node</h1>
+            <p>
+              Instead of using hard coded pre processing ( <a href="assembler-customize.html#processing">ApplicationLoader.addProcessingMethod()</a> or <a href="assembler-customize.html#processor">ApplicationLoader.addProcessor()</a> ), IoC context support preprocessor node definition.</p>
+            <p>A preprocessor node <u>must be named</u> : &lt;preprocessor&gt;</p>
+            <p>Preprocessor node support : </p>
+            <ul>
+              <li><code>type</code> definition ( full qualified class name of processor )</li>
+              <li><code>url</code> definition to load processor code if not in current application domain ( like DLL )</li>
+              <li>arguments definition for processor creation</li>
+              <li><code>factory</code> and <code>singleton-access</code> behaviour</li>
+              <li><a href="#adapter">Adapter</a> definition using <code>method</code> attribute</li>
+            </ul>
+            <p>When processor objet is built, the method &quot;<em>process</em>&quot; ( from <a href="../com/bourre/ioc/context/processor/ContextProcessor.html">ContextProcessor</a> interface ) is called.<br>
+            Here is different preprocessor node definitions :</p>
+            <div class="listing">
+              <pre class="prettyprint">
+&lt;beans&gt;<br>	&lt;preprocessor type=&quot;com.project.CustomProcessor&quot; /&gt;<br>&lt;/beans&gt;
+            </pre>
+            </div>
+            <div class="listing">
+              <pre class="prettyprint">
+&lt;beans&gt;<br>	&lt;preprocessor type=&quot;com.project.CustomProcessor&quot; url=&quot;customProcessorDLL.swf&quot; /&gt;<br>&lt;/beans&gt;
+            </pre>
+            </div>
+            <div class="listing">
+              <pre class="prettyprint">
+&lt;beans&gt;<br>	&lt;preprocessor type=&quot;com.project.CustomProcessor&quot; url=&quot;customProcessorDLL.swf&quot;&gt;<br>		&lt;argument value=&quot;something&quot; /&gt;
+		&lt;argument value=&quot;something else&quot; /&gt;<br>	&lt;/preprocessor&gt;<br>&lt;/beans&gt;            </pre>
+            </div>
+            <p>&nbsp;</p>
+          
+          <a name="adapter" id="adapter"></a>
+            <h1>PreProcessor adapter</h1>
+            <p>Adapter allow to use no <a href="../com/bourre/ioc/context/processor/ContextProcessor.html">ContextProcessor</a> compliant processor to do preprocessing job.<br>
+            So, processor doesn't need to implement the LowRA interface, but must implement a method which : </p>
+            <ul>
+              <li>wait for an xml for first argument</li>
+              <li>return an XML instance</li>
+            </ul>
+            <p>Example :</p>
+            <div class="listing">
+              <pre class="prettyprint">
+package com.project
+{
+	public class AdpaterProcessor<br>	{
+		public function AdpaterProcessor( ...args ) 
+		{
+
+		}
+
+		public function run( xml : XML ) : XML
+		{
+			//do preprocessing on passed-in xml content here.
+
+			return xml;
+		}
+	}
+ }</pre>
+            </div>
+            <p>To use adapter, just set the <code>method</code> attribute to define the name of the method to call on processor.</p>
+            <div class="listing">
+              <pre class="prettyprint">
+&lt;beans&gt;<br>	&lt;preprocessor type=&quot;com.project.AdpaterProcessor&quot; url=&quot;AdpaterProcessorDLL.swf&quot; method=&quot;run&quot; /&gt;<br>&lt;/beans&gt;</pre>
+            </div>
+            <p>&nbsp;</p>
+          <a name="summary"></a>
+          <h1>Pre Processing summary</h1>
+          <p>
+              <strong>LowRA</strong> offers differents tools for pre processing, here is the order of pre processing treatments :          </p>
+          <ol>
+            <li><a href="assembler-customize.html#processing">ApplicationLoader.addProcessingMethod()</a> job</li>
+            <li><a href="assembler-customize.html#processor">ApplicationLoader.addProcessor()</a> job</li>
+            <li><a href="#node">Context preprocessor</a> job</li>
+          </ol>
+<p>And then... IoC context is parsed.</p>
+<p>&nbsp;</p>
+	</div>
+		
+        <div class="feedbackLink">
+            <p>&nbsp;</p>
+            <center>
+            <a target="_blank" href="http://code.google.com/p/lowra/issues/entry">Submit Feedback</a>
+            </center>
+            </div>
+            <center class="copyright">LowRA API documentation 2008- 2009<br>Licensed under the MOZILLA PUBLIC LICENSE, Version 1.1</center>
+        </div>
+	</body>
+</html>

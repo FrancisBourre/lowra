@@ -40,7 +40,8 @@ package com.bourre.ioc.parser
 		public static var LISTEN : String = "listen";
 		public static var ITEM : String = "item";		public static var KEY : String = "key";		public static var VALUE : String = "value";		public static var INCLUDE : String = "include";
 		public static var EVENT : String = "event";
-
+		public static var PREPROCESSOR : String = "preprocessor";
+		
 		
 		//--------------------------------------------------------------------
 		// Private properties

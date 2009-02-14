@@ -19,10 +19,9 @@ package com.bourre.ioc.context.processor
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Batch;
 	import com.bourre.ioc.parser.ContextAttributeList;
-	import com.bourre.ioc.parser.ContextNodeNameList;
-	import com.bourre.log.PixlibDebug;	
-	
-	/**	/**
+	import com.bourre.ioc.parser.ContextNodeNameList;	
+
+	/**
 	 * Transforms node attributes value to IoC property node.
 	 * 
 	 * @example Simple context
@@ -139,8 +138,6 @@ package com.bourre.ioc.context.processor
 			{
 				var nodeName : String = ContextNodeNameList.PROPERTY;
 				var attName : String = o.name( ).toString( );
-				
-				PixlibDebug.WARN( attName  + " -> " + isReserved( attName ) );
 				
 				if( !isReserved( attName ) )
 				{
