@@ -18,6 +18,7 @@
     * [http://lowra.customactions.net/doc/howto/plugin-communication.html Plugins communication]
     * [http://lowra.customactions.net/doc/howto/assembler-customize.html Customize IoC Asembler]
     * [http://lowra.customactions.net/doc/howto/assembler-runtime.html Loading IoC context at runtime]
+    * [http://lowra.customactions.net/doc/howto/assembler-processor.html IoC context Preprocessing]
 
 <br>
 == Frameworks bases ==
