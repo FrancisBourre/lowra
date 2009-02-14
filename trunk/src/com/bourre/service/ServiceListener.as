@@ -15,13 +15,27 @@
  */
 package com.bourre.service 
 {
+
 	/**
-	 * The Service Listener class.
-	 * 
-	 * <p>TODO Documentation.</p>
+	 * The ServiceListener interface defines rules for 
+	 * <code>Service</code> listeners.
 	 * 
 	 * @author 	Francis Bourre
+	 * 
+	 * @see Service
+	 * @see ServiceEvent
 	 */	public interface ServiceListener 
 	{
-		function onDataResult	( event : ServiceEvent ) : void;
-		function onDataError	( event : ServiceEvent ) : void;	}}
+		/**
+		 *  Dispatched when a result is available.
+		 *  
+		 *  @eventType com.bourre.service.ServiceEvent.onDataResultEVENT
+		 */
+		function onDataResult( event : ServiceEvent ) : void;
+		
+		/**
+		 *  Dispatched when an error occurs.
+		 *  
+		 *  @eventType com.bourre.service.ServiceEvent.onDataErrorEVENT
+		 */
+		function onDataError( event : ServiceEvent ) : void;	}}

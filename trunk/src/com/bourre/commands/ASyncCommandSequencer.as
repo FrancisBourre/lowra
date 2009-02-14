@@ -15,23 +15,8 @@
  */
 package com.bourre.commands
 {
-	import com.bourre.error.IllegalStateException;
-	import com.bourre.events.BasicEvent;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.events.Event;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;		
-
-	/*
-	 * TODO Upgrade to IOC : 
-	 *  - remove abstract protection hack and call super with constructor argument
-	 *  - uncomment extends elements 
-	 */
-
-	/**
+	import com.bourre.error.IllegalStateException;	import com.bourre.events.BasicEvent;	import com.bourre.events.EventBroadcaster;	import com.bourre.log.PixlibDebug;	import com.bourre.log.PixlibStringifier;		import flash.events.Event;	import flash.events.TimerEvent;	import flash.utils.Timer;	
+		/**
 	 * The AsyncCommandSequencer manage <code>ASyncCommand</code> execution list.
 	 * 
 	 * @author 	Cédric Néhémie

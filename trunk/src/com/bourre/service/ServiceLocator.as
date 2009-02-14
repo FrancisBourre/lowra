@@ -15,8 +15,8 @@
  */
 package com.bourre.service 
 {
-	import com.bourre.core.AbstractLocator;	
-	
+	import com.bourre.core.AbstractLocator;		
+
 	/**
 	 *  Dispatched when a constructor is registered.
 	 *  
@@ -87,16 +87,25 @@ package com.bourre.service
 			broadcastEvent( new ServiceLocatorEvent( ServiceLocatorEvent.onUnregisterServiceEVENT, key, this ) );
 		}
 		
+		/**
+		 * @copy com.bourre.core.AbstractLocator#register()
+		 */
 		public function registerService( key : String, service : Service ) : Boolean
 		{
 			return register( key, service );
 		}
-
+		
+		/**
+		 * @copy com.bourre.core.AbstractLocator#register()
+		 */
 		public function registerServiceClass( key : String, serviceClass : Class ) : Boolean
 		{
 			return register( key, serviceClass );
 		}
-
+		
+		/**
+		 * @inheritDoc
+		 */
 		override public function locate( key : String ) : Object
 		{
 			try
@@ -112,7 +121,11 @@ package com.bourre.service
 			
 			return null;
 		}
-
+		
+		/**
+		 * Returns Service registered with passed-in <code>key</code> 
+		 * identifier.
+		 */
 		public function getService( key : String ) : Service
 		{
 			try

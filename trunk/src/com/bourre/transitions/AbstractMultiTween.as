@@ -24,7 +24,7 @@ package com.bourre.transitions
 	import com.bourre.utils.ClassUtils;
 	
 	import flash.events.Event;	
-	
+
 	/**
 	 *  Dispatched when tween start.
 	 *  
@@ -47,9 +47,8 @@ package com.bourre.transitions
 	[Event(name="onMotionChanged", type="com.bourre.transitions.TweenEvent")]
 	
 	/**
-	 * The AbstractMultiTween class.
-	 * 
-	 * TODO Documentation.
+	 * The AbstractMultiTween class allow tweening of many object properties 
+	 * at the same time.
 	 * 
 	 * @author 	Cédric Néhémie
 	 */
@@ -57,6 +56,11 @@ package com.bourre.transitions
 		extends AbstractSyncCommand	
 		implements AdvancedTween, TickListener
 	{	
+		/**
+		 * Returns a no easing function for tweening process.
+		 * 
+		 * @return A no easing function for tweening process.
+		 */
 		static public function noEasing( t : Number,  b : Number,  c : Number, d : Number ) : Number 
 		{
 			return c * t / d + b;
@@ -100,6 +104,16 @@ package com.bourre.transitions
 		// Private implementation
 		//-------------------------------------------------------------------------
 		
+		/**
+		 * Creates new <code>AbstractMultiTween</code> instance.
+		 * 
+		 * @param	targets		Tween target
+		 * @param	setters		Setter accessor list
+		 * @param	endValues	End values for all tweened properties
+		 * @param	startValues	Start values for all tweened properties
+		 * @param	easing		Easing function to use for tweening
+		 * @param	getters		Getter accessor list
+		 */
 		public function AbstractMultiTween( targets : Object, 
 									   		setters : Array, 
 									   		endValues : Array, 
@@ -208,15 +222,28 @@ package com.bourre.transitions
 		 *	VIRTUAL MEMBERS
 		 *-----------------------------------------------*/
 		
+		/**
+		 * Returns <code>true</code> if tweening is finished.
+		 * 
+		 * @return <code>true</code> if tweening is finished
+		 */
 		public function isMotionFinished () : Boolean
 		{	
 			return false;
 		}
 		
+		/**
+		 * Returns <code>true</code> if tweening is finished.
+		 * 
+		 * <p>Reverse mode only.</code>
+		 * 
+		 * @return <code>true</code> if tweening is finished
+		 */
 		public function isReversedMotionFinished () : Boolean
 		{	
 			return false;
 		}
+		
 		
 		/*-----------------------------------------------
 		 *	ELSE
@@ -236,6 +263,11 @@ package com.bourre.transitions
 			_oEB.broadcastEvent( _eOnMotionChanged );	
 		}
 		
+		/**
+		 * Returns <code>true</code> if the motion is in reverse mode.
+		 * 
+		 * @return <code>true</code> if the motion is in reverse mode
+		 */
 		public function isReversed() : Boolean
 		{
 			return _bReversedMotion;

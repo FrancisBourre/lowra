@@ -23,7 +23,7 @@ package com.bourre.ioc.assembler.constructor
 	 * The Constructor class store informations during xml context 
 	 * parsing on "how to build an object".
 	 * 
-	 * <p>TODO Documentation</p>
+	 * TODO Documentation
 	 * 
 	 * @author Francis Bourre
 	 */

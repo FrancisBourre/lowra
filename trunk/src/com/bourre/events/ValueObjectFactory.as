@@ -18,7 +18,7 @@ package com.bourre.events
 	/**
 	 * The ValueObjectFactory interface.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * TODO Documentation.
 	 * 
 	 * @author 	Francis Bourre
 	 */

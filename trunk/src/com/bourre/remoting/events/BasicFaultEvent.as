@@ -20,28 +20,71 @@ package com.bourre.remoting.events
 	import com.bourre.remoting.ServiceMethod;		
 
 	/**
-	 * The BasicFaultEvent interface.
+	 * The BasicFaultEvent class represents the event object passed 
+	 * to the event listener for <strong>ServiceResponder</strong> events.
 	 * 
-	 * <p>TODO Documentation.</p>
+	 * @see com.bourre.remoting.ServiceResponder
 	 * 
 	 * @author Romain Flacher
 	 * @author Axel Aigret
 	 */
 	public class BasicFaultEvent extends BasicEvent 
 	{
-		
-		public static var onFaultEVENT : String = "onFault";
-		
-		
-		
-		private var _sCode 				: String;
-		private var _sCorrelationId 	: String;
-		private var _sDetail 			: String;
-		private var _sDescription 		: String;
-		
-		private var _sServiceMethodName : ServiceMethod;
-		
+		//--------------------------------------------------------------------
+		// Events
+		//--------------------------------------------------------------------
+				
 		/**
+		 * Defines the value of the <code>type</code> property of the event 
+		 * object for a <code>onFault</code> event.
+		 * 
+		 * <p>The properties of the event object have the following values:</p>
+		 * <table class="innertable">
+		 *     <tr><th>Property</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>type</code></td>
+		 *     	<td>Dispatched event type</td>
+		 *     </tr>
+		 *     
+		 *     <tr><th>Method</th><th>Value</th></tr>
+		 *     <tr>
+		 *     	<td><code>getCode()</code>
+		 *     	</td><td>The error code</td>
+		 *     </tr>
+		 *     <tr>
+		 *     	<td><code>getDescription()</code>
+		 *     	</td><td>The error description</td>
+		 *     </tr>
+		 *       <tr>
+		 *     	<td><code>getServiceMethodName()</code>
+		 *     	</td><td>The service method name which dispatch this event</td>
+		 *     </tr>
+		 * </table>
+		 * 
+		 * @eventType onFault
+		 */	
+		public static var onFaultEVENT : String = "onFault";
+
+		
+		//--------------------------------------------------------------------
+		// Private properties
+		//--------------------------------------------------------------------
+
+		private var _sCode : String;
+		private var _sCorrelationId : String;
+		private var _sDetail : String;
+		private var _sDescription : String;
+
+		private var _sServiceMethodName : ServiceMethod;
+
+		
+		//--------------------------------------------------------------------
+		// Public API
+		//--------------------------------------------------------------------
+				
+		/**
+		 * Creates new <code>BasicFaultEvent</code> instance.
+		 * 
 		 * @param	code
 		 * @param	correlationId
 		 * @param	details
@@ -63,39 +106,58 @@ package com.bourre.remoting.events
 			_sServiceMethodName = sServiceMethodName;
 		}
 		
+		/**
+		 * Returns error code.
+		 * 
+		 * @return The error code carried by this event
+		 */
 		public function getCode() : String
 		{
 			return _sCode;
 		}
-
+		
+		/**
+		 * 
+		 */
 		public function getCorrelationId() : String
 		{
 			return _sCorrelationId;
 		}
 		
+		/**
+		 *
+		 */
 		public function getDetail() : String
 		{
 			return _sDetail;
 		}
 		
+		/**
+		 * Returns error description.
+		 * 
+		 * @return The error description carried by this event
+		 */
 		public function getDescription() : String
 		{
 			return _sDescription;
 		}
-
+		
+		/**
+		 * Returns service method name which dispatch this event.
+		 * 
+		 * @return The service method name which dispatch this event
+		 */
 		public function getServiceMethodName() : ServiceMethod
 		{
 			return _sServiceMethodName;
 		}
 		
+		/**
+		 * @inheritDoc
+		 */
 		override public function toString() : String 
 		{
-			return "BasicFaultEvent code: "+getCode()+
-					                "id: "+ getCorrelationId()+
-					                "detail" +getDetail()+
-					                "description" + getDescription()+
-					                "methodname" + getServiceMethodName();
+			return "BasicFaultEvent code: " + getCode( ) + "id: " + getCorrelationId( ) + "detail" + getDetail( ) + "description" + getDescription( ) + "methodname" + getServiceMethodName( );
 		}
-		
 	}
 }
