@@ -139,6 +139,8 @@ package com.bourre.load
 				{
 					_target.addChild( getView() );
 				}
+				
+				if( getName() != null ) getView().name = getName();
 			} 
 		}
 		

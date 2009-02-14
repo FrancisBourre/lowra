@@ -15,8 +15,49 @@
  */
 package com.bourre.ioc.load 
 {
-	import com.bourre.commands.Delegate;	import com.bourre.error.NullPointerException;	import com.bourre.events.ValueObjectEvent;	import com.bourre.ioc.assembler.ApplicationAssembler;	import com.bourre.ioc.assembler.DefaultApplicationAssembler;	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;	import com.bourre.ioc.assembler.constructor.ConstructorExpert;	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;	import com.bourre.ioc.assembler.displayobject.DisplayLoaderInfo;	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent;	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;	import com.bourre.ioc.assembler.method.MethodExpert;	import com.bourre.ioc.assembler.property.PropertyExpert;	import com.bourre.ioc.assembler.resource.ResourceExpert;	import com.bourre.ioc.bean.BeanFactory;	import com.bourre.ioc.context.ContextLoader;	import com.bourre.ioc.context.ContextLoaderEvent;	import com.bourre.ioc.context.processor.ContextProcessor;	import com.bourre.ioc.load.ApplicationLoaderEvent;	import com.bourre.ioc.load.ApplicationLoaderListener;	import com.bourre.ioc.load.FlashVarsUtil;	import com.bourre.ioc.parser.ContextParser;	import com.bourre.ioc.parser.ContextParserEvent;	import com.bourre.ioc.parser.DLLParser;	import com.bourre.ioc.parser.DisplayObjectParser;	import com.bourre.ioc.parser.LoaderParser;	import com.bourre.ioc.parser.ObjectParser;	import com.bourre.ioc.parser.ParserCollection;	import com.bourre.ioc.parser.RSCParser;	import com.bourre.load.AbstractLoader;	import com.bourre.load.LoaderEvent;	import com.bourre.load.LoaderListener;	import com.bourre.log.PixlibDebug;		import flash.display.DisplayObjectContainer;	import flash.external.ExternalInterface;	import flash.net.URLRequest;	import flash.system.LoaderContext;	
-	/**
+	import com.bourre.commands.Delegate;
+	import com.bourre.error.NullPointerException;
+	import com.bourre.events.BasicEvent;
+	import com.bourre.events.ValueObjectEvent;
+	import com.bourre.ioc.assembler.ApplicationAssembler;
+	import com.bourre.ioc.assembler.DefaultApplicationAssembler;
+	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
+	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
+	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
+	import com.bourre.ioc.assembler.displayobject.DisplayLoaderInfo;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderListener;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
+	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;
+	import com.bourre.ioc.assembler.method.MethodExpert;
+	import com.bourre.ioc.assembler.property.PropertyExpert;
+	import com.bourre.ioc.assembler.resource.ResourceExpert;
+	import com.bourre.ioc.bean.BeanFactory;
+	import com.bourre.ioc.context.ContextLoader;
+	import com.bourre.ioc.context.ContextLoaderEvent;
+	import com.bourre.ioc.context.processor.ContextProcessor;
+	import com.bourre.ioc.load.ApplicationLoaderEvent;
+	import com.bourre.ioc.load.ApplicationLoaderListener;
+	import com.bourre.ioc.load.FlashVarsUtil;
+	import com.bourre.ioc.parser.ContextParser;
+	import com.bourre.ioc.parser.ContextParserEvent;
+	import com.bourre.ioc.parser.DLLParser;
+	import com.bourre.ioc.parser.DisplayObjectParser;
+	import com.bourre.ioc.parser.LoaderParser;
+	import com.bourre.ioc.parser.ObjectParser;
+	import com.bourre.ioc.parser.ParserCollection;
+	import com.bourre.ioc.parser.RSCParser;
+	import com.bourre.load.AbstractLoader;
+	import com.bourre.load.LoaderEvent;
+	import com.bourre.load.LoaderListener;
+	import com.bourre.log.PixlibDebug;
+	
+	import flash.display.DisplayObjectContainer;
+	import flash.external.ExternalInterface;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;	
+	/**
 	 *  Dispatched when a context item file starts loading.
 	 *  
 	 *  @eventType com.bourre.ioc.load.ApplicationLoaderEvent.onLoadStartEVENT
@@ -442,15 +483,47 @@ package com.bourre.ioc.load
 		 */
 		public function parseContext( xml : * ) : void
 		{
-			xml = preprocess( xml );
+			if ( getDisplayObjectBuilder( ) == null ) setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
 			
-			processParsing( xml );
+			runPreprocessor( xml );
 		}
 		
 		/**
-		 * @private
+		 * Starts IoC pre processing.
 		 * 
-		 * Parses the context xml.
+		 * @param	xml	IoC xml context
+		 * 
+		 * @see #onPreprossorComplete()
+		 */
+		public function runPreprocessor( xml : * ) : void
+		{
+			fireOnApplicationState( ApplicationLoaderEvent.PREPROCESS_STATE );
+			
+			xml = preprocess( xml );
+			
+			var cl : ContextPreprocessorLoader = new ContextPreprocessorLoader( xml, getDisplayObjectBuilder( ) ); 
+			cl.addEventListener( ContextPreprocessorLoader.onPreprocessorCompleteEVENT, onPreprossorComplete );
+			cl.load( );
+		}
+		
+		/**
+		 * Preprocessing is completed.
+		 * 
+		 * <p>Starts the IoC parsing.</p>
+		 * 
+		 * @param	xml	IoC xml context
+		 * 
+		 * @see #processParsing()
+		 */
+		public function onPreprossorComplete( event : BasicEvent ) : void
+		{
+			processParsing( XML( event.getTarget() ) );	
+		}
+		
+		/**
+		 * Parses the xml context.
+		 * 
+		 * <p>Include files are loaded and preprocessing is done.</p>
 		 */
 		public function processParsing( xml : * ) : void
 		{

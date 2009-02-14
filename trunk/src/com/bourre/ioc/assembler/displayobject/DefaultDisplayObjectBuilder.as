@@ -656,7 +656,9 @@ package com.bourre.ioc.assembler.displayobject
 					PixlibDebug.ERROR( msg );
 					throw new IllegalArgumentException( msg );
 				}
-
+				
+				oDo.name = info.ID;
+				
 				oParent.addChild( oDo );
 				BeanFactory.getInstance( ).register( info.ID, oDo );
 
