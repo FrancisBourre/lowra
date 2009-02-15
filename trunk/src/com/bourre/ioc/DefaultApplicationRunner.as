@@ -218,9 +218,9 @@ package com.bourre.ioc
 		protected function createApplicationLoader( ) : ApplicationLoader
 		{
 			var loader : ApplicationLoader = new ApplicationLoader( this, false );
-			oLoader.setAntiCache( true );
-			oLoader.setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
-			oLoader.addListener( this );
+			loader.setAntiCache( true );
+			loader.setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
+			loader.addListener( this );
 			
 			return loader;
 		}
