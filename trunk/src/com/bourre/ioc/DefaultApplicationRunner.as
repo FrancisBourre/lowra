@@ -24,6 +24,7 @@ package com.bourre.ioc
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
 	
+	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
@@ -217,14 +218,24 @@ package com.bourre.ioc
 		 */
 		protected function createApplicationLoader( ) : ApplicationLoader
 		{
-			var loader : ApplicationLoader = new ApplicationLoader( this, false );
+			var loader : ApplicationLoader = new ApplicationLoader( createApplicationTarget(), false );
 			loader.setAntiCache( true );
 			loader.setDisplayObjectBuilder( new DefaultDisplayObjectBuilder( ) );
 			loader.addListener( this );
 			
 			return loader;
 		}
-
+		
+		/**
+		 * Creates the main application container.
+		 * 
+		 * @return The main application container.
+		 */
+		protected function createApplicationTarget( ) : DisplayObjectContainer
+		{
+			return this;	
+		}
+		
 		/**
 		 * Runs actions before application loading
 		 * 

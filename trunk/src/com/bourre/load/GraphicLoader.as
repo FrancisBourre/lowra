@@ -139,8 +139,6 @@ package com.bourre.load
 				{
 					_target.addChild( getView() );
 				}
-				
-				if( getName() != null ) getView().name = getName();
 			} 
 		}
 		
@@ -214,8 +212,20 @@ package com.bourre.load
 			{
 				_oBitmapContainer = null;
 			}
-
+				
 			super.setContent( content );
+			
+			if( getName() != null )
+			{
+				try
+				{
+					getView().name = getName();
+				}
+				catch( e : Error )
+				{
+					//timeline based object
+				}
+			}
 		}
 		
 		/**

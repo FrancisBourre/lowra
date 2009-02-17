@@ -178,12 +178,12 @@ package com.bourre.load.strategy
 
 			if ( _owner ) _owner.fireOnLoadProgressEvent();
 		}
-
+		
 		protected function _onComplete( e : Event ) : void 
 		{
-			//
-	    }
-
+			if ( _owner ) _owner.fireOnLoadInitEvent();
+		}
+		
 	    protected function _onOpen( e : Event ) : void
 	    {
 	    	if ( _owner ) _owner.fireOnLoadStartEvent();
@@ -199,20 +199,16 @@ package com.bourre.load.strategy
 	    {
 	    	//
 	    }
-
+		
 	    protected function _onIOError( e : IOErrorEvent ) : void 
 	    {
 	    	release();
 			if ( _owner ) _owner.fireOnLoadErrorEvent( e.text );
 	    }
-
+		
 	    protected function _onInit( e : Event ) : void 
 	    {
-			if ( _owner ) 
-			{
-				_owner.setContent( _loader.content );
-				_owner.fireOnLoadInitEvent();
-			}
+			if ( _owner ) _owner.setContent( _loader.content );
 		}
 
 	    protected function _onUnLoad( e : Event ) : void 

@@ -19,6 +19,8 @@ package com.bourre.encoding
 	import com.bourre.core.CoreFactory;
 	import com.bourre.error.UnsupportedNodeAttributeException;
 	import com.bourre.log.PixlibDebug;
+	import com.bourre.structures.Dimension;
+	import com.bourre.structures.Range;
 	
 	import flash.geom.Point;	
 
@@ -68,6 +70,8 @@ package com.bourre.encoding
 			addType( "Boolean", getBoolean );
 			addType( "Class", getInstance );
 			addType( "Point", getPoint );
+			addType( "Dimension", getDimension );
+			addType( "Range", getRange );
 			addType( "", getObject );
 			
 			pushInArray = XMLToObjectDeserializer.PUSHINARRAY_IDENTICAL_NODE_NAMES;
@@ -269,7 +273,63 @@ package com.bourre.encoding
 
 			return new Point( args[0], args[1] );
 	  	}
-
+		
+		/**
+		 * Returns <code>Dimension</code> instance using passed-in 
+		 * <code>XML node</code> as source.
+		 * 
+		 * @example
+		 * <pre class="prettyprint">
+		 * 
+		 * &lt;node type="Dimension"&gt10,100&lt;/node&gt;
+		 * </pre>
+		 * 
+		 * @param	node	XML Node with dimension informations
+		 * 
+		 * @returns	<code>Dimension</code> instance
+		 */
+		protected function getDimension( node : XML ) : Dimension
+	  	{
+	  		var args : Array = getArguments( node );
+	  		
+	  		if ( args[0] == null || args[1] == null )
+	  		{
+	  			var msg : String = this + ".getDimension() failed with values: (" + args[0] + ", " + args[1] + ").";
+				PixlibDebug.FATAL( msg );
+	  			throw new UnsupportedNodeAttributeException( msg );
+	  		}
+	  		
+	  		return new Dimension( args[0], args[1] );
+		}
+	  	
+	  	/**
+		 * Returns <code>getRange</code> instance using passed-in 
+		 * <code>XML node</code> as source.
+		 * 
+		 * @example
+		 * <pre class="prettyprint">
+		 * 
+		 * &lt;node type="Dimension"&gt10,10&lt;/node&gt;
+		 * </pre>
+		 * 
+		 * @param	node	XML Node with range informations
+		 * 
+		 * @returns	<code>Dimension</code> instance
+		 */
+	  	protected function getRange( node : XML ) : Range
+		{
+			var args : Array = getArguments( node );
+	  		
+	  		if ( args[0] == null || args[1] == null )
+	  		{
+	  			var msg : String = this + ".getRange() failed with values: (" + args[0] + ", " + args[1] + ").";
+				PixlibDebug.FATAL( msg );
+	  			throw new UnsupportedNodeAttributeException( msg );
+	  		}
+	  		
+			return new Range( args[0], args[1] );
+	  	}
+	  	
 	  	public function getObjectWithAttributes ( node:XML ) : Object
 		{
 			var data:XML = node;
