@@ -16,42 +16,8 @@
 	 
 package com.bourre.ioc.assembler.displayobject 
 {
-	import com.bourre.collection.HashMap;
-	import com.bourre.core.CoreFactory;
-	import com.bourre.core.HashCodeFactory;
-	import com.bourre.encoding.Deserializer;
-	import com.bourre.error.IllegalArgumentException;
-	import com.bourre.events.EventBroadcaster;
-	import com.bourre.events.ValueObject;
-	import com.bourre.events.ValueObjectEvent;
-	import com.bourre.ioc.assembler.resource.Resource;
-	import com.bourre.ioc.assembler.resource.ResourceExpert;
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.load.ApplicationLoader;
-	import com.bourre.ioc.load.FlashVarsUtil;
-	import com.bourre.ioc.parser.ContextNodeNameList;
-	import com.bourre.ioc.parser.ContextTypeList;
-	import com.bourre.load.FileLoader;
-	import com.bourre.load.GraphicLoader;
-	import com.bourre.load.GraphicLoaderEvent;
-	import com.bourre.load.GraphicLoaderLocator;
-	import com.bourre.load.Loader;
-	import com.bourre.load.LoaderEvent;
-	import com.bourre.load.QueueLoader;
-	import com.bourre.load.QueueLoaderEvent;
-	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
-	
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.LoaderInfo;
-	import flash.events.Event;
-	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;	
-
-	/**
+	import com.bourre.collection.HashMap;	import com.bourre.core.CoreFactory;	import com.bourre.core.HashCodeFactory;	import com.bourre.encoding.Deserializer;	import com.bourre.error.IllegalArgumentException;	import com.bourre.events.EventBroadcaster;	import com.bourre.events.ValueObject;	import com.bourre.events.ValueObjectEvent;	import com.bourre.ioc.assembler.resource.Resource;	import com.bourre.ioc.assembler.resource.ResourceExpert;	import com.bourre.ioc.bean.BeanFactory;	import com.bourre.ioc.bean.BeanUtils;	import com.bourre.ioc.load.ApplicationLoader;	import com.bourre.ioc.load.FlashVarsUtil;	import com.bourre.ioc.parser.ContextNodeNameList;	import com.bourre.ioc.parser.ContextTypeList;	import com.bourre.load.FileLoader;	import com.bourre.load.GraphicLoader;	import com.bourre.load.GraphicLoaderEvent;	import com.bourre.load.GraphicLoaderLocator;	import com.bourre.load.Loader;	import com.bourre.load.LoaderEvent;	import com.bourre.load.QueueLoader;	import com.bourre.load.QueueLoaderEvent;	import com.bourre.log.PixlibDebug;	import com.bourre.log.PixlibStringifier;		import flash.display.DisplayObject;	import flash.display.DisplayObjectContainer;	import flash.display.LoaderInfo;	import flash.events.Event;	import flash.net.URLLoaderDataFormat;	import flash.net.URLRequest;	import flash.system.ApplicationDomain;	import flash.system.LoaderContext;	
+	/**
 	 *  Dispatched when a context element starts loading.
 	 *  
 	 *  @eventType com.bourre.ioc.assembler.displayobject.DisplayObjectBuilderEvent.onLoadStartEVENT
@@ -375,6 +341,11 @@ package com.bourre.ioc.assembler.displayobject
 			if( !bf.isRegistered( getRootID() ) && !bf.isBeanRegistered( _target ) ) 
 			{
 				bf.register( getRootID( ), _target );
+				
+				if( !bf.isRegistered( BeanUtils.APPLICATION_CONTAINER_NAME ) )
+				{
+					bf.register( BeanUtils.APPLICATION_CONTAINER_NAME, getRootID( ) );
+				}
 			}
 			else
 			{
