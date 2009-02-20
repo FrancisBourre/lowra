@@ -16,17 +16,17 @@
  
 package com.bourre.remoting 
 {
+	import flash.events.Event;
+	import flash.events.NetStatusEvent;
+	import flash.net.URLRequest;
+	import flash.utils.getQualifiedClassName;
+	
 	import com.bourre.commands.Delegate;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.remoting.events.BasicFaultEvent;
 	import com.bourre.remoting.events.BasicResultEvent;
-	import com.bourre.remoting.interfaces.ServiceProxyListener;
-
-	import flash.events.Event;
-	import flash.events.NetStatusEvent;
-	import flash.net.URLRequest;
-	import flash.utils.getQualifiedClassName;		
+	import com.bourre.remoting.interfaces.ServiceProxyListener;	
 
 	/**
 	 * The AbstractServiceProxy class.
@@ -113,26 +113,38 @@ package com.bourre.remoting
 		 */
 		public function callServiceMethod( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args ) : void
 		{
-			var o : ServiceResponder = responder ? responder : getServiceResponder( );
+			var o : ServiceResponder = responder ? responder : getServiceResponder();
 			o.setServiceMethodName( oServiceMethodName );
 			
-			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ) , o ].concat( args );
+			var patchResponder : ServiceProxyResponder = new ServiceProxyResponder(o.getResultFunction(), o.getFaultFunction()) ;
+			var fDelegate : Function = Delegate.create(_onNetStatus, patchResponder) ;
+			
+			patchResponder.oService = this ;
+			patchResponder.fStatusDelegate = fDelegate ;
 			
 			var connection : RemotingConnection = getRemotingConnection( );
-			connection.addEventListener( NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus, responder.getFaultFunction( ) ) ) ;
+			connection.addEventListener( NetStatusEvent.NET_STATUS, fDelegate) ;
+			
+			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), patchResponder ].concat( args );
 			connection.call.apply( connection, a );
 		}
 
 		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args) : void
 		{
-			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), responder ].concat( args );
+			var patchResponder : ServiceProxyResponder = new ServiceProxyResponder(responder.getResultFunction(), responder.getFaultFunction()) ;
+			var fDelegate : Function = Delegate.create(_onNetStatus, patchResponder) ;
+			
+			patchResponder.oService = this ;
+			patchResponder.fStatusDelegate = fDelegate ;
 			
 			var connection : RemotingConnection = getRemotingConnection( );
-			connection.addEventListener( NetStatusEvent.NET_STATUS, Delegate.create( _onNetStatus, responder.getFaultFunction( ) ) ) ;
+			connection.addEventListener( NetStatusEvent.NET_STATUS, fDelegate) ;
+			
+			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), patchResponder ].concat( args );
 			connection.call.apply( connection, a );
 		}
 
-		protected function _onNetStatus(e : NetStatusEvent, fFault : Function) : void
+		protected function _onNetStatus(e : NetStatusEvent, oResponder : ServiceProxyResponder) : void
 		{
 			RemotingDebug.DEBUG( this + " _onNetStatus" + e.info.code );
 			var msg : String  ;
@@ -143,25 +155,25 @@ package com.bourre.remoting
 				case 'NetConnection.Call.Failed' :	
 					msg = " The NetConnection.call method was not able to invoke the server-side method or command. "; 	
 					RemotingDebug.ERROR( this + msg );
-					fireErrorEvent( target, code, msg, fFault ) ;
+					fireErrorEvent( target, code, msg, oResponder.status) ;
 					break;
 					
 				case 'NetConnection.Call.BadVersion' :	
 					msg = " Packet encoded in an unidentified format. "; 	
 					RemotingDebug.ERROR( this + msg );
-					fireErrorEvent( target, code, msg, fFault ) ;
+					fireErrorEvent( target, code, msg, oResponder.status) ;
 					break;	
 					
 				case 'NetConnection.Connect.Failed' :
 					msg = " The connection attempt failed. "; 	
 					RemotingDebug.ERROR( this + msg );
-					fireErrorEvent( target, code, msg, fFault ) ;
+					fireErrorEvent( target, code, msg, oResponder.status) ;
 					break;
 					
 				case 'NetConnection.Connect.Rejected' :
 					msg = " The client does not have permission to connect to the application, the application expected different parameters from those that were passed, or the application name specified during the connection attempt was not found on the server. "; 	
 					RemotingDebug.ERROR( this + msg );
-					fireErrorEvent( target, code, msg, fFault ) ;
+					fireErrorEvent( target, code, msg, oResponder.status) ;
 					break;
 			}
 		}
@@ -170,7 +182,6 @@ package com.bourre.remoting
 		{
 			var e : BasicFaultEvent = new BasicFaultEvent( errorCode, "", "", errorMessage, sServiceMethodName );
 			PixlibDebug.FATAL( this + '.fireErrorEvent ' ) ;
-			PixlibDebug.FATAL( e ) ;
 			if(  fFault != null ) fFault( e ) ;
 			_oEB.broadcastEvent( e );
 		}
@@ -197,5 +208,42 @@ package com.bourre.remoting
 		{
 			return getQualifiedClassName( this ) + getServiceName( );
 		}
+	}
+}
+
+import flash.events.NetStatusEvent;
+import com.bourre.remoting.ServiceResponder ;
+import com.bourre.remoting.RemotingConnection ;
+import com.bourre.remoting.AbstractServiceProxy ;
+import com.bourre.remoting.events.BasicFaultEvent;
+
+internal class ServiceProxyResponder extends ServiceResponder
+{
+	public var fStatusDelegate : Function ;
+	public var oService : AbstractServiceProxy ;
+	
+	public function ServiceProxyResponder(fResult:Function = null, fFault:Function = null)
+    {
+		super(fResult, fFault) ;
+    }
+    
+    override public function result( rawResult : * ) : void 
+	{
+		var connection : RemotingConnection = oService.getRemotingConnection( );
+		connection.removeEventListener( NetStatusEvent.NET_STATUS, fStatusDelegate) ;
+			
+		super.result(rawResult) ;
+	}
+	
+	override public function status( rawFault : Object ) : void 
+	{
+		var connection : RemotingConnection = oService.getRemotingConnection( );
+		connection.removeEventListener( NetStatusEvent.NET_STATUS, fStatusDelegate) ;
+		
+		if(rawFault is BasicFaultEvent)
+		{
+			getFaultFunction()(rawFault as BasicFaultEvent) ;
+		}else
+			super.status(rawFault) ;
 	}
 }

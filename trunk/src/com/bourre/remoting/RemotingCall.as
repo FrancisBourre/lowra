@@ -126,27 +126,27 @@ package com.bourre.remoting
 			if ( url != null) this.setURL( url ) ;
 			var service : AbstractServiceProxy = new AbstractServiceProxy( this.getURL( ), getServiceName( ) );
 			service.callServiceMethod.apply( service, [ getMethod( ), new ServiceResponder( this.onResult, this.onFault ) ].concat( getArguments( ) ) );
-			super.load( );
+			super.load();
 		}
 		
 		public function onResult( e : BasicResultEvent ) : void 
 		{
-			super.release( );
-			
 			fireEvent( new RemotingCallEvent( RemotingCallEvent.onLoadInitEVENT, this, e.getResult( ) ) );
 			fireEvent( e );
 			
-			if (_oResponder) _oResponder.getResultFunction( )( e );	
+			if (_oResponder) _oResponder.getResultFunction( )( e );
+			
+			super.release();	
 		}
 		
 		public function onFault( e : BasicFaultEvent ) : void 
 		{
-			super.release( );
-			
 			fireEvent( new RemotingCallEvent( RemotingCallEvent.onLoadErrorEVENT, this ) );
 			fireEvent( e );
 			
 			if (_oResponder) _oResponder.getFaultFunction( )( e );
+			
+			super.release();
 		}
 	}
 }
