@@ -32,6 +32,7 @@ package com.bourre.remoting
 	 * <p>TODO Documentation.</p>
 	 * 
 	 * @author 	Romain Flacher
+	 * @author Axel Aigret
 	 */
 	public class RemotingCall extends AbstractLoader implements ServiceProxyListener
 	{
@@ -131,8 +132,8 @@ package com.bourre.remoting
 		
 		public function onResult( e : BasicResultEvent ) : void 
 		{
-			fireEvent( new RemotingCallEvent( RemotingCallEvent.onLoadInitEVENT, this, e.getResult( ) ) );
 			fireEvent( e );
+			fireEvent( new RemotingCallEvent( RemotingCallEvent.onLoadInitEVENT, this, e.getResult( ) ) );
 			
 			if (_oResponder) _oResponder.getResultFunction( )( e );
 			
@@ -141,8 +142,8 @@ package com.bourre.remoting
 		
 		public function onFault( e : BasicFaultEvent ) : void 
 		{
-			fireEvent( new RemotingCallEvent( RemotingCallEvent.onLoadErrorEVENT, this ) );
 			fireEvent( e );
+			fireEvent( new RemotingCallEvent( RemotingCallEvent.onLoadErrorEVENT, this ) );
 			
 			if (_oResponder) _oResponder.getFaultFunction( )( e );
 			
