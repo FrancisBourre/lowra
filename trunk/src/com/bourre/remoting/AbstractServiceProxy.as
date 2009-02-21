@@ -73,25 +73,24 @@ package com.bourre.remoting
 		/*
 		 * Event system
 		 */
-		public function addListener( oL : ServiceProxyListener ) : void
+		public function addListener( listener : ServiceProxyListener ) : Boolean
 		{
-			_oEB.addListener( oL );
+			return _oEB.addListener( listener );
 		}
 
-		public function removeListener( oL : ServiceProxyListener ) : void
+		public function removeListener( listener : ServiceProxyListener ) : Boolean
 		{
-			_oEB.removeListener( oL );
+			return _oEB.removeListener( listener );
 		}
 
-		public function addEventListener( e : ServiceMethod, oL : *, f : Function,  ... rest) : void
+		public function addEventListener( e : ServiceMethod, listener : Object, ... rest) : Boolean
 		{
-			var a : Array = [ e.toString( ), oL , f ] ; 
-			_oEB.addEventListener.apply( _oEB, rest.length > 0 ? a.concat( rest ) : a );
+			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ e.toString(), listener ].concat( rest ) : [ e.toString(), listener ] );
 		}
 
-		public function removeEventListener( e : ServiceMethod, oL : * ) : void
+		public function removeEventListener( e : ServiceMethod, listener : Object ) : Boolean
 		{
-			_oEB.removeEventListener( e.toString( ), oL );
+			return _oEB.removeEventListener(e.toString( ), listener);
 		}
 
 		/*
@@ -108,18 +107,19 @@ package com.bourre.remoting
 			_oEB.broadcastEvent( e );
 		}
 
-		/*
-		 * abstract calls
+		/**
+		 * Call service and attach his own service responder
+		 * Service will catch and fire custom type and onFault events
 		 */
-		public function callServiceMethod( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args ) : void
+		public function callServiceMethod( oServiceMethodName : ServiceMethod, ...args ) : void
 		{
-			var o : ServiceResponder = responder ? responder : getServiceResponder();
-			o.setServiceMethodName( oServiceMethodName );
+			var o : ServiceResponder = getServiceResponder();
 			
 			var patchResponder : ServiceProxyResponder = new ServiceProxyResponder(o.getResultFunction(), o.getFaultFunction()) ;
 			var fDelegate : Function = Delegate.create(_onNetStatus, patchResponder) ;
 			
 			patchResponder.oService = this ;
+			patchResponder.setServiceMethodName( oServiceMethodName );
 			patchResponder.fStatusDelegate = fDelegate ;
 			
 			var connection : RemotingConnection = getRemotingConnection( );
@@ -128,7 +128,11 @@ package com.bourre.remoting
 			var a : Array = [ getFullyQualifiedMethodName( oServiceMethodName ), patchResponder ].concat( args );
 			connection.call.apply( connection, a );
 		}
-
+		
+		/**
+		 * Call service and attach responser
+		 * Responder will catch onResult and onFault callbacks
+		 */
 		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args) : void
 		{
 			var patchResponder : ServiceProxyResponder = new ServiceProxyResponder(responder.getResultFunction(), responder.getFaultFunction()) ;
@@ -189,9 +193,9 @@ package com.bourre.remoting
 		/*
 		 * Getter & ToString
 		 */
-		public function getServiceResponder( fResult : Function = null, fFault : Function = null) : ServiceResponder
+		public function getServiceResponder() : ServiceResponder
 		{
-			return new ServiceResponder( fResult, fFault );
+			return new ServiceResponder(onResult, onFault);
 		}
 
 		public function getServiceName() : String
