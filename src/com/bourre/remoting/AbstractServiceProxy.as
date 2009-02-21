@@ -104,7 +104,7 @@ package com.bourre.remoting
 
 		public function onFault( e : BasicFaultEvent ) : void
 		{
-			_oEB.broadcastEvent( e );
+			
 		}
 
 		/**
@@ -130,7 +130,7 @@ package com.bourre.remoting
 		}
 		
 		/**
-		 * Call service and attach responser
+		 * Call service and attach responder in argument
 		 * Responder will catch onResult and onFault callbacks
 		 */
 		public function callServiceWithResponderOnly( oServiceMethodName : ServiceMethod, responder : ServiceResponder, ...args) : void
