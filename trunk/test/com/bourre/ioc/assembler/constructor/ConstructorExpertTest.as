@@ -1,21 +1,21 @@
 package com.bourre.ioc.assembler.constructor
 {
 	import flexunit.framework.TestCase;
+	
 	import com.bourre.ioc.assembler.property.Property;
-	import com.bourre.ioc.control.MockInstance;
-	import com.bourre.ioc.assembler.property.PropertyEvent;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.core.IDExpert;
+	import com.bourre.ioc.control.MockInstance;	
 
 	public class ConstructorExpertTest extends TestCase
 	{
 		
-		private var _cstExpert : ConstructorExpert
+		private var _cstExpert : ConstructorExpert;
 		
+
 		override public function setUp () : void
 		{
-			ConstructorExpert.release()
-			_cstExpert = ConstructorExpert.getInstance()
+			ConstructorExpert.release();
+			_cstExpert = ConstructorExpert.getInstance();
 		}
 		
 		public function testCreate() : void
@@ -31,7 +31,7 @@ package com.bourre.ioc.assembler.constructor
 			var cst : Constructor = new Constructor( "ownerID","com.bourre.ioc.control.MockInstance", [arg1, arg2]);
 			_cstExpert.register( "ownerID",  cst );
 			
-			var obj : MockInstance = _cstExpert.buildObject("ownerID") as MockInstance
+			var obj : MockInstance = _cstExpert.buildObject("ownerID") as MockInstance;
 
 			assertNotNull("failed to create a Constructor", cst);
 			assertTrue(_cstExpert + ".buildObject()failed to create the object of good type ",obj is MockInstance );
@@ -42,9 +42,6 @@ package com.bourre.ioc.assembler.constructor
 		
 		public function testBuildAllObjects() : void
 		{
-			IDExpert.release();
-			IDExpert.getInstance().register("ownerID");
-
 			var arg1 : Property = new Property("ownerID", null, "10", "int");
 			var arg2 : Property = new Property("ownerID", null, "21", "uint");
 

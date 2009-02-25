@@ -31,6 +31,7 @@ package com.bourre.ioc.load
 	import com.bourre.ioc.assembler.displayobject.DisplayObjectEvent;
 	import com.bourre.ioc.assembler.displayobject.loader.DisplayLoaderProxy;
 	import com.bourre.ioc.assembler.method.MethodExpert;
+	import com.bourre.ioc.assembler.plugins.PluginExpert;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.assembler.resource.ResourceExpert;
 	import com.bourre.ioc.bean.BeanFactory;
@@ -57,6 +58,7 @@ package com.bourre.ioc.load
 	import flash.external.ExternalInterface;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;	
+
 	/**
 	 *  Dispatched when a context item file starts loading.
 	 *  
@@ -622,6 +624,8 @@ package com.bourre.ioc.load
 			if( _oProxy != null ) removeListener( _oProxy );
 			
 			release();
+			
+			PluginExpert.getInstance( ).notifyAllPlugins( );
 		}
 		
 		
@@ -891,34 +895,45 @@ package com.bourre.ioc.load
 		 */
 		protected function initContext( ) : void
 		{
-			var param : Object = _oRootTarget.root.loaderInfo.parameters;
-						
-			var contextFile : String;
-			if( BeanFactory.getInstance( ).isRegistered( FlashVarsUtil.getContextFileKey( ) ) )
-			{
-				contextFile = BeanFactory.getInstance( ).locate( FlashVarsUtil.getContextFileKey( ) ) as String;	
-			}
-			else
-			{
-				contextFile = param.hasOwnProperty( FlashVarsUtil.CONTEXT_FILE ) ? param[ FlashVarsUtil.CONTEXT_FILE ] : DEFAULT_CONTEXT_FILE;	
-				BeanFactory.getInstance().register( FlashVarsUtil.getContextFileKey(), contextFile );
-			}
+			var param : Object;
 			
-			var contextPath : String;
-			if( BeanFactory.getInstance( ).isRegistered( FlashVarsUtil.getConfigPathKey( ) ) )
+			try
 			{
-				contextPath = BeanFactory.getInstance( ).locate( FlashVarsUtil.getConfigPathKey( ) ) as String;	
+				param = _oRootTarget.root.loaderInfo.parameters;
 			}
-			else
+			catch( e : Error )
 			{
-				contextPath = param.hasOwnProperty( FlashVarsUtil.CONFIG_PATH ) ? param[ FlashVarsUtil.CONFIG_PATH ] : DEFAULT_CONFIG_PATH;	
-				BeanFactory.getInstance().register( FlashVarsUtil.getConfigPathKey(), contextPath );
+				param = {};
 			}
-			
-			var contextURL : URLRequest = new URLRequest( contextPath + contextFile );
-			setURL( contextURL );
-			
-			PixlibDebug.DEBUG( this + "::load context " + contextURL.url );
+			finally
+			{	
+				var contextFile : String;
+				if( BeanFactory.getInstance( ).isRegistered( FlashVarsUtil.getContextFileKey( ) ) )
+				{
+					contextFile = BeanFactory.getInstance( ).locate( FlashVarsUtil.getContextFileKey( ) ) as String;	
+				}
+				else
+				{
+					contextFile = param.hasOwnProperty( FlashVarsUtil.CONTEXT_FILE ) ? param[ FlashVarsUtil.CONTEXT_FILE ] : DEFAULT_CONTEXT_FILE;	
+					BeanFactory.getInstance().register( FlashVarsUtil.getContextFileKey(), contextFile );
+				}
+				
+				var contextPath : String;
+				if( BeanFactory.getInstance( ).isRegistered( FlashVarsUtil.getConfigPathKey( ) ) )
+				{
+					contextPath = BeanFactory.getInstance( ).locate( FlashVarsUtil.getConfigPathKey( ) ) as String;	
+				}
+				else
+				{
+					contextPath = param.hasOwnProperty( FlashVarsUtil.CONFIG_PATH ) ? param[ FlashVarsUtil.CONFIG_PATH ] : DEFAULT_CONFIG_PATH;	
+					BeanFactory.getInstance().register( FlashVarsUtil.getConfigPathKey(), contextPath );
+				}
+				
+				var contextURL : URLRequest = new URLRequest( contextPath + contextFile );
+				setURL( contextURL );
+				
+				PixlibDebug.DEBUG( this + "::load context " + contextURL.url );
+			}
 		}
 
 		protected function _initParserCollection() : void

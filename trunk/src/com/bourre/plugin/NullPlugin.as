@@ -138,6 +138,14 @@ package com.bourre.plugin
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		public function onApplicationInit( ) : void
+		{
+			fireOnInitPlugin();
+		}
+		
+		/**
 		 * Returns the string representation of this instance.
 		 * @return the string representation of this instance
 		 */

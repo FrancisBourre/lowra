@@ -9,22 +9,21 @@ package com.bourre.ioc.core
 
 		public override function setUp():void
 		{
-			IDExpert.release();
-			_oIE = IDExpert.getInstance();
+			_oIE = new IDExpert();
 		}
-		
+
 		public function testGetInstance() : void
 		{
 			assertNotNull( "IDExpert.getInstance() returns null", _oIE );
 		}
 		
-		public function testRelease() : void
-		{
-			IDExpert.release();
-			var ie : IDExpert = IDExpert.getInstance();
-			assertFalse( "IDExpert.release() fails", _oIE == ie );
-		}
-
+//		public function testRelease() : void //IDExpert is no more singleton
+//		{
+//			_oIE.clear();
+//			var ie : IDExpert = IDExpert.getInstance();
+//			assertFalse( "IDExpert.release() fails", _oIE == ie );
+//		}
+		
 		public function testRegister() : void
 		{
 			assertTrue( "", _oIE.register( "id" ) );

@@ -1,15 +1,13 @@
 package com.bourre.ioc.parser
 {
-	import flash.net.URLRequest;
+	import flexunit.framework.TestCase;
 	
 	import com.bourre.ioc.assembler.ApplicationAssembler;
-	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;	
-	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
+	import com.bourre.ioc.assembler.displayobject.DisplayObjectBuilder;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.error.NullIDException;
 	
-	import flexunit.framework.TestCase;		
+	import flash.net.URLRequest;	
 
 	public class DisplayObjectParserTest 
 		extends TestCase
@@ -22,15 +20,14 @@ package com.bourre.ioc.parser
 		
 		public override function setUp():void
 		{
-			IDExpert.release();
 			BeanFactory.release();
-
+			
 			_oParser = new DisplayObjectParser( this );
 			_aDO = new Array();
 			_aProperty = new Array();
 			_aMethod = new Array();
 		}
-
+		
 		public function testNoID() : void
 		{
 			var xml : XML = 
@@ -235,16 +232,20 @@ package com.bourre.ioc.parser
 			return null;
 		}
 
-		public function buildLoader (	ID 							: String, 
-										url 						: URLRequest, 
-										progressCallback 			: String 	= null, 
-										nameCallback 				: String 	= null, 
-										timeoutCallback 			: String 	= null, 
-										parsedCallback 				: String 	= null, 
-										methodsCallCallback 		: String 	= null, 
-										objectsBuiltCallback		: String 	= null, 
-										channelsAssignedCallback	: String 	= null, 
-										initCallback 				: String 	= null	) : void
+		public function buildLoader( 				ID 							: String, 
+											url 						: URLRequest, 
+											startCallback 				: String 	= null,
+											nameCallback 				: String 	= null, 
+											loadCallback 				: String 	= null, 
+											progressCallback 			: String 	= null, 
+											timeoutCallback 			: String 	= null, 
+											errorCallback 				: String 	= null, 
+											initCallback 				: String 	= null, 
+											parsedCallback 				: String 	= null, 
+											objectsBuiltCallback		: String 	= null, 
+											channelsAssignedCallback	: String 	= null, 
+											methodsCallCallback 		: String 	= null, 
+											completeCallback 			: String 	= null	) 		: void
 		{
 			//
 		}
@@ -290,6 +291,19 @@ package com.bourre.ioc.parser
 		public function buildChannelListener( id : String, channelName : String, args : Array = null ) : void
 		{
 			//
+		}
+		
+		public function registerID(ID : String) : Boolean
+		{
+			return null;
+		}
+		
+		public function buildRoot(ID : String) : void
+		{
+		}
+		
+		public function buildResource(id : String, url : URLRequest, type : String = null, deserializer : String = null) : void
+		{
 		}
 	}
 }

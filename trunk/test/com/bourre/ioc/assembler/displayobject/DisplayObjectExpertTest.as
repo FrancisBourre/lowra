@@ -31,24 +31,24 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			assertNotNull("DisplayObjectExpert constructor returns null", _oDOE) ;
 		}
-
-		public function testSetRootTarget():void
-		{
-			var mc:MovieClip = new MovieClip();
-			_oDOE.setRootTarget(mc) ;
-
-			var b : Boolean = false;
-			try
-			{
-				_oDOE.setRootTarget( new MovieClip () );
-
-			} catch (e:Error)
-			{
-				b = true ;
-			}
-
-			assertTrue("DisplayObjectExpert.setRootTarget doesn't throw an error when root target has been already set", b) ;
-		}
+		
+//		public function testSetRootTarget():void
+//		{
+//			var mc:MovieClip = new MovieClip();
+//			_oDOE.setRootTarget(mc) ;
+//
+//			var b : Boolean = false;
+//			try
+//			{
+//				_oDOE.setRootTarget( new MovieClip () );
+//
+//			} catch (e:Error)
+//			{
+//				b = true ;
+//			}
+//
+//			assertTrue("DisplayObjectExpert.setRootTarget doesn't throw an error when root target has been already set", b) ;
+//		}
 
 		public function testBuildEmptyDisplayObject() : void
 		{

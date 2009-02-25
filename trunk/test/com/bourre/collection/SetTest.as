@@ -1,7 +1,6 @@
 package com.bourre.collection
 {
-	import flexunit.framework.TestCase;
-	import mx.messaging.channels.SecureAMFChannel;
+	import flexunit.framework.TestCase;	
 
 	public class SetTest extends TestCase
 	{

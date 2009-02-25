@@ -105,5 +105,10 @@ package com.bourre.plugin
 		 * locator with passed-in <code>name</code>.
 		 */
 		function isViewRegistered( name : String ) : Boolean;
+		
+		/**
+		 * Triggered when all IoC processing is finished.
+		 */
+		function onApplicationInit( ) : void;
 	}
 }

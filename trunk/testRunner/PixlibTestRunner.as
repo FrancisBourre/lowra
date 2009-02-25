@@ -35,10 +35,11 @@ private function onCreationComplete():void
 	Logger.getInstance().setLevel( LogLevel.ALL );
 	Logger.getInstance().addLogListener( FlashInspectorLayout.getInstance() );
 	Logger.getInstance().addLogListener( AirLoggerLayout.getInstance() );
+Logger.getInstance().addLogListener( FirebugLayout.getInstance() );
 
 	if( Application.application.parameters.testBinPath != null )
 		TestSettings.getInstance().testBinPath = Application.application.parameters.testBinPath;
-
+	
 	testRunner.test = createSuite();
 	testRunner.startTest();	
 }
@@ -46,7 +47,7 @@ private function onCreationComplete():void
 private function createSuite() : TestSuite
 {
 	var ts:TestSuite = new TestSuite();
-
+	
 	// com.bourre.collection
 	ts.addTestSuite( HashMapTest );
 	ts.addTestSuite( WeakCollectionTest );
@@ -82,7 +83,7 @@ private function createSuite() : TestSuite
 
 	// com.bourre.ioc.assembler
 	//ts.addTestSuite (ConstructorTest);
-	ts.addTestSuite ( DisplayObjectParserTest );
+//	ts.addTestSuite ( DisplayObjectParserTest );
 	
 	// com.bourre.assembler.method
 	ts.addTestSuite(MethodEventTest);
@@ -109,19 +110,19 @@ private function createSuite() : TestSuite
 	// com.bourre.ioc.core
 	ts.addTestSuite ( IDExpertTest ) ;
 	
-	//com.bourre.ioc.control
-	ts.addTestSuite( BuildFactoryTest );
+//	//com.bourre.ioc.control
+//	ts.addTestSuite( BuildFactoryTest );
 	
-	//com.bourre.parser
+//	//com.bourre.parser
 	ts.addTestSuite( ContextNodeNameListTest );
-	ts.addTestSuite( AbstractParserTest );
+//	ts.addTestSuite( AbstractParserTest );
 	ts.addTestSuite( ObjectParserTest );
-
-	// com.bourre.load
-	//ts.addTestSuite( LoaderStrategyTest );
-	//ts.addTestSuite( URLLoaderStrategyTest );	
-	//ts.addTestSuite( AbstractLoaderTest );
-	//ts.addTestSuite( GraphicLoaderTest );
+//
+//	// com.bourre.load
+//	//ts.addTestSuite( LoaderStrategyTest );
+//	//ts.addTestSuite( URLLoaderStrategyTest );	
+//	//ts.addTestSuite( AbstractLoaderTest );
+//	//ts.addTestSuite( GraphicLoaderTest );
 	ts.addTestSuite( XMLLoaderTest );
 
 	// com.bourre.log
@@ -130,8 +131,8 @@ private function createSuite() : TestSuite
 	ts.addTestSuite( LoggerTest );
 	ts.addTestSuite( LogLevelTest );
 
-	//com.bourre.media.sound
-	//ts.addTestSuite( SoundFactoryTest );
+//	//com.bourre.media.sound
+//	//ts.addTestSuite( SoundFactoryTest );
 	
 	// com.bourre.plugin
 	ts.addTestSuite( PluginDebugTest );	
@@ -145,7 +146,6 @@ private function createSuite() : TestSuite
 
 	// com.bourre.view
 	ts.addTestSuite( AbstractViewTest );
-	
 	
 	// com.bourre.transitions
 	ts.addTestSuite( AbstractTweenTest );

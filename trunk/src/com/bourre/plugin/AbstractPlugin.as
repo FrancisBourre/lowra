@@ -28,7 +28,7 @@ package com.bourre.plugin
 	import com.bourre.view.ViewLocator;
 	
 	import flash.events.Event;	
-	
+
 	/**
 	 *  Dispatched when plugin is initialized.
 	 *  
@@ -234,6 +234,14 @@ package com.bourre.plugin
 			{
 				getLogger().debug( this + ".firePrivateEvent() fails to retrieve command associated with '" + e.type + "' event type." );
 			}
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function onApplicationInit( ) : void
+		{
+			fireOnInitPlugin();
 		}
 		
 		/**
