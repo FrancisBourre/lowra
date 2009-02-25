@@ -1,9 +1,8 @@
 package com.bourre.ioc.bean
 {
-	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.core.IDExpert;
+	import flexunit.framework.TestCase;
 	
-	import flexunit.framework.TestCase;	
+	import com.bourre.ioc.bean.BeanFactory;	
 
 	public class BeanFactoryTest 
 		extends TestCase
@@ -14,13 +13,12 @@ package com.bourre.ioc.bean
 
 		public override function setUp():void
 		{
-			IDExpert.release();
 			BeanFactory.release();
 
 			_oBF = BeanFactory.getInstance();
 			_oL = new MockBeanFactory();
 		}
-
+		
 		public function testConstruct() :void
 		{
 			assertNotNull( "BeanFactory constructor returns null", BeanFactory.getInstance() );
@@ -40,7 +38,7 @@ package com.bourre.ioc.bean
 			assertTrue ( "Key not registered", _oBF.isRegistered( key ) ); 
 			assertTrue ( "Bean not registered", _oBF.isBeanRegistered( _o ) );
 			assertNotNull( "Key not located", _oBF.locate( key ) );
-
+			
 			assertTrue( "Bean unregistration failed", _oBF.unregister( key ) );
 			assertTrue ( "Bean not unregistered", _oL.unregisterCalled );
 

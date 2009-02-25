@@ -19,8 +19,10 @@ package com.bourre.ioc.assembler.constructor
 	import com.bourre.commands.Batch;
 	import com.bourre.core.AbstractLocator;
 	import com.bourre.error.PrivateConstructorException;
+	import com.bourre.ioc.assembler.plugins.PluginExpert;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
-	import com.bourre.ioc.control.BuildFactory;	
+	import com.bourre.ioc.control.BuildFactory;
+	import com.bourre.plugin.Plugin;	
 
 	/**
 	 *  Dispatched when a constructor is registered.
@@ -113,14 +115,18 @@ package com.bourre.ioc.assembler.constructor
 		{
 			broadcastEvent( new ConstructorEvent( ConstructorEvent.onUnregisterConstructorEVENT, id ) );
 		}
-
+		
 		public function buildObject( id : String ) : void
 		{
 			if ( isRegistered( id ) )
 			{
 				var cons : Constructor = locate( id ) as Constructor;
+				
 				if ( cons.arguments != null )  cons.arguments = PropertyExpert.getInstance().deserializeArguments( cons.arguments );
-				BuildFactory.getInstance().build( cons, id );
+				
+				var o : * = BuildFactory.getInstance().build( cons, id );
+				if( o is Plugin ) PluginExpert.getInstance().register( id, o );
+				
 				unregister( id );
 			}
 		}

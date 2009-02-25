@@ -203,6 +203,11 @@ internal class MockPlugin implements Plugin
 	{
 		return ViewLocator.getInstance().isRegistered(name);
 	}
+	
+	public function onApplicationInit( ) : void
+	{
+		fireOnInitPlugin();
+	}
 
 }
 

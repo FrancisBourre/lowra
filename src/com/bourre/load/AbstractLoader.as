@@ -24,49 +24,48 @@ package com.bourre.load
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.load.strategy.LoadStrategy;
 	import com.bourre.log.PixlibDebug;
-	import com.bourre.log.PixlibStringifier;
 	
 	import flash.events.Event;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
 	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
-		
+	import flash.utils.getTimer;	
+
 	/**
 	 *  Dispatched when loader starts loading.
 	 *  
 	 *  @eventType com.bourre.load.LoaderEvent.onLoadStartEVENT
 	 */
 	[Event(name="onLoadStart", type="com.bourre.load.LoaderEvent")]
-	
+
 	/**
 	 *  Dispatched when loading is finished.
 	 *  
 	 *  @eventType com.bourre.load.LoaderEvent.onLoadInitEVENT
 	 */
 	[Event(name="onLoadInit", type="com.bourre.load.LoaderEvent")]
-	
+
 	/**
 	 *  Dispatched during loading progression.
 	 *  
 	 *  @eventType com.bourre.load.LoaderEvent.onLoadProgressEVENT
 	 */
 	[Event(name="onLoadProgress", type="com.bourre.load.LoaderEvent")]
-	
+
 	/**
 	 *  Dispatched when a timeout occurs during loading.
 	 *  
 	 *  @eventType com.bourre.load.LoaderEvent.onLoadTimeOutEVENT
 	 */
 	[Event(name="onLoadTimeOut", type="com.bourre.load.LoaderEvent")]
-	
+
 	/**
 	 *  Dispatched when an error occurs during loading.
 	 *  
 	 *  @eventType com.bourre.load.LoaderEvent.onLoadErrorEVENT
 	 */
 	[Event(name="onLoadError", type="com.bourre.load.LoaderEvent")]
-	
+
 	/**
 	 * The AbstractLoader class gives abstract implementation of a 
 	 * loader object.
@@ -75,52 +74,55 @@ package com.bourre.load
 	 */
 	public class AbstractLoader implements 	com.bourre.load.Loader, ASyncCommand
 	{
-		static private var _oPool : Dictionary = new Dictionary();
-		
+		static private var _oPool : Dictionary = new Dictionary( );
+
 		/**
 		 * @private
 		 * 
 		 * Allow to avoid gc on local loader.
 		 */
-		static protected function registerLoaderToPool ( o : Loader ) : void
+		static protected function registerLoaderToPool( o : Loader ) : void
 		{
 			if( _oPool[ o ] == null )
 			{
 				_oPool[ o ] = true;
-
-			} else
+			} 
+			else
 			{
 				PixlibDebug.WARN( o + " is already registered in the loading pool" );
 			}
 		}
-		
+
 		/**
 		 * @private
 		 */
-		static protected function unregisterLoaderFromPool ( o : Loader ) : void
+		static protected function unregisterLoaderFromPool( o : Loader ) : void
 		{
 			if( _oPool[ o ] != null )
 			{
 				delete _oPool[ o ];
-
-			} else
+			} 
+			else
 			{
 				PixlibDebug.WARN( o + " is not registered in the loading pool" );
 			}
 		}
-		
+
 		private var _oEB : EventBroadcaster;
 		private var _sName : String;
 		private var _nTimeOut : Number;
-		private var _oURL : URLRequest;
 		private var _bAntiCache : Boolean;
-		protected var _sPrefixURL : String;
 
 		private var _loadStrategy : LoadStrategy;
 		private var _oContent : Object;
 		private var _bIsRunning : Boolean;
 		private var _nLastBytesLoaded : Number;
 		private var _nTime : int;
+		
+		private var _oURL : URLRequest;
+		
+		protected var _sPrefixURL : String;
+		protected var _sURL : String;
 		
 		/**
 		 * Creates new <code>AbstractLoader</code> instance.
@@ -129,16 +131,16 @@ package com.bourre.load
 		 */
 		public function AbstractLoader( strategy : LoadStrategy = null )
 		{
-			_loadStrategy = (strategy != null) ? strategy : new NullLoadStrategy();
+			_loadStrategy = (strategy != null) ? strategy : new NullLoadStrategy( );
 			_loadStrategy.setOwner( this );
-
+			
 			_oEB = new EventBroadcaster( this, LoaderListener );
 			_nTimeOut = 10000;
 			_bAntiCache = false;
 			_sPrefixURL = "";
 			_bIsRunning = false;
 		}
-		
+
 		/**
 		 * Execute the request according to the current command data.
 		 * 
@@ -146,17 +148,17 @@ package com.bourre.load
 		 */
 		public function execute( e : Event = null ) : void
 		{
-			load();
+			load( );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
-		public function getStrategy () : LoadStrategy
+		public function getStrategy() : LoadStrategy
 		{
 			return _loadStrategy;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -164,22 +166,25 @@ package com.bourre.load
 		{
 			if ( url ) setURL( url );
 
-			if ( getURL().url.length > 0 )
+			if ( getURL( ).url.length > 0 )
 			{
 				_nLastBytesLoaded = 0;
-				_nTime = getTimer();
+				_nTime = getTimer( );
 
 				registerLoaderToPool( this );
-				_loadStrategy.load( getURL(), context );
-
-			} else
+				
+				_bIsRunning = true;
+				
+				_loadStrategy.load( getURL( ), context );
+			} 
+			else
 			{
 				var msg : String = this + ".load() can't retrieve file url.";
 				PixlibDebug.ERROR( msg );
 				throw new NullPointerException( msg );
 			}
 		}
-		
+
 		/**
 		 * @protected
 		 */
@@ -188,7 +193,7 @@ package com.bourre.load
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 			fireEventType( LoaderEvent.onLoadInitEVENT );
 		}
-		
+
 		/**
 		 * @copy com.bourre.events.EventBroadcaster#setListenerType()
 		 */
@@ -196,7 +201,7 @@ package com.bourre.load
 		{
 			_oEB.setListenerType( type );
 		}
-		
+
 		/**
 		 * Returns the number of bytes loaded.
 		 * 
@@ -204,9 +209,9 @@ package com.bourre.load
 		 */
 		public function getBytesLoaded() : uint
 		{
-			return _loadStrategy.getBytesLoaded();
+			return _loadStrategy.getBytesLoaded( );
 		}
-		
+
 		/**
 		 * Returns the total number of bytes to load.
 		 * 
@@ -214,18 +219,18 @@ package com.bourre.load
 		 */
 		public function getBytesTotal() : uint
 		{
-			return _loadStrategy.getBytesTotal();
+			return _loadStrategy.getBytesTotal( );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
 		final public function getPerCent() : Number
 		{
-			var n : Number = Math.min( 100, Math.ceil( getBytesLoaded() / ( getBytesTotal() / 100 ) ) );
-			return ( isNaN(n) ) ? 0 : n;
+			var n : Number = Math.min( 100, Math.ceil( getBytesLoaded( ) / ( getBytesTotal( ) / 100 ) ) );
+			return ( isNaN( n ) ) ? 0 : n;
 		}
-		
+
 		/**
 		 * Returns <code>true</code> if all bytes are loaded.
 		 * 
@@ -233,15 +238,16 @@ package com.bourre.load
 		 */
 		final public function isLoaded( ) : Boolean
 		{
-			return ( getBytesLoaded() / getBytesTotal() ) == 1 ;
+			return ( getBytesLoaded( ) / getBytesTotal( ) ) == 1 ;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
 		public function getURL() : URLRequest
 		{
-			return _bAntiCache ? new URLRequest( _sPrefixURL + _oURL.url + "?nocache=" + _getStringTimeStamp() ) : new URLRequest( _sPrefixURL + _oURL.url );
+			_oURL.url = _bAntiCache ? _sPrefixURL + _sURL + "?nocache=" + _getStringTimeStamp() : _sPrefixURL + _sURL;
+			return _oURL;
 		}
 		
 		/**
@@ -250,8 +256,9 @@ package com.bourre.load
 		public function setURL( url : URLRequest ) : void
 		{
 			_oURL = url;
+			_sURL = _oURL.url;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -259,15 +266,15 @@ package com.bourre.load
 		{
 			return _oEB.addEventListener( AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
 		final public function removeASyncCommandListener( listener : ASyncCommandListener ) : Boolean
 		{
-			return _oEB.removeEventListener(  AbstractSyncCommand.onCommandEndEVENT, listener );
+			return _oEB.removeEventListener( AbstractSyncCommand.onCommandEndEVENT, listener );
 		}
-		
+
 		/**
 		 * @copy com.bourre.events.Broadcaster#addListener()
 		 */
@@ -275,7 +282,7 @@ package com.bourre.load
 		{
 			return _oEB.addListener( listener );
 		}
-		
+
 		/**
 		 * @copy com.bourre.events.Broadcaster#removeListener()
 		 */
@@ -283,7 +290,7 @@ package com.bourre.load
 		{
 			return _oEB.removeListener( listener );
 		}
-		
+
 		/**
 		 * @copy com.bourre.events.Broadcaster#addEventListener()
 		 */
@@ -291,7 +298,7 @@ package com.bourre.load
 		{
 			return _oEB.addEventListener.apply( _oEB, rest.length > 0 ? [ type, listener ].concat( rest ) : [ type, listener ] );
 		}
-		
+
 		/**
 		 * @copy com.bourre.events.Broadcaster#removeEventListener()
 		 */
@@ -299,7 +306,7 @@ package com.bourre.load
 		{
 			return _oEB.removeEventListener( type, listener );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -307,7 +314,7 @@ package com.bourre.load
 		{
 			return _sName;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -315,7 +322,7 @@ package com.bourre.load
 		{
 			_sName = sName;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -323,7 +330,7 @@ package com.bourre.load
 		{
 			_bAntiCache = b;
 		}
-		
+
 		/**
 		 * Returns <code>true</code> if 'anticache' system is on.
 		 * 
@@ -333,7 +340,7 @@ package com.bourre.load
 		{
 			return _bAntiCache;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -341,7 +348,7 @@ package com.bourre.load
 		{
 			_sPrefixURL = sURL;
 		}
-		
+
 		/**
 		 * Returns the loading timeout limit
 		 * 
@@ -351,7 +358,7 @@ package com.bourre.load
 		{
 			return _nTimeOut;
 		}
-		
+
 		/**
 		 * Sets a loading timeout limit.
 		 */
@@ -359,16 +366,16 @@ package com.bourre.load
 		{
 			_nTimeOut = Math.max( 1000, n );
 		}
-		
+
 		/**
 		 * Releases instance and all registered listeners.
 		 */
 		public function release() : void
 		{
-			_loadStrategy.release();
-			_oEB.removeAllListeners();
+			_loadStrategy.release( );
+			_oEB.removeAllListeners( );
 		}
-		
+
 		/**
 		 * Returns loaded content.
 		 * 
@@ -377,7 +384,7 @@ package com.bourre.load
 		{
 			return _oContent;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -385,7 +392,7 @@ package com.bourre.load
 		{	
 			_oContent = content;
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -393,17 +400,17 @@ package com.bourre.load
 		{
 			fireEventType( LoaderEvent.onLoadProgressEVENT );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
 		final public function fireOnLoadInitEvent() : void
 		{
 			_bIsRunning = false;
-			onInitialize();
+			onInitialize( );
 			unregisterLoaderFromPool( this );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -411,7 +418,7 @@ package com.bourre.load
 		{
 			fireEventType( LoaderEvent.onLoadStartEVENT );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -419,7 +426,7 @@ package com.bourre.load
 		{
 			fireEventType( LoaderEvent.onLoadErrorEVENT, message );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
@@ -428,23 +435,13 @@ package com.bourre.load
 			unregisterLoaderFromPool( this );
 			fireEventType( LoaderEvent.onLoadTimeOutEVENT );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
 		final public function fireCommandEndEvent() : void
 		{
 			fireEventType( AbstractSyncCommand.onCommandEndEVENT );
-		}
-
-		/**
-		 * Returns the string representation of this instance.
-		 * 
-		 * @return the string representation of this instance
-		 */
-		public function toString() : String 
-		{
-			return PixlibStringifier.stringify( this );
 		}
 
 		/**
@@ -469,7 +466,7 @@ package com.bourre.load
 		{
 			_oEB.broadcastEvent( e );
 		}
-		
+
 		/**
 		 * Returns a loader event for current loader instance.
 		 * 
@@ -485,32 +482,32 @@ package com.bourre.load
 		//
 		private function _getStringTimeStamp() : String
 		{
-			var d : Date = new Date();
-			return String( d.getTime() );
+			var d : Date = new Date( );
+			return String( d.getTime( ) );
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
-		public function run () : void
+		public function run() : void
 		{
-			if ( !isRunning() )
+			if ( !isRunning( ) )
 			{
 				_bIsRunning = true;
-				execute();
-
-			} else
+				execute( );
+			} 
+			else
 			{
 				var msg : String = this + ".run() called wheras an operation is currently running";
 				PixlibDebug.ERROR( msg );
 				throw new IllegalStateException( msg );
 			}
 		}
-		
+
 		/**
 		 * @inheritDoc
 		 */
-		public function isRunning () : Boolean
+		public function isRunning() : Boolean
 		{
 			return _bIsRunning;
 		}
@@ -542,9 +539,25 @@ import flash.system.LoaderContext;
 internal class NullLoadStrategy 
 	implements LoadStrategy
 {
-		public function load( request : URLRequest = null, context : LoaderContext = null  ) : void {}
-		public function getBytesLoaded() : uint { return 0; }
-		public function getBytesTotal() : uint { return 0; }
-		public function setOwner( owner : Loader ) : void {}
-		public function release() : void {}
+	public function load( request : URLRequest = null, context : LoaderContext = null  ) : void 
+	{
+	}
+
+	public function getBytesLoaded() : uint 
+	{ 
+		return 0; 
+	}
+
+	public function getBytesTotal() : uint 
+	{ 
+		return 0; 
+	}
+
+	public function setOwner( owner : Loader ) : void 
+	{
+	}
+
+	public function release() : void 
+	{
+	}
 }

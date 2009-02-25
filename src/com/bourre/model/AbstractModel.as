@@ -60,14 +60,14 @@ package com.bourre.model
 		 * @eventType onInitModel
 		 */		
 		public static const onInitModelEVENT : String = "onInitModel";
-
+		
 		/**
 		 * Defines the value of the <code>type</code> property of the event 
 		 * object for a <code>onInitModel</code> event.
 		 * 
 		 * @eventType onInitModel
 		 */	
-		public static const onReleaseModelEVENT : String = "onInitModel";
+		public static const onReleaseModelEVENT : String = "onReleaseModel";
 
 		
 		//--------------------------------------------------------------------

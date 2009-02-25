@@ -1,25 +1,23 @@
 package com.bourre.ioc 
 {
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.text.TextField;
+	import flexunit.framework.TestCase;
 	
 	import com.bourre.events.Broadcaster;
 	import com.bourre.ioc.assembler.channel.ChannelListenerExpert;
 	import com.bourre.ioc.assembler.constructor.ConstructorExpert;
-	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
 	import com.bourre.ioc.assembler.method.MethodExpert;
 	import com.bourre.ioc.assembler.property.PropertyExpert;
 	import com.bourre.ioc.bean.BeanFactory;
-	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.load.ApplicationLoader;
 	import com.bourre.ioc.load.ApplicationLoaderEvent;
 	import com.bourre.load.GraphicLoaderLocator;
 	import com.bourre.log.Logger;
 	import com.bourre.structures.Dimension;
 	
-	import flexunit.framework.TestCase;	
+	import flash.display.MovieClip;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.text.TextField;	
 
 	public class IOCTest 
 		extends TestCase
@@ -32,19 +30,18 @@ package com.bourre.ioc
 
 		public override function setUp():void
 		{
-			IDExpert.release();
-			PropertyExpert.release();			ConstructorExpert.release();			ChannelListenerExpert.release();			MethodExpert.release();
+			PropertyExpert.release();			ConstructorExpert.release();			ChannelListenerExpert.release();			MethodExpert.release();
 
 			BeanFactory.release();
 			GraphicLoaderLocator.release();
-
+			
 			_bf = BeanFactory.getInstance();
 			_al = new ApplicationLoader( new MovieClip() );
 			
 			_xml = 
 
 			<beans>
-				<root>
+				<root id="root">
 					<test id="container" type="flash.display.MovieClip">
 						<test id="sprite" type="flash.display.Sprite"/>
 						<test id="text" type="flash.text.TextField"/>
@@ -89,11 +86,11 @@ package com.bourre.ioc
 				</test>
 			</beans>;
 		}
-
+		
 		public function testOnApplicationObjectsBuilt() : void
 		{
 			_al.addEventListener( ApplicationLoaderEvent.onApplicationObjectsBuiltEVENT, addAsync( onObjectsBuilt, 5000 ) );
-			_al.parseContext( _xml );
+			_al.processParsing( _xml );
 		}
 		
 		public function onObjectsBuilt( e : Event ) : void
