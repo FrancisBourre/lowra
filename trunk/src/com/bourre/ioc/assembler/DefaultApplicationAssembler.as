@@ -32,7 +32,8 @@ package com.bourre.ioc.assembler
 	import com.bourre.ioc.core.IDExpert;
 	import com.bourre.ioc.parser.ContextTypeList;
 	
-	import flash.net.URLRequest;	
+	import flash.net.URLRequest;	
+
 	/**
 	 * Default application assembler implementation.
 	 * 
@@ -210,9 +211,10 @@ package com.bourre.ioc.assembler
 					args[ i ] = p;
 				}
 			}
-
+			
 			var method : Method = new Method( ownerID, methodCallName, args );
-			MethodExpert.getInstance().register( HashCodeFactory.getKey( method ), method );
+			var index : Number = MethodExpert.getInstance( ).getKeys().length++;
+			MethodExpert.getInstance().register( getOrderedKey( index ), method );
 		}
 		
 		/**
@@ -231,5 +233,21 @@ package com.bourre.ioc.assembler
 		{
 			return _oIE.register( ID );
 		}
+		
+		
+		//--------------------------------------------------------------------
+		// Protected methods
+		//--------------------------------------------------------------------
+		
+		/**
+		 * Returns ordered key using passed-in index value.
+		 */
+		protected function getOrderedKey( index : Number ) : String
+		{
+			var d : Number = 5 - index.toString( ).length;
+			var s : String = "";
+			if( d > 0 ) for( var i : Number = 0; i < d ; i++ ) s += "0";
+			return s + index;
+		}	
 	}
 }

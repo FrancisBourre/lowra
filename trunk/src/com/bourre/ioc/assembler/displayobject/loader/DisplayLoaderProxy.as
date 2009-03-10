@@ -24,7 +24,7 @@ package com.bourre.ioc.assembler.displayobject.loader
 	import com.bourre.log.PixlibStringifier;
 	
 	import flash.display.DisplayObjectContainer;
-	import flash.net.URLRequest;		
+	import flash.net.URLRequest;	
 
 	/**	 * Proxy to allow connection between <code>ApplicationLoaderListener</code> and 
 	 * a generic Display Loader object.
@@ -119,7 +119,7 @@ package com.bourre.ioc.assembler.displayobject.loader
 		 */
 		public function onLoadStart(e : LoaderEvent) : void
 		{
-			call( _oInfo.startCallback, cleanURL( e.getLoader( ).getURL( ) ) );
+			call( _oInfo.loadCallback, cleanURL( e.getLoader( ).getURL( ) ) );
 		}
 
 		/**
@@ -143,15 +143,15 @@ package com.bourre.ioc.assembler.displayobject.loader
 		 */
 		public function onLoadTimeOut(e : LoaderEvent) : void
 		{
-			call( _oInfo.loadCallback, cleanURL( e.getLoader( ).getURL( ) ) );
+			call( _oInfo.timeoutCallback, cleanURL( e.getLoader( ).getURL( ) ) );
 		}
-
+		
 		/**
 		 * @inheritDoc
 		 */
 		public function onLoadError(e : LoaderEvent) : void
 		{
-			call( _oInfo.loadCallback, cleanURL( e.getLoader( ).getURL( ) ), e.getErrorMessage( ) );
+			call( _oInfo.errorCallback, cleanURL( e.getLoader( ).getURL( ) ), e.getErrorMessage( ) );
 		}
 
 		/**
