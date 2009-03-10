@@ -16,14 +16,6 @@
 	 
 package com.bourre.media.video 
 {
-	import flash.events.Event;
-	import flash.events.NetStatusEvent;
-	import flash.media.Video;
-	import flash.net.NetConnection;
-	import flash.net.NetStream;
-	import flash.net.URLRequest;
-	import flash.system.LoaderContext;
-	
 	import com.bourre.commands.Delegate;
 	import com.bourre.commands.Suspendable;
 	import com.bourre.error.IllegalArgumentException;
@@ -36,7 +28,15 @@ package com.bourre.media.video
 	import com.bourre.structures.Dimension;
 	import com.bourre.transitions.MSBeacon;
 	import com.bourre.transitions.TickBeacon;
-	import com.bourre.transitions.TickListener;		
+	import com.bourre.transitions.TickListener;
+	
+	import flash.events.Event;
+	import flash.events.NetStatusEvent;
+	import flash.media.Video;
+	import flash.net.NetConnection;
+	import flash.net.NetStream;
+	import flash.net.URLRequest;
+	import flash.system.LoaderContext;	
 
 	/**
 	 * The VideoDisplay class.
@@ -187,7 +187,7 @@ package com.bourre.media.video
 	
 				_oMetaData = null ;
 		
-				_video.attachNetStream( _stream );
+				_video.attachNetStream( _stream );	
 				//_mcHolder.attachAudio( _stream );
 				
 				_stream.play( getURL().url );
@@ -487,8 +487,7 @@ package com.bourre.media.video
 		{
 			_oSTI.setVolume( n ) ;
 		}
-	
-	
+		
 		// AbstractLoader
 		override public function setURL( url : URLRequest ) : void
 		{

@@ -126,7 +126,7 @@ package com.bourre.ioc.assembler.method
 			var f : Function = BuildFactory.getInstance( ).build( cons );
 
 			var args : Array = PropertyExpert.getInstance( ).deserializeArguments( method.arguments );
-
+			
 			try
 			{
 				f.apply( null, args );
@@ -139,10 +139,16 @@ package com.bourre.ioc.assembler.method
 				throw new IllegalArgumentException( msg );
 			}
 		}
-
+		
+		/**
+		 * Methods are called in same order as they defined in IoC context.
+		 */
 		public function callAllMethods() : void
 		{
-			Batch.process( callMethod, getKeys( ) );
+			var keys : Array = getKeys();
+			keys.sort();
+			
+			Batch.process( callMethod, keys );
 		}
 		
 		/**

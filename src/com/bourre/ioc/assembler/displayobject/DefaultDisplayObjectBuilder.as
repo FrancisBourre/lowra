@@ -398,7 +398,7 @@ package com.bourre.ioc.assembler.displayobject
 		{
 			if ( !(_executeQueueLoader( _dllQueue, onDLLLoadStart, onDLLLoadInit )) ) loadRSCQueue( );
 		}
-
+		
 		/**
 		 * Triggered when DLL queue starts loading.
 		 */

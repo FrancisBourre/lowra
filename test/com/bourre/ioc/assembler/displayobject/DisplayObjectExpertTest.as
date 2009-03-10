@@ -82,7 +82,7 @@ package com.bourre.ioc.assembler.displayobject
 			_oDOE.execute() ;
 		}
 		
-		public function onTestBuildGraphicLoader( e : Event, mc : MovieClip ) : void
+		public function onTestBuildGraphicLoader( event : Event, mc : MovieClip ) : void
 		{
 			assertStrictlyEquals( "DisplayObjectExpert.getRootTarget() doesn't return expected value", mc, _oDOE.getRootTarget() );
 			assertTrue( "DisplayObjectExpert load() doesn't build 'container'", BeanFactory.getInstance().locate("containerID") is Sprite );
