@@ -391,7 +391,7 @@ package com.bourre.media.video
 		
 		//loop playback
 		// TODO: to define when we loop at end or for the moment in stop stream ( pixlib )
-		public function setLoopPlayback( b : Boolean, position : Number ) : void
+		public function setLoopPlayback( b : Boolean, position : Number = 0) : void
 		{
 			if ( _bLoopPlayback != b )
 			{
@@ -399,10 +399,10 @@ package com.bourre.media.video
 				
 				if ( _bLoopPlayback )
 				{
-					addEventListener( VideoDisplayEvent.onStopStreamEVENT, this, _onLoop, position?position:0 );
+					addEventListener( VideoDisplayEvent.onStopStreamEVENT, _onLoop, position);
 				} else
 				{
-					removeEventListener( VideoDisplayEvent.onStopStreamEVENT, this );
+					removeEventListener( VideoDisplayEvent.onStopStreamEVENT, _onLoop);
 				}
 			}
 		}
