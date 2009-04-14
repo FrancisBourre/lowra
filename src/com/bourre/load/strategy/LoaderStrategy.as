@@ -18,6 +18,7 @@ package com.bourre.load.strategy
 	import com.bourre.load.Loader;
 	import com.bourre.log.PixlibStringifier;
 	
+	import flash.display.Loader;
 	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.events.HTTPStatusEvent;

@@ -75,7 +75,7 @@ package com.bourre.utils
 		{
 			try
 			{
-				var save:SharedObject = SharedObject.getLocal( sCookieName );
+				var save:SharedObject = SharedObject.getLocal( sCookieName , "/");
 				save.data[sObjectName] = refValue;
 				save.flush();
 				return true;
@@ -99,7 +99,7 @@ package com.bourre.utils
 		{
 			try
 			{
-				var save:SharedObject = SharedObject.getLocal( sCookieName );
+				var save:SharedObject = SharedObject.getLocal( sCookieName , "/");
 				save.clear();
 				return true;
 			}
