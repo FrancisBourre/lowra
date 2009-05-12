@@ -14,12 +14,10 @@
  * limitations under the License.
  */	
 
-package com.bourre.media.sound 
-{
-	import com.bourre.collection.HashMap;
+package com.bourre.media.sound {
 	import com.bourre.error.NoSuchElementException;
-	import com.bourre.log.PixlibDebug;	
-	
+	import com.bourre.log.PixlibDebug;
+
 	/**
 	 * The MixSoundFactory class.
 	 * 

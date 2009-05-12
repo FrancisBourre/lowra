@@ -465,7 +465,6 @@ package com.bourre.ioc.load
 				
 				fireOnApplicationState( ApplicationLoaderEvent.LOAD_STATE ); 
 				
-				if ( isAntiCache( ) ) cl.setAntiCache( true );
 				cl.load( getURL( ), context );
 			} 
 			else

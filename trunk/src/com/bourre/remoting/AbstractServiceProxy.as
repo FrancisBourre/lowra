@@ -14,19 +14,17 @@
  * limitations under the License.
  */
  
-package com.bourre.remoting 
-{
-	import flash.events.Event;
-	import flash.events.NetStatusEvent;
-	import flash.net.URLRequest;
-	import flash.utils.getQualifiedClassName;
-	
+package com.bourre.remoting {
 	import com.bourre.commands.Delegate;
 	import com.bourre.events.EventBroadcaster;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.remoting.events.BasicFaultEvent;
 	import com.bourre.remoting.events.BasicResultEvent;
-	import com.bourre.remoting.interfaces.ServiceProxyListener;	
+	import com.bourre.remoting.interfaces.ServiceProxyListener;
+
+	import flash.events.NetStatusEvent;
+	import flash.net.URLRequest;
+	import flash.utils.getQualifiedClassName;
 
 	/**
 	 * The AbstractServiceProxy class.
@@ -215,11 +213,12 @@ package com.bourre.remoting
 	}
 }
 
-import flash.events.NetStatusEvent;
-import com.bourre.remoting.ServiceResponder ;
-import com.bourre.remoting.RemotingConnection ;
-import com.bourre.remoting.AbstractServiceProxy ;
+import com.bourre.remoting.AbstractServiceProxy;
+import com.bourre.remoting.RemotingConnection;
+import com.bourre.remoting.ServiceResponder;
 import com.bourre.remoting.events.BasicFaultEvent;
+
+import flash.events.NetStatusEvent;
 
 internal class ServiceProxyResponder extends ServiceResponder
 {

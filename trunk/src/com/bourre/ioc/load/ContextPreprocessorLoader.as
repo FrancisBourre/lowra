@@ -1,6 +1,4 @@
-package com.bourre.ioc.load 
-{
-	import com.bourre.core.AbstractLocator;
+package com.bourre.ioc.load {
 	import com.bourre.core.HashCodeFactory;
 	import com.bourre.events.BasicEvent;
 	import com.bourre.events.EventBroadcaster;
@@ -13,15 +11,14 @@ package com.bourre.ioc.load
 	import com.bourre.ioc.parser.ContextAttributeList;
 	import com.bourre.ioc.parser.ContextNodeNameList;
 	import com.bourre.load.GraphicLoader;
-	import com.bourre.load.Loader;
 	import com.bourre.load.QueueLoader;
 	import com.bourre.load.QueueLoaderEvent;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	
+
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;	
+	import flash.system.LoaderContext;
 
 	/**
 	 * The ContextPreprocessorLoader class allow xml context pre processing 

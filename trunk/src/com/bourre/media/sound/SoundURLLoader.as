@@ -20,10 +20,9 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
+	import com.bourre.media.sound.*;
+
 	import flash.media.Sound;
-	
-	import com.bourre.load.AbstractLoader;
-	import com.bourre.media.sound.*;	
 
 	public class SoundURLLoader extends SoundLoader
 	{	

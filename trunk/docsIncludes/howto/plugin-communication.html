@@ -382,7 +382,7 @@ External events dispatching :</p>
   <pre class="prettyprint">
 public function onClickHander( event : MouseEvent ) : void
 {
-	var targetPlugin : Plugin : BeanFactory.getInstance().locate( &quot;pluginB&quot; ) as Plugin;
+	var targetPlugin : Plugin = BeanFactory.getInstance().locate( &quot;pluginB&quot; ) as Plugin;
 	var targetChannel : EventChannel = targetPlugin.getChannel();
 
 	fireExternalEvent( new StringEvent( onShowMessageEVENT, this, &quot;Button was clicked&quot; ), targetChannel );

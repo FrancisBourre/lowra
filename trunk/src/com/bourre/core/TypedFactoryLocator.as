@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.bourre.core 
-{
-	import com.bourre.collection.HashMap;
+package com.bourre.core {
 	import com.bourre.error.IllegalArgumentException;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.utils.ClassUtils;
