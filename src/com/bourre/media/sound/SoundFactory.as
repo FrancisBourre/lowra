@@ -754,7 +754,6 @@ package com.bourre.media.sound
 			if( _bIsOn )
 			{
 				var i : uint = _aChannelsSounds.length ;
-				var csi : ChannelSoundInfo ;
 				if( id == null )
 				{
 					while ( -- i > - 1 )

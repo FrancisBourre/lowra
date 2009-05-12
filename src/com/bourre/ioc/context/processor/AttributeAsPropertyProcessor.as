@@ -14,12 +14,10 @@
  * limitations under the License.
  */
  
-package com.bourre.ioc.context.processor 
-{
+package com.bourre.ioc.context.processor {
 	import com.bourre.collection.HashMap;
 	import com.bourre.commands.Batch;
 	import com.bourre.ioc.parser.ContextAttributeList;
-	import com.bourre.ioc.parser.ContextNodeNameList;	
 
 	/**
 	 * Transforms node attributes value to IoC property node.
@@ -136,7 +134,6 @@ package com.bourre.ioc.context.processor
 			var atts : XMLList = node.attributes( );
 			for each (var o : XML in atts) 
 			{
-				var nodeName : String = ContextNodeNameList.PROPERTY;
 				var attName : String = o.name( ).toString( );
 				
 				if( !isReserved( attName ) )

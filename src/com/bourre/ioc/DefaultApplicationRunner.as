@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-package com.bourre.ioc 
-{
+package com.bourre.ioc {
 	import com.bourre.ioc.assembler.displayobject.DefaultDisplayObjectBuilder;
 	import com.bourre.ioc.load.ApplicationLoader;
 	import com.bourre.ioc.load.ApplicationLoaderEvent;
@@ -23,12 +22,11 @@ package com.bourre.ioc
 	import com.bourre.load.LoaderEvent;
 	import com.bourre.log.PixlibDebug;
 	import com.bourre.log.PixlibStringifier;
-	
+
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.net.URLRequest;	
 
 	/**
 	 * IoC Runner.

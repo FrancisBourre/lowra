@@ -20,13 +20,12 @@ package com.bourre.media.sound
 	 * @author Aigret Axel
 	 * @version 1.0
 	 */
-	import flash.display.DisplayObjectContainer;
-	import flash.media.Sound;
-	import flash.system.ApplicationDomain;
-	
 	import com.bourre.error.ClassCastException;
 	import com.bourre.load.strategy.LoaderStrategy;
-	import com.bourre.log.*;	
+	import com.bourre.log.*;
+
+	import flash.display.DisplayObjectContainer;
+	import flash.media.Sound;
 
 	public class SoundSWFLoader extends SoundLoader
 	{
