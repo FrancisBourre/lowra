@@ -228,8 +228,10 @@ package com.bourre.media.sound
 				var channelSTI : SoundTransformInfo = oCSI.getSoundTransformInfo( );
 				channelSTI.setSoundTransformInfo( o  ) ;
 			}
+			
+			_oSTI = o ;
 		}
-		
+
 		
 		public function getState( ) : String
 		{

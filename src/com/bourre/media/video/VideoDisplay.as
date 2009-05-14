@@ -201,6 +201,20 @@ package com.bourre.media.video
 			}
 		}
 		
+		public function closeStream() : void {
+			
+			_video.clear();
+				
+			if( _stream )
+			{
+				_stream.removeEventListener(NetStatusEvent.NET_STATUS, _onNetStatus);
+				_stream.close() ;
+				_stream = null ;
+			} else {
+				PixlibDebug.ERROR(this + " stream not found");
+			}
+		}
+		
 		protected function _onMetaData ( metadata : Object ) : void
 		{
 			if( DEBUG )  PixlibDebug.DEBUG( this + "._onMetaData" );
@@ -493,7 +507,11 @@ package com.bourre.media.video
 		{
 			if ( url.url ) 
 			{
+				// close previous stream
+				if(_stream) closeStream();
+				
 				super.setURL( url );
+				
 				_bIsLoaded = false;
 			
 				if (isPlaying())
