@@ -246,7 +246,7 @@ package com.bourre.load
 		 */
 		public function getURL() : URLRequest
 		{
-			_oURL.url = _bAntiCache ? _sPrefixURL + _sURL + "?nocache=" + _getStringTimeStamp() : _sPrefixURL + _sURL;
+			if(_oURL) _oURL.url = _bAntiCache ? _sPrefixURL + _sURL + "?nocache=" + _getStringTimeStamp() : _sPrefixURL + _sURL;
 			return _oURL;
 		}
 		
