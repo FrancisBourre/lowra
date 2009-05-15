@@ -25,7 +25,7 @@ package com.bourre.utils
 	 * Cookies manager.
 	 * 
 	 * TODO Documentation
-	 * 
+	 *  
 	 * @author	Cédric Néhémie
 	 */
 	dynamic public class Cookie extends Proxy 
