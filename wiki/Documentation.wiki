@@ -4,8 +4,10 @@
 <br>
 == LowRA development ==
     * [http://lowra.customactions.net/doc/ API Documentation]
+    * [http://lowra.customactions.net/doc/annexes.html Tutorials]
     * [http://code.google.com/p/lowra/source/browse/#svn/trunk Source code]
     * [http://groups.google.com/group/lowra Discussion group]
+    * [http://code.google.com/p/lowra/source/browse/#svn/trunk/eXchange eXchange]
 
 <br>
 == IoC Achitecture ==
