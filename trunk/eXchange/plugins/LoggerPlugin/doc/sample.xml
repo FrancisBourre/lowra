@@ -1,0 +1,31 @@
+<beans>
+	<dll url="LoggerPluginDLL.swf" />
+	<dll url="FirebugLayoutDLL.swf" />
+	<dll url="FlashInspectorLayoutDLL.swf" />
+	<dll url="SosLayoutDLL.swf" />
+	<dll url="AirLoggerLayoutDLL.swf" />
+	
+	<dll url="PluginADLL.swf" />
+	<dll url="PluginBDLL.swf" />
+	
+	<plugin id="PluginA" type="com.site.PluginA" />
+	<plugin id="PluginB" type="com.site.PluginB" />
+	
+	<target id="FirebugLayout" type="com.bourre.utils.FirebugLayout" singleton-access="getInstance" />
+	<target id="FlashInspectorLayout" type="com.bourre.utils.FlashInspectorLayout" singleton-access="getInstance" />
+	<target id="SosLayout" type="com.bourre.utils.SosLayout" singleton-access="getInstance" />
+	<target id="AirLoggerLayout" type="com.bourre.utils.AirLoggerLayout" singleton-access="getInstance" />
+	
+	<plugin id="LoggerPlugin" type="lowra.plugins.utils.LoggerPlugin">
+		<method-call name="register">
+			<argument ref="FirebugLayout" />
+			<argument ref="PluginB" factory="getChannel()" />
+		</method-call>
+		<method-call name="register">
+			<argument ref="FlashInspectorLayout" />
+			<argument ref="PluginA" factory="getChannel()" />
+		</method-call>
+		<method-call name="register"><argument ref="SosLayoutDLL" /></method-call>
+		<method-call name="register"><argument ref="AirLoggerLayoutDLL" /></method-call>
+	</plugin>	
+</beans>

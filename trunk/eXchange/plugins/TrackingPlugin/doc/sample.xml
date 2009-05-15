@@ -1,0 +1,47 @@
+<beans>
+	<dll url="TrackingPluginDLL.swf" />
+	<dll url="GATrackerPluginDLL.swf" />
+	<dll url="JSTrackerPluginDLL.swf" />
+	<dll url="URLTrackerPluginDLL.swf" />
+	<dll url="MyNavPluginDLL.swf" />
+	
+	<!-- this plugin may dispatch some tracking event -->
+	<plugin id="MyNavPlugin" type="com.project.MyNavPlugin" />
+	
+	<!-- Google Analytic tracker -->
+	<plugin id="GATracker" type="lowra.plugins.utils.tracking.strategy.GATracking">
+		<argument type="String" value="UA-XXX-XXX" />
+		<argument type="String" value="AS3" />
+		<argument type="Boolean" value="false" />
+	</plugin>
+	
+	<!-- Javascript tracker -->
+	<plugin id="JSTracker" type="lowra.plugins.utils.tracking.strategy.JSTracking">
+		<argument type="String" value="" />
+	</plugin>
+	
+	<!-- URL tracker -->
+	<plugin id="URLTracker" type="lowra.plugins.utils.tracking.strategy.URLTracking">
+		<argument type="String" value="stats.php" />
+		<argument type="String" value="statFrame" />
+		<argument type="String" value="GET" />
+		<argument type="String" value="page" />
+	</plugin>
+	
+	<!-- Tracking Plugin -->
+	<plugin id="TrackPlugin" type="lowra.plugins.utils.tracking.TrackingPlugin" >
+		<method-call name="register">
+			<argument ref="GATracker" />
+		</method-call>
+		
+		<method-call name="register">
+			<argument ref="JSTracker" />
+		</method-call>
+		
+		<method-call name="register">
+			<argument ref="URLTracker" />
+		</method-call>
+		
+		<listen ref="MyNavPlugin" />
+	</plugin>
+</beans>
