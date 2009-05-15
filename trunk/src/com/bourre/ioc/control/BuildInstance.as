@@ -60,15 +60,15 @@ package com.bourre.ioc.control
 				try
 				{
 					var isPlugin : Boolean = ClassUtils.inherit( getDefinitionByName( constructor.type ) as Class, Plugin );
-	
+					
 					if ( isPlugin && constructor.id != null && constructor.id.length > 0 ) 
 						ChannelExpert.getInstance().registerChannel( PluginChannel.getInstance( constructor.id ) );
 	
 				} catch ( error1 : Error )
 				{
-					//
+					getLogger().fatal( this + ".execute() ::" + error1.message );
 				}
-	
+				
 				try
 				{
 					BuildInstance.buildConstructor( constructor );

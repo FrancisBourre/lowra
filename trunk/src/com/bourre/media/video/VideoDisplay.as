@@ -84,6 +84,22 @@ package com.bourre.media.video
 		protected var _bLoadProblem  			: Boolean ; 
 
 		
+		/**
+		 * Specifies whether the video should be smoothed (interpolated) when 
+		 * it is scaled.
+		 * 
+		 * @default true
+		 */
+		public function get smoothing( ) : Boolean
+		{
+			return _video.smoothing;
+		}
+		/** @private */
+		public function set smoothing( b : Boolean ) : void
+		{
+			_video.smoothing = b;
+		}
+		
 		public function VideoDisplay( name       : String  = null ,
 									  video      : Video   = null ,
 									  autoPlay   : Boolean = true ,
