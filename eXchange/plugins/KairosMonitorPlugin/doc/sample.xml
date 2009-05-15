@@ -1,0 +1,11 @@
+<beans>
+	<dll url="BasicMonitoringPluginDLL.swf" />
+	
+	<root id="root">
+		<layer id="monitorLayer" />
+	</root>
+	
+	<plugin id="monitorPlugin" type="lowra.plugins.utils.BasicMonitoringPlugin">
+		<argument ref="monitorLayer" />
+	</plugin>
+</beans>
