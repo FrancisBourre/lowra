@@ -1,5 +1,5 @@
 <beans>
-	<dll url="BasicMonitoringPluginDLL.swf" />
+	<dll url="BasicMonitorPluginDLL.swf" />
 	
 	<root id="root">
 		<layer id="monitorLayer" />
