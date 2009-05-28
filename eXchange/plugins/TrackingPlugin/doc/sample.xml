@@ -1,8 +1,8 @@
 <beans>
 	<dll url="TrackingPluginDLL.swf" />
-	<dll url="GATrackerPluginDLL.swf" />
-	<dll url="JSTrackerPluginDLL.swf" />
-	<dll url="URLTrackerPluginDLL.swf" />
+	<dll url="GATrackerDLL.swf" />
+	<dll url="JSTrackerDLL.swf" />
+	<dll url="URLTrackerDLL.swf" />
 	<dll url="MyNavPluginDLL.swf" />
 	
 	<!-- this plugin may dispatch some tracking event -->
