@@ -44,6 +44,7 @@ package com.bourre.media.video
 	 * <p>TODO Documentation.</p>
 	 * 
 	 * @author 	Aigret Axel
+	 * @author 	Barbero Michael
 	 */
 	public class      VideoDisplay 
 	 	   extends    AbstractLoader 
@@ -82,6 +83,8 @@ package com.bourre.media.video
 		protected var _oSTI 					: SoundTransformInfo ;
 		// If a load problem with net stream 
 		protected var _bLoadProblem  			: Boolean ; 
+		
+		protected var _bStreamStarted 			: Boolean = false;
 
 		
 		/**
@@ -219,15 +222,20 @@ package com.bourre.media.video
 		
 		public function closeStream() : void {
 			
-			_video.clear();
+			if(_video) _video.clear();
 				
 			if( _stream )
 			{
-				_stream.removeEventListener(NetStatusEvent.NET_STATUS, _onNetStatus);
-				_stream.close() ;
-				_stream = null ;
+				if( _bStreamStarted ) 
+				{
+					_bStreamStarted = false;
+					_removeStream(_stream, null);
+				} else {
+					_stream.removeEventListener(NetStatusEvent.NET_STATUS, _onNetStatus);
+					_stream.addEventListener(NetStatusEvent.NET_STATUS, _onCloseStream(_stream));
+				}
 			} else {
-				PixlibDebug.ERROR(this + " stream not found");
+				if( DEBUG ) PixlibDebug.ERROR(this + " stream not found");
 			}
 		}
 		
@@ -246,6 +254,20 @@ package com.bourre.media.video
 			if( DEBUG ) PixlibDebug.DEBUG( this + "._onCuePoint" );
 			var e : CuePointEvent = new CuePointEvent( VideoDisplayEvent.onCuePointEVENT, this, data );
 			fireEvent( e );
+		}
+		
+				
+		protected function _removeStream(stream:NetStream, e : NetStatusEvent):void
+		{
+			stream.removeEventListener(NetStatusEvent.NET_STATUS, _onCloseStream(_stream));
+			stream.close();
+			stream = null;
+		}
+		
+		private function _onCloseStream(stream:NetStream) : Function {
+			return function( e:NetStatusEvent ):void {
+				_removeStream(stream, e);
+			};
 		}
 		
 		protected function _onNetStatus ( e : NetStatusEvent ) : void
@@ -322,6 +344,17 @@ package com.bourre.media.video
 		public function getVideo() : Video
 		{
 			return _video;
+		}
+		
+		public function setVideo( v : Video ) : void
+		{
+			if(_video) 
+			{
+				_video.attachNetStream( null );
+				_video = null;
+			}
+			_video = v;
+			_video.attachNetStream( _stream );
 		}
 		
 		//Php streaming
@@ -517,7 +550,7 @@ package com.bourre.media.video
 		{
 			_oSTI.setVolume( n ) ;
 		}
-		
+
 		// AbstractLoader
 		override public function setURL( url : URLRequest ) : void
 		{
